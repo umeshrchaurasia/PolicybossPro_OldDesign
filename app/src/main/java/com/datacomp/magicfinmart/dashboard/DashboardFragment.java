@@ -3,6 +3,8 @@ package com.datacomp.magicfinmart.dashboard;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.controller.TempController;
  */
 public class DashboardFragment extends BaseFragment {
 
+    RecyclerView rvHome;
+    DashboardRowAdapter mAdapter;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -28,8 +32,16 @@ public class DashboardFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
+        initialise(view);
+        mAdapter = new DashboardRowAdapter(DashboardFragment.this);
+        this.rvHome.setAdapter(mAdapter);
         return view;
+    }
+
+    private void initialise(View view) {
+        rvHome = (RecyclerView) view.findViewById(R.id.rvHome);
+        rvHome.setLayoutManager(new LinearLayoutManager(getActivity()));
+
     }
 
 }
