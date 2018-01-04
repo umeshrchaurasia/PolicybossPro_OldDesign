@@ -67,7 +67,7 @@ public class HomeActivity extends BaseActivity {
                         getSupportActionBar().setTitle("Summary");
                         Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
-                    // For rest of the options we just show a toast on click
+                    // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
