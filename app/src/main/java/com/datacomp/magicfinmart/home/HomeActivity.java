@@ -64,7 +64,7 @@ public class HomeActivity extends BaseActivity {
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.nav_home:
                         fragment = new DashboardFragment();
-                        getSupportActionBar().setTitle("Summary");
+                        getSupportActionBar().setTitle("MAGIC FIN-MART");
                         Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
                     // For rest of the options we just show a toast on click .
