@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@mipmap/ic_launcher"
+            android:title="Home" />
+        <item
+            android:id="@+id/nav_myaccount"
+            android:icon="@mipmap/ic_launcher"
+            android:title="My Account" />
+
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@mipmap/ic_launcher"
+            android:title="LOG-OUT" />
+
+
+        <!--<item-->
+        <!--android:id="@+id/nav_bas"-->
+        <!--android:icon="@drawable/bas_icon"-->
+        <!--android:title="@string/nav_bas" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_report"-->
+        <!--android:icon="@drawable/report_icon"-->
+        <!--android:title="@string/string_report" />-->
+
+        <!--<item-->
+        <!--android:id="@+id/nav_activity"-->
+        <!--android:icon="@drawable/nav_activity"-->
+        <!--android:title="Activity" />-->
+
+        <!--<item-->
+        <!--android:id="@+id/nav_myacctountant"-->
+        <!--android:icon="@drawable/nav_activity"-->
+        <!--android:title="My Accountant" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_carusage"-->
+        <!--android:icon="@drawable/nav_activity"-->
+        <!--android:title="@string/car_usage" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_setting"-->
+        <!--android:icon="@drawable/setting_icon"-->
+        <!--android:title="@string/nav_setting" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_profile"-->
+        <!--android:icon="@drawable/profile_icon"-->
+        <!--android:title="@string/nav_profile"-->
+        <!--android:visible="false" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_invite_frnd"-->
+        <!--android:icon="@drawable/invite_friend_icon"-->
+        <!--android:title="@string/nav_invite"-->
+        <!--android:visible="false" />-->
+        <!--<item-->
+        <!--android:id="@+id/nav_aboutus"-->
+        <!--android:icon="@drawable/about_icon"-->
+        <!--android:title="@string/nav_about" />-->
+
+
+    </group>
+</menu>

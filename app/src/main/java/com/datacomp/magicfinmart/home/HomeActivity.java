@@ -1,0 +1,144 @@
+package com.datacomp.magicfinmart.home;
+
+import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+
+import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.dashboard.DashboardFragment;
+
+public class HomeActivity extends BaseActivity {
+
+    final String TAG = "HOME";
+    private Toolbar toolbar;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        // Initializing Toolbar and setting it as the actionbar
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //Initializing NavigationView
+        navigationView = (NavigationView) findViewById(R.id.navigation_view);
+        // Initializing Drawer Layout and ActionBarToggle
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer);
+
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setElevation(0);
+        toolbar.setTitle("MAGIC FIN-MART");
+
+
+        // set first fragement selected.
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        if (savedInstanceState == null) {
+            getSupportActionBar().setTitle("MAGIC FIN-MART");
+            Fragment fragment = new DashboardFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
+
+        }
+
+        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            // This method will trigger on item Click of navigation menu
+            @Override
+            public boolean onNavigationItemSelected(MenuItem menuItem) {
+                //Checking if the item is in checked state or not, if not make it in checked state
+                if (menuItem.isChecked()) menuItem.setChecked(false);
+                else menuItem.setChecked(true);
+                //Closing drawer on item click
+                drawerLayout.closeDrawers();
+                //Check to see which item was being clicked and perform appropriate action
+                Fragment fragment = null;
+                switch (menuItem.getItemId()) {
+                    //Replacing the main content with ContentFragment Which is our Inbox View;
+                    case R.id.nav_home:
+                        fragment = new DashboardFragment();
+                        getSupportActionBar().setTitle("Summary");
+                        Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
+                        break;
+                    // For rest of the options we just show a toast on click
+                    case R.id.nav_myaccount: {
+                        // fragment = new BasFragment();
+                        // getSupportActionBar().setTitle("BAS 2016-17");
+                        Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+
+                    case R.id.nav_logout:
+//
+//                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
+//                        finish();
+                        Toast.makeText(HomeActivity.this, "Logout", Toast.LENGTH_SHORT).show();
+                        break;
+
+                    default:
+                        break;
+                }
+
+                if (fragment != null) {
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, fragment);
+                    fragmentTransaction.commit();
+                    return true;
+                }
+                return false;
+            }
+        });
+
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
+                drawerLayout,
+                toolbar,
+                R.string.openDrawer,
+                R.string.closeDrawer) {
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+                super.onDrawerOpened(drawerView);
+            }
+        };
+
+        //Setting the actionbarToggle to drawer layout
+        drawerLayout.setDrawerListener(actionBarDrawerToggle);
+        //calling sync state is necessay or else your hamburger icon wont show up
+        actionBarDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isNavDrawerOpen()) {
+            closeNavDrawer();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    protected boolean isNavDrawerOpen() {
+        return drawerLayout != null && drawerLayout.isDrawerOpen(GravityCompat.START);
+    }
+
+    protected void closeNavDrawer() {
+        if (drawerLayout != null) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        }
+    }
+}
