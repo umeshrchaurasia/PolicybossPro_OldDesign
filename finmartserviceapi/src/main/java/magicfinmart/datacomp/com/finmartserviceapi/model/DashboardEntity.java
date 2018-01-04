@@ -12,6 +12,9 @@ public class DashboardEntity extends RealmObject {
     private String productName;
     private String productDetails;
 
+    public DashboardEntity() {
+    }
+
     public DashboardEntity(String type, int productId, String productName, String productDetails, int icon) {
         this.type = type;
         this.productId = productId;
