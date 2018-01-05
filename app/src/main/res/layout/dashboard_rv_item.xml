@@ -19,6 +19,7 @@
             android:orientation="horizontal">
 
             <ImageView
+                android:id="@+id/imgIcon"
                 android:layout_width="62dp"
                 android:layout_height="62dp"
                 android:padding="12dp"
@@ -37,6 +38,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtProductName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="PRIVATE CAR"
@@ -44,6 +46,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/txtProductDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Before Android 4.1, method int android.support.v7.widget.ListViewCompat.lookForSelectablePosition"

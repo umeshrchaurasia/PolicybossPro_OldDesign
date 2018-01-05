@@ -11,6 +11,10 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.R;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.RealmDatabaseController;
+import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 
 public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -20,11 +24,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ROW_MORE_SERVICES = 3;
     private static int TOTAL_ROW = 4;
     Fragment mFragment;
-
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy");
+    RealmDatabaseController mReal;
 
     public DashboardRowAdapter(Fragment fragment) {
         mFragment = fragment;
+        mReal = new RealmDatabaseController(mFragment.getActivity());
     }
 
     public class HeaderRow extends RecyclerView.ViewHolder {
@@ -103,19 +107,23 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         if (holder instanceof HeaderRow) {
 
         } else if (holder instanceof InsuranceHolder) {
+
+            List<DashboardEntity> listIns = mReal.getInsurProductList();
             ((InsuranceHolder) holder).txtTypeName.setText("INSURANCE");
             ((InsuranceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
-            ((InsuranceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment));
+            ((InsuranceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listIns));
 
         } else if (holder instanceof LoanHolder) {
+            List<DashboardEntity> listLoan = mReal.getLoanProductList();
             ((LoanHolder) holder).txtTypeName.setText("LOAN");
             ((LoanHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
-            ((LoanHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment));
+            ((LoanHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listLoan));
 
         } else if (holder instanceof MoreServiceHolder) {
+            List<DashboardEntity> listMore = mReal.getMoreProductList();
             ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICE");
             ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
-            ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment));
+            ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore));
         }
 
     }

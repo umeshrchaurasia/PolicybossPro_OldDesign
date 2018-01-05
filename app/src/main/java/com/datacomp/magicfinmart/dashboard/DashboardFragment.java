@@ -13,6 +13,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
 import magicfinmart.datacomp.com.finmartserviceapi.controller.TempController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.RealmDatabaseController;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,6 +34,7 @@ public class DashboardFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         initialise(view);
+
         mAdapter = new DashboardRowAdapter(DashboardFragment.this);
         this.rvHome.setAdapter(mAdapter);
         return view;

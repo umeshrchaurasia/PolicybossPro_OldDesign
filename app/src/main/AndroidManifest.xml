@@ -37,6 +37,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.splashscreen.SplashScreenActivity" />
         </activity>
+        <activity
+            android:name=".motor.PrivateCarDetailActivity"
+            android:label="@string/title_activity_private_car_detail"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
