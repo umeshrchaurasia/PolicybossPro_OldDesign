@@ -22,12 +22,10 @@ public class RealmDatabaseController {
 
     Context mContext;
     Realm realm;
-    HashMap<String, Object> weakReference;
     private static final String DASHBOARD_TABLE = "dashboard_entity";
 
     public RealmDatabaseController(Context mContext) {
         this.mContext = mContext;
-        weakReference = new HashMap<String, Object>();
     }
 
     public void setDashboardEntities(final List<DashboardEntity> dashboardEntities) {
