@@ -1,4 +1,4 @@
-package magicfinmart.datacomp.com.finmartserviceapi;
+package magicfinmart.datacomp.com.finmartserviceapi.core;
 
 
 import com.google.gson.Gson;
@@ -11,7 +11,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public abstract class RetroRequestBuilder {
+public abstract class FinmartRetroRequestBuilder {
 
     //protected String url = "http://services.rupeeboss.com/LoginDtls.svc/";
     static Retrofit restAdapter = null;

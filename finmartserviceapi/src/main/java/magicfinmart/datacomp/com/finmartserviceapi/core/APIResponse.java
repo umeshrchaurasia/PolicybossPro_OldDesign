@@ -1,4 +1,4 @@
-package magicfinmart.datacomp.com.finmartserviceapi;
+package magicfinmart.datacomp.com.finmartserviceapi.core;
 
 /**
  * Created by Nilesh Birhade on 13-12-2017.
