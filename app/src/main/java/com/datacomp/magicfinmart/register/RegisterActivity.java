@@ -5,6 +5,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -13,6 +14,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     LinearLayout llPersonalInfo, llProfessionalInfo;
     ImageView ivProfessionalInfo, ivPersonalInfo;
+    RelativeLayout rlPersonalInfo, rlProfessionalInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initWidgets();
         setListener();
+        hideAllLayouts(llPersonalInfo, ivPersonalInfo);
     }
 
     private void setListener() {
@@ -35,15 +38,17 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         ivPersonalInfo = (ImageView) findViewById(R.id.ivPersonalInfo);
         llPersonalInfo = (LinearLayout) findViewById(R.id.llPersonalInfo);
         llProfessionalInfo = (LinearLayout) findViewById(R.id.llProfessionalInfo);
+        rlPersonalInfo = (RelativeLayout) findViewById(R.id.rlPersonalInfo);
+        rlProfessionalInfo = (RelativeLayout) findViewById(R.id.rlProfessionalInfo);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ivPersonalInfo:
+            case R.id.rlPersonalInfo:
                 hideAllLayouts(llPersonalInfo, ivPersonalInfo);
                 break;
-            case R.id.ivProfessionalInfo:
+            case R.id.rlProfessionalInfo:
                 hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
                 break;
         }
@@ -51,16 +56,19 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private void hideAllLayouts(LinearLayout linearLayout, ImageView imageView) {
 
-        if (llPersonalInfo.getVisibility() == View.GONE) {
+        if (linearLayout.getVisibility() == View.GONE) {
 
-            linearLayout.setVisibility(View.VISIBLE);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_remove));
-
+            //region hideall layout
             ivPersonalInfo.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
             llPersonalInfo.setVisibility(View.GONE);
 
             ivProfessionalInfo.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
             llProfessionalInfo.setVisibility(View.GONE);
+            //endregion
+
+            linearLayout.setVisibility(View.VISIBLE);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_remove));
+
         } else {
             linearLayout.setVisibility(View.GONE);
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
