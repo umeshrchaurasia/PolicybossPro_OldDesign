@@ -5,4 +5,8 @@
     <color name="colorAccent">#FF4081</color>
     <color name="black">#0e0e0e</color>
     <color name="blue_text_welcome">#009fe3</color>
+
+    <color name="bg_light">#eaeff7</color>
+    <color name="blue">#005faf</color>
+    <color name="account_black">#212121</color>
 </resources>
