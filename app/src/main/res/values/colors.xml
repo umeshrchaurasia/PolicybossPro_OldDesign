@@ -8,4 +8,6 @@
     <color name="secondary_text_color">#9ba0a6</color>
     <color name="tab_color">#10476e</color>
     <color name="button_color">#009ee3</color>
+     <color name="black">#0e0e0e</color>
+    <color name="blue_text_welcome">#009fe3</color>
 </resources>

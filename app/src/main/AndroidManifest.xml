@@ -13,6 +13,7 @@
         <activity
             android:name=".splashscreen.SplashScreenActivity"
             android:label="@string/title_activity_home"
+            android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
@@ -29,9 +30,33 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
+            android:name=".login.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:parentActivityName=".splashscreen.SplashScreenActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.splashscreen.SplashScreenActivity" />
+        </activity>
+        <activity
             android:name=".motor.PrivateCarDetailActivity"
             android:label="@string/title_activity_private_car_detail"
             android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".register.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:parentActivityName=".login.LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.login.LoginActivity" />
+        </activity>
+        <activity
+            android:name=".introslider.WelcomeActivity"
+            android:noHistory="true"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

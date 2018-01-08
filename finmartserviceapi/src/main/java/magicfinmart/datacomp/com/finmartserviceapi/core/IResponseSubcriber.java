@@ -1,7 +1,7 @@
-package magicfinmart.datacomp.com.finmartserviceapi;
+package magicfinmart.datacomp.com.finmartserviceapi.core;
 
 
-
+import magicfinmart.datacomp.com.finmartserviceapi.core.APIResponse;
 
 /**
  * Created by Nilesh Birhade on 17-10-2016.
