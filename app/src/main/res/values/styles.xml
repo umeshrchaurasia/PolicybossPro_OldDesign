@@ -19,10 +19,6 @@
 
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
@@ -36,12 +32,35 @@
     </style>
 
     <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
+        <!--Input layout text color-->
         <item name="android:textColor">@color/button_color</item>
-        <item name="android:textSize">14sp</item>
-        <item name="colorControlNormal">#c21515</item>
-        <item name="colorControlActivated">#c21515</item>
-        <item name="colorControlHighlight">#c21515</item>
-        <item name="colorAccent">@color/button_color</item>
+        <!--hint text size-->
+        <item name="android:textSize">12sp</item>
+
+        <item name="colorControlActivated">@color/button_color</item>
+    </style>
+
+    <!--TextView style-->
+    <style name="TextViewStyle" parent="android:style/Widget.TextView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textColor">@color/secondary_text_color</item>
+    </style>
+
+    <style name="TextViewStyle.Large" parent="TextViewStyle">
+        <item name="android:textSize">16sp</item>
+
+    </style>
+
+    <style name="TextViewStyle.Medium" parent="TextViewStyle">
+        <item name="android:textSize">13sp</item>
+    </style>
+
+
+    <style name="TextViewStyle.Small" parent="TextViewStyle">
+        <item name="android:textSize">11sp</item>
     </style>
 
     <style name="HeaderLayout">
