@@ -14,8 +14,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowBackground">@color/window_background</item>-->
         <item name="android:windowBackground">@color/bg</item>
-        <item name="android:textColorPrimary">@color/header_text_color</item>
-        <item name="android:textColorHint">@color/secondary_text_color</item>
+        <!--<item name="android:textColorPrimary">@color/header_text_color</item>-->
+        <!--<item name="android:textColorHint">@color/secondary_text_color</item>-->
 
     </style>
 
@@ -35,13 +35,13 @@
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="TextAppearence.App.TextInputLayout" parent="Widget.Design.TextInputLayout">
+    <style name="TextAppearence.App.TextInputLayout" parent="@android:style/TextAppearance">
         <item name="android:textColor">@color/button_color</item>
         <item name="android:textSize">14sp</item>
-        <item name="android:textColorHint">@color/button_color</item>
-        <!--<item name="colorAccent">@color/button_color</item>-->
-        <item name="colorControlNormal">@color/button_color</item>
-        <!--<item name="colorControlActivated">@color/button_color</item>-->
+        <item name="colorControlNormal">#c21515</item>
+        <item name="colorControlActivated">#c21515</item>
+        <item name="colorControlHighlight">#c21515</item>
+        <item name="colorAccent">@color/button_color</item>
     </style>
 
     <style name="HeaderLayout">

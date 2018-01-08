@@ -1,13 +1,16 @@
 package magicfinmart.datacomp.com.finmartserviceapi.requestbuilder;
 
-import magicfinmart.datacomp.com.finmartserviceapi.RetroRequestBuilder;
+
+import magicfinmart.datacomp.com.finmartserviceapi.core.FinmartRetroRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.requestmodel.LoginRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.response.LoginResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;
 
-public class AuthenticationRequestBuilder extends RetroRequestBuilder {
+import static magicfinmart.datacomp.com.finmartserviceapi.core.FinmartRetroRequestBuilder.SUB_URL;
+
+public class AuthenticationRequestBuilder extends FinmartRetroRequestBuilder {
 
     public AuthenticationNetworkService getService() {
 
