@@ -25,12 +25,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initWidgets();
         setListener();
+        initLayouts();
+
+    }
+
+    private void initLayouts() {
+        llPersonalInfo.setVisibility(View.GONE);
+        llProfessionalInfo.setVisibility(View.GONE);
         hideAllLayouts(llPersonalInfo, ivPersonalInfo);
     }
 
     private void setListener() {
         ivProfessionalInfo.setOnClickListener(this);
         ivPersonalInfo.setOnClickListener(this);
+        rlPersonalInfo.setOnClickListener(this);
+        rlProfessionalInfo.setOnClickListener(this);
     }
 
     private void initWidgets() {
@@ -45,9 +54,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ivPersonalInfo:
             case R.id.rlPersonalInfo:
                 hideAllLayouts(llPersonalInfo, ivPersonalInfo);
                 break;
+            case R.id.ivProfessionalInfo:
             case R.id.rlProfessionalInfo:
                 hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
                 break;

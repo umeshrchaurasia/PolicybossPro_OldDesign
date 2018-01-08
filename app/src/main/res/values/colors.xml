@@ -3,8 +3,9 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#7986CB</color>
     <color name="colorAccent">@color/button_color</color>
-    <color name="bg">#E8EAF6</color>
-    <color name="header_text_color">#3c4651</color>
+   <!-- <color name="bg">#E8EAF6</color>-->
+    <color name="bg">#fdfdff</color>
+    <color name="header_text_color">#6c747c</color>
     <color name="secondary_text_color">#9ba0a6</color>
     <color name="tab_color">#10476e</color>
     <color name="button_color">#009ee3</color>
