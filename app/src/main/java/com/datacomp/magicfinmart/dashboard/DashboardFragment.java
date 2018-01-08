@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
-import magicfinmart.datacomp.com.finmartserviceapi.controller.TempController;
-import magicfinmart.datacomp.com.finmartserviceapi.database.RealmDatabaseController;
 
 /**
  * A simple {@link Fragment} subclass.

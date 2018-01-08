@@ -10,11 +10,11 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.RealmDatabaseController;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
+
 
 public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 

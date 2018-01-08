@@ -43,7 +43,7 @@
             android:name=".motor.PrivateCarDetailActivity"
             android:label="@string/title_activity_private_car_detail"
             android:theme="@style/AppTheme"></activity>
-            android:theme="@style/AppTheme.NoActionBar" />
+        android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".register.RegisterActivity"
             android:label="@string/title_activity_register"

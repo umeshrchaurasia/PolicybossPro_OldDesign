@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.controller.authentication;
 
-import magicfinmart.datacomp.com.finmartserviceapi.IResponseSubcriber;
+
+import magicfinmart.datacomp.com.finmartserviceapi.core.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.requestmodel.LoginRequest;
 
 /**
