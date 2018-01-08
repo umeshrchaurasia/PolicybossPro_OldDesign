@@ -30,7 +30,7 @@
             android:layout_marginLeft="15dp"
             android:text="Personal Information"
             android:textAllCaps="true"
-            android:textColor="@color/account_black"
+            android:textColor="@color/header_text_color"
             android:textStyle="bold" />
 
 
@@ -78,7 +78,7 @@
             android:layout_marginLeft="15dp"
             android:text="Professional Information"
             android:textAllCaps="true"
-            android:textColor="@color/account_black"
+            android:textColor="@color/header_text_color"
             android:textStyle="bold" />
 
 
