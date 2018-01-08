@@ -1,28 +1,47 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppThemeBase" parent="AppTheme">
+
+    </style>
+
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <!--actionbar color-->
         <item name="colorPrimary">@color/colorPrimary</item>
+        <!--status bar color-->
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <!--<item name="android:windowBackground">@color/window_background</item>-->
+        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:textColorPrimary">@color/header_text_color</item>
+        <item name="android:textColorHint">@color/secondary_text_color</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-    b
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+
     <style name="AppTheme.TabTextAppearence" parent="TextAppearance.AppCompat.Button">
         <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:textAllCaps">false</item>
         <item name="textAllCaps">false</item>
+    </style>
 
+    <style name="TextAppearence.App.TextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColor">@color/button_color</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColorHint">@color/button_color</item>
+        <!--<item name="colorAccent">@color/button_color</item>-->
+        <item name="colorControlNormal">@color/button_color</item>
+        <!--<item name="colorControlActivated">@color/button_color</item>-->
     </style>
 
     <style name="HeaderLayout">

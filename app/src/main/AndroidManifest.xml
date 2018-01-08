@@ -15,7 +15,7 @@
             android:label="@string/title_activity_home"
             android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             android:name=".home.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".login.LoginActivity"
@@ -42,6 +42,7 @@
         <activity
             android:name=".motor.PrivateCarDetailActivity"
             android:label="@string/title_activity_private_car_detail"
+            android:theme="@style/AppTheme"></activity>
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".register.RegisterActivity"
