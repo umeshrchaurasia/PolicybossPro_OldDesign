@@ -6,9 +6,9 @@ import android.os.Handler;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.introslider.PrefManager;
 import com.datacomp.magicfinmart.introslider.WelcomeActivity;
+import com.datacomp.magicfinmart.login.LoginActivity;
 
 public class SplashScreenActivity extends BaseActivity {
 
@@ -28,7 +28,7 @@ public class SplashScreenActivity extends BaseActivity {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                    startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                 }
             }, SPLASH_DISPLAY_LENGTH);
         }

@@ -44,6 +44,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 hideAllLayouts(llPersonalInfo, ivPersonalInfo);
                 break;
             case R.id.ivProfessionalInfo:
+                hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
                 break;
         }
     }
@@ -52,11 +53,17 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         if (llPersonalInfo.getVisibility() == View.GONE) {
 
-            this.ivPersonalInfo.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
-            this.llPersonalInfo.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.VISIBLE);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_remove));
+
+            ivPersonalInfo.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
+            llPersonalInfo.setVisibility(View.GONE);
 
             ivProfessionalInfo.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
             llProfessionalInfo.setVisibility(View.GONE);
+        } else {
+            linearLayout.setVisibility(View.GONE);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
         }
     }
 }

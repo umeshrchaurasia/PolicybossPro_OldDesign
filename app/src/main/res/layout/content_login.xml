@@ -94,7 +94,7 @@
             android:layout_alignEnd="@+id/btnSignIn"
             android:layout_alignRight="@+id/btnSignIn"
             android:layout_below="@id/btnSignIn"
-            android:text="@string/signup"
+            android:text="forgot password?"
             android:textSize="10dp" />
 
         <TextView
