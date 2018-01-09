@@ -38,7 +38,7 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/tv"
             android:layout_marginTop="16dp"
-            android:hint="Email">
+            android:hint="EMAIL">
 
             <EditText
                 android:id="@+id/etEmail"
@@ -53,7 +53,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/til"
-            android:hint="Password">
+            android:hint="PASSWORD">
 
             <EditText
                 android:id="@+id/etPassword"
@@ -67,7 +67,6 @@
             style="@style/ButtonStyle"
             android:layout_below="@+id/tiee"
             android:layout_marginTop="16dp"
-            android:background="@color/colorPrimary"
             android:text="SIGN IN" />
 
         <TextView

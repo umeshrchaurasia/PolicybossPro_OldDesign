@@ -40,12 +40,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.splashscreen.SplashScreenActivity" />
         </activity>
-
         <activity
-            android:name=".motor.PrivateCarDetailActivity"
+            android:name=".motor.motorquote.privatecar.PrivateCarDetailActivity"
             android:label="@string/title_activity_private_car_detail"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".register.RegisterActivity"
             android:label="@string/title_activity_register"
@@ -60,6 +58,10 @@
             android:noHistory="true"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".motor.motorquote.privatecar.addquote.AddQuoteActivity"
+            android:label="@string/title_activity_add_quote"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
