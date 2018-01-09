@@ -38,6 +38,8 @@
         <item name="android:textSize">11sp</item>
 
         <item name="colorControlActivated">@color/button_color</item>
+
+
     </style>
 
     <!--TextView style-->

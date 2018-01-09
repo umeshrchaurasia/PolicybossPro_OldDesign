@@ -49,26 +49,28 @@
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="FIRST NAME" />
+                    android:hint="FIRST NAME"
+                     />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="LAST NAME" />
+                    android:hint="LAST NAME"
+                    android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -90,7 +92,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/datepicker"
-                    android:hint="DATE OF BIRTH" />
+                    android:hint="DATE OF BIRTH"
+                    android:textSize="16sp" />
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
