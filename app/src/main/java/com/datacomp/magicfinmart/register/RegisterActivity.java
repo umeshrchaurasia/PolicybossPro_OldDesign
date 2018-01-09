@@ -70,19 +70,19 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         if (linearLayout.getVisibility() == View.GONE) {
 
             //region hideall layout
-            ivPersonalInfo.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
+            ivPersonalInfo.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             llPersonalInfo.setVisibility(View.GONE);
 
-            ivProfessionalInfo.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
+            ivProfessionalInfo.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             llProfessionalInfo.setVisibility(View.GONE);
             //endregion
 
             linearLayout.setVisibility(View.VISIBLE);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_remove));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
 
         } else {
             linearLayout.setVisibility(View.GONE);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.ic_add));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
         }
     }
 }
