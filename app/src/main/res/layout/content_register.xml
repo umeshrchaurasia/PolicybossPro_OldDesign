@@ -40,6 +40,7 @@
     <LinearLayout
         android:id="@+id/llPersonalInfo"
         style="@style/LinearLayoutStyle"
+        android:animateLayoutChanges="true"
         android:visibility="visible">
 
         <LinearLayout
@@ -51,26 +52,24 @@
                 style="@style/TextAppearence.App.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="FIRST NAME"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:hint="FIRST NAME">
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                     />
+                    android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="LAST NAME"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:hint="LAST NAME">
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    />
+                    android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -221,6 +220,7 @@
     <LinearLayout
         android:id="@+id/llProfessionalInfo"
         style="@style/LinearLayoutStyle"
+        android:animateLayoutChanges="true"
         android:visibility="visible">
 
         <LinearLayout
