@@ -1,11 +1,12 @@
-package com.datacomp.magicfinmart.motor.motorquote.privatecar;
+package com.datacomp.magicfinmart.motor.privatecar;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.datacomp.magicfinmart.motor.motorquote.privatecar.application.MotorApplicationFragment;
-import com.datacomp.magicfinmart.motor.motorquote.privatecar.quote.MotorQuoteFragment;
+import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFragment;
+import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
+
 
 public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
 

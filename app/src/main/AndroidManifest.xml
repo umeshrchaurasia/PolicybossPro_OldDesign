@@ -41,7 +41,7 @@
                 android:value="com.datacomp.magicfinmart.splashscreen.SplashScreenActivity" />
         </activity>
         <activity
-            android:name=".motor.motorquote.privatecar.PrivateCarDetailActivity"
+            android:name=".motor.privatecar.PrivateCarDetailActivity"
             android:label="@string/title_activity_private_car_detail"
             android:theme="@style/AppTheme" />
         <activity
@@ -59,7 +59,7 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-            android:name=".motor.motorquote.privatecar.addquote.AddQuoteActivity"
+            android:name=".motor.privatecar.addquote.AddQuoteActivity"
             android:label="@string/title_activity_add_quote"
             android:theme="@style/AppTheme"></activity>
     </application>

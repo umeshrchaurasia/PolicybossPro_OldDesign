@@ -11,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.motorquote.privatecar.PrivateCarDetailActivity;
+import com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity;
 
 import java.util.List;
 
