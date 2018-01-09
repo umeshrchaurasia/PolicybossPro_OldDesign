@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.motorquote;
+package com.datacomp.magicfinmart.motor.privatecar.application;
 
 
 import android.os.Bundle;
@@ -13,10 +13,10 @@ import com.datacomp.magicfinmart.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MotorQuoteFragment extends BaseFragment {
+public class MotorApplicationFragment extends BaseFragment {
 
 
-    public MotorQuoteFragment() {
+    public MotorApplicationFragment() {
         // Required empty public constructor
     }
 
@@ -25,7 +25,7 @@ public class MotorQuoteFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_motor_quote, container, false);
+        return inflater.inflate(R.layout.fragment_motor_application, container, false);
     }
 
 }

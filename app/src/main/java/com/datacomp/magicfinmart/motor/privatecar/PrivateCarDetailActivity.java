@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor;
+package com.datacomp.magicfinmart.motor.motorquote.privatecar;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -18,10 +18,11 @@ public class PrivateCarDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_private_car_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
         viewPager = (ViewPager) findViewById(R.id.pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        setSupportActionBar(toolbar);
+
+
         tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
         tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
