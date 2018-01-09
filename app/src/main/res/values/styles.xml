@@ -89,7 +89,7 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:shadowRadius">0.2</item>
         <item name="android:textSize">16dip</item>
-        <item name="android:background">@color/button_color</item>
+        <item name="android:background">@drawable/button_round_corners</item>
         <item name="android:focusable">true</item>
     </style>
 </resources>
