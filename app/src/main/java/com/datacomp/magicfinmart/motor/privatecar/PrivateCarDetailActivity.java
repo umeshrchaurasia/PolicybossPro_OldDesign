@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.motorquote.privatecar;
+package com.datacomp.magicfinmart.motor.privatecar;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;

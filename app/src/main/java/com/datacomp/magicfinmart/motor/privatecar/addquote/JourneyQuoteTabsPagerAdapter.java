@@ -19,10 +19,14 @@ public class JourneyQuoteTabsPagerAdapter extends FragmentPagerAdapter {
         switch (index) {
             case 0:
                 // Salary fragment activity
-                return new MotorQuoteFragment();
+                return new InputFragment();
             case 1:
                 // ABN fragment activity
-                return new MotorApplicationFragment();
+                return new QuoteFragment();
+
+            case 2:
+                // ABN fragment activity
+                return new BuyFragment();
         }
 
         return null;
