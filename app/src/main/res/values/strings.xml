@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MaginFinmart</string>
+    <string name="app_name">MagicFinmart</string>
     <string name="title_activity_home">Home</string>
     <string name="signup">Not a Member?<u>Sign up now!</u></string>
     <string name="openDrawer">Open navigation drawer</string>
