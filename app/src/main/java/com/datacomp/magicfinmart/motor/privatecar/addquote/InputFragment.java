@@ -6,7 +6,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -26,8 +25,8 @@ public class InputFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Toast.makeText(getActivity(), "INPUT FRAGMENT", Toast.LENGTH_SHORT).show();
-        return inflater.inflate(R.layout.fragment_input, container, false);
+        View view = inflater.inflate(R.layout.fragment_input, container, false);
+        return view;
     }
 
 }

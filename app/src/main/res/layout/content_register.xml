@@ -40,6 +40,7 @@
     <LinearLayout
         android:id="@+id/llPersonalInfo"
         style="@style/LinearLayoutStyle"
+        android:animateLayoutChanges="true"
         android:visibility="visible">
 
         <LinearLayout
@@ -49,28 +50,26 @@
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:hint="FIRST NAME">
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="FIRST NAME"
-                     />
+                    android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:hint="LAST NAME">
 
                 <EditText
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="LAST NAME"
-                    android:textSize="16sp" />
+                    android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -84,7 +83,6 @@
                 style="@style/TextAppearence.App.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="12dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical">
 
@@ -92,8 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/datepicker"
-                    android:hint="DATE OF BIRTH"
-                    android:textSize="16sp" />
+                    android:hint="DATE OF BIRTH" />
             </android.support.design.widget.TextInputLayout>
 
             <ImageView
@@ -120,7 +117,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <android.support.design.widget.TextInputEditText
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="MOBILE1" />
@@ -132,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <android.support.design.widget.TextInputEditText
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="MOBILE2" />
@@ -145,7 +142,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="EMAIL" />
@@ -162,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <android.support.design.widget.TextInputEditText
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="PINCODE" />
@@ -174,7 +171,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <android.support.design.widget.TextInputEditText
+                <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="CITY" />
@@ -187,7 +184,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="STATE" />
@@ -223,6 +220,7 @@
     <LinearLayout
         android:id="@+id/llProfessionalInfo"
         style="@style/LinearLayoutStyle"
+        android:animateLayoutChanges="true"
         android:visibility="visible">
 
         <LinearLayout

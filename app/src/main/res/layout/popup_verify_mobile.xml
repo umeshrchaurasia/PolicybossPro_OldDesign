@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rlPersonalInfo"
+        style="@style/HeaderLayout"
+        android:layout_alignParentTop="true">
+
+        <ImageView
+            android:id="@+id/ivPersonalInfo"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:padding="2dp"
+            android:src="@drawable/cancel_icon" />
+
+        <TextView
+            android:id="@+id/textView"
+            style="@style/TextViewStyle.Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:text="Verify your mobile no."
+            android:textAllCaps="true"
+            android:textColor="@android:color/white" />
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/otp"
+        style="@style/TextViewStyle.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvMob"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/rlPersonalInfo"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:gravity="center"
+        android:text="Enter OTP sent on mobile no : "
+        android:textColor="@color/secondary_text_color" />
+
+    <TextView
+        android:id="@+id/tvMob"
+        style="@style/TextViewStyle.Large"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlPersonalInfo"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:layout_toRightOf="@+id/otp"
+        android:gravity="center"
+        android:text="9999999999"
+        android:textColor="@color/header_text_color" />
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/til"
+        style="@style/TextAppearence.App.TextInputLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvMob"
+        android:layout_alignRight="@+id/otp"
+        android:layout_alignParentLeft="true"
+        android:hint="OTP ">
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textEmailAddress" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/til"
+        android:layout_below="@+id/tvMob"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_toRightOf="@+id/til"
+        android:gravity="center"
+        android:text="Resend"
+        android:textColor="@color/colorAccent" />
+
+    <Button
+        style="@style/ButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/til"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="@dimen/fab_margin"
+        android:gravity="center"
+        android:minHeight="30dp"
+        android:text="VERIFY" />
+</RelativeLayout>
