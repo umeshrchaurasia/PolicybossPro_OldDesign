@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
+import com.datacomp.magicfinmart.posp.PospEnrollment;
 
 public class HomeActivity extends BaseActivity {
 
@@ -69,12 +72,19 @@ public class HomeActivity extends BaseActivity {
                         break;
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
+                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
-                        Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
                         break;
                     }
-
+                    case R.id.nav_pospenrollment: {
+                        startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
+                        // fragment = new BasFragment();
+                        // getSupportActionBar().setTitle("BAS 2016-17");
+                       // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
                     case R.id.nav_logout:
 //
 //                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
