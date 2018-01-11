@@ -1,25 +1,21 @@
-package magicfinmart.datacomp.com.finmartserviceapi.core;
-
+package magicfinmart.datacomp.com.finmartserviceapi.master.retromaster;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public abstract class FinmartRetroRequestBuilder {
+
+public abstract class MasterRetroRequestBuilder {
 
     //protected String url = "http://services.rupeeboss.com/LoginDtls.svc/";
     static Retrofit restAdapter = null;
     // production url
-    protected String url = "http://www.rupeeboss.com";
-
-    public final static String SUB_URL = "/api";
-
+    public static String URL = "http://49.50.95.141:192";
 
     protected Retrofit build() {
         if (restAdapter == null) {
@@ -30,7 +26,7 @@ public abstract class FinmartRetroRequestBuilder {
                     .setLenient()
                     .create();
 
-            OkHttpClient okHttpClient = new OkHttpClient.Builder()
+            okhttp3.OkHttpClient okHttpClient = new okhttp3.OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.MINUTES)
                     .writeTimeout(10, TimeUnit.MINUTES)
                     .readTimeout(10, TimeUnit.MINUTES)
@@ -38,7 +34,7 @@ public abstract class FinmartRetroRequestBuilder {
                     .build();
 
             restAdapter = new Retrofit.Builder()
-                    .baseUrl(url)
+                    .baseUrl(URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
@@ -46,5 +42,6 @@ public abstract class FinmartRetroRequestBuilder {
         }
         return restAdapter;
     }
+
 
 }
