@@ -12,6 +12,10 @@
             android:title="My Account" />
 
         <item
+            android:id="@+id/nav_pospenrollment"
+            android:icon="@mipmap/ic_launcher"
+            android:title="POSP ENROLLMENT" />
+        <item
             android:id="@+id/nav_logout"
             android:icon="@mipmap/ic_launcher"
             android:title="LOG-OUT" />

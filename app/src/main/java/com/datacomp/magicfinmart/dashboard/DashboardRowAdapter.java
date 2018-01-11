@@ -12,7 +12,7 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.RealmDatabaseController;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 
 
@@ -24,11 +24,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static final int ROW_MORE_SERVICES = 3;
     private static int TOTAL_ROW = 4;
     Fragment mFragment;
-    RealmDatabaseController mReal;
+    DBPersistanceController mReal;
 
     public DashboardRowAdapter(Fragment fragment) {
         mFragment = fragment;
-        mReal = new RealmDatabaseController(mFragment.getActivity());
+        mReal = new DBPersistanceController(mFragment.getActivity());
     }
 
     public class HeaderRow extends RecyclerView.ViewHolder {

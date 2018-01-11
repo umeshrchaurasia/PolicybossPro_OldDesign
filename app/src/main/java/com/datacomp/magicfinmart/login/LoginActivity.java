@@ -13,6 +13,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
 
+import io.realm.Realm;
+
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
     EditText etEmail;
     TextView tvSignUp;
@@ -27,6 +29,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         initWidgets();
         setListener();
+        realm = Realm.getDefaultInstance();
+
     }
 
     private void setListener() {
