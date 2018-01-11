@@ -4,6 +4,8 @@ package com.datacomp.magicfinmart.motor.privatecar.quote;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.EditText;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
 
 /**
@@ -21,6 +24,8 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
 
     Button btnAddQuote;
     EditText etSearch;
+    RecyclerView rvQuoteList;
+    MotorQuoteAdapter motorQuoteAdapter;
 
     public MotorQuoteFragment() {
         // Required empty public constructor
@@ -39,7 +44,13 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     private void initView(View view) {
         btnAddQuote = (Button) view.findViewById(R.id.btnAddQuote);
         etSearch = (EditText) view.findViewById(R.id.etSearch);
+        rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
+        rvQuoteList.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvQuoteList.setLayoutManager(layoutManager);
 
+        motorQuoteAdapter = new MotorQuoteAdapter(getActivity());
+        rvQuoteList.setAdapter(motorQuoteAdapter);
         btnAddQuote.setOnClickListener(this);
     }
 

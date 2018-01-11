@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="3dp"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="0dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="8dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewStyle.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="Lorium Ipsum"
+                    android:textColor="@color/header_text_color"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:padding="5dp"
+                    android:src="@drawable/axis_bank" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="35"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:gravity="right|center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="SUM INSURED"
+                    android:textColor="@color/secondary_text_color"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TextViewStyle.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:gravity="right|center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="1,23,45,678"
+                    android:textColor="@color/header_text_color"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:gravity="right|center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp"
+                    android:text="APPL. NUMBER"
+                    android:textColor="@color/secondary_text_color"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TextViewStyle.Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="30"
+                    android:gravity="right|center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="12345678"
+                    android:textColor="@color/header_text_color"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="35"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="APPL. STATUS"
+                    android:textColor="@color/secondary_text_color"
+                    android:textStyle="bold" />
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp" />
+
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right|center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="10dp"
+                    android:text="APPL. DATE"
+                    android:textColor="@color/secondary_text_color"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TextViewStyle.Large"
+                    android:gravity="right|center_vertical"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="12/02/2017"
+                    android:textColor="@color/header_text_color"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivTripleDot"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:paddingLeft="8dp"
+                android:src="@drawable/dot" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
