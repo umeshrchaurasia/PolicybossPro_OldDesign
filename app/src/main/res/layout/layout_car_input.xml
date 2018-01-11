@@ -33,6 +33,7 @@
                     android:text="COMPANY" />
 
                 <Switch
+                    android:id="@+id/swIndividual"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="true" />
@@ -60,6 +61,7 @@
                 android:text="VERIFY YOUR CAR DETAILS FOR " />
 
             <TextView
+                android:id="@+id/tvCarNo"
                 style="@style/TextViewStyle.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,6 +74,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
@@ -81,43 +84,39 @@
                 android:layout_weight="1">
 
                 <AutoCompleteTextView
+                    android:id="@+id/acMakeModel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="MAKE,MODEL"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
+
+            <Spinner
+                android:id="@+id/spFuel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:hint="FUEL TYPE"
+                android:textSize="14sp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="FUEL TYPE"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
+
+            <Spinner
+                android:id="@+id/spVarient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:hint="VARIENT"
+                android:textSize="14sp" />
 
-                <AutoCompleteTextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="VARIENT"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
@@ -126,8 +125,10 @@
                 android:layout_weight="1">
 
                 <EditText
+                    android:id="@+id/etExtValue"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:focusable="false"
                     android:hint="EXT. CNG/LPG VALUE"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
@@ -146,9 +147,11 @@
                 android:gravity="center">
 
                 <EditText
+                    android:id="@+id/etRegDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/datepicker"
+                    android:focusable="false"
                     android:hint="REG. DATE"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
@@ -160,9 +163,11 @@
                 android:layout_weight="1">
 
                 <EditText
+                    android:id="@+id/etMfgDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/datepicker"
+                    android:focusable="false"
                     android:hint="MFG. DATE"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
@@ -182,9 +187,11 @@
                 android:gravity="center">
 
                 <EditText
+                    android:id="@+id/etExpDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableRight="@drawable/datepicker"
+                    android:focusable="false"
                     android:hint="EXPIRY DATE"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
@@ -216,6 +223,7 @@
                         android:text="NO" />
 
                     <Switch
+                        android:id="@+id/swClaim"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true" />
@@ -240,6 +248,7 @@
             android:text="EXISTING NO CLAIM BONUS" />
 
         <SeekBar
+            android:id="@+id/sbClaim"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
@@ -248,6 +257,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
@@ -257,24 +267,22 @@
                 android:layout_weight="1">
 
                 <AutoCompleteTextView
+                    android:id="@+id/acRto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="RTO"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
+
+            <Spinner
+                android:id="@+id/spPrevIns"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:hint="PRESENT INSURER"
+                android:textSize="14sp" />
 
-                <EditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="PRESENT INSURER"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -288,7 +296,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <AutoCompleteTextView
+                <EditText
+                    android:id="@+id/etCustomerName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="CUSTOMER NAME"
@@ -302,6 +311,7 @@
                 android:layout_weight="1">
 
                 <EditText
+                    android:id="@+id/etMobile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="MOBILE"

@@ -9,8 +9,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -18,6 +22,11 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
+
+import java.util.List;
+
+import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,6 +40,20 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     Switch switchNewRenew;
     String TAG = "InputFragment";
 
+    //region inputs
+    Spinner spFuel, spVarient, spPrevIns;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile;
+    AutoCompleteTextView acMakeModel, acRto;
+    TextView tvCarNo;
+    Switch swIndividual, swClaim;
+    SeekBar sbClaim;
+    //endregion
+    DBPersistanceController databaseController;
+    Realm realm;
+
+    List<String> makeModelList, fuelList, variantList, cityList;
+    ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter;
+
     public InputFragment() {
         // Required empty public constructor
     }
@@ -41,10 +64,19 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_input, container, false);
+        realm = Realm.getDefaultInstance();
+        databaseController = new DBPersistanceController(getActivity());
+        //cityList= databaseController.get
+        makeModelList = databaseController.getCarMakeModel();
         intit_view(view);
         setListener();
         init_views();
+        bind_Adapters();
         return view;
+    }
+
+    private void bind_Adapters() {
+
     }
 
     private void init_views() {
@@ -77,6 +109,24 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         etreg4.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(4)});
 
         switchNewRenew = (Switch) view.findViewById(R.id.switchNewRenew);
+
+        //region init views
+        spFuel = (Spinner) view.findViewById(R.id.spFuel);
+        spVarient = (Spinner) view.findViewById(R.id.spVarient);
+        spPrevIns = (Spinner) view.findViewById(R.id.spPrevIns);
+        etExtValue = (EditText) view.findViewById(R.id.etExtValue);
+        etRegDate = (EditText) view.findViewById(R.id.etRegDate);
+        etMfgDate = (EditText) view.findViewById(R.id.etMfgDate);
+        etExpDate = (EditText) view.findViewById(R.id.etExpDate);
+        etCustomerName = (EditText) view.findViewById(R.id.etCustomerName);
+        etMobile = (EditText) view.findViewById(R.id.etMobile);
+        acMakeModel = (AutoCompleteTextView) view.findViewById(R.id.acMakeModel);
+        acRto = (AutoCompleteTextView) view.findViewById(R.id.acRto);
+        tvCarNo = (EditText) view.findViewById(R.id.tvCarNo);
+        swIndividual = (Switch) view.findViewById(R.id.swIndividual);
+        swClaim = (Switch) view.findViewById(R.id.swClaim);
+        sbClaim = (SeekBar) view.findViewById(R.id.sbClaim);
+        //endregion
     }
 
     @Override
