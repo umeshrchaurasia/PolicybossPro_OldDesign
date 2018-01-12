@@ -19,7 +19,6 @@ import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.master.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.master.controller.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.master.response.BikeMasterResponse;
 
 public class WelcomeActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
@@ -38,9 +37,6 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
         setContentView(R.layout.activity_welcome);
         init_widgets();
         setListener();
-
-        new MasterController(this).getBikeMaster(this);
-
     }
 
     private void setListener() {

@@ -8,8 +8,10 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.master.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.master.requestbuilder.MasterRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.master.response.AllCityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.response.CarMasterResponse;
 import retrofit2.Call;
@@ -102,6 +104,32 @@ public class MasterController implements IMasterFetch {
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                 }
+            }
+        });
+    }
+
+    @Override
+    public void getRTOMaster(final IResponseSubcriber iResponseSubcriber) {
+
+        masterNetworkService.getAllCity().enqueue(new Callback<AllCityMasterResponse>() {
+            @Override
+            public void onResponse(Call<AllCityMasterResponse> call, Response<AllCityMasterResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        new AsyncRTOMaster(mContext, response.body().getListvehicle()).execute();
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllCityMasterResponse> call, Throwable t) {
+
             }
         });
     }

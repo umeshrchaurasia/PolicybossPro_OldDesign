@@ -11,6 +11,7 @@ import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.R;
 import magicfinmart.datacomp.com.finmartserviceapi.master.model.MasterBikeDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.master.model.MasterDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.master.model.VehicleMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 
 /**
@@ -24,11 +25,6 @@ public class DBPersistanceController {
 
     Context mContext;
     Realm realm;
-
-
-    public DBPersistanceController() {
-
-    }
 
     public DBPersistanceController(Context mContext) {
         this.mContext = mContext;
@@ -95,7 +91,46 @@ public class DBPersistanceController {
         });*/
     }
 
+    //region RTO
+
+    public ArrayList<String> getRTOListNames() {
+        List<VehicleMasterEntity> list_Make = realm.where(VehicleMasterEntity.class).findAll();
+        ArrayList listCity = new ArrayList();
+        for (int i = 0; i < list_Make.size(); i++) {
+            listCity.add(list_Make.get(i).getRTO_CodeDiscription());
+        }
+        return listCity;
+    }
+
+
+    public int getCityID(String cityName) {
+
+        VehicleMasterEntity entity = realm.where(VehicleMasterEntity.class)
+                .equalTo("RTO_CodeDiscription", cityName).findFirst();
+
+        if (entity != null)
+            return entity.getVehicleCity_Id();
+        else
+            return 0;
+
+    }
+
+    public String getRTOCityName(int VehicleCity_Id) {
+
+        VehicleMasterEntity entity = realm.where(VehicleMasterEntity.class)
+                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity.getRTO_CodeDiscription();
+        else
+            return "";
+
+    }
+
+    //endregion
+
     //region master car
+
     public List<String> getCarMakeModel() {
         List<String> listCarModel = new ArrayList<>();
         // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();
@@ -183,6 +218,7 @@ public class DBPersistanceController {
     //endregion
 
     //region master Bike
+
     public List<String> getBikeMakeModel() {
         List<String> listCarModel = new ArrayList<>();
         // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();

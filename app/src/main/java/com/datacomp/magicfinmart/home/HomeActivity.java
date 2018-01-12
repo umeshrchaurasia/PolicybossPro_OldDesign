@@ -18,6 +18,10 @@ import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+
 public class HomeActivity extends BaseActivity {
 
     final String TAG = "HOME";
@@ -39,7 +43,6 @@ public class HomeActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
-
 
         // set first fragement selected.
         navigationView.getMenu().getItem(0).setChecked(true);
@@ -75,14 +78,14 @@ public class HomeActivity extends BaseActivity {
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
-                       // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     case R.id.nav_pospenrollment: {
                         startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
-                       // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     case R.id.nav_logout:
