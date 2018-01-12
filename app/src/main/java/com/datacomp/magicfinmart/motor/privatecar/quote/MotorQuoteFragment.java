@@ -17,6 +17,11 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
 
+import java.text.SimpleDateFormat;
+
+import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -26,6 +31,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     EditText etSearch;
     RecyclerView rvQuoteList;
     MotorQuoteAdapter motorQuoteAdapter;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public MotorQuoteFragment() {
         // Required empty public constructor
