@@ -9,6 +9,10 @@ import android.view.inputmethod.InputMethodManager;
  */
 
 public class Constants {
+
+    public static final String EXTERNAL_LPG = "External Fitted LPG";
+    public static final String EXTERNAL_CNG = "External Fitted CNG";
+
     public static void hideKeyBoard(View view, Context context) {
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
