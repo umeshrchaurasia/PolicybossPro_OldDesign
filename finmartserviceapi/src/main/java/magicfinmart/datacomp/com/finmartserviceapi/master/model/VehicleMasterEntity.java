@@ -44,7 +44,7 @@ public class VehicleMasterEntity extends RealmObject {
     }
 
     public void setRTO_CodeDiscription(String RTO_CodeDiscription) {
-        this.RTO_CodeDiscription = addSpaceInRTOCode(RTO_CodeDiscription);
+        this.RTO_CodeDiscription = RTO_CodeDiscription;
     }
 
     public int getState_Id() {

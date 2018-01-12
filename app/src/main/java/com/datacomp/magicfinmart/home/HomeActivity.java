@@ -29,6 +29,8 @@ public class HomeActivity extends BaseActivity {
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
 
+    DBPersistanceController db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +45,9 @@ public class HomeActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
+
+        db = new DBPersistanceController(this);
+        List<String> rtoDesc = db.getRTOListNames();
 
         // set first fragement selected.
         navigationView.getMenu().getItem(0).setChecked(true);
