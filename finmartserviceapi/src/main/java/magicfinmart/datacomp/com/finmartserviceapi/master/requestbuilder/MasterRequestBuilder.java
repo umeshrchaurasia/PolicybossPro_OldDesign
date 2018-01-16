@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.master.requestbuilder;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.master.response.AllCityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.retromaster.MasterRetroRequestBuilder;
@@ -32,5 +33,8 @@ public class MasterRequestBuilder extends MasterRetroRequestBuilder {
 
         @POST(SUB_URL + "/GetVehicleMasterDetails")
         Call<BikeMasterResponse> getBikeMaster(@Body HashMap<String, String> body);
+
+        @POST(SUB_URL + "/GetVechicalCityService")
+        Call<AllCityMasterResponse> getAllCity();
     }
 }
