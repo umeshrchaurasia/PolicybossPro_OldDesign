@@ -36,7 +36,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             card_view = (CardView) view.findViewById(R.id.card_view);
             imgIcon = (ImageView) view.findViewById(R.id.imgIcon);
             txtProductName = (TextView) view.findViewById(R.id.txtProductName);
-            txtProductDesc = (TextView) view.findViewById(R.id.txtProductDesc);
+            //txtProductDesc = (TextView) view.findViewById(R.id.txtProductDesc);
         }
     }
 
@@ -54,9 +54,9 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof DashboardItemHolder) {
-            ((DashboardItemHolder) holder).imgIcon.setImageResource(listInsur.get(position).getIcon());
+            //((DashboardItemHolder) holder).imgIcon.setImageResource(listInsur.get(position).getIcon());
             ((DashboardItemHolder) holder).txtProductName.setText(listInsur.get(position).getProductName());
-            ((DashboardItemHolder) holder).txtProductDesc.setText(listInsur.get(position).getProductDetails());
+            //((DashboardItemHolder) holder).txtProductDesc.setText(listInsur.get(position).getProductDetails());
             ((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
