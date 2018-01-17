@@ -61,11 +61,6 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-            android:name=".motor.privatecar.addquote.AddQuoteActivity"
-            android:label="@string/title_activity_add_quote"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
-        <activity
             android:name=".myaccount.MyAccountActivity"
             android:label="@string/title_myaccount"
             android:theme="@style/AppTheme"
@@ -76,15 +71,7 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
-            android:name=".motor.privatecar.addquote.AddQuoteBottomActivity"
-            android:label="@string/title_activity_add_quote_bottom"
-            android:parentActivityName=".motor.privatecar.PrivateCarDetailActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity" />
-        </activity>
-        <activity
-            android:name=".motor.privatecar.addquote.AddNewQuoteActivity"
+            android:name=".motor.privatecar.addquote.AddQuoteActivity"
             android:label="@string/title_activity_add_new_quote"
             android:parentActivityName=".motor.privatecar.PrivateCarDetailActivity"
             android:theme="@style/AppTheme">
@@ -95,11 +82,11 @@
         <activity
             android:name=".motor.privatecar.addquote.QuoteActivity"
             android:label="@string/title_activity_quote"
-            android:parentActivityName=".motor.privatecar.addquote.AddNewQuoteActivity"
+            android:parentActivityName=".motor.privatecar.addquote.AddQuoteActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.AddNewQuoteActivity" />
+                android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity" />
         </activity>
         <activity
             android:name=".webviews.CommonWebViewActivity"

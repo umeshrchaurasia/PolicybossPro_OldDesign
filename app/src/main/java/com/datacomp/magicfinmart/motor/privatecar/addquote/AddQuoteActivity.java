@@ -45,7 +45,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResp
 
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
-public class AddNewQuoteActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber {
+public class AddQuoteActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber {
 
     CardView cvNewRenew, cvRegNo, cvInput;
     Button btnGetQuote;
@@ -102,7 +102,7 @@ public class AddNewQuoteActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                Constants.hideKeyBoard(acMakeModel, AddNewQuoteActivity.this);
+                Constants.hideKeyBoard(acMakeModel, AddQuoteActivity.this);
                 modelId = databaseController.getModelID(getModel(acMakeModel.getText().toString()));
 
                 fuelList = databaseController.getFuelTypeByModelId(modelId);
@@ -112,11 +112,11 @@ public class AddNewQuoteActivity extends BaseActivity implements View.OnClickLis
                 spVarient.setVisibility(View.VISIBLE);
 
                 fuelAdapter = new
-                        ArrayAdapter(AddNewQuoteActivity.this, android.R.layout.simple_list_item_1, fuelList);
+                        ArrayAdapter(AddQuoteActivity.this, android.R.layout.simple_list_item_1, fuelList);
                 spFuel.setAdapter(fuelAdapter);
 
                 varientAdapter = new
-                        ArrayAdapter(AddNewQuoteActivity.this, android.R.layout.simple_list_item_1, variantList);
+                        ArrayAdapter(AddQuoteActivity.this, android.R.layout.simple_list_item_1, variantList);
                 spVarient.setAdapter(varientAdapter);
             }
         });
@@ -150,7 +150,7 @@ public class AddNewQuoteActivity extends BaseActivity implements View.OnClickLis
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 regplace = cityAdapter.getItem(position).toString();
-                Constants.hideKeyBoard(acRto, AddNewQuoteActivity.this);
+                Constants.hideKeyBoard(acRto, AddQuoteActivity.this);
             }
         });
         /**
@@ -297,7 +297,7 @@ public class AddNewQuoteActivity extends BaseActivity implements View.OnClickLis
                         + etreg3.getText().toString() + etreg4.getText().toString();
                 tvCarNo.setText(etreg1.getText().toString() + " " + etreg2.getText().toString()
                         + " " + etreg3.getText().toString() + " " + etreg4.getText().toString());
-                Constants.hideKeyBoard(etreg4, AddNewQuoteActivity.this);
+                Constants.hideKeyBoard(etreg4, AddQuoteActivity.this);
                 tvDontKnow.performClick();
                 showDialog("Fetching Car Details...");
                 new FastlaneController(this).getFastLaneData(regNo, this);
@@ -381,7 +381,7 @@ public class AddNewQuoteActivity extends BaseActivity implements View.OnClickLis
     protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
         @Override
         public void onClick(final View view) {
-            Constants.hideKeyBoard(view, AddNewQuoteActivity.this);
+            Constants.hideKeyBoard(view, AddQuoteActivity.this);
 
             if (view.getId() == R.id.etRegDate) {
                 DateTimePicker.firstRegNewDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {

@@ -15,14 +15,9 @@ import android.widget.EditText;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.AddNewQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteBottomActivity;
 
 import java.text.SimpleDateFormat;
-
-import io.realm.Realm;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,7 +62,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
 
         switch (view.getId()) {
             case R.id.btnAddQuote:
-                startActivity(new Intent(getActivity(), AddNewQuoteActivity.class));
+                startActivity(new Intent(getActivity(), AddQuoteActivity.class));
                 break;
         }
     }
