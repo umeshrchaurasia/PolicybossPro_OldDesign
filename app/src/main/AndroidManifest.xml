@@ -60,19 +60,23 @@
             android:noHistory="true"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+
         <activity
             android:name=".motor.privatecar.addquote.AddQuoteActivity"
             android:label="@string/title_activity_add_quote"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
         <activity
             android:name=".myaccount.MyAccountActivity"
             android:label="@string/title_myaccount"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
         <activity
             android:name=".posp.PospEnrollment"
             android:label="@string/title_pospenrollment"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
 
     </application>
 

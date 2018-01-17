@@ -13,4 +13,6 @@ public interface IMasterFetch {
 
     public void getBikeMaster(IResponseSubcriber iResponseSubcriber);
 
+    public void getRTOMaster(IResponseSubcriber iResponseSubcriber);
+
 }
