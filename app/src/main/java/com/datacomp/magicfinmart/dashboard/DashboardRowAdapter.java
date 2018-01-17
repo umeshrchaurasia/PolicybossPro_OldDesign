@@ -18,11 +18,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 
 public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private static final int ROW_HEADER = 0;
-    private static final int ROW_INSURANCE = 1;
-    private static final int ROW_LOAN = 2;
-    private static final int ROW_MORE_SERVICES = 3;
-    private static int TOTAL_ROW = 4;
+    //private static final int ROW_HEADER = 5;
+    private static final int ROW_INSURANCE = 0;
+    private static final int ROW_LOAN = 1;
+    private static final int ROW_MORE_SERVICES = 2;
+    private static int TOTAL_ROW = 3;
     Fragment mFragment;
     DBPersistanceController mReal;
 
@@ -74,10 +74,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = null;
         switch (viewType) {
-            case ROW_HEADER:
-                view = LayoutInflater.from(parent.getContext()).inflate(
-                        R.layout.layout_dashboard_header, parent, false);
-                return new HeaderRow(view);
+//            case ROW_HEADER:
+//                view = LayoutInflater.from(parent.getContext()).inflate(
+//                        R.layout.layout_dashboard_header, parent, false);
+//                return new HeaderRow(view);
 
             case ROW_INSURANCE:
                 view = LayoutInflater.from(parent.getContext()).inflate(
@@ -137,8 +137,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     @Override
     public int getItemViewType(int position) {
         switch (position) {
-            case ROW_HEADER:
-                return ROW_HEADER;
+          //  case ROW_HEADER:
+          //      return ROW_HEADER;
             case ROW_INSURANCE:
                 return ROW_INSURANCE;
             case ROW_LOAN:

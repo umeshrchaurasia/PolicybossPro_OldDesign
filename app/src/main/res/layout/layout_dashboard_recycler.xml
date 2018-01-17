@@ -1,26 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    style="@style/CardViewStyle"
+    android:layout_marginLeft="4dp"
+    android:layout_marginRight="4dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginBottom="2dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="2dp">
 
-    <TextView
-        android:id="@+id/txtTypeName"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="4dp"
-        android:background="?attr/colorPrimaryDark"
-        android:padding="12dp"
-        android:paddingLeft="12dp"
-        android:text="INSURANCE"
-        android:textColor="@android:color/white"
-        android:textStyle="bold" />
+        android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvDashboard"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbarStyle="insideOverlay" />
+        <TextView
+            android:id="@+id/txtTypeName"
+            style="@style/TextViewStyle.Large"
+            android:background="@color/button_color"
+            android:padding="12dp"
+            android:text="Insurance"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
-</LinearLayout>
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1.4dp"-->
+            <!--android:background="@color/seperator"-->
+            <!--android:paddingBottom="4dp"-->
+            <!--android:paddingTop="4dp" />-->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvDashboard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/bg"
+            android:scrollbarStyle="insideOverlay" />
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>
