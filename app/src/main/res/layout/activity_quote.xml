@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginStart="48dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:titleEnabled="false">
+
+
+            <LinearLayout
+
+                android:id="@+id/ll_collapse_container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:layout_gravity="center"
+                    android:background="?attr/colorPrimary"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="pin"
+                    app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
+                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="3dp">
+
+                    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:padding="3dp"
+                            android:weightSum="100">
+
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="48dp"
+                                android:layout_weight="15"
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/car_icon" />
+
+                            <TextView
+                                android:id="@+id/tvMakeModel"
+                                style="@style/TextViewStyle.Medium"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="70"
+                                android:gravity="center"
+                                android:textAllCaps="true"
+                                android:textStyle="bold" />
+
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="48dp"
+                                android:layout_weight="15"
+                                android:scaleType="centerInside"
+                                android:src="@mipmap/edit_icon" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.7dp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@color/divider" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="3">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:text="fuel type"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/header_text_color"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvFuel"
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:textAllCaps="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:text="varient"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/header_text_color"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvVarient"
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:textAllCaps="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:text="crn number"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/header_text_color"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvCrn"
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:textAllCaps="true" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+            </LinearLayout>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <include layout="@layout/content_quote" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/ic_menu_edit" />
+
+</android.support.design.widget.CoordinatorLayout>

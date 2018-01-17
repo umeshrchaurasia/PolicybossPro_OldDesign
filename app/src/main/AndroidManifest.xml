@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.datacomp.magicfinmart">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".MyApplication"
@@ -60,25 +60,56 @@
             android:noHistory="true"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
-
         <activity
             android:name=".motor.privatecar.addquote.AddQuoteActivity"
             android:label="@string/title_activity_add_quote"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".myaccount.MyAccountActivity"
             android:label="@string/title_myaccount"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
-
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".posp.PospEnrollment"
             android:label="@string/title_pospenrollment"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"></activity>
-
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".motor.privatecar.addquote.AddQuoteBottomActivity"
+            android:label="@string/title_activity_add_quote_bottom"
+            android:parentActivityName=".motor.privatecar.PrivateCarDetailActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity" />
+        </activity>
+        <activity
+            android:name=".motor.privatecar.addquote.AddNewQuoteActivity"
+            android:label="@string/title_activity_add_new_quote"
+            android:parentActivityName=".motor.privatecar.PrivateCarDetailActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity" />
+        </activity>
+        <activity
+            android:name=".motor.privatecar.addquote.QuoteActivity"
+            android:label="@string/title_activity_quote"
+            android:parentActivityName=".motor.privatecar.addquote.AddNewQuoteActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.AddNewQuoteActivity" />
+        </activity>
+        <activity
+            android:name=".webviews.CommonWebViewActivity"
+            android:label="@string/title_activity_common_web_view"
+            android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity" />
+        </activity>
     </application>
-
 
 </manifest>

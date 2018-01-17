@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity"
+    tools:showIn="@layout/activity_quote">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:visibility="gone"
+        card_view:cardCornerRadius="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvCount"
+                style="@style/TextViewStyle.Large"
+                android:layout_width="wrap_content"
+                android:paddingTop="3dp"
+                android:text="5 results from www.policyboss.com"
+                android:textAllCaps="true"
+                android:textColor="?attr/colorPrimaryDark" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <TextView
+                    style="@style/TextViewStyle.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_marginRight="8dp"
+                    android:text="WIth Addon"
+                    android:textAllCaps="true" />
+
+                <Switch
+                    android:id="@+id/swAddon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/secondary_text_color" />
+
+                <TextView
+                    style="@style/TextViewStyle.Medium"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:text="WIthout Addon"
+                    android:textAllCaps="true" />
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <ImageView
+        android:id="@+id/webViewLoader"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:scaleType="fitCenter" />
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/bikeQuoteRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp">
+
+    </android.support.v7.widget.RecyclerView>
+</LinearLayout>

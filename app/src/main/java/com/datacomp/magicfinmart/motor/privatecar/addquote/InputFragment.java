@@ -21,9 +21,11 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.IInputUpdateListener;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
@@ -34,20 +36,30 @@ import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.master.controller.fastlane.FastlaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.master.response.FastLaneResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResponse;
 
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InputFragment extends BaseFragment implements View.OnClickListener, GenericTextWatcher.iVehicle {
+public class InputFragment extends BaseFragment implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber {
 
+    IInputUpdateListener iInputUpdateListener;
     CardView cvNewRenew, cvRegNo, cvInput;
     Button btnGetQuote;
     TextView tvDontKnow;
     EditText etreg1, etreg2, etreg3, etreg4;
+    String regNo = "";
     Switch switchNewRenew;
     String TAG = "InputFragment";
+    MotorRequestEntity motorRequestEntity;
 
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
@@ -76,10 +88,13 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_input, container, false);
+        Toast.makeText(getActivity(), "Input Fragment ", Toast.LENGTH_SHORT).show();
         realm = Realm.getDefaultInstance();
         databaseController = new DBPersistanceController(getActivity());
-        //cityList= databaseController.get
+        cityList = databaseController.getRTOListNames();
         makeModelList = databaseController.getCarMakeModel();
+        motorRequestEntity = new MotorRequestEntity();
+        iInputUpdateListener = (IInputUpdateListener) getActivity();
         intit_view(view);
         setListener();
         initialize_views();
@@ -258,6 +273,13 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnGetQuote:
+                if (switchNewRenew.isChecked()) {
+                    setInputParametersReNewCar();
+                } else {
+                    setInputParametersNewCAR();
+                }
+                showDialog();
+                new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
                 break;
             case R.id.tvDontKnow:
                 cvInput.setVisibility(View.VISIBLE);
@@ -280,9 +302,15 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 etreg4.requestFocus();
                 break;
             case R.id.etreg4:
-                String regNo = etreg1.getText().toString() + etreg2.getText().toString()
+
+                regNo = etreg1.getText().toString() + etreg2.getText().toString()
                         + etreg3.getText().toString() + etreg4.getText().toString();
+                tvCarNo.setText(etreg1.getText().toString() + " " + etreg2.getText().toString()
+                        + " " + etreg3.getText().toString() + " " + etreg4.getText().toString());
                 Constants.hideKeyBoard(etreg4, this.getActivity());
+                tvDontKnow.performClick();
+                showDialog("Fetching Car Details...");
+                new FastlaneController(getActivity()).getFastLaneData(regNo, this);
                 Log.d(TAG, regNo);
                 break;
         }
@@ -314,6 +342,15 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         return parts[1];
     }
 
+    public String getMake(String makeModel) {
+        String[] parts = makeModel.split(",");
+        return parts[0];
+    }
+
+    public String getVarient(String varientWithCC) {
+        String[] parts = varientWithCC.split(",");
+        return parts[0];
+    }
 
     private int getMonth(String date) {
         String mon = "" + date.charAt(5) + date.charAt(6);
@@ -337,6 +374,17 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             e.printStackTrace();
         }
         return 0;
+    }
+
+    private String getRegistrationNo(String city) {
+        return "" + city.charAt(1) + city.charAt(2) + "-" + city.charAt(3) + city.charAt(4) + "-AA-1234";
+    }
+
+    private String getManufacturingDate(String manufac) {
+        //final Calendar calendar = Calendar.getInstance();
+        return "" + manufac.charAt(0) + manufac.charAt(1) + manufac.charAt(2) + manufac.charAt(3) + manufac.charAt(4) + manufac.charAt(5) + manufac.charAt(6) + manufac.charAt(7) + "01";
+        //return manufac + "-" + calendar.getTime().getMonth() + "-" + calendar.getTime().getDate();
+
     }
 
     //region datepicker
@@ -412,4 +460,148 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     };
     //endregion
 
+    private void setInputParametersNewCAR() {
+        motorRequestEntity.setBirth_date("1992-01-01");
+        motorRequestEntity.setProduct_id(1);
+        varientId = databaseController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+        motorRequestEntity.setVehicle_id(varientId);
+        motorRequestEntity.setRto_id(databaseController.getCityID(regplace));
+        //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
+        //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
+        motorRequestEntity.setExecution_async("yes");
+        motorRequestEntity.setVehicle_insurance_type("new");
+        motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
+        motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
+        motorRequestEntity.setPolicy_expiry_date("");
+        motorRequestEntity.setPrev_insurer_id("");
+        motorRequestEntity.setVehicle_registration_type("individual");
+        motorRequestEntity.setVehicle_ncb_current("");
+        motorRequestEntity.setIs_claim_exists("yes");
+        motorRequestEntity.setMethod_type("Premium");
+        motorRequestEntity.setElectrical_accessory("0");
+        motorRequestEntity.setNon_electrical_accessory("0");
+        if (regNo.equals(""))
+            motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
+        else
+            motorRequestEntity.setRegistration_no(regNo);
+        motorRequestEntity.setIs_llpd("no");
+        motorRequestEntity.setIs_antitheft_fit("no");
+        motorRequestEntity.setVoluntary_deductible(0);
+        motorRequestEntity.setIs_external_bifuel("no");
+        motorRequestEntity.setPa_owner_driver_si("100000");
+        motorRequestEntity.setPa_named_passenger_si("0");
+        motorRequestEntity.setPa_unnamed_passenger_si("0");
+        motorRequestEntity.setPa_paid_driver_si("0");
+        motorRequestEntity.setVehicle_expected_idv(0);
+        motorRequestEntity.setFirst_name("");
+        motorRequestEntity.setMiddle_name("");
+        motorRequestEntity.setLast_name("");
+        motorRequestEntity.setMobile("");
+        motorRequestEntity.setEmail("");
+        motorRequestEntity.setCrn(0);
+        motorRequestEntity.setIp_address("");
+        setCustomerDetails();
+    }
+
+
+    private void setInputParametersReNewCar() {
+       /* if (fastLaneResponseEntity != null) {
+            motorRequestEntity.setVehicle_id(fastLaneResponseEntity.getVariant_Id());
+            motorRequestEntity.setRto_id(fastLaneResponseEntity.getVehicleCity_Id());
+            motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
+            motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
+        } else {*/
+        varientId = databaseController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+        motorRequestEntity.setVehicle_id(varientId);
+        motorRequestEntity.setRto_id(databaseController.getCityID(acRto.getText().toString()));
+        motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
+        if (regNo.equals(""))
+            motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
+        else
+            motorRequestEntity.setRegistration_no(regNo);
+        //}
+
+        motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
+        motorRequestEntity.setPolicy_expiry_date(etExpDate.getText().toString());
+        motorRequestEntity.setPrev_insurer_id("" + databaseController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+
+        motorRequestEntity.setBirth_date("1992-01-01");
+        motorRequestEntity.setProduct_id(1);
+        //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
+        //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
+        motorRequestEntity.setExecution_async("yes");
+        motorRequestEntity.setVehicle_insurance_type("renew");
+
+
+        motorRequestEntity.setVehicle_registration_type("individual");
+        motorRequestEntity.setMethod_type("Premium");
+
+        if (swClaim.isChecked()) {
+            motorRequestEntity.setIs_claim_exists("yes");
+            motorRequestEntity.setVehicle_ncb_current("");
+        } else {
+            motorRequestEntity.setIs_claim_exists("no");
+            //motorRequestEntity.setVehicle_ncb_current(spNcbPercent.getSelectedItem().toString());
+        }
+
+        motorRequestEntity.setElectrical_accessory("0");
+        motorRequestEntity.setNon_electrical_accessory("0");
+
+        motorRequestEntity.setIs_llpd("no");
+        motorRequestEntity.setIs_antitheft_fit("no");
+        motorRequestEntity.setVoluntary_deductible(0);
+        motorRequestEntity.setIs_external_bifuel("no");
+        motorRequestEntity.setPa_owner_driver_si("100000");
+        motorRequestEntity.setPa_named_passenger_si("0");
+        motorRequestEntity.setPa_unnamed_passenger_si("0");
+        motorRequestEntity.setPa_paid_driver_si("0");
+        motorRequestEntity.setVehicle_expected_idv(0);
+        motorRequestEntity.setFirst_name("");
+        motorRequestEntity.setMiddle_name("");
+        motorRequestEntity.setLast_name("");
+        motorRequestEntity.setMobile("");
+        motorRequestEntity.setEmail("");
+        motorRequestEntity.setCrn(0);
+        motorRequestEntity.setIp_address("");
+        setCustomerDetails();
+
+    }
+
+    void setCustomerDetails() {
+        String[] fullName = etCustomerName.getText().toString().split(" ");
+
+        if (fullName.length == 1) {
+            motorRequestEntity.setFirst_name(fullName[0]);
+        } else if (fullName.length == 2) {
+            motorRequestEntity.setFirst_name(fullName[0]);
+            motorRequestEntity.setLast_name(fullName[1]);
+
+        } else if (fullName.length == 3) {
+            motorRequestEntity.setFirst_name(fullName[0]);
+            motorRequestEntity.setMiddle_name(fullName[1]);
+            motorRequestEntity.setLast_name(fullName[2]);
+        }
+        motorRequestEntity.setMobile(etMobile.getText().toString());
+        motorRequestEntity.setEmail("test@test.com");
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof BikeUniqueResponse) {
+            iInputUpdateListener.updateInput(motorRequestEntity);
+        }
+        if (response instanceof FastLaneResponse) {
+            if(response.getStatusNo()==0){
+
+            }
+        }
+    }
+
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 }

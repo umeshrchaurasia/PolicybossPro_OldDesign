@@ -28,6 +28,7 @@
                 android:src="@mipmap/car_icon" />
 
             <TextView
+                android:id="@+id/tvMakeModel"
                 style="@style/TextViewStyle.Medium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -74,9 +75,9 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvFuel"
                     style="@style/TextViewStyle.Medium"
                     android:gravity="center"
-                    android:text="Diesel"
                     android:textAllCaps="true" />
             </LinearLayout>
 
@@ -95,9 +96,9 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvVarient"
                     style="@style/TextViewStyle.Medium"
                     android:gravity="center"
-                    android:text="LXI"
                     android:textAllCaps="true" />
             </LinearLayout>
 
@@ -116,9 +117,9 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvCrn"
                     style="@style/TextViewStyle.Medium"
                     android:gravity="center"
-                    android:text="464695"
                     android:textAllCaps="true" />
             </LinearLayout>
         </LinearLayout>

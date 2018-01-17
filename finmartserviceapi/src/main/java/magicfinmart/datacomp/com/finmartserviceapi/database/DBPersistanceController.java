@@ -1,9 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.database;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,73 +23,14 @@ public class DBPersistanceController {
 
     private static final String EXTERNAL_LPG = "External Fitted LPG";
     private static final String EXTERNAL_CNG = "External Fitted CNG";
-
+    Map<String, Integer> hashMapInsurence;
+    HashMap<String, String> hashMapAddons;
     Context mContext;
     Realm realm;
 
     public DBPersistanceController(Context mContext) {
         this.mContext = mContext;
         realm = Realm.getDefaultInstance();
-    }
-
-
-    public void setDashboardEntities(final List<DashboardEntity> dashboardEntities) {
-
-        try {
-            realm = Realm.getDefaultInstance();
-            realm.executeTransactionAsync(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.copyToRealmOrUpdate(dashboardEntities);
-                }
-            }, new Realm.Transaction.OnSuccess() {
-                @Override
-                public void onSuccess() {
-                    // Transaction was a success.
-                    Log.d("RealmDatabase", "success");
-                }
-            }, new Realm.Transaction.OnError() {
-                @Override
-                public void onError(Throwable error) {
-                    // Transaction failed and was automatically canceled.
-                    Log.d("RealmDatabase", "failure - " + error.getMessage());
-                }
-            });
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (realm != null) {
-                realm.close();
-            }
-        }
-
-       /* realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm bgRealm) {
-                realm.copyToRealmOrUpdate(dashboardEntities);
-            }
-        }, new Realm.Transaction.OnSuccess() {
-            @Override
-            public void onSuccess() {
-                // Transaction was a success.
-                Log.d("RealmDatabase", "success");
-            }
-        }, new Realm.Transaction.OnError() {
-            @Override
-            public void onError(Throwable error) {
-                // Transaction failed and was automatically canceled.
-                Log.d("RealmDatabase", "failure - " + error.getMessage());
-            }
-        });*/
-
-        /*realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(dashboardEntities);
-            }
-        });*/
     }
 
     //region RTO
@@ -172,6 +113,27 @@ public class DBPersistanceController {
 
     }
 
+    public int getVariantID(String variantName, String modelName, String makeName) {
+        MasterDataEntity entity = realm.where(MasterDataEntity.class).equalTo("Model_Name", modelName.trim())
+                .equalTo("Variant_Name", variantName.trim())
+                .equalTo("Make_Name", makeName.trim()).findFirst();
+
+        if (entity != null)
+            return entity.getVariant_ID();
+        else
+            return 0;
+    }
+
+    public MasterDataEntity getVarientDetails(int varientId) {
+        MasterDataEntity entity = realm.where(MasterDataEntity.class)
+                .equalTo("Variant_ID", varientId).findFirst();
+
+        if (entity != null)
+            return entity;
+        else
+            return null;
+    }
+
     //endregion
 
     //region fuel
@@ -205,16 +167,6 @@ public class DBPersistanceController {
         return fuelType;
     }
 
-    public int getVariantID(String variantName, String modelName, String makeName) {
-        MasterDataEntity entity = realm.where(MasterDataEntity.class).equalTo("Model_Name", modelName.trim())
-                .equalTo("Variant_Name", variantName.trim())
-                .equalTo("Make_Name", makeName.trim()).findFirst();
-
-        if (entity != null)
-            return entity.getVariant_ID();
-        else
-            return 0;
-    }
 
     //endregion
 
@@ -299,11 +251,15 @@ public class DBPersistanceController {
     //region previous insurer
 
     public List<String> getInsurerList() {
+        MapInsurence();
+        ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
+        insurenceList.add(0, "Select Prev Insurer");
+        return insurenceList;
 
-        Map<String, Integer> hashMapInsurence;
+    }
 
+    public void MapInsurence() {
         hashMapInsurence = new TreeMap<String, Integer>();
-        hashMapInsurence.put("Select Prev Insurer", 0);
         hashMapInsurence.put("Bajaj Allianz", 1);
         hashMapInsurence.put("Bharti Axa", 2);
         hashMapInsurence.put("Future Generali India", 4);
@@ -329,10 +285,57 @@ public class DBPersistanceController {
         hashMapInsurence.put("The Oriental Insurance", 13);
         hashMapInsurence.put("United India Insurance ", 14);
         hashMapInsurence.put("Religare Health Insurance", 34);
+    }
 
-        ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
-        return insurenceList;
+    public int getInsurenceID(String insurenceName) {
+        MapInsurence();
+        return hashMapInsurence.get(insurenceName);
+    }
+    //endregion
 
+    //region Addon
+
+    public void MapAddons() {
+        hashMapAddons.put("addon_ambulance_charge_cover", "Ambulance Charge Cover");
+        hashMapAddons.put("addon_consumable_cover", "Consumable Cover");
+        hashMapAddons.put("addon_daily_allowance_cover", "Daily Allowance Cover");
+        hashMapAddons.put("addon_engine_protector_cover", "Engine Protection Cover");
+        hashMapAddons.put("addon_hospital_cash_cover", "Hospital Cash Cover");
+        hashMapAddons.put("addon_hydrostatic_lock_cover", "Hydrostatic Lock Cover");
+        hashMapAddons.put("addon_inconvenience_allowance_cover", "Inconvinenience Allowance Cover");
+        hashMapAddons.put("addon_invoice_price_cover", "Invoice Price Cover");
+        hashMapAddons.put("addon_key_lock_cover", "Key Lock Cover");
+        hashMapAddons.put("addon_losstime_protection_cover", "Loss Time Protection");
+        hashMapAddons.put("addon_medical_expense_cover", "Medical Expense");
+        hashMapAddons.put("addon_ncb_protection_cover", "NCB Protection");
+        hashMapAddons.put("addon_passenger_assistance_cover", "Passenger Assistance");
+        hashMapAddons.put("addon_personal_belonging_loss_cover", "Personal Belonging-Loss Cover");
+        hashMapAddons.put("addon_road_assist_cover", "24X7 RoadSide Assistance");
+        hashMapAddons.put("addon_rodent_bite_cover", "Rodent bite Cover");
+        hashMapAddons.put("addon_tyre_coverage_cover", "Tyre Coverage");
+        hashMapAddons.put("addon_windshield_cover", "Windshield Protection");
+        hashMapAddons.put("addon_zero_dep_cover", "Zero Depriciation");
+
+    }
+
+    public String getAddonName(String addonName) {
+        hashMapAddons = new HashMap<String, String>();
+        MapAddons();
+        return hashMapAddons.get(addonName);
+    }
+
+    public String getAddonKey(String selectedName) {
+        hashMapAddons = new HashMap<String, String>();
+        MapAddons();
+        String AddOnName = "";
+        for (Map.Entry<String, String> item : hashMapAddons.entrySet()) {
+            if (item.getValue().matches(selectedName)) {
+                AddOnName = item.getKey();
+                break;
+            }
+        }
+
+        return AddOnName;
     }
     //endregion
 }
