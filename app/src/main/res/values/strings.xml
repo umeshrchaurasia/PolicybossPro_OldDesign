@@ -15,4 +15,7 @@
     <string name="title_activity_add_quote">Add Quote</string>
     <string name="title_myaccount">MY ACCOUNT</string>
     <string name="title_pospenrollment">POSP ENROLLMENT</string>
+    <string name="title_activity_personal_loan_detail">PersonalLoanDetailActivity</string>
+    <string name="title_activity_add_quote__pl">AddQuoteActivity_PL</string>
+    <string name="title_activity_add_plquote">AddPLQuoteActivity</string>
 </resources>
