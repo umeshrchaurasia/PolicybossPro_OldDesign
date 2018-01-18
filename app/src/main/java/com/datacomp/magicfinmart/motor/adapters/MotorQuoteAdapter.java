@@ -28,18 +28,18 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     public QuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_item_quote, parent, false);
+                .inflate(R.layout.test, parent, false);
         return new MotorQuoteAdapter.QuoteItem(itemView);
     }
 
     @Override
     public void onBindViewHolder(QuoteItem holder, int position) {
-        holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openPopUp(view);
-            }
-        });
+//        holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openPopUp(view);
+//            }
+//        });
     }
 
     private void openPopUp(View v) {
@@ -79,13 +79,13 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
-        public ImageView ivTripleDot;
+      //  public ImageView ivTripleDot;
         public CheckBox chkAddon;
 
 
         public QuoteItem(View itemView) {
             super(itemView);
-            ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
+            //ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
         }
     }
 }

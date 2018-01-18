@@ -29,12 +29,12 @@ public class GenericTextWatcher implements TextWatcher {
 
     @Override
     public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        Log.d("GenericTextWatcher","beforeTextChanged");
+        Log.d("GenericTextWatcher", "beforeTextChanged");
     }
 
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-        Log.d("GenericTextWatcher","onTextChanged");
+        Log.d("GenericTextWatcher", "onTextChanged");
         switch (view.getId()) {
             case R.id.etreg1:
                 if (charSequence.length() == 0) {
@@ -64,11 +64,14 @@ public class GenericTextWatcher implements TextWatcher {
                     ivehicle.getVehicleNumber(view, charSequence.toString());
                 }
                 break;
+            case R.id.acRto:
+                ivehicle.cancelVehicleNumber(view);
+                break;
         }
     }
 
     @Override
     public void afterTextChanged(Editable editable) {
-        Log.d("GenericTextWatcher","afterTextChanged");
+        Log.d("GenericTextWatcher", "afterTextChanged");
     }
 }

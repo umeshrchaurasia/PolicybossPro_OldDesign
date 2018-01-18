@@ -13,7 +13,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowBackground">@color/window_background</item>-->
-        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:windowBackground">@color/seperator</item>
         <!--<item name="android:textColorPrimary">@color/header_text_color</item>-->
         <!--<item name="android:textColorHint">@color/secondary_text_color</item>-->
 
@@ -93,5 +93,13 @@
         <item name="android:textSize">16dip</item>
         <item name="android:background">@drawable/button_round_corners</item>
         <item name="android:focusable">true</item>
+    </style>
+
+    <style name="CardViewStyle" parent="CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardElevation">0dp</item>
+
     </style>
 </resources>

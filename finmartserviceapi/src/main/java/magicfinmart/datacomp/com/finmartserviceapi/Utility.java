@@ -3,6 +3,9 @@ package magicfinmart.datacomp.com.finmartserviceapi;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -16,7 +19,6 @@ public class Utility {
     public static final String BIKEQUOTE_UNIQUEID = "bike_quote_uniqueid";
     public static final String CARQUOTE_UNIQUEID = "car_quote_uniqueid";
     public static final String QUOTE_COUNTER = "quote_counter";
-
     public static final String SHARED_PREFERENCE_POLICYBOSS = "shared_finmart";
 
     public static SharedPreferences getSharedPreference(Context context) {

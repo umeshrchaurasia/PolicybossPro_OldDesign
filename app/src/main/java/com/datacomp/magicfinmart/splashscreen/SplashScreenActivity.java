@@ -15,11 +15,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.master.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.master.controller.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.master.response.AllCityMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.master.response.BikeMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.master.response.CarMasterResponse;
 
 public class SplashScreenActivity extends BaseActivity implements IResponseSubcriber {
 
     private static final String TAG = "Splashscreen";
-    private final int SPLASH_DISPLAY_LENGTH = 3000;
+    private final int SPLASH_DISPLAY_LENGTH = 500;
     PrefManager prefManager;
 
     @Override
@@ -27,14 +29,17 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         prefManager = new PrefManager(this);
-        if (prefManager.isFirstTimeLaunch()) {
 
-            showDialog();
+        if (prefManager.IsBikeMasterUpdate())
             new MasterController(this).getBikeMaster(this);
+        if (prefManager.IsCarMasterUpdate())
             new MasterController(this).getCarMaster(this);
+        if (prefManager.IsRtoMasterUpdate())
             new MasterController(this).getRTOMaster(this);
-            startActivity(new Intent(this, WelcomeActivity.class));
 
+        if (prefManager.isFirstTimeLaunch()) {
+            prefManager.setFirstTimeLaunch(false);
+            startActivity(new Intent(this, WelcomeActivity.class));
         } else {
             new Handler().postDelayed(new Runnable() {
                 @Override
@@ -44,21 +49,24 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
             }, SPLASH_DISPLAY_LENGTH);
         }
 
-
     }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
-        if (response instanceof AllCityMasterResponse) {
-            prefManager.setFirstTimeLaunch(false);
-
+        if (response instanceof BikeMasterResponse) {
+            if (response.getStatusNo() == 0)
+                prefManager.setIsBikeMasterUpdate(false);
+        } else if (response instanceof CarMasterResponse) {
+            if (response.getStatusNo() == 0)
+                prefManager.setIsCarMasterUpdate(false);
+        } else if (response instanceof AllCityMasterResponse) {
+            if (response.getStatusNo() == 0)
+                prefManager.setIsRtoMasterUpdate(false);
         }
     }
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

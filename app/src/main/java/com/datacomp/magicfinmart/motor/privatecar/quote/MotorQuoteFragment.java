@@ -19,9 +19,6 @@ import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
 
 import java.text.SimpleDateFormat;
 
-import io.realm.Realm;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-
 /**
  * A simple {@link Fragment} subclass.
  */
