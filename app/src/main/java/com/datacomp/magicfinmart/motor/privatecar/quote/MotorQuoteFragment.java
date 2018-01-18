@@ -3,14 +3,13 @@ package com.datacomp.magicfinmart.motor.privatecar.quote;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -24,8 +23,7 @@ import java.text.SimpleDateFormat;
  */
 public class MotorQuoteFragment extends BaseFragment implements View.OnClickListener {
 
-    Button btnAddQuote;
-    EditText etSearch;
+    FloatingActionButton btnAddQuote;
     RecyclerView rvQuoteList;
     MotorQuoteAdapter motorQuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -45,8 +43,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     }
 
     private void initView(View view) {
-        btnAddQuote = (Button) view.findViewById(R.id.btnAddQuote);
-        etSearch = (EditText) view.findViewById(R.id.etSearch);
+        btnAddQuote = (FloatingActionButton) view.findViewById(R.id.fbAddQuote);
         rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
         rvQuoteList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -55,13 +52,14 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         motorQuoteAdapter = new MotorQuoteAdapter(getActivity());
         rvQuoteList.setAdapter(motorQuoteAdapter);
         btnAddQuote.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.btnAddQuote:
+            case R.id.fbAddQuote:
                 startActivity(new Intent(getActivity(), AddQuoteActivity.class));
                 break;
         }

@@ -31,13 +31,16 @@
                 android:textColor="@color/header_dark_text"
                 android:textStyle="bold" />
 
-            <ImageView
+            <TextView
+                android:id="@+id/txtOverflowMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="10"
-                android:scaleType="centerInside"
-                android:src="@drawable/dot" />
+                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:text="@string/threedots"
+                android:textAppearance="?android:textAppearanceLarge"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <View

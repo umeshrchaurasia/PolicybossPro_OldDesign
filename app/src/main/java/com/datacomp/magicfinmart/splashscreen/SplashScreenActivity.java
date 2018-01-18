@@ -21,7 +21,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.master.response.CarMasterResp
 public class SplashScreenActivity extends BaseActivity implements IResponseSubcriber {
 
     private static final String TAG = "Splashscreen";
-    private final int SPLASH_DISPLAY_LENGTH = 500;
+    private final int SPLASH_DISPLAY_LENGTH = 5000;
     PrefManager prefManager;
 
     @Override
