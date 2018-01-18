@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 
-
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -16,7 +15,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder.MotorQuotesRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.BikePremiumRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.BikeRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResponse;
@@ -31,8 +30,8 @@ import retrofit2.Response;
 
 public class MotorController implements IMotor {
 
-    private static final long SLEEP_DELAY = 5000; // 5 seconds delay.
-    private static final long NO_OF_SERVER_HITS = 10;
+    public static final long SLEEP_DELAY = 5000; // 5 seconds delay.
+    public static final long NO_OF_SERVER_HITS = 10;
     MotorQuotesRequestBuilder.MotorQuotesNetworkService motorQuotesNetworkService;
     Context mContext;
     Handler handler;
@@ -66,9 +65,9 @@ public class MotorController implements IMotor {
 
 
     @Override
-    public void getMotorPremiumInitiate(final BikeRequestEntity bikeRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+    public void getMotorPremiumInitiate(final MotorRequestEntity motorRequestEntity, final IResponseSubcriber iResponseSubcriber) {
 
-        motorQuotesNetworkService.premiumInitiateUniqueID(bikeRequestEntity).enqueue(new Callback<BikeUniqueResponse>() {
+        motorQuotesNetworkService.premiumInitiateUniqueID(motorRequestEntity).enqueue(new Callback<BikeUniqueResponse>() {
             @Override
             public void onResponse(Call<BikeUniqueResponse> call, Response<BikeUniqueResponse> response) {
                 if (response.body() != null) {
@@ -81,12 +80,12 @@ public class MotorController implements IMotor {
                     SharedPreferences.Editor edit = Utility.getSharedPreferenceEditor(mContext);
 
                     //car quote
-                    if (bikeRequestEntity.getProduct_id() == 1) {
-                        edit.putString(Utility.BIKEQUOTE_UNIQUEID,
-                                UNIQUE);
-                    } else if (bikeRequestEntity.getProduct_id() == 10) {
-                        //bike quote
+                    if (motorRequestEntity.getProduct_id() == 1) {
                         edit.putString(Utility.CARQUOTE_UNIQUEID,
+                                UNIQUE);
+                    } else if (motorRequestEntity.getProduct_id() == 10) {
+                        //bike quote
+                        edit.putString(Utility.BIKEQUOTE_UNIQUEID,
                                 UNIQUE);
                     }
                     edit.commit();

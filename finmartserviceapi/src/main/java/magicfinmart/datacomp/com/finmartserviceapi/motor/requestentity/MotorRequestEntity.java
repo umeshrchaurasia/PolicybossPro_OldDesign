@@ -10,18 +10,18 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
  * Created by Nilesh Birhade on 03-07-2017.
  */
 
-public class BikeRequestEntity implements Parcelable {
+public class MotorRequestEntity implements Parcelable {
 
 
-    public static final Creator<BikeRequestEntity> CREATOR = new Creator<BikeRequestEntity>() {
+    public static final Creator<MotorRequestEntity> CREATOR = new Creator<MotorRequestEntity>() {
         @Override
-        public BikeRequestEntity createFromParcel(Parcel source) {
-            return new BikeRequestEntity(source);
+        public MotorRequestEntity createFromParcel(Parcel source) {
+            return new MotorRequestEntity(source);
         }
 
         @Override
-        public BikeRequestEntity[] newArray(int size) {
-            return new BikeRequestEntity[size];
+        public MotorRequestEntity[] newArray(int size) {
+            return new MotorRequestEntity[size];
         }
     };
     /**
@@ -113,7 +113,7 @@ public class BikeRequestEntity implements Parcelable {
     private double geo_long;
 
 
-    public BikeRequestEntity() {
+    public MotorRequestEntity() {
         this.birth_date = "1992-01-01";
         this.product_id = 0;
         this.vehicle_id = 0;
@@ -152,7 +152,7 @@ public class BikeRequestEntity implements Parcelable {
         this.ip_address = "";
     }
 
-    protected BikeRequestEntity(Parcel in) {
+    protected MotorRequestEntity(Parcel in) {
         this.product_id = in.readInt();
         this.vehicle_id = in.readInt();
         this.rto_id = in.readInt();

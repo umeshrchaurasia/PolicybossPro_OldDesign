@@ -1,7 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder;
 
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.BikePremiumRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.BikeRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResponse;
@@ -22,7 +22,7 @@ public class MotorQuotesRequestBuilder extends NodeRetroRequestBuilder {
     public interface MotorQuotesNetworkService {
 
         @POST("/quote/premium_initiate")
-        Call<BikeUniqueResponse> premiumInitiateUniqueID(@Body BikeRequestEntity body);
+        Call<BikeUniqueResponse> premiumInitiateUniqueID(@Body MotorRequestEntity body);
 
         @POST("/quote/premium_list_db")
         Call<BikePremiumResponse> getPremiumList(@Body BikePremiumRequestEntity body);

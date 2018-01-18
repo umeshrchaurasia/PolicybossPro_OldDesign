@@ -6,6 +6,7 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.master.response.AllCityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.response.CarMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.master.response.FastLaneResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.master.retromaster.MasterRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -36,5 +37,8 @@ public class MasterRequestBuilder extends MasterRetroRequestBuilder {
 
         @POST(SUB_URL + "/GetVechicalCityService")
         Call<AllCityMasterResponse> getAllCity();
+
+        @POST(SUB_URL + "/FastLaneService")
+        Call<FastLaneResponse> getFastLaneData(@Body HashMap<String, String> body);
     }
 }

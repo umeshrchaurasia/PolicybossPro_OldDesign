@@ -2,7 +2,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.motor.controller;
 
 
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.BikeRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
 
 /**
@@ -11,7 +11,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOn
 
 public interface IMotor {
 
-    void getMotorPremiumInitiate(BikeRequestEntity entity, IResponseSubcriber iResponseSubcriber);
+    void getMotorPremiumInitiate(MotorRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
     void getMotorQuote(int product, IResponseSubcriber iResponseSubcriber);
 

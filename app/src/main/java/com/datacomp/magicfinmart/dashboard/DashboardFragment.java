@@ -2,10 +2,13 @@ package com.datacomp.magicfinmart.dashboard;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -20,6 +23,7 @@ public class DashboardFragment extends BaseFragment {
 
     RecyclerView rvHome;
     DashboardRowAdapter mAdapter;
+    BottomNavigationView navigation;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -41,7 +45,28 @@ public class DashboardFragment extends BaseFragment {
     private void initialise(View view) {
         rvHome = (RecyclerView) view.findViewById(R.id.rvHome);
         rvHome.setLayoutManager(new LinearLayoutManager(getActivity()));
+        navigation = (BottomNavigationView) view.findViewById(R.id.navigation);
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.nav_sales:
+                    //redirect to sales
+                    return true;
+                case R.id.nav_pending:
+                    //redirect to pending status
+                    return true;
+                case R.id.nav_knowledge:
+                    //redirect to knowledge guru
+                    return true;
+            }
+            return false;
+        }
+    };
 }
