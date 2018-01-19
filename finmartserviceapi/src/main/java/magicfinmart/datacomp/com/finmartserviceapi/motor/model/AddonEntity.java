@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.motor.model;
 
-public class AddonEntity {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class AddonEntity implements Parcelable {
     /**
      * addon_zero_dep_cover : 0
      * addon_road_assist_cover : 500
@@ -214,4 +217,73 @@ public class AddonEntity {
     public void setAddon_final_premium(double addon_final_premium) {
         this.addon_final_premium = addon_final_premium;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeDouble(this.addon_zero_dep_cover);
+        dest.writeDouble(this.addon_road_assist_cover);
+        dest.writeDouble(this.addon_ncb_protection_cover);
+        dest.writeDouble(this.addon_engine_protector_cover);
+        dest.writeDouble(this.addon_invoice_price_cover);
+        dest.writeDouble(this.addon_key_lock_cover);
+        dest.writeDouble(this.addon_consumable_cover);
+        dest.writeDouble(this.addon_daily_allowance_cover);
+        dest.writeDouble(this.addon_windshield_cover);
+        dest.writeDouble(this.addon_passenger_assistance_cover);
+        dest.writeDouble(this.addon_tyre_coverage_cover);
+        dest.writeDouble(this.addon_personal_belonging_loss_cover);
+        dest.writeDouble(this.addon_inconvenience_allowance_cover);
+        dest.writeDouble(this.addon_medical_expense_cover);
+        dest.writeDouble(this.addon_hospital_cash_cover);
+        dest.writeDouble(this.addon_ambulance_charge_cover);
+        dest.writeDouble(this.addon_rodent_bite_cover);
+        dest.writeDouble(this.addon_losstime_protection_cover);
+        dest.writeDouble(this.addon_hydrostatic_lock_cover);
+        dest.writeDouble(this.addon_guaranteed_auto_protection_cover);
+        dest.writeDouble(this.addon_final_premium);
+    }
+
+    public AddonEntity() {
+    }
+
+    protected AddonEntity(Parcel in) {
+        this.addon_zero_dep_cover = in.readDouble();
+        this.addon_road_assist_cover = in.readDouble();
+        this.addon_ncb_protection_cover = in.readDouble();
+        this.addon_engine_protector_cover = in.readDouble();
+        this.addon_invoice_price_cover = in.readDouble();
+        this.addon_key_lock_cover = in.readDouble();
+        this.addon_consumable_cover = in.readDouble();
+        this.addon_daily_allowance_cover = in.readDouble();
+        this.addon_windshield_cover = in.readDouble();
+        this.addon_passenger_assistance_cover = in.readDouble();
+        this.addon_tyre_coverage_cover = in.readDouble();
+        this.addon_personal_belonging_loss_cover = in.readDouble();
+        this.addon_inconvenience_allowance_cover = in.readDouble();
+        this.addon_medical_expense_cover = in.readDouble();
+        this.addon_hospital_cash_cover = in.readDouble();
+        this.addon_ambulance_charge_cover = in.readDouble();
+        this.addon_rodent_bite_cover = in.readDouble();
+        this.addon_losstime_protection_cover = in.readDouble();
+        this.addon_hydrostatic_lock_cover = in.readDouble();
+        this.addon_guaranteed_auto_protection_cover = in.readDouble();
+        this.addon_final_premium = in.readDouble();
+    }
+
+    public static final Parcelable.Creator<AddonEntity> CREATOR = new Parcelable.Creator<AddonEntity>() {
+        @Override
+        public AddonEntity createFromParcel(Parcel source) {
+            return new AddonEntity(source);
+        }
+
+        @Override
+        public AddonEntity[] newArray(int size) {
+            return new AddonEntity[size];
+        }
+    };
 }

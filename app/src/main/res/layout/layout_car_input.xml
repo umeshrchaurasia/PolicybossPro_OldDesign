@@ -3,50 +3,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white">
+    android:layout_margin="8dp"
+    android:scrollbars="none">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="8dp">
 
-        <android.support.v7.widget.CardView
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="2dp">
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="3dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                style="@style/TextViewStyle.Small"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:padding="3dp">
+                android:layout_marginRight="8dp"
+                android:text="COMPANY" />
 
-                <TextView
-                    style="@style/TextViewStyle.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:text="COMPANY" />
+            <Switch
+                android:id="@+id/swIndividual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true" />
 
-                <Switch
-                    android:id="@+id/swIndividual"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true" />
-
-                <TextView
-                    style="@style/TextViewStyle.Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="INDIVIDUAL"
-                    android:textColor="@color/colorAccent" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+            <TextView
+                style="@style/TextViewStyle.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:text="INDIVIDUAL"
+                android:textColor="@color/colorAccent" />
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,14 +50,14 @@
             android:padding="8dp">
 
             <TextView
-                style="@style/TextViewStyle.Medium"
+                style="@style/TextViewStyle.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="VERIFY YOUR CAR DETAILS FOR " />
 
             <TextView
                 android:id="@+id/tvCarNo"
-                style="@style/TextViewStyle.Large"
+                style="@style/TextViewStyle.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
@@ -75,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="bottom"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
@@ -87,45 +82,46 @@
                     android:id="@+id/acMakeModel"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="MAKE,MODEL"
+                    android:hint="MAKE, MODEL"
+                    android:textColor="@color/header_dark_text"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
+            <!--varient-->
+            <TextView
+                style="@style/spinnerLabel"
+                android:layout_marginTop="@dimen/input_label_horizontal_spacing"
+                android:includeFontPadding="false"
+                android:text="Varient"
+                android:textAllCaps="true"
+                android:textColor="@color/button_color" />
 
             <Spinner
                 android:id="@+id/spVarient"
                 style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="FUEL TYPE"
-                android:textSize="14sp" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
+            <!--fuel type-->
+            <TextView
+                style="@style/spinnerLabel"
+                android:layout_marginTop="@dimen/input_label_horizontal_spacing"
+                android:includeFontPadding="false"
+                android:text="Fuel Type"
+                android:textAllCaps="true"
+                android:textColor="@color/button_color" />
 
             <Spinner
                 android:id="@+id/spFuel"
-
                 style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="VARIENT"
-                android:textSize="14sp" />
-
+                android:layout_height="wrap_content" />
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/etExtValue"
@@ -137,6 +133,7 @@
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
+        <!--Registration date and manufacturing date-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -146,6 +143,7 @@
                 style="@style/TextAppearence.App.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
                 android:layout_weight="1"
                 android:gravity="center">
 
@@ -163,6 +161,7 @@
                 style="@style/TextAppearence.App.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:layout_weight="1">
 
                 <EditText
@@ -176,18 +175,59 @@
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
+        <!--present insurer-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/spinnerLabel"
+                android:includeFontPadding="false"
+                android:text="PRESENT INSURER"
+                android:textAllCaps="true"
+                android:textColor="@color/button_color" />
+
+            <Spinner
+                android:id="@+id/spPrevIns"
+                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+
+        <!--RTO and Expiry date-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal">
+
+            <!--rto detail-->
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextAppearence.App.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1">
+
+                <AutoCompleteTextView
+                    android:id="@+id/acRto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="RTO"
+                    android:textColor="@color/header_dark_text"
+                    android:textSize="14sp" />
+            </android.support.design.widget.TextInputLayout>
+
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center">
+                android:layout_weight="1">
 
                 <EditText
                     android:id="@+id/etExpDate"
@@ -199,105 +239,52 @@
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
 
-            <LinearLayout
+
+        </LinearLayout>
+
+
+        <!--NCB layout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="bottom"
+            android:orientation="horizontal">
+
+
+            <Switch
+                android:id="@+id/switchNcb"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/fab_margin"
+                android:layout_marginRight="4dp"
                 android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:text="CLAIM IN THIS YEAR" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="2dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="8dp"
-                        android:text="NO" />
-
-                    <Switch
-                        android:id="@+id/swClaim"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true" />
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="8dp"
-                        android:text="YES"
-                        android:textColor="@color/colorAccent" />
-                </LinearLayout>
-            </LinearLayout>
-        </LinearLayout>
-
-        <TextView
-            style="@style/ButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/fab_margin"
-            android:padding="5dp"
-            android:text="EXISTING NO CLAIM BONUS" />
-
-        <SeekBar
-            android:id="@+id/sbClaim"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:progress="50" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <AutoCompleteTextView
-                    android:id="@+id/acRto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="RTO"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
-
+                android:checked="true"
+                android:text="Claim in this year"
+                android:textAllCaps="true"
+                android:textColor="@color/button_color"
+                android:textSize="12sp" />
 
             <Spinner
-                android:id="@+id/spPrevIns"
+                android:id="@+id/spNcbPercent"
                 style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="PRESENT INSURER"
-                android:textSize="14sp" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
+
+        <!--customer detail-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
                 android:layout_weight="1">
 
                 <EditText
@@ -312,6 +299,7 @@
                 style="@style/TextAppearence.App.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
                 android:layout_weight="1">
 
                 <EditText
@@ -319,9 +307,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="MOBILE"
+                    android:inputType="number"
+                    android:maxLength="10"
                     android:textSize="14sp" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
 

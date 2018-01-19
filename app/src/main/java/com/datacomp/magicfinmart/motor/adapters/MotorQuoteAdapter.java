@@ -28,7 +28,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     public QuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.test, parent, false);
+                .inflate(R.layout.layout_item_quote, parent, false);
         return new MotorQuoteAdapter.QuoteItem(itemView);
     }
 
@@ -79,7 +79,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
-      //  public ImageView ivTripleDot;
+        //  public ImageView ivTripleDot;
         public CheckBox chkAddon;
 
 

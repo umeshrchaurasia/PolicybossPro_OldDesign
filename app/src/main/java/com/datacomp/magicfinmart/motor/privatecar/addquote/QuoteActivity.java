@@ -44,12 +44,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.model.AppliedAddonsPrem
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.CommonAddonEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.MobileAddOn;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnResponse;
 
-public class QuoteActivity extends BaseActivity implements IResponseSubcriber {
+public class QuoteActivity extends BaseActivity implements IResponseSubcriber, View.OnClickListener {
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
     BikeQuoteAdapter mAdapter;
@@ -59,9 +60,12 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber {
     DBPersistanceController databaseController;
     ImageView webViewLoader;
     List<MobileAddOn> listMobileAddOn;
-    TextView tvVarient, tvMakeModel, tvFuel, tvCrn, tvCount;
+    TextView tvPolicyExp, tvMakeModel, tvFuel, tvCrn, tvCount, tvRtoName;
     Switch swAddon;
+    FloatingActionButton filter;
+    ImageView ivEdit;
     MasterDataEntity masterDataEntity;
+    String rtoName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,21 +73,12 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber {
         setContentView(R.layout.activity_quote);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //region Floating button
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.filter);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-        //endregion
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         realm = Realm.getDefaultInstance();
         databaseController = new DBPersistanceController(this);
         if (getIntent().hasExtra("CAR_REQUEST")) {
             motorRequestEntity = getIntent().getParcelableExtra("CAR_REQUEST");
+            rtoName = getIntent().getStringExtra("RTO_NAME");
         }
         initView();
         initializeAdapters();
@@ -93,6 +88,8 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber {
     }
 
     private void setListener() {
+        ivEdit.setOnClickListener(this);
+        filter.setOnClickListener(this);
         swAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -106,12 +103,15 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber {
         bikeQuoteRecycler = (RecyclerView) findViewById(R.id.bikeQuoteRecycler);
         webViewLoader = (ImageView) findViewById(R.id.webViewLoader);
         Glide.with(this).load(R.drawable.preloader).into(webViewLoader);
-        tvVarient = (TextView) findViewById(R.id.tvVarient);
+        tvPolicyExp = (TextView) findViewById(R.id.tvPolicyExp);
+        tvRtoName = (TextView) findViewById(R.id.tvRtoName);
         tvMakeModel = (TextView) findViewById(R.id.tvMakeModel);
         tvFuel = (TextView) findViewById(R.id.tvFuel);
         tvCrn = (TextView) findViewById(R.id.tvCrn);
         tvCount = (TextView) findViewById(R.id.tvCount);
         swAddon = (Switch) findViewById(R.id.swAddon);
+        ivEdit = (ImageView) findViewById(R.id.ivEdit);
+        filter = (FloatingActionButton) findViewById(R.id.filter);
     }
 
     private void initializeAdapters() {
@@ -127,12 +127,16 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber {
     }
 
     private void updateHeader() {
-        if (motorRequestEntity != null)
+        if (motorRequestEntity != null) {
             masterDataEntity = databaseController.getVarientDetails(motorRequestEntity.getVehicle_id());
+            tvPolicyExp.setText("" + motorRequestEntity.getPolicy_expiry_date());
+            tvRtoName.setText("" + rtoName);
+        }
+
         if (masterDataEntity != null) {
-            tvVarient.setText(masterDataEntity.getVariant_Name());
+
             tvFuel.setText(masterDataEntity.getFuel_Name());
-            tvMakeModel.setText(masterDataEntity.getMake_Name() + " , " + masterDataEntity.getModel_Name());
+            tvMakeModel.setText(masterDataEntity.getMake_Name() + " , " + masterDataEntity.getModel_Name() + " ," + masterDataEntity.getVariant_Name());
         }
     }
 
@@ -728,8 +732,8 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber {
 
     public void redirectToBuy(String Service_Log_Unique_Id) {
         String URL = "http://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
-        //String url = "http://qa.policyboss.com/";
-        String url = "http://policyboss.com/";
+        String url = "http://qa.policyboss.com/";
+        //String url = "http://policyboss.com/";
         String title = "";
         String name = "";
         url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";
@@ -742,14 +746,25 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber {
                 .putExtra("TITLE", title));
     }
 
-    /*public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
-        startActivity(new Intent(this, PremiumBikePopUpActivity.class)
-                .putExtra(Constants.Bike_QUOTE_PRIMIUM, entity.getPremium_Breakup())
-                .putExtra(Constants.Bike_QUOTE_INSURER, entity.getInsurer())
-                .putExtra(Constants.IDV_DATA, IDV));
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ivEdit:
+                finish();
+                break;
+            case R.id.filter:
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+                break;
+        }
+    }
+
+    public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
+        startActivity(new Intent(this, PremiumBreakUpActivity.class)
+                .putExtra("RESPONSE", entity));
 
 
-    }*/
+    }
 
     class AsyncAddon extends AsyncTask<Void, Void, Boolean> {
 

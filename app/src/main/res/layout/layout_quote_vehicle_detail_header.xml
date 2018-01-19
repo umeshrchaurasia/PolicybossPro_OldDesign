@@ -96,7 +96,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/tvVarient"
+                    android:id="@+id/tvPolicyExp"
                     style="@style/TextViewStyle.Medium"
                     android:gravity="center"
                     android:textAllCaps="true" />
