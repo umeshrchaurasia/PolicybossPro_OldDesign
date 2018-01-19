@@ -172,4 +172,37 @@ public class DateTimePicker {
         cal.setTime(date);
         return cal;
     }
+    public static void showDataPickerDialogBeforeTwentyOne(Context mContex, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        //always shows 1 day ahead in calender
+        // added 1 day in calender
+        //calendar.add(Calendar.DATE,1);
+        calendar.add(Calendar.YEAR,-21);
+        calendar.add(Calendar.DATE,-1);
+
+
+        // disable all before date,
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        dialog.show();
+    }
+
+    public static void showDataPickerBuisnessLoan(Context mContex, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        //always shows 1 day ahead in calender
+        // added 1 day in calender
+        //calendar.add(Calendar.DATE,1);
+        calendar.add(Calendar.YEAR,-2);
+        calendar.add(Calendar.DATE,-1);
+
+
+        // disable all before date,
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        dialog.show();
+    }
 }

@@ -16,6 +16,22 @@ public class Constants {
     public static final String SHARED_PREFERENCE_FINMART = "shared_finmart";
     public static final String EXTERNAL_LPG = "External Fitted LPG";
     public static final String EXTERNAL_CNG = "External Fitted CNG";
+    public static String PERSONAL_LOAN_QUOTES = "personalloanquotes";
+    public static String HL_REQUEST = "homeloanRequest";
+    public static String PL_REQUEST = "personalloanRequest";
+    public static String LAP_REQUEST = "loanagainstpropertyRequest";
+    public static String CITY_FACADE = "citylist";
+    public static String HOMELOAN_REQUEST_FACADE = "homeloanrequest";
+    public static String PRODUCT_FACADE = "productlist";
+    public static String PROPERTY_FACADE = "propertylist";
+    public static String LOGIN_FACADE = "logindata";
+    public static String PROFILE_URL = "profileurl";
+    public static String QUOTES = "quotes";
+    public static String DEVICE_ID = "deviceid";
+    public static String DEVICE_TOKEN = "devicetoken";
+    public static String PAN_NUMBER = "pannumber";
+    public static String PASSWORD = "password";
+    public static String WEB_URL = "WEBURL";
 
     public static void hideKeyBoard(View view, Context context) {
         if (view != null) {

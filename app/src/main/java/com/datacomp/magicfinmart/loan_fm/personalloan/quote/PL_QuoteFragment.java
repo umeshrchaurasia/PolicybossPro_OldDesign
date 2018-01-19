@@ -13,8 +13,9 @@ import android.widget.EditText;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PesonalLoan_QuoteAdapter;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.AddPLQuoteActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PersonalLoanActivity;
+
+import java.text.SimpleDateFormat;
 
 /**
  * Created by IN-RB on 12-01-2018.
@@ -26,6 +27,7 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
     EditText etSearch;
     RecyclerView rvQuoteList;
     PesonalLoan_QuoteAdapter pesonalLoan_QuoteAdapter;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public PL_QuoteFragment() {
         // Required empty public constructor
@@ -56,7 +58,7 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnAddQuote:
-                startActivity(new Intent(getActivity(), AddPLQuoteActivity.class));
+                startActivity(new Intent(getActivity(), PersonalLoanActivity.class));
                 break;
         }
     }

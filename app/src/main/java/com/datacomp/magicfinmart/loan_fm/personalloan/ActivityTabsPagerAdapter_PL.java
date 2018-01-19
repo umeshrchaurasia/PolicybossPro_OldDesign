@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.datacomp.magicfinmart.loan_fm.personalloan.application.PL_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.personalloan.quote.PL_QuoteFragment;
 import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFragment;
 import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;

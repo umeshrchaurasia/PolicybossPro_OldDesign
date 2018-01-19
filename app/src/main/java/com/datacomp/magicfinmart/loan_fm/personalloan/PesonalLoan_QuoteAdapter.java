@@ -32,12 +32,12 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
 
     @Override
     public void onBindViewHolder(QuoteItem holder, int position) {
-        holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openPopUp(view);
-            }
-        });
+//        holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openPopUp(view);
+//            }
+//        });
     }
 
     private void openPopUp(View v) {
@@ -76,13 +76,13 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
-        public ImageView ivTripleDot;
+     //   public ImageView ivTripleDot;
         public CheckBox chkAddon;
 
 
         public QuoteItem(View itemView) {
             super(itemView);
-            ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
+            //ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
         }
     }
 }

@@ -21,4 +21,12 @@
     <color name="header_light_text">#6A6F71</color>
     <color name="description_text">#929292</color>
     <color name="seperator">#E1DEDE</color>
+
+    <!--RBA-->
+    <color name="white">#ffffff</color>
+    <color name="lightGrey">#E0E0E0</color>
+    <color name="text_edit_color">#868686</color>
+    <color name="filter_bar_title_selected">#5a5a5a</color>
+    <color name="back_button_color">#5a5a5a</color>
+    <color name="buttonBackground">#EE5E35</color>
 </resources>
