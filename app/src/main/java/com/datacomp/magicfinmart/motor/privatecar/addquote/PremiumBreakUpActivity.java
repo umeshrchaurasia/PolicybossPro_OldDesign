@@ -1,10 +1,15 @@
 package com.datacomp.magicfinmart.motor.privatecar.addquote;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.PremiumBreakUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.PremiumBreakUpAdapterEntity;
@@ -17,30 +22,44 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.model.LiabilityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.OwnDamageEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 
-public class PremiumBreakUpActivity extends AppCompatActivity {
+public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener {
     ResponseEntity responseEntity;
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
+    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium;
+    ImageView ivCross;
+    Button btnBuy, btnBackToQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_premium_break_up);
-        //getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setFinishOnTouchOutside(false);
 
         if (getIntent().hasExtra("RESPONSE")) {
             responseEntity = getIntent().getParcelableExtra("RESPONSE");
         }
         initViews();
+        initrecyclers();
+        setListeners();
+        bindData();
     }
 
-    private void initViews() {
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
-        rvOwnDamage = (RecyclerView) findViewById(R.id.rvOwnDamage);
-        rvLiability = (RecyclerView) findViewById(R.id.rvLiability);
-        rvAddonPremium = (RecyclerView) findViewById(R.id.rvAddonPremium);
+    private void bindData() {
+        if (responseEntity != null) {
+            txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Name());
+            //tvTotalPremium.setText(""+responseEntity.get);
+        }
+    }
 
+    private void setListeners() {
+        btnBuy.setOnClickListener(this);
+        btnBackToQuote.setOnClickListener(this);
+        ivCross.setOnClickListener(this);
+    }
+
+    private void initrecyclers() {
         rvOwnDamage.setHasFixedSize(true);
         rvLiability.setHasFixedSize(true);
         rvAddonPremium.setHasFixedSize(true);
@@ -57,6 +76,21 @@ public class PremiumBreakUpActivity extends AppCompatActivity {
         rvAddonPremium.setLayoutManager(new LinearLayoutManager(this));
         addonAdapter = new PremiumBreakUpAdapter(this, getAddonList());
         rvAddonPremium.setAdapter(addonAdapter);
+    }
+
+    private void initViews() {
+        rvOwnDamage = (RecyclerView) findViewById(R.id.rvOwnDamage);
+        rvLiability = (RecyclerView) findViewById(R.id.rvLiability);
+        rvAddonPremium = (RecyclerView) findViewById(R.id.rvAddonPremium);
+
+        txtPlanName = (TextView) findViewById(R.id.txtPlanName);
+        tvTotalPremium = (TextView) findViewById(R.id.tvTotalPremium);
+        tvGst = (TextView) findViewById(R.id.tvGst);
+        tvNetPremium = (TextView) findViewById(R.id.tvNetPremium);
+        ivCross = (ImageView) findViewById(R.id.ivCross);
+        btnBuy = (Button) findViewById(R.id.btnBuy);
+        btnBackToQuote = (Button) findViewById(R.id.btnBackToQuote);
+
 
     }
 
@@ -139,5 +173,20 @@ public class PremiumBreakUpActivity extends AppCompatActivity {
             addonList.add(new PremiumBreakUpAdapterEntity(appliedAddonsPremiumBreakup.getAddonName(), "" + appliedAddonsPremiumBreakup.getPriceAddon()));
         }
         return addonList;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.ivCross:
+                finish();
+                break;
+            case R.id.btnBuy:
+                break;
+            case R.id.btnBackToQuote:
+                finish();
+                break;
+
+        }
     }
 }
