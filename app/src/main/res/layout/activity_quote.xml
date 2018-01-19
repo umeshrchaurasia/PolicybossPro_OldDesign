@@ -58,7 +58,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:orientation="horizontal"
                             android:padding="3dp"
                             android:weightSum="100">
@@ -71,17 +71,37 @@
                                 android:scaleType="centerInside"
                                 android:src="@mipmap/car_icon" />
 
-                            <TextView
-                                android:id="@+id/tvMakeModel"
-                                style="@style/TextViewStyle.Medium"
+                            <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="70"
                                 android:gravity="center"
-                                android:textAllCaps="true"
-                                android:textStyle="bold" />
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvMakeModel"
+                                    style="@style/TextViewStyle.Large"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/header_dark_text"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvRtoName"
+                                    style="@style/TextViewStyle.Medium"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="center"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/header_light_text" />
+                            </LinearLayout>
+
 
                             <ImageView
+                                android:id="@+id/ivEdit"
                                 android:layout_width="0dp"
                                 android:layout_height="48dp"
                                 android:layout_weight="15"
@@ -115,7 +135,7 @@
                                     android:gravity="center"
                                     android:text="fuel type"
                                     android:textAllCaps="true"
-                                    android:textColor="@color/header_text_color"
+                                    android:textColor="@color/header_dark_text"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -134,13 +154,13 @@
                                 <TextView
                                     style="@style/TextViewStyle.Medium"
                                     android:gravity="center"
-                                    android:text="varient"
+                                    android:text="Policy EXP."
                                     android:textAllCaps="true"
-                                    android:textColor="@color/header_text_color"
+                                    android:textColor="@color/header_dark_text"
                                     android:textStyle="bold" />
 
                                 <TextView
-                                    android:id="@+id/tvVarient"
+                                    android:id="@+id/tvPolicyExp"
                                     style="@style/TextViewStyle.Medium"
                                     android:gravity="center"
                                     android:textAllCaps="true" />
@@ -157,7 +177,7 @@
                                     android:gravity="center"
                                     android:text="crn number"
                                     android:textAllCaps="true"
-                                    android:textColor="@color/header_text_color"
+                                    android:textColor="@color/header_dark_text"
                                     android:textStyle="bold" />
 
                                 <TextView

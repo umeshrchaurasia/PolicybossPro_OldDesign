@@ -557,6 +557,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+
     void setCustomerDetails() {
         String[] fullName = etCustomerName.getText().toString().split(" ");
 
@@ -579,7 +580,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof BikeUniqueResponse) {
-            startActivity(new Intent(this, QuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity));
+            startActivity(new Intent(this, QuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity).putExtra("RTO_NAME", regplace));
         }
         if (response instanceof FastLaneResponse) {
             if (response.getStatusNo() == 0) {

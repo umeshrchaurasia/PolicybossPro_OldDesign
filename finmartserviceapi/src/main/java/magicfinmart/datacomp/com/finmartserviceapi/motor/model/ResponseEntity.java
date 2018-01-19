@@ -1,13 +1,14 @@
 package magicfinmart.datacomp.com.finmartserviceapi.motor.model;
 
 import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResponseEntity {
+public class ResponseEntity implements Parcelable {
     /**
      * Service_Log_Id : 100404
      * Service_Log_Unique_Id : ARN-TB5DBPM1-2SO8-OC26-HCCN-PPWBFPCARHLC
@@ -61,22 +62,6 @@ public class ResponseEntity {
 
     public void setFinal_premium_with_addon(String final_premium_with_addon) {
         this.final_premium_with_addon = final_premium_with_addon;
-    }
-
-    protected ResponseEntity(Parcel in) {
-        Premium_Breakup = (PremiumBreakupEntity) in.readParcelable(PremiumBreakupEntity.class.getClassLoader());
-        Insurer = (InsurerEntity) in.readParcelable(InsurerEntity.class.getClassLoader());
-        Service_Log_Id = in.readString();
-        Service_Log_Unique_Id = in.readString();
-        Insurer_Transaction_Identifier = in.readString();
-        Error_Code = in.readString();
-        Created_On = in.readString();
-        Product_Id = in.readString();
-        Insurer_Id = in.readString();
-        StatusX = in.readString();
-        Plan_Id = in.readString();
-        Plan_Name = in.readString();
-        Call_Execution_Time = in.readString();
     }
 
     /**
@@ -221,4 +206,66 @@ public class ResponseEntity {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.Service_Log_Id);
+        dest.writeString(this.Service_Log_Unique_Id);
+        dest.writeString(this.Insurer_Transaction_Identifier);
+        dest.writeString(this.Error_Code);
+        dest.writeString(this.Created_On);
+        dest.writeString(this.Product_Id);
+        dest.writeString(this.Insurer_Id);
+        dest.writeString(this.StatusX);
+        dest.writeString(this.Plan_Id);
+        dest.writeString(this.Plan_Name);
+        dest.writeParcelable(this.LM_Custom_Request, flags);
+        dest.writeParcelable(this.Premium_Breakup, flags);
+        dest.writeParcelable(this.Insurer, flags);
+        dest.writeString(this.Call_Execution_Time);
+        dest.writeTypedList(this.listAppliedAddons);
+        dest.writeParcelable(this.Addon_List, flags);
+        dest.writeByte(this.isAddonApplied ? (byte) 1 : (byte) 0);
+        dest.writeString(this.final_premium_with_addon);
+    }
+
+    public ResponseEntity() {
+    }
+
+    protected ResponseEntity(Parcel in) {
+        this.Service_Log_Id = in.readString();
+        this.Service_Log_Unique_Id = in.readString();
+        this.Insurer_Transaction_Identifier = in.readString();
+        this.Error_Code = in.readString();
+        this.Created_On = in.readString();
+        this.Product_Id = in.readString();
+        this.Insurer_Id = in.readString();
+        this.StatusX = in.readString();
+        this.Plan_Id = in.readString();
+        this.Plan_Name = in.readString();
+        this.LM_Custom_Request = in.readParcelable(LMCustomRequestEntity.class.getClassLoader());
+        this.Premium_Breakup = in.readParcelable(PremiumBreakupEntity.class.getClassLoader());
+        this.Insurer = in.readParcelable(InsurerEntity.class.getClassLoader());
+        this.Call_Execution_Time = in.readString();
+        this.listAppliedAddons = in.createTypedArrayList(AppliedAddonsPremiumBreakup.CREATOR);
+        this.Addon_List = in.readParcelable(AddonEntity.class.getClassLoader());
+        this.isAddonApplied = in.readByte() != 0;
+        this.final_premium_with_addon = in.readString();
+    }
+
+    public static final Parcelable.Creator<ResponseEntity> CREATOR = new Parcelable.Creator<ResponseEntity>() {
+        @Override
+        public ResponseEntity createFromParcel(Parcel source) {
+            return new ResponseEntity(source);
+        }
+
+        @Override
+        public ResponseEntity[] newArray(int size) {
+            return new ResponseEntity[size];
+        }
+    };
 }
