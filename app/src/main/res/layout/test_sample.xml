@@ -7,4 +7,138 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <!--rto detail-->
+    <android.support.design.widget.TextInputLayout
+        style="@style/TextAppearence.App.TextInputLayout"
+        android:hint="RTO">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:text="ncb"
+            android:textAllCaps="true"
+            android:textColor="@color/header_dark_text"
+            android:textSize="12sp" />
+
+        <Spinner
+            android:id="@+id/spNcbPercent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/ncb_percent" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <!--&lt;!&ndash;rto detail&ndash;&gt;-->
+    <android.support.design.widget.TextInputLayout
+        style="@style/TextAppearence.App.TextInputLayout"
+        android:hint="RTO">
+
+        <AutoCompleteTextView
+            android:id="@+id/acRto"
+            style="@style/Style.edittext" />
+    </android.support.design.widget.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="1dp"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:hint="Username">
+
+            <EditText style="@style/Style.edittext" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:hint="PASSWORD">
+
+            <EditText style="@style/Style.edittext" />
+
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <!--<android.support.design.widget.TextInputLayout-->
+    <!--style="@style/TextAppearence.App.TextInputLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:background="@drawaetbackgroundound"-->
+    <!--android:hint="UserName"-->
+    <!--android:padding="8dp"-->
+    <!--app:errorEnabled="true">-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editwtext"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@null" />-->
+    <!--</android.support.design.widget.TextInputLayout>-->
+
+    <!--<android.support.design.widget.TextInputLayout-->
+    <!--style="@style/TextAppearence.App.TextInputLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:background="@drawaetbackgroundound"-->
+    <!--android:hint="Password"-->
+    <!--android:padding="8dp">-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editwtedxt"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Nl" />-->
+    <!--</android.support.design.widget.TextInputLayout>-->
+
+
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:orientation="horizontal">-->
+
+    <!--<android.support.design.widget.TextInputLayout-->
+    <!--style="@style/TextAppearence.App.TextInputLayout"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawaetbackgroundound"-->
+    <!--android:hint="Password"-->
+    <!--android:padding="8dp">-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editdwtedxt"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Nl" />-->
+    <!--</android.support.design.widget.TextInputLayout>-->
+
+    <!--<android.support.design.widget.TextInputLayout-->
+    <!--style="@style/TextAppearence.App.TextInputLayout"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="8dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:background="@drawaetbackgroundound"-->
+    <!--android:hint="Password * "-->
+    <!--android:padding="8dp">-->
+
+    <!--<EditText-->
+    <!--android:id="@+id/editwtedxdt"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:text="Nl" />-->
+    <!--</android.support.design.widget.TextInputLayout>-->
+    <!--</LinearLayout>-->
 </LinearLayout>

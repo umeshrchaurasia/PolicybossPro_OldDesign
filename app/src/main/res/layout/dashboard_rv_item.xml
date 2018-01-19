@@ -15,11 +15,11 @@
 
     <TextView
         android:id="@+id/txtProductName"
-        style="@style/TextViewStyle.Large"
+        style="@style/TextViewStyle.Medium"
         android:drawableLeft="@drawable/test"
         android:drawablePadding="12dp"
         android:gravity="center_vertical"
-        android:padding="16dp"
+        android:padding="12dp"
         android:text="private car"
         android:textAllCaps="true"
         android:textColor="@color/header_light_text" />
