@@ -70,7 +70,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
     DBPersistanceController databaseController;
     Realm realm;
     List<String> makeModelList, fuelList, variantList, cityList;
-    ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter;
+    ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter,ncbPerctAdapter;
     int modelId = 0, varientId;
     String regplace;
 
@@ -250,6 +250,11 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
 //                };
         spPrevIns.setAdapter(prevInsAdapter);
 
+        //endregion
+
+        // region ncb adapter
+        ncbPerctAdapter = new ArrayAdapter(this, R.layout.sp_item_textview, R.id.txtspinneritem, getResources().getStringArray(R.array.ncb_percent));
+        spNcbPercent.setAdapter(ncbPerctAdapter);
         //endregion
     }
 
