@@ -34,4 +34,20 @@
     <string name="title_activity_quote">Quotes</string>
     <string name="title_activity_common_web_view">Web View</string>
     <string name="title_activity_premium_break_up">Premium Details</string>
+    <string name="title_activity_personal_loan_detail">PersonalLoanDetailActivity</string>
+    <string name="title_activity_add_quote__pl">AddQuoteActivity_PL</string>
+    <string name="title_activity_add_plquote">AddPLQuoteActivity</string>
+    <array name="IncomeSource">
+        <item>Salaried</item>
+        <item>Self-Employed</item>
+    </array>
+    <array name="RelationType">
+        <item>Spouse</item>
+        <item>Wife</item>
+        <item>Father</item>
+        <item>Son</item>
+
+    </array>
+    <string name="title_activity_personal_loan_quote">PersonalLoanQuoteActivity</string>
+    <string name="title_activity_plquote_info">PLQuoteInfoActivity</string>
 </resources>

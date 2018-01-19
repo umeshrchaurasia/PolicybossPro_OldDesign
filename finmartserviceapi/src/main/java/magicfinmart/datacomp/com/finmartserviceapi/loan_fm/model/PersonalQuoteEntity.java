@@ -36,7 +36,11 @@ public class PersonalQuoteEntity implements Parcelable {
     private String Product_Id;
     private String roi;
     private String loan_eligible;
-    private int processingfee;
+
+
+
+
+    private double processingfee;
     private double emi;
     private int LoanTenure;
     private String LoanRequired;
@@ -109,13 +113,14 @@ public class PersonalQuoteEntity implements Parcelable {
         this.loan_eligible = loan_eligible;
     }
 
-    public int getProcessingfee() {
+    public double getProcessingfee() {
         return processingfee;
     }
-
-    public void setProcessingfee(int processingfee) {
+    public void setProcessingfee(double processingfee) {
         this.processingfee = processingfee;
     }
+
+
 
     public double getEmi() {
         return emi;
@@ -235,7 +240,7 @@ public class PersonalQuoteEntity implements Parcelable {
         dest.writeString(this.Product_Id);
         dest.writeString(this.roi);
         dest.writeString(this.loan_eligible);
-        dest.writeInt(this.processingfee);
+        dest.writeDouble(this.processingfee);
         dest.writeDouble(this.emi);
         dest.writeInt(this.LoanTenure);
         dest.writeString(this.LoanRequired);
@@ -262,7 +267,7 @@ public class PersonalQuoteEntity implements Parcelable {
         this.Product_Id = in.readString();
         this.roi = in.readString();
         this.loan_eligible = in.readString();
-        this.processingfee = in.readInt();
+        this.processingfee = in.readDouble();
         this.emi = in.readDouble();
         this.LoanTenure = in.readInt();
         this.LoanRequired = in.readString();

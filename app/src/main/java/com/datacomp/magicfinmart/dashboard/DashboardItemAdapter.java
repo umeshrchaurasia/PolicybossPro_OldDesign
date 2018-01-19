@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity;
 
 import java.util.List;
@@ -60,7 +61,14 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(mContext.getActivity(), PrivateCarDetailActivity.class));
+                    if( listInsur.get(position).getProductName().equals("PERSONAL LOAN" ))
+                    {
+                        mContext.startActivity(new Intent(mContext.getActivity(), PersonalLoanDetailActivity.class));
+                    } else
+                    {
+                        mContext.startActivity(new Intent(mContext.getActivity(), PrivateCarDetailActivity.class));
+                    }
+
                 }
             });
         }
