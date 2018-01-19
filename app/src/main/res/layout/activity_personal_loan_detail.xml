@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity">
+    tools:context="com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity">
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appbar"
@@ -30,7 +31,7 @@
             app:tabIndicatorColor="@android:color/white"
             app:tabIndicatorHeight="2dip"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@color/tab_color"
+            app:tabSelectedTextColor="@android:color/white"
             app:tabTextAppearance="@style/AppTheme.TabTextAppearence"
             app:tabTextColor="@android:color/white" />
     </android.support.design.widget.AppBarLayout>
@@ -41,6 +42,8 @@
         android:layout_height="match_parent"
         android:background="@android:color/white"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+
 
 
 </LinearLayout>

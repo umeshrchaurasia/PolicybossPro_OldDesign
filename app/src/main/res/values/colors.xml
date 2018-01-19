@@ -3,8 +3,6 @@
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#01579B</color>
     <color name="colorAccent">#0288D1</color>
-    <!--<color name="divider">#d8d8d9</color>-->
-    <!--<color name="bg">#EEEEEE</color>-->
     <color name="divider">#F1F1F1</color>
     <color name="bg">#c9c5c5</color>
     <color name="header_text_color">#6c747c</color>
@@ -21,4 +19,12 @@
     <color name="header_light_text">#6A6F71</color>
     <color name="description_text">#929292</color>
     <color name="seperator">#E1DEDE</color>
+
+    <!--RBA-->
+    <color name="white">#ffffff</color>
+    <color name="lightGrey">#E0E0E0</color>
+    <color name="text_edit_color">#868686</color>
+    <color name="filter_bar_title_selected">#5a5a5a</color>
+    <color name="back_button_color">#5a5a5a</color>
+    <color name="buttonBackground">#EE5E35</color>
 </resources>

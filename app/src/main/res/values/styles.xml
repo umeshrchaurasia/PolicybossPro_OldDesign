@@ -35,12 +35,58 @@
         <!--Input layout text color-->
         <item name="android:textColor">@color/button_color</item>
         <!--hint text size-->
-        <item name="android:textSize">11sp</item>
+        <item name="android:textSize">4sp</item>
 
         <item name="colorControlActivated">@color/button_color</item>
 
+        <item name="android:background">@drawable/etbackground</item>
+
+        <item name="android:padding">8dp</item>
+
+        <item name="android:layout_marginTop">8dp</item>
+
+        <item name="android:layout_width">match_parent</item>
+
+        <item name="android:layout_height">wrap_content</item>
+
 
     </style>
+
+    <!--Edit text style-->
+    <style name="Style.edittext" parent="@android:style/Widget.EditText">
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/header_dark_text</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:textSize">14sp</item>
+
+
+    </style>
+
+    <!--Cardview style-->
+    <style name="CardViewStyle" parent="CardView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardElevation">0dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:layout_marginRight">8dp</item>
+
+    </style>
+
+    <!--Button style-->
+    <style name="ButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical|center_horizontal</item>
+        <item name="android:textColor">#FFFFFFFF</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@drawable/blue_border_lightblue_background</item>
+        <item name="android:focusable">true</item>
+        <item name="android:minHeight">48dp</item>
+    </style>
+
 
     <!--TextView style-->
     <style name="TextViewStyle" parent="android:style/Widget.TextView">
@@ -52,19 +98,24 @@
     </style>
 
     <style name="TextViewStyle.Large" parent="TextViewStyle">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/header_dark_text</item>
 
     </style>
 
     <style name="TextViewStyle.Medium" parent="TextViewStyle">
         <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/header_light_text</item>
     </style>
 
 
     <style name="TextViewStyle.Small" parent="TextViewStyle">
         <item name="android:textSize">11sp</item>
+        <item name="android:textColor">@color/description_text</item>
     </style>
 
+
+    <!---->
     <style name="HeaderLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -80,34 +131,14 @@
         <item name="android:padding">10dp</item>
     </style>
 
-    <style name="ButtonStyle" parent="@android:style/Widget.Button">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:gravity">center_vertical|center_horizontal</item>
-        <item name="android:textColor">#FFFFFFFF</item>
-        <item name="android:shadowColor">#FF000000</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">-1</item>
-        <item name="android:textAllCaps">true</item>
-        <item name="android:shadowRadius">0.2</item>
-        <item name="android:textSize">16dip</item>
-        <item name="android:background">@drawable/button_round_corners</item>
-        <item name="android:focusable">true</item>
-    </style>
 
-    <style name="CardViewStyle" parent="CardView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="cardCornerRadius">2dp</item>
-        <item name="cardElevation">0dp</item>
-
-    </style>
-
-    <style name="CustomTheme" parent="Theme.AppCompat.Light.Dialog">
+    <!--Dialog theme-->
+    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
 
+    <!--Spinner theme no use-->
     <style name="spinnerLabel" parent="TextAppearance.AppCompat.Caption">
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>

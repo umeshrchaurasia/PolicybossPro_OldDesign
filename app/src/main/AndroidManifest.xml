@@ -68,6 +68,18 @@
         <activity
             android:name=".posp.PospEnrollment"
             android:label="@string/title_pospenrollment"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.personalloan.PersonalLoanDetailActivity"
+            android:label="@string/title_activity_personal_loan_detail"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.personalloan.addquote.AddQuoteActivity_PL"
+            android:label="@string/title_activity_add_quote__pl"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.personalloan.addquote.PersonalLoanActivity"
+            android:label="@string/title_activity_add_plquote"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
@@ -102,7 +114,7 @@
             android:label="@string/title_activity_premium_break_up"
             android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/CustomTheme"
+            android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
