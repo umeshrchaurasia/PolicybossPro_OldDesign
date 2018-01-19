@@ -17,6 +17,7 @@ public class GenericTextWatcher implements TextWatcher {
     iVehicle ivehicle;
 
     public interface iVehicle {
+
         void getVehicleNumber(View view, String vehicleNo);
 
         void cancelVehicleNumber(View view);
