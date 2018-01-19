@@ -36,7 +36,7 @@ public class PremiumBreakUpAdapter extends RecyclerView.Adapter<PremiumBreakUpAd
     public void onBindViewHolder(final BreakUpItem holder, final int position) {
 
         final PremiumBreakUpAdapterEntity premiumBreakUpAdapterEntity = premiumBreakupEntities.get(position);
-        holder.tvName.setText("" + getRound(premiumBreakUpAdapterEntity.getName()));
+        holder.tvName.setText("" +premiumBreakUpAdapterEntity.getName());
         holder.tvValue.setText("" + getRound(premiumBreakUpAdapterEntity.getValue()));
 
 
