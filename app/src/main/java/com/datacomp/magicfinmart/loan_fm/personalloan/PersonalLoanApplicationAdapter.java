@@ -60,7 +60,7 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
 
         public ApplicationItem(View itemView) {
             super(itemView);
-            ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
+           // ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
         }
     }
 }
