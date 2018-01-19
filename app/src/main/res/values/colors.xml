@@ -3,8 +3,6 @@
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#01579B</color>
     <color name="colorAccent">#0288D1</color>
-    <!--<color name="divider">#d8d8d9</color>-->
-    <!--<color name="bg">#EEEEEE</color>-->
     <color name="divider">#F1F1F1</color>
     <color name="bg">#c9c5c5</color>
     <color name="header_text_color">#6c747c</color>

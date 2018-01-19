@@ -30,7 +30,7 @@
             app:tabIndicatorColor="@android:color/white"
             app:tabIndicatorHeight="2dip"
             app:tabMode="fixed"
-            app:tabSelectedTextColor="@android:color/white"
+            app:tabSelectedTextColor="@color/tab_color"
             app:tabTextAppearance="@style/AppTheme.TabTextAppearence"
             app:tabTextColor="@android:color/white" />
     </android.support.design.widget.AppBarLayout>
