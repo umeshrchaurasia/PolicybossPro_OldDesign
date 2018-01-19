@@ -10,113 +10,92 @@
 
     <android.support.v7.widget.CardView
         style="@style/CardViewStyle"
-        android:layout_margin="12dp"
-        app:cardCornerRadius="3dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         app:cardElevation="2dp">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="16dp">
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="12dp">
 
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:src="@drawable/finmart_logo" />
 
             <TextView
                 android:id="@+id/tv"
-                style="@style/TextViewStyle.Medium"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/imageView"
+                style="@style/TextViewStyle.Large"
                 android:gravity="center"
-                android:text="ONE STOP FINANCIAL SOLUTION"
-                android:textColor="@color/header_dark_text" />
+                android:text="ONE STOP FINANCIAL SOLUTION" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til"
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/tv"
-                android:layout_marginTop="16dp"
-                android:hint="EMAIL">
+                android:layout_marginTop="24dp"
+                android:hint="Email">
 
                 <EditText
                     android:id="@+id/etEmail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/Style.edittext"
                     android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/tiee"
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/til"
-                android:hint="PASSWORD">
+                android:hint="Password">
 
                 <EditText
                     android:id="@+id/etPassword"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/Style.edittext"
                     android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/btnSignIn"
                 style="@style/ButtonStyle"
-                android:layout_below="@+id/tiee"
                 android:layout_marginTop="16dp"
                 android:text="SIGN IN" />
 
             <TextView
                 android:id="@+id/tvSignUp"
-                style="@style/TextViewStyle.Medium"
+                style="@style/TextViewStyle.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/btnSignIn"
-                android:layout_alignStart="@+id/btnSignIn"
-                android:layout_below="@id/btnSignIn"
                 android:layout_marginTop="12dp"
-                android:text="@string/signup"
-                android:textColor="@color/header_dark_text" />
+                android:text="@string/signup" />
 
             <TextView
                 android:id="@+id/tvForgotPass"
-                style="@style/TextViewStyle.Medium"
+                style="@style/TextViewStyle.Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/btnSignIn"
-                android:layout_alignRight="@+id/btnSignIn"
-                android:layout_below="@id/btnSignIn"
                 android:layout_marginTop="12dp"
-                android:text="forgot password?"
-                android:textColor="@color/header_dark_text" />
+                android:text="forgot password?" />
 
             <TextView
                 android:id="@+id/tvdsfs"
                 style="@style/TextViewStyle.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignEnd="@+id/btnSignIn"
-                android:layout_alignLeft="@+id/btnSignIn"
-                android:layout_alignRight="@+id/btnSignIn"
-                android:layout_alignStart="@+id/btnSignIn"
-                android:layout_below="@id/tvForgotPass"
                 android:layout_marginTop="30dp"
                 android:drawableBottom="@drawable/google_sign_icon"
                 android:gravity="center"
                 android:text="Sign in with" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="18dp"
+                android:background="@null" />
 
-        </RelativeLayout>
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
 </ScrollView>

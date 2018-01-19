@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view"
     style="@style/CardViewStyle"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="2dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
@@ -25,19 +26,13 @@
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
-        <!--<View-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="1.4dp"-->
-        <!--android:background="@color/seperator"-->
-        <!--android:paddingBottom="4dp"-->
-        <!--android:paddingTop="4dp" />-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvDashboard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/bg"
             android:scrollbarStyle="insideOverlay" />
+
 
     </LinearLayout>
 </android.support.v7.widget.CardView>
