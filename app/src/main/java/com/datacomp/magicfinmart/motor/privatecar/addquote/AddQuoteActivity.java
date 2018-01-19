@@ -63,14 +63,14 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvCarNo;
     Switch swIndividual, swClaim;
-    SeekBar sbClaim;
+    Spinner spNcbPercent;
     //endregion
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     DBPersistanceController databaseController;
     Realm realm;
     List<String> makeModelList, fuelList, variantList, cityList;
-    ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter;
+    ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter,ncbPerctAdapter;
     int modelId = 0, varientId;
     String regplace;
 
@@ -111,13 +111,28 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
                 spFuel.setVisibility(View.VISIBLE);
                 spVarient.setVisibility(View.VISIBLE);
 
+                //region fuel adapter
+
+//                fuelAdapter = new
+//                        ArrayAdapter(AddQuoteActivity.this, android.R.layout.simple_list_item_1, fuelList);
+//                spFuel.setAdapter(fuelAdapter);
+
                 fuelAdapter = new
-                        ArrayAdapter(AddQuoteActivity.this, android.R.layout.simple_list_item_1, fuelList);
+                        ArrayAdapter(AddQuoteActivity.this, R.layout.sp_item_textview, R.id.txtspinneritem, fuelList);
                 spFuel.setAdapter(fuelAdapter);
 
+                //endregion
+
+                //region fuel adapter
+                //   varientAdapter = new
+//                        ArrayAdapter(AddQuoteActivity.this, android.R.layout.simple_list_item_1, variantList);
+//                spVarient.setAdapter(varientAdapter);
+
                 varientAdapter = new
-                        ArrayAdapter(AddQuoteActivity.this, android.R.layout.simple_list_item_1, variantList);
+                        ArrayAdapter(AddQuoteActivity.this, R.layout.sp_item_textview, R.id.txtspinneritem, variantList);
                 spVarient.setAdapter(varientAdapter);
+
+                //endregion
             }
         });
 
@@ -141,8 +156,12 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         //endregion
 
         // region city adapter
+
+        //cityAdapter = new ArrayAdapter<String>(this,
+        //        android.R.layout.simple_list_item_1, cityList);
+
         cityAdapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, cityList);
+                R.layout.sp_item_textview, R.id.txtspinneritem, cityList);
         acRto.setAdapter(cityAdapter);
         acRto.setThreshold(2);
 
@@ -175,7 +194,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
 
         // region prev insurer adapter
         prevInsAdapter = new
-                ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, databaseController.getInsurerList()) {
+                ArrayAdapter<String>(this, R.layout.sp_item_textview, R.id.txtspinneritem, databaseController.getInsurerList()) {
                     @Override
                     public boolean isEnabled(int position) {
                         if (position == 0) {
@@ -191,7 +210,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
                     public View getDropDownView(int position, View convertView,
                                                 ViewGroup parent) {
                         View view = super.getDropDownView(position, convertView, parent);
-                        TextView tv = (TextView) view;
+                        TextView tv = (TextView) view.findViewById(R.id.txtspinneritem);
                         if (position == 0) {
                             // Set the hint text color gray
                             tv.setTextColor(Color.GRAY);
@@ -201,8 +220,41 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
                         return view;
                     }
                 };
+
+//        prevInsAdapter = new
+//                ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, databaseController.getInsurerList()) {
+//                    @Override
+//                    public boolean isEnabled(int position) {
+//                        if (position == 0) {
+//                            // Disable the first item from Spinner
+//                            // First item will be use for hint
+//                            return false;
+//                        } else {
+//                            return true;
+//                        }
+//                    }
+//
+//                    @Override
+//                    public View getDropDownView(int position, View convertView,
+//                                                ViewGroup parent) {
+//                        View view = super.getDropDownView(position, convertView, parent);
+//                        TextView tv = (TextView) view;
+//                        if (position == 0) {
+//                            // Set the hint text color gray
+//                            tv.setTextColor(Color.GRAY);
+//                        } else {
+//                            tv.setTextColor(Color.BLACK);
+//                        }
+//                        return view;
+//                    }
+//                };
         spPrevIns.setAdapter(prevInsAdapter);
 
+        //endregion
+
+        // region ncb adapter
+        ncbPerctAdapter = new ArrayAdapter(this, R.layout.sp_item_textview, R.id.txtspinneritem, getResources().getStringArray(R.array.ncb_percent));
+        spNcbPercent.setAdapter(ncbPerctAdapter);
         //endregion
     }
 
@@ -254,8 +306,8 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         acRto = (AutoCompleteTextView) findViewById(R.id.acRto);
         tvCarNo = (TextView) findViewById(R.id.tvCarNo);
         swIndividual = (Switch) findViewById(R.id.swIndividual);
-        swClaim = (Switch) findViewById(R.id.swClaim);
-        sbClaim = (SeekBar) findViewById(R.id.sbClaim);
+        swClaim = (Switch) findViewById(R.id.switchNcb);
+        spNcbPercent = (Spinner) findViewById(R.id.spNcbPercent);
         //endregion
     }
 
