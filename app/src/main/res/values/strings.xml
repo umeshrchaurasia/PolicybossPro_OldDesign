@@ -50,4 +50,5 @@
     </array>
     <string name="title_activity_personal_loan_quote">PersonalLoanQuoteActivity</string>
     <string name="title_activity_plquote_info">PLQuoteInfoActivity</string>
+    <string name="title_activity_personal_loan_apply">PersonalLoanApplyActivity</string>
 </resources>

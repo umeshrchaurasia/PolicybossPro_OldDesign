@@ -120,6 +120,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity" />
         </activity>
+        <activity
+            android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
+            android:label="@string/title_activity_personal_loan_apply"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
