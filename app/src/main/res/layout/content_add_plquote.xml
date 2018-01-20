@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PersonalLoanActivity"
-    tools:showIn="@layout/activity_add_plquote"
-    android:orientation="vertical"
-    android:weightSum="100">
+
+    tools:showIn="@layout/activity_add_plquote">
+
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="90"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnGetQuote"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
         android:scrollbars="none">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,35 +42,32 @@
 
                     android:text=" Application Details"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-                <include
-                    android:id="@+id/llApplicantDetail"
-                    layout="@layout/layout_personal_appl_detail" />
+
+
 
 
             </LinearLayout>
 
+            <include
+                android:id="@+id/llApplicantDetail"
+                layout="@layout/layout_personal_appl_detail" />
+
 
         </LinearLayout>
+
     </ScrollView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
-        android:gravity="bottom">
 
-        <Button
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:id="@+id/btnGetQuote"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/blue"
+    <Button
+        android:id="@+id/btnGetQuote"
+        style="@style/ButtonStyle"
 
-            android:text="GET BEST QUOTES "
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/white"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
-    </RelativeLayout>
-</LinearLayout>
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:background="@color/blue"
+        android:text="GET BEST QUOTES "
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:textColor="@color/white" />
+</RelativeLayout>
+

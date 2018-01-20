@@ -2,8 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:background="@color/white"
+
+    android:orientation="vertical"
+    android:padding="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,20 +24,18 @@
 
             <TextView
                 android:id="@+id/txtDispalayMinCostProp"
+                style="@style/TextViewStyle.Medium"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:text="5 lac"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                android:text="5 lac" />
 
 
             <TextView
                 android:id="@+id/txtDispalayMaxCostProp"
+                style="@style/TextViewStyle.Medium"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:text="2 cr"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                android:text="2 cr" />
 
 
         </RelativeLayout>
@@ -50,26 +50,21 @@
             android:thumbTintMode="multiply"
             android:visibility="gone" />
 
-        <TextView
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Loan Required"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_marginTop="24dp"
+            android:hint="Loan Required">
 
-        <EditText
-            android:id="@+id/etCostOfProp"
+            <EditText
+                android:id="@+id/etCostOfProp"
+                style="@style/Style.edittext"
+                android:digits="0123456789"
+                android:ems="10"
+                android:inputType="phone"
+                android:maxLength="9" />
+        </android.support.design.widget.TextInputLayout>
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:digits="0123456789"
-            android:ems="10"
-            android:inputType="phone"
-            android:maxLength="9" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -109,53 +104,39 @@
             android:progress="1" />
 
 
-        <TextView
-            android:id="@+id/textView2e"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Tenure in years"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-        <EditText
-            android:id="@+id/etTenureInYear"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til"
             style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_marginTop="24dp"
+            android:hint="Tenure in years">
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:digits="0123456789"
-            android:ems="10"
-            android:inputType="phone"
-            android:maxLength="2" />
+            <EditText
+                android:id="@+id/etTenureInYear"
+                style="@style/Style.edittext"
+                android:digits="0123456789"
+                android:ems="10"
+                android:inputType="phone"
+                android:maxLength="2" />
+        </android.support.design.widget.TextInputLayout>
 
-
-        <TextView
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/textView2s"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name Of Applicant"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-        <EditText
-            android:id="@+id/etNameOfApplicant"
             style="@style/TextAppearence.App.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:ems="10" />
+            android:layout_marginTop="24dp"
+            android:hint="Name Of Applicant">
+
+            <EditText
+                android:id="@+id/etNameOfApplicant"
+                style="@style/Style.edittext"
+                android:ems="10" />
+        </android.support.design.widget.TextInputLayout>
+
 
         <TextView
             android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TextViewStyle.Medium"
             android:layout_marginTop="5dp"
-            android:text="Gender"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+            android:text="Gender" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -187,38 +168,30 @@
 
         </LinearLayout>
 
-        <TextView
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="DOB"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-        <EditText
-            android:id="@+id/et_DOB"
             style="@style/TextAppearence.App.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:focusable="false" />
+            android:layout_marginTop="24dp"
+            android:hint="DOB">
+
+            <EditText
+                android:id="@+id/et_DOB"
+                style="@style/Style.edittext"
+                android:ems="10"
+                android:focusable="false" />
+        </android.support.design.widget.TextInputLayout>
+
 
         <TextView
             android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/TextViewStyle.Medium"
             android:layout_marginTop="5dp"
-            android:text="Source of Income"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+            android:text="Source of Income" />
 
         <Spinner
             android:id="@+id/sbSalary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
 
         <LinearLayout
@@ -238,20 +211,18 @@
 
                 <TextView
                     android:id="@+id/txtDispalayMinIncome"
+                    style="@style/TextViewStyle.Medium"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="25 k"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                    android:text="25 k" />
 
 
                 <TextView
                     android:id="@+id/txtDispalayMaxIncome"
+                    style="@style/TextViewStyle.Medium"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="25 lac"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                    android:text="25 lac" />
 
 
             </RelativeLayout>
@@ -264,27 +235,21 @@
                 android:progress="25"
                 android:thumbTintMode="multiply" />
 
-            <TextView
+
+            <android.support.design.widget.TextInputLayout
                 android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Monthly Income"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-            <EditText
-                android:id="@+id/etMonthlyInc"
                 style="@style/TextAppearence.App.TextInputLayout"
+                android:layout_marginTop="24dp"
+                android:hint="Monthly Income">
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:digits="0123456789"
-                android:ems="10"
-                android:inputType="phone"
-                android:maxLength="7" />
+                <EditText
+                    android:id="@+id/etMonthlyInc"
+                    style="@style/Style.edittext"
+                    android:digits="0123456789"
+                    android:ems="10"
+                    android:inputType="phone"
+                    android:maxLength="7" />
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
@@ -303,20 +268,18 @@
 
                 <TextView
                     android:id="@+id/txtDispayMinTurnOver"
+                    style="@style/TextViewStyle.Medium"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
-                    android:text="10 lac"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                    android:text="10 lac" />
 
 
                 <TextView
                     android:id="@+id/txtDispalayMaxTurnOver"
+                    style="@style/TextViewStyle.Medium"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:text="100 cr"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+                    android:text="100 cr" />
 
 
             </RelativeLayout>
@@ -329,48 +292,38 @@
                 android:progress="10"
                 android:thumbTintMode="multiply" />
 
-            <TextView
+
+            <android.support.design.widget.TextInputLayout
                 android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Turnover/Top Line"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-            <EditText
-                android:id="@+id/etTurnOver"
                 style="@style/TextAppearence.App.TextInputLayout"
+                android:layout_marginTop="24dp"
+                android:hint="Turnover/Top Line">
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:ems="10"
-                android:inputType="phone"
-                android:maxLength="10" />
+                <EditText
+                    android:id="@+id/etTurnOver"
+                    style="@style/Style.edittext"
+                    android:digits="0123456789"
+                    android:ems="10"
+                    android:inputType="phone"
+                    android:maxLength="10" />
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
-        <TextView
+
+        <android.support.design.widget.TextInputLayout
             android:id="@+id/textView104"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="EMI,If Any"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-        <EditText
-            android:id="@+id/etEMI"
             style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_marginTop="24dp"
+            android:hint="EMI,If Any">
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:inputType="phone" />
+            <EditText
+                android:id="@+id/etEMI"
+                style="@style/Style.edittext"
+                android:digits="0123456789"
+                android:ems="10"
+                android:inputType="phone" />
+        </android.support.design.widget.TextInputLayout>
 
 
     </LinearLayout>
