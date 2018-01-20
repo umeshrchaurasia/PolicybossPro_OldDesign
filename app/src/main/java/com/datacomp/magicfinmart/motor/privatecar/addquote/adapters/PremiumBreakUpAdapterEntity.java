@@ -8,6 +8,12 @@ public class PremiumBreakUpAdapterEntity {
     String name;
     String value;
 
+    public PremiumBreakUpAdapterEntity(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+
+
     public String getName() {
         return name;
     }

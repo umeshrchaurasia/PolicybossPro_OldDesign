@@ -25,8 +25,6 @@
 
         <TextView
             style="@style/TextViewStyle.Large"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:text="Personal Information"
@@ -37,181 +35,182 @@
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/llPersonalInfo"
-        style="@style/LinearLayoutStyle"
-        android:animateLayoutChanges="true"
-        android:visibility="visible">
+    <android.support.v7.widget.CardView
+        style="@style/CardViewStyle"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:cardElevation="2dp">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:id="@+id/llPersonalInfo"
+            style="@style/LinearLayoutStyle"
+            android:animateLayoutChanges="true"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:hint="First Name">
+
+                    <EditText style="@style/Style.edittext" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:hint="Last Name">
+
+                    <EditText style="@style/Style.edittext" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="60"
+                    android:hint="Date of Birth">
+
+                    <EditText
+                        style="@style/Style.edittext"
+                        android:drawableRight="@drawable/datepicker" />
+                </android.support.design.widget.TextInputLayout>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/male_selected" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="20"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/female" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:hint="Mobile">
+
+                    <EditText
+                        style="@style/Style.edittext"
+                        android:inputType="number"
+                        android:maxLength="10" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:hint="Mobile 2">
+
+                    <EditText
+                        style="@style/Style.edittext"
+                        android:inputType="number"
+                        android:maxLength="10" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="FIRST NAME">
+                android:layout_marginTop="2dp"
+                android:hint="Email">
 
                 <EditText
-                    android:textSize="15sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    style="@style/Style.edittext"
+                    android:inputType="textEmailAddress" />
+
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:hint="LAST NAME">
+                android:layout_marginTop="2dp"
+                android:hint="Confirm Email">
 
                 <EditText
-                    android:textSize="15sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    style="@style/Style.edittext"
+                    android:inputType="textEmailAddress" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:hint="Pincode">
+
+                    <EditText
+                        style="@style/Style.edittext"
+                        android:inputType="number"
+                        android:maxLength="6" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_weight="1"
+                    android:hint="City">
+
+                    <EditText style="@style/Style.edittext" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextAppearence.App.TextInputLayout"
+                android:layout_marginTop="2dp"
+                android:hint="State">
+
+                <EditText style="@style/Style.edittext" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_vertical">
-
-                <EditText
-                    android:textSize="15sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/datepicker"
-                    android:hint="DATE OF BIRTH" />
-            </android.support.design.widget.TextInputLayout>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:src="@drawable/male_selected" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="2dp"
-                android:src="@drawable/female" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:textSize="15sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="MOBILE1" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:textSize="15sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="MOBILE2" />
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-
-        <android.support.design.widget.TextInputLayout
-            style="@style/TextAppearence.App.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <EditText
-                android:textSize="15sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="EMAIL" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            style="@style/TextAppearence.App.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <EditText
-                android:textSize="15sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="CONFIRM EMAIL" />
-        </android.support.design.widget.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:textSize="15sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="PINCODE" />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:textSize="15sp"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="CITY" />
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-
-        <android.support.design.widget.TextInputLayout
-            style="@style/TextAppearence.App.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
-
-            <EditText
-                android:textSize="15sp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="STATE" />
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
+    </android.support.v7.widget.CardView>
 
     <RelativeLayout
         android:id="@+id/rlProfessionalInfo"

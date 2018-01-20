@@ -50,7 +50,6 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
 
     Toolbar toolbar;
     GetPersonalLoanResponse getPersonalLoanResponse;
-    TextView txtApplicantDetail;
     LinearLayout llApplicantDetail, ll_chkCoApplicant;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -68,8 +67,8 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
 
     //region PropertyIndo
     EditText etCostOfProp, etTenureInYear;
-    TextView txtDispalayMinCostProp, txtDispalayMaxCostProp, txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
-    SeekBar sbCostOfProp, sbTenure;
+    TextView  txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
+    SeekBar  sbTenure;
 
     int seekBarCostPropProgress = 1;
     int seekBarTenureProgress = 1;
@@ -86,7 +85,7 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        visibleApplicant();
+
         loadSpinner();
 
         if (getIntent().getBooleanExtra("IS_EDIT", false)) {
@@ -144,7 +143,6 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
 
         //region Main Initialize
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        txtApplicantDetail = (TextView) findViewById(R.id.txtApplicantDetail);
 
         llApplicantDetail = (LinearLayout) findViewById(R.id.llApplicantDetail);
 
@@ -152,15 +150,11 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
         //endregion
         //region Property Initialize
         etCostOfProp = (EditText) findViewById(R.id.etCostOfProp);
-        txtDispalayMinCostProp = (TextView) findViewById(R.id.txtDispalayMinCostProp);
-        txtDispalayMaxCostProp = (TextView) findViewById(R.id.txtDispalayMaxCostProp);
         txtDispalayMinTenureYear = (TextView) findViewById(R.id.txtDispalayMinTenureYear);
         txtDispalayMaxTenureYear = (TextView) findViewById(R.id.txtDispalayMaxTenureYear);
         etTenureInYear = (EditText) findViewById(R.id.etTenureInYear);
-        sbCostOfProp = (SeekBar) findViewById(R.id.sbCostOfProp);
+
         sbTenure = (SeekBar) findViewById(R.id.sbTenure);
-        sbCostOfProp.setMax(200);    // 2 cr
-        sbCostOfProp.setProgress(1);  // 5 lac
         etCostOfProp.setText("500000");
         //txtMaxLoanAmntAllow.setText(String.format("%.2f", getPercent(500000)));
         sbTenure.setMax(5);
@@ -234,15 +228,12 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void setListener() {
-        sbCostOfProp.setOnSeekBarChangeListener(this);
         sbTenure.setOnSeekBarChangeListener(this);
         sbTurnOver.setOnSeekBarChangeListener(this);
 
 
         sbMonthlyInc.setOnSeekBarChangeListener(this);
 
-
-        txtApplicantDetail.setOnClickListener(this);
 
 
         btnGetQuote.setOnClickListener(this);
@@ -260,14 +251,14 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
 
     }
 
-    private void visibleApplicant() {
-
-        txtApplicantDetail.setText(" Application Details");
-        txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-        // llApplicantDetail.setVisibility(visibility);
-        //isApplicantVisible = true;
-
-    }
+//    private void visibleApplicant() {
+//
+//        txtApplicantDetail.setText(" Application Details");
+//        txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
+//        // llApplicantDetail.setVisibility(visibility);
+//        //isApplicantVisible = true;
+//
+//    }
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -275,23 +266,7 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
-        if (etCostOfProp.getText().hashCode() == s.hashCode()) {
-            if (!etCostOfProp.getText().toString().equals("") && !etCostOfProp.getText().toString().equals(null)) {
-
-                int costOfProperty = Integer.parseInt(etCostOfProp.getText().toString());
-                int sactionAmount = getMaxLoanAmount("" + costOfProperty).intValueExact();
-
-                if (costOfProperty > 500000) {
-
-                    sbCostOfProp.setProgress(costOfProperty / 100000);
-                } else {
-                    sbCostOfProp.setProgress(1);
-                    //   etCostOfProp.setSelection(etCostOfProp.getText().length());
-                }
-
-            }
-
-        } else if (etTenureInYear.getText().hashCode() == s.hashCode()) {
+         if (etTenureInYear.getText().hashCode() == s.hashCode()) {
 
             if (!etTenureInYear.getText().toString().equals("") && !etTenureInYear.getText().toString().equals(null)) {
                 int tenureInYear = Integer.parseInt(etTenureInYear.getText().toString());
@@ -473,38 +448,6 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         switch (seekBar.getId()) {
-            case R.id.sbCostOfProp:
-//                if (fromUser) {
-//                    if (progress <= 10) {
-//                        long value = 500000 + progress * 50000;
-//                        etCostOfProp.setText("" + value);
-//                    } else if (progress <= 50 && progress > 10) {
-//                        long value = progress * 100000;
-//                        etCostOfProp.setText("" + value);
-//                    } else if (progress < 60 && progress > 50) {
-//                        long value = (progress % 10) * 500000 + 5000000;
-//                        etCostOfProp.setText("" + value);
-//                    } else if (progress < 110 && progress >= 60) {
-//                        long value = (progress % 60) * 10000000 + 10000000;
-//                        etCostOfProp.setText("" + value);
-//                    }
-//                    //progress = ((int) Math.round(progress / seekBarCostPropProgress)) * seekBarCostPropProgress;
-//                    //etCostOfProp.setText(String.valueOf(((long) progress) * 100000));
-//                    //txtMaxLoanAmntAllow.setText("" + getMaxLoanAmount(etCostOfProp.getText().toString()).intValueExact());
-//                }
-
-                if (progress >= seekBarCostPropProgress) {
-                    if (fromUser) {
-                        //progress = ((int) Math.round(progress / seekBarCostPropProgress)) * seekBarCostPropProgress;
-                        etCostOfProp.setText(String.valueOf(((long) progress) * 100000));
-
-                    }
-                } else {
-                    etCostOfProp.setText(String.valueOf(((long) seekBarCostPropProgress) * 100000));
-
-                }
-                break;
-
             case R.id.sbTenure:
                 if (progress >= seekBarTenureProgress) {
                     if (fromUser) {
@@ -590,10 +533,18 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
         cancelDialog();
         if (response instanceof GetPersonalLoanResponse) {
             if (response.getStatus_Id() == 0) {
-                getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
-                startActivity(new Intent(PersonalLoanActivity.this, PersonalLoanQuoteActivity.class)
-                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
-                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
+
+                // region temparay commited
+//                getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
+//                startActivity(new Intent(PersonalLoanActivity.this, PersonalLoanQuoteActivity.class)
+//                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
+//                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
+                //endregion
+
+
+                Toast.makeText(PersonalLoanActivity.this, response.getMsg(), Toast.LENGTH_SHORT).show();
+
+
             } else {
                 Toast.makeText(PersonalLoanActivity.this, response.getMsg(), Toast.LENGTH_SHORT).show();
             }

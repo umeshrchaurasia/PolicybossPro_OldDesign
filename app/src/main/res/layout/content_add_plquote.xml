@@ -7,7 +7,6 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PersonalLoanActivity"
-
     tools:showIn="@layout/activity_add_plquote">
 
 
@@ -15,59 +14,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnGetQuote"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
         android:scrollbars="none">
 
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-            <!--Applicant Detail-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtApplicantDetail"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:padding="15dp"
-
-                    android:text=" Application Details"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-
-
-
-
-            </LinearLayout>
+            app:cardElevation="2dp">
 
             <include
                 android:id="@+id/llApplicantDetail"
                 layout="@layout/layout_personal_appl_detail" />
-
-
-        </LinearLayout>
-
+        </android.support.v7.widget.CardView>
     </ScrollView>
 
 
     <Button
         android:id="@+id/btnGetQuote"
         style="@style/ButtonStyle"
-
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-
-        android:background="@color/blue"
-        android:text="GET BEST QUOTES "
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-        android:textColor="@color/white" />
+        android:text="GET BEST QUOTES " />
 </RelativeLayout>
 

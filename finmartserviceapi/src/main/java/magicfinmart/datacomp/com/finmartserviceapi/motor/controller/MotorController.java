@@ -129,6 +129,10 @@ public class MotorController implements IMotor {
         } else if (productID == 1) {
             entity.setSearch_reference_number(Utility.getSharedPreference(mContext).getString(Utility.CARQUOTE_UNIQUEID, ""));
         }
+
+        //TODO  remove this line
+        entity.setSearch_reference_number("SRN-QNTUQYKE-N9MM-3QDH-VE3C-DGLYMOEWERPY");
+
         if (Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0) < NO_OF_SERVER_HITS) {
             Utility.getSharedPreferenceEditor(mContext).putInt(Utility.QUOTE_COUNTER,
                     Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0) + 1)

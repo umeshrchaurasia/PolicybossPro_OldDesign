@@ -315,13 +315,18 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnGetQuote:
-                if (switchNewRenew.isChecked()) {
+
+                //TODO uncomment this
+                /*if (switchNewRenew.isChecked()) {
                     setInputParametersReNewCar();
                 } else {
                     setInputParametersNewCAR();
                 }
                 showDialog();
-                new MotorController(this).getMotorPremiumInitiate(motorRequestEntity, this);
+                new MotorController(this).getMotorPremiumInitiate(motorRequestEntity, this);*/
+
+                //TODO remove this line
+                startActivity(new Intent(this, QuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity).putExtra("RTO_NAME", regplace));
                 break;
             case R.id.tvDontKnow:
                 cvInput.setVisibility(View.VISIBLE);
