@@ -187,12 +187,36 @@
         </android.support.design.widget.TextInputLayout>
 
 
+        <!--NCB layout-->
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:gravity="center">
+
+            <Switch
+                android:id="@+id/switchNcb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:gravity="center"
+                android:text="Claim in this year"
+                android:textAllCaps="true"
+                android:textColor="@color/button_color"
+                android:textSize="12sp" />
+
+            <Spinner
+                android:id="@+id/spNcbPercent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
         <!--RTO and Expiry date-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="visible">
 
             <!--rto detail-->
             <android.support.design.widget.TextInputLayout
@@ -203,8 +227,10 @@
                 android:hint="RTO">
 
                 <AutoCompleteTextView
+
                     android:id="@+id/acRto"
-                    style="@style/Style.edittext" />
+                    style="@style/Style.edittext"
+                    android:drawableRight="@drawable/datepicker" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -225,38 +251,10 @@
         </LinearLayout>
 
 
-        <!--NCB layout-->
-
-
-        <android.support.design.widget.TextInputLayout
-            style="@style/TextAppearence.App.TextInputLayout"
-            android:layout_marginTop="24dp">
-
-            <Switch
-                android:id="@+id/switchNcb"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:gravity="center"
-                android:text="Claim in this year"
-                android:textAllCaps="true"
-                android:textColor="@color/button_color"
-                android:textSize="12sp" />
-
-            <Spinner
-                android:id="@+id/spNcbPercent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </android.support.design.widget.TextInputLayout>
-
-
         <!--customer detail-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
@@ -268,7 +266,8 @@
 
                 <EditText
                     android:id="@+id/etCustomerName"
-                    style="@style/Style.edittext" />
+                    style="@style/Style.edittext"
+                    android:drawableRight="@drawable/datepicker" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
