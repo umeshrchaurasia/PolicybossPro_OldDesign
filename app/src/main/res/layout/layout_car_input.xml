@@ -10,7 +10,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:background="@android:color/white"
         android:orientation="vertical">
 
@@ -74,62 +73,61 @@
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
+                android:hint="Make, Model">
 
                 <AutoCompleteTextView
                     android:id="@+id/acMakeModel"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="MAKE, MODEL"
-                    android:textColor="@color/header_dark_text"
-                    android:textSize="14sp" />
+                    style="@style/Style.edittext" />
             </android.support.design.widget.TextInputLayout>
 
-            <!--varient-->
-            <TextView
-                style="@style/spinnerLabel"
-                android:layout_marginTop="@dimen/input_label_horizontal_spacing"
-                android:includeFontPadding="false"
-                android:text="Varient"
-                android:textAllCaps="true"
-                android:textColor="@color/button_color" />
+            <!--Varient-->
+            <android.support.design.widget.TextInputLayout style="@style/TextAppearence.App.TextInputLayout">
 
-            <Spinner
-                android:id="@+id/spVarient"
-                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:text="Varient"
+                    android:textAllCaps="true"
+                    android:textColor="@color/header_dark_text"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spVarient"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
 
             <!--fuel type-->
-            <TextView
-                style="@style/spinnerLabel"
-                android:layout_marginTop="@dimen/input_label_horizontal_spacing"
-                android:includeFontPadding="false"
-                android:text="Fuel Type"
-                android:textAllCaps="true"
-                android:textColor="@color/button_color" />
 
-            <Spinner
-                android:id="@+id/spFuel"
-                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+            <android.support.design.widget.TextInputLayout style="@style/TextAppearence.App.TextInputLayout">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:text="Fuel Type"
+                    android:textAllCaps="true"
+                    android:textColor="@color/header_dark_text"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spFuel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </android.support.design.widget.TextInputLayout>
+
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:hint="Ext. CNG/LPG Value">
 
                 <EditText
                     android:id="@+id/etExtValue"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="false"
-                    android:hint="EXT. CNG/LPG VALUE"
-                    android:textSize="14sp" />
+                    style="@style/Style.edittext" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -141,123 +139,65 @@
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
+                android:layout_width="0dp"
+                android:layout_marginRight="1dp"
                 android:layout_weight="1"
-                android:gravity="center">
+                android:hint="Date of Birth">
 
                 <EditText
                     android:id="@+id/etRegDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/datepicker"
-                    android:focusable="false"
-                    android:hint="REG. DATE"
-                    android:textSize="14sp" />
+                    style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_date" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1">
+                android:layout_width="0dp"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:hint="Manufacturer Date">
 
                 <EditText
                     android:id="@+id/etMfgDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/datepicker"
-                    android:focusable="false"
-                    android:hint="MFG. DATE"
-                    android:textSize="14sp" />
+                    style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_date" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
         <!--present insurer-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:gravity="center"
-            android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:hint="RTO">
 
             <TextView
-                style="@style/spinnerLabel"
-                android:includeFontPadding="false"
-                android:text="PRESENT INSURER"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:text="Present Insurer"
                 android:textAllCaps="true"
-                android:textColor="@color/button_color" />
+                android:textColor="@color/header_dark_text"
+                android:textSize="12sp" />
 
             <Spinner
                 android:id="@+id/spPrevIns"
-                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
 
-
-        <!--RTO and Expiry date-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical|center_horizontal"
-            android:orientation="horizontal">
-
-            <!--rto detail-->
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1">
-
-                <AutoCompleteTextView
-                    android:id="@+id/acRto"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="RTO"
-                    android:textColor="@color/header_dark_text"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
-
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1">
-
-                <EditText
-                    android:id="@+id/etExpDate"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/datepicker"
-                    android:focusable="false"
-                    android:hint="EXPIRY DATE"
-                    android:textSize="14sp" />
-            </android.support.design.widget.TextInputLayout>
-
-
-        </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
 
 
         <!--NCB layout-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="bottom"
-            android:orientation="horizontal">
-
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:gravity="center">
 
             <Switch
                 android:id="@+id/switchNcb"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
-                android:layout_weight="1"
                 android:checked="true"
+                android:gravity="center"
                 android:text="Claim in this year"
                 android:textAllCaps="true"
                 android:textColor="@color/button_color"
@@ -265,10 +205,48 @@
 
             <Spinner
                 android:id="@+id/spNcbPercent"
-                style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!--RTO and Expiry date-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="visible">
+
+            <!--rto detail-->
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextAppearence.App.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:hint="RTO">
+
+                <AutoCompleteTextView
+
+                    android:id="@+id/acRto"
+                    style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_rto" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                style="@style/TextAppearence.App.TextInputLayout"
+                android:layout_width="0dp"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:hint="Expiry Date">
+
+                <EditText
+                    android:id="@+id/etExpDate"
+                    style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_date"
+                    android:focusable="false" />
+            </android.support.design.widget.TextInputLayout>
+
 
         </LinearLayout>
 
@@ -277,40 +255,36 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:orientation="horizontal">
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="4dp"
-                android:layout_weight="1">
+                android:layout_width="0dp"
+                android:layout_marginRight="1dp"
+                android:layout_weight="1"
+                android:hint="Customer Name">
 
                 <EditText
                     android:id="@+id/etCustomerName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="CUSTOMER NAME"
-                    android:textSize="14sp" />
+                    style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_person" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="1">
+                android:layout_width="0dp"
+                android:layout_marginLeft="1dp"
+                android:layout_weight="1"
+                android:hint="Mobile">
 
                 <EditText
                     android:id="@+id/etMobile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="MOBILE"
+                    style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_mobile"
                     android:inputType="number"
-                    android:maxLength="10"
-                    android:textSize="14sp" />
+                    android:maxLength="10" />
             </android.support.design.widget.TextInputLayout>
+
         </LinearLayout>
 
     </LinearLayout>
