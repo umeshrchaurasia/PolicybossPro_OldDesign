@@ -749,9 +749,9 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ivEdit:
-                finish();
-                break;
+            //case R.id.ivEdit:
+            //    finish();
+            //     break;
             case R.id.filter:
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
