@@ -52,7 +52,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:max="5"
-        android:progress="1" />
+        android:progress="1"
+        android:thumbTintMode="multiply"/>
 
 
     <android.support.design.widget.TextInputLayout
