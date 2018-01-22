@@ -3,13 +3,11 @@
     <color name="colorPrimary">#03A9F4</color>
     <color name="colorPrimaryDark">#01579B</color>
     <color name="colorAccent">#0288D1</color>
-    <!--<color name="divider">#d8d8d9</color>-->
-    <!--<color name="bg">#EEEEEE</color>-->
     <color name="divider">#F1F1F1</color>
     <color name="bg">#c9c5c5</color>
     <color name="header_text_color">#6c747c</color>
     <color name="secondary_text_color">#9ba0a6</color>
-    <color name="tab_color">@color/colorPrimaryDark</color>
+    <color name="tab_color">#0395d7</color>
     <color name="button_color">@color/colorPrimary</color>
     <color name="bg_light">#eaeff7</color>
     <color name="blue">#005faf</color>
@@ -29,4 +27,10 @@
     <color name="filter_bar_title_selected">#5a5a5a</color>
     <color name="back_button_color">#5a5a5a</color>
     <color name="buttonBackground">#EE5E35</color>
+
+
+    <!--vector colors-->
+    <!--<color name="vector_blue">#11408b</color>-->
+    <color name="vector_blue">#646566</color>
 </resources>
+

@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.motor.privatecar.addquote.adapters;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,8 +37,15 @@ public class PremiumBreakUpAdapter extends RecyclerView.Adapter<PremiumBreakUpAd
     public void onBindViewHolder(final BreakUpItem holder, final int position) {
 
         final PremiumBreakUpAdapterEntity premiumBreakUpAdapterEntity = premiumBreakupEntities.get(position);
-        holder.tvName.setText("" + getRound(premiumBreakUpAdapterEntity.getName()));
-        holder.tvValue.setText("" + getRound(premiumBreakUpAdapterEntity.getValue()));
+        if (position == (premiumBreakupEntities.size() - 1)) {
+            holder.tvValue.setTypeface(null, Typeface.BOLD);
+            holder.tvName.setTypeface(null, Typeface.BOLD);
+            holder.tvName.setText("" + premiumBreakUpAdapterEntity.getName());
+            holder.tvValue.setText("" + getRound(premiumBreakUpAdapterEntity.getValue()));
+        } else {
+            holder.tvName.setText("" + premiumBreakUpAdapterEntity.getName());
+            holder.tvValue.setText("" + getRound(premiumBreakUpAdapterEntity.getValue()));
+        }
 
 
     }
