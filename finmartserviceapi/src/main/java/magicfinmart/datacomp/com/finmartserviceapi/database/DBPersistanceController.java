@@ -14,6 +14,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.master.model.MasterBikeDataEn
 import magicfinmart.datacomp.com.finmartserviceapi.master.model.MasterDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.master.model.VehicleMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 /**
  * Created by Rajeev Ranjan on 04/01/2018.
@@ -336,6 +337,28 @@ public class DBPersistanceController {
         }
 
         return AddOnName;
+    }
+    //endregion
+
+    //region Proprtyinfo Loan
+    public List<PropertyInfoEntity> getLoanPropertyInfoList() {
+        List<PropertyInfoEntity> propertyInfoEntity = new ArrayList<PropertyInfoEntity>();
+        propertyInfoEntity.add(new PropertyInfoEntity(1, "Property Identified & ready to occupy"));
+        propertyInfoEntity.add(new PropertyInfoEntity(2, "In Search Of Property"));
+        propertyInfoEntity.add(new PropertyInfoEntity(3, "Resale Property"));
+        propertyInfoEntity.add(new PropertyInfoEntity(4, "For Construction"));
+        propertyInfoEntity.add(new PropertyInfoEntity(5, "Property identified - Under Construction"));
+        propertyInfoEntity.add(new PropertyInfoEntity(6, "LAP"));
+        return propertyInfoEntity;
+    }
+
+    public int getPropertyId(String propName) {
+
+        PropertyInfoEntity entity = realm.where(PropertyInfoEntity.class).equalTo("Property_Type", propName).findFirst();
+        if (entity != null) {
+            return entity.getProperty_Id();
+        }
+        return 0;
     }
     //endregion
 }

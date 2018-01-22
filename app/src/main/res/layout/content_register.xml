@@ -9,267 +9,293 @@
     tools:context="com.datacomp.magicfinmart.register.RegisterActivity"
     tools:showIn="@layout/activity_register">
 
-    <RelativeLayout
-        android:id="@+id/rlPersonalInfo"
-        style="@style/HeaderLayout">
-
-        <ImageView
-            android:id="@+id/ivPersonalInfo"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:padding="2dp"
-            android:src="@drawable/down_arrow" />
-
-        <TextView
-            style="@style/TextViewStyle.Large"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="Personal Information"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-
-    </RelativeLayout>
-
-    <android.support.v7.widget.CardView
-        style="@style/CardViewStyle"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        app:cardElevation="2dp">
-
-        <LinearLayout
-            android:id="@+id/llPersonalInfo"
-            style="@style/LinearLayoutStyle"
-            android:animateLayoutChanges="true"
-            android:visibility="visible">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:hint="First Name">
-
-                    <EditText
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_person" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:hint="Last Name">
-
-                    <EditText
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_person" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:orientation="horizontal"
-                android:weightSum="100">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="60"
-                    android:hint="Date of Birth">
-
-                    <EditText
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_date" />
-                </android.support.design.widget.TextInputLayout>
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="20"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/male_selected" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="20"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/female" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:hint="Mobile">
-
-                    <EditText
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_mobile"
-                        android:inputType="number"
-                        android:maxLength="10" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:hint="Mobile 2">
-
-                    <EditText
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_mobile"
-                        android:inputType="number"
-                        android:maxLength="10" />
-
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_marginTop="2dp"
-                android:hint="Email">
-
-                <EditText
-                    style="@style/Style.edittext"
-                    android:drawableRight="@drawable/vector_email"
-                    android:inputType="textEmailAddress" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_marginTop="2dp"
-                android:hint="Confirm Email">
-
-                <EditText
-                    style="@style/Style.edittext"
-                    android:drawableRight="@drawable/vector_email"
-                    android:inputType="textEmailAddress" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="1dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:hint="Pincode">
-
-                    <EditText
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_pincode"
-                        android:inputType="number"
-                        android:maxLength="6" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="0dp"
-                    android:layout_marginLeft="1dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_weight="1"
-                    android:hint="City">
-
-                    <EditText
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_city" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <android.support.design.widget.TextInputLayout
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_marginTop="2dp"
-                android:hint="State">
-
-                <EditText
-                    style="@style/Style.edittext"
-                    android:drawableRight="@drawable/vector_state" />
-            </android.support.design.widget.TextInputLayout>
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
-
-    <RelativeLayout
-        android:id="@+id/rlProfessionalInfo"
-        style="@style/HeaderLayout">
-
-        <ImageView
-            android:id="@+id/ivProfessionalInfo"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:padding="2dp"
-            android:src="@drawable/down_arrow" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="Professional Information"
-            android:textAllCaps="true"
-            android:textColor="@android:color/white" />
-
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:id="@+id/llProfessionalInfo"
-        style="@style/LinearLayoutStyle"
-        android:animateLayoutChanges="true"
-        android:visibility="visible">
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="5dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="personal Info" />
+            <RelativeLayout
+                android:id="@+id/rlPersonalInfo"
+                style="@style/HeaderLayout">
+
+                <ImageView
+                    android:id="@+id/ivPersonalInfo"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/down_arrow" />
+
+                <TextView
+                    style="@style/TextViewStyle.Large"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="Personal Information"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <android.support.v7.widget.CardView
+                style="@style/CardViewStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                app:cardElevation="2dp">
+
+                <LinearLayout
+                    android:id="@+id/llPersonalInfo"
+                    style="@style/LinearLayoutStyle"
+                    android:animateLayoutChanges="true"
+                    android:visibility="visible">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="1"
+                            android:hint="First Name">
+
+                            <EditText
+                                android:id="@+id/etFirstName"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_person" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="1"
+                            android:hint="Last Name">
+
+                            <EditText
+                                android:id="@+id/etLastName"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_person" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="60"
+                            android:hint="Date of Birth">
+
+                            <EditText
+                                android:id="@+id/etDob"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_date" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <ImageView
+                            android:id="@+id/ivMale"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="20"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/male_selected" />
+
+                        <ImageView
+                            android:id="@+id/ivFemale"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="20"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/female" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="1"
+                            android:hint="Mobile">
+
+                            <EditText
+                                android:id="@+id/etMobile1"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_mobile"
+                                android:inputType="number"
+                                android:maxLength="10" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="1"
+                            android:hint="Mobile 2">
+
+                            <EditText
+                                android:id="@+id/etMobile2"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_mobile"
+                                android:inputType="number"
+                                android:maxLength="10" />
+
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextAppearence.App.TextInputLayout"
+                        android:layout_marginTop="2dp"
+                        android:hint="Email">
+
+                        <EditText
+                            android:id="@+id/etEmail"
+                            style="@style/Style.edittext"
+                            android:drawableRight="@drawable/vector_email"
+                            android:inputType="textEmailAddress" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextAppearence.App.TextInputLayout"
+                        android:layout_marginTop="2dp"
+                        android:hint="Confirm Email">
+
+                        <EditText
+                            android:id="@+id/etConfirmEmail"
+                            style="@style/Style.edittext"
+                            android:drawableRight="@drawable/vector_email"
+                            android:inputType="textEmailAddress" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="1"
+                            android:hint="Pincode">
+
+                            <EditText
+                                android:id="@+id/etPincode"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_pincode"
+                                android:inputType="number"
+                                android:maxLength="6" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="2dp"
+                            android:layout_weight="1"
+                            android:hint="City">
+
+                            <EditText
+                                android:id="@+id/etCity"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_city" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextAppearence.App.TextInputLayout"
+                        android:layout_marginTop="2dp"
+                        android:hint="State">
+
+                        <EditText
+                            android:id="@+id/etState"
+                            style="@style/Style.edittext"
+                            android:drawableRight="@drawable/vector_state" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <RelativeLayout
+                android:id="@+id/rlProfessionalInfo"
+                style="@style/HeaderLayout">
+
+                <ImageView
+                    android:id="@+id/ivProfessionalInfo"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/down_arrow" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="Professional Information"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llProfessionalInfo"
+                style="@style/LinearLayoutStyle"
+                android:animateLayoutChanges="true"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="5dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="personal Info" />
+                </LinearLayout>
+
+
+            </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
 
-    </LinearLayout>
 </LinearLayout>

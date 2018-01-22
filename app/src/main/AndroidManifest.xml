@@ -12,6 +12,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <receiver android:name=".broadcast.SMSBroadCastReceiver">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".splashscreen.SplashScreenActivity"
             android:label="@string/title_activity_home"
@@ -112,6 +119,7 @@
         <activity
             android:name=".motor.privatecar.addquote.PremiumBreakUpActivity"
             android:label="@string/title_activity_premium_break_up"
+            android:noHistory="true"
             android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
@@ -120,6 +128,29 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity" />
         </activity>
+        <activity
+            android:name=".loan_fm.homeloan.HomeLoanDetailActivity"
+            android:label="@string/title_activity_home_loan_detail"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.homeloan.addquote.AddQuoteActivity_HL"
+            android:label="@string/title_activity_add_quote__hl"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.homeloan.addquote.HomeLoanActivity"
+            android:label="@string/title_activity_home_loan"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.homeloan.addquote.HomeLoanQuoteActivity"
+            android:label="@string/title_activity_home_loan_quote"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".motor.privatecar.addquote.ModifyQuoteActivity"
+            android:noHistory="true"
+            android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
     </application>
 
 </manifest>
