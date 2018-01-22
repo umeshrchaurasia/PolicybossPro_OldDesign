@@ -128,7 +128,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity" />
         </activity>
-        <activity android:name=".motor.privatecar.addquote.ModifyQuoteActivity"></activity>
         <activity
             android:name=".loan_fm.homeloan.HomeLoanDetailActivity"
             android:label="@string/title_activity_home_loan_detail"
