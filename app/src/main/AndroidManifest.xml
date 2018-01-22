@@ -112,6 +112,7 @@
         <activity
             android:name=".motor.privatecar.addquote.PremiumBreakUpActivity"
             android:label="@string/title_activity_premium_break_up"
+            android:noHistory="true"
             android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
@@ -120,6 +121,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity" />
         </activity>
+        <activity android:name=".motor.privatecar.addquote.ModifyQuoteActivity"></activity>
     </application>
 
 </manifest>

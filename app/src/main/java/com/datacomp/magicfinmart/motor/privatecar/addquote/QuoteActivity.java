@@ -719,6 +719,9 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
 
                 //region update response entity
                 double finalPremWithoutGST = addonValue + Double.parseDouble(entity.getPremium_Breakup().getNet_premium());
+                entity.setFinal_premium_without_addon("" + finalPremWithoutGST);
+                entity.setTotalGST("" + finalPremWithoutGST * Constants.GST);
+                entity.setTotalAddonAplied("" + addonValue);
                 double finalPremWithGST = finalPremWithoutGST + (finalPremWithoutGST * Constants.GST);
                 entity.setFinal_premium_with_addon("" + finalPremWithGST);
                 entity.setListAppliedAddons(listAppliedAddonPremium);
@@ -974,4 +977,6 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
             super.onPostExecute(aVoid);
         }
     }
+
+
 }
