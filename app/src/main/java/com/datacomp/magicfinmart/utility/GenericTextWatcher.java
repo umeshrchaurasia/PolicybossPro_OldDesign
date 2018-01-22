@@ -68,6 +68,16 @@ public class GenericTextWatcher implements TextWatcher {
             case R.id.acRto:
                 ivehicle.cancelVehicleNumber(view);
                 break;
+            case R.id.etMobile1:
+                if (charSequence.length() == 10) {
+                    ivehicle.getVehicleNumber(view,charSequence.toString());
+                }
+                break;
+            case R.id.etPincode:
+                if (charSequence.length() == 6) {
+                    ivehicle.getVehicleNumber(view,charSequence.toString());
+                }
+                break;
         }
     }
 
