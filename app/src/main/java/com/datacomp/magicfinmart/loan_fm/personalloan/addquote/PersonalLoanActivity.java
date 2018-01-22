@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -376,9 +377,14 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
 
         //region Applicant Income Source Adapter
 
-        salaryTypeAdapter = new ArrayAdapter<String>(PersonalLoanActivity.this,
-                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.IncomeSource));
-        salaryTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        salaryTypeAdapter = new ArrayAdapter<String>(PersonalLoanActivity.this,
+//                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.IncomeSource));
+//        salaryTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        /////////////////////
+
+        salaryTypeAdapter = new   ArrayAdapter<String>(PersonalLoanActivity.this, R.layout.sp_item_textview, R.id.txtspinneritem, getResources().getStringArray(R.array.IncomeSource));
+
         sbSalary.setAdapter(salaryTypeAdapter);
         sbSalary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -411,11 +417,15 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
         personalLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
         personalLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString());
 
-        if (sbSalary.getSelectedItem().toString().contains("Salaried")) {
-            personalLoanRequest.setApplicantSource("1");
-        } else if (sbSalary.getSelectedItem().toString().contains("Self-Employed")) {
-            personalLoanRequest.setApplicantSource("2");
-        }
+//        if (sbSalary.getSelectedItem().toString().contains("Salaried")) {
+//            personalLoanRequest.setApplicantSource("1");
+//        } else if (sbSalary.getSelectedItem().toString().contains("Self-Employed")) {
+//            personalLoanRequest.setApplicantSource("2");
+//        }
+
+        // region Default Salaried
+        personalLoanRequest.setApplicantSource("1");
+        //endregion
         if (personalLoanRequest.getApplicantSource() == "1") {
             personalLoanRequest.setApplicantIncome(etMonthlyInc.getText().toString());
         } else if (personalLoanRequest.getApplicantSource() == "2") {
@@ -456,61 +466,6 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
                     }
                 } else {
                     etTenureInYear.setText(String.valueOf((long) seekBarTenureProgress));
-                }
-                break;
-
-            case R.id.sbTurnOver:
-                if (progress >= seekBarApplTurnOverProgress) {
-                    if (fromUser) {
-                        // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
-                        etTurnOver.setText(String.valueOf(((long) progress) * 1000000));
-                    }
-                } else {
-                    etTurnOver.setText(String.valueOf(((long) seekBarApplTurnOverProgress) * 1000000));
-                }
-                break;
-
-            case R.id.sbProfitAfTax:
-                if (progress >= seekBarApplProfitProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplProfitProgress)) * seekBarApplProfitProgress;
-                        etProfitAtTax.setText(String.valueOf(((long) progress) * 1000000));
-                    }
-                } else {
-                    etProfitAtTax.setText(String.valueOf(((long) seekBarApplProfitProgress) * 1000000));
-                }
-                break;
-
-            case R.id.sbDepreciation:
-                if (progress >= seekBarApplDepricProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-                        etDepreciation.setText(String.valueOf(((long) progress) * 100000));
-                    }
-                } else {
-                    etDepreciation.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-                }
-                break;
-
-            case R.id.sbMonthlyInc:
-                if (progress >= seekBarApplIncomeProgress) {
-                    if (fromUser) {
-                        //   progress = ((int) Math.round(progress / seekBarApplIncomeProgress)) * seekBarApplIncomeProgress;
-                        etMonthlyInc.setText(String.valueOf(((long) progress) * 1000));
-                    }
-                } else {
-                    etMonthlyInc.setText(String.valueOf(((long) seekBarApplIncomeProgress) * 1000));
-                }
-                break;
-
-            case R.id.sbDirecPartRemuntion:
-                if (progress >= seekBarApplDepricProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-                        etDirecPartRemuntion.setText(String.valueOf(((long) progress) * 100000));
-                    }
-                } else {
-                    etDirecPartRemuntion.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
                 }
                 break;
 

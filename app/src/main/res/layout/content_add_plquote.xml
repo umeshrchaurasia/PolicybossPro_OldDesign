@@ -12,7 +12,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
         android:layout_above="@+id/btnGetQuote"
         android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
@@ -27,13 +28,19 @@
                 android:id="@+id/llApplicantDetail"
                 layout="@layout/layout_personal_appl_detail" />
         </android.support.v7.widget.CardView>
+
+
+
     </ScrollView>
 
 
     <Button
+
         android:id="@+id/btnGetQuote"
         style="@style/ButtonStyle"
         android:layout_alignParentBottom="true"
-        android:text="GET BEST QUOTES " />
+        android:text="GET  QUOTES " />
+
+
 </RelativeLayout>
 
