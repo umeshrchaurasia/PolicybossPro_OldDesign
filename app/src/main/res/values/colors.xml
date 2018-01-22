@@ -7,7 +7,7 @@
     <color name="bg">#c9c5c5</color>
     <color name="header_text_color">#6c747c</color>
     <color name="secondary_text_color">#9ba0a6</color>
-    <color name="tab_color">@color/colorPrimaryDark</color>
+    <color name="tab_color">#0395d7</color>
     <color name="button_color">@color/colorPrimary</color>
     <color name="bg_light">#eaeff7</color>
     <color name="blue">#005faf</color>
@@ -27,4 +27,10 @@
     <color name="filter_bar_title_selected">#5a5a5a</color>
     <color name="back_button_color">#5a5a5a</color>
     <color name="buttonBackground">#EE5E35</color>
+
+
+    <!--vector colors-->
+    <!--<color name="vector_blue">#11408b</color>-->
+    <color name="vector_blue">#646566</color>
 </resources>
+

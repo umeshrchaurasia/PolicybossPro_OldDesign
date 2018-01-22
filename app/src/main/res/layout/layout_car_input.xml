@@ -147,7 +147,7 @@
                 <EditText
                     android:id="@+id/etRegDate"
                     style="@style/Style.edittext"
-                    android:drawableRight="@drawable/datepicker" />
+                    android:drawableRight="@drawable/vector_date" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -160,7 +160,7 @@
                 <EditText
                     android:id="@+id/etMfgDate"
                     style="@style/Style.edittext"
-                    android:drawableRight="@drawable/datepicker" />
+                    android:drawableRight="@drawable/vector_date" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
@@ -230,7 +230,7 @@
 
                     android:id="@+id/acRto"
                     style="@style/Style.edittext"
-                    android:drawableRight="@drawable/datepicker" />
+                    android:drawableRight="@drawable/vector_rto" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -243,7 +243,7 @@
                 <EditText
                     android:id="@+id/etExpDate"
                     style="@style/Style.edittext"
-                    android:drawableRight="@drawable/datepicker"
+                    android:drawableRight="@drawable/vector_date"
                     android:focusable="false" />
             </android.support.design.widget.TextInputLayout>
 
@@ -267,7 +267,7 @@
                 <EditText
                     android:id="@+id/etCustomerName"
                     style="@style/Style.edittext"
-                    android:drawableRight="@drawable/datepicker" />
+                    android:drawableRight="@drawable/vector_person" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -280,6 +280,7 @@
                 <EditText
                     android:id="@+id/etMobile"
                     style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_mobile"
                     android:inputType="number"
                     android:maxLength="10" />
             </android.support.design.widget.TextInputLayout>

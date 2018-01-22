@@ -43,6 +43,7 @@
                 <EditText
                     android:id="@+id/etEmail"
                     style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_email"
                     android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
@@ -54,6 +55,7 @@
                 <EditText
                     android:id="@+id/etPassword"
                     style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_password"
                     android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 

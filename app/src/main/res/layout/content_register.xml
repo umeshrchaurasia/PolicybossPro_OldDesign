@@ -61,7 +61,9 @@
                     android:layout_weight="1"
                     android:hint="First Name">
 
-                    <EditText style="@style/Style.edittext" />
+                    <EditText
+                        style="@style/Style.edittext"
+                        android:drawableRight="@drawable/vector_person" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -73,14 +75,16 @@
                     android:layout_weight="1"
                     android:hint="Last Name">
 
-                    <EditText style="@style/Style.edittext" />
+                    <EditText
+                        style="@style/Style.edittext"
+                        android:drawableRight="@drawable/vector_person" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="top"
                 android:orientation="horizontal"
                 android:weightSum="100">
 
@@ -94,7 +98,7 @@
 
                     <EditText
                         style="@style/Style.edittext"
-                        android:drawableRight="@drawable/datepicker" />
+                        android:drawableRight="@drawable/vector_date" />
                 </android.support.design.widget.TextInputLayout>
 
                 <ImageView
@@ -127,6 +131,7 @@
 
                     <EditText
                         style="@style/Style.edittext"
+                        android:drawableRight="@drawable/vector_mobile"
                         android:inputType="number"
                         android:maxLength="10" />
 
@@ -142,6 +147,7 @@
 
                     <EditText
                         style="@style/Style.edittext"
+                        android:drawableRight="@drawable/vector_mobile"
                         android:inputType="number"
                         android:maxLength="10" />
 
@@ -155,6 +161,7 @@
 
                 <EditText
                     style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_email"
                     android:inputType="textEmailAddress" />
 
             </android.support.design.widget.TextInputLayout>
@@ -166,6 +173,7 @@
 
                 <EditText
                     style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_email"
                     android:inputType="textEmailAddress" />
 
             </android.support.design.widget.TextInputLayout>
@@ -185,6 +193,7 @@
 
                     <EditText
                         style="@style/Style.edittext"
+                        android:drawableRight="@drawable/vector_pincode"
                         android:inputType="number"
                         android:maxLength="6" />
 
@@ -198,7 +207,9 @@
                     android:layout_weight="1"
                     android:hint="City">
 
-                    <EditText style="@style/Style.edittext" />
+                    <EditText
+                        style="@style/Style.edittext"
+                        android:drawableRight="@drawable/vector_city" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -207,7 +218,9 @@
                 android:layout_marginTop="2dp"
                 android:hint="State">
 
-                <EditText style="@style/Style.edittext" />
+                <EditText
+                    style="@style/Style.edittext"
+                    android:drawableRight="@drawable/vector_state" />
             </android.support.design.widget.TextInputLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>
