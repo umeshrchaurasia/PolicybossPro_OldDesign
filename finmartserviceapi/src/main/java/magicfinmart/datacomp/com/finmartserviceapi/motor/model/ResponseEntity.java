@@ -48,6 +48,35 @@ public class ResponseEntity implements Parcelable {
     private boolean isAddonApplied;
     private String final_premium_with_addon;
 
+    public String getTotalAddonAplied() {
+        return totalAddonAplied;
+    }
+
+    public void setTotalAddonAplied(String totalAddonAplied) {
+        this.totalAddonAplied = totalAddonAplied;
+    }
+
+    public String getTotalGST() {
+        return totalGST;
+    }
+
+    public void setTotalGST(String totalGST) {
+        this.totalGST = totalGST;
+    }
+
+    private String totalAddonAplied;
+    private String totalGST;
+    private String final_premium_without_addon;
+
+    public String getFinal_premium_without_addon() {
+        return final_premium_without_addon;
+    }
+
+    public void setFinal_premium_without_addon(String final_premium_without_addon) {
+        this.final_premium_without_addon = final_premium_without_addon;
+    }
+
+
     public boolean isAddonApplied() {
         return isAddonApplied;
     }
@@ -231,6 +260,9 @@ public class ResponseEntity implements Parcelable {
         dest.writeParcelable(this.Addon_List, flags);
         dest.writeByte(this.isAddonApplied ? (byte) 1 : (byte) 0);
         dest.writeString(this.final_premium_with_addon);
+        dest.writeString(this.totalAddonAplied);
+        dest.writeString(this.totalGST);
+        dest.writeString(this.final_premium_without_addon);
     }
 
     public ResponseEntity() {
@@ -255,6 +287,9 @@ public class ResponseEntity implements Parcelable {
         this.Addon_List = in.readParcelable(AddonEntity.class.getClassLoader());
         this.isAddonApplied = in.readByte() != 0;
         this.final_premium_with_addon = in.readString();
+        this.totalAddonAplied = in.readString();
+        this.totalGST = in.readString();
+        this.final_premium_without_addon = in.readString();
     }
 
     public static final Parcelable.Creator<ResponseEntity> CREATOR = new Parcelable.Creator<ResponseEntity>() {

@@ -1,8 +1,11 @@
 package com.datacomp.magicfinmart.motor.privatecar.addquote;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,6 +16,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.PremiumBreakUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.PremiumBreakUpAdapterEntity;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +33,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium;
     ImageView ivCross;
     Button btnBuy, btnBackToQuote;
+    CardView cvAddon;
+    List<PremiumBreakUpAdapterEntity> damageList, liabilityList, addonList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,9 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             responseEntity = getIntent().getParcelableExtra("RESPONSE");
         }
         initViews();
+        damageList = getDamageList();
+        liabilityList = getLiabilityList();
+        addonList = getAddonList();
         initrecyclers();
         setListeners();
         bindData();
@@ -49,7 +58,15 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     private void bindData() {
         if (responseEntity != null) {
             txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Name());
-            //tvTotalPremium.setText(""+responseEntity.get);
+            if (responseEntity.getFinal_premium_without_addon() != null && !responseEntity.getFinal_premium_without_addon().equals("")) {
+                tvTotalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_without_addon()));
+                tvNetPremium.setText(getRupeesRound(responseEntity.getFinal_premium_with_addon()));
+                tvGst.setText(getRupeesRound(responseEntity.getTotalGST()));
+            } else {
+                tvTotalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
+                tvNetPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
+                tvGst.setText(getRupeesRound(responseEntity.getPremium_Breakup().getService_tax()));
+            }
         }
     }
 
@@ -65,17 +82,22 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         rvAddonPremium.setHasFixedSize(true);
 
         rvOwnDamage.setLayoutManager(new LinearLayoutManager(this));
-        damageAdapter = new PremiumBreakUpAdapter(this, getDamageList());
+        damageAdapter = new PremiumBreakUpAdapter(this, damageList);
         rvOwnDamage.setAdapter(damageAdapter);
 
         rvLiability.setLayoutManager(new LinearLayoutManager(this));
-        liabilityAdapter = new PremiumBreakUpAdapter(this, getLiabilityList());
+        liabilityAdapter = new PremiumBreakUpAdapter(this, liabilityList);
         rvLiability.setAdapter(liabilityAdapter);
 
+        if (addonList != null && addonList.size() > 0) {
+            cvAddon.setVisibility(View.VISIBLE);
+            rvAddonPremium.setLayoutManager(new LinearLayoutManager(this));
+            addonAdapter = new PremiumBreakUpAdapter(this, addonList);
+            rvAddonPremium.setAdapter(addonAdapter);
+        } else {
+            cvAddon.setVisibility(View.GONE);
+        }
 
-        rvAddonPremium.setLayoutManager(new LinearLayoutManager(this));
-        addonAdapter = new PremiumBreakUpAdapter(this, getAddonList());
-        rvAddonPremium.setAdapter(addonAdapter);
     }
 
     private void initViews() {
@@ -90,7 +112,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         ivCross = (ImageView) findViewById(R.id.ivCross);
         btnBuy = (Button) findViewById(R.id.btnBuy);
         btnBackToQuote = (Button) findViewById(R.id.btnBackToQuote);
-
+        cvAddon = (CardView) findViewById(R.id.cvAddon);
 
     }
 
@@ -168,9 +190,13 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     public List<PremiumBreakUpAdapterEntity> getAddonList() {
         List<PremiumBreakUpAdapterEntity> addonList = new ArrayList<PremiumBreakUpAdapterEntity>();
-        List<AppliedAddonsPremiumBreakup> appliedAddonsPremiumBreakups = responseEntity.getListAppliedAddons();
-        for (AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup : appliedAddonsPremiumBreakups) {
-            addonList.add(new PremiumBreakUpAdapterEntity(appliedAddonsPremiumBreakup.getAddonName(), "" + appliedAddonsPremiumBreakup.getPriceAddon()));
+
+        if (responseEntity.getListAppliedAddons() != null && responseEntity.getListAppliedAddons().size() > 0) {
+            List<AppliedAddonsPremiumBreakup> appliedAddonsPremiumBreakups = responseEntity.getListAppliedAddons();
+            for (AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup : appliedAddonsPremiumBreakups) {
+                addonList.add(new PremiumBreakUpAdapterEntity(appliedAddonsPremiumBreakup.getAddonName(), "" + appliedAddonsPremiumBreakup.getPriceAddon()));
+            }
+            addonList.add(new PremiumBreakUpAdapterEntity("Total Addon Premium", responseEntity.getTotalAddonAplied()));
         }
         return addonList;
     }
@@ -182,6 +208,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.btnBuy:
+                redirectToBuy(responseEntity.getService_Log_Unique_Id());
                 break;
             case R.id.btnBackToQuote:
                 finish();
@@ -189,4 +216,38 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
         }
     }
+
+    public void redirectToBuy(String Service_Log_Unique_Id) {
+        String URL = "http://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
+        String url = "http://qa.policyboss.com/";
+        //String url = "http://policyboss.com/";
+        String title = "";
+        String name = "";
+        url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";
+        title = "Car Insurance";
+
+
+        startActivity(new Intent(this, CommonWebViewActivity.class)
+                .putExtra("URL", url)
+                .putExtra("NAME", name)
+                .putExtra("TITLE", title));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    private String getRupeesRound(String strText) {
+        return "\u20B9 " + Math.round(Double.parseDouble(strText));
+    }
 }
+
+

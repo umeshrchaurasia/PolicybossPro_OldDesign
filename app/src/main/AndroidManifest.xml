@@ -112,6 +112,7 @@
         <activity
             android:name=".motor.privatecar.addquote.PremiumBreakUpActivity"
             android:label="@string/title_activity_premium_break_up"
+            android:noHistory="true"
             android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
@@ -123,6 +124,23 @@
         <activity
             android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
             android:label="@string/title_activity_personal_loan_apply"
+            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".motor.privatecar.addquote.ModifyQuoteActivity"></activity>
+        <activity
+            android:name=".loan_fm.homeloan.HomeLoanDetailActivity"
+            android:label="@string/title_activity_home_loan_detail"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.homeloan.addquote.AddQuoteActivity_HL"
+            android:label="@string/title_activity_add_quote__hl"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.homeloan.addquote.HomeLoanActivity"
+            android:label="@string/title_activity_home_loan"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.homeloan.addquote.HomeLoanQuoteActivity"
+            android:label="@string/title_activity_home_loan_quote"
             android:theme="@style/AppTheme"></activity>
     </application>
 
