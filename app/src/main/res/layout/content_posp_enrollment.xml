@@ -41,7 +41,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="POSP INFORMATION"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
 
@@ -260,7 +260,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="ADDRESS"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
 
@@ -412,7 +412,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="BANK DETAILS"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
 
@@ -583,7 +583,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="DOCUMENTS UPLOAD"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
 

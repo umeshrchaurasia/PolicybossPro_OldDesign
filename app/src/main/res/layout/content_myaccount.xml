@@ -20,6 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
 
             <RelativeLayout
@@ -44,7 +45,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="MY PROFILE"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
 
@@ -129,7 +130,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="ADDRESS"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
 
@@ -273,7 +274,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="BANK DETAILS"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
 
@@ -487,7 +488,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="DOCUMENTS UPLOAD"
                     android:textAllCaps="true"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
 

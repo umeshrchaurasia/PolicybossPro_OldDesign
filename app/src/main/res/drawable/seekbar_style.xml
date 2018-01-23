@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/skBorder"
+        android:drawable="@drawable/border_shadow" >
+    </item>
+
+    <item
+        android:id="@+id/skProgress" >
+        <clip
+            android:drawable="@drawable/seekbar_progress" />
+    </item>
+</layer-list>
