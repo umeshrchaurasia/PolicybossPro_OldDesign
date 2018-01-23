@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -14,7 +17,7 @@
         android:theme="@style/AppTheme">
 
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
-            <intent-filter android:priority="999">
+            <intent-filter android:priority="5822">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>

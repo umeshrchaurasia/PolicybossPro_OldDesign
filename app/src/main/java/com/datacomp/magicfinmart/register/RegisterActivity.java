@@ -30,6 +30,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber {
 
@@ -75,7 +76,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 String message = intent.getStringExtra("message");
                 String otp = extractDigitFromMessage(message);
                 if (!otp.equals("")) {
-                    //etOtp.setText(otp);
+                    etOtp.setText(otp);
                 }
             }
         }
@@ -178,12 +179,24 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof GenerateOtpResponse) {
             cancelDialog();
-            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            if (response.getStatusNo() == 0) {
+                showOtpAlert();
+            } else {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
         if (response instanceof PincodeResponse) {
-            cancelDialog();
+
             if (response.getStatusNo() == 0) {
 
+            }
+            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        if (response instanceof VerifyOtpResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                if (dialog != null)
+                    dialog.dismiss();
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -218,6 +231,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             dialog = new Dialog(RegisterActivity.this);
             dialog.setContentView(R.layout.otp_dialog);
             TextView text = (TextView) dialog.findViewById(R.id.tvOk);
+            TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
+            tvTitle.setText("Enter OTP sent on : " + etMobile1.getText().toString());
             TextView resend = (TextView) dialog.findViewById(R.id.tvResend);
             etOtp = (EditText) dialog.findViewById(R.id.etOtp);
             dialog.setCancelable(false);
@@ -225,7 +240,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
             Window dialogWindow = dialog.getWindow();
             WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-            lp.width = lp.WRAP_CONTENT;
+            lp.width = lp.MATCH_PARENT;
             ; // Width
             lp.height = lp.WRAP_CONTENT; // Height
             dialogWindow.setAttributes(lp);

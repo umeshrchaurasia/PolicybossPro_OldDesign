@@ -31,7 +31,7 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         Call<GenerateOtpResponse> generateOtp(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-        @POST("/quote/retrive-otp")
+        @POST("/api/retrive-otp")
         Call<VerifyOtpResponse> verifyOtp(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
@@ -39,7 +39,7 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         Call<PincodeResponse> getCityStateCityPincode(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-        @POST("/quote/insert-fba-registration")
+        @POST("/api/insert-fba-registration")
         Call<RegisterFbaResponse> registerFba(@Body RegisterRequestEntity body);
     }
 }

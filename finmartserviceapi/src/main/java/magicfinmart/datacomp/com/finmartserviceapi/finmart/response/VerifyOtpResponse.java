@@ -10,13 +10,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ValidateOtpEnti
  */
 
 public class VerifyOtpResponse extends APIResponse {
-    private List<List<ValidateOtpEntity>> MasterData;
+    private Object MasterData;
 
-    public List<List<ValidateOtpEntity>> getMasterData() {
+    public Object getMasterData() {
         return MasterData;
     }
 
-    public void setMasterData(List<List<ValidateOtpEntity>> MasterData) {
+    public void setMasterData(Object MasterData) {
         this.MasterData = MasterData;
     }
 

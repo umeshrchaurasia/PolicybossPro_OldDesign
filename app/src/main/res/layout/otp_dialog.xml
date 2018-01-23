@@ -21,7 +21,7 @@
             android:gravity="left|center_vertical"
             android:minHeight="45dp"
             android:padding="8dp"
-            android:text="The New India Assurance Co.Ltd."
+            android:text="Magic Finmart"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -39,11 +39,12 @@
     </RelativeLayout>
 
     <TextView
-        android:layout_marginTop="10dp"
         android:id="@+id/tvTitle"
         style="@style/TextViewStyle.Medium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginTop="10dp"
         android:text="Enter OTP sent on " />
 
     <LinearLayout
