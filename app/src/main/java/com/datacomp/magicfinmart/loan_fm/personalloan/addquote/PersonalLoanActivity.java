@@ -71,12 +71,8 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
     TextView  txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     SeekBar  sbTenure;
 
-    int seekBarCostPropProgress = 1;
     int seekBarTenureProgress = 1;
-    int seekBarApplTurnOverProgress = 1;
-    int seekBarApplProfitProgress = 1;
-    int seekBarApplDepricProgress = 1;
-    int seekBarApplIncomeProgress = 25;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,7 +182,7 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
 
         sbMonthlyInc.setMax(2500);
         sbMonthlyInc.setProgress(1);
-        etMonthlyInc.setText("25000");
+
 
 
         //endregion
