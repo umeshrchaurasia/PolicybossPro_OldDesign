@@ -156,7 +156,6 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
         etTenureInYear = (EditText) findViewById(R.id.etTenureInYear);
 
         sbTenure = (SeekBar) findViewById(R.id.sbTenure);
-        etCostOfProp.setText("500000");
         //txtMaxLoanAmntAllow.setText(String.format("%.2f", getPercent(500000)));
         sbTenure.setMax(5);
         sbTenure.setProgress(1);
@@ -497,7 +496,7 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
                 //endregion
 
 
-                Toast.makeText(PersonalLoanActivity.this, response.getMsg(), Toast.LENGTH_SHORT).show();
+               Toast.makeText(PersonalLoanActivity.this, response.getMsg(), Toast.LENGTH_SHORT).show();
 
 
             } else {

@@ -278,7 +278,7 @@
         android:id="@+id/til"
         style="@style/TextAppearence.App.TextInputLayout"
         android:hint="Tenure in years"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <EditText
             android:id="@+id/etTenureInYear"
