@@ -17,11 +17,9 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 
-import magicfinmart.datacomp.com.finmartserviceapi.master.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.master.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.master.response.BikeMasterResponse;
 
-public class WelcomeActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
+
+public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
     private ViewPager viewPager;
     private MyViewPagerAdapter myViewPagerAdapter;
     private LinearLayout dotsLayout;
@@ -140,22 +138,6 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
                 break;
         }
     }
-
-    @Override
-    public void OnSuccess(APIResponse response, String message) {
-
-        if (response instanceof BikeMasterResponse) {
-            if (response.getStatusNo() == 0) {
-
-            }
-        }
-    }
-
-    @Override
-    public void OnFailure(Throwable t) {
-
-    }
-
 
     /**
      * View pager adapter

@@ -17,7 +17,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -35,8 +34,8 @@ import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.master.controller.fastlane.FastlaneController;
-import magicfinmart.datacomp.com.finmartserviceapi.master.response.FastLaneResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
@@ -45,7 +44,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResp
 
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
-public class AddQuoteActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber {
+public class AddQuoteActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     CardView cvNewRenew, cvRegNo, cvInput;
     Button btnGetQuote;
@@ -55,7 +54,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
     Switch switchNewRenew;
     String TAG = "AddNewQuoteActivity";
     MotorRequestEntity motorRequestEntity;
-    FastLaneResponse.FLResponseBean fastLaneResponseEntity;
+    FastLaneDataResponse fastLaneResponseEntity;
 
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
@@ -70,8 +69,8 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
     DBPersistanceController databaseController;
     Realm realm;
     List<String> makeModelList, fuelList, variantList, cityList;
-    ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter,ncbPerctAdapter;
-    int modelId = 0, varientId;
+    ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter, ncbPerctAdapter;
+    String modelId, varientId;
     String regplace;
 
     @Override
@@ -357,7 +356,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
                 Constants.hideKeyBoard(etreg4, AddQuoteActivity.this);
                 tvDontKnow.performClick();
                 showDialog("Fetching Car Details...");
-                new FastlaneController(this).getFastLaneData(regNo, this);
+                new FastLaneController(this).getVechileDetails(regNo, this);
                 Log.d(TAG, regNo);
                 break;
         }
@@ -511,8 +510,8 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
         varientId = databaseController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-        motorRequestEntity.setVehicle_id(varientId);
-        motorRequestEntity.setRto_id(databaseController.getCityID(regplace));
+        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+        motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(regplace)));
         //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
         //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
         motorRequestEntity.setExecution_async("yes");
@@ -559,8 +558,8 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
             motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
         } else {*/
         varientId = databaseController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-        motorRequestEntity.setVehicle_id(varientId);
-        motorRequestEntity.setRto_id(databaseController.getCityID(acRto.getText().toString()));
+        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+        motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(acRto.getText().toString())));
         motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
         if (regNo.equals(""))
             motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
@@ -639,7 +638,14 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         if (response instanceof BikeUniqueResponse) {
             startActivity(new Intent(this, QuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity).putExtra("RTO_NAME", regplace));
         }
-        if (response instanceof FastLaneResponse) {
+
+    }
+
+    @Override
+    public void OnSuccess(magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse response, String message) {
+        if (response instanceof FastLaneDataResponse) {
+            cancelDialog();
+            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             if (response.getStatusNo() == 0) {
 
             }
