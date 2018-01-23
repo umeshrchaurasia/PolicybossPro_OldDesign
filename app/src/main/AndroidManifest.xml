@@ -136,7 +136,7 @@
             android:label="@string/title_activity_add_plquote"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
-        <activity android:name=".motor.privatecar.addquote.ModifyQuoteActivity" />
+
         <activity
             android:name=".loan_fm.homeloan.HomeLoanDetailActivity"
             android:label="@string/title_activity_home_loan_detail"
