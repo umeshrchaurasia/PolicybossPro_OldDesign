@@ -4,6 +4,9 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -12,6 +15,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <receiver android:name=".broadcast.SMSBroadCastReceiver">
+            <intent-filter android:priority="5822">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".splashscreen.SplashScreenActivity"
             android:label="@string/title_activity_home"
@@ -109,6 +119,11 @@
                 android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity" />
         </activity>
         <activity
+            android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
+            android:label="@string/title_activity_personal_loan_apply"
+            android:theme="@style/AppTheme"></activity>
+
+        <activity
             android:name=".loan_fm.personalloan.PersonalLoanDetailActivity"
             android:label="@string/title_activity_personal_loan_detail"
             android:theme="@style/AppTheme" />
@@ -150,6 +165,14 @@
             android:name=".loan_fm.laploan.addquote.LapLoanQuoteActivity"
             android:label="@string/title_activity_lap_loan_quote"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name=".motor.privatecar.addquote.ModifyQuoteActivity"
+            android:noHistory="true"
+            android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
+
     </application>
 
 </manifest>

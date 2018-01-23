@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
+    tools:showIn="@layout/activity_personal_loan_apply">
+
+    <ScrollView android:id="@+id/scrollMain"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnSave"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <!--POSP INFORMATION START-->
+            <RelativeLayout
+                android:id="@+id/rlMyProfile"
+                style="@style/HeaderLayout">
+
+                <ImageView
+                    android:id="@+id/ivMyProfile"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_add" />
+
+                <TextView
+                    style="@style/TextViewStyle.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="POSP INFORMATION"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llMyProfile"
+                style="@style/LinearLayoutStyle"
+                android:animateLayoutChanges="true"
+                android:visibility="visible">
+
+
+            </LinearLayout>
+
+            <!--POSP INFORMATION END-->
+            <!--ADDRESS START-->
+
+            <RelativeLayout
+                android:id="@+id/rlAddress"
+                style="@style/HeaderLayout">
+
+                <ImageView
+                    android:id="@+id/ivAddress"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_add" />
+
+                <TextView
+                    style="@style/TextViewStyle.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="ADDRESS"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llAddress"
+                style="@style/LinearLayoutStyle"
+                android:animateLayoutChanges="true"
+                android:visibility="visible">
+
+
+            </LinearLayout>
+
+            <!--ADDRESS END-->
+
+            <!--BANK DETAIL START-->
+            <RelativeLayout
+                android:id="@+id/rlBankDetail"
+                style="@style/HeaderLayout">
+
+                <ImageView
+                    android:id="@+id/ivBankDetail"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_add" />
+
+                <TextView
+                    style="@style/TextViewStyle.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="BANK DETAILS"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llBankDetail"
+                style="@style/LinearLayoutStyle"
+                android:animateLayoutChanges="true"
+                android:visibility="visible">
+
+
+            </LinearLayout>
+
+            <!--BANK DETAIL END-->
+
+            <!--UPLOAD DOCUMENTS START-->
+            <RelativeLayout
+                android:id="@+id/rlDocumentUpload"
+                style="@style/HeaderLayout">
+
+                <ImageView
+                    android:id="@+id/ivDocumentUpload"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_add" />
+
+                <TextView
+                    style="@style/TextViewStyle.Large"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:text="DOCUMENTS UPLOAD"
+                    android:textAllCaps="true"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/llDocumentUpload"
+                style="@style/LinearLayoutStyle"
+                android:animateLayoutChanges="true"
+                android:visibility="visible">
+
+            </LinearLayout>
+            <!--END START-->
+
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/btnSave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" android:text="SAVE INFORMATION" android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>
