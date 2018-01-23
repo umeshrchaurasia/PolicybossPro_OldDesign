@@ -142,7 +142,7 @@
                 android:layout_width="0dp"
                 android:layout_marginRight="1dp"
                 android:layout_weight="1"
-                android:hint="Date of Birth">
+                android:hint="Reg Date">
 
                 <EditText
                     android:id="@+id/etRegDate"
