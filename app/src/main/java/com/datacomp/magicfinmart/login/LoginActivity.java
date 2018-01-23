@@ -20,6 +20,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     TextView tvSignUp;
     Button btnSignIn;
 
+    String[] perms = {
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.STORAGE",
+            "android.permission.ACCESS_FINE_LOCATION",
+            "android.permission.SEND_SMS",
+            "android.permission.READ_SMS"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

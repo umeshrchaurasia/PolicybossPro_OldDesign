@@ -11,13 +11,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GenerateOtpEnti
 
 public class GenerateOtpResponse extends APIResponse {
 
-    private List<List<GenerateOtpEntity>> MasterData;
+    private Object MasterData;
 
-    public List<List<GenerateOtpEntity>> getMasterData() {
+    public Object getMasterData() {
         return MasterData;
     }
 
-    public void setMasterData(List<List<GenerateOtpEntity>> MasterData) {
+    public void setMasterData(Object MasterData) {
         this.MasterData = MasterData;
     }
 

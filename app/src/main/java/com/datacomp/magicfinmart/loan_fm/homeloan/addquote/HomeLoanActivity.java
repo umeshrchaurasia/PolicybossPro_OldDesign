@@ -117,6 +117,8 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_loan);
+
+        mReal = new DBPersistanceController(this);
         init_widgets();
         setListener();
         setSupportActionBar(toolbar);
@@ -143,6 +145,12 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
             isCitySelected=true;
             visiblePropertyInfo(View.VISIBLE);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        realm.close();
     }
 
     private void fillCustomerDetails(CustomerEntity customerEntity) {
@@ -937,7 +945,7 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
     private ArrayList<String> getNewLoanList() {
         List<PropertyInfoEntity> listLoan = mReal.getLoanPropertyInfoList();
         if (listLoan != null) {
-            for (int i = 0; i <= listLoan.size(); i++) {
+            for (int i = 0; i <= listLoan.size()-1; i++) {
                 arrayNewLoan.add(listLoan.get(i).getProperty_Type());
             }
         }

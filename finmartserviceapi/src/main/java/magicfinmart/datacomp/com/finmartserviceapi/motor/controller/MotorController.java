@@ -131,7 +131,7 @@ public class MotorController implements IMotor {
         }
 
         //TODO  remove this line
-        entity.setSearch_reference_number("SRN-QNTUQYKE-N9MM-3QDH-VE3C-DGLYMOEWERPY");
+        //entity.setSearch_reference_number("SRN-QNTUQYKE-N9MM-3QDH-VE3C-DGLYMOEWERPY");
 
         if (Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0) < NO_OF_SERVER_HITS) {
             Utility.getSharedPreferenceEditor(mContext).putInt(Utility.QUOTE_COUNTER,

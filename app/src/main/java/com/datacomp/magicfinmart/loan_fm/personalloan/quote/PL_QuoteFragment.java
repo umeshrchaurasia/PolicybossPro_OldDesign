@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.loan_fm.personalloan.quote;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,8 +24,8 @@ import java.text.SimpleDateFormat;
 
 public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickListener{
 
-    Button btnAddQuote;
-    EditText etSearch;
+    FloatingActionButton plAddQuote;
+
     RecyclerView rvQuoteList;
     PesonalLoan_QuoteAdapter pesonalLoan_QuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -43,8 +44,8 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
     }
 
     private void initView(View view) {
-        btnAddQuote = (Button) view.findViewById(R.id.btnAddQuote);
-        etSearch = (EditText) view.findViewById(R.id.etSearch);
+        plAddQuote = (FloatingActionButton) view.findViewById(R.id.plAddQuote);
+
         rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
         rvQuoteList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -52,12 +53,12 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
 
         pesonalLoan_QuoteAdapter = new PesonalLoan_QuoteAdapter(getActivity());
         rvQuoteList.setAdapter(pesonalLoan_QuoteAdapter);
-        btnAddQuote.setOnClickListener(this);
+        plAddQuote.setOnClickListener(this);
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnAddQuote:
+            case R.id.plAddQuote:
                 startActivity(new Intent(getActivity(), PersonalLoanActivity.class));
                 break;
         }
