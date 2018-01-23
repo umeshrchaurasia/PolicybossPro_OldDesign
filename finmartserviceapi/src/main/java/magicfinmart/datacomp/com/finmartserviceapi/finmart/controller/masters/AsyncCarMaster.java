@@ -1,4 +1,4 @@
-package magicfinmart.datacomp.com.finmartserviceapi.master.controller;
+package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -6,20 +6,20 @@ import android.os.AsyncTask;
 import java.util.List;
 
 import io.realm.Realm;
-import magicfinmart.datacomp.com.finmartserviceapi.master.model.MasterBikeDataEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.master.model.VehicleMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+
 
 /**
- * Created by Nilesh Birhade on 12-01-2018.
+ * Created by Nilesh Birhade on 29-11-2017.
  */
 
-public class AsyncRTOMaster extends AsyncTask<Void, Void, Void> {
+public class AsyncCarMaster extends AsyncTask<Void, Void, Void> {
 
     Context mContext;
-    List<VehicleMasterEntity> listRTOMaster;
+    List<CarMasterEntity> listCarMaster;
 
-    public AsyncRTOMaster(Context context, List<VehicleMasterEntity> list) {
-        listRTOMaster = list;
+    public AsyncCarMaster(Context context, List<CarMasterEntity> list) {
+        listCarMaster = list;
         mContext = context;
     }
 
@@ -33,7 +33,7 @@ public class AsyncRTOMaster extends AsyncTask<Void, Void, Void> {
             realm.executeTransactionAsync(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.copyToRealmOrUpdate(listRTOMaster);
+                    realm.copyToRealmOrUpdate(listCarMaster);
                 }
             });
 
@@ -50,6 +50,8 @@ public class AsyncRTOMaster extends AsyncTask<Void, Void, Void> {
 
     @Override
     protected void onPostExecute(Void aVoid) {
+
         super.onPostExecute(aVoid);
+
     }
 }

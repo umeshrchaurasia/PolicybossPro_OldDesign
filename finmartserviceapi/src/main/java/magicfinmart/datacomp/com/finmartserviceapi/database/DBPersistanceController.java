@@ -10,9 +10,12 @@ import java.util.TreeMap;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.R;
-import magicfinmart.datacomp.com.finmartserviceapi.master.model.MasterBikeDataEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.master.model.MasterDataEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.master.model.VehicleMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
@@ -37,7 +40,7 @@ public class DBPersistanceController {
     //region RTO
 
     public ArrayList<String> getRTOListNames() {
-        List<VehicleMasterEntity> list_Make = realm.where(VehicleMasterEntity.class).findAll();
+        List<CityMasterEntity> list_Make = realm.where(CityMasterEntity.class).findAll();
         ArrayList listCity = new ArrayList();
         for (int i = 0; i < list_Make.size(); i++) {
             listCity.add(list_Make.get(i).getRTO_CodeDiscription());
@@ -46,21 +49,21 @@ public class DBPersistanceController {
     }
 
 
-    public int getCityID(String cityName) {
+    public String getCityID(String cityName) {
 
-        VehicleMasterEntity entity = realm.where(VehicleMasterEntity.class)
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
                 .equalTo("RTO_CodeDiscription", cityName).findFirst();
 
         if (entity != null)
             return entity.getVehicleCity_Id();
         else
-            return 0;
+            return "";
 
     }
 
     public String getRTOCityName(int VehicleCity_Id) {
 
-        VehicleMasterEntity entity = realm.where(VehicleMasterEntity.class)
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
                 .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
 
         if (entity != null)
@@ -77,10 +80,10 @@ public class DBPersistanceController {
     public List<String> getCarMakeModel() {
         List<String> listCarModel = new ArrayList<>();
         // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();
-        List<MasterDataEntity> list = realm.where(MasterDataEntity.class).distinct("Model_ID");
+        List<CarMasterEntity> list = realm.where(CarMasterEntity.class).distinct("Model_ID");
 
         for (int i = 0; i < list.size(); i++) {
-            MasterDataEntity entity = list.get(i);
+            CarMasterEntity entity = list.get(i);
             String carModel = entity.getMake_Name() + " , " + entity.getModel_Name();
             listCarModel.add(carModel);
         }
@@ -88,24 +91,24 @@ public class DBPersistanceController {
         return listCarModel;
     }
 
-    public int getModelID(String modelName) {
-        MasterDataEntity entity = realm.where(MasterDataEntity.class).equalTo("Model_Name", modelName.trim()).findFirst();
+    public String getModelID(String modelName) {
+        CarMasterEntity entity = realm.where(CarMasterEntity.class).equalTo("Model_Name", modelName.trim()).findFirst();
         if (entity != null)
             return entity.getModel_ID();
         else
-            return 0;
+            return "";
     }
 
-    public List<String> getVariantbyModelID(int modelID) {
+    public List<String> getVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
 
-        List<MasterDataEntity> list = realm.where(MasterDataEntity.class)
+        List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");
 
         for (int i = 0; i < list.size(); i++) {
-            MasterDataEntity entity = list.get(i);
+            CarMasterEntity entity = list.get(i);
             String variant = entity.getVariant_Name() + " , ( " + entity.getCubic_Capacity() + "CC )";
             listCarVariant.add(variant);
         }
@@ -114,19 +117,19 @@ public class DBPersistanceController {
 
     }
 
-    public int getVariantID(String variantName, String modelName, String makeName) {
-        MasterDataEntity entity = realm.where(MasterDataEntity.class).equalTo("Model_Name", modelName.trim())
+    public String getVariantID(String variantName, String modelName, String makeName) {
+        CarMasterEntity entity = realm.where(CarMasterEntity.class).equalTo("Model_Name", modelName.trim())
                 .equalTo("Variant_Name", variantName.trim())
                 .equalTo("Make_Name", makeName.trim()).findFirst();
 
         if (entity != null)
             return entity.getVariant_ID();
         else
-            return 0;
+            return "";
     }
 
-    public MasterDataEntity getVarientDetails(int varientId) {
-        MasterDataEntity entity = realm.where(MasterDataEntity.class)
+    public CarMasterEntity getVarientDetails(String varientId) {
+        CarMasterEntity entity = realm.where(CarMasterEntity.class)
                 .equalTo("Variant_ID", varientId).findFirst();
 
         if (entity != null)
@@ -139,15 +142,15 @@ public class DBPersistanceController {
 
     //region fuel
 
-    public List<String> getFuelTypeByModelId(int modelID) {
+    public List<String> getFuelTypeByModelId(String modelID) {
         List<String> fuelType = new ArrayList<>();
 
-        List<MasterDataEntity> list = realm.where(MasterDataEntity.class)
+        List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Fuel_ID");
 
         for (int i = 0; i < list.size(); i++) {
-            MasterDataEntity entity = list.get(i);
+            CarMasterEntity entity = list.get(i);
             String fuelName = "" + entity.getFuel_Name();
             fuelType.add(fuelName);
         }
@@ -176,10 +179,10 @@ public class DBPersistanceController {
     public List<String> getBikeMakeModel() {
         List<String> listCarModel = new ArrayList<>();
         // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();
-        List<MasterBikeDataEntity> list = realm.where(MasterBikeDataEntity.class).distinct("Model_ID");
+        List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class).distinct("Model_ID");
 
         for (int i = 0; i < list.size(); i++) {
-            MasterBikeDataEntity entity = list.get(i);
+            BikeMasterEntity entity = list.get(i);
             String carModel = entity.getMake_Name() + " , " + entity.getModel_Name();
             listCarModel.add(carModel);
         }
@@ -187,30 +190,73 @@ public class DBPersistanceController {
         return listCarModel;
     }
 
-    public int getBikeModelID(String modelName) {
-        MasterBikeDataEntity entity = realm.where(MasterBikeDataEntity.class).equalTo("Model_Name", modelName.trim()).findFirst();
+    public String getBikeModelID(String modelName) {
+        BikeMasterEntity entity = realm.where(BikeMasterEntity.class).equalTo("Model_Name", modelName.trim()).findFirst();
         if (entity != null)
             return entity.getModel_ID();
         else
-            return 0;
+            return "";
     }
 
     public List<String> getBikeVariantbyModelID(int modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
 
-        List<MasterBikeDataEntity> list = realm.where(MasterBikeDataEntity.class)
+        List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");
 
         for (int i = 0; i < list.size(); i++) {
-            MasterBikeDataEntity entity = list.get(i);
+            BikeMasterEntity entity = list.get(i);
             String variant = entity.getVariant_Name() + " , ( " + entity.getCubic_Capacity() + "CC )";
             listCarVariant.add(variant);
         }
 
         return listCarVariant;
 
+    }
+
+    //endregion
+
+    //region master insurance
+
+    public ArrayList<String> getHealthListNames() {
+        List<HealthinsuranceEntity> list_Make = realm.where(HealthinsuranceEntity.class).findAll();
+        ArrayList listCity = new ArrayList();
+        for (int i = 0; i < list_Make.size(); i++) {
+            listCity.add(list_Make.get(i).getInsuName());
+        }
+        return listCity;
+    }
+
+    public List<HealthinsuranceEntity> getHealthList() {
+        return realm.where(HealthinsuranceEntity.class).findAll();
+    }
+
+    public ArrayList<String> getGeneralListNames() {
+        List<GeneralinsuranceEntity> list_Make = realm.where(GeneralinsuranceEntity.class).findAll();
+        ArrayList listCity = new ArrayList();
+        for (int i = 0; i < list_Make.size(); i++) {
+            listCity.add(list_Make.get(i).getInsuName());
+        }
+        return listCity;
+    }
+
+    public List<GeneralinsuranceEntity> getGeneralList() {
+        return realm.where(GeneralinsuranceEntity.class).findAll();
+    }
+
+    public ArrayList<String> getLifeListNames() {
+        List<LifeinsuranceEntity> list_Make = realm.where(LifeinsuranceEntity.class).findAll();
+        ArrayList listCity = new ArrayList();
+        for (int i = 0; i < list_Make.size(); i++) {
+            listCity.add(list_Make.get(i).getInsuName());
+        }
+        return listCity;
+    }
+
+    public List<LifeinsuranceEntity> getLifeList() {
+        return realm.where(LifeinsuranceEntity.class).findAll();
     }
 
     //endregion

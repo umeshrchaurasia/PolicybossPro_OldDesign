@@ -18,6 +18,7 @@ public class PrefManager {
     private static final String IS_BIKE_MASTER_UPDATE = "isBikeMasterUpdate";
     private static final String IS_CAR_MASTER_UPDATE = "isCarMasterUpdate";
     private static final String IS_RTO_MASTER_UPDATE = "isRtoMasterUpdate";
+    private static final String IS_INSURANCE_MASTER_UPDATE = "isRtoMasterUpdate";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -61,6 +62,15 @@ public class PrefManager {
 
     public boolean IsRtoMasterUpdate() {
         return pref.getBoolean(IS_RTO_MASTER_UPDATE, true);
+    }
+
+    public void setIsInsuranceMasterUpdate(boolean isFirstTime) {
+        editor.putBoolean(IS_INSURANCE_MASTER_UPDATE, isFirstTime);
+        editor.commit();
+    }
+
+    public boolean IsInsuranceMasterUpdate() {
+        return pref.getBoolean(IS_INSURANCE_MASTER_UPDATE, true);
     }
 
 
