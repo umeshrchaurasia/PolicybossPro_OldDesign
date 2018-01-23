@@ -50,13 +50,6 @@ public class MotorController implements IMotor {
             this.pID = pID;
         }
 
-//        Runnable runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//
-//            }
-//        };
-
         @Override
         public void run() {
             new MotorController(mContext).getMotorQuote(pID, iResponseSubcriber);
