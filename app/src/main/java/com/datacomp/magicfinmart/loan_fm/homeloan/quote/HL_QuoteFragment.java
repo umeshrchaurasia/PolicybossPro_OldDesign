@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.loan_fm.homeloan.quote;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,11 +23,14 @@ import java.text.SimpleDateFormat;
  */
 
 public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener{
-    Button btnAddQuote;
-    EditText etSearch;
+    FloatingActionButton hlAddQuote;
+
     RecyclerView rvQuoteList;
     HomeLoan_QuoteAdapter homeLoan_QuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public HL_QuoteFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,8 +42,8 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initView(View view) {
-        btnAddQuote = (Button) view.findViewById(R.id.btnAddQuote);
-        etSearch = (EditText) view.findViewById(R.id.etSearch);
+        hlAddQuote = (FloatingActionButton) view.findViewById(R.id.hlAddQuote);
+
         rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
         rvQuoteList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -47,12 +51,12 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
         homeLoan_QuoteAdapter = new HomeLoan_QuoteAdapter(getActivity());
         rvQuoteList.setAdapter(homeLoan_QuoteAdapter);
-        btnAddQuote.setOnClickListener(this);
+        hlAddQuote.setOnClickListener(this);
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btnAddQuote:
+            case R.id.hlAddQuote:
                 startActivity(new Intent(getActivity(), HomeLoanActivity.class));
                 break;
         }
