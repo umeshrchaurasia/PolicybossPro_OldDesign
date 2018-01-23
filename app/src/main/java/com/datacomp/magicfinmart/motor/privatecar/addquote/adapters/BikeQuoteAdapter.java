@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
@@ -70,13 +72,20 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         holder.txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((QuoteActivity) mContext).redirectToBuy(responseEntity.getService_Log_Unique_Id());
+                ((QuoteActivity) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
         holder.txtPremiumBreakUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((QuoteActivity) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
+
+        holder.txtBuy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((QuoteActivity) mContext).redirectToBuy(responseEntity.getService_Log_Unique_Id());
             }
         });
 
@@ -112,7 +121,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     }
 
     public class BikeQuoteItem extends RecyclerView.ViewHolder {
-        public TextView txtInsurerName, txtIDV, txtFinalPremium, txtPremiumBreakUp;
+        public TextView txtInsurerName, txtIDV, txtFinalPremium, txtPremiumBreakUp, txtBuy;
         ImageView imgInsurerLogo;
         LinearLayout llAddon;
         RecyclerView rvAddOn;
@@ -123,6 +132,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtInsurerName = (TextView) itemView.findViewById(R.id.txtInsuranceCompName);
             txtIDV = (TextView) itemView.findViewById(R.id.txtIDV);
+            txtBuy = (TextView) itemView.findViewById(R.id.txtBuy);
             txtFinalPremium = (TextView) itemView.findViewById(R.id.txtFinalPremium);
             imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
             txtPremiumBreakUp = (TextView) itemView.findViewById(R.id.txtPremiumBreakUp);
