@@ -39,7 +39,6 @@
     <string name="title_activity_add_plquote">Add Quote</string>
 
 
-
     <array name="IncomeSource">
         <item>Salaried</item>
         <item>Self-Employed</item>
@@ -61,6 +60,7 @@
     <string name="title_activity_lap__loan">LAP_LoanActivity</string>
     <string name="title_activity_lap_loan_quote">LapLoanQuoteActivity</string>
     <string name="title_activity_personal_loan_apply">PersonalLoanApplyActivity</string>
+    <string name="title_activity_home_loan_apply">HomeLoanApplyActivity</string>
 
 
 </resources>

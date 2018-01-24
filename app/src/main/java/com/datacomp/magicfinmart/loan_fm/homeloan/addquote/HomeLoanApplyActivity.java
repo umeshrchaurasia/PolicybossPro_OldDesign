@@ -9,12 +9,12 @@ import android.view.View;
 
 import com.datacomp.magicfinmart.R;
 
-public class AddQuoteActivity_HL extends AppCompatActivity {
+public class HomeLoanApplyActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_quote__hl);
+        setContentView(R.layout.activity_home_loan_apply);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
