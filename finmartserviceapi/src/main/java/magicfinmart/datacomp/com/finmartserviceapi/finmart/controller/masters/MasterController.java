@@ -1,19 +1,18 @@
-package magicfinmart.datacomp.com.finmartserviceapi.master.controller;
+package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters;
 
 import android.content.Context;
-
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
-import magicfinmart.datacomp.com.finmartserviceapi.master.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.master.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.master.requestbuilder.MasterRequestBuilder;
-import magicfinmart.datacomp.com.finmartserviceapi.master.response.AllCityMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.master.response.BikeMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.master.response.CarMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.MasterRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,7 +41,7 @@ public class MasterController implements IMasterFetch {
             public void onResponse(Call<CarMasterResponse> call, Response<CarMasterResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-                        new AsyncStoreCarMaster(mContext, response.body().getMasterData()).execute();
+                        new AsyncCarMaster(mContext, response.body().getMasterData()).execute();
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
@@ -81,7 +80,7 @@ public class MasterController implements IMasterFetch {
 
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-                        new AsyncStoreBikeMaster(mContext, response.body().getMasterData()).execute();
+                        new AsyncBikeMaster(mContext, response.body().getMasterData()).execute();
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
@@ -111,13 +110,13 @@ public class MasterController implements IMasterFetch {
     @Override
     public void getRTOMaster(final IResponseSubcriber iResponseSubcriber) {
 
-        masterNetworkService.getAllCity().enqueue(new Callback<AllCityMasterResponse>() {
+        masterNetworkService.getAllCity().enqueue(new Callback<CityMasterResponse>() {
             @Override
-            public void onResponse(Call<AllCityMasterResponse> call, Response<AllCityMasterResponse> response) {
+            public void onResponse(Call<CityMasterResponse> call, Response<CityMasterResponse> response) {
 
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-                        new AsyncRTOMaster(mContext, response.body().getListvehicle()).execute();
+                        new AsyncCityMaster(mContext, response.body().getMasterData()).execute();
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
@@ -128,8 +127,54 @@ public class MasterController implements IMasterFetch {
             }
 
             @Override
-            public void onFailure(Call<AllCityMasterResponse> call, Throwable t) {
+            public void onFailure(Call<CityMasterResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
 
+
+    @Override
+    public void getInsuranceMaster(final IResponseSubcriber iResponseSubcriber) {
+        masterNetworkService.getInsuranceMasters().enqueue(new Callback<InsuranceMasterResponse>() {
+            @Override
+            public void onResponse(Call<InsuranceMasterResponse> call, Response<InsuranceMasterResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        new AsyncInsuranceMaster(mContext, response.body().getMasterData()).execute();
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<InsuranceMasterResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
             }
         });
     }

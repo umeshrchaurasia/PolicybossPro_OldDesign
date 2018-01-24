@@ -11,12 +11,13 @@ import com.datacomp.magicfinmart.introslider.PrefManager;
 import com.datacomp.magicfinmart.introslider.WelcomeActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 
-import magicfinmart.datacomp.com.finmartserviceapi.master.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.master.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.master.controller.MasterController;
-import magicfinmart.datacomp.com.finmartserviceapi.master.response.AllCityMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.master.response.BikeMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.master.response.CarMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 
 public class SplashScreenActivity extends BaseActivity implements IResponseSubcriber {
 
@@ -36,6 +37,8 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
             new MasterController(this).getCarMaster(this);
         if (prefManager.IsRtoMasterUpdate())
             new MasterController(this).getRTOMaster(this);
+        if (prefManager.IsInsuranceMasterUpdate())
+            new MasterController(this).getInsuranceMaster(this);
 
         if (prefManager.isFirstTimeLaunch()) {
             prefManager.setFirstTimeLaunch(false);
@@ -59,9 +62,12 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         } else if (response instanceof CarMasterResponse) {
             if (response.getStatusNo() == 0)
                 prefManager.setIsCarMasterUpdate(false);
-        } else if (response instanceof AllCityMasterResponse) {
+        } else if (response instanceof CityMasterResponse) {
             if (response.getStatusNo() == 0)
                 prefManager.setIsRtoMasterUpdate(false);
+        } else if (response instanceof InsuranceMasterResponse) {
+            if (response.getStatusNo() == 0)
+                prefManager.setIsInsuranceMasterUpdate(false);
         }
     }
 

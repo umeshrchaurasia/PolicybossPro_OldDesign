@@ -22,9 +22,11 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
@@ -41,6 +43,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             etPincode, etCity, etState, etOtp;
     ImageView ivMale, ivFemale;
     Dialog dialog;
+    ArrayList<String> healthList, generalList, lifeList;
+    DBPersistanceController dbPersistanceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,10 +53,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dbPersistanceController = new DBPersistanceController(this);
         initWidgets();
         setListener();
         initLayouts();
-
+        healthList = dbPersistanceController.getHealthListNames();
+        generalList = dbPersistanceController.getGeneralListNames();
+        lifeList = dbPersistanceController.getLifeListNames();
     }
 
 

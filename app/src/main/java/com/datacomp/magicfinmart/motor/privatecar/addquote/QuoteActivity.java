@@ -35,7 +35,7 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.master.model.MasterDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
@@ -63,7 +63,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
     Switch swAddon;
     FloatingActionButton filter;
     ImageView ivEdit;
-    MasterDataEntity masterDataEntity;
+    CarMasterEntity carMasterEntity;
     String rtoName;
     Realm realm;
 
@@ -128,15 +128,15 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
 
     private void updateHeader() {
         if (motorRequestEntity != null) {
-            masterDataEntity = databaseController.getVarientDetails(motorRequestEntity.getVehicle_id());
+            carMasterEntity = databaseController.getVarientDetails("" + motorRequestEntity.getVehicle_id());
             tvPolicyExp.setText("" + motorRequestEntity.getPolicy_expiry_date());
             tvRtoName.setText("" + rtoName);
         }
 
-        if (masterDataEntity != null) {
+        if (carMasterEntity != null) {
 
-            tvFuel.setText(masterDataEntity.getFuel_Name());
-            tvMakeModel.setText(masterDataEntity.getMake_Name() + " , " + masterDataEntity.getModel_Name() + " ," + masterDataEntity.getVariant_Name());
+            tvFuel.setText(carMasterEntity.getFuel_Name());
+            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + " ," + carMasterEntity.getVariant_Name());
         }
     }
 
