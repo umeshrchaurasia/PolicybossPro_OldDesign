@@ -65,6 +65,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
     ImageView ivEdit;
     MasterDataEntity masterDataEntity;
     String rtoName;
+    Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
