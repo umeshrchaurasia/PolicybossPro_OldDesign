@@ -47,7 +47,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
             tvProcessingFee = (TextView) itemView.findViewById(R.id.tvProcessingFee);
             btnApply = (TextView) itemView.findViewById(R.id.btnApply);
             ivBankLogo = (ImageView) itemView.findViewById(R.id.ivBankLogo);
-            ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
+           // ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
             tvEligibleLoan =(TextView)itemView.findViewById(R.id.tvEligibleLoan);
         }
     }
@@ -83,16 +83,16 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
             @Override
             public void onClick(View v) {
 
-                ((PersonalLoanQuoteActivity) mContext).redirectToApplyLoan(quoteEntity);
+             //   ((PersonalLoanQuoteActivity) mContext).redirectToApplyLoan(quoteEntity);
 
             }
         });
-        holder.ivInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //   mContext.startActivity(new Intent(mContext, PLQuoteInfoActivity.class).putExtra("PL_QUOTEINFO", quoteEntity));
-            }
-        });
+//        holder.ivInfo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //   mContext.startActivity(new Intent(mContext, PLQuoteInfoActivity.class).putExtra("PL_QUOTEINFO", quoteEntity));
+//            }
+//        });
 
     }
 

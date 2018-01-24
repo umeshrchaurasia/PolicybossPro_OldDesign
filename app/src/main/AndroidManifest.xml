@@ -122,15 +122,32 @@
         <activity
             android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
             android:label="@string/title_activity_personal_loan_apply"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"></activity>
+
             android:theme="@style/AppTheme" />
         <activity
             android:name=".loan_fm.personalloan.PersonalLoanDetailActivity"
             android:label="@string/title_activity_personal_loan_detail"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.personalloan.addquote.AddQuoteActivity_PL"
+            android:label="@string/title_activity_add_quote__pl"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".loan_fm.personalloan.addquote.PersonalLoanActivity"
             android:label="@string/title_activity_add_plquote"
             android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+
+        <activity
+            android:name=".loan_fm.personalloan.addquote.PersonalLoanQuoteActivity"
+            android:label="@string/title_activity_add_plquote"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".loan_fm.homeloan.HomeLoanDetailActivity"
