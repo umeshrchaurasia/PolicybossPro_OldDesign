@@ -75,6 +75,7 @@ public class QuoteFragment  extends BaseFragment {
     }
 
 
+
     private void shareData() {
         View rootView = getActivity().getWindow().getDecorView().findViewById(R.id.rvPLQuotes);
 

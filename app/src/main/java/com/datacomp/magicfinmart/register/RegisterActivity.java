@@ -11,7 +11,6 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -43,10 +42,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber, MultiSelectionSpinner.OnMultipleItemsSelectedListener, CompoundButton.OnCheckedChangeListener {
@@ -66,7 +65,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     RegisterRequestEntity registerRequestEntity;
     Boolean isValidPersonalInfo = false, isMobileValid = false;
     TextView tvOk;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+    SimpleDateFormat passdateFormat = new SimpleDateFormat("ddMMyyyy");
+    boolean isMale = false, isFemale = false;
+    String pass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +160,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         chbxLife.setOnCheckedChangeListener(this);
         btnSubmit.setOnClickListener(this);
         etDob.setOnClickListener(datePickerDialog);
+        ivMale.setOnClickListener(this);
+        ivFemale.setOnClickListener(this);
     }
 
     private void initWidgets() {
@@ -201,6 +205,18 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ivMale:
+                isFemale = false;
+                isMale = true;
+                ivFemale.setImageDrawable(getResources().getDrawable(R.drawable.female));
+                ivMale.setImageDrawable(getResources().getDrawable(R.drawable.male_selected));
+                break;
+            case R.id.ivFemale:
+                isFemale = true;
+                isMale = false;
+                ivMale.setImageDrawable(getResources().getDrawable(R.drawable.male));
+                ivFemale.setImageDrawable(getResources().getDrawable(R.drawable.female_selected));
+                break;
             case R.id.ivPersonalInfo:
             case R.id.rlPersonalInfo:
                 hideAllLayouts(llPersonalInfo, ivPersonalInfo);
@@ -279,14 +295,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btnSubmit:
                 if (isMobileValid) {
-                    setPersonalInfo();
+                    setProfessionInfo();
                 }
-                Log.d("Register", "" + registerRequestEntity.getFirstName());
+                showDialog();
+                new RegisterController(this).registerFba(registerRequestEntity, this);
                 break;
         }
     }
 
-    private void setPersonalInfo() {
+    private void setProfessionInfo() {
 
         if (chbxLife.isChecked()) {
             registerRequestEntity.setIsLic("1");
@@ -334,10 +351,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else {
             registerRequestEntity.setPostal("0");
         }
-        if (chbxBonds.isChecked()) {
-            registerRequestEntity.setBonds("1");
+        if (chbxStocks.isChecked()) {
+            registerRequestEntity.setStock("1");
         } else {
-            registerRequestEntity.setBonds("0");
+            registerRequestEntity.setStock("0");
         }
     }
 
@@ -349,6 +366,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         registerRequestEntity.setMobile_2("" + etMobile2.getText().toString());
         registerRequestEntity.setEmailId("" + etEmail.getText().toString());
         registerRequestEntity.setPinCode("" + etPincode.getText().toString());
+        if (isMale) {
+            registerRequestEntity.setGender("M");
+        } else {
+            registerRequestEntity.setGender("F");
+        }
+        registerRequestEntity.setPassword(pass);
 
     }
 
@@ -402,6 +425,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 isMobileValid = true;
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+        if (response instanceof RegisterFbaResponse) {
+            cancelDialog();
+            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            if (response.getStatusNo() == 0)
+                finish();
+
         }
     }
 
@@ -485,11 +515,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void selectedStrings(List<String> strings) {
-        //Toast.makeText(this, strings.toString(), Toast.LENGTH_LONG).show();
-      /*  int[] temp = dbPersistanceController.getLifeListId(strings);
-        Log.d("RegisterActivity", "test");*/
-        List<HealthinsuranceEntity> healthinsuranceEntities = dbPersistanceController.getHealthList();
-        Log.d("test", "test");
     }
 
     @Override
@@ -579,6 +604,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = simpleDateFormat.format(calendar.getTime());
+                            pass = passdateFormat.format(calendar.getTime());
                             etDob.setText(currentDay);
                         }
                     }

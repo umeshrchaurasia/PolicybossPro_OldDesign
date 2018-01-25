@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -449,9 +450,17 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
 
                 getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
-                startActivity(new Intent(getActivity(), PersonalLoanQuoteActivity.class)
-                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
-                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
+//                startActivity(new Intent(getActivity(), PersonalLoanQuoteActivity.class)
+//                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
+//                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
+
+                QuoteFragment quoteFragment = new QuoteFragment();
+                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
+                transaction_quote.addToBackStack("QUOTE");
+                transaction_quote.show(quoteFragment);
+                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                transaction_quote.commitAllowingStateLoss();
 
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
