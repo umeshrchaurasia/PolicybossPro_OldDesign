@@ -57,12 +57,12 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
     boolean isApplicantVisible = true;
     Button btnGetQuote;
 
-    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etTurnOver, etProfitAtTax, etDepreciation, etDirecPartRemuntion;
+    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etTurnOver;
     Spinner sbSalary;
     ArrayAdapter<String> salaryTypeAdapter;
     LinearLayout llSalaried, llSelfEmployeed;
     SeekBar sbMonthlyInc, sbTurnOver;
-    CheckBox chkCoApplicant;
+
     RadioGroup rgGender;
     RadioButton rbimgMale, rbimgFemale;
 
