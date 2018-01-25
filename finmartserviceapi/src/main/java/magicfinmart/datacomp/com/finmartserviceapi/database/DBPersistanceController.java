@@ -447,8 +447,15 @@ public class DBPersistanceController {
     //endregion
 
     //region login data
-    public LoginResponseEntity getUserData(String modelName) {
-        LoginResponseEntity entity = realm.where(LoginResponseEntity.class).distinct("FBAId").first();
+
+    public void storeUserData(LoginResponseEntity loginResponseEntity) {
+        realm.beginTransaction();
+        realm.copyToRealm(loginResponseEntity);
+        realm.commitTransaction();
+    }
+
+    public LoginResponseEntity getUserData() {
+        LoginResponseEntity entity = realm.where(LoginResponseEntity.class).findFirst();
         if (entity != null)
             return entity;
         else

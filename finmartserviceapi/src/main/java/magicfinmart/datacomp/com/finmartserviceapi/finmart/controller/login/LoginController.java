@@ -6,6 +6,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.LoginRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
@@ -22,11 +23,12 @@ public class LoginController implements ILogin {
 
     LoginRequestBuilder.LoginNetworkService loginNetworkService;
     Context mContext;
-    IResponseSubcriber iResponseSubcriber;
+    DBPersistanceController dbPersistanceController;
 
     public LoginController(Context context) {
         loginNetworkService = new LoginRequestBuilder().getService();
         mContext = context;
+        dbPersistanceController = new DBPersistanceController(mContext);
     }
 
     @Override
@@ -37,7 +39,8 @@ public class LoginController implements ILogin {
             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-                        new AsyncStoreLogin(mContext, response.body().getMasterData()).execute();
+                        dbPersistanceController.storeUserData(response.body().getMasterData());
+                        //new AsyncStoreLogin(mContext, response.body().getMasterData()).execute();
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));

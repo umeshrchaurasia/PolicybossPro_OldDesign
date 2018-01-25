@@ -30,7 +30,6 @@ public class AsyncStoreLogin extends AsyncTask<Void, Void, Void> {
             realm.executeTransactionAsync(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
-                    realm.delete(LoginResponseEntity.class);
                     realm.copyToRealmOrUpdate(listCarMaster);
                 }
             });
