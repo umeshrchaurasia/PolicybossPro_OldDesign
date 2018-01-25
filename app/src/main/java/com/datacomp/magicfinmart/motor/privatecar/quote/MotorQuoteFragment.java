@@ -46,7 +46,9 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         View view = inflater.inflate(R.layout.fragment_motor_quote, container, false);
         initView(view);
         mQuoteList = new ArrayList<>();
-        mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST);
+        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST) != null) {
+            mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST);
+        }
         motorQuoteAdapter = new MotorQuoteAdapter(getActivity(), mQuoteList);
         rvQuoteList.setAdapter(motorQuoteAdapter);
         return view;
