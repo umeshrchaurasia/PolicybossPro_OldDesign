@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.register;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,6 +9,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -25,9 +29,12 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner;
-import com.datacomp.magicfinmart.utility.GenericTextWatcher;
+import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -36,11 +43,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 
-public class RegisterActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, MultiSelectionSpinner.OnMultipleItemsSelectedListener, CompoundButton.OnCheckedChangeListener {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber, MultiSelectionSpinner.OnMultipleItemsSelectedListener, CompoundButton.OnCheckedChangeListener {
 
     LinearLayout llPersonalInfo, llProfessionalInfo;
     ImageView ivProfessionalInfo, ivPersonalInfo;
@@ -54,6 +63,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     MultiSelectionSpinner spLifeIns, spGenIns, spHealthIns;
     CheckBox chbxLife, chbxGen, chbxHealth, chbxMutual, chbxStocks, chbxPostal, chbxBonds;
     Button btnSubmit;
+    RegisterRequestEntity registerRequestEntity;
+    Boolean isValidPersonalInfo = false, isMobileValid = false;
+    TextView tvOk;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +76,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(this);
+        registerRequestEntity = new RegisterRequestEntity();
         initWidgets();
         setListener();
         initLayouts();
@@ -115,6 +129,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 String otp = extractDigitFromMessage(message);
                 if (!otp.equals("")) {
                     etOtp.setText(otp);
+                    // tvOk.performClick();
                 }
             }
         }
@@ -136,11 +151,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         ivPersonalInfo.setOnClickListener(this);
         rlPersonalInfo.setOnClickListener(this);
         rlProfessionalInfo.setOnClickListener(this);
-        etMobile1.addTextChangedListener(new GenericTextWatcher(etMobile1, this));
-        etPincode.addTextChangedListener(new GenericTextWatcher(etPincode, this));
+        etMobile1.addTextChangedListener(mobileTextWatcher);
+        etPincode.addTextChangedListener(pincodeTextWatcher);
         chbxGen.setOnCheckedChangeListener(this);
         chbxHealth.setOnCheckedChangeListener(this);
         chbxLife.setOnCheckedChangeListener(this);
+        btnSubmit.setOnClickListener(this);
+        etDob.setOnClickListener(datePickerDialog);
     }
 
     private void initWidgets() {
@@ -190,9 +207,92 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.ivProfessionalInfo:
             case R.id.rlProfessionalInfo:
-                hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
+                if (!isEmpty(etFirstName)) {
+                    etFirstName.requestFocus();
+                    etFirstName.setError("Enter First Name");
+                    return;
+                }
+
+                if (!isEmpty(etLastName)) {
+                    etLastName.requestFocus();
+                    etLastName.setError("Enter Last Name");
+                    return;
+                }
+                if (!isEmpty(etDob)) {
+                    etDob.requestFocus();
+                    etDob.setError("Enter Dob");
+                    return;
+                }
+                if (!isEmpty(etMobile1)) {
+                    etMobile1.requestFocus();
+                    etMobile1.setError("Enter Mobile ");
+                    return;
+                }
+                if (!isValideEmailID(etEmail)) {
+                    etEmail.requestFocus();
+                    etEmail.setError("Enter Email");
+                    return;
+                }
+                if (!isValideEmailID(etConfirmEmail)) {
+                    etConfirmEmail.requestFocus();
+                    etConfirmEmail.setError("Confirm Email");
+                    return;
+                }
+                if (!etEmail.getText().toString().equals(etConfirmEmail.getText().toString())) {
+                    etConfirmEmail.requestFocus();
+                    etConfirmEmail.setError("Email Mismatch");
+                    return;
+                }
+                if (!isEmpty(etPincode)) {
+                    etPincode.requestFocus();
+                    etPincode.setError("Enter Pincode");
+                    return;
+                }
+                if (!isEmpty(etCity)) {
+                    etCity.requestFocus();
+                    etCity.setError("Enter City");
+                    return;
+                }
+                if (!isEmpty(etState)) {
+                    etState.requestFocus();
+                    etState.setError("Enter State");
+                    return;
+                }
+                if (!isEmpty(etFirstName)) {
+                    etFirstName.requestFocus();
+                    etFirstName.setError("Enter First Name");
+                    return;
+                }
+                setRegisterPersonalRequest();
+                isValidPersonalInfo = true;
+
+                if (!isMobileValid) {
+                    showDialog("Sending otp...");
+                    new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
+                    showOtpAlert();
+                } else {
+                    hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
+                    btnSubmit.setVisibility(View.VISIBLE);
+                }
+
+
+                break;
+            case R.id.btnSubmit:
+
+
                 break;
         }
+    }
+
+    private void setRegisterPersonalRequest() {
+        registerRequestEntity.setFirstName("" + etFirstName.getText().toString());
+        registerRequestEntity.setLastName("" + etLastName.getText().toString());
+        registerRequestEntity.setDOB("" + etDob.getText().toString());
+        registerRequestEntity.setMobile_1("" + etMobile1.getText().toString());
+        registerRequestEntity.setMobile_2("" + etMobile2.getText().toString());
+        registerRequestEntity.setEmailId("" + etEmail.getText().toString());
+        registerRequestEntity.setPinCode("" + etPincode.getText().toString());
+
     }
 
     private void hideAllLayouts(LinearLayout linearLayout, ImageView imageView) {
@@ -216,47 +316,33 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    @Override
-    public void getVehicleNumber(View view, String vehicleNo) {
-        switch (view.getId()) {
-            case R.id.etPincode:
-                showDialog("Fetching City...");
-                new RegisterController(this).getCityState(etPincode.getText().toString(), this);
-                break;
-            case R.id.etMobile1:
-                showDialog("Sending otp...");
-                new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
-                break;
-        }
-    }
-
-    @Override
-    public void cancelVehicleNumber(View view) {
-
-    }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof GenerateOtpResponse) {
             cancelDialog();
-            if (response.getStatusNo() == 0) {
-                showOtpAlert();
-            } else {
-                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
         if (response instanceof PincodeResponse) {
-
+            cancelDialog();
             if (response.getStatusNo() == 0) {
+                etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
+                etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
+
+                registerRequestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
+                registerRequestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
+                registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
 
             }
-            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
         if (response instanceof VerifyOtpResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 if (dialog != null)
                     dialog.dismiss();
+                hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
+                btnSubmit.setVisibility(View.VISIBLE);
+                isMobileValid = true;
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
@@ -290,7 +376,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
             dialog = new Dialog(RegisterActivity.this);
             dialog.setContentView(R.layout.otp_dialog);
-            TextView text = (TextView) dialog.findViewById(R.id.tvOk);
+
+            tvOk = (TextView) dialog.findViewById(R.id.tvOk);
             TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
             tvTitle.setText("Enter OTP sent on : " + etMobile1.getText().toString());
             TextView resend = (TextView) dialog.findViewById(R.id.tvResend);
@@ -306,7 +393,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             dialogWindow.setAttributes(lp);
 
             dialog.show();
-            text.setOnClickListener(new View.OnClickListener() {
+            tvOk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     // Close dialog
@@ -342,8 +429,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void selectedStrings(List<String> strings) {
         //Toast.makeText(this, strings.toString(), Toast.LENGTH_LONG).show();
-        int[] temp = dbPersistanceController.getLifeListId(strings);
-        Log.d("RegisterActivity","test");
+      /*  int[] temp = dbPersistanceController.getLifeListId(strings);
+        Log.d("RegisterActivity", "test");*/
+        List<HealthinsuranceEntity> healthinsuranceEntities = dbPersistanceController.getHealthList();
+        Log.d("test","test");
     }
 
     @Override
@@ -372,4 +461,73 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 break;
         }
     }
+
+    //region textwatcher
+    TextWatcher pincodeTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (start == 5) {
+                etCity.setText("");
+                etState.setText("");
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() == 6) {
+                showDialog("Fetching City...");
+                new RegisterController(RegisterActivity.this).getCityState(etPincode.getText().toString(), RegisterActivity.this);
+
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    TextWatcher mobileTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (start == 9) {
+                isMobileValid = false;
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    //endregion
+
+    //region datepicker
+    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
+        @Override
+        public void onClick(final View view) {
+            Constants.hideKeyBoard(view, RegisterActivity.this);
+
+            if (view.getId() == R.id.etDob) {
+                DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etDob.setText(currentDay);
+                        }
+                    }
+                });
+            }
+        }
+    };
+    //endregion
 }
