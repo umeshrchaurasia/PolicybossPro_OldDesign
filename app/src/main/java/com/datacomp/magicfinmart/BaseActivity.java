@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.EditText;
 
 import io.realm.Realm;
 
@@ -49,4 +50,19 @@ public class BaseActivity extends AppCompatActivity {
         dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
     }
 
+    public static boolean isValidePhoneNumber(EditText editText) {
+        String phoneNumberPattern = "^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$";
+        String phoneNumberEntered = editText.getText().toString().trim();
+        return !(phoneNumberEntered.isEmpty() || !phoneNumberEntered.matches(phoneNumberPattern));
+    }
+
+    public static boolean isValideEmailID(EditText editText) {
+        String emailEntered = editText.getText().toString().trim();
+        return !(emailEntered.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailEntered).matches());
+    }
+
+    public static boolean isEmpty(EditText editText) {
+        String text = editText.getText().toString().trim();
+        return !(text.isEmpty());
+    }
 }

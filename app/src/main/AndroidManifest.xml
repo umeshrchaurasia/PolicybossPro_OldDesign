@@ -60,6 +60,7 @@
             android:label="@string/title_activity_private_car_detail"
             android:theme="@style/AppTheme" />
         <activity
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:name=".register.RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".login.LoginActivity"
@@ -181,9 +182,10 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".loan_fm.homeloan.addquote.HomeLoanApplyActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:label="@string/title_activity_home_loan_apply"
             android:theme="@style/AppTheme"></activity>
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+
         <activity
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
