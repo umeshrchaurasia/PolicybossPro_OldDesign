@@ -224,7 +224,7 @@ public class DBPersistanceController {
         List<HealthinsuranceEntity> list_Make = realm.where(HealthinsuranceEntity.class).findAll();
         ArrayList listCity = new ArrayList();
         for (int i = 0; i < list_Make.size(); i++) {
-            listCity.add(list_Make.get(i).getInsuName());
+            listCity.add(list_Make.get(i).getInsuShorName());
         }
         return listCity;
     }
@@ -237,7 +237,7 @@ public class DBPersistanceController {
         List<GeneralinsuranceEntity> list_Make = realm.where(GeneralinsuranceEntity.class).findAll();
         ArrayList listCity = new ArrayList();
         for (int i = 0; i < list_Make.size(); i++) {
-            listCity.add(list_Make.get(i).getInsuName());
+            listCity.add(list_Make.get(i).getInsuShorName());
         }
         return listCity;
     }
@@ -250,13 +250,22 @@ public class DBPersistanceController {
         List<LifeinsuranceEntity> list_Make = realm.where(LifeinsuranceEntity.class).findAll();
         ArrayList listCity = new ArrayList();
         for (int i = 0; i < list_Make.size(); i++) {
-            listCity.add(list_Make.get(i).getInsuName());
+            listCity.add(list_Make.get(i).getInsuShorName());
         }
         return listCity;
     }
 
-    public List<LifeinsuranceEntity> getLifeList() {
-        return realm.where(LifeinsuranceEntity.class).findAll();
+    public int[] getLifeListId(List<String> strings) {
+        int[] temp = new int[strings.size()];
+        int i = 0;
+        List<LifeinsuranceEntity> list_Make = realm.where(LifeinsuranceEntity.class).findAll();
+        for (String s : strings) {
+            LifeinsuranceEntity entity = realm.where(LifeinsuranceEntity.class).equalTo("InsuShorName", s.trim()).findFirst();
+            temp[i] = entity.getInsuID();
+            i++;
+        }
+
+        return temp;
     }
 
     //endregion

@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class Utility {
+    public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
     public static final String SECRET_KEY = "SECRET-ODARQ6JP-9V2Q-7BIM-0NNM-DNRTXRWMRTAL";
     public static final String CLIENT_KEY = "CLIENT-GLF2SRA5-CFIF-4X2T-HC1Z-CXV4ZWQTFQ3T";
     public static final String VERSION_CODE = "2.0";
@@ -27,5 +29,11 @@ public class Utility {
 
     public static SharedPreferences.Editor getSharedPreferenceEditor(Context context) {
         return getSharedPreference(context).edit();
+    }
+
+    public static String getCurrentMobileDateTime() {
+        SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss");
+        String currentDateandTime = sdf.format(new Date());
+        return currentDateandTime;
     }
 }

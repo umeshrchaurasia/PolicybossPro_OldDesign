@@ -32,14 +32,10 @@
 
                 <TextView
                     android:id="@+id/txtPropertyInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/lightGrey"
-                    android:drawableRight="@drawable/down_arrow_bas_screen"
-                    android:padding="15dp"
+                   style="@style/TextViewStyle.Large"
+                    android:gravity="center"
                     android:text=" Property Information"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-                    android:textColor="@color/white" />
+                />
 
 
                 <include
