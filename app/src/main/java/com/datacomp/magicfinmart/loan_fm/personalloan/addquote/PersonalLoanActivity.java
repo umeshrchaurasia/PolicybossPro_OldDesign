@@ -71,12 +71,8 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
     TextView  txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     SeekBar  sbTenure;
 
-    int seekBarCostPropProgress = 1;
     int seekBarTenureProgress = 1;
-    int seekBarApplTurnOverProgress = 1;
-    int seekBarApplProfitProgress = 1;
-    int seekBarApplDepricProgress = 1;
-    int seekBarApplIncomeProgress = 25;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -186,7 +182,7 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
 
         sbMonthlyInc.setMax(2500);
         sbMonthlyInc.setProgress(1);
-        etMonthlyInc.setText("25000");
+
 
 
         //endregion
@@ -374,13 +370,6 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
 
     private void loadSpinner() {
 
-        //region Applicant Income Source Adapter
-
-//        salaryTypeAdapter = new ArrayAdapter<String>(PersonalLoanActivity.this,
-//                android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.IncomeSource));
-//        salaryTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        /////////////////////
 
         salaryTypeAdapter = new   ArrayAdapter<String>(PersonalLoanActivity.this, R.layout.sp_item_textview, R.id.txtspinneritem, getResources().getStringArray(R.array.IncomeSource));
 
@@ -488,16 +477,11 @@ public class PersonalLoanActivity extends BaseActivity implements View.OnClickLi
         if (response instanceof GetPersonalLoanResponse) {
             if (response.getStatus_Id() == 0) {
 
-                // region temparay commited
-//                getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
-//                startActivity(new Intent(PersonalLoanActivity.this, PersonalLoanQuoteActivity.class)
-//                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
-//                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
-                //endregion
 
-
-               Toast.makeText(PersonalLoanActivity.this, response.getMsg(), Toast.LENGTH_SHORT).show();
-
+                getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
+                startActivity(new Intent(PersonalLoanActivity.this, PersonalLoanQuoteActivity.class)
+                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
+                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
 
             } else {
                 Toast.makeText(PersonalLoanActivity.this, response.getMsg(), Toast.LENGTH_SHORT).show();

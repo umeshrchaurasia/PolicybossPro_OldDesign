@@ -3,6 +3,8 @@
     package="com.datacomp.magicfinmart">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
@@ -126,23 +128,29 @@
         <activity
             android:name=".loan_fm.personalloan.PersonalLoanDetailActivity"
             android:label="@string/title_activity_personal_loan_detail"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".loan_fm.personalloan.addquote.AddQuoteActivity_PL"
             android:label="@string/title_activity_add_quote__pl"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".loan_fm.personalloan.addquote.PersonalLoanActivity"
             android:label="@string/title_activity_add_plquote"
             android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+
+        <activity
+            android:name=".loan_fm.personalloan.addquote.PersonalLoanQuoteActivity"
+            android:label="@string/title_activity_add_plquote"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".loan_fm.homeloan.HomeLoanDetailActivity"
             android:label="@string/title_activity_home_loan_detail"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".loan_fm.homeloan.addquote.AddQuoteActivity_HL"
-            android:label="@string/title_activity_add_quote__hl"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".loan_fm.homeloan.addquote.HomeLoanActivity"
@@ -170,6 +178,11 @@
             android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+        <activity
+            android:name=".loan_fm.homeloan.addquote.HomeLoanApplyActivity"
+            android:label="@string/title_activity_home_loan_apply"
+            android:theme="@style/AppTheme"></activity>
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:screenOrientation="portrait"

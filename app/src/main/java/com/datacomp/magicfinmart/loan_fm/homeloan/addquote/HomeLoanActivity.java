@@ -1076,7 +1076,7 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
         if (response instanceof GetQuoteResponse) {
             if (response.getStatus_Id() == 0) {
                 getQuoteResponse = ((GetQuoteResponse) response);
-                startActivity(new Intent(HomeLoanActivity.this, QuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) getQuoteResponse.getData())
+                startActivity(new Intent(HomeLoanActivity.this, HomeLoanQuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) getQuoteResponse.getData())
                         .putExtra(Constants.QUOTES, getQuoteResponse)
                         .putExtra(Constants.HL_REQUEST, homeLoanRequest));
             } else {
