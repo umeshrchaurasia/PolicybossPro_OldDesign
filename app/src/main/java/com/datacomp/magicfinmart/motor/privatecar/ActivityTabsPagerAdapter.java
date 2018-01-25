@@ -1,5 +1,7 @@
 package com.datacomp.magicfinmart.motor.privatecar;
 
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -7,11 +9,20 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFragment;
 import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
 
+import java.util.ArrayList;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicationEntity;
+
 
 public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
 
-    public ActivityTabsPagerAdapter(FragmentManager fm) {
+    public final static String QUOTE_LIST = "LIST_QUOTE";
+    public final static String APPLICATION_LIST = "LIST_APPLICATION";
+    QuoteApplicationEntity mMasterData;
+
+    public ActivityTabsPagerAdapter(FragmentManager fm, QuoteApplicationEntity masterData) {
         super(fm);
+        mMasterData = masterData;
     }
 
     @Override
@@ -20,10 +31,18 @@ public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
         switch (index) {
             case 0:
                 // Salary fragment activity
-                return new MotorQuoteFragment();
+                MotorQuoteFragment Qfragment = new MotorQuoteFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuoteList());
+                Qfragment.setArguments(bundle);
+                return Qfragment;
             case 1:
                 // ABN fragment activity
-                return new MotorApplicationFragment();
+                MotorApplicationFragment Afragment = new MotorApplicationFragment();
+                Bundle Abundle = new Bundle();
+                Abundle.putParcelableArrayList(APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getApplicationList());
+                Afragment.setArguments(Abundle);
+                return Afragment;
         }
 
         return null;

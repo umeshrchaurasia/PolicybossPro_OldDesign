@@ -3,14 +3,10 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import java.util.HashMap;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -22,20 +18,20 @@ import retrofit2.http.POST;
 public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
 
 
-    public QuoteApplicationRequestBuilder.MasterNetworkService getService() {
+    public QuoteApplicationRequestBuilder.QuoteApplicationNetworkService getService() {
 
-        return super.build().create(QuoteApplicationRequestBuilder.MasterNetworkService.class);
+        return super.build().create(QuoteApplicationRequestBuilder.QuoteApplicationNetworkService.class);
     }
 
-    public interface MasterNetworkService {
+    public interface QuoteApplicationNetworkService {
 
         @Headers("token:1234567890")
-        @POST("/api/get-loan-request")
-        Call<CarMasterResponse> getQuoteApplication(@Body HashMap<String, String> body);
+        @POST("/api/get-vehicle-request")
+        Call<QuoteApplicationResponse> getQuoteApplication(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
         @POST("/api/save-loan-request")
-        Call<BikeMasterResponse> saveQuote(@Body HashMap<String, String> body);
+        Call<QuoteApplicationResponse> saveQuote(@Body HashMap<String, String> body);
 
        /* @Headers("token:1234567890")
         @POST("/api/generate-otp")

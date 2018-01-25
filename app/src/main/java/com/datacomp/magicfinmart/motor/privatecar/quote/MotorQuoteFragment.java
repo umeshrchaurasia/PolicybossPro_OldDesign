@@ -14,9 +14,14 @@ import android.view.ViewGroup;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -27,6 +32,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     RecyclerView rvQuoteList;
     MotorQuoteAdapter motorQuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    List<QuoteListEntity> mQuoteList;
 
     public MotorQuoteFragment() {
         // Required empty public constructor
@@ -39,6 +45,10 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_motor_quote, container, false);
         initView(view);
+        mQuoteList = new ArrayList<>();
+        mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST);
+        motorQuoteAdapter = new MotorQuoteAdapter(getActivity(), mQuoteList);
+        rvQuoteList.setAdapter(motorQuoteAdapter);
         return view;
     }
 
@@ -48,9 +58,6 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         rvQuoteList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvQuoteList.setLayoutManager(layoutManager);
-
-        motorQuoteAdapter = new MotorQuoteAdapter(getActivity());
-        rvQuoteList.setAdapter(motorQuoteAdapter);
         btnAddQuote.setOnClickListener(this);
 
     }
