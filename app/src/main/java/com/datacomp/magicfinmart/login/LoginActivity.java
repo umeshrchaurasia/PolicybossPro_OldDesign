@@ -9,7 +9,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +31,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             "android.permission.CAMERA",
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.SEND_SMS",
-            "android.permission.READ_SMS"};
+            "android.permission.READ_SMS",
+            "android.permission.RECEIVE_SMS"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +59,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         int fineLocation = ContextCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int sendSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[2]);
         int readSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[3]);
-
+        int receiveSms =ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
         return camera == PackageManager.PERMISSION_GRANTED
                 && fineLocation == PackageManager.PERMISSION_GRANTED
                 && sendSms == PackageManager.PERMISSION_GRANTED
-                && readSms == PackageManager.PERMISSION_GRANTED;
+                && readSms == PackageManager.PERMISSION_GRANTED
+                && receiveSms == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermission() {
@@ -82,9 +83,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     boolean fineLocation = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean sendSms = grantResults[2] == PackageManager.PERMISSION_GRANTED;
                     boolean readSms = grantResults[3] == PackageManager.PERMISSION_GRANTED;
+                    boolean receiveSms = grantResults[4] == PackageManager.PERMISSION_GRANTED;
 
 
-                    if (camera && fineLocation && sendSms && readSms) {
+                    if (camera && fineLocation && sendSms && readSms && receiveSms) {
                         // you can do all necessary steps
                         // new Dialer().getObject().getLeadData(String.valueOf(Utility.EmpCode), this, this);
                         Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
