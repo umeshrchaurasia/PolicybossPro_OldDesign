@@ -137,9 +137,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     //endregion
 
     private void initLayouts() {
+        hideAllLayouts(llPersonalInfo, ivPersonalInfo);
         llPersonalInfo.setVisibility(View.VISIBLE);
         llProfessionalInfo.setVisibility(View.GONE);
-        hideAllLayouts(llPersonalInfo, ivPersonalInfo);
         spLifeIns.setEnabled(false);
         spGenIns.setEnabled(false);
         spHealthIns.setEnabled(false);
@@ -278,9 +278,66 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
                 break;
             case R.id.btnSubmit:
-
-
+                if (isMobileValid) {
+                    setPersonalInfo();
+                }
+                Log.d("Register", "" + registerRequestEntity.getFirstName());
                 break;
+        }
+    }
+
+    private void setPersonalInfo() {
+
+        if (chbxLife.isChecked()) {
+            registerRequestEntity.setIsLic("1");
+            if (spLifeIns.getSelectedStrings().size() > 0) {
+                registerRequestEntity.setLIC_Comp(dbPersistanceController.getlifeListId(spLifeIns.getSelectedStrings()));
+            }
+
+        } else {
+            registerRequestEntity.setIsLic("0");
+        }
+
+
+        if (chbxGen.isChecked()) {
+            registerRequestEntity.setIsGic("1");
+            if (spGenIns.getSelectedStrings().size() > 0) {
+                registerRequestEntity.setGIC_Comp(dbPersistanceController.getGeneralListId(spGenIns.getSelectedStrings()));
+            }
+
+        } else {
+            registerRequestEntity.setIsGic("0");
+        }
+
+        if (chbxHealth.isChecked()) {
+            registerRequestEntity.setIsHealth("1");
+            if (spHealthIns.getSelectedStrings().size() > 0) {
+                registerRequestEntity.setHealth_Comp(dbPersistanceController.getHealthListId(spHealthIns.getSelectedStrings()));
+            }
+
+        } else {
+            registerRequestEntity.setIsHealth("0");
+        }
+
+        if (chbxBonds.isChecked()) {
+            registerRequestEntity.setBonds("1");
+        } else {
+            registerRequestEntity.setBonds("0");
+        }
+        if (chbxMutual.isChecked()) {
+            registerRequestEntity.setMF("1");
+        } else {
+            registerRequestEntity.setMF("0");
+        }
+        if (chbxPostal.isChecked()) {
+            registerRequestEntity.setPostal("1");
+        } else {
+            registerRequestEntity.setPostal("0");
+        }
+        if (chbxBonds.isChecked()) {
+            registerRequestEntity.setBonds("1");
+        } else {
+            registerRequestEntity.setBonds("0");
         }
     }
 
@@ -432,7 +489,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
       /*  int[] temp = dbPersistanceController.getLifeListId(strings);
         Log.d("RegisterActivity", "test");*/
         List<HealthinsuranceEntity> healthinsuranceEntities = dbPersistanceController.getHealthList();
-        Log.d("test","test");
+        Log.d("test", "test");
     }
 
     @Override

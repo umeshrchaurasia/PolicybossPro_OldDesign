@@ -260,17 +260,17 @@ public class DBPersistanceController {
         return realm.where(GeneralinsuranceEntity.class).findAll();
     }
 
-    public int[] getGeneralListId(List<String> strings) {
-        int[] temp = new int[strings.size()];
-        int i = 0;
-        List<GeneralinsuranceEntity> list_Make = realm.where(GeneralinsuranceEntity.class).findAll();
+    public String getGeneralListId(List<String> strings) {
+        String text = "";
         for (String s : strings) {
             GeneralinsuranceEntity entity = realm.where(GeneralinsuranceEntity.class).equalTo("InsuShorName", s.trim()).findFirst();
-            temp[i] = entity.getInsuID();
-            i++;
+            if (text.isEmpty()) {
+                text = text + entity.getInsuID();
+            } else {
+                text = text + "," + entity.getInsuID();
+            }
         }
-
-        return temp;
+        return text;
     }
 
 
@@ -283,17 +283,17 @@ public class DBPersistanceController {
         return listCity;
     }
 
-    public int[] getLifeListId(List<String> strings) {
-        int[] temp = new int[strings.size()];
-        int i = 0;
-        List<LifeinsuranceEntity> list_Make = realm.where(LifeinsuranceEntity.class).findAll();
+    public String getlifeListId(List<String> strings) {
+        String text = "";
         for (String s : strings) {
             LifeinsuranceEntity entity = realm.where(LifeinsuranceEntity.class).equalTo("InsuShorName", s.trim()).findFirst();
-            temp[i] = entity.getInsuID();
-            i++;
+            if (text.isEmpty()) {
+                text = text + entity.getInsuID();
+            } else {
+                text = text + "," + entity.getInsuID();
+            }
         }
-
-        return temp;
+        return text;
     }
 
     //endregion
