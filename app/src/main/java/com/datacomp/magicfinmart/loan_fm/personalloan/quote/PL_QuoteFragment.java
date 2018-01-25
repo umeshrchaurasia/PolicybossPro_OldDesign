@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PesonalLoan_QuoteAdapter;
+import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PersonalLoanActivity;
 
 import java.text.SimpleDateFormat;
@@ -59,7 +60,7 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.plAddQuote:
-                startActivity(new Intent(getActivity(), PersonalLoanActivity.class));
+                startActivity(new Intent(getActivity(), PLMainActivity.class));
                 break;
         }
     }

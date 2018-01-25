@@ -11,7 +11,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="92"
         android:scrollbars="none">
 
         <LinearLayout
@@ -50,6 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginTop="8dp"
+                android:visibility="visible"
                 app:cardElevation="2dp">
 
                 <LinearLayout
@@ -277,25 +279,102 @@
                 android:id="@+id/llProfessionalInfo"
                 style="@style/LinearLayoutStyle"
                 android:animateLayoutChanges="true"
+                android:background="@color/white"
                 android:visibility="visible">
+
+                <CheckBox
+                    android:id="@+id/chbxLife"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Life Insurance" />
+
+                <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
+                    android:id="@+id/spLifeIns"
+                    android:clickable="false"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <CheckBox
+                    android:id="@+id/chbxGen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="General Insurance" />
+
+                <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
+                    android:clickable="false"
+                    android:id="@+id/spGenIns"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+
+                <CheckBox
+                    android:id="@+id/chbxHealth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Health Insurance" />
+
+
+                <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
+                    android:id="@+id/spHealthIns"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="5dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="personal Info" />
+                    <CheckBox
+                        android:id="@+id/chbxMutual"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mutual Fund" />
+
+                    <CheckBox
+                        android:id="@+id/chbxStocks"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Stocks" />
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/chbxPostal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Postal Savings" />
+
+                    <CheckBox
+                        android:id="@+id/chbxBonds"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Bonds/CFDs" />
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
+    <Button
+        android:visibility="gone"
+        android:id="@+id/btnSubmit"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:text="SUBMIT" />
 
 </LinearLayout>
