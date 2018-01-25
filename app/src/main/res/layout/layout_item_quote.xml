@@ -10,9 +10,6 @@
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
 
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,13 +21,16 @@
             android:orientation="horizontal"
             android:weightSum="100">
 
+
             <TextView
-                style="@style/TextViewStyle.Medium"
+                android:id="@+id/txtPersonName"
+                style="@style/TextViewStyle.Large"
                 android:layout_width="0dp"
+                android:layout_gravity="right"
                 android:layout_weight="90"
                 android:gravity="center"
-                android:padding="12dp"
-                android:text="lorem ipsum lorem ipsum lorem ipsum "
+                android:lines="2"
+                android:padding="4dp"
                 android:textAllCaps="true"
                 android:textColor="@color/header_dark_text"
                 android:textStyle="bold" />
@@ -45,6 +45,7 @@
                 android:text="@string/threedots"
                 android:textAppearance="?android:textAppearanceLarge"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <View
@@ -72,16 +73,16 @@
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="Sum insured"
+                    android:text="Vehicle"
                     android:textAllCaps="true"
-                    android:textColor="@color/header_light_text" />
+                    android:textColor="@color/description_text" />
 
                 <TextView
+                    android:id="@+id/txtVehicleName"
                     style="@style/TextViewStyle.Medium"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="999999999"
                     android:textAllCaps="true"
                     android:textColor="@color/header_dark_text" />
             </LinearLayout>
@@ -100,14 +101,14 @@
                     android:padding="4dp"
                     android:text="Quote date"
                     android:textAllCaps="true"
-                    android:textColor="@color/header_light_text" />
+                    android:textColor="@color/description_text" />
 
                 <TextView
+                    android:id="@+id/txtQuoteDate"
                     style="@style/TextViewStyle.Medium"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="30/11/2018"
                     android:textAllCaps="true"
                     android:textColor="@color/header_dark_text" />
             </LinearLayout>

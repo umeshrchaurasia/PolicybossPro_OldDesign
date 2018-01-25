@@ -81,5 +81,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        mAdapter = new ActivityTabsPagerAdapter(getSupportFragmentManager(), null);
+        viewPager.setAdapter(mAdapter);
     }
 }

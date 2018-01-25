@@ -24,19 +24,20 @@
             <ImageView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="30"
+                android:layout_weight="0"
                 android:padding="8dp"
-                android:src="@drawable/axis_bank" />
+                android:src="@drawable/axis_bank"
+                android:visibility="gone" />
 
             <TextView
-                style="@style/TextViewStyle.Medium"
+                android:id="@+id/txtInsurerName"
+                style="@style/TextViewStyle.Large"
                 android:layout_width="0dp"
                 android:layout_gravity="right"
-                android:layout_weight="60"
-                android:gravity="left"
+                android:layout_weight="90"
+                android:gravity="center"
                 android:lines="2"
-                android:padding="12dp"
-                android:text="lorem ipsum lorem ipsum lorem ipsum "
+                android:padding="4dp"
                 android:textAllCaps="true"
                 android:textColor="@color/header_dark_text"
                 android:textStyle="bold" />
@@ -70,7 +71,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_weight="33"
                 android:orientation="vertical"
                 android:padding="4dp">
 
@@ -84,11 +85,11 @@
                     android:textColor="@color/header_light_text" />
 
                 <TextView
+                    android:id="@+id/txtCRN"
                     style="@style/TextViewStyle.Medium"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="999999999"
                     android:textAllCaps="true"
                     android:textColor="@color/header_dark_text" />
             </LinearLayout>
@@ -96,7 +97,33 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_weight="33"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="Vehicle No"
+                    android:textAllCaps="true"
+                    android:textColor="@color/header_light_text" />
+
+                <TextView
+                    android:id="@+id/txtVehicleNo"
+                    style="@style/TextViewStyle.Medium"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/header_dark_text" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="33"
                 android:orientation="vertical"
                 android:padding="4dp">
 
@@ -110,11 +137,11 @@
                     android:textColor="@color/header_light_text" />
 
                 <TextView
+                    android:id="@+id/txtCreatedDate"
                     style="@style/TextViewStyle.Medium"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="30/11/2018"
                     android:textAllCaps="true"
                     android:textColor="@color/header_dark_text" />
             </LinearLayout>
