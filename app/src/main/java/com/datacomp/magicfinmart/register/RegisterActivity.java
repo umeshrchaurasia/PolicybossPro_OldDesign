@@ -8,9 +8,13 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,9 +24,11 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,7 +40,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpR
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 
-public class RegisterActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber {
+public class RegisterActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, MultiSelectionSpinner.OnMultipleItemsSelectedListener, CompoundButton.OnCheckedChangeListener {
 
     LinearLayout llPersonalInfo, llProfessionalInfo;
     ImageView ivProfessionalInfo, ivPersonalInfo;
@@ -45,6 +51,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     Dialog dialog;
     ArrayList<String> healthList, generalList, lifeList;
     DBPersistanceController dbPersistanceController;
+    MultiSelectionSpinner spLifeIns, spGenIns, spHealthIns;
+    CheckBox chbxLife, chbxGen, chbxHealth, chbxMutual, chbxStocks, chbxPostal, chbxBonds;
+    Button btnSubmit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +69,28 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         healthList = dbPersistanceController.getHealthListNames();
         generalList = dbPersistanceController.getGeneralListNames();
         lifeList = dbPersistanceController.getLifeListNames();
+        initMultiSelect();
+
+    }
+
+    private void initMultiSelect() {
+
+
+        spLifeIns.setItems(lifeList);
+        //spLifeIns.setSelection(new int[]{2, 6});
+        spLifeIns.setListener(this);
+
+
+        spGenIns.setItems(generalList);
+        //spLifeIns.setSelection(new int[]{2, 6});
+        spGenIns.setListener(this);
+
+
+        spHealthIns.setItems(healthList);
+        //spLifeIns.setSelection(new int[]{2, 6});
+        spHealthIns.setListener(this);
+
+
     }
 
 
@@ -91,9 +122,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     //endregion
 
     private void initLayouts() {
-        llPersonalInfo.setVisibility(View.GONE);
+        llPersonalInfo.setVisibility(View.VISIBLE);
         llProfessionalInfo.setVisibility(View.GONE);
         hideAllLayouts(llPersonalInfo, ivPersonalInfo);
+        spLifeIns.setEnabled(false);
+        spGenIns.setEnabled(false);
+        spHealthIns.setEnabled(false);
+
     }
 
     private void setListener() {
@@ -103,9 +138,16 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         rlProfessionalInfo.setOnClickListener(this);
         etMobile1.addTextChangedListener(new GenericTextWatcher(etMobile1, this));
         etPincode.addTextChangedListener(new GenericTextWatcher(etPincode, this));
+        chbxGen.setOnCheckedChangeListener(this);
+        chbxHealth.setOnCheckedChangeListener(this);
+        chbxLife.setOnCheckedChangeListener(this);
     }
 
     private void initWidgets() {
+        spLifeIns = (MultiSelectionSpinner) findViewById(R.id.spLifeIns);
+        spGenIns = (MultiSelectionSpinner) findViewById(R.id.spGenIns);
+        spHealthIns = (MultiSelectionSpinner) findViewById(R.id.spHealthIns);
+
         ivProfessionalInfo = (ImageView) findViewById(R.id.ivProfessionalInfo);
         ivPersonalInfo = (ImageView) findViewById(R.id.ivPersonalInfo);
         llPersonalInfo = (LinearLayout) findViewById(R.id.llPersonalInfo);
@@ -126,6 +168,17 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         etState = (EditText) findViewById(R.id.etState);
         ivMale = (ImageView) findViewById(R.id.ivMale);
         ivFemale = (ImageView) findViewById(R.id.ivFemale);
+
+
+        chbxLife = (CheckBox) findViewById(R.id.chbxLife);
+        chbxGen = (CheckBox) findViewById(R.id.chbxGen);
+        chbxHealth = (CheckBox) findViewById(R.id.chbxHealth);
+        chbxMutual = (CheckBox) findViewById(R.id.chbxMutual);
+        chbxStocks = (CheckBox) findViewById(R.id.chbxStocks);
+        chbxPostal = (CheckBox) findViewById(R.id.chbxPostal);
+        chbxBonds = (CheckBox) findViewById(R.id.chbxBonds);
+
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
     }
 
     @Override
@@ -242,7 +295,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             tvTitle.setText("Enter OTP sent on : " + etMobile1.getText().toString());
             TextView resend = (TextView) dialog.findViewById(R.id.tvResend);
             etOtp = (EditText) dialog.findViewById(R.id.etOtp);
-            dialog.setCancelable(false);
+            dialog.setCancelable(true);
             dialog.setCanceledOnTouchOutside(false);
 
             Window dialogWindow = dialog.getWindow();
@@ -278,6 +331,45 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void selectedIndices(List<Integer> indices) {
+
+    }
+
+    @Override
+    public void selectedStrings(List<String> strings) {
+        //Toast.makeText(this, strings.toString(), Toast.LENGTH_LONG).show();
+        int[] temp = dbPersistanceController.getLifeListId(strings);
+        Log.d("RegisterActivity","test");
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        switch (compoundButton.getId()) {
+            case R.id.chbxGen:
+                if (b) {
+                    spGenIns.setEnabled(true);
+                } else {
+                    spGenIns.setEnabled(false);
+                }
+                break;
+            case R.id.chbxHealth:
+                if (b) {
+                    spHealthIns.setEnabled(true);
+                } else {
+                    spHealthIns.setEnabled(false);
+                }
+                break;
+            case R.id.chbxLife:
+                if (b) {
+                    spLifeIns.setEnabled(true);
+                } else {
+                    spLifeIns.setEnabled(false);
+                }
+                break;
         }
     }
 }
