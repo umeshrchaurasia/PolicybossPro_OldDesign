@@ -30,7 +30,7 @@
                 android:visibility="gone" />
 
             <TextView
-                android:id="@+id/txtInsurerName"
+                android:id="@+id/txtPersonName"
                 style="@style/TextViewStyle.Large"
                 android:layout_width="0dp"
                 android:layout_gravity="right"
