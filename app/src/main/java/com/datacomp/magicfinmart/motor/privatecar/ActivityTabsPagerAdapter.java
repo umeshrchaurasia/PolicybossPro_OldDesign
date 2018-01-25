@@ -33,14 +33,22 @@ public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
                 // Salary fragment activity
                 MotorQuoteFragment Qfragment = new MotorQuoteFragment();
                 Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuoteList());
+                if (mMasterData == null) {
+                    bundle.putParcelableArrayList(QUOTE_LIST, null);
+                } else {
+                    bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuoteList());
+                }
                 Qfragment.setArguments(bundle);
                 return Qfragment;
             case 1:
                 // ABN fragment activity
                 MotorApplicationFragment Afragment = new MotorApplicationFragment();
                 Bundle Abundle = new Bundle();
-                Abundle.putParcelableArrayList(APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getApplicationList());
+                if (mMasterData == null) {
+                    Abundle.putParcelableArrayList(APPLICATION_LIST, null);
+                } else {
+                    Abundle.putParcelableArrayList(APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getApplicationList());
+                }
                 Afragment.setArguments(Abundle);
                 return Afragment;
         }

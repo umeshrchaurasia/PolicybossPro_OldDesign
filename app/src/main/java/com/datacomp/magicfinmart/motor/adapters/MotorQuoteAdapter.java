@@ -10,8 +10,17 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 
 /**
  * Created by Rajeev Ranjan on 11/01/2018.
@@ -19,9 +28,13 @@ import com.datacomp.magicfinmart.R;
 
 public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.QuoteItem> {
     Context mcontext;
+    List<QuoteListEntity> mQuoteList;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public MotorQuoteAdapter(Context context) {
+    public MotorQuoteAdapter(Context context, List<QuoteListEntity> list) {
         this.mcontext = context;
+        mQuoteList = list;
+
     }
 
     @Override
@@ -36,12 +49,30 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     @Override
     public void onBindViewHolder(QuoteItem holder, int position) {
-//        holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openPopUp(view);
-//            }
-//        });
+
+        if (holder instanceof QuoteItem) {
+            QuoteListEntity entity = mQuoteList.get(position);
+
+            holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
+
+            CarMasterEntity carMasterEntity = new DBPersistanceController(mcontext).getVarientDetails("" + entity.getVehicle_id());
+            holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
+            String currentDay = "";
+            try {
+                currentDay = simpleDateFormat.format(entity.getCreated_date());
+            } catch (Exception e) {
+
+            }
+            holder.txtQuoteDate.setText(currentDay);
+
+
+            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openPopUp(view);
+                }
+            });
+        }
     }
 
     private void openPopUp(View v) {
@@ -76,18 +107,21 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     @Override
     public int getItemCount() {
-        return 5;
+        return mQuoteList.size();
     }
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
         //  public ImageView ivTripleDot;
-        public CheckBox chkAddon;
+        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtOverflowMenu;
 
 
         public QuoteItem(View itemView) {
             super(itemView);
-            //ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
+            txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
+            txtVehicleName = (TextView) itemView.findViewById(R.id.txtVehicleName);
+            txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
+            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
         }
     }
 }
