@@ -12,6 +12,12 @@ import android.view.ViewGroup;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.adapters.MotorApplicationAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -19,6 +25,7 @@ import com.datacomp.magicfinmart.motor.adapters.MotorApplicationAdapter;
 public class MotorApplicationFragment extends BaseFragment {
     RecyclerView rvApplicationList;
     MotorApplicationAdapter motorApplicationAdapter;
+    List<ApplicationListEntity> mApplicationList;
 
     public MotorApplicationFragment() {
         // Required empty public constructor
@@ -31,6 +38,14 @@ public class MotorApplicationFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_motor_application, container, false);
         initView(view);
+
+        mApplicationList = new ArrayList<>();
+
+        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST) != null) {
+            mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST);
+        }
+        motorApplicationAdapter = new MotorApplicationAdapter(getActivity(),mApplicationList);
+        rvApplicationList.setAdapter(motorApplicationAdapter);
         return view;
     }
 
@@ -40,8 +55,7 @@ public class MotorApplicationFragment extends BaseFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvApplicationList.setLayoutManager(layoutManager);
 
-        motorApplicationAdapter = new MotorApplicationAdapter(getActivity());
-        rvApplicationList.setAdapter(motorApplicationAdapter);
+
     }
 
 }

@@ -14,15 +14,21 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
+
 /**
  * Created by Rajeev Ranjan on 11/01/2018.
  */
 
 public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicationAdapter.ApplicationItem> {
     Context context;
+    List<ApplicationListEntity> mAppList;
 
-    public MotorApplicationAdapter(Context context) {
+    public MotorApplicationAdapter(Context context, List<ApplicationListEntity> mApplicationList) {
         this.context = context;
+        mApplicationList = mAppList;
     }
 
     @Override
@@ -72,14 +78,16 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
     @Override
     public int getItemCount() {
-        return 5;
+        if (mAppList == null) {
+            return 0;
+        } else {
+            return mAppList.size();
+        }
     }
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        public TextView txtOverflowMenu;
-        public CheckBox chkAddon;
-
+        public TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtVehicleNo, txtInsurerName;
 
         public ApplicationItem(View itemView) {
             super(itemView);

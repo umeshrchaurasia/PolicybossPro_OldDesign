@@ -96,7 +96,7 @@ public class QuoteListEntity implements Parcelable {
         private int ss_id;
         private int geo_lat;
         private int geo_long;
-        private boolean isTwentyfour;
+        private int isTwentyfour;
         private int isActive;
         private String created_date;
 
@@ -444,11 +444,11 @@ public class QuoteListEntity implements Parcelable {
             this.geo_long = geo_long;
         }
 
-        public boolean getIsTwentyfour() {
+        public int getIsTwentyfour() {
             return isTwentyfour;
         }
 
-        public void setIsTwentyfour(boolean isTwentyfour) {
+        public void setIsTwentyfour(int isTwentyfour) {
             this.isTwentyfour = isTwentyfour;
         }
 
@@ -518,7 +518,7 @@ public class QuoteListEntity implements Parcelable {
         dest.writeInt(this.ss_id);
         dest.writeInt(this.geo_lat);
         dest.writeInt(this.geo_long);
-        dest.writeByte(this.isTwentyfour ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.isTwentyfour);
         dest.writeInt(this.isActive);
         dest.writeString(this.created_date);
     }
@@ -570,7 +570,7 @@ public class QuoteListEntity implements Parcelable {
         this.ss_id = in.readInt();
         this.geo_lat = in.readInt();
         this.geo_long = in.readInt();
-        this.isTwentyfour = in.readByte() != 0;
+        this.isTwentyfour = in.readInt();
         this.isActive = in.readInt();
         this.created_date = in.readString();
     }
