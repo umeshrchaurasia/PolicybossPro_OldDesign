@@ -15,8 +15,8 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
-
 
 
 public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
@@ -74,11 +74,11 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
                     // move to next screen
                     viewPager.setCurrentItem(current);
                 } else {
-                    startActivity(new Intent(this, SplashScreenActivity.class));
+                    startActivity(new Intent(this, LoginActivity.class));
                 }
                 break;
             case R.id.btn_skip:
-                startActivity(new Intent(this, SplashScreenActivity.class));
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
         }
     }
