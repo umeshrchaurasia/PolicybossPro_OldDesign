@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
@@ -94,7 +96,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
     private void bind_Adapters() {
 
         //region make model
-        makeModelAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, makeModelList);
+        makeModelAdapter = new ArrayAdapter(this, R.layout.sp_item_textview, R.id.txtspinneritem, makeModelList);
         acMakeModel.setAdapter(makeModelAdapter);
 
         acMakeModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,28 +112,47 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
                 spFuel.setVisibility(View.VISIBLE);
                 spVarient.setVisibility(View.VISIBLE);
 
+                //region varient adapter
+
+                varientAdapter = new
+                        ArrayAdapter(AddQuoteActivity.this, R.layout.sp_item_textview, R.id.txtspinneritem, variantList) {
+                            @NonNull
+                            @Override
+                            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                                return super.getView(position, convertView, parent);
+                            }
+
+                            @Override
+                            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                                View view = super.getDropDownView(position, convertView, parent);
+                                TextView tv = (TextView) view.findViewById(R.id.txtspinneritem);
+                                tv.setTextSize(14f);
+                                tv.setPadding(4, 3, 3, 4);
+                                return view;
+                            }
+                        };
+                spVarient.setAdapter(varientAdapter);
+
+                //endregion
+
                 //region fuel adapter
 
-//                fuelAdapter = new
-//                        ArrayAdapter(AddQuoteActivity.this, android.R.layout.simple_list_item_1, fuelList);
-//                spFuel.setAdapter(fuelAdapter);
-
                 fuelAdapter = new
-                        ArrayAdapter(AddQuoteActivity.this, R.layout.sp_item_textview, R.id.txtspinneritem, fuelList);
+                        ArrayAdapter(AddQuoteActivity.this, R.layout.sp_item_textview, R.id.txtspinneritem, fuelList) {
+                            @NonNull
+                            @Override
+                            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                                View view1 = super.getView(position, convertView, parent);
+                                TextView tv = (TextView) view1.findViewById(R.id.txtspinneritem);
+                                tv.setPadding(0, 0, 0, 0);
+                                return view1;
+                            }
+                        };
                 spFuel.setAdapter(fuelAdapter);
 
                 //endregion
 
-                //region fuel adapter
-                //   varientAdapter = new
-//                        ArrayAdapter(AddQuoteActivity.this, android.R.layout.simple_list_item_1, variantList);
-//                spVarient.setAdapter(varientAdapter);
 
-                varientAdapter = new
-                        ArrayAdapter(AddQuoteActivity.this, R.layout.sp_item_textview, R.id.txtspinneritem, variantList);
-                spVarient.setAdapter(varientAdapter);
-
-                //endregion
             }
         });
 
@@ -156,11 +177,21 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
 
         // region city adapter
 
-        //cityAdapter = new ArrayAdapter<String>(this,
-        //        android.R.layout.simple_list_item_1, cityList);
+        cityAdapter = new ArrayAdapter<String>(this, R.layout.sp_item_textview, R.id.txtspinneritem, cityList) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view1 = super.getView(position, convertView, parent);
+                TextView tv = (TextView) view1.findViewById(R.id.txtspinneritem);
+                tv.setPadding(0, 0, 0, 0);
+                view1.setPadding(0, 0, 0, 0);
+                return view1;
+            }
+        };
 
-        cityAdapter = new ArrayAdapter<String>(this,
-                R.layout.sp_item_textview, R.id.txtspinneritem, cityList);
+//        cityAdapter = new ArrayAdapter<String>(this,
+//                R.layout.sp_item_textview, R.id.txtspinneritem, cityList);
+//
         acRto.setAdapter(cityAdapter);
         acRto.setThreshold(2);
 
@@ -171,24 +202,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
                 Constants.hideKeyBoard(acRto, AddQuoteActivity.this);
             }
         });
-        /**
-         * Unset the var whenever the user types. Validation will
-         * then fail. This is how we enforce selecting from the list.
-         *//*
-        acRto.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                regplace = null;
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });*/
         //endregion
 
         // region prev insurer adapter
@@ -210,6 +224,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
                                                 ViewGroup parent) {
                         View view = super.getDropDownView(position, convertView, parent);
                         TextView tv = (TextView) view.findViewById(R.id.txtspinneritem);
+                        tv.setPadding(0, 0, 0, 0);
                         if (position == 0) {
                             // Set the hint text color gray
                             tv.setTextColor(Color.GRAY);
@@ -217,6 +232,17 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
                             tv.setTextColor(Color.BLACK);
                         }
                         return view;
+                    }
+
+
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView,
+                                        @NonNull ViewGroup parent) {
+                        View view1 = super.getView(position, convertView, parent);
+                        view1.setPadding(0, 0, 0, 0);
+                        return view1;
+
                     }
                 };
 
@@ -252,7 +278,16 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         //endregion
 
         // region ncb adapter
-        ncbPerctAdapter = new ArrayAdapter(this, R.layout.sp_item_textview, R.id.txtspinneritem, getResources().getStringArray(R.array.ncb_percent));
+        ncbPerctAdapter = new ArrayAdapter(this, R.layout.sp_item_textview, R.id.txtspinneritem, getResources().getStringArray(R.array.ncb_percent)) {
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view1 = super.getView(position, convertView, parent);
+                TextView tx = (TextView) view1.findViewById(R.id.txtspinneritem);
+                tx.setPadding(0, 0, 0, 0);
+                return view1;
+            }
+        };
         spNcbPercent.setAdapter(ncbPerctAdapter);
         //endregion
     }

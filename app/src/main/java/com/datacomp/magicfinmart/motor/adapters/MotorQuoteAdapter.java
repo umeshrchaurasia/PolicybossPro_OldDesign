@@ -18,10 +18,10 @@ import com.datacomp.magicfinmart.R;
  */
 
 public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.QuoteItem> {
-    Context context;
+    Context mcontext;
 
     public MotorQuoteAdapter(Context context) {
-        this.context = context;
+        this.mcontext = context;
     }
 
     @Override
@@ -30,6 +30,8 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_item_quote, parent, false);
         return new MotorQuoteAdapter.QuoteItem(itemView);
+
+
     }
 
     @Override
@@ -43,7 +45,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
     }
 
     private void openPopUp(View v) {
-        final PopupMenu popupMenu = new PopupMenu(context, v);
+        final PopupMenu popupMenu = new PopupMenu(mcontext, v);
         final Menu menu = popupMenu.getMenu();
 
         popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
