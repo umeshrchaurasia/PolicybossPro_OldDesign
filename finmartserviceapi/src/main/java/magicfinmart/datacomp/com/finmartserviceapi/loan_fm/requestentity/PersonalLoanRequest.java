@@ -30,6 +30,8 @@ public class PersonalLoanRequest implements Parcelable {
     private String ApplicantGender;
     private String BrokerId;
     private String empcode;
+    private String api_source;
+
 
     public PersonalLoanRequest() {
 
@@ -43,6 +45,7 @@ public class PersonalLoanRequest implements Parcelable {
         this.ApplicantGender = "";
         this.BrokerId="";
         this.empcode="";
+        this.api_source="";
     }
 
     public String getApplicantGender() {
@@ -125,6 +128,14 @@ public class PersonalLoanRequest implements Parcelable {
         this.empcode = empcode;
     }
 
+    public String getApi_source() {
+        return api_source;
+    }
+
+    public void setApi_source(String api_source) {
+        this.api_source = api_source;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -142,6 +153,7 @@ public class PersonalLoanRequest implements Parcelable {
         dest.writeString(this.ApplicantGender);
         dest.writeString(this.BrokerId);
         dest.writeString(this.empcode);
+        dest.writeString(this.api_source);
     }
 
     protected PersonalLoanRequest(Parcel in) {
@@ -155,6 +167,7 @@ public class PersonalLoanRequest implements Parcelable {
         this.ApplicantGender = in.readString();
         this.BrokerId = in.readString();
         this.empcode = in.readString();
+        this.api_source = in.readString();
     }
 
     public static final Parcelable.Creator<PersonalLoanRequest> CREATOR = new Parcelable.Creator<PersonalLoanRequest>() {

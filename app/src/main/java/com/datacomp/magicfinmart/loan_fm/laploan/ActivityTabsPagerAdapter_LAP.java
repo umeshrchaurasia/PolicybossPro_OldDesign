@@ -33,6 +33,7 @@ public class ActivityTabsPagerAdapter_LAP extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        // get item count - equal to number of tabs
+        return 2;
     }
 }

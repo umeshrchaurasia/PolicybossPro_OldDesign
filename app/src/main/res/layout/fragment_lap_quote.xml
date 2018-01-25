@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:orientation="vertical"
-    tools:context=".loan_fm.homeloan.quote.LAP_QuoteFragment">
+    tools:context=".loan_fm.laploan.quote.LAP_QuoteFragment">
 
 
 
@@ -18,7 +17,7 @@
 
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/hlAddQuote"
+        android:id="@+id/lapAddQuote"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
