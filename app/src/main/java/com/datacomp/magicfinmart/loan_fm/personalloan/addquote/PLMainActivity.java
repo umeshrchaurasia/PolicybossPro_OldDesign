@@ -139,6 +139,11 @@ public class PLMainActivity extends AppCompatActivity {
         PLMainActivity.this.finish();
     }
 
+    public interface ActivityCallback            // Interface creation
+    {
+        void onMethodCallback(String strTyp);
+    }
+
     private void unCheckAllBottomMenu() {
         int size = bottomNavigationView.getMenu().size();
         for (int i = 0; i < size; i++) {

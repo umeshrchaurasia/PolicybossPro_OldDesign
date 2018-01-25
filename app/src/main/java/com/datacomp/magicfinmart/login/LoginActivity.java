@@ -19,11 +19,18 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
+import com.datacomp.magicfinmart.utility.ReadDeviceID;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
-    EditText etEmail;
+public class LoginActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
+    EditText etEmail, etPassword;
+    LoginRequestEntity loginRequestEntity;
     TextView tvSignUp;
     Button btnSignIn;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
@@ -41,6 +48,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        loginRequestEntity = new LoginRequestEntity();
         initWidgets();
         setListener();
         realm = Realm.getDefaultInstance();
@@ -59,7 +67,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         int fineLocation = ContextCompat.checkSelfPermission(getApplicationContext(), perms[1]);
         int sendSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[2]);
         int readSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[3]);
-        int receiveSms =ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
+        int receiveSms = ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
         return camera == PackageManager.PERMISSION_GRANTED
                 && fineLocation == PackageManager.PERMISSION_GRANTED
                 && sendSms == PackageManager.PERMISSION_GRANTED
@@ -130,6 +138,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void initWidgets() {
         tvSignUp = (TextView) findViewById(R.id.tvSignUp);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etPassword = (EditText) findViewById(R.id.etPassword);
     }
 
     @Override
@@ -139,8 +149,40 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.btnSignIn:
-                startActivity(new Intent(this, HomeActivity.class));
+                if (!isValideEmailID(etEmail)) {
+                    etEmail.requestFocus();
+                    etEmail.setError("Enter Valid Email");
+                    return;
+                }
+                if (!isEmpty(etPassword)) {
+                    etPassword.requestFocus();
+                    etPassword.setError("Enter Password");
+                    return;
+                }
+                loginRequestEntity.setUserName(etEmail.getText().toString());
+                loginRequestEntity.setPassword(etPassword.getText().toString());
+                loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
+                showDialog();
+                new LoginController(this).login(loginRequestEntity, this);
                 break;
         }
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof LoginResponse) {
+            if (response.getStatusNo() == 0) {
+                startActivity(new Intent(this, HomeActivity.class));
+            } else {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
