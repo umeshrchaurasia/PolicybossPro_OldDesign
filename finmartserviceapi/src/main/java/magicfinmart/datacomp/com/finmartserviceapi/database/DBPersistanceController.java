@@ -16,6 +16,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
@@ -443,5 +444,16 @@ public class DBPersistanceController {
         }
         return 0;
     }
+    //endregion
+
+    //region login data
+    public LoginResponseEntity getUserData(String modelName) {
+        LoginResponseEntity entity = realm.where(LoginResponseEntity.class).distinct("FBAId").first();
+        if (entity != null)
+            return entity;
+        else
+            return null;
+    }
+
     //endregion
 }

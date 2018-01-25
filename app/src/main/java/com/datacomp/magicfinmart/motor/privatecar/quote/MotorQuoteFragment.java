@@ -47,7 +47,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         initView(view);
         mQuoteList = new ArrayList<>();
         mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST);
-        motorQuoteAdapter = new MotorQuoteAdapter(getActivity(), mQuoteList);
+        motorQuoteAdapter = new MotorQuoteAdapter(getActivity());
         rvQuoteList.setAdapter(motorQuoteAdapter);
         return view;
     }
