@@ -11,11 +11,13 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
@@ -28,7 +30,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
     public MotorApplicationAdapter(Context context, List<ApplicationListEntity> mApplicationList) {
         this.context = context;
-        mApplicationList = mAppList;
+        mAppList = mApplicationList;
     }
 
     @Override
@@ -41,15 +43,23 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
     @Override
     public void onBindViewHolder(ApplicationItem holder, int position) {
-        holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openPopUp(view);
-            }
-        });
+        if (holder instanceof ApplicationItem) {
+
+            final ApplicationListEntity entity = mAppList.get(position);
+
+            holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
+            holder.txtCRN.setText(entity.getCrn());
+            holder.txtCreatedDate.setText("" + entity.getCreated_date());
+            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openPopUp(view, entity);
+                }
+            });
+        }
     }
 
-    private void openPopUp(View v) {
+    private void openPopUp(View v, final ApplicationListEntity entity) {
         //creating a popup menu
         PopupMenu popup = new PopupMenu(context, v);
         //inflating menu from xml resource
@@ -59,14 +69,14 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
-                    case R.id.menu1:
-                        //handle menu1 click
+                    case R.id.menuCall:
+                        Toast.makeText(context, "WIP " + entity.getMobile(), Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.menu2:
-                        //handle menu2 click
+                    case R.id.menuSms:
+                        Toast.makeText(context, "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.menu3:
-                        //handle menu3 click
+                    case R.id.menuDelete:
+                        Toast.makeText(context, "WIP DELETE", Toast.LENGTH_SHORT).show();
                         break;
                 }
                 return false;
@@ -87,11 +97,15 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        public TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtVehicleNo, txtInsurerName;
+        public TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtVehicleNo, txtPersonName;
 
         public ApplicationItem(View itemView) {
             super(itemView);
             txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+            txtCreatedDate = (TextView) itemView.findViewById(R.id.txtCreatedDate);
+            txtCRN = (TextView) itemView.findViewById(R.id.txtCRN);
+            txtVehicleNo = (TextView) itemView.findViewById(R.id.txtVehicleNo);
+            txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
         }
     }
 }
