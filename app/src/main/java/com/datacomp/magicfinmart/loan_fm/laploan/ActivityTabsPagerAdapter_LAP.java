@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.datacomp.magicfinmart.loan_fm.laploan.application.LAP_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.laploan.quote.LAP_QuoteFragment;
 import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFragment;
 
@@ -25,7 +26,7 @@ public class ActivityTabsPagerAdapter_LAP extends FragmentPagerAdapter {
                 return new LAP_QuoteFragment();
             case 1:
                 // ABN fragment activity
-                return new MotorApplicationFragment();
+                return new LAP_ApplicationFragment();
         }
 
         return null;

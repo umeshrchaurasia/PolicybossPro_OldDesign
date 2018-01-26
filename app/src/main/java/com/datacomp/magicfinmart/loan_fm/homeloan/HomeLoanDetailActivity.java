@@ -25,7 +25,7 @@ public class HomeLoanDetailActivity extends BaseActivity {
         viewPager = (ViewPager) findViewById(R.id.pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         setSupportActionBar(toolbar);
-        setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
