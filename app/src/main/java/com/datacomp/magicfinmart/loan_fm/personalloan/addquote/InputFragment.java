@@ -458,7 +458,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 //                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
 //                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
 
-                onQuoteSetListener.setQuoteData("ugcua");
+                Toast.makeText(getActivity(),"success",Toast.LENGTH_SHORT).show();
+
+                onQuoteSetListener.setQuoteData(getPersonalLoanResponse,personalLoanRequest);
 
 
 
@@ -491,6 +493,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     public interface  OnQuoteSetListener
     {
 
-        public void setQuoteData( String Name);
+        public void setQuoteData( GetPersonalLoanResponse getPersonalLoanResponse,  PersonalLoanRequest personalLoanRequest);
     }
 }

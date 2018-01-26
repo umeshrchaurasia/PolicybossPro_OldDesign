@@ -14,6 +14,9 @@ import android.view.MenuItem;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
+
 public class PLMainActivity extends BaseActivity implements InputFragment.OnQuoteSetListener {
     BottomNavigationView bottomNavigationView;
 
@@ -28,11 +31,7 @@ public class PLMainActivity extends BaseActivity implements InputFragment.OnQuot
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-//        if(bottomNavigationView != null)
-//        {
-//            // Select first menu item by default and show Fragment accordingly.
-//            Menu menu = bottomNavigationView.getMenu();
-//        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         InputFragment inputFragment = new InputFragment();
         FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
@@ -151,16 +150,55 @@ public class PLMainActivity extends BaseActivity implements InputFragment.OnQuot
 
     // Implementation the Interface for Communication of Fragment Input and Quote
     @Override
-    public void setQuoteData(String strName) {
+    public void setQuoteData(GetPersonalLoanResponse getPersonalLoanResponse, PersonalLoanRequest personalLoanRequest) {
 
-        QuoteFragment quoteFragment = new QuoteFragment();
-        FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
-        transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-        transaction_quote.addToBackStack("QUOTE");
-        transaction_quote.show(quoteFragment);
-        //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-        transaction_quote.commitAllowingStateLoss();
-        quoteFragment.updateQuote(strName);    // calling Quote fragment  Method
+        bottomNavigationView.getMenu().getItem(1).setCheckable(true);
+        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
+        QuoteFragment quoteFragment1 = (QuoteFragment) getSupportFragmentManager().findFragmentByTag("QUOTE");
+        if (quoteFragment1 != null) {
+
+
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.frame_layout, quoteFragment1, "QUOTE");
+            transaction.addToBackStack("QUOTE");
+            transaction.show(quoteFragment1);
+            // transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction.commit();
+            // calling Quote fragment  Method
+            quoteFragment1.updateQuote(getPersonalLoanResponse,personalLoanRequest);
+
+        } else {
+            QuoteFragment quoteFragment2 = new QuoteFragment();
+
+            FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
+            transaction_quote.replace(R.id.frame_layout, quoteFragment2, "QUOTE");
+            transaction_quote.addToBackStack("QUOTE");
+            transaction_quote.show(quoteFragment2);
+            //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction_quote.commit();
+
+            quoteFragment2.updateQuote(getPersonalLoanResponse,personalLoanRequest);
+
+
+        }
+
+
+
+        ////////////////////////////////////
+
+//        QuoteFragment quoteFragment = new QuoteFragment();
+//        FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
+//        transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
+//        transaction_quote.addToBackStack("QUOTE");
+//        //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//        transaction_quote.commit();
+//
+//
+//        bottomNavigationView.getMenu().getItem(1).setCheckable(true);
+//        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+//        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
 
     }
 }

@@ -14,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
@@ -35,13 +36,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
  * Created by Rajeev Ranjan on 24/01/2018.
  */
 
-public class QuoteFragment  extends BaseFragment {
+public class QuoteFragment extends BaseFragment {
 
     GetPersonalLoanResponse getPersonalLoanResponse;
     RecyclerView rvPLQuotes;
 
     PLQuoteAdapter mAdapter;
     PersonalLoanRequest personalLoanRequest;
+
+    TextView txtTest;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,15 +54,13 @@ public class QuoteFragment  extends BaseFragment {
         initialize(view);
         return view;
     }
-    private  void initialize(View view)
-    {
+
+    private void initialize(View view) {
         rvPLQuotes = (RecyclerView) view.findViewById(R.id.rvPLQuotes);
         rvPLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
+        txtTest = (TextView) view.findViewById(R.id.txtTest);
 
-        if (getActivity().getIntent().hasExtra(Constants.PERSONAL_LOAN_QUOTES)) {
-            getPersonalLoanResponse = getActivity().getIntent().getParcelableExtra(Constants.PERSONAL_LOAN_QUOTES);
-            personalLoanRequest = getActivity().getIntent().getParcelableExtra(Constants.PL_REQUEST);
-
+        if (getPersonalLoanResponse != null) {
 
             mAdapter = new PLQuoteAdapter(getActivity(), getPersonalLoanResponse.getData());
             rvPLQuotes.setAdapter(mAdapter);
@@ -74,7 +75,6 @@ public class QuoteFragment  extends BaseFragment {
                 .putExtra("PL_URL", getPersonalLoanResponse.getUrl())
                 .putExtra("PL_QUOTE_ID", getPersonalLoanResponse.getQuote_id()));
     }
-
 
 
     private void shareData() {
@@ -246,10 +246,13 @@ public class QuoteFragment  extends BaseFragment {
     }
 
 
-    public void updateQuote(String strName)
-    {
+    public void updateQuote(GetPersonalLoanResponse tmpgetPersonalLoanResponse, PersonalLoanRequest tmppersonalLoanRequest) {
 
-        Toast.makeText(getActivity(),""+ strName, Toast.LENGTH_SHORT).show();
+        if (tmpgetPersonalLoanResponse != null) {
+            getPersonalLoanResponse = tmpgetPersonalLoanResponse;
+
+        }
+
     }
 
 }

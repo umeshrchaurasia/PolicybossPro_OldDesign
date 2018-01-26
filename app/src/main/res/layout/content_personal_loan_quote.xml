@@ -67,6 +67,12 @@
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
+    <TextView
+        android:id="@+id/txtTest"
+        style="@style/TextViewStyle.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
     <ImageView
         android:id="@+id/webViewLoader"
         android:layout_width="match_parent"
