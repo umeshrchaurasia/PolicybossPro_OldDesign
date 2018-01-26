@@ -25,18 +25,18 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
     @Override
     public ApplicationItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_item_application, parent, false);
+                .inflate(R.layout.layout_item_application_loan, parent, false);
         return new ApplicationItem(itemView);
     }
 
     @Override
     public void onBindViewHolder(PersonalLoanApplicationAdapter.ApplicationItem holder, int position) {
-        holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openPopUp(view);
-            }
-        });
+//        holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                openPopUp(view);
+//            }
+//        });
     }
 
     private void openPopUp(View v) {
@@ -49,12 +49,12 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
     }
     @Override
     public int getItemCount() {
-        return 5;
+        return 2;
     }
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        public ImageView ivTripleDot;
+      //  public ImageView ivTripleDot;
         public CheckBox chkAddon;
 
 

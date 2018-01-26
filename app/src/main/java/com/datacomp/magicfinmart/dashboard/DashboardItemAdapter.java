@@ -66,7 +66,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     if (listInsur.get(position).getProductName().equals("PERSONAL LOAN")) {
-                        mContext.startActivity(new Intent(mContext.getActivity(), PLMainActivity.class));
+                        mContext.startActivity(new Intent(mContext.getActivity(), PersonalLoanDetailActivity.class));
                     }else if( listInsur.get(position).getProductName().equals("HOME LOAN" ))
                     {
                         mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));

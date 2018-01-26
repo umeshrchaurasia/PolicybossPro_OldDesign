@@ -6,8 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.datacomp.magicfinmart.loan_fm.personalloan.application.PL_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.personalloan.quote.PL_QuoteFragment;
-import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFragment;
-import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
 
 /**
  * Created by IN-RB on 12-01-2018.
@@ -27,7 +25,7 @@ public class ActivityTabsPagerAdapter_PL extends FragmentPagerAdapter {
                 return new PL_QuoteFragment();
             case 1:
                 // ABN fragment activity
-                return new MotorApplicationFragment();
+                return new PL_ApplicationFragment();
         }
 
         return null;

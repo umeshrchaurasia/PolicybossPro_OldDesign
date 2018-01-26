@@ -6,9 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-
+import com.datacomp.magicfinmart.loan_fm.homeloan.application.HL_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
-import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFragment;
 
 
 /**
@@ -29,7 +28,7 @@ public class ActivityTabsPagerAdapter_HL extends FragmentPagerAdapter {
                 return new HL_QuoteFragment();
             case 1:
                 // ABN fragment activity
-                return new MotorApplicationFragment();
+                return new HL_ApplicationFragment();
         }
 
         return null;
