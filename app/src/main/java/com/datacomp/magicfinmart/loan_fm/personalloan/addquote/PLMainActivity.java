@@ -33,6 +33,8 @@ public class PLMainActivity extends BaseActivity implements InputFragment.OnQuot
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
         InputFragment inputFragment = new InputFragment();
         FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
         transactionSim.replace(R.id.frame_layout, inputFragment, "INPUT");
@@ -101,30 +103,32 @@ public class PLMainActivity extends BaseActivity implements InputFragment.OnQuot
                     return true;
                 case R.id.navigation_buy:
 
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
-                    if (tabFragment != null) {
-
-                        FragmentTransaction transaction = getSupportFragmentManager()
-                                .beginTransaction();
-                        transaction.show(tabFragment);
-                        //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction.addToBackStack("BUY");
-                        transaction.commitAllowingStateLoss();
-
-                    } else {
-                        BuyFragment buyFragment = new BuyFragment();
-                        FragmentTransaction transaction_buy = getSupportFragmentManager().beginTransaction();
-                        transaction_buy.replace(R.id.frame_layout, buyFragment, "BUY");
-                        transaction_buy.addToBackStack("BUY");
-                        transaction_buy.show(buyFragment);
-                        //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction_buy.commitAllowingStateLoss();
-
-
-                    }
-                    item.setCheckable(true);
-                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+                    //region comment
+//                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
+//                    if (tabFragment != null) {
+//
+//                        FragmentTransaction transaction = getSupportFragmentManager()
+//                                .beginTransaction();
+//                        transaction.show(tabFragment);
+//                        //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                        transaction.addToBackStack("BUY");
+//                        transaction.commitAllowingStateLoss();
+//
+//                    } else {
+//                        BuyFragment buyFragment = new BuyFragment();
+//                        FragmentTransaction transaction_buy = getSupportFragmentManager().beginTransaction();
+//                        transaction_buy.replace(R.id.frame_layout, buyFragment, "BUY");
+//                        transaction_buy.addToBackStack("BUY");
+//                        transaction_buy.show(buyFragment);
+//                        //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                        transaction_buy.commitAllowingStateLoss();
+//
+//
+//                    }
+//                    item.setCheckable(true);
+//                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+//                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+                    //endregion
 
                     return true;
             }
@@ -140,10 +144,10 @@ public class PLMainActivity extends BaseActivity implements InputFragment.OnQuot
     }
 
 
-    private void unCheckAllBottomMenu() {
+    private void CheckAllBottomMenu() {
         int size = bottomNavigationView.getMenu().size();
         for (int i = 0; i < size; i++) {
-            bottomNavigationView.getMenu().getItem(i).setCheckable(false);
+            bottomNavigationView.getMenu().getItem(i).setCheckable(true);
         }
     }
 
@@ -152,9 +156,10 @@ public class PLMainActivity extends BaseActivity implements InputFragment.OnQuot
     @Override
     public void setQuoteData(GetPersonalLoanResponse getPersonalLoanResponse, PersonalLoanRequest personalLoanRequest) {
 
-        bottomNavigationView.getMenu().getItem(1).setCheckable(true);
         bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+        bottomNavigationView.getMenu().getItem(1).setCheckable(true);
         bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
 
         QuoteFragment quoteFragment1 = (QuoteFragment) getSupportFragmentManager().findFragmentByTag("QUOTE");
         if (quoteFragment1 != null) {
@@ -179,26 +184,11 @@ public class PLMainActivity extends BaseActivity implements InputFragment.OnQuot
             //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
             transaction_quote.commit();
 
-            quoteFragment2.updateQuote(getPersonalLoanResponse,personalLoanRequest);
+            quoteFragment2.updateQuote(getPersonalLoanResponse,personalLoanRequest);  // calling Fragment
 
 
         }
 
-
-
-        ////////////////////////////////////
-
-//        QuoteFragment quoteFragment = new QuoteFragment();
-//        FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
-//        transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-//        transaction_quote.addToBackStack("QUOTE");
-//        //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//        transaction_quote.commit();
-//
-//
-//        bottomNavigationView.getMenu().getItem(1).setCheckable(true);
-//        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-//        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
 
     }
 }
