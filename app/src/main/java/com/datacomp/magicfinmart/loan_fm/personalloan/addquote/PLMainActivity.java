@@ -17,7 +17,7 @@ import com.datacomp.magicfinmart.R;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 
-public class PLMainActivity extends BaseActivity implements InputFragment.OnQuoteSetListener {
+public class PLMainActivity extends BaseActivity  {
     BottomNavigationView bottomNavigationView;
 
     int totCount = 0;
@@ -151,44 +151,15 @@ public class PLMainActivity extends BaseActivity implements InputFragment.OnQuot
         }
     }
 
-
-    // Implementation the Interface for Communication of Fragment Input and Quote
-    @Override
-    public void setQuoteData(GetPersonalLoanResponse getPersonalLoanResponse, PersonalLoanRequest personalLoanRequest) {
-
+    public void setQuoteCheck()
+    {
         bottomNavigationView.getMenu().getItem(0).setCheckable(false);
         bottomNavigationView.getMenu().getItem(1).setCheckable(true);
         bottomNavigationView.getMenu().getItem(2).setCheckable(false);
-
-
-        QuoteFragment quoteFragment1 = (QuoteFragment) getSupportFragmentManager().findFragmentByTag("QUOTE");
-        if (quoteFragment1 != null) {
-
-
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.replace(R.id.frame_layout, quoteFragment1, "QUOTE");
-            transaction.addToBackStack("QUOTE");
-            transaction.show(quoteFragment1);
-            // transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction.commit();
-            // calling Quote fragment  Method
-            quoteFragment1.updateQuote(getPersonalLoanResponse,personalLoanRequest);
-
-        } else {
-            QuoteFragment quoteFragment2 = new QuoteFragment();
-
-            FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
-            transaction_quote.replace(R.id.frame_layout, quoteFragment2, "QUOTE");
-            transaction_quote.addToBackStack("QUOTE");
-            transaction_quote.show(quoteFragment2);
-            //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction_quote.commit();
-
-            quoteFragment2.updateQuote(getPersonalLoanResponse,personalLoanRequest);  // calling Fragment
-
-
-        }
-
-
     }
+
+
+
+    // Implementation the Interface for Communication of Fragment Input and Quote
+
 }

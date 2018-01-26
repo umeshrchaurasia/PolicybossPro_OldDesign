@@ -67,8 +67,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     EditText etCostOfProp, etTenureInYear;
     TextView  txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     SeekBar  sbTenure;
+    Context mContext;
 
-    OnQuoteSetListener onQuoteSetListener ;  // Interface Declaration
+
 
     int seekBarTenureProgress = 1;
     @Override
@@ -452,15 +453,21 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         if (response instanceof GetPersonalLoanResponse) {
             if (response.getStatus_Id() == 0) {
 
+                ((PLMainActivity)mContext).setQuoteCheck();
 
                 getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
-//                startActivity(new Intent(getActivity(), PersonalLoanQuoteActivity.class)
-//                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
-//                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
 
-                Toast.makeText(getActivity(),"success",Toast.LENGTH_SHORT).show();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse);
+                QuoteFragment quoteFragment = new QuoteFragment();
+                quoteFragment.setArguments(bundle);
+                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
+                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
+                transaction_quote.addToBackStack("QUOTE");
+                transaction_quote.show(quoteFragment);
+                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                transaction_quote.commit();
 
-                onQuoteSetListener.setQuoteData(getPersonalLoanResponse,personalLoanRequest);
 
 
 
@@ -471,6 +478,12 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
         // startActivity(new Intent(HomeLoanActivity.this, QuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) quoteEntities));
@@ -478,21 +491,5 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        try {
-            onQuoteSetListener = (OnQuoteSetListener) context;
 
-        }catch (Exception ex)
-        {
-
-        }
-    }
-
-    public interface  OnQuoteSetListener
-    {
-
-        public void setQuoteData( GetPersonalLoanResponse getPersonalLoanResponse,  PersonalLoanRequest personalLoanRequest);
-    }
 }
