@@ -11,9 +11,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
-public class PLMainActivity extends AppCompatActivity {
+public class PLMainActivity extends BaseActivity implements InputFragment.OnQuoteSetListener {
     BottomNavigationView bottomNavigationView;
 
     int totCount = 0;
@@ -54,7 +55,7 @@ public class PLMainActivity extends AppCompatActivity {
                         transaction.replace(R.id.frame_layout, tabFragment, "INPUT");
                         transaction.addToBackStack("INPUT");
                         transaction.show(tabFragment);
-                     //   transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        //   transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         transaction.commit();
 
 
@@ -64,7 +65,7 @@ public class PLMainActivity extends AppCompatActivity {
                         transaction_imm.replace(R.id.frame_layout, inputFragment, "INPUT");
                         transaction_imm.addToBackStack("INPUT");
                         transaction_imm.show(inputFragment);
-                     //   transaction_imm.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        //   transaction_imm.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         transaction_imm.commit();
 
                     }
@@ -81,7 +82,7 @@ public class PLMainActivity extends AppCompatActivity {
                         transaction.replace(R.id.frame_layout, tabFragment, "QUOTE");
                         transaction.addToBackStack("QUOTE");
                         transaction.show(tabFragment);
-                       // transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        // transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         transaction.commitAllowingStateLoss();
 
                     } else {
@@ -90,7 +91,7 @@ public class PLMainActivity extends AppCompatActivity {
                         transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
                         transaction_quote.addToBackStack("QUOTE");
                         transaction_quote.show(quoteFragment);
-                      //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         transaction_quote.commitAllowingStateLoss();
 
 
@@ -107,7 +108,7 @@ public class PLMainActivity extends AppCompatActivity {
                         FragmentTransaction transaction = getSupportFragmentManager()
                                 .beginTransaction();
                         transaction.show(tabFragment);
-                      //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         transaction.addToBackStack("BUY");
                         transaction.commitAllowingStateLoss();
 
@@ -117,7 +118,7 @@ public class PLMainActivity extends AppCompatActivity {
                         transaction_buy.replace(R.id.frame_layout, buyFragment, "BUY");
                         transaction_buy.addToBackStack("BUY");
                         transaction_buy.show(buyFragment);
-                     //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         transaction_buy.commitAllowingStateLoss();
 
 
@@ -139,10 +140,6 @@ public class PLMainActivity extends AppCompatActivity {
         PLMainActivity.this.finish();
     }
 
-    public interface ActivityCallback            // Interface creation
-    {
-        void onMethodCallback(String strTyp);
-    }
 
     private void unCheckAllBottomMenu() {
         int size = bottomNavigationView.getMenu().size();
@@ -152,4 +149,18 @@ public class PLMainActivity extends AppCompatActivity {
     }
 
 
+    // Implementation the Interface for Communication of Fragment Input and Quote
+    @Override
+    public void setQuoteData(String strName) {
+
+        QuoteFragment quoteFragment = new QuoteFragment();
+        FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
+        transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
+        transaction_quote.addToBackStack("QUOTE");
+        transaction_quote.show(quoteFragment);
+        //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+        transaction_quote.commitAllowingStateLoss();
+        quoteFragment.updateQuote(strName);    // calling Quote fragment  Method
+
+    }
 }

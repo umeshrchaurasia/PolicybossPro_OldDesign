@@ -1,8 +1,10 @@
 package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -65,6 +67,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     EditText etCostOfProp, etTenureInYear;
     TextView  txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     SeekBar  sbTenure;
+
+    OnQuoteSetListener onQuoteSetListener ;  // Interface Declaration
 
     int seekBarTenureProgress = 1;
     @Override
@@ -454,13 +458,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 //                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
 //                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
 
-                QuoteFragment quoteFragment = new QuoteFragment();
-                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-                transaction_quote.addToBackStack("QUOTE");
-                transaction_quote.show(quoteFragment);
-                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction_quote.commitAllowingStateLoss();
+                onQuoteSetListener.setQuoteData("ugcua");
+
+
 
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
@@ -474,5 +474,23 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         // startActivity(new Intent(HomeLoanActivity.this, QuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) quoteEntities));
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        try {
+            onQuoteSetListener = (OnQuoteSetListener) context;
+
+        }catch (Exception ex)
+        {
+
+        }
+    }
+
+    public interface  OnQuoteSetListener
+    {
+
+        public void setQuoteData( String Name);
     }
 }
