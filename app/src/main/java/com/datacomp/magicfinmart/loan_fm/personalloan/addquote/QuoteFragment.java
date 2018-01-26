@@ -42,7 +42,7 @@ public class QuoteFragment extends BaseFragment {
     RecyclerView rvPLQuotes;
 
     PLQuoteAdapter mAdapter;
-    PersonalLoanRequest personalLoanRequest;
+
 
     TextView txtTest;
 
@@ -60,10 +60,15 @@ public class QuoteFragment extends BaseFragment {
         rvPLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
         txtTest = (TextView) view.findViewById(R.id.txtTest);
 
-        if (getPersonalLoanResponse != null) {
+        Bundle bundle = getArguments();
 
-            mAdapter = new PLQuoteAdapter(getActivity(), getPersonalLoanResponse.getData());
-            rvPLQuotes.setAdapter(mAdapter);
+        if (bundle != null) {
+            getPersonalLoanResponse = bundle.getParcelable(Constants.PERSONAL_LOAN_QUOTES);
+            if (getPersonalLoanResponse != null) {
+
+                mAdapter = new PLQuoteAdapter(getActivity(), getPersonalLoanResponse.getData());
+                rvPLQuotes.setAdapter(mAdapter);
+            }
         }
     }
 
@@ -245,14 +250,5 @@ public class QuoteFragment extends BaseFragment {
         }
     }
 
-
-    public void updateQuote(GetPersonalLoanResponse tmpgetPersonalLoanResponse, PersonalLoanRequest tmppersonalLoanRequest) {
-
-        if (tmpgetPersonalLoanResponse != null) {
-            getPersonalLoanResponse = tmpgetPersonalLoanResponse;
-
-        }
-
-    }
 
 }
