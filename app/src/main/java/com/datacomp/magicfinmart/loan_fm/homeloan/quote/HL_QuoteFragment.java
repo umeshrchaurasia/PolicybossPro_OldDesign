@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoan_QuoteAdapter;
+import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HomeLoanActivity;
 
 import java.text.SimpleDateFormat;
@@ -57,7 +58,7 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.hlAddQuote:
-                startActivity(new Intent(getActivity(), HomeLoanActivity.class));
+                startActivity(new Intent(getActivity(), HLMainActivity.class));
                 break;
         }
     }

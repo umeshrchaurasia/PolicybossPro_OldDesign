@@ -33,7 +33,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.Persona
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 
 /**
- * Created by Rajeev Ranjan on 24/01/2018.
+ * Created by Rahul on 24/01/2018.
  */
 
 public class QuoteFragment extends BaseFragment {
