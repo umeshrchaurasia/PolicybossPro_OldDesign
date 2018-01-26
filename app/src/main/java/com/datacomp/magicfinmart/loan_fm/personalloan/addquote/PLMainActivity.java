@@ -130,7 +130,7 @@ public class PLMainActivity extends BaseActivity  {
 //                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
                     //endregion
 
-                    return true;
+                    return false;
             }
 
             return false;

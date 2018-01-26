@@ -459,6 +459,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse);
+                bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
                 QuoteFragment quoteFragment = new QuoteFragment();
                 quoteFragment.setArguments(bundle);
                 FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();

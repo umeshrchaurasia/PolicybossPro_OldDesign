@@ -83,7 +83,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
             @Override
             public void onClick(View v) {
 
-             //   ((PersonalLoanQuoteActivity) mContext).redirectToApplyLoan(quoteEntity);
+             //   redirectToApplyLoan(quoteEntity);
 
             }
         });

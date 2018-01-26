@@ -14,8 +14,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PersonalLoanActivity;
 import com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity;
 
 import java.util.List;
