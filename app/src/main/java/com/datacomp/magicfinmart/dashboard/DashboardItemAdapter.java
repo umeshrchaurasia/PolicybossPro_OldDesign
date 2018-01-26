@@ -14,6 +14,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PersonalLoanActivity;
 import com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity;
 
 import java.util.List;
@@ -64,7 +66,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 @Override
                 public void onClick(View view) {
                     if (listInsur.get(position).getProductName().equals("PERSONAL LOAN")) {
-                        mContext.startActivity(new Intent(mContext.getActivity(), PersonalLoanDetailActivity.class));
+                        mContext.startActivity(new Intent(mContext.getActivity(), PLMainActivity.class));
                     }else if( listInsur.get(position).getProductName().equals("HOME LOAN" ))
                     {
                         mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
