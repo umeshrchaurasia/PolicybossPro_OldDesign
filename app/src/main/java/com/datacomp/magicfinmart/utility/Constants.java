@@ -17,6 +17,7 @@ public class Constants {
     public static final String EXTERNAL_LPG = "External Fitted LPG";
     public static final String EXTERNAL_CNG = "External Fitted CNG";
     public static String PERSONAL_LOAN_QUOTES = "personalloanquotes";
+    public static String HOME_LOAN_QUOTES = "homeloanquotes";
     public static String HL_REQUEST = "homeloanRequest";
     public static String PL_REQUEST = "personalloanRequest";
     public static String LAP_REQUEST = "loanagainstpropertyRequest";
