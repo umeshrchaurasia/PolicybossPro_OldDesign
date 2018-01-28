@@ -45,7 +45,7 @@ public class BLQuoteFragment extends Fragment {
     BLSavingEntity BlsavingEntity;
 
 
-    TextView txtTest;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -59,7 +59,7 @@ public class BLQuoteFragment extends Fragment {
     private void initialize(View view) {
         rvPLQuotes = (RecyclerView) view.findViewById(R.id.rvPLQuotes);
         rvPLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
-        txtTest = (TextView) view.findViewById(R.id.txtTest);
+
 
         Bundle bundle = getArguments();
 
