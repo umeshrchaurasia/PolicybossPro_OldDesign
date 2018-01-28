@@ -3,7 +3,6 @@ package com.datacomp.magicfinmart.loan_fm.homeloan.addquote;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -14,7 +13,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,8 +33,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.QuoteFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -46,16 +42,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerApplicationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
@@ -750,10 +743,10 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         if (v.getId() == R.id.txtSalaried) {
 
             ApplicantSource = "1";
-            txtSalaried.setBackgroundResource(R.drawable.customborder_blue);
+            txtSalaried.setBackgroundResource(R.drawable.customeborder_blue);
             txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 
-            txtSelfEMp.setBackgroundResource(R.drawable.customborder);
+            txtSelfEMp.setBackgroundResource(R.drawable.customeborder);
             txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
 
 
@@ -762,10 +755,10 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         } else if (v.getId() == R.id.txtSelfEMp) {
             ApplicantSource = "2";
-            txtSelfEMp.setBackgroundResource(R.drawable.customborder_blue);
+            txtSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
             txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 
-            txtSalaried.setBackgroundResource(R.drawable.customborder);
+            txtSalaried.setBackgroundResource(R.drawable.customeborder);
             txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
 
             llSelfEmployeed.setVisibility(View.VISIBLE);
@@ -777,11 +770,11 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             CoApplicantSource = "1";
 
-            txtCoSalaried.setBackgroundResource(R.drawable.customborder_blue);
+            txtCoSalaried.setBackgroundResource(R.drawable.customeborder_blue);
             txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 
 
-            txtCoSelfEMp.setBackgroundResource(R.drawable.customborder);
+            txtCoSelfEMp.setBackgroundResource(R.drawable.customeborder);
             txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
 
 
@@ -791,10 +784,10 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         } else if (v.getId() == R.id.txtCoSelfEMp) {
             CoApplicantSource = "2";
 
-            txtCoSelfEMp.setBackgroundResource(R.drawable.customborder_blue);
+            txtCoSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
             txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 
-            txtCoSalaried.setBackgroundResource(R.drawable.customborder);
+            txtCoSalaried.setBackgroundResource(R.drawable.customeborder);
             txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
 
 

@@ -34,7 +34,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
 
     public class PLQuotesItem extends RecyclerView.ViewHolder {
 
-        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply,tvEligibleLoan;
+        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply;
         ImageView ivBankLogo, ivInfo;
 
         public PLQuotesItem(View view) {
@@ -48,7 +48,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
             btnApply = (TextView) itemView.findViewById(R.id.btnApply);
             ivBankLogo = (ImageView) itemView.findViewById(R.id.ivBankLogo);
            // ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
-            tvEligibleLoan =(TextView)itemView.findViewById(R.id.tvEligibleLoan);
+           // tvEligibleLoan =(TextView)itemView.findViewById(R.id.tvEligibleLoan);
         }
     }
 
@@ -72,7 +72,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
         holder.tvBestEmi.setText("" + quoteEntity.getEmi());
         holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure());
         holder.tvProcessingFee.setText("" + quoteEntity.getProcessingfee());
-        holder.tvEligibleLoan.setText(""+quoteEntity.getLoan_eligible());
+      //  holder.tvEligibleLoan.setText(""+quoteEntity.getLoan_eligible());
         Glide.with(mContext)
                 .load(quoteEntity.getBank_Logo())
                 .into(holder.ivBankLogo);
