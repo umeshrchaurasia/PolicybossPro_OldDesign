@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
@@ -77,7 +78,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
                     else if( listInsur.get(position).getProductName().equals("BALANCE TRANSFER" ))
                     {
-                        //mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
+                        mContext.startActivity(new Intent(mContext.getActivity(), BalanceTransferDetailActivity.class));
                     }
                     else if( listInsur.get(position).getProductName().equals("CREDIT CARD" ))
                     {
