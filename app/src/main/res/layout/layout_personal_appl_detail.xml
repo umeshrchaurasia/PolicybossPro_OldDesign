@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:background="@color/white"
+    android:padding="5dp">
 
 
     <LinearLayout
@@ -99,11 +100,13 @@
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
+            android:layout_gravity="bottom"
             android:hint="Occupation">
 
             <EditText
                 android:id="@+id/etMfgDate"
                 style="@style/Style.edittext"
+
                 android:enabled="false"
                 android:text="SALARIED"
                 android:textColor="@color/blue"
@@ -267,8 +270,6 @@
         android:layout_centerVertical="true"
         android:max="5"
         android:progress="1"
-
-
         android:progressDrawable="@drawable/seekbar_style"
         android:thumb="@drawable/custom_thumb"
         />

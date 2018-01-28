@@ -1,173 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
+    android:background="@color/white"
     android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textView23"
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:hint="Name Of Applicant">
+
+            <EditText
+                android:id="@+id/etNameOfApplicant"
+                style="@style/Style.edittext" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView3"
+                style="@style/TextViewStyle.Medium"
+                android:text="Gender" />
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/rgGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:checkedButton="@+id/rbimgMale"
+                    android:gravity="left|center_vertical"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbimgMale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/male" />
+
+                    <RadioButton
+                        android:id="@+id/rbimgFemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawableRight="@drawable/female" />
+                </RadioGroup>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textView411"
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_gravity="bottom"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:hint="Date of Birth">
+
+            <EditText
+                android:id="@+id/et_DOB"
+                style="@style/Style.edittext"
+                android:drawableRight="@drawable/vector_date"
+                android:focusable="false" />
+        </android.support.design.widget.TextInputLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="1dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView39"
+                style="@style/TextViewStyle.Medium"
+                android:text="Occupation" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <TextView
+                    android:id="@+id/txtSalaried"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/customborder_blue"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="SALARIED"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+
+                    android:id="@+id/txtSelfEMp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/customborder"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="SELF-EMP"
+                    android:textColor="@color/description_text" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!--<android.support.design.widget.TextInputLayout-->
+        <!--style="@style/TextAppearence.App.TextInputLayout"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_marginLeft="1dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:layout_gravity="bottom"-->
+        <!--android:hint="Occupation">-->
+
+        <!--<EditText-->
+        <!--android:id="@+id/etMfgDate"-->
+        <!--style="@style/Style.edittext"-->
+
+        <!--android:enabled="false"-->
+        <!--android:text="SALARIED"-->
+        <!--android:textColor="@color/blue"-->
+        <!--android:textStyle="bold" />-->
+        <!--</android.support.design.widget.TextInputLayout>-->
+
+    </LinearLayout>
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
 
-        <TextView
-            android:id="@+id/textView2s"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Name Of Applicant"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-        <EditText
-            android:id="@+id/etNameOfApplicant"
-            style="@style/TextAppearence.App.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:ems="10" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Gender"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="horizontal">
-
-            <RadioGroup
-                android:id="@+id/rgGender"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:checkedButton="@+id/rbimgMale"
-                android:gravity="left|center_vertical"
-                android:orientation="horizontal">
-
-                <RadioButton
-                    android:id="@+id/rbimgMale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/male" />
-
-                <RadioButton
-                    android:id="@+id/rbimgFemale"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableRight="@drawable/female" />
-            </RadioGroup>
-
-
-
-        </LinearLayout>
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="DOB"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-        <EditText
-            android:id="@+id/et_DOB"
-            style="@style/TextAppearence.App.TextInputLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:focusable="false" />
-
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="Source of Income"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
         <Spinner
             android:id="@+id/sbSalary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/spinner_bg" />
+            android:background="@drawable/spinner_bg"
+            android:visibility="gone" />
 
-
-
-        <LinearLayout
-            android:id="@+id/llSalaried"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="gone">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-
-
-                android:paddingTop="5dp">
-
-                <TextView
-                    android:id="@+id/txtDispalayMinIncome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="25 k"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-                <TextView
-                    android:id="@+id/txtDispalayMaxIncome"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="25 lac"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-            </RelativeLayout>
-
-            <SeekBar
-                android:id="@+id/sbMonthlyInc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="250"
-                android:progress="25"
-                android:thumbTintMode="multiply" />
-
-            <TextView
-                android:id="@+id/textView9"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Monthly Income"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-            <EditText
-                android:id="@+id/etMonthlyInc"
-                style="@style/TextAppearence.App.TextInputLayout"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:ems="10"
-                android:maxLength="7"
-                android:digits="0123456789"
-                android:inputType="phone" />
-
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/llSelfEmployeed"
@@ -176,33 +189,9 @@
             android:orientation="vertical"
             android:visibility="visible">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="5dp">
-
-                <TextView
-                    android:id="@+id/txtDispayMinTurnOver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="10 lac"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-                <TextView
-                    android:id="@+id/txtDispalayMaxTurnOver"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="100 cr"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-            </RelativeLayout>
 
             <SeekBar
+                android:visibility="gone"
                 android:id="@+id/sbTurnOver"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -210,57 +199,8 @@
                 android:progress="10"
                 android:thumbTintMode="multiply" />
 
-            <TextView
-                android:id="@+id/textView10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Turnover/Top Line"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-            <EditText
-                android:id="@+id/etTurnOver"
-                style="@style/TextAppearence.App.TextInputLayout"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:ems="10"
-                android:maxLength="10"
-                android:digits="0123456789"
-                android:inputType="phone" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-
-
-                android:paddingTop="5dp">
-
-                <TextView
-                    android:id="@+id/txtDispalayMinProfit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="10 lac"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-                <TextView
-                    android:id="@+id/txtDispalayMaxProfit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="10 cr"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-            </RelativeLayout>
-
             <SeekBar
+                android:visibility="gone"
                 android:id="@+id/sbProfitAfTax"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -268,57 +208,8 @@
                 android:progress="10"
                 android:thumbTintMode="multiply" />
 
-            <TextView
-                android:id="@+id/textView11"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Profit After Tax"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-            <EditText
-                android:id="@+id/etProfitAtTax"
-                style="@style/TextAppearence.App.TextInputLayout"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:ems="10"
-                android:maxLength="9"
-                android:digits="0123456789"
-                android:inputType="phone" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-
-
-                android:paddingTop="5dp">
-
-                <TextView
-                    android:id="@+id/txtDispalayMinDepreciation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="1 lac"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-                <TextView
-                    android:id="@+id/txtDispalayMaxDepreciation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="1 cr"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-            </RelativeLayout>
-
             <SeekBar
+                android:visibility="gone"
                 android:id="@+id/sbDepreciation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -326,58 +217,8 @@
                 android:progress="1"
                 android:thumbTintMode="multiply" />
 
-            <TextView
-                android:id="@+id/textView12"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Depreciation"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-            <EditText
-                android:id="@+id/etDepreciation"
-                style="@style/TextAppearence.App.TextInputLayout"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:ems="10"
-                android:maxLength="8"
-                android:digits="0123456789"
-                android:inputType="phone" />
-
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-
-
-                android:paddingTop="5dp">
-
-                <TextView
-                    android:id="@+id/txtDispalayMinDirect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:text="1 lac"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-                <TextView
-                    android:id="@+id/txtDispalayMaxDirect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:text="1 cr"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-            </RelativeLayout>
             <SeekBar
+                android:visibility="gone"
                 android:id="@+id/sbDirecPartRemuntion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -385,63 +226,162 @@
                 android:progress="1"
                 android:thumbTintMode="multiply" />
 
-            <TextView
-                android:id="@+id/textDirecPartRemuntion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Director/Partner Remuneration"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
-            <EditText
-                android:id="@+id/etDirecPartRemuntion"
-                style="@style/TextAppearence.App.TextInputLayout"
-
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:ems="10"
-                android:maxLength="8"
-                android:inputType="phone" />
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textView10"
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:hint="Turnover/ Top-Line">
+
+
+
+                    <EditText
+                        android:id="@+id/etTurnOver"
+                        style="@style/Style.edittext"
+                        android:digits="0123456789"
+                        android:ems="10"
+                        android:inputType="phone"
+                        android:maxLength="10" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textView124"
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:hint="EMI,If Any">
+
+                    <EditText
+                        android:id="@+id/etProfitAtTax"
+                        style="@style/Style.edittext"
+                        android:digits="0123456789"
+                        android:ems="10"
+                        android:inputType="phone"
+                        android:maxLength="9" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textView70"
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:hint="Depreciation">
+
+
+
+                    <EditText
+                        android:id="@+id/etDepreciation"
+                        style="@style/Style.edittext"
+                        android:digits="0123456789"
+                        android:ems="10"
+                        android:inputType="phone"
+                        android:maxLength="8" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textView134"
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:hint="Partner Remuneration">
+
+                    <EditText
+                        android:id="@+id/etDirecPartRemuntion"
+                        style="@style/Style.edittext"
+                        android:digits="0123456789"
+                        android:ems="10"
+                        android:inputType="phone"
+                        android:maxLength="8" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView104"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:text="EMI,If Any"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-        <EditText
-            android:id="@+id/etEMI"
-            style="@style/TextAppearence.App.TextInputLayout"
-
+        <LinearLayout
+            android:id="@+id/llSalaried"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:ems="10"
-            android:inputType="phone" />
+            android:orientation="vertical"
+            android:visibility="visible">
+
+
+            <SeekBar
+                android:id="@+id/sbMonthlyInc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="250"
+                android:progress="25"
+                android:thumbTintMode="multiply"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textView110"
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:hint="Mothly Income">
+
+                    <EditText
+                        android:id="@+id/etMonthlyInc"
+                        style="@style/Style.edittext"
+                        android:digits="0123456789"
+                        android:ems="10"
+                        android:inputType="phone"
+                        android:maxLength="7" />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/textView104"
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:hint="EMI,If Any">
+
+                    <EditText
+                        android:id="@+id/etEMI"
+                        style="@style/Style.edittext"
+                        android:digits="0123456789"
+                        android:ems="10"
+                        android:inputType="phone" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
 
         <LinearLayout
+            android:id="@+id/ll_chkCoApplicant"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:id="@+id/ll_chkCoApplicant">
-
-            <TextView
-                android:id="@+id/textView1sdf1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Co-applicant"
-
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
 
             <CheckBox
                 android:id="@+id/chkCoApplicant"
@@ -450,6 +390,17 @@
 
                 android:paddingLeft="5dp"
                 android:text="" />
+            <TextView
+                android:id="@+id/textCoApplicant"
+                android:layout_width="wrap_content"
+                style="@style/TextViewStyle.Large"
+                android:padding="8dp"
+                android:gravity="center"
+                android:background="@color/secondary_text_color"
+                android:textColor="@color/white"
+                android:text="ADD CO-APPLICANT" />
+
+
         </LinearLayout>
     </LinearLayout>
 

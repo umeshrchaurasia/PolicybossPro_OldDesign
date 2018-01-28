@@ -104,7 +104,7 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
     Spinner coApp_sbSalary, coApp_sbRelation;
     ArrayAdapter<String> coApp_salaryTypeAdapter, coApp_relationTypeAdapter;
     LinearLayout coApp_llSalaried, coApp_llSelfEmployeed;
-    SeekBar coApp_sbMonthlyInc, coApp_sbTurnOver, coApp_sbProfitAfTax, coApp_sbDepreciation, coApp_sbDirecPartRemuntion;
+  //  SeekBar coApp_sbMonthlyInc, coApp_sbTurnOver, coApp_sbProfitAfTax, coApp_sbDepreciation, coApp_sbDirecPartRemuntion;
     RadioGroup coApp_rgGender;
     RadioButton coApp_rbimgMale, coApp_rbimgFemale;
     AutoCompleteTextView acCity;
@@ -393,37 +393,17 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
         coApp_et_DOB = (EditText) findViewById(R.id.coApp_et_DOB);
         coApp_sbSalary = (Spinner) findViewById(R.id.coApp_sbSalary);
         coApp_sbRelation = (Spinner) findViewById(R.id.coApp_sbRelation);
-        coApp_sbMonthlyInc = (SeekBar) findViewById(R.id.coApp_sbMonthlyInc);
-        coApp_sbTurnOver = (SeekBar) findViewById(R.id.coApp_sbTurnOver);
-        coApp_sbProfitAfTax = (SeekBar) findViewById(R.id.coApp_sbProfitAfTax);
-        coApp_sbDepreciation = (SeekBar) findViewById(R.id.coApp_sbDepreciation);
-        coApp_sbDirecPartRemuntion = (SeekBar) findViewById(R.id.coApp_sbDirecPartRemuntion);
+//        coApp_sbMonthlyInc = (SeekBar) findViewById(R.id.coApp_sbMonthlyInc);
+//        coApp_sbTurnOver = (SeekBar) findViewById(R.id.coApp_sbTurnOver);
+//        coApp_sbProfitAfTax = (SeekBar) findViewById(R.id.coApp_sbProfitAfTax);
+//        coApp_sbDepreciation = (SeekBar) findViewById(R.id.coApp_sbDepreciation);
+//        coApp_sbDirecPartRemuntion = (SeekBar) findViewById(R.id.coApp_sbDirecPartRemuntion);
         coApp_etMonthlyInc = (EditText) findViewById(R.id.coApp_etMonthlyInc);
         coApp_etEMI = (EditText) findViewById(R.id.coApp_etEMI);
         coApp_rgGender = (RadioGroup) findViewById(R.id.coApp_rgGender);
         coApp_rbimgMale = (RadioButton) findViewById(R.id.coApp_rbimgMale);
         coApp_rbimgFemale = (RadioButton) findViewById(R.id.coApp_rbimgFemale);
 
-        //co-appdetail
-        coApp_sbMonthlyInc.setMax(2500);
-        coApp_sbMonthlyInc.setProgress(1);
-        coApp_etMonthlyInc.setText("2500");
-
-        coApp_sbTurnOver.setMax(1000);    // 100 cr
-        coApp_sbTurnOver.setProgress(10);  // 10 lac
-        coApp_etTurnOver.setText("1000000");
-
-        coApp_sbProfitAfTax.setMax(100);
-        coApp_sbProfitAfTax.setProgress(10);
-        coApp_etProfitAtTax.setText("1000000");
-
-        coApp_sbDepreciation.setMax(100);
-        coApp_sbDepreciation.setProgress(1);
-        coApp_etDepreciation.setText("100000");
-
-        coApp_sbDirecPartRemuntion.setMax(100);
-        coApp_sbDirecPartRemuntion.setProgress(1);
-        coApp_etDirecPartRemuntion.setText("100000");
 
 
         //endregion
@@ -501,11 +481,11 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
         sbMonthlyInc.setOnSeekBarChangeListener(this);
         sbDirecPartRemuntion.setOnSeekBarChangeListener(this);
 
-        coApp_sbMonthlyInc.setOnSeekBarChangeListener(this);
-        coApp_sbTurnOver.setOnSeekBarChangeListener(this);
-        coApp_sbProfitAfTax.setOnSeekBarChangeListener(this);
-        coApp_sbDepreciation.setOnSeekBarChangeListener(this);
-        coApp_sbDirecPartRemuntion.setOnSeekBarChangeListener(this);
+//        coApp_sbMonthlyInc.setOnSeekBarChangeListener(this);
+//        coApp_sbTurnOver.setOnSeekBarChangeListener(this);
+//        coApp_sbProfitAfTax.setOnSeekBarChangeListener(this);
+//        coApp_sbDepreciation.setOnSeekBarChangeListener(this);
+//        coApp_sbDirecPartRemuntion.setOnSeekBarChangeListener(this);
 
 
         txtPropertyInfo.setOnClickListener(this);
@@ -1179,62 +1159,8 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
                 }
                 break;
 
-            // Co- Applicant
-            case R.id.coApp_sbMonthlyInc:
-                if (progress >= seekBarApplIncomeProgress) {
-                    if (fromUser) {
-                        //   progress = ((int) Math.round(progress / seekBarApplIncomeProgress)) * seekBarApplIncomeProgress;
-                        coApp_etMonthlyInc.setText(String.valueOf(((long) progress) * 1000));
-                    }
-                } else {
-                    coApp_etMonthlyInc.setText(String.valueOf(((long) seekBarApplIncomeProgress) * 1000));
-                }
 
-                break;
 
-            case R.id.coApp_sbTurnOver:
-                if (progress >= seekBarApplTurnOverProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplTurnOverProgress)) * seekBarApplTurnOverProgress;
-                        coApp_etTurnOver.setText(String.valueOf(((long) progress) * 1000000));
-                    }
-                } else {
-                    coApp_etTurnOver.setText(String.valueOf(((long) seekBarApplTurnOverProgress) * 1000000));
-                }
-                break;
-
-            case R.id.coApp_sbProfitAfTax:
-                if (progress >= seekBarApplProfitProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplProfitProgress)) * seekBarApplProfitProgress;
-                        coApp_etProfitAtTax.setText(String.valueOf(((long) progress) * 1000000));
-                    }
-                } else {
-                    coApp_etProfitAtTax.setText(String.valueOf(((long) seekBarApplProfitProgress) * 1000000));
-                }
-                break;
-
-            case R.id.coApp_sbDepreciation:
-                if (progress >= seekBarApplDepricProgress) {
-                    if (fromUser) {
-                        //   progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-                        coApp_etDepreciation.setText(String.valueOf(((long) progress) * 100000));
-                    }
-                } else {
-                    coApp_etDepreciation.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-                }
-                break;
-
-            case R.id.coApp_sbDirecPartRemuntion:
-                if (progress >= seekBarApplDepricProgress) {
-                    if (fromUser) {
-                        //     progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-                        coApp_etDirecPartRemuntion.setText(String.valueOf(((long) progress) * 100000));
-                    }
-                } else {
-                    coApp_etDirecPartRemuntion.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-                }
-                break;
         }
     }
 
@@ -1332,41 +1258,44 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
                 sbDirecPartRemuntion.setProgress(direcPartRemuntion / 100000);
             }
 
-        } else if (coApp_etMonthlyInc.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etMonthlyInc.getText().toString().equals("") && !coApp_etMonthlyInc.getText().toString().equals(null)) {
-                int coApp_MonthlyInc = Integer.parseInt(coApp_etMonthlyInc.getText().toString());
-                if (coApp_MonthlyInc > 25000) {
-                    coApp_sbMonthlyInc.setProgress(coApp_MonthlyInc / 1000);
-                } else {
-                    coApp_sbMonthlyInc.setProgress(1);
-                    coApp_etMonthlyInc.setSelection(coApp_etMonthlyInc.getText().length());
-                }
-            }
-
-        } else if (coApp_etTurnOver.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etTurnOver.getText().toString().equals("") && !coApp_etTurnOver.getText().toString().equals(null)) {
-                int coApp_TurnOver = Integer.parseInt(coApp_etTurnOver.getText().toString());
-                coApp_sbTurnOver.setProgress(coApp_TurnOver / 1000000);
-            }
-        } else if (coApp_etProfitAtTax.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etProfitAtTax.getText().toString().equals("") && !coApp_etProfitAtTax.getText().toString().equals(null)) {
-                int coApp_ProfitAtTax = Integer.parseInt(coApp_etProfitAtTax.getText().toString());
-                coApp_sbProfitAfTax.setProgress(coApp_ProfitAtTax / 1000000);
-            }
-
-        } else if (coApp_etDepreciation.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etDepreciation.getText().toString().equals("") && !coApp_etDepreciation.getText().toString().equals(null)) {
-                int coApp_Depreciation = Integer.parseInt(coApp_etDepreciation.getText().toString());
-                coApp_sbDepreciation.setProgress(coApp_Depreciation / 100000);
-            }
-
-        } else if (coApp_etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etDirecPartRemuntion.getText().toString().equals("") && !coApp_etDirecPartRemuntion.getText().toString().equals(null)) {
-                int coApp_DirecPartRemuntion = Integer.parseInt(coApp_etDirecPartRemuntion.getText().toString());
-                coApp_sbDirecPartRemuntion.setProgress(coApp_DirecPartRemuntion / 100000);
-            }
-
         }
+//        else if (coApp_etMonthlyInc.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etMonthlyInc.getText().toString().equals("") && !coApp_etMonthlyInc.getText().toString().equals(null)) {
+//                int coApp_MonthlyInc = Integer.parseInt(coApp_etMonthlyInc.getText().toString());
+//                if (coApp_MonthlyInc > 25000) {
+//                    coApp_sbMonthlyInc.setProgress(coApp_MonthlyInc / 1000);
+//                } else {
+//                    coApp_sbMonthlyInc.setProgress(1);
+//                    coApp_etMonthlyInc.setSelection(coApp_etMonthlyInc.getText().length());
+//                }
+//            }
+//
+//        } else if (coApp_etTurnOver.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etTurnOver.getText().toString().equals("") && !coApp_etTurnOver.getText().toString().equals(null)) {
+//                int coApp_TurnOver = Integer.parseInt(coApp_etTurnOver.getText().toString());
+//                coApp_sbTurnOver.setProgress(coApp_TurnOver / 1000000);
+//            }
+//        } else if (coApp_etProfitAtTax.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etProfitAtTax.getText().toString().equals("") && !coApp_etProfitAtTax.getText().toString().equals(null)) {
+//                int coApp_ProfitAtTax = Integer.parseInt(coApp_etProfitAtTax.getText().toString());
+//                coApp_sbProfitAfTax.setProgress(coApp_ProfitAtTax / 1000000);
+//            }
+//
+//        } else if (coApp_etDepreciation.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etDepreciation.getText().toString().equals("") && !coApp_etDepreciation.getText().toString().equals(null)) {
+//                int coApp_Depreciation = Integer.parseInt(coApp_etDepreciation.getText().toString());
+//                coApp_sbDepreciation.setProgress(coApp_Depreciation / 100000);
+//            }
+//
+//        } else if (coApp_etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etDirecPartRemuntion.getText().toString().equals("") && !coApp_etDirecPartRemuntion.getText().toString().equals(null)) {
+//                int coApp_DirecPartRemuntion = Integer.parseInt(coApp_etDirecPartRemuntion.getText().toString());
+//                coApp_sbDirecPartRemuntion.setProgress(coApp_DirecPartRemuntion / 100000);
+//            }
+//
+//        }
+
+
     }
 
     @Override

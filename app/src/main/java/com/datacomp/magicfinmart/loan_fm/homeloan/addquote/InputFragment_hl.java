@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -45,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
@@ -81,28 +83,33 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etTurnOver, etProfitAtTax, etDepreciation, etDirecPartRemuntion;
     Spinner sbSalary;
     ArrayAdapter<String> salaryTypeAdapter;
-    LinearLayout llSalaried, llSelfEmployeed;
+    LinearLayout llSalaried, llSelfEmployeed, lyParent_CoAppDetail;
     SeekBar sbMonthlyInc, sbTurnOver, sbProfitAfTax, sbDepreciation, sbDirecPartRemuntion;
     CheckBox chkCoApplicant;
     RadioGroup rgGender;
     RadioButton rbimgMale, rbimgFemale;
+    String propTyp = "1";
+    String CoApplicantSource = "1";
+    String ApplicantSource = "1";
     //endregion
 
     //region PropertyIndo
-    EditText etCostOfProp, etTenureInYear;
-    TextView txtMaxLoanAmntAllow, txtDispalayMinCostProp, txtDispalayMaxCostProp, txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
+    EditText etCostOfProp, etTenureInYear, txtMaxLoanAmntAllow;
+    TextView txtDispalayMinCostProp, txtDispalayMaxCostProp, txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
+    TextView textCoApplicant, txtCoSalaried, txtCoSelfEMp, txtSalaried, txtSelfEMp;
     Spinner spNewLoan;
     ArrayList<String> arrayNewLoan, arrayPreferedCity;
     ArrayAdapter<String> newLoanAdapter;
     ArrayAdapter<String> preferedCityAdapter;
     SeekBar sbCostOfProp, sbTenure;
 
-    int seekBarCostPropProgress = 5;
+
     int seekBarTenureProgress = 1;
-    int seekBarApplTurnOverProgress = 1;
-    int seekBarApplProfitProgress = 1;
-    int seekBarApplDepricProgress = 1;
-    int seekBarApplIncomeProgress = 25;
+//    int seekBarCostPropProgress = 5;
+//    int seekBarApplTurnOverProgress = 1;
+//    int seekBarApplProfitProgress = 1;
+//    int seekBarApplDepricProgress = 1;
+//    int seekBarApplIncomeProgress = 25;
 
     //endregion
 
@@ -113,7 +120,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     LinearLayout coApp_llSalaried, coApp_llSelfEmployeed;
     SeekBar coApp_sbMonthlyInc, coApp_sbTurnOver, coApp_sbProfitAfTax, coApp_sbDepreciation, coApp_sbDirecPartRemuntion;
     RadioGroup coApp_rgGender;
-    RadioButton coApp_rbimgMale, coApp_rbimgFemale;
+    RadioButton coApp_rbimgMale, coApp_rbimgFemale, rbReady, rbUnder, rbSearching, rbResale, rbForcons, rbOther;
+    private RadioGroup rgProperty1;
+    private RadioGroup rgProperty2;
     AutoCompleteTextView acCity;
     boolean isCitySelected;
     DBPersistanceController mReal;
@@ -134,11 +143,11 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         mReal = new DBPersistanceController(getActivity());
         init_widgets(view);
         setListener();
-        
-        visibleApplicant(View.GONE);
-        visibleCoApplicant(View.GONE);
-        visiblePropertyInfo(View.GONE);
-        txtCoApplicantDetail.setVisibility(View.GONE);
+
+//        visibleApplicant(View.GONE);
+//        visibleCoApplicant(View.GONE);
+//        visiblePropertyInfo(View.GONE);
+//        txtCoApplicantDetail.setVisibility(View.GONE);
 
 
         loadSpinner();
@@ -146,14 +155,14 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             customerEntity = getActivity().getIntent().getParcelableExtra("CUST_DETAILS");
             fillCustomerDetails(customerEntity);
-            isCitySelected=true;
+            isCitySelected = true;
             visiblePropertyInfo(View.VISIBLE);
         }
         if (getActivity().getIntent().getBooleanExtra("IS_APP_EDIT", false)) {
 
             customerApplicationEntity = getActivity().getIntent().getParcelableExtra("CUST_APP_DETAILS");
             fillCustomerApplicationDetails(customerApplicationEntity);
-            isCitySelected=true;
+            isCitySelected = true;
             visiblePropertyInfo(View.VISIBLE);
         }
         return view;
@@ -322,14 +331,34 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         llApplicantDetail = (LinearLayout) view.findViewById(R.id.llApplicantDetail);
         llCoApplicantDetail = (LinearLayout) view.findViewById(R.id.llCoApplicantDetail);
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
+
+        rgProperty1 = (RadioGroup) view.findViewById(R.id.rgProperty1);
+        rgProperty2 = (RadioGroup) view.findViewById(R.id.rgProperty2);
+
+        RadioButton rbReady = (RadioButton) rgProperty1.findViewById(R.id.rbReady);
+        RadioButton rbUnder = (RadioButton) rgProperty1.findViewById(R.id.rbUnder);
+        RadioButton rbSearching = (RadioButton) rgProperty1.findViewById(R.id.rbSearching);
+
+        RadioButton rbResale = (RadioButton) rgProperty2.findViewById(R.id.rbResale);
+        RadioButton rbForcons = (RadioButton) rgProperty2.findViewById(R.id.rbForcons);
+        RadioButton rbOther = (RadioButton) rgProperty2.findViewById(R.id.rbOther);
+
+        rgProperty1.clearCheck(); // this is so we can start fresh, with no selection on both RadioGroups
+        rgProperty1.clearCheck();
+        rbReady.setChecked(true);
+        rgProperty2.setOnCheckedChangeListener(rgProp1Listener);
+        rgProperty2.setOnCheckedChangeListener(rgProp2Listener);
+
+
         //endregion
 
         //region Property Initialize
 
         spNewLoan = (Spinner) view.findViewById(R.id.spNewLoan);
-        //spPreferedCity = (Spinner) view.findViewById(R.id.spPreferedCity);
         etCostOfProp = (EditText) view.findViewById(R.id.etCostOfProp);
-        txtMaxLoanAmntAllow = (TextView) view.findViewById(R.id.txtMaxLoanAmntAllow);
+
+
+        txtMaxLoanAmntAllow = (EditText) view.findViewById(R.id.txtMaxLoanAmntAllow);
         txtDispalayMinCostProp = (TextView) view.findViewById(R.id.txtDispalayMinCostProp);
         txtDispalayMaxCostProp = (TextView) view.findViewById(R.id.txtDispalayMaxCostProp);
         txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
@@ -338,9 +367,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         sbCostOfProp = (SeekBar) view.findViewById(R.id.sbCostOfProp);
         sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
 
-        sbCostOfProp.setMax(5000);    // 50 cr
-        sbCostOfProp.setProgress(5);  // 5 lac
-        etCostOfProp.setText("500000");
+//        sbCostOfProp.setMax(5000);    // 50 cr
+//        sbCostOfProp.setProgress(5);  // 5 lac
+//        etCostOfProp.setText("500000");
         //txtMaxLoanAmntAllow.setText(String.format("%.2f", getPercent(500000)));
         sbTenure.setMax(30);
         sbTenure.setProgress(1);
@@ -352,6 +381,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         //region Applicant Initialize
         llSelfEmployeed = (LinearLayout) view.findViewById(R.id.llSelfEmployeed);
         llSalaried = (LinearLayout) view.findViewById(R.id.llSalaried);
+        lyParent_CoAppDetail = (LinearLayout) view.findViewById(R.id.lyParent_CoAppDetail);
         etNameOfApplicant = (EditText) view.findViewById(R.id.etNameOfApplicant);
         etTurnOver = (EditText) view.findViewById(R.id.etTurnOver);
         etProfitAtTax = (EditText) view.findViewById(R.id.etProfitAtTax);
@@ -371,26 +401,26 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         rbimgMale = (RadioButton) view.findViewById(R.id.rbimgMale);
         rbimgFemale = (RadioButton) view.findViewById(R.id.rbimgFemale);
 
-        sbTurnOver.setMax(1000);    // 100 cr
-        sbTurnOver.setProgress(10);  // 10 lac
-        etTurnOver.setText("1000000");
-
-        sbProfitAfTax.setMax(100);
-        sbProfitAfTax.setProgress(10);
-        etProfitAtTax.setText("1000000");
-
-        sbDepreciation.setMax(100);
-        sbDepreciation.setProgress(1);
-        etDepreciation.setText("100000");
-
-        sbMonthlyInc.setMax(2500);    //2500
-        sbMonthlyInc.setProgress(1);
-        etMonthlyInc.setText("25000");
-
-
-        sbDirecPartRemuntion.setMax(100);
-        sbDirecPartRemuntion.setProgress(1);
-        etDirecPartRemuntion.setText("100000");
+//        sbTurnOver.setMax(1000);    // 100 cr
+//        sbTurnOver.setProgress(10);  // 10 lac
+//        etTurnOver.setText("1000000");
+//
+//        sbProfitAfTax.setMax(100);
+//        sbProfitAfTax.setProgress(10);
+//        etProfitAtTax.setText("1000000");
+//
+//        sbDepreciation.setMax(100);
+//        sbDepreciation.setProgress(1);
+//        etDepreciation.setText("100000");
+//
+//        sbMonthlyInc.setMax(2500);    //2500
+//        sbMonthlyInc.setProgress(1);
+//        etMonthlyInc.setText("25000");
+//
+//
+//        sbDirecPartRemuntion.setMax(100);
+//        sbDirecPartRemuntion.setProgress(1);
+//        etDirecPartRemuntion.setText("100000");
 
 
         //endregion
@@ -398,6 +428,14 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         //region Co-Applicant Initialize
         coApp_llSelfEmployeed = (LinearLayout) view.findViewById(R.id.coApp_llSelfEmployeed);
         coApp_llSalaried = (LinearLayout) view.findViewById(R.id.coApp_llSalaried);
+
+        txtSalaried = (TextView) view.findViewById(R.id.txtSalaried);
+        txtSelfEMp = (TextView) view.findViewById(R.id.txtSelfEMp);
+
+        textCoApplicant = (TextView) view.findViewById(R.id.textCoApplicant);
+        txtCoSalaried = (TextView) view.findViewById(R.id.txtCoSalaried);
+        txtCoSelfEMp = (TextView) view.findViewById(R.id.txtCoSelfEMp);
+
         coApp_etNameOfApplicant = (EditText) view.findViewById(R.id.coApp_etNameOfApplicant);
         coApp_etTurnOver = (EditText) view.findViewById(R.id.coApp_etTurnOver);
         coApp_etProfitAtTax = (EditText) view.findViewById(R.id.coApp_etProfitAtTax);
@@ -417,26 +455,27 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         coApp_rbimgMale = (RadioButton) view.findViewById(R.id.coApp_rbimgMale);
         coApp_rbimgFemale = (RadioButton) view.findViewById(R.id.coApp_rbimgFemale);
 
+
         //co-appdetail
-        coApp_sbMonthlyInc.setMax(2500);
-        coApp_sbMonthlyInc.setProgress(1);
-        coApp_etMonthlyInc.setText("2500");
-
-        coApp_sbTurnOver.setMax(1000);    // 100 cr
-        coApp_sbTurnOver.setProgress(10);  // 10 lac
-        coApp_etTurnOver.setText("1000000");
-
-        coApp_sbProfitAfTax.setMax(100);
-        coApp_sbProfitAfTax.setProgress(10);
-        coApp_etProfitAtTax.setText("1000000");
-
-        coApp_sbDepreciation.setMax(100);
-        coApp_sbDepreciation.setProgress(1);
-        coApp_etDepreciation.setText("100000");
-
-        coApp_sbDirecPartRemuntion.setMax(100);
-        coApp_sbDirecPartRemuntion.setProgress(1);
-        coApp_etDirecPartRemuntion.setText("100000");
+//        coApp_sbMonthlyInc.setMax(2500);
+//        coApp_sbMonthlyInc.setProgress(1);
+//        coApp_etMonthlyInc.setText("2500");
+//
+//        coApp_sbTurnOver.setMax(1000);    // 100 cr
+//        coApp_sbTurnOver.setProgress(10);  // 10 lac
+//        coApp_etTurnOver.setText("1000000");
+//
+//        coApp_sbProfitAfTax.setMax(100);
+//        coApp_sbProfitAfTax.setProgress(10);
+//        coApp_etProfitAtTax.setText("1000000");
+//
+//        coApp_sbDepreciation.setMax(100);
+//        coApp_sbDepreciation.setProgress(1);
+//        coApp_etDepreciation.setText("100000");
+//
+//        coApp_sbDirecPartRemuntion.setMax(100);
+//        coApp_sbDirecPartRemuntion.setProgress(1);
+//        coApp_etDirecPartRemuntion.setText("100000");
 
 
         //endregion
@@ -506,24 +545,31 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             }
         });
         // endregion
-        sbCostOfProp.setOnSeekBarChangeListener(this);
         sbTenure.setOnSeekBarChangeListener(this);
-        sbTurnOver.setOnSeekBarChangeListener(this);
-        sbProfitAfTax.setOnSeekBarChangeListener(this);
-        sbDepreciation.setOnSeekBarChangeListener(this);
-        sbMonthlyInc.setOnSeekBarChangeListener(this);
-        sbDirecPartRemuntion.setOnSeekBarChangeListener(this);
 
-        coApp_sbMonthlyInc.setOnSeekBarChangeListener(this);
-        coApp_sbTurnOver.setOnSeekBarChangeListener(this);
-        coApp_sbProfitAfTax.setOnSeekBarChangeListener(this);
-        coApp_sbDepreciation.setOnSeekBarChangeListener(this);
-        coApp_sbDirecPartRemuntion.setOnSeekBarChangeListener(this);
+//        sbCostOfProp.setOnSeekBarChangeListener(this);
+//        sbTurnOver.setOnSeekBarChangeListener(this);
+//        sbProfitAfTax.setOnSeekBarChangeListener(this);
+//        sbDepreciation.setOnSeekBarChangeListener(this);
+//        sbMonthlyInc.setOnSeekBarChangeListener(this);
+//        sbDirecPartRemuntion.setOnSeekBarChangeListener(this);
+//
+//        coApp_sbMonthlyInc.setOnSeekBarChangeListener(this);
+//        coApp_sbTurnOver.setOnSeekBarChangeListener(this);
+//        coApp_sbProfitAfTax.setOnSeekBarChangeListener(this);
+//        coApp_sbDepreciation.setOnSeekBarChangeListener(this);
+//        coApp_sbDirecPartRemuntion.setOnSeekBarChangeListener(this);
 
 
-        txtPropertyInfo.setOnClickListener(this);
-        txtApplicantDetail.setOnClickListener(this);
-        txtCoApplicantDetail.setOnClickListener(this);
+//        txtPropertyInfo.setOnClickListener(this);
+//        txtApplicantDetail.setOnClickListener(this);
+//        txtCoApplicantDetail.setOnClickListener(this);
+
+        txtSalaried.setOnClickListener(this);
+        txtSelfEMp.setOnClickListener(this);
+        txtCoSalaried.setOnClickListener(this);
+        txtCoSelfEMp.setOnClickListener(this);
+
 
         btnGetQuote.setOnClickListener(this);
         et_DOB.setOnClickListener(datePickerDialogApplicant);
@@ -535,31 +581,38 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    txtCoApplicantDetail.setVisibility(View.VISIBLE);
-                    visiblePropertyInfo(View.GONE);
-                    visibleApplicant(View.GONE);
-                    visibleCoApplicant(View.VISIBLE);
+                    //                   txtCoApplicantDetail.setVisibility(View.VISIBLE);
+//                    visiblePropertyInfo(View.GONE);
+//                    visibleApplicant(View.GONE);
+                    //   visibleCoApplicant(View.VISIBLE);
+                    lyParent_CoAppDetail.setVisibility(View.VISIBLE);
+                    textCoApplicant.setBackgroundResource(R.color.button_color);
+                    coApp_etEMI.requestFocus();
+                    Constants.hideKeyBoard(buttonView, getActivity());
+
                 } else {
-                    visibleCoApplicant(View.GONE);
-                    visiblePropertyInfo(View.GONE);
-                    visibleApplicant(View.VISIBLE);
-                    txtCoApplicantDetail.setVisibility(View.GONE);
+                    // visibleCoApplicant(View.GONE);
+                    lyParent_CoAppDetail.setVisibility(View.GONE);
+                    textCoApplicant.setBackgroundResource(R.color.secondary_text_color);
+//                    visiblePropertyInfo(View.GONE);
+//                    visibleApplicant(View.VISIBLE);
+                    //                   txtCoApplicantDetail.setVisibility(View.GONE);
                 }
             }
         });
 
         etCostOfProp.addTextChangedListener(this);
-        etTenureInYear.addTextChangedListener(this);
-        etMonthlyInc.addTextChangedListener(this);
-        etTurnOver.addTextChangedListener(this);
-        etProfitAtTax.addTextChangedListener(this);
-        etDepreciation.addTextChangedListener(this);
-        etDirecPartRemuntion.addTextChangedListener(this);
-        coApp_etMonthlyInc.addTextChangedListener(this);
-        coApp_etTurnOver.addTextChangedListener(this);
-        coApp_etProfitAtTax.addTextChangedListener(this);
-        coApp_etDepreciation.addTextChangedListener(this);
-        coApp_etDirecPartRemuntion.addTextChangedListener(this);
+//        etTenureInYear.addTextChangedListener(this);
+//        etMonthlyInc.addTextChangedListener(this);
+//        etTurnOver.addTextChangedListener(this);
+//        etProfitAtTax.addTextChangedListener(this);
+//        etDepreciation.addTextChangedListener(this);
+//        etDirecPartRemuntion.addTextChangedListener(this);
+//        coApp_etMonthlyInc.addTextChangedListener(this);
+//        coApp_etTurnOver.addTextChangedListener(this);
+//        coApp_etProfitAtTax.addTextChangedListener(this);
+//        coApp_etDepreciation.addTextChangedListener(this);
+//        coApp_etDirecPartRemuntion.addTextChangedListener(this);
 
 
     }
@@ -678,21 +731,74 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
 
-        if (v.getId() == R.id.txtPropertyInfo) {
-            visibleApplicant(View.GONE);
-            visibleCoApplicant(View.GONE);
-            altervisiblePropertyInfo();
+//        if (v.getId() == R.id.txtPropertyInfo) {
+//            visibleApplicant(View.GONE);
+//            visibleCoApplicant(View.GONE);
+//            altervisiblePropertyInfo();
+//
+//            // setPropertyDetails();
+//
+//        } else if (v.getId() == R.id.txtApplicantDetail) {
+//            visiblePropertyInfo(View.GONE);
+//            visibleCoApplicant(View.GONE);
+//            altervisibleApplicant();
+//        } else if (v.getId() == R.id.txtCoApplicantDetail) {
+//            visiblePropertyInfo(View.GONE);
+//            visibleApplicant(View.GONE);
+//            altervisibleCoApplicant();
+//        }
+        if (v.getId() == R.id.txtSalaried) {
 
-            // setPropertyDetails();
+            ApplicantSource = "1";
+            txtSalaried.setBackgroundResource(R.drawable.customborder_blue);
+            txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 
-        } else if (v.getId() == R.id.txtApplicantDetail) {
-            visiblePropertyInfo(View.GONE);
-            visibleCoApplicant(View.GONE);
-            altervisibleApplicant();
-        } else if (v.getId() == R.id.txtCoApplicantDetail) {
-            visiblePropertyInfo(View.GONE);
-            visibleApplicant(View.GONE);
-            altervisibleCoApplicant();
+            txtSelfEMp.setBackgroundResource(R.drawable.customborder);
+            txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+
+            llSelfEmployeed.setVisibility(View.GONE);
+
+
+        } else if (v.getId() == R.id.txtSelfEMp) {
+            ApplicantSource = "2";
+            txtSelfEMp.setBackgroundResource(R.drawable.customborder_blue);
+            txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+            txtSalaried.setBackgroundResource(R.drawable.customborder);
+            txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+            llSelfEmployeed.setVisibility(View.VISIBLE);
+
+
+        }
+        /////////////// Co- Applicant//////////////////
+        else if (v.getId() == R.id.txtCoSalaried) {
+
+            CoApplicantSource = "1";
+
+            txtCoSalaried.setBackgroundResource(R.drawable.customborder_blue);
+            txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+
+            txtCoSelfEMp.setBackgroundResource(R.drawable.customborder);
+            txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+
+            coApp_llSelfEmployeed.setVisibility(View.GONE);
+
+
+        } else if (v.getId() == R.id.txtCoSelfEMp) {
+            CoApplicantSource = "2";
+
+            txtCoSelfEMp.setBackgroundResource(R.drawable.customborder_blue);
+            txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+            txtCoSalaried.setBackgroundResource(R.drawable.customborder);
+            txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+
+            coApp_llSelfEmployeed.setVisibility(View.VISIBLE);
         } else if (v.getId() == R.id.btnGetQuote) {
             //region Validation
 
@@ -958,7 +1064,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     private ArrayList<String> getNewLoanList() {
         List<PropertyInfoEntity> listLoan = mReal.getLoanPropertyInfoList();
         if (listLoan != null) {
-            for (int i = 0; i <= listLoan.size()-1; i++) {
+            for (int i = 0; i <= listLoan.size() - 1; i++) {
                 arrayNewLoan.add(listLoan.get(i).getProperty_Type());
             }
         }
@@ -985,7 +1091,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         //  homeLoanRequest.setPropertyID("" + new PropertyFacade(getActivity()).getPropertyId(spNewLoan.getSelectedItem().toString()));
 
-        homeLoanRequest.setPropertyID("" +  new DBPersistanceController(getActivity()).getPropertyId(spNewLoan.getSelectedItem().toString()));
+        homeLoanRequest.setPropertyID("" + propTyp);
         homeLoanRequest.setPropertyCost(etCostOfProp.getText().toString());
         homeLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
         homeLoanRequest.setLoanRequired(txtMaxLoanAmntAllow.getText().toString());
@@ -996,12 +1102,15 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         } else if (rbimgMale.isChecked()) {
             homeLoanRequest.setApplicantGender("M");
         }
-        if (sbSalary.getSelectedItem().toString().contains("Salaried")) {
 
-            homeLoanRequest.setApplicantSource("1");
-        } else if (sbSalary.getSelectedItem().toString().contains("Self-Employed")) {
-            homeLoanRequest.setApplicantSource("2");
-        }
+//        if (sbSalary.getSelectedItem().toString().contains("Salaried")) {
+//
+//            homeLoanRequest.setApplicantSource("1");
+//        } else if (sbSalary.getSelectedItem().toString().contains("Self-Employed")) {
+//            homeLoanRequest.setApplicantSource("2");
+//        }
+        homeLoanRequest.setApplicantSource(ApplicantSource);
+
         if (homeLoanRequest.getApplicantSource() == "1") {
             homeLoanRequest.setApplicantIncome(etMonthlyInc.getText().toString());
         } else if (homeLoanRequest.getApplicantSource() == "2") {
@@ -1020,11 +1129,13 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             } else if (coApp_rbimgMale.isChecked()) {
                 homeLoanRequest.setCoApplicantGender("M");
             }
-            if (coApp_sbSalary.getSelectedItem().toString().contains("Salaried")) {
-                homeLoanRequest.setCoApplicantSource("1");
-            } else if (sbSalary.getSelectedItem().toString().contains("Self-Employed")) {
-                homeLoanRequest.setCoApplicantSource("2");
-            }
+
+            homeLoanRequest.setCoApplicantSource(CoApplicantSource);
+//            if (coApp_sbSalary.getSelectedItem().toString().contains("Salaried")) {
+//                homeLoanRequest.setCoApplicantSource("1");
+//            } else if (sbSalary.getSelectedItem().toString().contains("Self-Employed")) {
+//                homeLoanRequest.setCoApplicantSource("2");
+//            }
             if (homeLoanRequest.getCoApplicantSource() == "1") {
                 homeLoanRequest.setCoApplicantIncome(coApp_etMonthlyInc.getText().toString());
             } else if (homeLoanRequest.getCoApplicantSource() == "2") {
@@ -1043,10 +1154,12 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         //   homeLoanRequest.setBrokerId("" + new LoginFacade(getActivity()).getUser().getBrokerId());
         //   homeLoanRequest.setempcode("" + new LoginFacade(getActivity()).getUser().getEmpCode());
 
-        homeLoanRequest.setBrokerId("" +"0");
-        homeLoanRequest.setempcode("" + "rb40000428");
+        homeLoanRequest.setBrokerId("" + "rb40000428");
+        homeLoanRequest.setempcode("");
         homeLoanRequest.setProductId("12");//HomeLoan
         homeLoanRequest.setApi_source("Finmart");
+
+
 
 
         //endregion
@@ -1085,7 +1198,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
     @Override
-    public void OnSuccess(APIResponse response, String message){
+    public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof GetQuoteResponse) {
             if (response.getStatus_Id() == 0) {
@@ -1093,7 +1206,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 //                startActivity(new Intent(getActivity(), HomeLoanQuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) getQuoteResponse.getData())
 //                        .putExtra(Constants.QUOTES, getQuoteResponse)
 //                        .putExtra(Constants.HL_REQUEST, homeLoanRequest));
-                ((HLMainActivity)mContext).setQuoteCheck();
+                ((HLMainActivity) mContext).setQuoteCheck();
 
                 getQuoteResponse = ((GetQuoteResponse) response);
 
@@ -1127,20 +1240,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         switch (seekBar.getId()) {
-            case R.id.sbCostOfProp:
-                if (progress >= seekBarCostPropProgress) {
-                    if (fromUser) {
-                        //progress = ((int) Math.round(progress / seekBarCostPropProgress)) * seekBarCostPropProgress;
-                        etCostOfProp.setText(String.valueOf(((long) progress) * 100000));
-                        txtMaxLoanAmntAllow.setText("" + getMaxLoanAmount(etCostOfProp.getText().toString()).intValueExact());
-                    }
-                } else {
-                    etCostOfProp.setText(String.valueOf(((long) seekBarCostPropProgress) * 100000));
-                    txtMaxLoanAmntAllow.setText("" + getMaxLoanAmount(etCostOfProp.getText().toString()).intValueExact());
-                }
 
-
-                break;
 
             case R.id.sbTenure:
                 if (progress >= seekBarTenureProgress) {
@@ -1152,119 +1252,135 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                     etTenureInYear.setText(String.valueOf((long) seekBarTenureProgress));
                 }
                 break;
-
-            case R.id.sbTurnOver:
-                if (progress >= seekBarApplTurnOverProgress) {
-                    if (fromUser) {
-                        // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
-                        etTurnOver.setText(String.valueOf(((long) progress) * 1000000));
-                    }
-                } else {
-                    etTurnOver.setText(String.valueOf(((long) seekBarApplTurnOverProgress) * 1000000));
-                }
-                break;
-
-            case R.id.sbProfitAfTax:
-                if (progress >= seekBarApplProfitProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplProfitProgress)) * seekBarApplProfitProgress;
-                        etProfitAtTax.setText(String.valueOf(((long) progress) * 1000000));
-                    }
-                } else {
-                    etProfitAtTax.setText(String.valueOf(((long) seekBarApplProfitProgress) * 1000000));
-                }
-                break;
-
-            case R.id.sbDepreciation:
-                if (progress >= seekBarApplDepricProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-                        etDepreciation.setText(String.valueOf(((long) progress) * 100000));
-                    }
-                } else {
-                    etDepreciation.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-                }
-                break;
-
-            case R.id.sbMonthlyInc:
-
-                if (progress >= seekBarApplIncomeProgress) {
-                    if (fromUser) {
-                        //   progress = ((int) Math.round(progress / seekBarApplIncomeProgress)) * seekBarApplIncomeProgress;
-                        etMonthlyInc.setText(String.valueOf(((long) progress) * 1000));
-                    }
-                } else {
-                    etMonthlyInc.setText(String.valueOf(((long) seekBarApplIncomeProgress) * 1000));
-                }
-                break;
-
-            case R.id.sbDirecPartRemuntion:
-                if (progress >= seekBarApplDepricProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-                        etDirecPartRemuntion.setText(String.valueOf(((long) progress) * 100000));
-                    }
-                } else {
-                    etDirecPartRemuntion.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-                }
-                break;
-
-            // Co- Applicant
-            case R.id.coApp_sbMonthlyInc:
-                if (progress >= seekBarApplIncomeProgress) {
-                    if (fromUser) {
-                        //   progress = ((int) Math.round(progress / seekBarApplIncomeProgress)) * seekBarApplIncomeProgress;
-                        coApp_etMonthlyInc.setText(String.valueOf(((long) progress) * 1000));
-                    }
-                } else {
-                    coApp_etMonthlyInc.setText(String.valueOf(((long) seekBarApplIncomeProgress) * 1000));
-                }
-
-                break;
-
-            case R.id.coApp_sbTurnOver:
-                if (progress >= seekBarApplTurnOverProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplTurnOverProgress)) * seekBarApplTurnOverProgress;
-                        coApp_etTurnOver.setText(String.valueOf(((long) progress) * 1000000));
-                    }
-                } else {
-                    coApp_etTurnOver.setText(String.valueOf(((long) seekBarApplTurnOverProgress) * 1000000));
-                }
-                break;
-
-            case R.id.coApp_sbProfitAfTax:
-                if (progress >= seekBarApplProfitProgress) {
-                    if (fromUser) {
-                        //    progress = ((int) Math.round(progress / seekBarApplProfitProgress)) * seekBarApplProfitProgress;
-                        coApp_etProfitAtTax.setText(String.valueOf(((long) progress) * 1000000));
-                    }
-                } else {
-                    coApp_etProfitAtTax.setText(String.valueOf(((long) seekBarApplProfitProgress) * 1000000));
-                }
-                break;
-
-            case R.id.coApp_sbDepreciation:
-                if (progress >= seekBarApplDepricProgress) {
-                    if (fromUser) {
-                        //   progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-                        coApp_etDepreciation.setText(String.valueOf(((long) progress) * 100000));
-                    }
-                } else {
-                    coApp_etDepreciation.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-                }
-                break;
-
-            case R.id.coApp_sbDirecPartRemuntion:
-                if (progress >= seekBarApplDepricProgress) {
-                    if (fromUser) {
-                        //     progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-                        coApp_etDirecPartRemuntion.setText(String.valueOf(((long) progress) * 100000));
-                    }
-                } else {
-                    coApp_etDirecPartRemuntion.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-                }
-                break;
+            //region comment
+            //            case R.id.sbCostOfProp:
+//                if (progress >= seekBarCostPropProgress) {
+//                    if (fromUser) {
+//                        //progress = ((int) Math.round(progress / seekBarCostPropProgress)) * seekBarCostPropProgress;
+//                        etCostOfProp.setText(String.valueOf(((long) progress) * 100000));
+//                        txtMaxLoanAmntAllow.setText("" + getMaxLoanAmount(etCostOfProp.getText().toString()).intValueExact());
+//                    }
+//                } else {
+//                    etCostOfProp.setText(String.valueOf(((long) seekBarCostPropProgress) * 100000));
+//                    txtMaxLoanAmntAllow.setText("" + getMaxLoanAmount(etCostOfProp.getText().toString()).intValueExact());
+//                }
+//
+//
+//                break;
+//
+//            case R.id.sbTurnOver:
+//                if (progress >= seekBarApplTurnOverProgress) {
+//                    if (fromUser) {
+//                        // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
+//                        etTurnOver.setText(String.valueOf(((long) progress) * 1000000));
+//                    }
+//                } else {
+//                    etTurnOver.setText(String.valueOf(((long) seekBarApplTurnOverProgress) * 1000000));
+//                }
+//                break;
+//
+//            case R.id.sbProfitAfTax:
+//                if (progress >= seekBarApplProfitProgress) {
+//                    if (fromUser) {
+//                        //    progress = ((int) Math.round(progress / seekBarApplProfitProgress)) * seekBarApplProfitProgress;
+//                        etProfitAtTax.setText(String.valueOf(((long) progress) * 1000000));
+//                    }
+//                } else {
+//                    etProfitAtTax.setText(String.valueOf(((long) seekBarApplProfitProgress) * 1000000));
+//                }
+//                break;
+//
+//            case R.id.sbDepreciation:
+//                if (progress >= seekBarApplDepricProgress) {
+//                    if (fromUser) {
+//                        //    progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
+//                        etDepreciation.setText(String.valueOf(((long) progress) * 100000));
+//                    }
+//                } else {
+//                    etDepreciation.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
+//                }
+//                break;
+//
+//            case R.id.sbMonthlyInc:
+//
+//                if (progress >= seekBarApplIncomeProgress) {
+//                    if (fromUser) {
+//                        //   progress = ((int) Math.round(progress / seekBarApplIncomeProgress)) * seekBarApplIncomeProgress;
+//                        etMonthlyInc.setText(String.valueOf(((long) progress) * 1000));
+//                    }
+//                } else {
+//                    etMonthlyInc.setText(String.valueOf(((long) seekBarApplIncomeProgress) * 1000));
+//                }
+//                break;
+//
+//            case R.id.sbDirecPartRemuntion:
+//                if (progress >= seekBarApplDepricProgress) {
+//                    if (fromUser) {
+//                        //    progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
+//                        etDirecPartRemuntion.setText(String.valueOf(((long) progress) * 100000));
+//                    }
+//                } else {
+//                    etDirecPartRemuntion.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
+//                }
+//                break;
+//
+//            // Co- Applicant
+//            case R.id.coApp_sbMonthlyInc:
+//                if (progress >= seekBarApplIncomeProgress) {
+//                    if (fromUser) {
+//                        //   progress = ((int) Math.round(progress / seekBarApplIncomeProgress)) * seekBarApplIncomeProgress;
+//                        coApp_etMonthlyInc.setText(String.valueOf(((long) progress) * 1000));
+//                    }
+//                } else {
+//                    coApp_etMonthlyInc.setText(String.valueOf(((long) seekBarApplIncomeProgress) * 1000));
+//                }
+//
+//                break;
+//
+//            case R.id.coApp_sbTurnOver:
+//                if (progress >= seekBarApplTurnOverProgress) {
+//                    if (fromUser) {
+//                        //    progress = ((int) Math.round(progress / seekBarApplTurnOverProgress)) * seekBarApplTurnOverProgress;
+//                        coApp_etTurnOver.setText(String.valueOf(((long) progress) * 1000000));
+//                    }
+//                } else {
+//                    coApp_etTurnOver.setText(String.valueOf(((long) seekBarApplTurnOverProgress) * 1000000));
+//                }
+//                break;
+//
+//            case R.id.coApp_sbProfitAfTax:
+//                if (progress >= seekBarApplProfitProgress) {
+//                    if (fromUser) {
+//                        //    progress = ((int) Math.round(progress / seekBarApplProfitProgress)) * seekBarApplProfitProgress;
+//                        coApp_etProfitAtTax.setText(String.valueOf(((long) progress) * 1000000));
+//                    }
+//                } else {
+//                    coApp_etProfitAtTax.setText(String.valueOf(((long) seekBarApplProfitProgress) * 1000000));
+//                }
+//                break;
+//
+//            case R.id.coApp_sbDepreciation:
+//                if (progress >= seekBarApplDepricProgress) {
+//                    if (fromUser) {
+//                        //   progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
+//                        coApp_etDepreciation.setText(String.valueOf(((long) progress) * 100000));
+//                    }
+//                } else {
+//                    coApp_etDepreciation.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
+//                }
+//                break;
+//
+//            case R.id.coApp_sbDirecPartRemuntion:
+//                if (progress >= seekBarApplDepricProgress) {
+//                    if (fromUser) {
+//                        //     progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
+//                        coApp_etDirecPartRemuntion.setText(String.valueOf(((long) progress) * 100000));
+//                    }
+//                } else {
+//                    coApp_etDirecPartRemuntion.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
+//                }
+//                break;
+            //endregion
         }
     }
 
@@ -1299,103 +1415,97 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                 int costOfProperty = Integer.parseInt(etCostOfProp.getText().toString());
                 int sactionAmount = getMaxLoanAmount("" + costOfProperty).intValueExact();
                 txtMaxLoanAmntAllow.setText("" + sactionAmount);
-                if (costOfProperty > 500000) {
-
-                    sbCostOfProp.setProgress(costOfProperty / 100000);
-                } else {
-                    sbCostOfProp.setProgress(1);
-                    // etCostOfProp.setSelection(etCostOfProp.getText().length());
-                }
-
-            } else {
+            }
+            else {
                 txtMaxLoanAmntAllow.setText("");
             }
-
-
-        } else if (etTenureInYear.getText().hashCode() == s.hashCode()) {
-
-            if (!etTenureInYear.getText().toString().equals("") && !etTenureInYear.getText().toString().equals(null)) {
-                int tenureInYear = Integer.parseInt(etTenureInYear.getText().toString());
-                sbTenure.setProgress(tenureInYear);
-
-            }
-
-        } else if (etTurnOver.getText().hashCode() == s.hashCode()) {
-
-            if (!etTurnOver.getText().toString().equals("") && !etTurnOver.getText().toString().equals(null)) {
-                int turnOver = Integer.parseInt(etTurnOver.getText().toString());
-                sbTurnOver.setProgress(turnOver / 1000000);
-            }
-
-        } else if (etProfitAtTax.getText().hashCode() == s.hashCode()) {
-
-            if (!etProfitAtTax.getText().toString().equals("") && !etProfitAtTax.getText().toString().equals(null)) {
-                int profitAtTax = Integer.parseInt(etProfitAtTax.getText().toString());
-                sbProfitAfTax.setProgress(profitAtTax / 1000000);
-            }
-
-        } else if (etDepreciation.getText().hashCode() == s.hashCode()) {
-
-            if (!etDepreciation.getText().toString().equals("") && !etDepreciation.getText().toString().equals(null)) {
-                int depreciation = Integer.parseInt(etDepreciation.getText().toString());
-                sbDepreciation.setProgress(depreciation / 100000);
-            }
-
-        } else if (etMonthlyInc.getText().hashCode() == s.hashCode()) {
-
-            if (!etMonthlyInc.getText().toString().equals("") && !etMonthlyInc.getText().toString().equals(null)) {
-                int monthlyInc = Integer.parseInt(etMonthlyInc.getText().toString());
-
-                if (monthlyInc > 25000) {
-                    sbMonthlyInc.setProgress(monthlyInc / 1000);
-                } else {
-                    sbMonthlyInc.setProgress(1);
-                    etMonthlyInc.setSelection(etMonthlyInc.getText().length());
-                }
-
-
-            }
-
-        } else if (etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
-            if (!etDirecPartRemuntion.getText().toString().equals("") && !etDirecPartRemuntion.getText().toString().equals(null)) {
-                int direcPartRemuntion = Integer.parseInt(etDirecPartRemuntion.getText().toString());
-                sbDirecPartRemuntion.setProgress(direcPartRemuntion / 100000);
-            }
-
-        } else if (coApp_etMonthlyInc.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etMonthlyInc.getText().toString().equals("") && !coApp_etMonthlyInc.getText().toString().equals(null)) {
-                int coApp_MonthlyInc = Integer.parseInt(coApp_etMonthlyInc.getText().toString());
-                if (coApp_MonthlyInc > 25000) {
-                    coApp_sbMonthlyInc.setProgress(coApp_MonthlyInc / 1000);
-                } else {
-                    coApp_sbMonthlyInc.setProgress(1);
-                    coApp_etMonthlyInc.setSelection(coApp_etMonthlyInc.getText().length());
-                }
-            }
-
-        } else if (coApp_etTurnOver.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etTurnOver.getText().toString().equals("") && !coApp_etTurnOver.getText().toString().equals(null)) {
-                int coApp_TurnOver = Integer.parseInt(coApp_etTurnOver.getText().toString());
-                coApp_sbTurnOver.setProgress(coApp_TurnOver / 1000000);
-            }
-        } else if (coApp_etProfitAtTax.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etProfitAtTax.getText().toString().equals("") && !coApp_etProfitAtTax.getText().toString().equals(null)) {
-                int coApp_ProfitAtTax = Integer.parseInt(coApp_etProfitAtTax.getText().toString());
-                coApp_sbProfitAfTax.setProgress(coApp_ProfitAtTax / 1000000);
-            }
-
-        } else if (coApp_etDepreciation.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etDepreciation.getText().toString().equals("") && !coApp_etDepreciation.getText().toString().equals(null)) {
-                int coApp_Depreciation = Integer.parseInt(coApp_etDepreciation.getText().toString());
-                coApp_sbDepreciation.setProgress(coApp_Depreciation / 100000);
-            }
-
-        } else if (coApp_etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
-            if (!coApp_etDirecPartRemuntion.getText().toString().equals("") && !coApp_etDirecPartRemuntion.getText().toString().equals(null)) {
-                int coApp_DirecPartRemuntion = Integer.parseInt(coApp_etDirecPartRemuntion.getText().toString());
-                coApp_sbDirecPartRemuntion.setProgress(coApp_DirecPartRemuntion / 100000);
-            }
-
+//
+//
+//        } else if (etTenureInYear.getText().hashCode() == s.hashCode()) {
+//
+//            if (!etTenureInYear.getText().toString().equals("") && !etTenureInYear.getText().toString().equals(null)) {
+//                int tenureInYear = Integer.parseInt(etTenureInYear.getText().toString());
+//                sbTenure.setProgress(tenureInYear);
+//
+//            }
+//
+//        } else if (etTurnOver.getText().hashCode() == s.hashCode()) {
+//
+//            if (!etTurnOver.getText().toString().equals("") && !etTurnOver.getText().toString().equals(null)) {
+//                int turnOver = Integer.parseInt(etTurnOver.getText().toString());
+//                sbTurnOver.setProgress(turnOver / 1000000);
+//            }
+//
+//        } else if (etProfitAtTax.getText().hashCode() == s.hashCode()) {
+//
+//            if (!etProfitAtTax.getText().toString().equals("") && !etProfitAtTax.getText().toString().equals(null)) {
+//                int profitAtTax = Integer.parseInt(etProfitAtTax.getText().toString());
+//                sbProfitAfTax.setProgress(profitAtTax / 1000000);
+//            }
+//
+//        } else if (etDepreciation.getText().hashCode() == s.hashCode()) {
+//
+//            if (!etDepreciation.getText().toString().equals("") && !etDepreciation.getText().toString().equals(null)) {
+//                int depreciation = Integer.parseInt(etDepreciation.getText().toString());
+//                sbDepreciation.setProgress(depreciation / 100000);
+//            }
+//
+//        } else if (etMonthlyInc.getText().hashCode() == s.hashCode()) {
+//
+//            if (!etMonthlyInc.getText().toString().equals("") && !etMonthlyInc.getText().toString().equals(null)) {
+//                int monthlyInc = Integer.parseInt(etMonthlyInc.getText().toString());
+//
+//                if (monthlyInc > 25000) {
+//                    sbMonthlyInc.setProgress(monthlyInc / 1000);
+//                } else {
+//                    sbMonthlyInc.setProgress(1);
+//                    etMonthlyInc.setSelection(etMonthlyInc.getText().length());
+//                }
+//
+//
+//            }
+//
+//        } else if (etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
+//            if (!etDirecPartRemuntion.getText().toString().equals("") && !etDirecPartRemuntion.getText().toString().equals(null)) {
+//                int direcPartRemuntion = Integer.parseInt(etDirecPartRemuntion.getText().toString());
+//                sbDirecPartRemuntion.setProgress(direcPartRemuntion / 100000);
+//            }
+//
+//        } else if (coApp_etMonthlyInc.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etMonthlyInc.getText().toString().equals("") && !coApp_etMonthlyInc.getText().toString().equals(null)) {
+//                int coApp_MonthlyInc = Integer.parseInt(coApp_etMonthlyInc.getText().toString());
+//                if (coApp_MonthlyInc > 25000) {
+//                    coApp_sbMonthlyInc.setProgress(coApp_MonthlyInc / 1000);
+//                } else {
+//                    coApp_sbMonthlyInc.setProgress(1);
+//                    coApp_etMonthlyInc.setSelection(coApp_etMonthlyInc.getText().length());
+//                }
+//            }
+//
+//        } else if (coApp_etTurnOver.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etTurnOver.getText().toString().equals("") && !coApp_etTurnOver.getText().toString().equals(null)) {
+//                int coApp_TurnOver = Integer.parseInt(coApp_etTurnOver.getText().toString());
+//                coApp_sbTurnOver.setProgress(coApp_TurnOver / 1000000);
+//            }
+//        } else if (coApp_etProfitAtTax.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etProfitAtTax.getText().toString().equals("") && !coApp_etProfitAtTax.getText().toString().equals(null)) {
+//                int coApp_ProfitAtTax = Integer.parseInt(coApp_etProfitAtTax.getText().toString());
+//                coApp_sbProfitAfTax.setProgress(coApp_ProfitAtTax / 1000000);
+//            }
+//
+//        } else if (coApp_etDepreciation.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etDepreciation.getText().toString().equals("") && !coApp_etDepreciation.getText().toString().equals(null)) {
+//                int coApp_Depreciation = Integer.parseInt(coApp_etDepreciation.getText().toString());
+//                coApp_sbDepreciation.setProgress(coApp_Depreciation / 100000);
+//            }
+//
+//        } else if (coApp_etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
+//            if (!coApp_etDirecPartRemuntion.getText().toString().equals("") && !coApp_etDirecPartRemuntion.getText().toString().equals(null)) {
+//                int coApp_DirecPartRemuntion = Integer.parseInt(coApp_etDirecPartRemuntion.getText().toString());
+//                coApp_sbDirecPartRemuntion.setProgress(coApp_DirecPartRemuntion / 100000);
+//            }
+//
+//        }
         }
     }
 
@@ -1410,6 +1520,44 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         super.onAttach(context);
         mContext = context;
     }
+
+
+    private RadioGroup.OnCheckedChangeListener rgProp1Listener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rgProperty2.setOnCheckedChangeListener(null); // remove the listener before clearing
+                rgProperty2.clearCheck(); // clear the second RadioGroup!
+                rgProperty2.setOnCheckedChangeListener(rgProp2Listener); //reset the listener
+
+                if (checkedId == R.id.rbReady) {
+                    propTyp = "1";
+                } else if (checkedId == R.id.rbUnder) {
+                    propTyp = "2";
+                } else if (checkedId == R.id.rbSearching) {
+                    propTyp = "3";
+                }
+            }
+        }
+    };
+
+    private RadioGroup.OnCheckedChangeListener rgProp2Listener = new RadioGroup.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(RadioGroup group, int checkedId) {
+            if (checkedId != -1) {
+                rgProperty1.setOnCheckedChangeListener(null);
+                rgProperty1.clearCheck();
+                rgProperty1.setOnCheckedChangeListener(rgProp1Listener);
+                if (checkedId == R.id.rbResale) {
+                    propTyp = "4";
+                } else if (checkedId == R.id.rbForcons) {
+                    propTyp = "5";
+                } else if (checkedId == R.id.rbOther) {
+                    propTyp = "6";
+                }
+            }
+        }
+    };
 
 
 }
