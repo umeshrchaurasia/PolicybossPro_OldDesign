@@ -65,11 +65,13 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.PLQuotes
 
         final BLEntity quoteEntity = quoteEntities.get(position);
       //  holder.tvLoanAmt.setText("" + quoteEntity.g());
-        holder.tvBestRate.setText("" + quoteEntity.getRoi());
+
+       // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
+        holder.tvBestRate.setText(""+ "\u20B9" + quoteEntity.getRoi() +" %");
         holder.tvBankName.setText("" + quoteEntity.getBank_Name());
       //  holder.tvBestEmi.setText("" + quoteEntity.getEmi());
      //   holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure());
-        holder.tvProcessingFee.setText("" + quoteEntity.getProcessingfee());
+        holder.tvProcessingFee.setText("" + "\u20B9" + quoteEntity.getProcessingfee());
     //    holder.tvEligibleLoan.setText(""+quoteEntity.getLoan_eligible());
         Glide.with(mContext)
                 .load(quoteEntity.getBank_Logo())
