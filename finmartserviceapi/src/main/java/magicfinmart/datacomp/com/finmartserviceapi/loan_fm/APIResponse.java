@@ -16,6 +16,7 @@ public class APIResponse {
 
     private String message;
     private String status;
+
     private int statusId;
 
     public int getStatus_Id() {

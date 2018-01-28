@@ -1,6 +1,8 @@
 package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberBL;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
 
 /**
@@ -12,4 +14,6 @@ public interface IPersonalLoan {
     void getPersonalLoan(PersonalLoanRequest personalLoanRequest, IResponseSubcriber iResponseSubcriber);
 
     void getPersonalQuote(int ProductId, String BrokerID,String EmpCode, IResponseSubcriber iResponseSubcriber);
+
+    void getBLQuote(BLLoanRequest blLoanRequest, IResponseSubcriberBL iResponseSubcriber);
 }

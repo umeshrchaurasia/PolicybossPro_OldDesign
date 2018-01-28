@@ -194,6 +194,14 @@
         <activity
             android:name=".loan_fm.homeloan.addquote.HLMainActivity"
             android:label="@string/title_activity_hlmain"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
+            android:label="@string/title_activity_balance_transfer_detail"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.balancetransfer.addquote.BLMainActivity"
+            android:label="@string/title_activity_blmain"
             android:theme="@style/AppTheme"></activity>
     </application>
 

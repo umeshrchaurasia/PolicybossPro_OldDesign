@@ -11,8 +11,11 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.R;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberBL;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestbuilder.PersonalloanRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BLDispalyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalQuoteAppDispalyResponse;
 import retrofit2.Call;
@@ -104,5 +107,37 @@ public class PersonalLoanController  implements IPersonalLoan {
         });
 
 
+    }
+
+
+    @Override
+    public void getBLQuote(BLLoanRequest bLLoanRequest, final IResponseSubcriberBL iResponseSubcriber) {
+
+        personalloanNetworkService.getBLDispalyResponseQuotes(bLLoanRequest).enqueue(new Callback<BLDispalyResponse>() {
+            @Override
+            public void onResponse(Call<BLDispalyResponse> call, Response<BLDispalyResponse> response) {
+                if (response.body().getStatus() == 1) {
+                    iResponseSubcriber.OnSuccess(response.body(), "Saved");
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed"));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<BLDispalyResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof JsonParseException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
+                }
+            }
+        });
     }
 }
