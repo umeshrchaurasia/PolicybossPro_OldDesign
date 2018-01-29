@@ -93,7 +93,7 @@ public class QuoteFragment extends BaseFragment {
 
                 if(personalLoanRequest != null)
                 {
-                    txtAppName.setText(""+personalLoanRequest.getApplicantNme() );
+                    txtAppName.setText(""+personalLoanRequest.getApplicantNme().toUpperCase() );
                     txtLoanAmnt.setText(""+personalLoanRequest.getLoanRequired() );
                     txtLoanTenure.setText(""+personalLoanRequest.getLoanTenure() );
 
