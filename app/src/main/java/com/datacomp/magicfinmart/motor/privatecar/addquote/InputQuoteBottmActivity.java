@@ -1,23 +1,29 @@
-package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
+package com.datacomp.magicfinmart.motor.privatecar.addquote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.BuyFragment;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.InputFragment;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 
-public class PLMainActivity extends BaseActivity  {
+public class InputQuoteBottmActivity extends AppCompatActivity {
+
     BottomNavigationView bottomNavigationView;
 
     int totCount = 0;
@@ -26,16 +32,17 @@ public class PLMainActivity extends BaseActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_plmain);
+        setContentView(R.layout.activity_input_quote_bottm);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-
+//        if(bottomNavigationView != null)
+//        {
+//            // Select first menu item by default and show Fragment accordingly.
+//            Menu menu = bottomNavigationView.getMenu();
+//        }
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
         InputFragment inputFragment = new InputFragment();
         FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
         transactionSim.replace(R.id.frame_layout, inputFragment, "INPUT");
@@ -104,34 +111,32 @@ public class PLMainActivity extends BaseActivity  {
                     return true;
                 case R.id.navigation_buy:
 
-                    //region comment
-//                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
-//                    if (tabFragment != null) {
-//
-//                        FragmentTransaction transaction = getSupportFragmentManager()
-//                                .beginTransaction();
-//                        transaction.show(tabFragment);
-//                        //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction.addToBackStack("BUY");
-//                        transaction.commitAllowingStateLoss();
-//
-//                    } else {
-//                        BuyFragment buyFragment = new BuyFragment();
-//                        FragmentTransaction transaction_buy = getSupportFragmentManager().beginTransaction();
-//                        transaction_buy.replace(R.id.frame_layout, buyFragment, "BUY");
-//                        transaction_buy.addToBackStack("BUY");
-//                        transaction_buy.show(buyFragment);
-//                        //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction_buy.commitAllowingStateLoss();
-//
-//
-//                    }
-//                    item.setCheckable(true);
-//                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-//                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
-                    //endregion
+                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
+                    if (tabFragment != null) {
 
-                    return false;
+                        FragmentTransaction transaction = getSupportFragmentManager()
+                                .beginTransaction();
+                        transaction.show(tabFragment);
+                        //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        transaction.addToBackStack("BUY");
+                        transaction.commitAllowingStateLoss();
+
+                    } else {
+                        BuyFragment buyFragment = new BuyFragment();
+                        FragmentTransaction transaction_buy = getSupportFragmentManager().beginTransaction();
+                        transaction_buy.replace(R.id.frame_layout, buyFragment, "BUY");
+                        transaction_buy.addToBackStack("BUY");
+                        transaction_buy.show(buyFragment);
+                        //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+                        transaction_buy.commitAllowingStateLoss();
+
+
+                    }
+                    item.setCheckable(true);
+                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
+                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+
+                    return true;
             }
 
             return false;
@@ -141,26 +146,41 @@ public class PLMainActivity extends BaseActivity  {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        PLMainActivity.this.finish();
+        InputQuoteBottmActivity.this.finish();
     }
 
+    public interface ActivityCallback            // Interface creation
+    {
+        void onMethodCallback(String strTyp);
+    }
 
-    private void CheckAllBottomMenu() {
+    private void unCheckAllBottomMenu() {
         int size = bottomNavigationView.getMenu().size();
         for (int i = 0; i < size; i++) {
-            bottomNavigationView.getMenu().getItem(i).setCheckable(true);
+            bottomNavigationView.getMenu().getItem(i).setCheckable(false);
         }
     }
+    public void redirectToBuy(String Service_Log_Unique_Id) {
+        String URL = "http://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
+        String url = "http://qa.policyboss.com/";
+        //String url = "http://policyboss.com/";
+        String title = "";
+        String name = "";
+        url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";
+        title = "Car Insurance";
 
-    public void setQuoteCheck()
-    {
-        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-        bottomNavigationView.getMenu().getItem(1).setCheckable(true);
-        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
+        startActivity(new Intent(this, CommonWebViewActivity.class)
+                .putExtra("URL", url)
+                .putExtra("NAME", name)
+                .putExtra("TITLE", title));
     }
 
+    public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
+        startActivity(new Intent(this, PremiumBreakUpActivity.class)
+                .putExtra("RESPONSE", entity));
 
 
-    // Implementation the Interface for Communication of Fragment Input and Quote
+    }
 
 }
