@@ -35,7 +35,10 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
@@ -49,7 +52,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOn
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnResponse;
 
-public class QuoteActivity extends BaseActivity implements IResponseSubcriber, View.OnClickListener {
+public class QuoteActivity extends BaseActivity implements IResponseSubcriber, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
     BikeQuoteAdapter mAdapter;
@@ -85,6 +88,19 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         setListener();
         updateHeader();
         fetchQuotes();
+
+
+    }
+
+    private void saveQuoteToServer(BikePremiumResponse response) {
+        //store request and SRN to mySql
+        SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
+        entity.setMotorRequestEntity(motorRequestEntity);
+        entity.setSRN(response.getSummary().getRequest_Unique_Id());
+        entity.setFba_id(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
+        entity.setIsActive(1);
+
+        new QuoteApplicationController(this).saveQuote(entity, this);
     }
 
     private void setListener() {
@@ -164,7 +180,10 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         cancelDialog();
         if (response instanceof BikePremiumResponse) {
 
+
             bikePremiumResponse = (BikePremiumResponse) response;
+            saveQuoteToServer(bikePremiumResponse);
+
             rebindAdapter(bikePremiumResponse);
             updateCrn();
             Log.d("trackIssue", "Summary  = " + bikePremiumResponse.getSummary().getStatusX() +
@@ -189,6 +208,17 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
             }
         } else if (response instanceof SaveAddOnResponse) {
 
+        }
+    }
+
+
+    //finmart API response
+    @Override
+    public void OnSuccess(magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse response, String message) {
+        if (response instanceof SaveQuoteResponse) {
+            if (response.getStatusNo() == 0) {
+                SaveQuoteResponse.SaveQuoteEntity saveQuoteEntity = ((SaveQuoteResponse) response).getMasterData().get(0);
+            }
         }
     }
 

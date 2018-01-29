@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.datacomp.magicfinmart.R;
@@ -44,7 +43,7 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
         final PopupMenu popupMenu = new PopupMenu(context, v);
         final Menu menu = popupMenu.getMenu();
 
-        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
+        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
         //popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
 
       /*  switch (Settings.Global.listMode) {
