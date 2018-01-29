@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,14 +14,21 @@ import android.view.MenuItem;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.PremiumBreakUpActivity;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 
 public class PLMainActivity extends BaseActivity  {
     BottomNavigationView bottomNavigationView;
 
-    int totCount = 0;
+
     Fragment tabFragment = null;
 
     @Override
@@ -161,6 +169,17 @@ public class PLMainActivity extends BaseActivity  {
 
 
 
+    public void redirectToApplyLoan(PersonalQuoteEntity entity,String url, int id) {
+        startActivity(new Intent(PLMainActivity.this, PersonalLoanApplyWebView.class)
+                .putExtra("PL", entity)
+                .putExtra("PL_URL", url)
+                .putExtra("PL_QUOTE_ID", id));
+    }
+
+
+
+
     // Implementation the Interface for Communication of Fragment Input and Quote
+
 
 }

@@ -79,7 +79,7 @@ public class QuoteFragment extends BaseFragment {
             personalLoanRequest =  bundle.getParcelable(Constants.PL_REQUEST);
             if (getPersonalLoanResponse != null) {
 
-                mAdapter = new PLQuoteAdapter(getActivity(), getPersonalLoanResponse.getData());
+                mAdapter = new PLQuoteAdapter(getActivity(), getPersonalLoanResponse.getData(),getPersonalLoanResponse);
                 rvPLQuotes.setAdapter(mAdapter);
 
                 if(getPersonalLoanResponse.getData().size() >0)
@@ -113,8 +113,6 @@ public class QuoteFragment extends BaseFragment {
     }
 
     public void redirectToApplyLoan(PersonalQuoteEntity entity) {
-//
-
         startActivity(new Intent(getActivity(), PersonalLoanApplyActivity.class)
                 .putExtra("PL", entity)
                 .putExtra("PL_URL", getPersonalLoanResponse.getUrl())

@@ -15,21 +15,25 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 
 public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotesItem> {
 
     Activity mContext;
     List<PersonalQuoteEntity> quoteEntities;
+    GetPersonalLoanResponse getPersonalLoanResponse;
 
 
-    public PLQuoteAdapter(Activity context, List<PersonalQuoteEntity> quoteEntities) {
+    public PLQuoteAdapter(Activity context, List<PersonalQuoteEntity> quoteEntities , GetPersonalLoanResponse tmpgetPersonalLoanResponse) {
         mContext = context;
         this.quoteEntities = quoteEntities;
+        getPersonalLoanResponse = tmpgetPersonalLoanResponse;
     }
 
     public class PLQuotesItem extends RecyclerView.ViewHolder {
@@ -90,7 +94,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
             @Override
             public void onClick(View v) {
 
-             //   redirectToApplyLoan(quoteEntity);
+                ((PLMainActivity) mContext).redirectToApplyLoan(quoteEntity,getPersonalLoanResponse.getUrl(), getPersonalLoanResponse.getQuote_id());
 
             }
         });
