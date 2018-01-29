@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
  */
 
 public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickListener{
-    FloatingActionButton hlAddQuote;
+    FloatingActionButton lapAddQuote;
 
     RecyclerView rvQuoteList;
     LapLoan_QuoteAdapter lapLoan_QuoteAdapter;
@@ -39,7 +39,7 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
     }
 
     private void initView(View view) {
-        hlAddQuote = (FloatingActionButton) view.findViewById(R.id.hlAddQuote);
+        lapAddQuote = (FloatingActionButton) view.findViewById(R.id.lapAddQuote);
 
         rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
         rvQuoteList.setHasFixedSize(true);
@@ -48,12 +48,12 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
 
         lapLoan_QuoteAdapter = new LapLoan_QuoteAdapter(getActivity());
         rvQuoteList.setAdapter(lapLoan_QuoteAdapter);
-        hlAddQuote.setOnClickListener(this);
+        lapAddQuote.setOnClickListener(this);
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.hlAddQuote:
+            case R.id.lapAddQuote:
                 startActivity(new Intent(getActivity(), LAP_LoanActivity.class));
                 break;
         }

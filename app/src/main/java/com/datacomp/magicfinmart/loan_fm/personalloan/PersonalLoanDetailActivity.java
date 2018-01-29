@@ -20,9 +20,11 @@ public class PersonalLoanDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_loan_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         viewPager = (ViewPager) findViewById(R.id.pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        setSupportActionBar(toolbar);
 
         tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
         tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));

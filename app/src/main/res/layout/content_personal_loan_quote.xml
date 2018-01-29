@@ -4,75 +4,223 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PersonalLoanQuoteActivity"
-    tools:showIn="@layout/activity_personal_loan_quote"
     android:fillViewport="true"
-    app:layout_collapseMode="pin"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/card_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:visibility="visible"
-        card_view:cardCornerRadius="2dp">
+
+    <TextView
+        android:background="@color/white"
+        android:text="INPUT SUMMARY"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        style="@style/TextViewStyle.Large" />
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvInputSumary"
+        style="@style/CardViewStyle"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        app:cardElevation="2dp">
+
 
         <LinearLayout
+            android:id="@+id/lyInputSumary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvCount"
-                style="@style/TextViewStyle.Large"
-                android:layout_width="wrap_content"
-                android:paddingTop="3dp"
-                android:text="5 results from www.policyboss.com"
-                android:textAllCaps="true"
-                android:textColor="?attr/colorPrimaryDark" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:weightSum="100">
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal|center_vertical"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:layout_weight="94"
+                android:orientation="vertical">
 
-                <TextView
-                    style="@style/TextViewStyle.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:text="WIth Addon"
-                    android:textAllCaps="true" />
-
-                <Switch
-                    android:id="@+id/swAddon"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textAllCaps="true"
-                    android:textColor="@color/secondary_text_color" />
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="100">
 
-                <TextView
-                    style="@style/TextViewStyle.Medium"
-                    android:layout_width="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="WIthout Addon"
-                    android:textAllCaps="true" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="35"
+                        android:orientation="vertical"
+                        android:layout_gravity="left">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="APPLICANT NAME"
+                            />
+
+                        <TextView
+                            android:id="@+id/txtAppName"
+                            style="@style/TextViewStyle.Small"
+                            android:text="APPLICANT NAME"
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="35"
+                        android:layout_marginLeft="2dp"
+                        android:orientation="vertical"
+                        android:layout_gravity="left">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="REQ. LOAN AMOUNT"
+                            />
+                        <TextView
+                            android:id="@+id/txtLoanAmnt"
+                            style="@style/TextViewStyle.Small"
+                            android:text=" NAME"
+                            android:textColor="@color/black"
+                            />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="30"
+                        android:layout_marginLeft="2dp"
+                        android:orientation="vertical"
+                        android:layout_gravity="left">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="LOAN TENURE"
+                            />
+                        <TextView
+                            android:id="@+id/txtLoanTenure"
+                            style="@style/TextViewStyle.Small"
+                            android:text="APPLICANT NAME"
+                            android:textColor="@color/black"
+                            />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="100">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="35"
+                        android:orientation="vertical"
+                        android:layout_gravity="left">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="OCCUPATION"
+                            />
+                        <TextView
+                            android:id="@+id/txtOccupation"
+                            style="@style/TextViewStyle.Small"
+                            android:text="APPLICANT NAME"
+                            android:textColor="@color/black"
+                            />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="35"
+                        android:layout_marginLeft="2dp"
+                        android:orientation="vertical"
+                        android:layout_gravity="left">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="MONTHLY INCOME"
+                            />
+                        <TextView
+                            android:id="@+id/txtMonthlyIncome"
+                            style="@style/TextViewStyle.Small"
+                            android:text=" NAME"
+                            android:textColor="@color/black"
+                            />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="30"
+                        android:layout_marginLeft="2dp"
+                        android:orientation="vertical"
+                        android:layout_gravity="left">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="EXISTING EMI"
+                            />
+                        <TextView
+                            android:id="@+id/txtExistEmi"
+                            style="@style/TextViewStyle.Small"
+                            android:text="APPLICANT NAME"
+                            android:textColor="@color/black"
+                            />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="6"
+                android:layout_marginRight="4dp"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/edit_icon" />
+            </LinearLayout>
+
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <ImageView
-        android:id="@+id/webViewLoader"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:visibility="gone"
-        android:scaleType="fitCenter" />
+    <TextView
+        android:id="@+id/txtCount"
+        style="@style/TextViewStyle.Large"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/colorAccent"
+        android:gravity="left"
+        android:textStyle="normal" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvPLQuotes"
         android:layout_width="match_parent"

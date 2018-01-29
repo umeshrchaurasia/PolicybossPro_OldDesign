@@ -23,7 +23,7 @@ public class LapLoan_QuoteAdapter extends RecyclerView.Adapter<LapLoan_QuoteAdap
     @Override
     public QuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_item_quote, parent, false);
+                .inflate(R.layout.layout_item_quote_loan, parent, false);
         return new LapLoan_QuoteAdapter.QuoteItem(itemView);
     }
 
@@ -34,7 +34,7 @@ public class LapLoan_QuoteAdapter extends RecyclerView.Adapter<LapLoan_QuoteAdap
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 2;
     }
     public class QuoteItem extends RecyclerView.ViewHolder {
 

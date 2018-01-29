@@ -34,7 +34,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
 
     public class PLQuotesItem extends RecyclerView.ViewHolder {
 
-        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply,tvEligibleLoan;
+        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee,tvEmiperlac, btnApply;
         ImageView ivBankLogo, ivInfo;
 
         public PLQuotesItem(View view) {
@@ -48,7 +48,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
             btnApply = (TextView) itemView.findViewById(R.id.btnApply);
             ivBankLogo = (ImageView) itemView.findViewById(R.id.ivBankLogo);
            // ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
-            tvEligibleLoan =(TextView)itemView.findViewById(R.id.tvEligibleLoan);
+            tvEmiperlac =(TextView)itemView.findViewById(R.id.tvEmiperlac);
         }
     }
 
@@ -66,13 +66,20 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
     public void onBindViewHolder(PLQuoteAdapter.PLQuotesItem holder, final int position) {
 
         final PersonalQuoteEntity quoteEntity = quoteEntities.get(position);
-        holder.tvLoanAmt.setText("" + quoteEntity.getLoanRequired());
-        holder.tvBestRate.setText("" + quoteEntity.getRoi());
+        // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
+        holder.tvLoanAmt.setText("" + "\u20B9"+" " + quoteEntity.getLoanRequired());
+        holder.tvBestRate.setText(""  + quoteEntity.getRoi() + " %");
         holder.tvBankName.setText("" + quoteEntity.getBank_Name());
-        holder.tvBestEmi.setText("" + quoteEntity.getEmi());
-        holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure());
-        holder.tvProcessingFee.setText("" + quoteEntity.getProcessingfee());
-        holder.tvEligibleLoan.setText(""+quoteEntity.getLoan_eligible());
+        holder.tvBestEmi.setText(""+ "\u20B9" +" " + quoteEntity.getEmi());
+        holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure()+ " Years");
+        holder.tvProcessingFee.setText(""+ "\u20B9"+" "  + quoteEntity.getProcessingfee());
+
+
+        double loanr = Double.parseDouble(quoteEntity.getLoanRequired().toString());
+        double emiperlac = (quoteEntity.getEmi() / loanr) * 100000;
+          holder.tvEmiperlac.setText(""+ "\u20B9"+" "  + emiperlac);
+
+
         Glide.with(mContext)
                 .load(quoteEntity.getBank_Logo())
                 .into(holder.ivBankLogo);
@@ -83,7 +90,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
             @Override
             public void onClick(View v) {
 
-             //   ((PersonalLoanQuoteActivity) mContext).redirectToApplyLoan(quoteEntity);
+             //   redirectToApplyLoan(quoteEntity);
 
             }
         });

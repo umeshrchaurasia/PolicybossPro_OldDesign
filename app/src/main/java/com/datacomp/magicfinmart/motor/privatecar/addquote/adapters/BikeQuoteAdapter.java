@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity;
 
 import org.w3c.dom.Text;
@@ -72,20 +73,20 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         holder.txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((QuoteActivity) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+                ((InputQuoteBottmActivity) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
         holder.txtPremiumBreakUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((QuoteActivity) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+                ((InputQuoteBottmActivity) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
 
         holder.txtBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((QuoteActivity) mContext).redirectToBuy(responseEntity.getService_Log_Unique_Id());
+                ((InputQuoteBottmActivity) mContext).redirectToBuy(responseEntity.getService_Log_Unique_Id());
             }
         });
 

@@ -2,7 +2,9 @@ package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestbuilder;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BLDispalyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalQuoteAppDispalyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.retrobuilder.LoanRetroRequestBuilder;
@@ -27,6 +29,7 @@ public class PersonalloanRequestBuilder extends LoanRetroRequestBuilder {
         @POST("/api/get-personal-loan-broker-quote")
         Call<PersonalQuoteAppDispalyResponse> getPersonalBrokerQuotes(@Body HashMap<String, String> bodyParameter);
 
-
+        @POST("/api/balance-transfer")
+        Call<BLDispalyResponse> getBLDispalyResponseQuotes(@Body BLLoanRequest blLoanRequest);
     }
 }

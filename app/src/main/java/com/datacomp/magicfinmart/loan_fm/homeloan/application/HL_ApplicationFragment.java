@@ -17,7 +17,7 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanApplicationAdapter;
 
 public class HL_ApplicationFragment extends BaseFragment {
     RecyclerView rvApplicationList;
-    HomeLoanApplicationAdapter personalLoanApplicationAdapter;
+    HomeLoanApplicationAdapter homeLoanApplicationAdapter;
 
     public HL_ApplicationFragment() {
         // Required empty public constructor
@@ -26,7 +26,7 @@ public class HL_ApplicationFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_motor_application, container, false);
+        View view = inflater.inflate(R.layout.fragment_hl_application, container, false);
         initView(view);
         return view;
     }
@@ -37,7 +37,7 @@ public class HL_ApplicationFragment extends BaseFragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvApplicationList.setLayoutManager(layoutManager);
 
-        personalLoanApplicationAdapter = new HomeLoanApplicationAdapter(getActivity());
-        rvApplicationList.setAdapter(personalLoanApplicationAdapter);
+        homeLoanApplicationAdapter = new HomeLoanApplicationAdapter(getActivity());
+        rvApplicationList.setAdapter(homeLoanApplicationAdapter);
     }
 }

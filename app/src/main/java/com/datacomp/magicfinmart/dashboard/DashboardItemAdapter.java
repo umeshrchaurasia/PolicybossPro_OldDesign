@@ -11,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
+import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity;
 
@@ -67,6 +69,22 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }else if( listInsur.get(position).getProductName().equals("HOME LOAN" ))
                     {
                         mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
+                    }
+                    else if( listInsur.get(position).getProductName().equals("LOAN AGAINST PROPERTY" ))
+                    {
+                        mContext.startActivity(new Intent(mContext.getActivity(), LapLoanDetailActivity.class));
+                    }
+                    else if( listInsur.get(position).getProductName().equals("BALANCE TRANSFER" ))
+                    {
+                        mContext.startActivity(new Intent(mContext.getActivity(), BalanceTransferDetailActivity.class));
+                    }
+                    else if( listInsur.get(position).getProductName().equals("CREDIT CARD" ))
+                    {
+                        //mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
+                    }
+                    else if( listInsur.get(position).getProductName().equals("OTHER LOAN" ))
+                    {
+                        //mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
                     }
                     else
                     {

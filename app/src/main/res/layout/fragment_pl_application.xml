@@ -7,29 +7,6 @@
     android:orientation="vertical"
     tools:context=".loan_fm.personalloan.application.PL_ApplicationFragment">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-        <Button
-            android:id="@+id/btnAddQuote"
-            style="@style/ButtonStyle"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@null"
-            android:text="ADD QUOTE" />
-
-        <EditText
-            android:id="@+id/etSearch"
-            style="@style/ButtonStyle"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="SEARCH"
-            android:textColor="@android:color/white" />
-    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvApplicationList"
