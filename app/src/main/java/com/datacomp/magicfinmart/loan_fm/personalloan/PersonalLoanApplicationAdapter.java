@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.adapters.MotorApplicationAdapter;
 
 /**
  * Created by IN-RB on 12-01-2018.
@@ -43,7 +42,7 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
         final PopupMenu popupMenu = new PopupMenu(context, v);
         final Menu menu = popupMenu.getMenu();
 
-        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
+        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
 
         popupMenu.show();
     }

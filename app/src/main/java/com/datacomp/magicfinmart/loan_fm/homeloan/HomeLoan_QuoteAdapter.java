@@ -43,7 +43,7 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
         final PopupMenu popupMenu = new PopupMenu(context, v);
         final Menu menu = popupMenu.getMenu();
 
-        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
+        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
         //popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
 
       /*  switch (Settings.Global.listMode) {

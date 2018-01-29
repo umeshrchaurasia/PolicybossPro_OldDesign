@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -22,18 +23,24 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MotorQuoteFragment extends BaseFragment implements View.OnClickListener {
+public class MotorQuoteFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber {
 
     FloatingActionButton btnAddQuote;
     RecyclerView rvQuoteList;
     MotorQuoteAdapter motorQuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     List<QuoteListEntity> mQuoteList;
+    QuoteListEntity removeQuoteEntity;
 
     public MotorQuoteFragment() {
         // Required empty public constructor
@@ -50,7 +57,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST) != null) {
             mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST);
         }
-        motorQuoteAdapter = new MotorQuoteAdapter(getActivity(), mQuoteList);
+        motorQuoteAdapter = new MotorQuoteAdapter(MotorQuoteFragment.this, mQuoteList);
         rvQuoteList.setAdapter(motorQuoteAdapter);
         return view;
     }
@@ -65,6 +72,15 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
 
     }
 
+    public void removeQuote(QuoteListEntity entity) {
+
+        removeQuoteEntity = entity;
+        showDialog("Please wait,Removing quote..");
+        new QuoteApplicationController(getContext()).deleteQuote("" + entity.getVehicleRequestID(),
+                this);
+
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -73,5 +89,24 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
                 startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class));
                 break;
         }
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+        cancelDialog();
+        if (response instanceof QuoteAppUpdateDeleteResponse) {
+            if (response.getStatusNo() == 0) {
+                mQuoteList.remove(removeQuoteEntity);
+                motorQuoteAdapter.refreshAdapter(mQuoteList);
+                motorQuoteAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+
     }
 }

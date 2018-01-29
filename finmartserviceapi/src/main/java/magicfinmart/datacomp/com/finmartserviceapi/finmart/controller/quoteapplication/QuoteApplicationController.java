@@ -7,10 +7,14 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.AsyncCarMaster;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.QuoteApplicationRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -73,4 +77,111 @@ public class QuoteApplicationController implements IQuoteApp {
             }
         });
     }
+
+    @Override
+    public void saveQuote(SaveMotorRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        quoteApplicationNetworkService.saveMotorRequest(entity).enqueue(new Callback<SaveQuoteResponse>() {
+            @Override
+            public void onResponse(Call<SaveQuoteResponse> call, Response<SaveQuoteResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SaveQuoteResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void convertQuoteToApp(String vehicleRequestID, final IResponseSubcriber iResponseSubcriber) {
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("VehicleRequestID", vehicleRequestID);
+
+        quoteApplicationNetworkService.quoteToApplication(body).enqueue(new Callback<QuoteAppUpdateDeleteResponse>() {
+            @Override
+            public void onResponse(Call<QuoteAppUpdateDeleteResponse> call, Response<QuoteAppUpdateDeleteResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuoteAppUpdateDeleteResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void deleteQuote(String vehicleRequestID, final IResponseSubcriber iResponseSubcriber) {
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("VehicleRequestID", vehicleRequestID);
+        quoteApplicationNetworkService.deleteQuote(body).enqueue(new Callback<QuoteAppUpdateDeleteResponse>() {
+            @Override
+            public void onResponse(Call<QuoteAppUpdateDeleteResponse> call, Response<QuoteAppUpdateDeleteResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<QuoteAppUpdateDeleteResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
 }
