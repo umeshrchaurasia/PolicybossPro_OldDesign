@@ -22,6 +22,7 @@
 
             <EditText
                 android:id="@+id/etNameOfApplicant"
+                android:text="test"
                 style="@style/Style.edittext" />
         </android.support.design.widget.TextInputLayout>
 
@@ -179,6 +180,7 @@
                 style="@style/Style.edittext"
                 android:digits="0123456789"
                 android:ems="10"
+                android:text="19200"
                 android:inputType="phone"
                 android:maxLength="7" />
         </android.support.design.widget.TextInputLayout>
@@ -195,6 +197,7 @@
                 android:id="@+id/etEMI"
                 style="@style/Style.edittext"
                 android:digits="0123456789"
+
                 android:ems="10"
                 android:inputType="phone" />
         </android.support.design.widget.TextInputLayout>
@@ -232,6 +235,7 @@
                 style="@style/Style.edittext"
                 android:digits="0123456789"
                 android:inputType="phone"
+                android:text="500000"
                 android:maxLength="9" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
