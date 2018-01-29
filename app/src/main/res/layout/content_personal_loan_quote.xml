@@ -12,7 +12,11 @@
     <TextView
         android:background="@color/white"
         android:text="INPUT SUMMARY"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="6dp"
+        android:textColor="@color/black"
         android:gravity="center_horizontal"
+        android:textStyle="bold"
         style="@style/TextViewStyle.Large" />
     <android.support.v7.widget.CardView
         android:id="@+id/cvInputSumary"
@@ -45,29 +49,66 @@
                     android:padding="5dp"
                     android:weightSum="100">
 
-                    <TextView
-                        android:id="@+id/textView9"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="25"
-                        android:text="Broker"
-                        />
+                        android:layout_weight="33"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=":"
-                        />
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="APPLICANT NAME"
+                            />
+                        <TextView
+                            android:id="@+id/txtAppName"
+                            style="@style/TextViewStyle.Small"
+                            android:text="APPLICANT NAME"
+                            android:textColor="@color/black"
+                            />
 
 
-                    <TextView
-                        android:id="@+id/txtBroker"
+                    </LinearLayout>
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="75"
-                        android:ellipsize="end"
-                        android:maxLines="4" />
+                        android:layout_weight="33"
+                        android:layout_marginLeft="2dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="REQ. LOAN AMOUNT"
+                            />
+                        <TextView
+                            android:id="@+id/txtLoanAmnt"
+                            style="@style/TextViewStyle.Small"
+                            android:text=" NAME"
+                            android:textColor="@color/black"
+                            />
+
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="33"
+                        android:layout_marginLeft="2dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="LOAN TENURE"
+                            />
+                        <TextView
+                            android:id="@+id/txtLoanTenure"
+                            style="@style/TextViewStyle.Small"
+                            android:text="APPLICANT NAME"
+                            android:textColor="@color/black"
+                            />
+
+
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -75,66 +116,68 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="5dp"
-                    android:paddingBottom="5dp"
                     android:weightSum="100">
 
-                    <TextView
-                        android:id="@+id/textMobile"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="25"
-                        android:text="Mobile"
-                        />
+                        android:layout_weight="33"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textMbColon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=":"
-                        />
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="OCCUPATION"
+                            />
+                        <TextView
+                            android:id="@+id/txtOccupation"
+                            style="@style/TextViewStyle.Small"
+                            android:text="APPLICANT NAME"
+                            android:textColor="@color/black"
+                            />
 
 
-                    <TextView
-                        android:id="@+id/txtMobile"
+                    </LinearLayout>
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="75"
-                        android:ellipsize="end"
-                        />
-                </LinearLayout>
+                        android:layout_weight="33"
+                        android:layout_marginLeft="2dp"
+                        android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="5dp"
-                    android:paddingBottom="5dp"
-                    android:weightSum="100">
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="MONTHLY INCOME"
+                            />
+                        <TextView
+                            android:id="@+id/txtMonthlyIncome"
+                            style="@style/TextViewStyle.Small"
+                            android:text=" NAME"
+                            android:textColor="@color/black"
+                            />
 
-                    <TextView
-                        android:id="@+id/textStatus"
+
+                    </LinearLayout>
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="25"
-                        android:text="Status"
-                        />
+                        android:layout_weight="33"
+                        android:layout_marginLeft="2dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text=":"
-                        />
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="EXISTING EMI"
+                            />
+                        <TextView
+                            android:id="@+id/txtExistEmi"
+                            style="@style/TextViewStyle.Small"
+                            android:text="APPLICANT NAME"
+                            android:textColor="@color/black"
+                            />
 
 
-                    <TextView
-                        android:id="@+id/txtStatus"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="75"
-                        android:ellipsize="end"
-                        android:maxLines="4" />
+                    </LinearLayout>
+
                 </LinearLayout>
 
 
@@ -145,11 +188,23 @@
                 android:layout_height="48dp"
                 android:layout_weight="10"
                 android:scaleType="centerInside"
+                android:layout_gravity="center_vertical"
                 android:src="@mipmap/edit_icon" />
 
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
+
+    <TextView
+        android:id="@+id/txtCount"
+        style="@style/TextViewStyle.Large"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:textColor="@color/colorAccent"
+        android:gravity="left"
+        android:textStyle="normal" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvPLQuotes"
