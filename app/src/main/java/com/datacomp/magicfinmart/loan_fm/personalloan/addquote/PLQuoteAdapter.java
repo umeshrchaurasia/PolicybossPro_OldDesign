@@ -34,12 +34,12 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
 
     public class PLQuotesItem extends RecyclerView.ViewHolder {
 
-        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee,tvEmiperlac, btnApply;
-        ImageView ivBankLogo, ivInfo;
+        TextView tvEligibleLoan, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee,tvEmiperlac, btnApply;
+        ImageView ivBankLogo;
 
         public PLQuotesItem(View view) {
             super(view);
-            tvLoanAmt = (TextView) itemView.findViewById(R.id.tvLoanAmt);
+            tvEligibleLoan = (TextView) itemView.findViewById(R.id.tvEligibleLoan);
             tvBestRate = (TextView) itemView.findViewById(R.id.tvBestRate);
             tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);
             tvBestEmi = (TextView) itemView.findViewById(R.id.tvBestEmi);
@@ -67,17 +67,17 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
 
         final PersonalQuoteEntity quoteEntity = quoteEntities.get(position);
         // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
-        holder.tvLoanAmt.setText("" + "\u20B9"+" " + quoteEntity.getLoanRequired());
+        holder.tvEligibleLoan.setText("" + "\u20B9"+" " +String.format("%.0f", quoteEntity.getLoan_eligible()));
         holder.tvBestRate.setText(""  + quoteEntity.getRoi() + " %");
         holder.tvBankName.setText("" + quoteEntity.getBank_Name());
-        holder.tvBestEmi.setText(""+ "\u20B9" +" " + quoteEntity.getEmi());
+        holder.tvBestEmi.setText(""+ "\u20B9" +" " +  String.format("%.0f", quoteEntity.getEmi()) );
         holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure()+ " Years");
-        holder.tvProcessingFee.setText(""+ "\u20B9"+" "  + quoteEntity.getProcessingfee());
+        holder.tvProcessingFee.setText(""+ "\u20B9"+" "  + String.format("%.0f", quoteEntity.getProcessingfee()));
 
 
         double loanr = Double.parseDouble(quoteEntity.getLoanRequired().toString());
         double emiperlac = (quoteEntity.getEmi() / loanr) * 100000;
-          holder.tvEmiperlac.setText(""+ "\u20B9"+" "  + emiperlac);
+        holder.tvEmiperlac.setText(""+ "\u20B9"+" "  + String.format("%.2f", emiperlac));
 
 
         Glide.with(mContext)
