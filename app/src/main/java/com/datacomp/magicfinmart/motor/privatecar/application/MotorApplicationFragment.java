@@ -17,7 +17,11 @@ import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -44,7 +48,7 @@ public class MotorApplicationFragment extends BaseFragment {
         if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST) != null) {
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST);
         }
-        motorApplicationAdapter = new MotorApplicationAdapter(getActivity(),mApplicationList);
+        motorApplicationAdapter = new MotorApplicationAdapter(MotorApplicationFragment.this, mApplicationList);
         rvApplicationList.setAdapter(motorApplicationAdapter);
         return view;
     }
@@ -54,8 +58,7 @@ public class MotorApplicationFragment extends BaseFragment {
         rvApplicationList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvApplicationList.setLayoutManager(layoutManager);
-
-
     }
+
 
 }

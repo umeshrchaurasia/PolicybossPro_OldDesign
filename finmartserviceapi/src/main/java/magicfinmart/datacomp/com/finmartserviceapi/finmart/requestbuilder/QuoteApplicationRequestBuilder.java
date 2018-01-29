@@ -3,10 +3,15 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.HEAD;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
@@ -33,8 +38,18 @@ public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/save-loan-request")
         Call<QuoteApplicationResponse> saveQuote(@Body HashMap<String, String> body);
 
-       /* @Headers("token:1234567890")
-        @POST("/api/generate-otp")
-        Call<FastLaneDataResponse> getFastLaneData(@Body HashMap<String, String> body);*/
+        @Headers("token:1234567890")
+        @POST("/api/manage-vehicle")
+        Call<SaveQuoteResponse> saveMotorRequest(@Body SaveMotorRequestEntity entity);
+
+        @Headers("token:1234567890")
+        @POST("/api/set-quote-to-application-vehicle")
+        Call<QuoteAppUpdateDeleteResponse> quoteToApplication(@Body HashMap<String, String> body);
+
+        @Headers("token:1234567890")
+        @POST("/api/delete-vehicle-request")
+        Call<QuoteAppUpdateDeleteResponse> deleteQuote(@Body HashMap<String, String> body);
+
     }
+
 }

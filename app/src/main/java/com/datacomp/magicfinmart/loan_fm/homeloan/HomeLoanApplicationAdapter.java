@@ -42,7 +42,7 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
         final PopupMenu popupMenu = new PopupMenu(context, v);
         final Menu menu = popupMenu.getMenu();
 
-        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
+        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
 
         popupMenu.show();
     }
