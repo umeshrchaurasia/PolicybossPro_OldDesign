@@ -46,6 +46,7 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
         InputFragment inputFragment = new InputFragment();
         FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
         transactionSim.replace(R.id.frame_layout, inputFragment, "INPUT");
+        transactionSim.addToBackStack("INPUT");
         transactionSim.commitAllowingStateLoss();
     }
 

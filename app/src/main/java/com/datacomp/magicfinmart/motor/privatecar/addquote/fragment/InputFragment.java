@@ -684,17 +684,18 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         cancelDialog();
         if (response instanceof BikeUniqueResponse) {
 
+
+            Bundle bundle = new Bundle();
+            bundle.putParcelable("CAR_REQUEST", motorRequestEntity);
+            bundle.putString("RTO_NAME", regplace);
             QuoteFragment quoteFragment = new QuoteFragment();
-
-            Bundle args = new Bundle();
-            args.putParcelable("CAR_REQUEST", motorRequestEntity);
-            args.putString("RTO_NAME", regplace);
-            quoteFragment.setArguments(args);
-
-            FragmentTransaction transactionSim = getActivity().getSupportFragmentManager().beginTransaction();
-            transactionSim.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-            transactionSim.commit();
-
+            quoteFragment.setArguments(bundle);
+            FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
+            transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
+            transaction_quote.addToBackStack("QUOTE");
+            transaction_quote.show(quoteFragment);
+            //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+            transaction_quote.commit();
             //startActivity(new Intent(getActivity(), QuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity).putExtra("RTO_NAME", regplace));
         }
 

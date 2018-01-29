@@ -30,6 +30,7 @@ public class PLMainActivity extends BaseActivity  {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -38,6 +39,7 @@ public class PLMainActivity extends BaseActivity  {
         InputFragment inputFragment = new InputFragment();
         FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
         transactionSim.replace(R.id.frame_layout, inputFragment, "INPUT");
+        transactionSim.addToBackStack("INPUT");
         transactionSim.commitAllowingStateLoss();
     }
 
