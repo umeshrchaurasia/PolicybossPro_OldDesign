@@ -195,7 +195,8 @@
         android:id="@+id/btnGetQuote"
         style="@style/ButtonStyle"
         android:layout_alignParentBottom="true"
-        android:text="GET QUOTES" />
+        android:text="GET QUOTES"
+        android:visibility="gone" />
 
 </RelativeLayout>
 

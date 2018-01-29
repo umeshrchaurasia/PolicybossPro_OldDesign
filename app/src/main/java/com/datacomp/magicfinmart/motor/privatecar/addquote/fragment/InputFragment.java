@@ -30,13 +30,17 @@ import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
@@ -60,7 +64,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     Switch switchNewRenew;
     String TAG = "AddNewQuoteActivity";
     MotorRequestEntity motorRequestEntity;
-    FastLaneDataResponse fastLaneResponseEntity;
+    FastLaneDataEntity fastLaneResponseEntity;
 
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
@@ -156,7 +160,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
                 //endregion
 
-
             }
         });
 
@@ -166,15 +169,15 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (fuelList.get(position).equals(Constants.EXTERNAL_LPG)
                         || fuelList.get(position).equals(Constants.EXTERNAL_CNG)) {
-                    etExtValue.setFocusable(true);
+                    etExtValue.setEnabled(true);
                 } else {
-                    etExtValue.setFocusable(false);
+                    etExtValue.setEnabled(false);
                 }
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                etExtValue.setFocusable(false);
+                etExtValue.setEnabled(false);
             }
         });
         //endregion
@@ -307,6 +310,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
         etreg3.addTextChangedListener(new GenericTextWatcher(etreg3, this));
         etreg4.addTextChangedListener(new GenericTextWatcher(etreg4, this));
+        acMakeModel.addTextChangedListener(new GenericTextWatcher(acMakeModel, this));
+        acRto.addTextChangedListener(new GenericTextWatcher(acRto, this));
         etRegDate.setOnClickListener(datePickerDialog);
         etMfgDate.setOnClickListener(datePickerDialog);
         etExpDate.setOnClickListener(datePickerDialog);
@@ -355,9 +360,44 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             case R.id.btnGetQuote:
 
                 //region validations
-                if (!makeModel.isEmpty()) {
+                if (makeModel == null || makeModel.equals("")) {
                     acMakeModel.requestFocus();
                     acMakeModel.setError("Enter Make,Model");
+                    return;
+                }
+                if (!isEmpty(etRegDate)) {
+                    etRegDate.requestFocus();
+                    etRegDate.setError("Enter Reg Date");
+                    return;
+                }
+                if (!isEmpty(etMfgDate)) {
+                    etMfgDate.requestFocus();
+                    etMfgDate.setError("Enter Mfg Date");
+                    return;
+                }
+                if (regplace == null || regplace.equals("")) {
+                    acRto.requestFocus();
+                    acRto.setError("Enter Rto");
+                    return;
+                }
+                if (!isEmpty(etExpDate)) {
+                    etExpDate.requestFocus();
+                    etExpDate.setError("Enter Expiry Date");
+                    return;
+                }
+                if (!isEmpty(etCustomerName)) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("Enter Name");
+                    return;
+                }
+                if (!isValidePhoneNumber(etMobile)) {
+                    etMobile.requestFocus();
+                    etMobile.setError("Enter Mobile");
+                    return;
+                }
+                if (spPrevIns.getSelectedItemPosition() == 0) {
+                    spPrevIns.requestFocus();
+                    Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 //endregion
@@ -378,6 +418,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 cvInput.setVisibility(View.VISIBLE);
                 cvNewRenew.setVisibility(View.GONE);
                 cvRegNo.setVisibility(View.GONE);
+                btnGetQuote.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -402,6 +443,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                         + " " + etreg3.getText().toString() + " " + etreg4.getText().toString());
                 Constants.hideKeyBoard(etreg4, getActivity());
                 tvDontKnow.performClick();
+                btnGetQuote.setVisibility(View.VISIBLE);
                 showDialog("Fetching Car Details...");
                 new FastLaneController(getActivity()).getVechileDetails(regNo, this);
                 Log.d(TAG, regNo);
@@ -412,6 +454,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void cancelVehicleNumber(View view) {
         switch (view.getId()) {
+
             case R.id.etreg1:
                 break;
             case R.id.etreg2:
@@ -425,6 +468,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 break;
             case R.id.acRto:
                 regplace = null;
+                break;
+            case R.id.acMakeModel:
+                makeModel = null;
                 break;
 
         }
@@ -598,21 +644,21 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
 
     private void setInputParametersReNewCar() {
-       /* if (fastLaneResponseEntity != null) {
+        if (fastLaneResponseEntity != null) {
             motorRequestEntity.setVehicle_id(fastLaneResponseEntity.getVariant_Id());
             motorRequestEntity.setRto_id(fastLaneResponseEntity.getVehicleCity_Id());
             motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
             motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
-        } else {*/
-        varientId = databaseController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-        motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(acRto.getText().toString())));
-        motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
-        if (regNo.equals(""))
-            motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
-        else
-            motorRequestEntity.setRegistration_no(regNo);
-        //}
+        } else {
+            varientId = databaseController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+            motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+            motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(acRto.getText().toString())));
+            motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
+            if (regNo.equals(""))
+                motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
+            else
+                motorRequestEntity.setRegistration_no(regNo);
+        }
 
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
         motorRequestEntity.setPolicy_expiry_date(etExpDate.getText().toString());
@@ -707,9 +753,64 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             cancelDialog();
             Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             if (response.getStatusNo() == 0) {
-
+                if (((FastLaneDataResponse) response).getMasterData().getVariant_Id() != 0) {
+                    this.fastLaneResponseEntity = ((FastLaneDataResponse) response).getMasterData();
+                    bindFastLaneData(((FastLaneDataResponse) response).getMasterData());
+                }
             }
         }
+    }
+
+    private void bindFastLaneData(FastLaneDataEntity masterData) {
+        modelId = String.valueOf(masterData.getModel_ID());
+        fuelList = new ArrayList<String>();
+        fuelList.add("" + masterData.getFuel_Type());
+
+        variantList = new ArrayList<String>();
+        variantList.add("" + masterData.getVariant_Name() + " , ( " + masterData.getCubic_Capacity() + "CC )");
+        //fuelList = databaseController.getFuelTypeByModelId(modelId);
+        //variantList = databaseController.getVariantbyModelID(modelId);
+
+        spFuel.setVisibility(View.VISIBLE);
+        spVarient.setVisibility(View.VISIBLE);
+
+        //region varient adapter
+
+        varientAdapter = new
+                ArrayAdapter(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, variantList) {
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        return super.getView(position, convertView, parent);
+                    }
+                };
+        spVarient.setAdapter(varientAdapter);
+
+        //endregion
+
+        //region fuel adapter
+
+        fuelAdapter = new
+                ArrayAdapter(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, fuelList) {
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        View view1 = super.getView(position, convertView, parent);
+                        TextView tv = (TextView) view1.findViewById(R.id.txtspinneritem);
+                        tv.setPadding(0, 0, 0, 0);
+                        return view1;
+                    }
+                };
+        spFuel.setAdapter(fuelAdapter);
+
+        //endregion
+
+        acMakeModel.setText("" + masterData.getMake_Name() + "," + masterData.getModel_Name());
+        etRegDate.setText("" + changeDateFormat(masterData.getRegistration_Date()));
+        etMfgDate.setText("" + changeDateFormat(masterData.getPurchase_Date()));
+        regplace = databaseController.getRTOCityName("" + masterData.getVehicleCity_Id());
+        acRto.setText(regplace);
+        makeModel = masterData.getMake_Name() + " , " + masterData.getModel_Name();
     }
 
     @Override
@@ -729,4 +830,22 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         }
 
     }
+
+    public String changeDateFormat(String date) {
+
+        SimpleDateFormat spf = new SimpleDateFormat("dd/MM/yyyy"); // 30/10/2010
+        Date newDate = null;
+        try {
+            newDate = spf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return simpleDateFormat.format(newDate);
+    }
+
+    private String formatRegistrationNo(String regNo) {
+        return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
+    }
+
 }
