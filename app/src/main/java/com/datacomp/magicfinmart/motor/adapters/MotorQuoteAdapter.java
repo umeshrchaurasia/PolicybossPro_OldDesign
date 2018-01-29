@@ -5,12 +5,14 @@ import android.provider.Settings;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 
@@ -51,35 +53,46 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
     public void onBindViewHolder(QuoteItem holder, int position) {
 
         if (holder instanceof QuoteItem) {
-            QuoteListEntity entity = mQuoteList.get(position);
+            final QuoteListEntity entity = mQuoteList.get(position);
 
            /* holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
 
             CarMasterEntity carMasterEntity = new DBPersistanceController(mcontext).getVarientDetails("" + entity.getVehicle_id());
             holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
-            String currentDay = "";
-            try {
-                currentDay = simpleDateFormat.format(entity.getCreated_date());
-            } catch (Exception e) {
-
-            }
-            holder.txtQuoteDate.setText(currentDay);
+            holder.txtQuoteDate.setText(entity.getCreated_date());
 
 
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    openPopUp(view);
+                    openPopUp(view, entity);
                 }
             });*/
         }
     }
 
-    private void openPopUp(View v) {
+    private void openPopUp(View v, final QuoteListEntity entity) {
         final PopupMenu popupMenu = new PopupMenu(mcontext, v);
         final Menu menu = popupMenu.getMenu();
 
         popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.menuCall:
+                        Toast.makeText(mcontext, "WIP " + entity.getMobile(), Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menuSms:
+                        Toast.makeText(mcontext, "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menuDelete:
+                        Toast.makeText(mcontext, "WIP DELETE", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return false;
+            }
+        });
         //popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
 
       /*  switch (Settings.Global.listMode) {

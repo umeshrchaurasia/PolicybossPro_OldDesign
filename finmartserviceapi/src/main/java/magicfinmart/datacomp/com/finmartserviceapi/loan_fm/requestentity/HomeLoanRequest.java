@@ -69,6 +69,7 @@ public class HomeLoanRequest implements Parcelable {
     private String BrokerId;
     private String ProductId;
     private String empcode;
+    private String api_source;
 
     public HomeLoanRequest() {
         this.PropertyID="";
@@ -99,6 +100,7 @@ public class HomeLoanRequest implements Parcelable {
         this.BrokerId="";
         this.ProductId="";
         this.empcode="";
+        this.api_source="";
     }
 
     public String getPropertyID() {
@@ -325,6 +327,14 @@ public class HomeLoanRequest implements Parcelable {
         this.empcode = empcode;
     }
 
+    public String getApi_source() {
+        return api_source;
+    }
+
+    public void setApi_source(String api_source) {
+        this.api_source = api_source;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -360,6 +370,7 @@ public class HomeLoanRequest implements Parcelable {
         dest.writeString(this.BrokerId);
         dest.writeString(this.ProductId);
         dest.writeString(this.empcode);
+        dest.writeString(this.api_source);
     }
 
     protected HomeLoanRequest(Parcel in) {
@@ -391,6 +402,7 @@ public class HomeLoanRequest implements Parcelable {
         this.BrokerId = in.readString();
         this.ProductId = in.readString();
         this.empcode = in.readString();
+        this.api_source = in.readString();
     }
 
     public static final Parcelable.Creator<HomeLoanRequest> CREATOR = new Parcelable.Creator<HomeLoanRequest>() {

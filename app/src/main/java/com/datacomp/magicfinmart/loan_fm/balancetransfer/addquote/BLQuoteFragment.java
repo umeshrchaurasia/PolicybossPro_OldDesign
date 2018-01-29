@@ -1,6 +1,7 @@
-package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
+package com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote;
 
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
@@ -9,17 +10,16 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLQuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
@@ -29,56 +29,63 @@ import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLSavingEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BLDispalyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 
-public class PersonalLoanQuoteActivity extends AppCompatActivity {
 
-    GetPersonalLoanResponse getPersonalLoanResponse;
+public class BLQuoteFragment extends Fragment {
+
     RecyclerView rvPLQuotes;
 
-    PLQuoteAdapter mAdapter;
-    PersonalLoanRequest personalLoanRequest;
+    BLQuoteAdapter mAdapter;
+    List<BLEntity> BlListdata;
+    BLSavingEntity BlsavingEntity;
+
+
+
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_loan_quote);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        rvPLQuotes = (RecyclerView) findViewById(R.id.rvPLQuotes);
-        rvPLQuotes.setLayoutManager(new LinearLayoutManager(this));
-
-        if (getIntent().hasExtra(Constants.PERSONAL_LOAN_QUOTES)) {
-            getPersonalLoanResponse = getIntent().getParcelableExtra(Constants.PERSONAL_LOAN_QUOTES);
-            personalLoanRequest = getIntent().getParcelableExtra(Constants.PL_REQUEST);
-
-
-            mAdapter = new PLQuoteAdapter(PersonalLoanQuoteActivity.this, getPersonalLoanResponse.getData());
-            rvPLQuotes.setAdapter(mAdapter);
-        }
-
-
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.content_personal_loan_quote, container, false);
+        initialize(view);
+        return view;
     }
 
+    private void initialize(View view) {
+        rvPLQuotes = (RecyclerView) view.findViewById(R.id.rvPLQuotes);
+        rvPLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+        Bundle bundle = getArguments();
+
+        if (bundle != null) {
+            BlListdata = bundle.getParcelableArrayList(Constants.BL_LOAN_QUOTES);
+            BlsavingEntity = bundle.getParcelable(Constants.BL_LOAN_SERVICE);
+            if (BlListdata != null) {
+
+                mAdapter = new BLQuoteAdapter(getActivity(), BlListdata);
+                rvPLQuotes.setAdapter(mAdapter);
+            }
+        }
+    }
 
     public void redirectToApplyLoan(PersonalQuoteEntity entity) {
 //
 
-        startActivity(new Intent(this, PersonalLoanApplyActivity.class)
-                .putExtra("PL", entity)
-                .putExtra("PL_URL", getPersonalLoanResponse.getUrl())
-                .putExtra("PL_QUOTE_ID", getPersonalLoanResponse.getQuote_id()));
+//        startActivity(new Intent(getActivity(), PersonalLoanApplyActivity.class)
+//                .putExtra("PL", entity)
+//                .putExtra("PL_URL", getPersonalLoanResponse.getUrl())
+//                .putExtra("PL_QUOTE_ID", getPersonalLoanResponse.getQuote_id()));
     }
 
 
     private void shareData() {
-        View rootView = getWindow().getDecorView().findViewById(R.id.rvPLQuotes);
+        View rootView = getActivity().getWindow().getDecorView().findViewById(R.id.rvPLQuotes);
 
         datashareList(getScreenShot(rootView), "Quotes Details", "");
 
@@ -117,7 +124,7 @@ public class PersonalLoanQuoteActivity extends AppCompatActivity {
 
             shareIntent.setType("text/plain");
 
-            PackageManager pm = PersonalLoanQuoteActivity.this.getPackageManager();
+            PackageManager pm = getActivity().getPackageManager();
 
 
             List<ResolveInfo> resInfo = pm.queryIntentActivities(shareIntent, 0);
@@ -244,6 +251,5 @@ public class PersonalLoanQuoteActivity extends AppCompatActivity {
                 break;
         }
     }
-
 
 }

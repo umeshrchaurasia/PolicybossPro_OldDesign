@@ -1,8 +1,10 @@
 package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -65,6 +67,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     EditText etCostOfProp, etTenureInYear;
     TextView  txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     SeekBar  sbTenure;
+    Context mContext;
+
+
 
     int seekBarTenureProgress = 1;
     @Override
@@ -448,24 +453,35 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         if (response instanceof GetPersonalLoanResponse) {
             if (response.getStatus_Id() == 0) {
 
+                ((PLMainActivity)mContext).setQuoteCheck();
 
                 getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
-//                startActivity(new Intent(getActivity(), PersonalLoanQuoteActivity.class)
-//                        .putExtra(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse)
-//                        .putExtra(Constants.PL_REQUEST, personalLoanRequest));
 
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse);
+                bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
                 QuoteFragment quoteFragment = new QuoteFragment();
+                quoteFragment.setArguments(bundle);
                 FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
                 transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
                 transaction_quote.addToBackStack("QUOTE");
                 transaction_quote.show(quoteFragment);
                 //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction_quote.commitAllowingStateLoss();
+                transaction_quote.commit();
+
+
+
 
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
     }
 
     @Override
@@ -475,4 +491,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
     }
+
+
 }

@@ -28,7 +28,7 @@ public class PL_ApplicationFragment  extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_motor_application, container, false);
+        View view = inflater.inflate(R.layout.fragment_pl_application, container, false);
         initView(view);
         return view;
     }

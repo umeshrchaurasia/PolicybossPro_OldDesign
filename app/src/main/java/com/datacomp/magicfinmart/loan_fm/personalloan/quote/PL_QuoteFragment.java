@@ -15,7 +15,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PesonalLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PersonalLoanActivity;
+
 
 import java.text.SimpleDateFormat;
 
