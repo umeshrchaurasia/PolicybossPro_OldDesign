@@ -1,22 +1,19 @@
 package com.datacomp.magicfinmart.motor.adapters;
 
-import android.content.Context;
-import android.provider.Settings;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -29,12 +26,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity
  */
 
 public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.QuoteItem> {
-    Context mcontext;
+    Fragment mFrament;
     List<QuoteListEntity> mQuoteList;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public MotorQuoteAdapter(Context context, List<QuoteListEntity> list) {
-        this.mcontext = context;
+    public MotorQuoteAdapter(Fragment context, List<QuoteListEntity> list) {
+        this.mFrament = context;
         mQuoteList = list;
 
     }
@@ -55,9 +52,10 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
         if (holder instanceof QuoteItem) {
             final QuoteListEntity entity = mQuoteList.get(position);
 
-            holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
+           /* holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
 
-            CarMasterEntity carMasterEntity = new DBPersistanceController(mcontext).getVarientDetails("" + entity.getVehicle_id());
+            CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity()).getVarientDetails(
+                    "" + entity.getVehicle_id());
             holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
             holder.txtQuoteDate.setText(entity.getCreated_date());
 
@@ -67,54 +65,33 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
                 public void onClick(View view) {
                     openPopUp(view, entity);
                 }
-            });
+            });*/
         }
     }
 
     private void openPopUp(View v, final QuoteListEntity entity) {
-        final PopupMenu popupMenu = new PopupMenu(mcontext, v);
+        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
         final Menu menu = popupMenu.getMenu();
 
-        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
+        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(mcontext, "WIP " + entity.getMobile(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(mcontext, "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
-                        Toast.makeText(mcontext, "WIP DELETE", Toast.LENGTH_SHORT).show();
+                        ((MotorQuoteFragment) mFrament).removeQuote(entity);
                         break;
                 }
                 return false;
             }
         });
-        //popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
 
-      /*  switch (Settings.Global.listMode) {
-            case Settings.Global.LIST_STYLE_NORMAL: {
-                menu.findItem(R.id.nav_call).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_FAVORITE: {
-                menu.findItem(R.id.action_add_to_favorite).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_WATCH_LIST: {
-                menu.findItem(R.id.action_add_to_watch_list).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_DOWNLOAD: {
-                menu.findItem(R.id.action_download).setVisible(false);
-                break;
-            }
-        }
-
-        itemPosition = (int) view.getTag(R.id.tag_item_position);*/
         popupMenu.show();
     }
 
@@ -136,5 +113,9 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
         }
+    }
+
+    public void refreshAdapter(List<QuoteListEntity> list) {
+        mQuoteList = list;
     }
 }

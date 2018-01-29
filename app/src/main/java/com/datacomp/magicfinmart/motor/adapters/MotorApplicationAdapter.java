@@ -1,23 +1,20 @@
 package com.datacomp.magicfinmart.motor.adapters;
 
-import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFragment;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
@@ -25,11 +22,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationList
  */
 
 public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicationAdapter.ApplicationItem> {
-    Context context;
+    Fragment fragment;
     List<ApplicationListEntity> mAppList;
 
-    public MotorApplicationAdapter(Context context, List<ApplicationListEntity> mApplicationList) {
-        this.context = context;
+    public MotorApplicationAdapter(Fragment context, List<ApplicationListEntity> mApplicationList) {
+        this.fragment = context;
         mAppList = mApplicationList;
     }
 
@@ -59,25 +56,24 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
         }
     }
 
+
     private void openPopUp(View v, final ApplicationListEntity entity) {
         //creating a popup menu
-        PopupMenu popup = new PopupMenu(context, v);
+        PopupMenu popup = new PopupMenu(fragment.getActivity(), v);
         //inflating menu from xml resource
-        popup.inflate(R.menu.recycler_menu);
+        popup.inflate(R.menu.recycler_menu_application);
         //adding click listener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(context, "WIP " + entity.getMobile(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(context, "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
-                    case R.id.menuDelete:
-                        Toast.makeText(context, "WIP DELETE", Toast.LENGTH_SHORT).show();
-                        break;
+
                 }
                 return false;
             }
@@ -85,6 +81,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
         //displaying the popup
         popup.show();
     }
+
 
     @Override
     public int getItemCount() {
@@ -108,4 +105,10 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
         }
     }
+
+
+    public void refreshAdapter(List<ApplicationListEntity> list) {
+        mAppList = list;
+    }
+
 }

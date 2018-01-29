@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote;
+package com.datacomp.magicfinmart.motor.privatecar.addquote.fragment;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,13 +7,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -22,8 +22,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.ModifyQuoteActivity;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.PremiumBreakUpActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.AddonPopUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.BikeQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -35,10 +37,7 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
@@ -52,7 +51,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOn
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnResponse;
 
-public class QuoteActivity extends BaseActivity implements IResponseSubcriber, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+/**
+ * Created by Rajeev Ranjan on 29/01/2018.
+ */
+
+public class QuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener {
+
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
     BikeQuoteAdapter mAdapter;
@@ -71,36 +75,36 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
     Realm realm;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_quote);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        realm = Realm.getDefaultInstance();
-        databaseController = new DBPersistanceController(this);
-        if (getIntent().hasExtra("CAR_REQUEST")) {
-            motorRequestEntity = getIntent().getParcelableExtra("CAR_REQUEST");
-            rtoName = getIntent().getStringExtra("RTO_NAME");
-        }
-        initView();
-        initializeAdapters();
-        setListener();
-        updateHeader();
-        fetchQuotes();
-
-
+        setHasOptionsMenu(true);
     }
 
-    private void saveQuoteToServer(BikePremiumResponse response) {
-        //store request and SRN to mySql
-        SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
-        entity.setMotorRequestEntity(motorRequestEntity);
-        entity.setSRN(response.getSummary().getRequest_Unique_Id());
-        entity.setFba_id(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
-        entity.setIsActive(1);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.content_quote, container, false);
+        initView(view);
+        realm = Realm.getDefaultInstance();
+        databaseController = new DBPersistanceController(getActivity());
 
-        new QuoteApplicationController(this).saveQuote(entity, this);
+        if (getArguments() != null) {
+            if (getArguments().getParcelable("CAR_REQUEST") != null) {
+                motorRequestEntity = getArguments().getParcelable("CAR_REQUEST");
+                rtoName = getArguments().getString("RTO_NAME");
+
+                initializeAdapters();
+                setListener();
+                updateHeader();
+                fetchQuotes();
+            }
+        } else {
+            Toast.makeText(getActivity(), "Please fill inputs", Toast.LENGTH_SHORT).show();
+        }
+
+
+        return view;
     }
 
     private void setListener() {
@@ -114,20 +118,20 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         });
     }
 
-    private void initView() {
+    private void initView(View view) {
         //mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
-        bikeQuoteRecycler = (RecyclerView) findViewById(R.id.bikeQuoteRecycler);
-        webViewLoader = (ImageView) findViewById(R.id.webViewLoader);
+        bikeQuoteRecycler = (RecyclerView) view.findViewById(R.id.bikeQuoteRecycler);
+        webViewLoader = (ImageView) view.findViewById(R.id.webViewLoader);
         Glide.with(this).load(R.drawable.preloader).into(webViewLoader);
-        tvPolicyExp = (TextView) findViewById(R.id.tvPolicyExp);
-        tvRtoName = (TextView) findViewById(R.id.tvRtoName);
-        tvMakeModel = (TextView) findViewById(R.id.tvMakeModel);
-        tvFuel = (TextView) findViewById(R.id.tvFuel);
-        tvCrn = (TextView) findViewById(R.id.tvCrn);
-        tvCount = (TextView) findViewById(R.id.tvCount);
-        swAddon = (Switch) findViewById(R.id.swAddon);
-        ivEdit = (ImageView) findViewById(R.id.ivEdit);
-        filter = (FloatingActionButton) findViewById(R.id.filter);
+        tvPolicyExp = (TextView) view.findViewById(R.id.tvPolicyExp);
+        tvRtoName = (TextView) view.findViewById(R.id.tvRtoName);
+        tvMakeModel = (TextView) view.findViewById(R.id.tvMakeModel);
+        tvFuel = (TextView) view.findViewById(R.id.tvFuel);
+        tvCrn = (TextView) view.findViewById(R.id.tvCrn);
+        tvCount = (TextView) view.findViewById(R.id.tvCount);
+        swAddon = (Switch) view.findViewById(R.id.swAddon);
+        ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
+        filter = (FloatingActionButton) view.findViewById(R.id.filter);
     }
 
     private void initializeAdapters() {
@@ -135,9 +139,9 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         bikePremiumResponse = new BikePremiumResponse();
 
         bikeQuoteRecycler.setHasFixedSize(true);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         bikeQuoteRecycler.setLayoutManager(mLayoutManager);
-        mAdapter = new BikeQuoteAdapter(this, bikePremiumResponse);
+        mAdapter = new BikeQuoteAdapter(getActivity(), bikePremiumResponse);
         bikeQuoteRecycler.setAdapter(mAdapter);
 
     }
@@ -167,7 +171,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
 
     public void fetchQuotes() {
         showDialog();
-        new MotorController(this).getMotorQuote(1, this);
+        new MotorController(getActivity()).getMotorQuote(1, this);
     }
 
     public void rebindAdapter(BikePremiumResponse bikePremiumResponse) {
@@ -180,16 +184,13 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         cancelDialog();
         if (response instanceof BikePremiumResponse) {
 
-
             bikePremiumResponse = (BikePremiumResponse) response;
-            saveQuoteToServer(bikePremiumResponse);
-
             rebindAdapter(bikePremiumResponse);
             updateCrn();
             Log.d("trackIssue", "Summary  = " + bikePremiumResponse.getSummary().getStatusX() +
-                    " ,counter = " + Constants.getSharedPreference(this).getInt(Utility.QUOTE_COUNTER, 0));
+                    " ,counter = " + Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0));
             if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
-                    || Constants.getSharedPreference(this).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
+                    || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
 
                 webViewLoader.setVisibility(View.GONE);
 
@@ -199,7 +200,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
                     menuAddon.findItem(R.id.add_on).setVisible(true);
                 else {
                     menuAddon.findItem(R.id.add_on).setVisible(false);
-                    Toast.makeText(this, "No quotes found.., try later", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -211,37 +212,35 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         }
     }
 
-
-    //finmart API response
-    @Override
-    public void OnSuccess(magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse response, String message) {
-        if (response instanceof SaveQuoteResponse) {
-            if (response.getStatusNo() == 0) {
-                SaveQuoteResponse.SaveQuoteEntity saveQuoteEntity = ((SaveQuoteResponse) response).getMasterData().get(0);
-            }
-        }
-    }
-
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(QuoteActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
 
     //region Add-on
-    public boolean onCreateOptionsMenu(Menu menu) {
+    /*public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.add_on_menu, menu);
         menuAddon = menu;
         return true;
+    }*/
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        // TODO Add your menu entries here
+        inflater.inflate(R.menu.add_on_menu, menu);
+        menuAddon = menu;
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+                getActivity().finish();
                 return true;
             case R.id.add_on:
                 openPopUp();
@@ -257,7 +256,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
 
     private void openPopUp() {
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select Add-on :");
 
         RecyclerView rvAddOne;
@@ -274,10 +273,10 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         btnCancel = (Button) dialogView.findViewById(R.id.btnCancel);
         rvAddOne = (RecyclerView) dialogView.findViewById(R.id.rvAddOne);
         rvAddOne.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(QuoteActivity.this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvAddOne.setLayoutManager(layoutManager);
 
-        final AddonPopUpAdapter popUpAdapter = new AddonPopUpAdapter(QuoteActivity.this, listMobileAddOn);
+        final AddonPopUpAdapter popUpAdapter = new AddonPopUpAdapter(getActivity(), listMobileAddOn);
         rvAddOne.setAdapter(popUpAdapter);
 
 
@@ -382,10 +381,10 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
             }*/
         }
 
-        entity.setSearch_reference_number(Constants.getSharedPreference(this).getString(Utility.CARQUOTE_UNIQUEID, ""));
+        entity.setSearch_reference_number(Constants.getSharedPreference(getActivity()).getString(Utility.CARQUOTE_UNIQUEID, ""));
 
 
-        new MotorController(this).saveAddOn(entity, this);
+        new MotorController(getActivity()).saveAddOn(entity, this);
     }
 
 
@@ -773,7 +772,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         title = "Car Insurance";
 
 
-        startActivity(new Intent(this, CommonWebViewActivity.class)
+        startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                 .putExtra("URL", url)
                 .putExtra("NAME", name)
                 .putExtra("TITLE", title));
@@ -786,15 +785,13 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
             //    finish();
             //     break;
             case R.id.filter:
-              /*  Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();*/
-                startActivity(new Intent(this, ModifyQuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity));
+                startActivity(new Intent(getActivity(), ModifyQuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity));
                 break;
         }
     }
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
-        startActivity(new Intent(this, PremiumBreakUpActivity.class)
+        startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
                 .putExtra("RESPONSE", entity));
 
 
@@ -1008,6 +1005,4 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
             super.onPostExecute(aVoid);
         }
     }
-
-
 }

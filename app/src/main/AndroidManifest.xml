@@ -136,7 +136,23 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
 
-
+        <activity
+            android:name=".loan_fm.personalloan.addquote.AddQuoteActivity_PL"
+            android:label="@string/title_activity_add_quote__pl"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.personalloan.addquote.PersonalLoanActivity"
+            android:label="@string/title_activity_add_plquote"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+        <activity
+            android:name=".loan_fm.personalloan.addquote.PersonalLoanQuoteActivity"
+            android:label="@string/title_activity_add_plquote"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
         <activity
             android:name=".loan_fm.homeloan.HomeLoanDetailActivity"
             android:label="@string/title_activity_home_loan_detail"
@@ -190,6 +206,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity" />
+        </activity>
+        <activity
+            android:name=".motor.privatecar.addquote.InputQuoteBottmActivity"
+            android:label="@string/title_activity_input_quote_bottm"
+            android:parentActivityName=".motor.privatecar.PrivateCarDetailActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity" />
         </activity>
         <activity
             android:name=".loan_fm.homeloan.addquote.HLMainActivity"

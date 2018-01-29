@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -26,7 +27,7 @@ public class QuoteFragment_hl extends Fragment {
     Toolbar toolbar;
     RecyclerView rvQuotes;
     HLQuoteAdapter mAdapter;
-
+    TextView  txtPropType , txtCostOfProp ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount;
 
     public QuoteFragment_hl() {
         // Required empty public constructor
@@ -56,6 +57,15 @@ public class QuoteFragment_hl extends Fragment {
 
     private void initialise_widget(View view) {
 
+        txtPropType = (TextView) view.findViewById(R.id.txtPropType);
+        txtCostOfProp = (TextView) view.findViewById(R.id.txtCostOfProp);
+        txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
+        txtOccupation = (TextView) view.findViewById(R.id.txtOccupation);
+        txtMonthlyIncome = (TextView) view.findViewById(R.id.txtMonthlyIncome);
+        txtExistEmi = (TextView) view.findViewById(R.id.txtExistEmi);
+        txtCount = (TextView) view.findViewById(R.id.txtCount);
+
+
         rvQuotes = (RecyclerView) view.findViewById(R.id.rvQuotes);
         rvQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -68,10 +78,70 @@ public class QuoteFragment_hl extends Fragment {
 
                 mAdapter = new HLQuoteAdapter(getActivity(), getQuoteResponse.getData());
                 rvQuotes.setAdapter(mAdapter);
+
+                if(getQuoteResponse.getData().size() >0)
+                {
+                    txtCount.setText(""+getQuoteResponse.getData().size() + " Results from www.rupeeboss.com" );
+                    txtCount.setVisibility(View.VISIBLE);
+                }else{
+                    txtCount.setText("");
+                    txtCount.setVisibility(View.GONE);
+                }
+
+                if(homeLoanRequest != null)
+                {
+
+                   String strPropTyp =   getProperty(homeLoanRequest.getPropertyID());
+
+                    txtPropType.setText(""+strPropTyp.toUpperCase() );
+                    txtCostOfProp.setText(""+homeLoanRequest.getPropertyCost() );
+                    txtLoanTenure.setText(""+homeLoanRequest.getLoanTenure() );
+
+                    if(homeLoanRequest.getApplicantSource().equals("1"))
+                    {
+                        txtOccupation.setText("SALARIED" );
+                    }else{
+                        txtOccupation.setText("SELF-EMP" );
+                    }
+
+                    txtMonthlyIncome.setText(""+homeLoanRequest.getApplicantIncome() );
+                    txtExistEmi.setText(""+homeLoanRequest.getApplicantObligations() );
+                }
+
             }
+
+
         }
 
 
+
+    }
+
+
+    private String getProperty(String id)
+    {
+        String strProp = "";
+        if(id.equals("1"))
+        {
+            strProp = "READY";
+        }else if(id.equals("2"))
+        {
+            strProp = "UNDER CONS";
+        }else if(id.equals("3"))
+        {
+            strProp = "SEARCHING";
+        }else if(id.equals("4"))
+        {
+            strProp = "RESALE";
+        }else if(id.equals("5"))
+        {
+            strProp = "FOR CONS";
+        }else if(id.equals("5"))
+        {
+            strProp = "OTHER";
+        }
+
+        return strProp;
 
     }
 

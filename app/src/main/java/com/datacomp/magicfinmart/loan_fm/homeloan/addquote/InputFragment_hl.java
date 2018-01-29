@@ -144,6 +144,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
         loadSpinner();
+        setSalaried();
+        setCoAppSalaried();
         if (getActivity().getIntent().getBooleanExtra("IS_EDIT", false)) {
 
             customerEntity = getActivity().getIntent().getParcelableExtra("CUST_DETAILS");
@@ -705,21 +707,57 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void altervisibleCoApplicant() {
-        if (isCoApplicantVisible) {
-            txtCoApplicantDetail.setText(" Co-Application Details");
-            txtCoApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtCoApplicantDetail.setBackgroundResource(R.color.lightGrey);//umesh
-            llCoApplicantDetail.setVisibility(View.GONE);
-            isCoApplicantVisible = false;
-        } else {
-            txtCoApplicantDetail.setText(" Co-Application Details");
-            txtCoApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llCoApplicantDetail.setVisibility(View.VISIBLE);
-            isCoApplicantVisible = true;
-        }
+    private void setSalaried()
+    {
+        ApplicantSource = "1";
+        txtSalaried.setBackgroundResource(R.drawable.customeborder_blue);
+        txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+        txtSelfEMp.setBackgroundResource(R.drawable.customeborder);
+        txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        llSelfEmployeed.setVisibility(View.GONE);
     }
+
+    private  void setSelfEmplyoee()
+    {
+        ApplicantSource = "2";
+        txtSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
+        txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+        txtSalaried.setBackgroundResource(R.drawable.customeborder);
+        txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        llSelfEmployeed.setVisibility(View.VISIBLE);
+
+    }
+
+
+    private void setCoAppSalaried()
+    {
+        CoApplicantSource = "1";
+        txtCoSalaried.setBackgroundResource(R.drawable.customeborder_blue);
+        txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+        txtCoSelfEMp.setBackgroundResource(R.drawable.customeborder);
+        txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        coApp_llSelfEmployeed.setVisibility(View.GONE);
+
+    }
+
+    private  void setCoAppSelfEmplyoee()
+    {
+        CoApplicantSource = "2";
+        txtCoSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
+        txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+        txtCoSalaried.setBackgroundResource(R.drawable.customeborder);
+        txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        coApp_llSelfEmployeed.setVisibility(View.VISIBLE);
+    }
+
 
     @Override
     public void onClick(View v) {
@@ -742,56 +780,22 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 //        }
         if (v.getId() == R.id.txtSalaried) {
 
-            ApplicantSource = "1";
-            txtSalaried.setBackgroundResource(R.drawable.customeborder_blue);
-            txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-
-            txtSelfEMp.setBackgroundResource(R.drawable.customeborder);
-            txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
-
-
-            llSelfEmployeed.setVisibility(View.GONE);
+            setSalaried();
 
 
         } else if (v.getId() == R.id.txtSelfEMp) {
-            ApplicantSource = "2";
-            txtSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
-            txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
 
-            txtSalaried.setBackgroundResource(R.drawable.customeborder);
-            txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
-
-            llSelfEmployeed.setVisibility(View.VISIBLE);
-
-
+            setSelfEmplyoee();
         }
         /////////////// Co- Applicant//////////////////
         else if (v.getId() == R.id.txtCoSalaried) {
 
-            CoApplicantSource = "1";
-
-            txtCoSalaried.setBackgroundResource(R.drawable.customeborder_blue);
-            txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
-
-
-            txtCoSelfEMp.setBackgroundResource(R.drawable.customeborder);
-            txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
-
-
-            coApp_llSelfEmployeed.setVisibility(View.GONE);
-
+            setCoAppSalaried();
 
         } else if (v.getId() == R.id.txtCoSelfEMp) {
-            CoApplicantSource = "2";
 
-            txtCoSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
-            txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+            setCoAppSelfEmplyoee();
 
-            txtCoSalaried.setBackgroundResource(R.drawable.customeborder);
-            txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
-
-
-            coApp_llSelfEmployeed.setVisibility(View.VISIBLE);
         } else if (v.getId() == R.id.btnGetQuote) {
             //region Validation
 

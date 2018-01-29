@@ -38,7 +38,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
 
 public class QuoteFragment extends BaseFragment {
 
+    TextView txtAppName , txtLoanAmnt ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount;
+
     GetPersonalLoanResponse getPersonalLoanResponse;
+    PersonalLoanRequest personalLoanRequest;
     RecyclerView rvPLQuotes;
 
     PLQuoteAdapter mAdapter;
@@ -56,18 +59,55 @@ public class QuoteFragment extends BaseFragment {
     }
 
     private void initialize(View view) {
+
+        txtAppName = (TextView) view.findViewById(R.id.txtAppName);
+        txtLoanAmnt = (TextView) view.findViewById(R.id.txtLoanAmnt);
+        txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
+        txtOccupation = (TextView) view.findViewById(R.id.txtOccupation);
+        txtMonthlyIncome = (TextView) view.findViewById(R.id.txtMonthlyIncome);
+        txtExistEmi = (TextView) view.findViewById(R.id.txtExistEmi);
+        txtCount = (TextView) view.findViewById(R.id.txtCount);
+
         rvPLQuotes = (RecyclerView) view.findViewById(R.id.rvPLQuotes);
         rvPLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-
+// bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
         Bundle bundle = getArguments();
 
         if (bundle != null) {
             getPersonalLoanResponse = bundle.getParcelable(Constants.PERSONAL_LOAN_QUOTES);
+            personalLoanRequest =  bundle.getParcelable(Constants.PL_REQUEST);
             if (getPersonalLoanResponse != null) {
 
                 mAdapter = new PLQuoteAdapter(getActivity(), getPersonalLoanResponse.getData());
                 rvPLQuotes.setAdapter(mAdapter);
+
+                if(getPersonalLoanResponse.getData().size() >0)
+                {
+                   txtCount.setText(""+getPersonalLoanResponse.getData().size() + " Results from www.rupeeboss.com" );
+                    txtCount.setVisibility(View.VISIBLE);
+                }else{
+                    txtCount.setText("");
+                    txtCount.setVisibility(View.GONE);
+                }
+
+                if(personalLoanRequest != null)
+                {
+                    txtAppName.setText(""+personalLoanRequest.getApplicantNme().toUpperCase() );
+                    txtLoanAmnt.setText(""+personalLoanRequest.getLoanRequired() );
+                    txtLoanTenure.setText(""+personalLoanRequest.getLoanTenure() );
+
+                    if(personalLoanRequest.getApplicantSource().equals("1"))
+                    {
+                        txtOccupation.setText("SALARIED" );
+                    }else{
+                        txtOccupation.setText("SELF-EMP" );
+                    }
+
+
+                    txtMonthlyIncome.setText(""+personalLoanRequest.getApplicantIncome() );
+                    txtExistEmi.setText(""+personalLoanRequest.getApplicantObligations() );
+                }
             }
         }
     }
