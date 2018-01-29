@@ -37,14 +37,14 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
 //        });
     }
 
-    private void openPopUp(View v) {
-        final PopupMenu popupMenu = new PopupMenu(context, v);
-        final Menu menu = popupMenu.getMenu();
-
-        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
-
-        popupMenu.show();
-    }
+//    private void openPopUp(View v) {
+//        final PopupMenu popupMenu = new PopupMenu(context, v);
+//        final Menu menu = popupMenu.getMenu();
+//
+//        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
+//
+//        popupMenu.show();
+//    }
     @Override
     public int getItemCount() {
         return 2;

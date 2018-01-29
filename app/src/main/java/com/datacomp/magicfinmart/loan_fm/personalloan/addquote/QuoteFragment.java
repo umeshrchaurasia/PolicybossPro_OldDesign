@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,8 +39,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
 
 public class QuoteFragment extends BaseFragment {
 
-    TextView txtAppName , txtLoanAmnt ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount;
-
+    TextView txtAppName , txtLoanAmnt ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount ,txtInputSummry ;
+    CardView cvInputSummary;
     GetPersonalLoanResponse getPersonalLoanResponse;
     PersonalLoanRequest personalLoanRequest;
     RecyclerView rvPLQuotes;
@@ -60,6 +61,9 @@ public class QuoteFragment extends BaseFragment {
 
     private void initialize(View view) {
 
+        cvInputSummary = (CardView) view.findViewById(R.id.cvInputSummary);
+
+        txtInputSummry = (TextView) view.findViewById(R.id.txtInputSummry);
         txtAppName = (TextView) view.findViewById(R.id.txtAppName);
         txtLoanAmnt = (TextView) view.findViewById(R.id.txtLoanAmnt);
         txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
@@ -78,6 +82,8 @@ public class QuoteFragment extends BaseFragment {
             getPersonalLoanResponse = bundle.getParcelable(Constants.PERSONAL_LOAN_QUOTES);
             personalLoanRequest =  bundle.getParcelable(Constants.PL_REQUEST);
             if (getPersonalLoanResponse != null) {
+                txtInputSummry.setVisibility(View.VISIBLE);
+                cvInputSummary.setVisibility(View.VISIBLE);
 
                 mAdapter = new PLQuoteAdapter(getActivity(), getPersonalLoanResponse.getData(),getPersonalLoanResponse);
                 rvPLQuotes.setAdapter(mAdapter);

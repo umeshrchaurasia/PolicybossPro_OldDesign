@@ -43,7 +43,7 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
         final PopupMenu popupMenu = new PopupMenu(context, v);
         final Menu menu = popupMenu.getMenu();
 
-        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
+       // popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
         //popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
 
       /*  switch (Settings.Global.listMode) {
