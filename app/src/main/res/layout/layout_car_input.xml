@@ -98,7 +98,7 @@
                     style="@style/spinnerLabel"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_gravity="bottom"
                     android:layout_weight="1" />
 
 
@@ -132,7 +132,6 @@
                     <EditText
                         android:id="@+id/etExtValue"
                         style="@style/Style.edittext"
-                        android:layout_width="0dp"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -153,6 +152,7 @@
                     android:hint="Reg Date">
 
                     <EditText
+                        android:focusable="false"
                         android:id="@+id/etRegDate"
                         style="@style/Style.edittext"
                         android:drawableRight="@drawable/vector_date" />
@@ -166,6 +166,7 @@
                     android:hint="Manufacturer Date">
 
                     <EditText
+                        android:focusable="false"
                         android:id="@+id/etMfgDate"
                         style="@style/Style.edittext"
                         android:drawableRight="@drawable/vector_date" />

@@ -16,6 +16,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
 
         switch (view.getId()) {
             case R.id.fbAddQuote:
-                startActivity(new Intent(getActivity(), AddQuoteActivity.class));
+                startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class));
                 break;
         }
     }
