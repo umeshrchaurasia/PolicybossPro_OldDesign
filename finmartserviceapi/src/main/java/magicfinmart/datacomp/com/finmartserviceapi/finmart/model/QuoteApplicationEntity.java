@@ -3,33 +3,28 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.gson.annotations.SerializedName;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class QuoteApplicationEntity implements Parcelable {
+    private List<QuoteListEntity> quote;
+    private List<ApplicationListEntity> application;
 
-    @SerializedName("quote")
-    private List<QuoteListEntity> QuoteList;
-    @SerializedName("application")
-    private List<ApplicationListEntity> ApplicationList;
-
-    public List<QuoteListEntity> getQuoteList() {
-        return QuoteList;
+    public List<QuoteListEntity> getQuote() {
+        return quote;
     }
 
-    public void setQuoteList(List<QuoteListEntity> QuoteList) {
-        this.QuoteList = QuoteList;
+    public void setQuote(List<QuoteListEntity> quote) {
+        this.quote = quote;
     }
 
-    public List<ApplicationListEntity> getApplicationList() {
-        return ApplicationList;
+    public List<ApplicationListEntity> getApplication() {
+        return application;
     }
 
-    public void setApplicationList(List<ApplicationListEntity> ApplicationList) {
-        this.ApplicationList = ApplicationList;
+    public void setApplication(List<ApplicationListEntity> application) {
+        this.application = application;
     }
-
 
     @Override
     public int describeContents() {
@@ -38,16 +33,16 @@ public class QuoteApplicationEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(this.QuoteList);
-        dest.writeTypedList(this.ApplicationList);
+        dest.writeTypedList(this.quote);
+        dest.writeTypedList(this.application);
     }
 
     public QuoteApplicationEntity() {
     }
 
     protected QuoteApplicationEntity(Parcel in) {
-        this.QuoteList = in.createTypedArrayList(QuoteListEntity.CREATOR);
-        this.ApplicationList = in.createTypedArrayList(ApplicationListEntity.CREATOR);
+        this.quote = in.createTypedArrayList(QuoteListEntity.CREATOR);
+        this.application = in.createTypedArrayList(ApplicationListEntity.CREATOR);
     }
 
     public static final Parcelable.Creator<QuoteApplicationEntity> CREATOR = new Parcelable.Creator<QuoteApplicationEntity>() {
