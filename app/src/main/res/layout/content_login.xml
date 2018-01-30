@@ -1,105 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    style="@style/CardStyle.Home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:cardElevation="2dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.datacomp.magicfinmart.login.LoginActivity"
     tools:showIn="@layout/activity_login">
 
-    <android.support.v7.widget.CardView
-        style="@style/CardViewStyle"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        app:cardElevation="2dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="12dp">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/finmart_logo" />
+
+        <TextView
+            android:id="@+id/tv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="vertical"
-            android:padding="12dp">
+            android:text="ONE STOP FINANCIAL SOLUTION"
+            android:textAppearance="@style/TextStyle.Body1"
+            android:layout_marginBottom="8dp"/>
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/finmart_logo" />
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/til"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:hint="Email">
 
-            <TextView
-                android:id="@+id/tv"
-                style="@style/TextViewStyle.Large"
-                android:gravity="center"
-                android:text="ONE STOP FINANCIAL SOLUTION" />
+            <EditText
+                android:id="@+id/etEmail"
+                style="@style/Style.edittext"
+                android:drawableRight="@drawable/vector_email"
+                android:inputType="textEmailAddress"
+                android:text="rajeev@gmail.com" />
+        </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/til"
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:layout_marginTop="24dp"
-                android:hint="Email">
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/tiee"
+            style="@style/TextInputLayoutStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password">
 
-                <EditText
-                    android:text="rajeev@gmail.com"
-                    android:id="@+id/etEmail"
-                    style="@style/Style.edittext"
-                    android:drawableRight="@drawable/vector_email"
-                    android:inputType="textEmailAddress" />
-            </android.support.design.widget.TextInputLayout>
+            <EditText
+                android:id="@+id/etPassword"
+                style="@style/Style.edittext"
+                android:drawableRight="@drawable/vector_password"
+                android:inputType="textPassword"
+                android:text="25012000" />
+        </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/tiee"
-                style="@style/TextAppearence.App.TextInputLayout"
-                android:hint="Password">
+        <Button
+            android:id="@+id/btnSignIn"
+            style="@style/ButtonStyle.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="SIGN IN" />
 
-                <EditText
-                    android:text="25012000"
-                    android:id="@+id/etPassword"
-                    style="@style/Style.edittext"
-                    android:drawableRight="@drawable/vector_password"
-                    android:inputType="textPassword" />
-            </android.support.design.widget.TextInputLayout>
+        <TextView
+            android:id="@+id/tvSignUp"
+            android:textAppearance="@style/TextStyle.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="@string/signup" />
 
-            <Button
-                android:id="@+id/btnSignIn"
-                style="@style/ButtonStyle"
-                android:layout_marginTop="16dp"
-                android:text="SIGN IN" />
+        <TextView
+            android:id="@+id/tvForgotPass"
+            android:textAppearance="@style/TextStyle.Body1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="forgot password?" />
 
-            <TextView
-                android:id="@+id/tvSignUp"
-                style="@style/TextViewStyle.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/signup" />
+        <TextView
+            android:id="@+id/tvdsfs"
+            android:textAppearance="@style/TextStyle.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:drawableBottom="@drawable/google_sign_icon"
+            android:gravity="center"
+            android:text="Sign in with" />
 
-            <TextView
-                android:id="@+id/tvForgotPass"
-                style="@style/TextViewStyle.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="forgot password?" />
-
-            <TextView
-                android:id="@+id/tvdsfs"
-                style="@style/TextViewStyle.Small"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:drawableBottom="@drawable/google_sign_icon"
-                android:gravity="center"
-                android:text="Sign in with" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="18dp"
-                android:background="@null" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:background="@null" />
 
 
-        </LinearLayout>
+    </LinearLayout>
 
-    </android.support.v7.widget.CardView>
-</ScrollView>
+</android.support.v7.widget.CardView>
+

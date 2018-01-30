@@ -450,7 +450,7 @@ public class DBPersistanceController {
 
     public void storeUserData(LoginResponseEntity loginResponseEntity) {
         realm.beginTransaction();
-        realm.copyToRealm(loginResponseEntity);
+        realm.copyToRealmOrUpdate(loginResponseEntity);
         realm.commitTransaction();
     }
 
@@ -461,6 +461,7 @@ public class DBPersistanceController {
         else
             return null;
     }
+
 
     //endregion
 }

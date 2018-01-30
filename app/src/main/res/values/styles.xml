@@ -133,7 +133,6 @@
     <style name="HeaderLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">12dp</item>
         <item name="android:background">@drawable/blue_border_lightblue_background</item>
     </style>
 
@@ -174,5 +173,55 @@
     <!--<item name="android:textSize">14sp</item>-->
     <!---->
     <!--</style>-->
+
+    <!-- Spinner Styles -->
+    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner"></style>
+
+    <style name="SpinnerStyle.Underlined" parent="Widget.AppCompat.Spinner.Underlined"></style>
+
+
+    <!-- Edit Text Styles -->
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText"></style>
+
+    <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout"></style>
+
+    <!--Textview-->
+
+    <style name="TextStyle.Title" parent="TextAppearance.AppCompat.Title"></style>
+
+    <style name="TextStyle.Body1" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/description_text</item>
+    </style>
+
+
+    <style name="ButtonStyle.Colored" parent="Widget.AppCompat.Button.Colored"></style>
+
+    <style name="ButtonStyle.Borderless" parent="Widget.AppCompat.Button.Borderless"></style>
+
+    <style name="FloatingActionButtonStyle" parent="Widget.Design.FloatingActionButton"></style>
+
+    <style name="RadioButtonStyle" parent="Widget.AppCompat.CompoundButton.RadioButton"></style>
+
+    <style name="CheckBoxStyle" parent="Widget.AppCompat.CompoundButton.CheckBox"></style>
+
+    <style name="SwitchStyle" parent="Widget.AppCompat.CompoundButton.Switch"></style>
+
+    <!-- Card Styles -->
+    <style name="CardStyle" parent="CardView">
+        <item name="cardCornerRadius">@dimen/card_corner_radius</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+    </style>
+
+    <style name="CardStyle.Home" parent="CardStyle">
+        <item name="contentPaddingBottom">@dimen/view_spacing_small</item>
+        <item name="contentPaddingLeft">@dimen/view_spacing_small</item>
+        <item name="contentPaddingRight">@dimen/view_spacing_small</item>
+        <item name="contentPaddingTop">@dimen/view_spacing_small</item>
+        <item name="android:layout_marginBottom">@dimen/view_spacing_small</item>
+        <item name="android:layout_marginLeft">@dimen/view_spacing_small</item>
+        <item name="android:layout_marginRight">@dimen/view_spacing_small</item>
+        <item name="android:layout_marginTop">@dimen/view_spacing_small</item>
+    </style>
+
 
 </resources>

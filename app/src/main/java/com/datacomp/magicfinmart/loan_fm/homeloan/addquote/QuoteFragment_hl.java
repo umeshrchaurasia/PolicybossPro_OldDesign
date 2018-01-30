@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.loan_fm.homeloan.addquote;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -24,11 +25,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResp
 public class QuoteFragment_hl extends Fragment {
     GetQuoteResponse getQuoteResponse;
     HomeLoanRequest homeLoanRequest;
-    Toolbar toolbar;
     RecyclerView rvQuotes;
     HLQuoteAdapter mAdapter;
-    TextView  txtPropType , txtCostOfProp ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount;
-
+    TextView  txtPropType , txtCostOfProp ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount ,txtInputSummry ;
+    CardView cvInputSummary;
     public QuoteFragment_hl() {
         // Required empty public constructor
     }
@@ -75,6 +75,8 @@ public class QuoteFragment_hl extends Fragment {
             getQuoteResponse = bundle.getParcelable(Constants.HOME_LOAN_QUOTES);
             homeLoanRequest = bundle.getParcelable(Constants.HL_REQUEST);
             if (getQuoteResponse != null) {
+                txtInputSummry.setVisibility(View.VISIBLE);
+                cvInputSummary.setVisibility(View.VISIBLE);
 
                 mAdapter = new HLQuoteAdapter(getActivity(), getQuoteResponse.getData());
                 rvQuotes.setAdapter(mAdapter);
