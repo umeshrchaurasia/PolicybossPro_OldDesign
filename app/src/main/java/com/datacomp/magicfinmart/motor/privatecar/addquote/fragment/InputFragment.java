@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.motor.privatecar.addquote.fragment;
 
 import android.app.DatePickerDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,6 +29,8 @@ import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
 
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -56,6 +57,8 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
 public class InputFragment extends BaseFragment implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
+
+    DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo;
     View cvInput;
     Button btnGetQuote;
@@ -281,6 +284,54 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         etRegDate.setOnClickListener(datePickerDialog);
         etMfgDate.setOnClickListener(datePickerDialog);
         etExpDate.setOnClickListener(datePickerDialog);
+        sbNoClaimBonus.setNumericTransformer(new DiscreteSeekBar.NumericTransformer() {
+            @Override
+            public int transform(int value) {
+                switch (value) {
+                    case 0:
+                        return 0;
+                    case 1:
+                        return 20;
+                    case 2:
+                        return 25;
+                    case 3:
+                        return 35;
+                    case 4:
+                        return 45;
+                    case 5:
+                        return 50;
+                }
+                return 0;
+            }
+        });
+        sbNoClaimBonus.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                if (fromUser) {
+                    /*if (value > 0 && value <= 20) {
+                        seekBar.setProgress(20);
+                    } else if (value > 20 && value <= 25) {
+                        seekBar.setProgress(25);
+                    } else if (value > 25 && value <= 35) {
+                        seekBar.setProgress(35);
+                    } else if (value > 35 && value <= 45) {
+                        seekBar.setProgress(45);
+                    } else if (value > 45 && value <= 55) {
+                        seekBar.setProgress(50);
+                    }*/
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+        });
     }
 
     private void intit_view(View view) {
@@ -318,6 +369,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         swClaim = (Switch) view.findViewById(R.id.switchNcb);
         spNcbPercent = (Spinner) view.findViewById(R.id.spNcbPercent);
         //endregion
+
+        sbNoClaimBonus = (DiscreteSeekBar) view.findViewById(R.id.sbNoClaimBonus);
     }
 
     @Override
