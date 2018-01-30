@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="India’s first and most comprehensive business enabling platform for financial advisors"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
+            android:layout_gravity="start"
             android:textColor="#464646" />
 
     </LinearLayout>

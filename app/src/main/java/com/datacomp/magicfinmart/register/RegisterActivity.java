@@ -406,6 +406,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         if (response instanceof PincodeResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
+                Constants.hideKeyBoard(etPincode, this);
                 etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
                 etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
 
@@ -463,6 +464,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
             dialog = new Dialog(RegisterActivity.this);
             dialog.setContentView(R.layout.otp_dialog);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
             tvOk = (TextView) dialog.findViewById(R.id.tvOk);
             TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
@@ -487,6 +489,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     if (etOtp.getText().toString().equals("0000")) {
                         Toast.makeText(RegisterActivity.this, "Otp Verified Success", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
+                        hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
+                        btnSubmit.setVisibility(View.VISIBLE);
+                        isMobileValid = true;
                     } else {
                         showDialog("Verifying OTP...");
                         new RegisterController(RegisterActivity.this).validateOtp(etMobile1.getText().toString(), etOtp.getText().toString(), RegisterActivity.this);

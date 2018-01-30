@@ -680,7 +680,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             motorRequestEntity.setVehicle_ncb_current("");
         } else {
             motorRequestEntity.setIs_claim_exists("no");
-            //motorRequestEntity.setVehicle_ncb_current(spNcbPercent.getSelectedItem().toString());
+            motorRequestEntity.setVehicle_ncb_current(spNcbPercent.getSelectedItem().toString());
         }
 
         motorRequestEntity.setElectrical_accessory("0");
