@@ -204,7 +204,14 @@
         <activity
             android:name=".loan_fm.homeloan.addquote.HLMainActivity"
             android:label="@string/title_activity_hlmain"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName=".loan_fm.homeloan.HomeLoanDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity" />
+    </activity>
         <activity
             android:name=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
             android:label="@string/title_activity_balance_transfer_detail"

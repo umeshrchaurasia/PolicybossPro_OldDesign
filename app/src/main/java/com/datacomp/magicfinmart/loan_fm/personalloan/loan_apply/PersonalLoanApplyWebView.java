@@ -67,7 +67,7 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
         url = url + "?qoutid=" + quoteId + "&bankid=" + entity.getBank_Id()
                 + "&productid=9"
                 + "&refapp=0"
-                + "&brokerid=" + loginEntity.getFBAId()
+                + "&brokerid=" + loginEntity.getLoanId()
                 + "&empcode=" + ""
                 + "&loanamout=" + entity.getLoan_eligible()
                 + "&idtype=" + entity.getRoi_type()
