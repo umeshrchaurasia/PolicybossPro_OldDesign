@@ -1061,6 +1061,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         //region Preferred City Adapter
         arrayPreferedCity = new ArrayList<String>();
+//        preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
+//                android.R.layout.simple_list_item_1, cityList);
+
         preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, getCityList());
 
@@ -1091,9 +1094,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 //            }
 //        }
         arrayPreferedCity.add("Mumbai");
-        arrayPreferedCity.add("New Mumbai");
-        arrayPreferedCity.add("Pune");
-
         return arrayPreferedCity;
     }
 

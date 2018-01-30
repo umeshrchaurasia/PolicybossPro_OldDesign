@@ -12,7 +12,8 @@ import android.view.ViewGroup;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoan_QuoteAdapter;
-import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAP_LoanActivity;
+import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
+
 
 import java.text.SimpleDateFormat;
 
@@ -54,7 +55,7 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.lapAddQuote:
-                startActivity(new Intent(getActivity(), LAP_LoanActivity.class));
+                startActivity(new Intent(getActivity(), LAPMainActivity.class));
                 break;
         }
     }

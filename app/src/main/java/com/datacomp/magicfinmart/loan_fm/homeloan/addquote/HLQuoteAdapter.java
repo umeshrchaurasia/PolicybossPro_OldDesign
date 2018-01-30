@@ -68,7 +68,7 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
         final QuoteEntity quoteEntity = quoteEntities.get(position);
         holder.tvEligibleLoan.setText("" + "\u20B9"+" " + String.format("%.0f", quoteEntity.getLoan_eligible()));
         holder.tvBestRate.setText(""  + quoteEntity.getRoi() + " %");
-        holder.tvBankName.setText("" + quoteEntity.getBank_Name());
+        holder.tvBankName.setText("" + quoteEntity.getBank_Code());
         holder.tvBestEmi.setText(""+ "\u20B9" +" " +  String.format("%.0f", quoteEntity.getEmi()));
         holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure()+ " Years");
         holder.tvProcessingFee.setText(""+ "\u20B9"+" "  + String.format("%.0f", quoteEntity.getProcessingfee()));

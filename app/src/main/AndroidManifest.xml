@@ -161,10 +161,6 @@
             android:label="@string/title_activity_lap_loan_detail"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".loan_fm.laploan.addquote.LAP_LoanActivity"
-            android:label="@string/title_activity_lap__loan"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".loan_fm.laploan.addquote.LapLoanQuoteActivity"
             android:label="@string/title_activity_lap_loan_quote"
             android:theme="@style/AppTheme" />
@@ -230,8 +226,19 @@
             android:label="@string/title_activity_home_loan_apply_web_view"
             android:parentActivityName=".loan_fm.homeloan.addquote.HLMainActivity"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.laploan.addquote.LAPMainActivity"
+            android:label="@string/title_activity_lapmain"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.laploan.addquote.LAPApplyActivity"
+            android:label="@string/title_activity_lapapply"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".loan_fm.laploan.application.LAPApplyWebView"
+            android:label="@string/title_activity_lapapply_web_view"
             android:theme="@style/AppTheme"></activity>
-
     </application>
 
 </manifest>
