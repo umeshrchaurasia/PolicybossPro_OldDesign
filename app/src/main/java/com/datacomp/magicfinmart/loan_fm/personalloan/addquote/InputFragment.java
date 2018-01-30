@@ -27,12 +27,15 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan.PersonalLoanController;
@@ -45,8 +48,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
  * Created by Rajeev Ranjan on 24/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, SeekBar.OnSeekBarChangeListener, TextWatcher {
+public class InputFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, SeekBar.OnSeekBarChangeListener {
 
+    DBPersistanceController databaseController;
+    LoginResponseEntity loginEntity;
     PersonalLoanRequest personalLoanRequest;
     CustomerEntity customerEntity;
     CustomerApplicationEntity customerApplicationEntity;
@@ -54,17 +59,15 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     Button btnGetQuote;
-    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etTurnOver;
-    Spinner sbSalary;
-    ArrayAdapter<String> salaryTypeAdapter;
+    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI ,etPAN, etCostOfProp ;
+
     LinearLayout llSalaried, llSelfEmployeed;
-    SeekBar sbMonthlyInc, sbTurnOver;
+
 
     RadioGroup rgGender;
     RadioButton rbimgMale, rbimgFemale;
 
-    //region PropertyIndo
-    EditText etCostOfProp, etTenureInYear;
+    TextView txtTenureInYear;
     TextView  txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     SeekBar  sbTenure;
     Context mContext;
@@ -78,8 +81,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_add_plquote, container, false);
         initilize(view);
+        databaseController   = new DBPersistanceController(getActivity());
+        loginEntity = databaseController.getUserData();
         setListener();
-        loadSpinner();
 
         if (getActivity().getIntent().getBooleanExtra("IS_EDIT", false)) {
             customerEntity = getActivity().getIntent().getParcelableExtra("CUST_DETAILS");
@@ -95,45 +99,33 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     private void initilize(View view) {
 
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
-        //endregion
+
         //region Property Initialize
         etCostOfProp = (EditText) view.findViewById(R.id.etCostOfProp);
+        etPAN = (EditText) view.findViewById(R.id.etPAN);
         txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
         txtDispalayMaxTenureYear = (TextView) view.findViewById(R.id.txtDispalayMaxTenureYear);
-        etTenureInYear = (EditText) view.findViewById(R.id.etTenureInYear);
+        txtTenureInYear = (TextView) view.findViewById(R.id.txtTenureInYear);
+
 
         sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
-        //txtMaxLoanAmntAllow.setText(String.format("%.2f", getPercent(500000)));
         sbTenure.setMax(5);
         sbTenure.setProgress(1);
-        etTenureInYear.setText("1");
+        txtTenureInYear.setText("1");
+        //endregion
 
         //region Applicant Initialize
         llSelfEmployeed = (LinearLayout) view.findViewById(R.id.llSelfEmployeed);
         llSalaried = (LinearLayout) view.findViewById(R.id.llSalaried);
         etNameOfApplicant = (EditText) view.findViewById(R.id.etNameOfApplicant);
-        etTurnOver = (EditText) view.findViewById(R.id.etTurnOver);
-
         et_DOB = (EditText) view.findViewById(R.id.et_DOB);
-        sbSalary = (Spinner) view.findViewById(R.id.sbSalary);
-        sbMonthlyInc = (SeekBar) view.findViewById(R.id.sbMonthlyInc);
-        sbTurnOver = (SeekBar) view.findViewById(R.id.sbTurnOver);
-
         etMonthlyInc = (EditText) view.findViewById(R.id.etMonthlyInc);
         etEMI = (EditText) view.findViewById(R.id.etEMI);
-
         rgGender = (RadioGroup) view.findViewById(R.id.rgGender);
         rbimgMale = (RadioButton) view.findViewById(R.id.rbimgMale);
         rbimgFemale = (RadioButton) view.findViewById(R.id.rbimgFemale);
 
-        sbTurnOver.setMax(1000);    // 100 cr
-        sbTurnOver.setProgress(10);  // 10 lac
-        etTurnOver.setText("1000000");
-
-
-        sbMonthlyInc.setMax(2500);
-        sbMonthlyInc.setProgress(1);
-
+        //endregion
 
     }
 
@@ -157,59 +149,31 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     };
     //endregion
 
-    private void loadSpinner() {
 
-
-        salaryTypeAdapter = new   ArrayAdapter<String>(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, getResources().getStringArray(R.array.IncomeSource));
-
-        sbSalary.setAdapter(salaryTypeAdapter);
-        sbSalary.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedItem = parent.getItemAtPosition(position).toString();
-                if (selectedItem.equals("Salaried")) {
-                    // do your stuff
-                    llSalaried.setVisibility(View.VISIBLE);
-                    llSelfEmployeed.setVisibility(View.GONE);
-                } else if (selectedItem.equals("Self-Employed")) {
-                    llSalaried.setVisibility(View.GONE);
-                    llSelfEmployeed.setVisibility(View.VISIBLE);
-                }
-            } // to close the onItemSelected
-
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
-        //endregion
-
-
-    }
 
     private void setApplicantDetails() {
         // region  HomeLoanRequest Binding
 
         personalLoanRequest = new PersonalLoanRequest();
         personalLoanRequest.setLoanRequired(etCostOfProp.getText().toString());
-        personalLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
+        personalLoanRequest.setLoanTenure(txtTenureInYear.getText().toString());
         personalLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString());
-
-//        if (sbSalary.getSelectedItem().toString().contains("Salaried")) {
-//            personalLoanRequest.setApplicantSource("1");
-//        } else if (sbSalary.getSelectedItem().toString().contains("Self-Employed")) {
-//            personalLoanRequest.setApplicantSource("2");
-//        }
 
         // region Default Salaried
         personalLoanRequest.setApplicantSource("1");
-        //endregion
-        if (personalLoanRequest.getApplicantSource() == "1") {
-            personalLoanRequest.setApplicantIncome(etMonthlyInc.getText().toString());
-        } else if (personalLoanRequest.getApplicantSource() == "2") {
-            personalLoanRequest.setApplicantIncome(etTurnOver.getText().toString());
-            //same in personal loan
+        personalLoanRequest.setApplicantIncome(etMonthlyInc.getText().toString());
 
-        }
+        //endregion
+
+        // region comment
+//        if (personalLoanRequest.getApplicantSource() == "1") {
+//                personalLoanRequest.setApplicantIncome(etMonthlyInc.getText().toString());
+//        } else if (personalLoanRequest.getApplicantSource() == "2") {
+//            personalLoanRequest.setApplicantIncome(etTurnOver.getText().toString());
+//            //same in personal loan
+//
+//        }
+        //endregion
 
         if (rbimgMale.isChecked()) {
             personalLoanRequest.setApplicantGender("M");
@@ -219,24 +183,16 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         personalLoanRequest.setApplicantObligations(etEMI.getText().toString());
         personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
+        personalLoanRequest.setBrokerId(""+ loginEntity.getLoanId());
+        personalLoanRequest.setempcode("" );
 
-        personalLoanRequest.setBrokerId("RBAAPP");
-
-        personalLoanRequest.setBrokerId("" + "0");
-        personalLoanRequest.setempcode("" + "Rb40000428");
-        //  personalLoanRequest.setBrokerId("" + new LoginFacade(PersonalLoanActivity.this).getUser().getBrokerId());
-        //   personalLoanRequest.setempcode("" + new LoginFacade(PersonalLoanActivity.this).getUser().getEmpCode());
-
-
-
-        //endregion
     }
 
     private void fillCustomerApplicationDetails(CustomerApplicationEntity customerEntity) {
         if (customerEntity.getLoanRequired() != null)
             etCostOfProp.setText(customerEntity.getLoanRequired());
         if (customerEntity.getLoanTenure() != null)
-            etTenureInYear.setText(customerEntity.getLoanTenure());
+            txtTenureInYear.setText(customerEntity.getLoanTenure());
         if (customerEntity.getApplicantNme() != null)
             etNameOfApplicant.setText(customerEntity.getApplicantNme());
         /*if (customerEntity.getApplicantGender().equals("M")) {
@@ -256,7 +212,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         if (customerEntity.getLoanRequired() != null)
             etCostOfProp.setText(customerEntity.getLoanRequired());
         if (customerEntity.getLoanTenure() != null)
-            etTenureInYear.setText(customerEntity.getLoanTenure());
+            txtTenureInYear.setText(customerEntity.getLoanTenure());
         if (customerEntity.getApplicantNme() != null)
             etNameOfApplicant.setText(customerEntity.getApplicantNme());
         /*if (customerEntity.getApplicantGender().equals("M")) {
@@ -274,103 +230,22 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     private void setListener() {
         sbTenure.setOnSeekBarChangeListener(this);
-        sbTurnOver.setOnSeekBarChangeListener(this);
-
-
-        sbMonthlyInc.setOnSeekBarChangeListener(this);
-
-
-
         btnGetQuote.setOnClickListener(this);
         et_DOB.setOnClickListener(datePickerDialogApplicant);
 
-
-        //region CheckBox  Co-Applicant  Listener
-
-
-        etCostOfProp.addTextChangedListener(this);
-        etTenureInYear.addTextChangedListener(this);
-        etMonthlyInc.addTextChangedListener(this);
-        etTurnOver.addTextChangedListener(this);
-
-
     }
 
-
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        if (etTenureInYear.getText().hashCode() == s.hashCode()) {
-
-            if (!etTenureInYear.getText().toString().equals("") && !etTenureInYear.getText().toString().equals(null)) {
-                int tenureInYear = Integer.parseInt(etTenureInYear.getText().toString());
-                sbTenure.setProgress(tenureInYear);
-
-            }
-
-        } else if (etTurnOver.getText().hashCode() == s.hashCode()) {
-
-            if (!etTurnOver.getText().toString().equals("") && !etTurnOver.getText().toString().equals(null)) {
-                int turnOver = Integer.parseInt(etTurnOver.getText().toString());
-                sbTurnOver.setProgress(turnOver / 1000000);
-            }
-        } else if (etMonthlyInc.getText().hashCode() == s.hashCode()) {
-
-            if (!etMonthlyInc.getText().toString().equals("") && !etMonthlyInc.getText().toString().equals(null)) {
-                int monthlyInc = Integer.parseInt(etMonthlyInc.getText().toString());
-
-                if (monthlyInc > 25000) {
-                    sbMonthlyInc.setProgress(monthlyInc / 1000);
-                } else {
-                    sbMonthlyInc.setProgress(1);
-                    etMonthlyInc.setSelection(etMonthlyInc.getText().length());
-                }
-
-
-            }
-
-        }
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
 
     @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.btnGetQuote) {
             //region Validation
-            //region Property Validation
-            String CostOfProp = etCostOfProp.getText().toString();
-            String TenureInYear = etTenureInYear.getText().toString();
-            if (TextUtils.isEmpty(CostOfProp)) {
-
-                etCostOfProp.setError("Please Enter Cost Of Property.");
-                etCostOfProp.requestFocus();
-                return;
-
-            }
-            if (TextUtils.isEmpty(TenureInYear)) {
-
-                etTenureInYear.setError("Please Enter Tenure.");
-                etTenureInYear.requestFocus();
-                return;
-
-            }
-            //endregion
-            //region Applicant Validation
             String NameOfApplicant = etNameOfApplicant.getText().toString();
             String DOB = et_DOB.getText().toString();
             String MonthlyInc = etMonthlyInc.getText().toString();
-            String TurnOver = etTurnOver.getText().toString();
-
+            String Pan_no = etPAN.getText().toString();
+            String CostOfProp = etCostOfProp.getText().toString();
 
             if (TextUtils.isEmpty(NameOfApplicant)) {
 
@@ -386,24 +261,34 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 return;
 
             }
-            if (sbSalary.getSelectedItem().equals("Salaried")) {
-                if (TextUtils.isEmpty(MonthlyInc)) {
+            if (TextUtils.isEmpty(MonthlyInc)) {
 
-                    etMonthlyInc.setError("Please Enter Monthly Income.");
-                    etMonthlyInc.requestFocus();
-                    return;
+                etMonthlyInc.setError("Please Enter Monthly Income.");
+                etMonthlyInc.requestFocus();
+                return;
 
-                }
-            } else {
-                if (TextUtils.isEmpty(TurnOver)) {
+            }
 
-                    etTurnOver.setError("Please Enter Turnover.");
-                    etTurnOver.requestFocus();
-                    return;
-                }
-                // End Applicant
-            }/////
-            //endregion
+            if (TextUtils.isEmpty(Pan_no)) {
+                etPAN.setError("Please Enter PAN Number");
+                etPAN.requestFocus();
+                return;
+            }
+            if (!isValidPan(Pan_no)) {
+                etPAN.setError("Enter Valid PAN Number");
+                etPAN.requestFocus();
+                return;
+            }
+            if (TextUtils.isEmpty(CostOfProp)) {
+
+                etCostOfProp.setError("Please Enter Cost Of Property.");
+                etCostOfProp.requestFocus();
+                return;
+
+            }
+
+
+
             // endregion
             setApplicantDetails();
             showDialog();
@@ -423,10 +308,10 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 if (progress >= seekBarTenureProgress) {
                     if (fromUser) {
                         // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
-                        etTenureInYear.setText(String.valueOf(progress));
+                        txtTenureInYear.setText(String.valueOf(progress));
                     }
                 } else {
-                    etTenureInYear.setText(String.valueOf((long) seekBarTenureProgress));
+                    txtTenureInYear.setText(String.valueOf((long) seekBarTenureProgress));
                 }
                 break;
 

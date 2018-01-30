@@ -15,11 +15,10 @@
 
         <android.support.v7.widget.CardView
             android:id="@+id/cvNewRenew"
-            style="@style/CardViewStyle"
+            style="@style/CardStyle.Home"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="6dp"
-            app:cardElevation="2dp">
+            android:layout_marginBottom="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,12 +28,12 @@
                 android:padding="8dp">
 
                 <TextView
-                    style="@style/TextViewStyle.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
                     android:text="NEW VEHICLE"
-                    android:textAllCaps="true" />
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextStyle.Body1" />
 
                 <Switch
                     android:id="@+id/switchNewRenew"
@@ -43,22 +42,21 @@
                     android:checked="true" />
 
                 <TextView
-                    style="@style/TextViewStyle.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:text="RENEWAL"
+                    android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/colorAccent" />
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
             android:id="@+id/cvRegNo"
-            style="@style/CardViewStyle"
+            style="@style/CardStyle.Home"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="2dp"
-            android:layout_marginTop="2dp"
-            app:cardElevation="2dp">
+            android:layout_marginBottom="0dp">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -68,11 +66,11 @@
 
                 <TextView
                     android:id="@+id/head"
-                    style="@style/TextViewStyle.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:text="ENTER VEHICLE REGISTRATION NO"
+                    android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/colorAccent" />
 
                 <LinearLayout
@@ -84,10 +82,11 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
+
                     <EditText
                         android:id="@+id/etreg1"
+                        style="@style/Style.edittext"
                         android:layout_width="40dp"
-                        android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -95,8 +94,8 @@
 
                     <EditText
                         android:id="@+id/etreg2"
+                        style="@style/Style.edittext"
                         android:layout_width="40dp"
-                        android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:digits="0123456789"
@@ -105,8 +104,8 @@
 
                     <EditText
                         android:id="@+id/etreg3"
+                        style="@style/Style.edittext"
                         android:layout_width="40dp"
-                        android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
@@ -114,8 +113,8 @@
 
                     <EditText
                         android:id="@+id/etreg4"
+                        style="@style/Style.edittext"
                         android:layout_width="80dp"
-                        android:layout_height="match_parent"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:digits="0123456789"
@@ -126,7 +125,6 @@
 
                 <TextView
                     android:id="@+id/tvHintRegNo"
-                    style="@style/TextViewStyle.Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignEnd="@+id/llRegNo"
@@ -134,17 +132,18 @@
                     android:layout_below="@+id/llRegNo"
                     android:layout_marginTop="2dp"
                     android:text="e.g.MH 04 EQ 1234 "
+                    android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/secondary_text_color" />
 
                 <TextView
                     android:id="@+id/tvOr"
-                    style="@style/TextViewStyle.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/tvHintRegNo"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:text="OR"
+                    android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/secondary_text_color"
                     android:textStyle="bold" />
 
@@ -157,43 +156,49 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/TextViewStyle.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dont know registration number?"
                         android:textAllCaps="true"
+                        android:textAppearance="@style/TextStyle.Body1"
                         android:textColor="@color/secondary_text_color" />
 
                     <TextView
                         android:id="@+id/tvDontKnow"
-                        style="@style/TextViewStyle.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="6dp"
                         android:text="Click Here"
                         android:textAllCaps="true"
+                        android:textAppearance="@style/TextViewStyle.Small"
                         android:textColor="@color/colorAccent" />
                 </LinearLayout>
             </RelativeLayout>
         </android.support.v7.widget.CardView>
 
-        <android.support.v7.widget.CardView
+        <!--<android.support.v7.widget.CardView-->
+        <!--android:id="@+id/cvInput"-->
+        <!--style="@style/CardStyle.Home"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:visibility="visible">-->
+
+        <include
             android:id="@+id/cvInput"
-            style="@style/CardViewStyle"
-            android:layout_height="wrap_content"
-            android:visibility="visible"
-            app:cardElevation="2dp">
+            layout="@layout/layout_car_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-            <include layout="@layout/layout_car_input" />
-
-        </android.support.v7.widget.CardView>
+        <!--</android.support.v7.widget.CardView>-->
 
 
     </LinearLayout>
 
     <Button
         android:id="@+id/btnGetQuote"
-        style="@style/ButtonStyle"
+        style="@style/ButtonStyle.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="GET QUOTES"
         android:visibility="gone" />

@@ -27,8 +27,8 @@ public class QuoteFragment_hl extends Fragment {
     HomeLoanRequest homeLoanRequest;
     RecyclerView rvQuotes;
     HLQuoteAdapter mAdapter;
-    TextView  txtPropType , txtCostOfProp ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount ,txtInputSummry ;
-    CardView cvInputSummary;
+    TextView  txtPropType , txtCostOfProp ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount ,txtInputSummary ;
+    CardView cvInputSummary ;
     public QuoteFragment_hl() {
         // Required empty public constructor
     }
@@ -57,6 +57,7 @@ public class QuoteFragment_hl extends Fragment {
 
     private void initialise_widget(View view) {
 
+        txtInputSummary = (TextView) view.findViewById(R.id.txtInputSummary);
         txtPropType = (TextView) view.findViewById(R.id.txtPropType);
         txtCostOfProp = (TextView) view.findViewById(R.id.txtCostOfProp);
         txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
@@ -64,7 +65,7 @@ public class QuoteFragment_hl extends Fragment {
         txtMonthlyIncome = (TextView) view.findViewById(R.id.txtMonthlyIncome);
         txtExistEmi = (TextView) view.findViewById(R.id.txtExistEmi);
         txtCount = (TextView) view.findViewById(R.id.txtCount);
-
+        cvInputSummary  = (CardView) view.findViewById(R.id.cvInputSummary );
 
         rvQuotes = (RecyclerView) view.findViewById(R.id.rvQuotes);
         rvQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -75,7 +76,7 @@ public class QuoteFragment_hl extends Fragment {
             getQuoteResponse = bundle.getParcelable(Constants.HOME_LOAN_QUOTES);
             homeLoanRequest = bundle.getParcelable(Constants.HL_REQUEST);
             if (getQuoteResponse != null) {
-                txtInputSummry.setVisibility(View.VISIBLE);
+                txtInputSummary.setVisibility(View.VISIBLE);
                 cvInputSummary.setVisibility(View.VISIBLE);
 
                 mAdapter = new HLQuoteAdapter(getActivity(), getQuoteResponse.getData());

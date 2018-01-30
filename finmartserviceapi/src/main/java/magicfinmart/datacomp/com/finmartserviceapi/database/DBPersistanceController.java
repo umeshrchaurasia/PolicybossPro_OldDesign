@@ -92,12 +92,57 @@ public class DBPersistanceController {
         return listCarModel;
     }
 
+    public List<String> getMake() {
+        List<String> listCarMake = new ArrayList<>();
+        List<CarMasterEntity> list = realm.where(CarMasterEntity.class).distinct("Make_Name");
+        for (int i = 0; i < list.size(); i++) {
+            CarMasterEntity entity = list.get(i);
+            String carModel = entity.getMake_Name();
+            listCarMake.add(carModel);
+        }
+
+        return listCarMake;
+    }
+
+    public List<String> getModel(String makeName) {
+
+        List<String> listCarModel = new ArrayList<>();
+        List<CarMasterEntity> list = realm.where(CarMasterEntity.class).equalTo("Make_Name", makeName.trim())
+                .distinctValues("Model_Name")
+                .findAll();
+        for (int i = 0; i < list.size(); i++) {
+            CarMasterEntity entity = list.get(i);
+            String carModel = entity.getModel_Name();
+            listCarModel.add(carModel);
+        }
+        return listCarModel;
+    }
+
     public String getModelID(String modelName) {
         CarMasterEntity entity = realm.where(CarMasterEntity.class).equalTo("Model_Name", modelName.trim()).findFirst();
         if (entity != null)
             return entity.getModel_ID();
         else
             return "";
+    }
+
+    public List<String> getVariant(String make, String model) {
+
+        List<String> listCarVariant = new ArrayList<>();
+
+        List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
+                .equalTo("Make_Name", make.trim())
+                .equalTo("Model_Name", model.trim())
+                .distinct("Variant_ID");
+
+        for (int i = 0; i < list.size(); i++) {
+            CarMasterEntity entity = list.get(i);
+            String variant = entity.getVariant_Name();
+            listCarVariant.add(variant);
+        }
+
+        return listCarVariant;
+
     }
 
     public List<String> getVariantbyModelID(String modelID) {
@@ -110,12 +155,20 @@ public class DBPersistanceController {
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name() + " , ( " + entity.getCubic_Capacity() + "CC )";
+            String variant = entity.getVariant_Name();
             listCarVariant.add(variant);
         }
 
         return listCarVariant;
 
+    }
+
+    public String getVarientCC(String make, String model, String varientName) {
+        CarMasterEntity entity = realm.where(CarMasterEntity.class).equalTo("Make_Name", make.trim())
+                .equalTo("Model_Name", model.trim())
+                .equalTo("Variant_Name", varientName.trim()).findFirst();
+
+        return entity.getCubic_Capacity();
     }
 
     public String getVariantID(String variantName, String modelName, String makeName) {
@@ -304,7 +357,7 @@ public class DBPersistanceController {
     public List<DashboardEntity> getInsurProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
-        dashboardEntities.add(new DashboardEntity("INSURANCE", 2, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
 
         return dashboardEntities;
@@ -325,7 +378,7 @@ public class DBPersistanceController {
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
-        dashboardEntities.add(new DashboardEntity("MORE SERVICES", 10, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
+        dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
         dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
 
         return dashboardEntities;
@@ -338,38 +391,67 @@ public class DBPersistanceController {
     public List<String> getInsurerList() {
         MapInsurence();
         ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
-        insurenceList.add(0, "Select Prev Insurer");
+        insurenceList.add(0, "Present Insurer");
         return insurenceList;
 
     }
 
     public void MapInsurence() {
         hashMapInsurence = new TreeMap<String, Integer>();
-        hashMapInsurence.put("Bajaj Allianz", 1);
-        hashMapInsurence.put("Bharti Axa", 2);
-        hashMapInsurence.put("Future Generali India", 4);
-        hashMapInsurence.put("HDFC ERGO", 5);
-        hashMapInsurence.put("ICICI Lombard", 6);
-        hashMapInsurence.put("IFFCO Tokio", 7);
-        hashMapInsurence.put("Universal Sompo", 19);
+        hashMapInsurence.put("Bajaj", 1);
+        hashMapInsurence.put("Bharti", 2);
+        hashMapInsurence.put("HDFC", 5);
+        hashMapInsurence.put("ICICI", 6);
+        hashMapInsurence.put("IFFCO", 7);
+        hashMapInsurence.put("Kotak", 30);
+        hashMapInsurence.put("L & T Ins. ", 15);
         hashMapInsurence.put("Liberty Videocon", 33);
-        hashMapInsurence.put("Tata AIG", 11);
-        hashMapInsurence.put("New India Assurance", 12);
-        hashMapInsurence.put("Kotak Mahindra", 30);
-        hashMapInsurence.put("Reliance General", 9);
-        hashMapInsurence.put("Royal Sundaram", 10);
+        hashMapInsurence.put("Magma", 35);
+        hashMapInsurence.put("National ", 8);
+        hashMapInsurence.put("New India", 12);
+        hashMapInsurence.put("Oriental", 13);
+        hashMapInsurence.put("Raheja", 16);
+        hashMapInsurence.put("Reliance", 9);
+        hashMapInsurence.put("Sundaram", 10);
         hashMapInsurence.put("SBI General ", 17);
-        hashMapInsurence.put("Shriram General ", 18);
-        hashMapInsurence.put("National Insurance ", 8);
-        hashMapInsurence.put("L & T General ", 15);
-        hashMapInsurence.put("Cholamandalam MS General ", 3);
-        hashMapInsurence.put("Raheja QBE General ", 16);
-        hashMapInsurence.put("Liberty Videocon General ", 33);
+        hashMapInsurence.put("Shriram ", 18);
+        hashMapInsurence.put("Tata AIG", 11);
+        hashMapInsurence.put("United", 14);
+
+        /*
+            Following not shown in FINMART
+        hashMapInsurence.put("Future Gen", 4);
+        hashMapInsurence.put("Universal", 19);
+        hashMapInsurence.put("Cholamandalam", 3);
         hashMapInsurence.put("Star Health Insurance", 26);
-        hashMapInsurence.put("Magma HDI General ", 35);
-        hashMapInsurence.put("The Oriental Insurance", 13);
-        hashMapInsurence.put("United India Insurance ", 14);
         hashMapInsurence.put("Religare Health Insurance", 34);
+  */
+
+//        hashMapInsurence.put("Bajaj Allianz", 1);
+//        hashMapInsurence.put("Bharti Axa", 2);
+//        hashMapInsurence.put("Future Generali India", 4);
+//        hashMapInsurence.put("HDFC ERGO", 5);
+//        hashMapInsurence.put("ICICI Lombard", 6);
+//        hashMapInsurence.put("IFFCO Tokio", 7);
+//        hashMapInsurence.put("Universal Sompo", 19);
+//        hashMapInsurence.put("Liberty Videocon", 33);
+//        hashMapInsurence.put("Tata AIG", 11);
+//        hashMapInsurence.put("New India Assurance", 12);
+//        hashMapInsurence.put("Kotak Mahindra", 30);
+//        hashMapInsurence.put("Reliance General", 9);
+//        hashMapInsurence.put("Royal Sundaram", 10);
+//        hashMapInsurence.put("SBI General ", 17);
+//        hashMapInsurence.put("Shriram General ", 18);
+//        hashMapInsurence.put("National Insurance ", 8);
+//        hashMapInsurence.put("L & T General ", 15);
+//        hashMapInsurence.put("Cholamandalam MS General ", 3);
+//        hashMapInsurence.put("Raheja QBE General ", 16);
+//        hashMapInsurence.put("Liberty Videocon General ", 33);
+//        hashMapInsurence.put("Star Health Insurance", 26);
+//        hashMapInsurence.put("Magma HDI General ", 35);
+//        hashMapInsurence.put("The Oriental Insurance", 13);
+//        hashMapInsurence.put("United India Insurance ", 14);
+//        hashMapInsurence.put("Religare Health Insurance", 34);
     }
 
     public int getInsurenceID(String insurenceName) {
@@ -450,7 +532,14 @@ public class DBPersistanceController {
 
     public void storeUserData(LoginResponseEntity loginResponseEntity) {
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(loginResponseEntity);
+        realm.delete(LoginResponseEntity.class);
+        realm.copyToRealm(loginResponseEntity);
+        realm.commitTransaction();
+    }
+
+    private void logout() {
+        realm.beginTransaction();
+        realm.delete(LoginResponseEntity.class);
         realm.commitTransaction();
     }
 

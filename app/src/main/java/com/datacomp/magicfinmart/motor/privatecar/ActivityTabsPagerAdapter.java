@@ -36,7 +36,7 @@ public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
                 if (mMasterData == null) {
                     bundle.putParcelableArrayList(QUOTE_LIST, null);
                 } else {
-                    bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuoteList());
+                    bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuote());
                 }
                 Qfragment.setArguments(bundle);
                 return Qfragment;
@@ -47,7 +47,7 @@ public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
                 if (mMasterData == null) {
                     Abundle.putParcelableArrayList(APPLICATION_LIST, null);
                 } else {
-                    Abundle.putParcelableArrayList(APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getApplicationList());
+                    Abundle.putParcelableArrayList(APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getApplication());
                 }
                 Afragment.setArguments(Abundle);
                 return Afragment;

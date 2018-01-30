@@ -45,7 +45,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
             final ApplicationListEntity entity = mAppList.get(position);
 
             holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
-            holder.txtCRN.setText(entity.getCrn());
+            holder.txtCRN.setText(String.valueOf(entity.getCrn()));
             holder.txtCreatedDate.setText("" + entity.getCreated_date());
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override

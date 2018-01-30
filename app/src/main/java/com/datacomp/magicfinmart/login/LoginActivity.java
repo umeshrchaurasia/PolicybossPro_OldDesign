@@ -19,9 +19,13 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
 
+import java.util.List;
+
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -52,6 +56,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         initWidgets();
         setListener();
         realm = Realm.getDefaultInstance();
+
+        List<String> listYears = Constants.getPastFifteenYear("");
+
+        List<String> listSeYears = Constants.getPastFifteenYear("30/01/2014");
+
+
 
         if (!checkPermission()) {
             requestPermission();
