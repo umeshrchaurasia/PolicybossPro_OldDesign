@@ -38,7 +38,7 @@ public class QuoteEntity implements Parcelable {
     private String netincome;
 
     private int LoanTenure;
-    private int processingfee;
+    private double processingfee;
     private String LoanRequired;
     private String Bank_Logo;
     private String guarantor_required;
@@ -160,11 +160,11 @@ public class QuoteEntity implements Parcelable {
         this.LoanTenure = LoanTenure;
     }
 
-    public int getProcessingfee() {
+    public double getProcessingfee() {
         return processingfee;
     }
 
-    public void setProcessingfee(int processingfee) {
+    public void setProcessingfee(double processingfee) {
         this.processingfee = processingfee;
     }
 
@@ -287,7 +287,7 @@ public class QuoteEntity implements Parcelable {
         dest.writeString(this.roi);
         dest.writeString(this.netincome);
         dest.writeInt(this.LoanTenure);
-        dest.writeInt(this.processingfee);
+        dest.writeDouble(this.processingfee);
         dest.writeString(this.LoanRequired);
         dest.writeString(this.Bank_Logo);
         dest.writeString(this.guarantor_required);
@@ -316,7 +316,7 @@ public class QuoteEntity implements Parcelable {
         this.roi = in.readString();
         this.netincome = in.readString();
         this.LoanTenure = in.readInt();
-        this.processingfee = in.readInt();
+        this.processingfee = in.readDouble();
         this.LoanRequired = in.readString();
         this.Bank_Logo = in.readString();
         this.guarantor_required = in.readString();

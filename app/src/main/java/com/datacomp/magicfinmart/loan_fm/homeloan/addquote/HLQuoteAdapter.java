@@ -31,12 +31,12 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
     }
     public class BankQuotesItem extends RecyclerView.ViewHolder {
 
-        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply, tvEligibleLoan;
-        ImageView ivBankLogo, ivInfo;
+        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply, tvEligibleLoan,tvEmiperlac;
+        ImageView ivBankLogo;
 
         public BankQuotesItem(View view) {
             super(view);
-            tvLoanAmt = (TextView) itemView.findViewById(R.id.tvLoanAmt);
+            tvEligibleLoan = (TextView) itemView.findViewById(R.id.tvEligibleLoan);
             tvBestRate = (TextView) itemView.findViewById(R.id.tvBestRate);
             tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);
             tvBestEmi = (TextView) itemView.findViewById(R.id.tvBestEmi);
@@ -44,8 +44,8 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
             tvProcessingFee = (TextView) itemView.findViewById(R.id.tvProcessingFee);
             btnApply = (TextView) itemView.findViewById(R.id.btnApply);
             ivBankLogo = (ImageView) itemView.findViewById(R.id.ivBankLogo);
-            ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
-            tvEligibleLoan = (TextView) itemView.findViewById(R.id.tvEligibleLoan);
+          //  ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
+            tvEmiperlac = (TextView) itemView.findViewById(R.id.tvEmiperlac);
         }
     }
 
@@ -63,13 +63,17 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
     public void onBindViewHolder(BankQuotesItem holder, final int position) {
 
         final QuoteEntity quoteEntity = quoteEntities.get(position);
-        holder.tvLoanAmt.setText("" + quoteEntity.getLoanRequired());
-        holder.tvBestRate.setText("" + quoteEntity.getRoi());
+        holder.tvEligibleLoan.setText("" + "\u20B9"+" " + String.format("%.0f", quoteEntity.getLoan_eligible()));
+        holder.tvBestRate.setText(""  + quoteEntity.getRoi() + " %");
         holder.tvBankName.setText("" + quoteEntity.getBank_Name());
-        holder.tvBestEmi.setText("" + quoteEntity.getEmi());
-        holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure());
-        holder.tvProcessingFee.setText("" + quoteEntity.getProcessingfee());
-        holder.tvEligibleLoan.setText("" + BigDecimal.valueOf(quoteEntity.getLoan_eligible()).toPlainString());
+        holder.tvBestEmi.setText(""+ "\u20B9" +" " +  String.format("%.0f", quoteEntity.getEmi()));
+        holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure()+ " Years");
+        holder.tvProcessingFee.setText(""+ "\u20B9"+" "  + String.format("%.0f", quoteEntity.getProcessingfee()));
+
+        double loanr = Double.parseDouble(quoteEntity.getLoanRequired().toString());
+        double emiperlac = (quoteEntity.getEmi() / loanr) * 100000;
+        holder.tvEmiperlac.setText(""+ "\u20B9"+" "  + String.format("%.2f", emiperlac));
+
         Glide.with(mContext)
                 .load(quoteEntity.getBank_Logo())
                 .into(holder.ivBankLogo);

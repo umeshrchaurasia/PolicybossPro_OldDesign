@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:padding="5dp"
+    android:padding="2dp"
     android:orientation="vertical">
 
 
@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="4dp">
+       >
 
         <RadioGroup
             android:id="@+id/rgProperty1"
@@ -34,14 +34,14 @@
                 android:id="@+id/rbUnder"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="39"
+                android:layout_weight="36"
                 android:text="UNDER CONS" />
 
             <RadioButton
                 android:id="@+id/rbSearching"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="32"
+                android:layout_weight="35"
                 android:text="SEARCHING" />
 
 
@@ -67,14 +67,14 @@
                 android:id="@+id/rbForcons"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="39"
+                android:layout_weight="36"
                 android:text="FOR CONS" />
 
             <RadioButton
                 android:id="@+id/rbOther"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="32"
+                android:layout_weight="35"
                 android:text="OTHER" />
         </RadioGroup>
 
