@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan.addquote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,6 +15,12 @@ import android.view.View;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplyWebView;
+import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 
 public class HLMainActivity extends BaseActivity {
 
@@ -157,7 +164,12 @@ public class HLMainActivity extends BaseActivity {
     }
 
 
-
+    public void redirectToApplyLoan(QuoteEntity entity, String url, int id) {
+        startActivity(new Intent(HLMainActivity.this, HomeLoanApplyWebView.class)
+                .putExtra("QUOTE_ENTITY", entity)
+                .putExtra("URL", url)
+                .putExtra("QUOTE_ID", id));
+    }
     // Implementation the Interface for Communication of Fragment Input and Quote
 
 }

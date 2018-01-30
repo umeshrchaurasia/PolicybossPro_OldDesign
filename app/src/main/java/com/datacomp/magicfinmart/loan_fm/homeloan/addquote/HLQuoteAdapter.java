@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 
 /**
  * Created by IN-RB on 19-01-2018.
@@ -24,10 +25,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuotesItem>  {
     Activity mContext;
     List<QuoteEntity> quoteEntities;
+    GetQuoteResponse getQuoteResponse;
 
-    public HLQuoteAdapter(Activity context, List<QuoteEntity> quoteEntities) {
+    public HLQuoteAdapter(Activity context, List<QuoteEntity> quoteEntities,GetQuoteResponse tmpgetQuoteResponse) {
         mContext = context;
         this.quoteEntities = quoteEntities;
+        this.getQuoteResponse = tmpgetQuoteResponse;
     }
     public class BankQuotesItem extends RecyclerView.ViewHolder {
 
@@ -84,7 +87,7 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
             @Override
             public void onClick(View v) {
 
-                ((HomeLoanQuoteActivity) mContext).redirectToApplyLoan(quoteEntity);
+                ((HLMainActivity) mContext).redirectToApplyLoan(quoteEntity,getQuoteResponse.getUrl(),getQuoteResponse.getQuote_id());
 
             }
         });

@@ -79,7 +79,7 @@ public class QuoteFragment_hl extends Fragment {
                 txtInputSummary.setVisibility(View.VISIBLE);
                 cvInputSummary.setVisibility(View.VISIBLE);
 
-                mAdapter = new HLQuoteAdapter(getActivity(), getQuoteResponse.getData());
+                mAdapter = new HLQuoteAdapter(getActivity(), getQuoteResponse.getData(),getQuoteResponse);
                 rvQuotes.setAdapter(mAdapter);
 
                 if(getQuoteResponse.getData().size() >0)
