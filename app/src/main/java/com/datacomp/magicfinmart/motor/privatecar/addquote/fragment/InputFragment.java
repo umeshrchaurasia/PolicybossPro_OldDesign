@@ -165,8 +165,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         cityAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, cityList);
         acRto.setAdapter(cityAdapter);
-        acRto.setThreshold(2);
-
         acRto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -524,8 +522,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                             String currentDay = simpleDateFormat.format(calendar.getTime());
                             etExpDate.setText(currentDay);
                             if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
-                                //int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
-                                //setNcbAdapter(yearDiff);
+                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
+                                setNcbAdapter(yearDiff);
                             }
                         }
                     }
@@ -648,7 +646,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             motorRequestEntity.setVehicle_ncb_current("");
         } else {
             motorRequestEntity.setIs_claim_exists("no");
-            //motorRequestEntity.setVehicle_ncb_current(spNcbPercent.getSelectedItem().toString());
+            motorRequestEntity.setVehicle_ncb_current(spNcbPercent.getSelectedItem().toString());
         }
 
         motorRequestEntity.setElectrical_accessory("0");
@@ -779,6 +777,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         regplace = databaseController.getRTOCityName("" + masterData.getVehicleCity_Id());
         acRto.setText(regplace);
         makeModel = masterData.getMake_Name() + " , " + masterData.getModel_Name();
+        setNcbAdapter(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
     }
 
     @Override
@@ -814,6 +813,14 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     private String formatRegistrationNo(String regNo) {
         return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
+    }
+
+    private void setNcbAdapter(int yearDiff) {
+        if (yearDiff >= 5) {
+            spNcbPercent.setSelection(5);
+        } else {
+            spNcbPercent.setSelection(yearDiff);
+        }
     }
 
 }
