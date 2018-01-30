@@ -5,6 +5,14 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -50,4 +58,30 @@ public class Constants {
     public static SharedPreferences.Editor getSharedPreferenceEditor(Context context) {
         return getSharedPreference(context).edit();
     }
+
+    public static List<String> getPastFifteenYear(String selectedDate) {
+
+        SimpleDateFormat df = new SimpleDateFormat("dd/mm/yyyy");
+        ArrayList<String> arrayListYear = new ArrayList<>();
+        int year, startYear, endYear;
+
+        Calendar calendar = Calendar.getInstance();
+        if (selectedDate != "") {
+            try {
+                calendar.setTime(df.parse(selectedDate));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        year = calendar.get(Calendar.YEAR);
+        startYear = year;
+        endYear = startYear - 15;
+        arrayListYear.add("Select Manufacture year");
+        for (int i = startYear; i >= endYear; i--) {
+            arrayListYear.add("" + i);
+        }
+
+        return arrayListYear;
+    }
+
 }
