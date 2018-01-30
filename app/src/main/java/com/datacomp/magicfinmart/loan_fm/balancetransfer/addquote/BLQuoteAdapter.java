@@ -14,6 +14,8 @@ import com.datacomp.magicfinmart.R;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLSavingEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 
 /**
  * Created by IN-RB on 27-01-2018.
@@ -24,29 +26,33 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.PLQuotes
     Activity mContext;
     List<BLEntity> quoteEntities;
 
+    BLLoanRequest blLoanRequest;
 
-    public BLQuoteAdapter(Activity context, List<BLEntity> quoteEntities) {
+    public BLQuoteAdapter(Activity context, List<BLEntity> quoteEntities,BLLoanRequest blLoanRequest) {
         mContext = context;
         this.quoteEntities = quoteEntities;
+
+        this.blLoanRequest = blLoanRequest;
     }
 
     public class PLQuotesItem extends RecyclerView.ViewHolder {
 
-        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply,tvEligibleLoan;
-        ImageView ivBankLogo, ivInfo;
+        TextView tvLoanAmt, tvBestRate, tvBankName, tvpf,tvpf_type, tvLoanTenure, tvProcessingFee, btnApply,tvEligibleLoan;
+        ImageView ivBankLogo;
 
         public PLQuotesItem(View view) {
             super(view);
             tvLoanAmt = (TextView) itemView.findViewById(R.id.tvLoanAmt);
             tvBestRate = (TextView) itemView.findViewById(R.id.tvBestRate);
             tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);
-            tvBestEmi = (TextView) itemView.findViewById(R.id.tvBestEmi);
+            tvpf = (TextView) itemView.findViewById(R.id.tvpf);
+            tvpf_type = (TextView) itemView.findViewById(R.id.tvpf_type);
             tvLoanTenure = (TextView) itemView.findViewById(R.id.tvLoanTenure);
             tvProcessingFee = (TextView) itemView.findViewById(R.id.tvProcessingFee);
             btnApply = (TextView) itemView.findViewById(R.id.btnApply);
             ivBankLogo = (ImageView) itemView.findViewById(R.id.ivBankLogo);
-            // ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
-            tvEligibleLoan =(TextView)itemView.findViewById(R.id.tvEligibleLoan);
+           // ivedit = (ImageView) itemView.findViewById(R.id.ivEdit);
+           // tvEligibleLoan =(TextView)itemView.findViewById(R.id.tvEligibleLoan);
         }
     }
 
@@ -64,15 +70,15 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.PLQuotes
     public void onBindViewHolder(BLQuoteAdapter.PLQuotesItem holder, final int position) {
 
         final BLEntity quoteEntity = quoteEntities.get(position);
-      //  holder.tvLoanAmt.setText("" + quoteEntity.g());
+        holder.tvLoanAmt.setText("" + "\u20B9" + " "+ blLoanRequest.getLoanamount());
 
        // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
-        holder.tvBestRate.setText(""+ "\u20B9" + quoteEntity.getRoi() +" %");
-        holder.tvBankName.setText("" + quoteEntity.getBank_Name());
-      //  holder.tvBestEmi.setText("" + quoteEntity.getEmi());
-     //   holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure());
-        holder.tvProcessingFee.setText("" + "\u20B9" + quoteEntity.getProcessingfee());
-    //    holder.tvEligibleLoan.setText(""+quoteEntity.getLoan_eligible());
+        holder.tvBestRate.setText(""+ "\u20B9"+ " " + quoteEntity.getRoi() +" %");
+        holder.tvBankName.setText("" + quoteEntity.getBank_Code());
+        holder.tvpf.setText("" + quoteEntity.getPf());
+        holder.tvpf_type.setText("" + quoteEntity.getPf_type());
+        holder.tvProcessingFee.setText("" + "\u20B9" + " "+quoteEntity.getProcessingfee());
+        //holder.tvEligibleLoan.setText(""+quoteEntity.getLoan_eligible());
         Glide.with(mContext)
                 .load(quoteEntity.getBank_Logo())
                 .into(holder.ivBankLogo);
@@ -83,16 +89,11 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.PLQuotes
             @Override
             public void onClick(View v) {
 
-                //   ((PersonalLoanQuoteActivity) mContext).redirectToApplyLoan(quoteEntity);
+                   ((BLMainActivity) mContext).redirectToApplyLoan(quoteEntity,"",1);
 
             }
         });
-//        holder.ivInfo.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //   mContext.startActivity(new Intent(mContext, PLQuoteInfoActivity.class).putExtra("PL_QUOTEINFO", quoteEntity));
-//            }
-//        });
+
 
     }
 

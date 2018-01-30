@@ -246,7 +246,7 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
 
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.BL_LOAN_SERVICE, getBLDispalyLoanResponse.getSaving());
-
+                bundle.putParcelable(Constants.BL_REQUEST, blLoanRequest);
                 bundle.putParcelableArrayList(Constants.BL_LOAN_QUOTES, (ArrayList<BLEntity>) getBLDispalyLoanResponse.getData());
 
                 BLQuoteFragment quoteFragment = new BLQuoteFragment();

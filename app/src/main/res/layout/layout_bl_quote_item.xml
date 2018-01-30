@@ -4,315 +4,228 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="3dp"
-
     android:gravity="center_horizontal|center_vertical"
     android:orientation="vertical"
 
-    android:weightSum="100">
+   >
 
     <android.support.v7.widget.CardView
         android:alpha=".8"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         style="@style/CardViewStyle"
-        app:cardCornerRadius="0dp"
-        app:cardElevation="0dp">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="4dp"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="2dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="10dp">
+            android:layout_height="wrap_content"
+            android:weightSum="100"
+            android:gravity="center_vertical|center_horizontal"
+            android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="70"
-                android:orientation="horizontal"
-                android:weightSum="100">
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical"
+               >
 
-                <LinearLayout
+                <ImageView
+                    android:gravity="center_vertical|center_horizontal"
+                    android:id="@+id/ivBankLogo"
+                    android:layout_width="62dp"
+                    android:layout_height="42dp" />
+
+                <TextView
+                    android:id="@+id/tvBankName"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    style="@style/TextViewStyle.Small"
+                    android:paddingLeft="5dp"
+                    android:ellipsize="end"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textColor="@color/black"/>
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="70"
-                        android:orientation="vertical"
-                        android:paddingBottom="10dp"
-                        android:weightSum="2">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="50"
-                                    android:gravity="center_vertical|left"
-                                    android:text="Loan Amount"
-                                    android:textColor="@color/text_edit_color"></TextView>
-
-                                <TextView
-                                    android:id="@+id/tvLoanAmt"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_weight="50"
-                                    android:gravity="center_vertical|left"
-                                    android:textColor="@color/filter_bar_title_selected"
-                                    android:textStyle="bold"></TextView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="50"
-                                    android:gravity="center_vertical|center_horizontal"
-                                    android:text="Best Rate"
-                                    android:textColor="@color/text_edit_color"></TextView>
-
-                                <TextView
-                                    android:id="@+id/tvBestRate"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_weight="50"
-                                    android:gravity="center_vertical|center_horizontal"
-                                    android:textColor="@color/filter_bar_title_selected"
-                                    android:textStyle="bold"></TextView>
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_weight="1"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="50"
-                                    android:gravity="center_vertical|left"
-                                    android:text="Best Emi"
-                                    android:textColor="@color/text_edit_color"></TextView>
-
-                                <TextView
-                                    android:id="@+id/tvBestEmi"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_weight="50"
-                                    android:gravity="center_vertical|left"
-                                    android:textColor="@color/filter_bar_title_selected"
-                                    android:textStyle="bold"></TextView>
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:id="@+id/textView8"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="50"
-                                    android:gravity="center_vertical|center_horizontal"
-                                    android:text="Loan Tenure"
-                                    android:textColor="@color/text_edit_color"></TextView>
-
-                                <TextView
-                                    android:id="@+id/tvLoanTenure"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="0dp"
-                                    android:layout_marginTop="5dp"
-                                    android:layout_weight="50"
-                                    android:gravity="center_vertical|center_horizontal"
-                                    android:textColor="@color/filter_bar_title_selected"
-                                    android:textStyle="bold"></TextView>
-
-                            </LinearLayout>
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="30"
-                        android:gravity="center_horizontal|center_vertical"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/tvBankName"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:ellipsize="end"
-                            android:focusable="false"
-                            android:focusableInTouchMode="false"
-                            android:gravity="center"
-                            android:maxLines="2"
-                            android:textColor="@color/back_button_color"
-                            android:textStyle="bold" />
-
-                        <ImageView
-                            android:id="@+id/ivBankLogo"
-                            android:layout_width="72dp"
-                            android:layout_height="72dp" />
-                    </LinearLayout>
-                </LinearLayout>
 
             </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="@color/lightGrey" />
-
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="30"
-                android:gravity="center_horizontal|center_vertical"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="51"
                 android:orientation="horizontal">
+                <TableLayout
 
-                <LinearLayout
-                    android:layout_width="0dp"
+                    android:id="@+id/tableLayout1"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="60"
-                    android:orientation="horizontal">
+                    android:shrinkColumns="*"
+                    android:background="@drawable/bordertbl"
+                    android:stretchColumns="*">
 
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TableRow
+                        android:id="@+id/tableRow11"
+                        android:background="@drawable/bordertbl"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical|center_horizontal"
-                        android:orientation="vertical">
+                        android:minHeight="70dp"
+                        android:layout_width="match_parent"
+                        android:weightSum="100">
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="56"
+                            android:background="@drawable/bordertbl"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="vertical">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="left|center_vertical"
-                                android:text="Processing fee : "
+                                style="@style/TextViewStyle.VerySmall"
+                                android:gravity="center_vertical|left"
+                                android:paddingLeft="5dp"
+                                android:text="LOAN AMOUNT"
+                                android:textColor="@color/text_edit_color"></TextView>
+                            <TextView
+                                android:id="@+id/tvLoanAmt"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="5dp"
+                                style="@style/TextViewStyle.VerySmall"
+                                android:gravity="center_vertical|left"
+                                android:textColor="@color/black"
+                                ></TextView>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="44"
+                            android:background="@drawable/bordertbl"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="vertical">
+                            <TextView
+
+                                android:id="@+id/tvpf"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical|left"
+                                android:paddingLeft="5dp"
+                                style="@style/TextViewStyle.VerySmall"
+                                android:textColor="@color/text_edit_color"></TextView>
+
+                            <TextView
+                                android:id="@+id/tvpf_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:paddingLeft="5dp"
+                                android:gravity="center_vertical|left"
+                                android:textColor="@color/black"
+                                style="@style/TextViewStyle.VerySmall"
+                                ></TextView>
+
+
+
+                        </LinearLayout>
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:id="@+id/tableRow112"
+
+                        android:layout_height="wrap_content"
+                        android:minHeight="70dp"
+                        android:weightSum="100"
+                        android:layout_width="match_parent">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="56"
+                            android:background="@drawable/bordertbl"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center_vertical|left"
+                                android:text="PROCESSING FEE"
+                                android:paddingLeft="5dp"
+                                style="@style/TextViewStyle.VerySmall"
                                 android:textColor="@color/text_edit_color"
-                                android:textStyle="bold">
+                                >
 
                             </TextView>
 
                             <TextView
                                 android:id="@+id/tvProcessingFee"
-                                android:layout_width="wrap_content"
+                                android:paddingLeft="5dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="left|center_vertical"
-                                android:text="₹34657"
-                                android:textColor="@color/filter_bar_title_selected"
-                                android:textStyle="bold"></TextView>
+                                android:gravity="center_vertical|left"
+                                style="@style/TextViewStyle.VerySmall"
+                                android:textColor="@color/black"
+                                ></TextView>
+
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="44"
+                            android:background="@drawable/bordertbl"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="vertical">
 
                             <TextView
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="left|center_vertical"
-                                android:text="Loan Eligible : "
-                                android:textColor="@color/text_edit_color"
-                                android:textStyle="bold">
-
-                            </TextView>
+                                android:gravity="center_vertical|left"
+                                android:text="FLOATING"
+                                android:paddingLeft="5dp"
+                                style="@style/TextViewStyle.VerySmall"
+                                android:textColor="@color/text_edit_color"></TextView>
 
                             <TextView
-                                android:id="@+id/tvEligibleLoan"
-                                android:layout_width="wrap_content"
+                                android:id="@+id/tvBestRate"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="left|center_vertical"
-                                android:textColor="@color/filter_bar_title_selected"
-                                android:textStyle="bold"></TextView>
+                                android:paddingLeft="5dp"
+                                android:gravity="center_vertical|left"
+                                android:textColor="@color/black"
+                                style="@style/TextViewStyle.VerySmall"></TextView>
+
+
+
                         </LinearLayout>
 
-                        <TextView
-                            android:id="@+id/tvAddToCompare"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:gravity="center_horizontal|center_vertical"
-                            android:text="Add To Compare"
-                            android:textColor="@color/buttonBackground"
-                            android:visibility="gone" />
-                    </LinearLayout>
+
+                    </TableRow>
+                </TableLayout>
 
 
-                </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="40"
-                    android:gravity="center"
-                    android:orientation="horizontal">
+            </LinearLayout>
 
-                    <!--<ImageView-->
-                    <!--android:id="@+id/ivInfo"-->
-                    <!--android:layout_width="24dp"-->
-                    <!--android:layout_height="24dp"-->
-                    <!--android:layout_marginRight="10dp"-->
-                    <!--android:gravity="center_vertical|left"-->
-                    <!--android:visibility="gone"-->
-                    <!--android:src="@drawable/call" />-->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="24"
+                android:padding="2dp"
 
-                    <!--<TextView-->
-                    <!--android:id="@+id/btnApply"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-
-                    <!--android:gravity="right"-->
-                    <!--android:padding="6dp"-->
-                    <!--android:text="Apply Now"-->
-                    <!--android:textColor="@color/blue" />-->
+                android:gravity="center_vertical|center_horizontal"
+                android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/btnApply"
@@ -320,9 +233,9 @@
                         android:layout_width="wrap_content"
                         android:background="#f38d1e"
                         android:drawableLeft="@drawable/vector_cart"
-                        android:gravity="center"
+                        android:gravity="center_vertical|center_horizontal"
                         android:minHeight="0dp"
-                        android:minWidth="90dp"
+                        android:minWidth="80dp"
                         android:paddingBottom="5dp"
                         android:paddingLeft="12dp"
                         android:paddingRight="12dp"
@@ -330,11 +243,15 @@
                         android:text="BUY"
                         android:textColor="@android:color/white" />
 
-                </LinearLayout>
+
             </LinearLayout>
 
         </LinearLayout>
+
+
     </android.support.v7.widget.CardView>
+
+
 
 
 </LinearLayout>
