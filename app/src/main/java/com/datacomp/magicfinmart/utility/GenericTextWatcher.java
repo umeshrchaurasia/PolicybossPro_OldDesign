@@ -70,13 +70,16 @@ public class GenericTextWatcher implements TextWatcher {
                 break;
             case R.id.etMobile1:
                 if (charSequence.length() == 10) {
-                    ivehicle.getVehicleNumber(view,charSequence.toString());
+                    ivehicle.getVehicleNumber(view, charSequence.toString());
                 }
                 break;
             case R.id.etPincode:
                 if (charSequence.length() == 6) {
-                    ivehicle.getVehicleNumber(view,charSequence.toString());
+                    ivehicle.getVehicleNumber(view, charSequence.toString());
                 }
+                break;
+            case R.id.acMakeModel:
+                ivehicle.cancelVehicleNumber(view);
                 break;
         }
     }

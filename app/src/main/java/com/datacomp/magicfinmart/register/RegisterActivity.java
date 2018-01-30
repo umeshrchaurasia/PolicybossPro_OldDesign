@@ -52,7 +52,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     LinearLayout llPersonalInfo, llProfessionalInfo;
     ImageView ivProfessionalInfo, ivPersonalInfo;
-    RelativeLayout rlPersonalInfo, rlProfessionalInfo;
+    LinearLayout rlPersonalInfo, rlProfessionalInfo;
     EditText etFirstName, etLastName, etDob, etMobile1, etMobile2, etEmail, etConfirmEmail,
             etPincode, etCity, etState, etOtp;
     ImageView ivMale, ivFemale;
@@ -173,8 +173,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         ivPersonalInfo = (ImageView) findViewById(R.id.ivPersonalInfo);
         llPersonalInfo = (LinearLayout) findViewById(R.id.llPersonalInfo);
         llProfessionalInfo = (LinearLayout) findViewById(R.id.llProfessionalInfo);
-        rlPersonalInfo = (RelativeLayout) findViewById(R.id.rlPersonalInfo);
-        rlProfessionalInfo = (RelativeLayout) findViewById(R.id.rlProfessionalInfo);
+        rlPersonalInfo = (LinearLayout) findViewById(R.id.rlPersonalInfo);
+        rlProfessionalInfo = (LinearLayout) findViewById(R.id.rlProfessionalInfo);
 
 
         etFirstName = (EditText) findViewById(R.id.etFirstName);

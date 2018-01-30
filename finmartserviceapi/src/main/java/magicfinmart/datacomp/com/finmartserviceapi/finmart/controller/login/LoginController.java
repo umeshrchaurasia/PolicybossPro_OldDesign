@@ -40,7 +40,6 @@ public class LoginController implements ILogin {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
                         dbPersistanceController.storeUserData(response.body().getMasterData());
-                        //new AsyncStoreLogin(mContext, response.body().getMasterData()).execute();
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));

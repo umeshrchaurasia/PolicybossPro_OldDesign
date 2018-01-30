@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
@@ -132,7 +131,8 @@
                     <EditText
                         android:id="@+id/etExtValue"
                         style="@style/Style.edittext"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:enabled="false" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -152,10 +152,10 @@
                     android:hint="Reg Date">
 
                     <EditText
-                        android:focusable="false"
                         android:id="@+id/etRegDate"
                         style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_date" />
+                        android:drawableRight="@drawable/vector_date"
+                        android:focusable="false" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -166,10 +166,10 @@
                     android:hint="Manufacturer Date">
 
                     <EditText
-                        android:focusable="false"
                         android:id="@+id/etMfgDate"
                         style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_date" />
+                        android:drawableRight="@drawable/vector_date"
+                        android:focusable="false" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
