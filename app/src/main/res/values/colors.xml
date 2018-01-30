@@ -29,7 +29,8 @@
     <color name="back_button_color">#5a5a5a</color>
     <color name="buttonBackground">#ee5e35</color>
     <color name="green_descent">#42ceb2</color>
-
+    <color name="offer_info_white">#DDFFFFFF</color>
+    <color name="alpha_white">#26ffffff</color>
     <!--vector colors-->
     <!--<color name="vector_blue">#11408b</color>-->
     <color name="vector_blue">#646566</color>
