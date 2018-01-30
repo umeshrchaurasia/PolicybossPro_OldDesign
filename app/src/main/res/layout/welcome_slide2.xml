@@ -1,39 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:orientation="vertical">
+        android:padding="5dp"
+        android:text="WHAT IS Magic Finmart?"
+        android:textAllCaps="true"
+        android:textAppearance="@style/TextStyle.Title" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="5dp"
-            android:text="Welcome to magic finmart"
-            android:textAllCaps="true"
-            android:textColor="#464646" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/slide_2" />
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/slide_2" />
 
 
-        <TextView
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Magic Finmart is a single platform from where you can sell various financial products and services to your customers like insurance, loans, Health Check-up plans and more ."
-            android:textAlignment="center"
-            android:textColor="#464646" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:text="Magic Finmart is a single platform from where you can sell various financial products and services to your customers like insurance, loans, Health Check-up plans and more ."
+        android:textAppearance="@style/TextStyle.Body1" />
 
-    </LinearLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Sell everything DIGITALLY!!"
+        android:textAppearance="@style/TextStyle.Title" />
 
-</RelativeLayout>
+</LinearLayout>

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -50,9 +51,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpRes
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber, MultiSelectionSpinner.OnMultipleItemsSelectedListener, CompoundButton.OnCheckedChangeListener {
 
-    LinearLayout llPersonalInfo, llProfessionalInfo;
+    CardView llPersonalInfo, llProfessionalInfo;
     ImageView ivProfessionalInfo, ivPersonalInfo;
-    RelativeLayout rlPersonalInfo, rlProfessionalInfo;
+    LinearLayout rlPersonalInfo, rlProfessionalInfo;
     EditText etFirstName, etLastName, etDob, etMobile1, etMobile2, etEmail, etConfirmEmail,
             etPincode, etCity, etState, etOtp;
     ImageView ivMale, ivFemale;
@@ -171,10 +172,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         ivProfessionalInfo = (ImageView) findViewById(R.id.ivProfessionalInfo);
         ivPersonalInfo = (ImageView) findViewById(R.id.ivPersonalInfo);
-        llPersonalInfo = (LinearLayout) findViewById(R.id.llPersonalInfo);
-        llProfessionalInfo = (LinearLayout) findViewById(R.id.llProfessionalInfo);
-        rlPersonalInfo = (RelativeLayout) findViewById(R.id.rlPersonalInfo);
-        rlProfessionalInfo = (RelativeLayout) findViewById(R.id.rlProfessionalInfo);
+        llPersonalInfo = (CardView) findViewById(R.id.llPersonalInfo);
+        llProfessionalInfo = (CardView) findViewById(R.id.llProfessionalInfo);
+        rlPersonalInfo = (LinearLayout) findViewById(R.id.rlPersonalInfo);
+        rlProfessionalInfo = (LinearLayout) findViewById(R.id.rlProfessionalInfo);
 
 
         etFirstName = (EditText) findViewById(R.id.etFirstName);
@@ -375,7 +376,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
-    private void hideAllLayouts(LinearLayout linearLayout, ImageView imageView) {
+    private void hideAllLayouts(CardView linearLayout, ImageView imageView) {
 
         if (linearLayout.getVisibility() == View.GONE) {
 
@@ -406,6 +407,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         if (response instanceof PincodeResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
+                Constants.hideKeyBoard(etPincode, this);
                 etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
                 etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
 
@@ -462,8 +464,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         try {
 
             dialog = new Dialog(RegisterActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.otp_dialog);
-
             tvOk = (TextView) dialog.findViewById(R.id.tvOk);
             TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
             tvTitle.setText("Enter OTP sent on : " + etMobile1.getText().toString());
@@ -487,6 +489,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     if (etOtp.getText().toString().equals("0000")) {
                         Toast.makeText(RegisterActivity.this, "Otp Verified Success", Toast.LENGTH_SHORT).show();
                         dialog.dismiss();
+                        hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
+                        btnSubmit.setVisibility(View.VISIBLE);
+                        isMobileValid = true;
                     } else {
                         showDialog("Verifying OTP...");
                         new RegisterController(RegisterActivity.this).validateOtp(etMobile1.getText().toString(), etOtp.getText().toString(), RegisterActivity.this);

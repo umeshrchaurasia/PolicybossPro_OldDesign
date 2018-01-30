@@ -56,7 +56,8 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
 public class InputFragment extends BaseFragment implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
-    CardView cvNewRenew, cvRegNo, cvInput;
+    CardView cvNewRenew, cvRegNo;
+    View cvInput;
     Button btnGetQuote;
     TextView tvDontKnow;
     EditText etreg1, etreg2, etreg3, etreg4;
@@ -102,10 +103,12 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     private void bind_Adapters() {
 
         //region make model
-        makeModelAdapter = new ArrayAdapter(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, makeModelList);
+        makeModelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, makeModelList);
         acMakeModel.setAdapter(makeModelAdapter);
 
         acMakeModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
@@ -123,22 +126,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 //region varient adapter
 
                 varientAdapter = new
-                        ArrayAdapter(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, variantList) {
-                            @NonNull
-                            @Override
-                            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                                return super.getView(position, convertView, parent);
-                            }
-
-                            @Override
-                            public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                                View view = super.getDropDownView(position, convertView, parent);
-                                TextView tv = (TextView) view.findViewById(R.id.txtspinneritem);
-                                tv.setTextSize(14f);
-                                tv.setPadding(4, 3, 3, 4);
-                                return view;
-                            }
-                        };
+                        ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, variantList);
                 spVarient.setAdapter(varientAdapter);
 
                 //endregion
@@ -146,16 +134,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 //region fuel adapter
 
                 fuelAdapter = new
-                        ArrayAdapter(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, fuelList) {
-                            @NonNull
-                            @Override
-                            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                                View view1 = super.getView(position, convertView, parent);
-                                TextView tv = (TextView) view1.findViewById(R.id.txtspinneritem);
-                                tv.setPadding(0, 0, 0, 0);
-                                return view1;
-                            }
-                        };
+                        ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, fuelList);
                 spFuel.setAdapter(fuelAdapter);
 
                 //endregion
@@ -184,24 +163,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         // region city adapter
 
-        cityAdapter = new ArrayAdapter<String>(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, cityList) {
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view1 = super.getView(position, convertView, parent);
-                TextView tv = (TextView) view1.findViewById(R.id.txtspinneritem);
-                tv.setPadding(0, 0, 0, 0);
-                view1.setPadding(0, 0, 0, 0);
-                return view1;
-            }
-        };
-
-//        cityAdapter = new ArrayAdapter<String>(this,
-//                R.layout.sp_item_textview, R.id.txtspinneritem, cityList);
-//
+        cityAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, cityList);
         acRto.setAdapter(cityAdapter);
-        acRto.setThreshold(2);
-
         acRto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -214,44 +177,45 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         // region prev insurer adapter
         prevInsAdapter = new
-                ArrayAdapter<String>(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, databaseController.getInsurerList()) {
-                    @Override
-                    public boolean isEnabled(int position) {
-                        if (position == 0) {
-                            // Disable the first item from Spinner
-                            // First item will be use for hint
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    }
-
-                    @Override
-                    public View getDropDownView(int position, View convertView,
-                                                ViewGroup parent) {
-                        View view = super.getDropDownView(position, convertView, parent);
-                        TextView tv = (TextView) view.findViewById(R.id.txtspinneritem);
-                        tv.setPadding(0, 0, 0, 0);
-                        if (position == 0) {
-                            // Set the hint text color gray
-                            tv.setTextColor(Color.GRAY);
-                        } else {
-                            tv.setTextColor(Color.BLACK);
-                        }
-                        return view;
-                    }
-
-
-                    @NonNull
-                    @Override
-                    public View getView(int position, @Nullable View convertView,
-                                        @NonNull ViewGroup parent) {
-                        View view1 = super.getView(position, convertView, parent);
-                        view1.setPadding(0, 0, 0, 0);
-                        return view1;
-
-                    }
-                };
+                ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, databaseController.getInsurerList());
+//        {
+//                    @Override
+//                    public boolean isEnabled(int position) {
+//                        if (position == 0) {
+//                            // Disable the first item from Spinner
+//                            // First item will be use for hint
+//                            return false;
+//                        } else {
+//                            return true;
+//                        }
+//                    }
+//
+//                    @Override
+//                    public View getDropDownView(int position, View convertView,
+//                                                ViewGroup parent) {
+//                        View view = super.getDropDownView(position, convertView, parent);
+//                        TextView tv = (TextView) view.findViewById(R.id.txtspinneritem);
+//                        tv.setPadding(0, 0, 0, 0);
+//                        if (position == 0) {
+//                            // Set the hint text color gray
+//                            tv.setTextColor(Color.GRAY);
+//                        } else {
+//                            tv.setTextColor(Color.BLACK);
+//                        }
+//                        return view;
+//                    }
+//
+//
+//                    @NonNull
+//                    @Override
+//                    public View getView(int position, @Nullable View convertView,
+//                                        @NonNull ViewGroup parent) {
+//                        View view1 = super.getView(position, convertView, parent);
+//                        view1.setPadding(0, 0, 0, 0);
+//                        return view1;
+//
+//                    }
+//                };
 
 //        prevInsAdapter = new
 //                ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, databaseController.getInsurerList()) {
@@ -285,16 +249,18 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         //endregion
 
         // region ncb adapter
-        ncbPerctAdapter = new ArrayAdapter(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, getResources().getStringArray(R.array.ncb_percent)) {
-            @NonNull
-            @Override
-            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                View view1 = super.getView(position, convertView, parent);
-                TextView tx = (TextView) view1.findViewById(R.id.txtspinneritem);
-                tx.setPadding(0, 0, 0, 0);
-                return view1;
-            }
-        };
+        ncbPerctAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.ncb_percent));
+//        {
+//            @NonNull
+//            @Override
+//            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+//                View view1 = super.getView(position, convertView, parent);
+//                TextView tx = (TextView) view1.findViewById(R.id.txtspinneritem);
+//                tx.setPadding(0, 0, 0, 0);
+//                return view1;
+//            }
+//        };
         spNcbPercent.setAdapter(ncbPerctAdapter);
         //endregion
     }
@@ -320,7 +286,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     private void intit_view(View view) {
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
         cvRegNo = (CardView) view.findViewById(R.id.cvRegNo);
-        cvInput = (CardView) view.findViewById(R.id.cvInput);
+        cvInput = (View) view.findViewById(R.id.cvInput);
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
         tvDontKnow = (TextView) view.findViewById(R.id.tvDontKnow);
 
@@ -556,8 +522,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                             String currentDay = simpleDateFormat.format(calendar.getTime());
                             etExpDate.setText(currentDay);
                             if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
-                                //int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
-                                //setNcbAdapter(yearDiff);
+                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
+                                setNcbAdapter(yearDiff);
                             }
                         }
                     }
@@ -680,7 +646,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             motorRequestEntity.setVehicle_ncb_current("");
         } else {
             motorRequestEntity.setIs_claim_exists("no");
-            //motorRequestEntity.setVehicle_ncb_current(spNcbPercent.getSelectedItem().toString());
+            motorRequestEntity.setVehicle_ncb_current(spNcbPercent.getSelectedItem().toString());
         }
 
         motorRequestEntity.setElectrical_accessory("0");
@@ -811,6 +777,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         regplace = databaseController.getRTOCityName("" + masterData.getVehicleCity_Id());
         acRto.setText(regplace);
         makeModel = masterData.getMake_Name() + " , " + masterData.getModel_Name();
+        setNcbAdapter(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
     }
 
     @Override
@@ -846,6 +813,14 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     private String formatRegistrationNo(String regNo) {
         return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
+    }
+
+    private void setNcbAdapter(int yearDiff) {
+        if (yearDiff >= 5) {
+            spNcbPercent.setSelection(5);
+        } else {
+            spNcbPercent.setSelection(yearDiff);
+        }
     }
 
 }

@@ -34,18 +34,14 @@ public class QuoteApplicationController implements IQuoteApp {
     }
 
     @Override
-    public void getQuoteAppList(String vehicleReqID, int fbaID, int productID, String crn, final IResponseSubcriber iResponseSubcriber) {
-//        HashMap<String, String> hashMap = new HashMap<>();
-//        hashMap.put("VehicleRequestID", vehicleReqID);
-//        hashMap.put("fba_id", "" + fbaID);
-//        hashMap.put("product_id", "" + productID);
-//        hashMap.put("crn", "" + crn);
-
+    public void getQuoteAppList(String firstname, String vehicleReqID, int fbaID, int productID, String crn, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> hashMap = new HashMap<>();
-        hashMap.put("VehicleRequestID", "");
-        hashMap.put("fba_id", "" + "");
-        hashMap.put("product_id", "");
-        hashMap.put("crn", "");
+        hashMap.put("VehicleRequestID", vehicleReqID);
+        hashMap.put("fba_id", "" + 35779);
+        hashMap.put("product_id", "" + productID);
+        hashMap.put("crn", "" + crn);
+        hashMap.put("first_name", firstname);
+
 
         quoteApplicationNetworkService.getQuoteApplication(hashMap).enqueue(new Callback<QuoteApplicationResponse>() {
             @Override

@@ -5,52 +5,55 @@ import android.os.Parcelable;
 
 public class ApplicationListEntity implements Parcelable {
     /**
-     * VehicleRequestID : 5
-     * birth_date : 2018-01-22T00:00:00.000Z
-     * fba_id : 5
-     * product_id : 4
-     * vehicle_id : 2
-     * rto_id : 2
-     * vehicle_insurance_type : Testsadsaf
-     * vehicle_manf_date : 2018-01-22T00:00:00.000Z
-     * vehicle_registration_date : 2018-01-22T00:00:00.000Z
-     * policy_expiry_date : 2018-01-22T00:00:00.000Z
-     * prev_insurer_id : 1
-     * vehicle_registration_type : B
-     * vehicle_ncb_current : B
-     * is_claim_exists : 1
-     * method_type : B
-     * execution_async : 1
-     * electrical_accessory : 1
-     * non_electrical_accessory : 1
-     * registration_no : 1
-     * is_llpd : 1
-     * is_antitheft_fit : 1
-     * voluntary_deductible : 1
-     * is_external_bifuel : 1
-     * external_bifuel_value : 1
-     * pa_owner_driver_si : 1
-     * pa_named_passenger_si : 1
-     * pa_unnamed_passenger_si : 1
-     * pa_paid_driver_si : 1
-     * vehicle_expected_idv : 1
-     * first_name : test
-     * middle_name : 123
-     * last_name : 456
-     * mobile : 3456778908
-     * email : test.gus@.scom
-     * crn : ADADAD1233232ddsdsd3233ff
-     * ip_address : 192.168.0.0
-     * secret_key : 1234
-     * client_key : 1234
-     * is_aai_member : 1
-     * external_bifuel_type : 1
-     * ss_id : 12
-     * geo_lat : 123
-     * geo_long : 123
-     * isTwentyfour : null
+     * VehicleRequestID : 4
+     * birth_date : 1992-01-01T00:00:00.000Z
+     * fba_id : 35779
+     * product_id : 1
+     * vehicle_id : 328
+     * rto_id : 579
+     * vehicle_insurance_type : renew
+     * vehicle_manf_date : 2017-01-01T00:00:00.000Z
+     * vehicle_registration_date : 2018-01-25T00:00:00.000Z
+     * policy_expiry_date : 2018-01-30T00:00:00.000Z
+     * prev_insurer_id : 2
+     * vehicle_registration_type : individual
+     * vehicle_ncb_current :
+     * is_claim_exists : yes
+     * method_type : Premium
+     * execution_async : yes
+     * electrical_accessory : 0
+     * non_electrical_accessory : 0
+     * registration_no : 0
+     * is_llpd : no
+     * is_antitheft_fit : no
+     * voluntary_deductible : 0
+     * is_external_bifuel : no
+     * external_bifuel_value :
+     * pa_owner_driver_si : 100000
+     * pa_named_passenger_si : 0
+     * pa_unnamed_passenger_si : 0
+     * pa_paid_driver_si : 0
+     * vehicle_expected_idv : 0
+     * first_name : nilesh
+     * middle_name :
+     * last_name :
+     * mobile : 9930089095
+     * email : test@test.com
+     * crn : 0
+     * ip_address :
+     * secret_key : SECRET-ODARQ6JP-9V2Q-7BIM-0NNM-DNRTXRWMRTAL
+     * client_key : CLIENT-GLF2SRA5-CFIF-4X2T-HC1Z-CXV4ZWQTFQ3T
+     * is_aai_member : 0
+     * external_bifuel_type :
+     * ss_id : 0
+     * geo_lat : 0
+     * geo_long : 0
+     * isTwentyfour : 0
      * isActive : 1
-     * created_date : 2018-01-25T08:24:33.000Z
+     * created_date : 2018-01-29T09:29:45.000Z
+     * type : Application
+     * conversiondate :
+     * srn : SRN-123456-PPFG-AQVO-IIEV-4S9LXQIYTSLQ
      */
 
     private int VehicleRequestID;
@@ -87,11 +90,11 @@ public class ApplicationListEntity implements Parcelable {
     private String last_name;
     private String mobile;
     private String email;
-    private String crn;
+    private int crn;
     private String ip_address;
     private String secret_key;
     private String client_key;
-    private String is_aai_member;
+    private int is_aai_member;
     private String external_bifuel_type;
     private int ss_id;
     private int geo_lat;
@@ -99,6 +102,9 @@ public class ApplicationListEntity implements Parcelable {
     private int isTwentyfour;
     private int isActive;
     private String created_date;
+    private String type;
+    private String conversiondate;
+    private String srn;
 
     public int getVehicleRequestID() {
         return VehicleRequestID;
@@ -372,11 +378,11 @@ public class ApplicationListEntity implements Parcelable {
         this.email = email;
     }
 
-    public String getCrn() {
+    public int getCrn() {
         return crn;
     }
 
-    public void setCrn(String crn) {
+    public void setCrn(int crn) {
         this.crn = crn;
     }
 
@@ -404,11 +410,11 @@ public class ApplicationListEntity implements Parcelable {
         this.client_key = client_key;
     }
 
-    public String getIs_aai_member() {
+    public int getIs_aai_member() {
         return is_aai_member;
     }
 
-    public void setIs_aai_member(String is_aai_member) {
+    public void setIs_aai_member(int is_aai_member) {
         this.is_aai_member = is_aai_member;
     }
 
@@ -468,6 +474,31 @@ public class ApplicationListEntity implements Parcelable {
         this.created_date = created_date;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getConversiondate() {
+        return conversiondate;
+    }
+
+    public void setConversiondate(String conversiondate) {
+        this.conversiondate = conversiondate;
+    }
+
+    public String getSrn() {
+        return srn;
+    }
+
+    public void setSrn(String srn) {
+        this.srn = srn;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -509,11 +540,11 @@ public class ApplicationListEntity implements Parcelable {
         dest.writeString(this.last_name);
         dest.writeString(this.mobile);
         dest.writeString(this.email);
-        dest.writeString(this.crn);
+        dest.writeInt(this.crn);
         dest.writeString(this.ip_address);
         dest.writeString(this.secret_key);
         dest.writeString(this.client_key);
-        dest.writeString(this.is_aai_member);
+        dest.writeInt(this.is_aai_member);
         dest.writeString(this.external_bifuel_type);
         dest.writeInt(this.ss_id);
         dest.writeInt(this.geo_lat);
@@ -521,6 +552,9 @@ public class ApplicationListEntity implements Parcelable {
         dest.writeInt(this.isTwentyfour);
         dest.writeInt(this.isActive);
         dest.writeString(this.created_date);
+        dest.writeString(this.type);
+        dest.writeString(this.conversiondate);
+        dest.writeString(this.srn);
     }
 
     public ApplicationListEntity() {
@@ -561,11 +595,11 @@ public class ApplicationListEntity implements Parcelable {
         this.last_name = in.readString();
         this.mobile = in.readString();
         this.email = in.readString();
-        this.crn = in.readString();
+        this.crn = in.readInt();
         this.ip_address = in.readString();
         this.secret_key = in.readString();
         this.client_key = in.readString();
-        this.is_aai_member = in.readString();
+        this.is_aai_member = in.readInt();
         this.external_bifuel_type = in.readString();
         this.ss_id = in.readInt();
         this.geo_lat = in.readInt();
@@ -573,6 +607,9 @@ public class ApplicationListEntity implements Parcelable {
         this.isTwentyfour = in.readInt();
         this.isActive = in.readInt();
         this.created_date = in.readString();
+        this.type = in.readString();
+        this.conversiondate = in.readString();
+        this.srn = in.readString();
     }
 
     public static final Parcelable.Creator<ApplicationListEntity> CREATOR = new Parcelable.Creator<ApplicationListEntity>() {

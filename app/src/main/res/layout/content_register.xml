@@ -20,44 +20,48 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/rlPersonalInfo"
-                style="@style/HeaderLayout">
-
-                <ImageView
-                    android:id="@+id/ivPersonalInfo"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/down_arrow" />
+                style="@style/HeaderLayout"
+                android:gravity="center"
+                android:paddingLeft="@dimen/view_spacing_small"
+                android:weightSum="100">
 
                 <TextView
-                    style="@style/TextViewStyle.Large"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
+                    android:layout_weight="90"
                     android:text="Personal Information"
                     android:textAllCaps="true"
+                    android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@android:color/white"
                     android:textStyle="bold" />
 
+                <ImageView
+                    android:id="@+id/ivPersonalInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:padding="2dp"
+                    android:src="@drawable/down_arrow" />
 
-            </RelativeLayout>
+
+            </LinearLayout>
 
             <android.support.v7.widget.CardView
-                style="@style/CardViewStyle"
+                android:id="@+id/llPersonalInfo"
+                style="@style/CardStyle.Home"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginTop="8dp"
-                android:visibility="visible"
-                app:cardElevation="2dp">
+                android:visibility="visible">
 
                 <LinearLayout
-                    android:id="@+id/llPersonalInfo"
-                    style="@style/LinearLayoutStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:animateLayoutChanges="true"
+                    android:orientation="vertical"
                     android:visibility="visible">
 
                     <LinearLayout
@@ -66,10 +70,8 @@
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
-                            style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
-                            android:layout_marginRight="1dp"
-                            android:layout_marginTop="2dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="First Name">
 
@@ -81,10 +83,8 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
-                            style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
-                            android:layout_marginLeft="1dp"
-                            android:layout_marginTop="2dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Last Name">
 
@@ -103,11 +103,9 @@
                         android:weightSum="100">
 
                         <android.support.design.widget.TextInputLayout
-                            style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
-                            android:layout_marginRight="1dp"
-                            android:layout_marginTop="2dp"
-                            android:layout_weight="60"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
                             android:hint="Date of Birth">
 
                             <EditText
@@ -121,7 +119,7 @@
                             android:id="@+id/ivMale"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="25"
                             android:scaleType="centerInside"
                             android:src="@drawable/male_selected" />
 
@@ -129,7 +127,7 @@
                             android:id="@+id/ivFemale"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="20"
+                            android:layout_weight="25"
                             android:scaleType="centerInside"
                             android:src="@drawable/female" />
                     </LinearLayout>
@@ -140,10 +138,8 @@
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
-                            style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
-                            android:layout_marginRight="1dp"
-                            android:layout_marginTop="2dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Mobile">
 
@@ -157,10 +153,8 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
-                            style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
-                            android:layout_marginLeft="1dp"
-                            android:layout_marginTop="2dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Mobile 2">
 
@@ -175,8 +169,8 @@
                     </LinearLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        style="@style/TextAppearence.App.TextInputLayout"
-                        android:layout_marginTop="2dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:hint="Email">
 
                         <EditText
@@ -188,8 +182,8 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        style="@style/TextAppearence.App.TextInputLayout"
-                        android:layout_marginTop="2dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:hint="Confirm Email">
 
                         <EditText
@@ -206,10 +200,8 @@
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
-                            style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
-                            android:layout_marginRight="1dp"
-                            android:layout_marginTop="2dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Pincode">
 
@@ -223,10 +215,8 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
-                            style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
-                            android:layout_marginLeft="1dp"
-                            android:layout_marginTop="2dp"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="City">
 
@@ -239,8 +229,8 @@
                     </LinearLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        style="@style/TextAppearence.App.TextInputLayout"
-                        android:layout_marginTop="2dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:hint="State">
 
                         <EditText
@@ -252,132 +242,146 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <RelativeLayout
+
+            <LinearLayout
                 android:id="@+id/rlProfessionalInfo"
-                style="@style/HeaderLayout">
+                style="@style/HeaderLayout"
+                android:gravity="center"
+                android:paddingLeft="@dimen/view_spacing_small"
+                android:weightSum="100">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_weight="90"
+                    android:text="Professional Information"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
 
                 <ImageView
                     android:id="@+id/ivProfessionalInfo"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
                     android:padding="2dp"
                     android:src="@drawable/down_arrow" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="15dp"
-                    android:text="Professional Information"
-                    android:textAllCaps="true"
-                    android:textColor="@android:color/white" />
-
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/llProfessionalInfo"
-                style="@style/LinearLayoutStyle"
-                android:animateLayoutChanges="true"
-                android:background="@color/white"
-                android:visibility="visible">
-
-                <CheckBox
-                    android:id="@+id/chbxLife"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Life Insurance" />
-
-                <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
-                    android:id="@+id/spLifeIns"
-                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="false" />
-
-                <CheckBox
-                    android:id="@+id/chbxGen"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="General Insurance" />
-
-                <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
-                    android:id="@+id/spGenIns"
-                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="false" />
-
-
-                <CheckBox
-                    android:id="@+id/chbxHealth"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Health Insurance" />
-
-
-                <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
-                    android:id="@+id/spHealthIns"
-                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/chbxMutual"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Mutual Fund" />
-
-                    <CheckBox
-                        android:id="@+id/chbxStocks"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Stocks" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/chbxPostal"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Postal Savings" />
-
-                    <CheckBox
-                        android:id="@+id/chbxBonds"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Bonds/CFDs" />
-                </LinearLayout>
 
             </LinearLayout>
+
+            <android.support.v7.widget.CardView
+                android:id="@+id/llProfessionalInfo"
+                style="@style/CardStyle.Home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible">
+
+                <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:animateLayoutChanges="true"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <CheckBox
+                        android:id="@+id/chbxLife"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Life Insurance" />
+
+                    <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
+                        android:id="@+id/spLifeIns"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false" />
+
+                    <CheckBox
+                        android:id="@+id/chbxGen"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="General Insurance" />
+
+                    <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
+                        android:id="@+id/spGenIns"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false" />
+
+
+                    <CheckBox
+                        android:id="@+id/chbxHealth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Health Insurance" />
+
+
+                    <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
+                        android:id="@+id/spHealthIns"
+                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/chbxMutual"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Mutual Fund" />
+
+                        <CheckBox
+                            android:id="@+id/chbxStocks"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Stocks" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <CheckBox
+                            android:id="@+id/chbxPostal"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Postal Savings" />
+
+                        <CheckBox
+                            android:id="@+id/chbxBonds"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Bonds/CFDs" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
         </LinearLayout>
     </ScrollView>
 
     <Button
         android:id="@+id/btnSubmit"
-        style="@style/ButtonStyle"
+        style="@style/ButtonStyle.Colored"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="8"
         android:text="SUBMIT"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
 </LinearLayout>
