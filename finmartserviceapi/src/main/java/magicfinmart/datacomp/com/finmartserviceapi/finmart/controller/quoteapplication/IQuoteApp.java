@@ -12,7 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 public interface IQuoteApp {
 
 
-    void getQuoteAppList(String vehicleReqID, int fbaID, int productID, String crn, IResponseSubcriber iResponseSubcriber);
+    void getQuoteAppList(String firstname,String vehicleReqID, int fbaID, int productID, String crn, IResponseSubcriber iResponseSubcriber);
 
     void saveQuote(SaveMotorRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 

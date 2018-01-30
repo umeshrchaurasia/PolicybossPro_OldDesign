@@ -9,6 +9,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
@@ -31,9 +32,9 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         //TODO: Fetch all Quote and App list
-        showDialog();
-        new QuoteApplicationController(this).getQuoteAppList("",
-                0,
+        showDialog("Fetching.., Please wait.!");
+        new QuoteApplicationController(this).getQuoteAppList("", "",
+                new DBPersistanceController(this).getUserData().getFBAId(),
                 0,
                 "",
                 this);
