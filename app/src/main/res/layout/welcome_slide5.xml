@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
@@ -10,24 +10,47 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:padding="5dp"
-        android:text="Welcome to magic finmart"
+        android:text="open the dooR to a world of opportunities"
         android:textAllCaps="true"
         android:textAppearance="@style/TextStyle.Title" />
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:src="@drawable/slide_5" />
 
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginTop="20dp"
-        android:text="India’s first and most comprehensive business enabling platform for financial advisors"
+        android:layout_marginTop="10dp"
+        android:text="Become your customer’s"
         android:textAlignment="center"
-        android:textAppearance="@style/TextStyle.Body1" />
+        android:textAppearance="@style/TextStyle.Body1"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="2dp"
+        android:text="TOTAL FINANCIAL ADVISOR"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextViewStyle.Medium"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="2dp"
+        android:text="And stay ahead of competition "
+        android:textAlignment="center"
+        android:textAppearance="@style/TextViewStyle.Large"
+        android:textStyle="bold" />
 
 </LinearLayout>
