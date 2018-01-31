@@ -37,7 +37,11 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
@@ -55,7 +59,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class QuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener {
+public class QuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
@@ -73,6 +77,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     CarMasterEntity carMasterEntity;
     String rtoName;
     Realm realm;
+    SaveQuoteResponse.SaveQuoteEntity saveQuoteEntity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,7 +146,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         bikeQuoteRecycler.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         bikeQuoteRecycler.setLayoutManager(mLayoutManager);
-        mAdapter = new BikeQuoteAdapter(getActivity(), bikePremiumResponse);
+        mAdapter = new BikeQuoteAdapter(QuoteFragment.this, bikePremiumResponse);
         bikeQuoteRecycler.setAdapter(mAdapter);
 
     }
@@ -179,12 +184,29 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         mAdapter.notifyDataSetChanged();
     }
 
+    private void saveQuoteToServer(BikePremiumResponse response) {
+        //store request and SRN to mySql
+        SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
+        entity.setMotorRequestEntity(motorRequestEntity);
+        entity.setSRN(response.getSummary().getRequest_Unique_Id());
+        entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
+        entity.setIsActive(1);
+
+        new QuoteApplicationController(getActivity()).saveQuote(entity, this);
+    }
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof BikePremiumResponse) {
 
             bikePremiumResponse = (BikePremiumResponse) response;
+
+            //save quote to our server.
+            if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == 1) {
+                saveQuoteToServer(bikePremiumResponse);
+            }
+
             rebindAdapter(bikePremiumResponse);
             updateCrn();
             Log.d("trackIssue", "Summary  = " + bikePremiumResponse.getSummary().getStatusX() +
@@ -209,6 +231,17 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             }
         } else if (response instanceof SaveAddOnResponse) {
 
+        }
+    }
+
+    @Override
+    public void OnSuccess(magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse response, String message) {
+        if (response instanceof QuoteAppUpdateDeleteResponse) {
+
+        } else if (response instanceof SaveQuoteResponse) {
+            if (response.getStatusNo() == 0) {
+                saveQuoteEntity = ((SaveQuoteResponse) response).getMasterData().get(0);
+            }
         }
     }
 
@@ -386,7 +419,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
         new MotorController(getActivity()).saveAddOn(entity, this);
     }
-
 
     private void applyPositiveAddons() {
 
@@ -762,20 +794,28 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     }
 
 
-    public void redirectToBuy(String Service_Log_Unique_Id) {
-        String URL = "http://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
+    public void redirectToBuy(ResponseEntity entity) {
+
+        int fbaID = new DBPersistanceController(getActivity()).getUserData().getFBAId();
+
         String url = "http://qa.policyboss.com/";
         //String url = "http://policyboss.com/";
         String title = "";
         String name = "";
-        url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";
+        url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
         title = "Car Insurance";
 
+        //convert quote to application server
+        new QuoteApplicationController(getActivity()).convertQuoteToApp(
+                "" + saveQuoteEntity.getVehicleRequestID(), bikePremiumResponse.getSummary().getPB_CRN(),
+                this);
 
         startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                 .putExtra("URL", url)
                 .putExtra("NAME", name)
                 .putExtra("TITLE", title));
+
+
     }
 
     @Override
@@ -793,7 +833,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
                 .putExtra("RESPONSE", entity));
-
 
     }
 

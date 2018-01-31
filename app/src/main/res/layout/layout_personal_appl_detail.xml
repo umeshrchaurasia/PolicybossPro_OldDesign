@@ -250,6 +250,7 @@
         android:layout_centerVertical="true"
         android:max="5"
         android:progress="1"
+        android:splitTrack="false"
         android:progressDrawable="@drawable/seekbar_style"
         android:thumb="@drawable/custom_thumb" />
 

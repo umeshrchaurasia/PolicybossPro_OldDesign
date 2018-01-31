@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.motor.privatecar.addquote.adapters;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -23,16 +28,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumRes
 public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.BikeQuoteItem> {
 
 
-    Activity mContext;
+    Fragment mContext;
     BikePremiumResponse response;
 
     List<ResponseEntity> listQuotes;
     DBPersistanceController dbPersistanceController;
 
-    public BikeQuoteAdapter(Activity mContext, BikePremiumResponse response) {
+    public BikeQuoteAdapter(Fragment mContext, BikePremiumResponse response) {
         this.mContext = mContext;
         this.response = response;
-        dbPersistanceController = new DBPersistanceController(mContext);
+        dbPersistanceController = new DBPersistanceController(mContext.getContext());
         if (response.getResponse() != null)
             this.listQuotes = response.getResponse();
         else
@@ -65,7 +70,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         }
 
         holder.txtIDV.setText("\u20B9 " + String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
-        holder.imgInsurerLogo.setImageResource(dbPersistanceController.getProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
+        holder.imgInsurerLogo.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
         /*Glide.with(mContext)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
                 //.load(R.drawable.private_car)
@@ -74,20 +79,20 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         holder.txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((InputQuoteBottmActivity) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+                ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
         holder.txtPremiumBreakUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((InputQuoteBottmActivity) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+                ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
 
         holder.txtBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((InputQuoteBottmActivity) mContext).redirectToBuy(responseEntity.getService_Log_Unique_Id());
+                ((QuoteFragment) mContext).redirectToBuy(responseEntity);
             }
         });
 
@@ -95,9 +100,9 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
             if (responseEntity.getListAppliedAddons().size() != 0) {
                 holder.llAddon.setVisibility(View.VISIBLE);
                 holder.rvAddOn.setHasFixedSize(true);
-                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext, 2);
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext.getActivity(), 2);
                 holder.rvAddOn.setLayoutManager(mLayoutManager);
-                GridAddonAdapter adapter = new GridAddonAdapter(mContext, responseEntity.getListAppliedAddons());
+                GridAddonAdapter adapter = new GridAddonAdapter(mContext.getActivity(), responseEntity.getListAppliedAddons());
                 holder.rvAddOn.setAdapter(adapter);
             } else {
                 holder.llAddon.setVisibility(View.GONE);

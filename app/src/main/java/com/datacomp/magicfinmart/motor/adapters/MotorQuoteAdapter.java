@@ -52,7 +52,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
         if (holder instanceof QuoteItem) {
             final QuoteListEntity entity = mQuoteList.get(position);
 
-           /* holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
+            holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
 
             CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity()).getVarientDetails(
                     "" + entity.getVehicle_id());
@@ -65,7 +65,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
                 public void onClick(View view) {
                     openPopUp(view, entity);
                 }
-            });*/
+            });
         }
     }
 

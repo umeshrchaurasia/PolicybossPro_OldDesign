@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFr
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
@@ -53,6 +55,13 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
                     openPopUp(view, entity);
                 }
             });
+
+            try {
+                holder.imgInsurerLogo.setImageResource(
+                        new DBPersistanceController(fragment.getContext()).getInsurerImage(entity.getPrev_insurer_id()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -94,7 +103,8 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        public TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtVehicleNo, txtPersonName;
+        TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtVehicleNo, txtPersonName;
+        ImageView imgInsurerLogo;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -103,6 +113,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
             txtCRN = (TextView) itemView.findViewById(R.id.txtCRN);
             txtVehicleNo = (TextView) itemView.findViewById(R.id.txtVehicleNo);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
+            imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
         }
     }
 

@@ -590,11 +590,11 @@ public class DBPersistanceController {
         hasMapCarInsuranceImage.put(40, R.drawable.carins35);
     }
 
-    public int getProfessionalID1(int pic) {
+    public int getInsurerImage(int insurerID) {
 
         hasMapCarInsuranceImage = new HashMap<Integer, Integer>();
         MapCarInsuranceImage();
-        return hasMapCarInsuranceImage.get(pic);
+        return hasMapCarInsuranceImage.get(insurerID);
     }
     //endregion
 }
