@@ -92,16 +92,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
 
     }
 
-    private void saveQuoteToServer(BikePremiumResponse response) {
-        //store request and SRN to mySql
-        SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
-        entity.setMotorRequestEntity(motorRequestEntity);
-        entity.setSRN(response.getSummary().getRequest_Unique_Id());
-        entity.setFba_id(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
-        entity.setIsActive(1);
 
-        new QuoteApplicationController(this).saveQuote(entity, this);
-    }
 
     private void setListener() {
         ivEdit.setOnClickListener(this);
@@ -137,8 +128,8 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         bikeQuoteRecycler.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         bikeQuoteRecycler.setLayoutManager(mLayoutManager);
-        mAdapter = new BikeQuoteAdapter(this, bikePremiumResponse);
-        bikeQuoteRecycler.setAdapter(mAdapter);
+        //mAdapter = new BikeQuoteAdapter(this, bikePremiumResponse);
+        //bikeQuoteRecycler.setAdapter(mAdapter);
 
     }
 
@@ -182,7 +173,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
 
 
             bikePremiumResponse = (BikePremiumResponse) response;
-            saveQuoteToServer(bikePremiumResponse);
+
 
             rebindAdapter(bikePremiumResponse);
             updateCrn();

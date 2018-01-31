@@ -19,6 +19,8 @@ import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.InputFragmen
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 
@@ -149,6 +151,8 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
         InputQuoteBottmActivity.this.finish();
     }
 
+    //region unUsed code
+
     public interface ActivityCallback            // Interface creation
     {
         void onMethodCallback(String strTyp);
@@ -160,15 +164,19 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
             bottomNavigationView.getMenu().getItem(i).setCheckable(false);
         }
     }
-    public void redirectToBuy(String Service_Log_Unique_Id) {
-        String URL = "http://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
+
+
+    public void redirectToBuy(ResponseEntity entity) {
+
+        int fbaID = new DBPersistanceController(this).getUserData().getFBAId();
         String url = "http://qa.policyboss.com/";
         //String url = "http://policyboss.com/";
         String title = "";
         String name = "";
-        url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";
+        url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
         title = "Car Insurance";
 
+        //new QuoteApplicationController(this).convertQuoteToApp(entity.);
 
         startActivity(new Intent(this, CommonWebViewActivity.class)
                 .putExtra("URL", url)
@@ -182,5 +190,7 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
 
 
     }
+
+    //endregion
 
 }
