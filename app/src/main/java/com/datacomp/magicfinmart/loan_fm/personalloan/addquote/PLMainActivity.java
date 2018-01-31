@@ -5,25 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.PremiumBreakUpActivity;
-import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 
 public class PLMainActivity extends BaseActivity  {
     BottomNavigationView bottomNavigationView;
@@ -96,7 +86,7 @@ public class PLMainActivity extends BaseActivity  {
                         transaction.commitAllowingStateLoss();
 
                     } else {
-                        QuoteFragment quoteFragment = new QuoteFragment();
+                        PL_QuoteFragment quoteFragment = new PL_QuoteFragment();
                         FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
                         transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
                         transaction_quote.addToBackStack("QUOTE");

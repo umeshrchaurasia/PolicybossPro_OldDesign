@@ -37,7 +37,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
  * Created by Rahul on 24/01/2018.
  */
 
-public class QuoteFragment extends BaseFragment {
+public class PL_QuoteFragment extends BaseFragment {
 
     TextView txtAppName , txtLoanAmnt ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount ,txtInputSummry ;
     CardView cvInputSummary;
