@@ -89,6 +89,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter, ncbPerctAdapter;
     String modelId, varientId;
     String regplace, makeModel;
+    boolean isClaimExist = true;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,7 +141,15 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 //region fuel adapter
 
                 fuelAdapter = new
-                        ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, fuelList);
+                        ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, fuelList) {
+                            @NonNull
+                            @Override
+                            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                                View view1 = super.getView(position, convertView, parent);
+                                view1.setPadding(8, 0, 8, 0);
+                                return view1;
+                            }
+                        };
                 spFuel.setAdapter(fuelAdapter);
 
                 //endregion
@@ -167,6 +176,19 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         });
         //endregion
 
+        //region cubic capacity
+        spVarient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (fastLaneResponseEntity == null)
+                    etCC.setText("" + databaseController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        //endregion
         // region city adapter
 
         cityAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, cityList);
@@ -330,14 +352,16 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvClaimNo:
+                isClaimExist = false;
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder_blue);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder);
-                llNoClaim.setVisibility(View.VISIBLE);
+                sbNoClaimBonus.setEnabled(true);
                 break;
             case R.id.tvClaimYes:
+                isClaimExist = true;
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder_blue);
-                llNoClaim.setVisibility(View.GONE);
+                sbNoClaimBonus.setEnabled(false);
                 break;
             case R.id.btnGetQuote:
 
@@ -542,7 +566,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                             etExpDate.setText(currentDay);
                             if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
                                 int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
-                                setNcbAdapter(yearDiff);
+                                setSeekbarProgress(yearDiff);
                             }
                         }
                     }
@@ -587,7 +611,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     private void setInputParametersNewCAR() {
         motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
-        varientId = databaseController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+        varientId = databaseController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
         motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(regplace)));
         //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
@@ -635,7 +659,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
             motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
         } else {
-            varientId = databaseController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+            varientId = databaseController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
             motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
             motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(acRto.getText().toString())));
             motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
@@ -660,12 +684,12 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         motorRequestEntity.setVehicle_registration_type("individual");
         motorRequestEntity.setMethod_type("Premium");
 
-        if (swClaim.isChecked()) {
+        if (isClaimExist) {
             motorRequestEntity.setIs_claim_exists("yes");
             motorRequestEntity.setVehicle_ncb_current("");
         } else {
             motorRequestEntity.setIs_claim_exists("no");
-            motorRequestEntity.setVehicle_ncb_current(spNcbPercent.getSelectedItem().toString());
+            motorRequestEntity.setVehicle_ncb_current("" + getPercentFromProgress(sbNoClaimBonus.getProgress()));
         }
 
         motorRequestEntity.setElectrical_accessory("0");
@@ -743,9 +767,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         fuelList.add("" + masterData.getFuel_Type());
 
         variantList = new ArrayList<String>();
-        variantList.add("" + masterData.getVariant_Name() + " , ( " + masterData.getCubic_Capacity() + "CC )");
-        //fuelList = databaseController.getFuelTypeByModelId(modelId);
-        //variantList = databaseController.getVariantbyModelID(modelId);
+        variantList.add(masterData.getVariant_Name());
 
         spFuel.setVisibility(View.VISIBLE);
         spVarient.setVisibility(View.VISIBLE);
@@ -753,13 +775,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         //region varient adapter
 
         varientAdapter = new
-                ArrayAdapter(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, variantList) {
-                    @NonNull
-                    @Override
-                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                        return super.getView(position, convertView, parent);
-                    }
-                };
+                ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, variantList);
         spVarient.setAdapter(varientAdapter);
 
         //endregion
@@ -767,13 +783,12 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         //region fuel adapter
 
         fuelAdapter = new
-                ArrayAdapter(getActivity(), R.layout.sp_item_textview, R.id.txtspinneritem, fuelList) {
+                ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, fuelList) {
                     @NonNull
                     @Override
                     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
                         View view1 = super.getView(position, convertView, parent);
-                        TextView tv = (TextView) view1.findViewById(R.id.txtspinneritem);
-                        tv.setPadding(0, 0, 0, 0);
+                        view1.setPadding(8, 0, 8, 0);
                         return view1;
                     }
                 };
@@ -781,13 +796,15 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         //endregion
 
+        etCC.setText("" + masterData.getCubic_Capacity() + "CC");
         acMakeModel.setText("" + masterData.getMake_Name() + "," + masterData.getModel_Name());
         etRegDate.setText("" + changeDateFormat(masterData.getRegistration_Date()));
         etMfgDate.setText("" + changeDateFormat(masterData.getPurchase_Date()));
         regplace = databaseController.getRTOCityName("" + masterData.getVehicleCity_Id());
         acRto.setText(regplace);
+        regplace = databaseController.getRTOCityName("" + masterData.getVehicleCity_Id());
         makeModel = masterData.getMake_Name() + " , " + masterData.getModel_Name();
-        setNcbAdapter(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+        setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
     }
 
     @Override
@@ -830,6 +847,14 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             spNcbPercent.setSelection(5);
         } else {
             spNcbPercent.setSelection(yearDiff);
+        }
+    }
+
+    private void setSeekbarProgress(int yearDiff) {
+        if (yearDiff >= 5) {
+            sbNoClaimBonus.setProgress(5);
+        } else {
+            sbNoClaimBonus.setProgress(yearDiff);
         }
     }
 

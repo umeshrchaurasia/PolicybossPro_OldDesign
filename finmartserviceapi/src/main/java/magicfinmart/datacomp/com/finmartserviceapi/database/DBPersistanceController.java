@@ -171,7 +171,7 @@ public class DBPersistanceController {
                 .equalTo("Model_Name", model.trim())
                 .equalTo("Variant_Name", varientName.trim()).findFirst();
 
-        return entity.getCubic_Capacity();
+        return entity.getCubic_Capacity() + "CC";
     }
 
     public String getVariantID(String variantName, String modelName, String makeName) {
