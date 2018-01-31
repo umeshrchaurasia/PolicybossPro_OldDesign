@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -65,6 +66,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     CustomerEntity customerEntity;
     CustomerApplicationEntity customerApplicationEntity;
 
+    ScrollView scroll;
     TextView txtPropertyInfo, txtCoApplicantDetail, txtApplicantDetail;
     LinearLayout llPropertyInfo, llApplicantDetail, llCoApplicantDetail;
     Toolbar toolbar;
@@ -330,7 +332,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     private void init_widgets(View view) {
 
         //region Main Initialize
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        scroll = (ScrollView) view.findViewById(R.id.scroll);
         txtPropertyInfo = (TextView) view.findViewById(R.id.txtPropertyInfo);
         txtCoApplicantDetail = (TextView) view.findViewById(R.id.txtCoApplicantDetail);
         txtApplicantDetail = (TextView) view.findViewById(R.id.txtApplicantDetail);
@@ -380,7 +382,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         //txtMaxLoanAmntAllow.setText(String.format("%.2f", getPercent(500000)));
         sbTenure.setMax(30);
 
-        sbTenure.setProgress(1);
+        sbTenure.setProgress(5);
         etTenureInYear.setText("5");
         acCity = (AutoCompleteTextView) view.findViewById(R.id.acCity);
 
@@ -589,22 +591,26 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    //                   txtCoApplicantDetail.setVisibility(View.VISIBLE);
-//                    visiblePropertyInfo(View.GONE);
-//                    visibleApplicant(View.GONE);
-                    //   visibleCoApplicant(View.VISIBLE);
+
                     lyParent_CoAppDetail.setVisibility(View.VISIBLE);
                     textCoApplicant.setBackgroundResource(R.color.button_color);
-                    coApp_etEMI.requestFocus();
+
+                  //  coApp_etEMI.requestFocus();
                     Constants.hideKeyBoard(buttonView, getActivity());
 
+
+                    scroll.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scroll.fullScroll(ScrollView.FOCUS_DOWN);
+                        }
+                    },1000);
+
                 } else {
-                    // visibleCoApplicant(View.GONE);
+
                     lyParent_CoAppDetail.setVisibility(View.GONE);
                     textCoApplicant.setBackgroundResource(R.color.secondary_text_color);
-//                    visiblePropertyInfo(View.GONE);
-//                    visibleApplicant(View.VISIBLE);
-                    //                   txtCoApplicantDetail.setVisibility(View.GONE);
+
                 }
             }
         });
@@ -624,6 +630,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
     }
+
 
     private void visiblePropertyInfo(int visibility) {
         if (visibility == View.VISIBLE) {
@@ -1272,8 +1279,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                         etTenureInYear.setText(String.valueOf(progress));
                     }
                 } else {
-                    seekBar.setProgress(MIN);
-                    etTenureInYear.setText(String.valueOf((MIN)));
+                    sbTenure.setProgress(MIN);
+                    etTenureInYear.setText(String.valueOf(MIN));
                 }
                 break;
             //region comment

@@ -16,8 +16,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-       >
+        android:orientation="vertical">
 
         <RadioGroup
             android:id="@+id/rgProperty1"
@@ -95,6 +94,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.8dp"
+        android:layout_marginTop="5dp"
         android:background="@color/lightGrey" />
 
 
@@ -280,6 +280,7 @@
             android:layout_centerVertical="true"
             android:max="30"
             android:progress="1"
+            android:splitTrack="false"
             android:progressDrawable="@drawable/seekbar_style"
             android:thumb="@drawable/custom_thumb" />
 

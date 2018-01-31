@@ -35,10 +35,6 @@ public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
         Call<QuoteApplicationResponse> getQuoteApplication(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-        @POST("/api/save-loan-request")
-        Call<QuoteApplicationResponse> saveQuote(@Body HashMap<String, String> body);
-
-        @Headers("token:1234567890")
         @POST("/api/manage-vehicle")
         Call<SaveQuoteResponse> saveMotorRequest(@Body SaveMotorRequestEntity entity);
 
