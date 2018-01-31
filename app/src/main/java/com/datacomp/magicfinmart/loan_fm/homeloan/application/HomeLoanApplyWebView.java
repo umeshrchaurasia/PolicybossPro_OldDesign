@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply;
+package com.datacomp.magicfinmart.loan_fm.homeloan.application;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,37 +12,37 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
 import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 
-public class PersonalLoanApplyWebView extends AppCompatActivity {
+public class HomeLoanApplyWebView extends AppCompatActivity {
 
     WebView webView;
     int quoteId;
-    PersonalQuoteEntity entity ;
     String url;
+    QuoteEntity quoteEntity;
     LoginResponseEntity loginEntity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_loan_apply_web_view);
+        setContentView(R.layout.activity_home_loan_apply_web_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        loginEntity   = new DBPersistanceController(PersonalLoanApplyWebView.this).getUserData();
+        loginEntity   = new DBPersistanceController(HomeLoanApplyWebView.this).getUserData();
         webView = (WebView) findViewById(R.id.webView);
-
-        if (getIntent().getStringExtra("PL_URL") != null) {
-            entity = getIntent().getParcelableExtra("PL");
-            quoteId = getIntent().getIntExtra("PL_QUOTE_ID", 0);
-            url = getIntent().getStringExtra("PL_URL");
+        //webView.clearCache(false);
+        if (getIntent().getStringExtra("URL") != null) {
+            quoteEntity = getIntent().getParcelableExtra("QUOTE_ENTITY");
+            quoteId = getIntent().getIntExtra("QUOTE_ID", 0);
+            url = getIntent().getStringExtra("URL");
         }
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
@@ -62,18 +62,15 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
         webView.setWebViewClient(webViewClient);
         webView.getSettings().setBuiltInZoomControls(true);
 
-        //  url = url + "?qoutid=" + quoteId + "&bankid=" + bankId + "&productid=9" + "&brokerid=" + loginEntity.getBrokerId() + "&empcode=" + loginEntity.getEmpCode();
-
-        url = url + "?qoutid=" + quoteId + "&bankid=" + entity.getBank_Id()
-                + "&productid=9"
+        url = url + "?qoutid=" + quoteId + "&bankid=" + quoteEntity.getBank_Id()
+                + "&productid=12"
                 + "&refapp=0"
                 + "&brokerid=" + loginEntity.getLoanId()
                 + "&empcode=" + ""
-                + "&loanamout=" + entity.getLoan_eligible()
-                + "&idtype=" + entity.getRoi_type()
-                + "&processingfee=" + entity.getProcessingfee();
-
-        Log.d("PERSONAL_LOAN_URL", url);
+                + "&loanamout=" + quoteEntity.getLoan_eligible()
+                + "&idtype=" + quoteEntity.getRoi_type()
+                + "&processingfee=" + quoteEntity.getProcessingfee();
+        Log.d("HOME_LOAN_URL", url);
         webView.loadUrl(url);
     }
 
@@ -94,4 +91,5 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
         finish();
         super.onBackPressed();
     }
+
 }

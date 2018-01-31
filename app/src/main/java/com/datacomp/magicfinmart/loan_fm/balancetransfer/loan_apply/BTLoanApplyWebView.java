@@ -1,13 +1,10 @@
-package com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply;
+package com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -16,13 +13,17 @@ import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
 
-public class PersonalLoanApplyWebView extends AppCompatActivity {
+/**
+ * Created by IN-RB on 30-01-2018.
+ */
+
+public class BTLoanApplyWebView extends AppCompatActivity {
 
     WebView webView;
     int quoteId;
-    PersonalQuoteEntity entity ;
+    BLEntity entity ;
     String url;
     LoginResponseEntity loginEntity;
 
@@ -36,7 +37,7 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        loginEntity   = new DBPersistanceController(PersonalLoanApplyWebView.this).getUserData();
+        loginEntity   = new DBPersistanceController(BTLoanApplyWebView.this).getUserData();
         webView = (WebView) findViewById(R.id.webView);
 
         if (getIntent().getStringExtra("PL_URL") != null) {
@@ -67,9 +68,9 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
         url = url + "?qoutid=" + quoteId + "&bankid=" + entity.getBank_Id()
                 + "&productid=9"
                 + "&refapp=0"
-                + "&brokerid=" + loginEntity.getLoanId()
+                + "&brokerid=" + loginEntity.getFBAId()
                 + "&empcode=" + ""
-                + "&loanamout=" + entity.getLoan_eligible()
+               // + "&loanamout=" + entity.getLoan_eligible()
                 + "&idtype=" + entity.getRoi_type()
                 + "&processingfee=" + entity.getProcessingfee();
 

@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,8 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLQuoteAdapter;
-import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
+
 import com.datacomp.magicfinmart.utility.Constants;
 
 import java.io.File;
@@ -32,18 +32,19 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLSavingEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BLDispalyResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
+
 
 
 public class BLQuoteFragment extends Fragment {
 
-    RecyclerView rvPLQuotes;
-
+    RecyclerView rvBLQuotes;
+    TextView txtAppName , txtLoanAmnt ,txtLoanTenure,txtInputSummry,txtCount ;
     BLQuoteAdapter mAdapter;
     List<BLEntity> BlListdata;
-    BLSavingEntity BlsavingEntity;
-
+    List<BLSavingEntity> BlsavingEntity;
+    CardView cvInputSummary;
+    BLLoanRequest blLoanRequest;
 
 
 
@@ -51,25 +52,51 @@ public class BLQuoteFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.content_personal_loan_quote, container, false);
+        View view = inflater.inflate(R.layout.content_bl_loan_quote, container, false);
         initialize(view);
         return view;
     }
 
     private void initialize(View view) {
-        rvPLQuotes = (RecyclerView) view.findViewById(R.id.rvPLQuotes);
-        rvPLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        cvInputSummary = (CardView) view.findViewById(R.id.cvInputSummary);
+
+        txtInputSummry = (TextView) view.findViewById(R.id.txtInputSummry);
+        txtAppName = (TextView) view.findViewById(R.id.txtAppName);
+        txtLoanAmnt = (TextView) view.findViewById(R.id.txtLoanAmnt);
+        txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
+        txtCount = (TextView) view.findViewById(R.id.txtCount);
+
+        rvBLQuotes = (RecyclerView) view.findViewById(R.id.rvbLQuotes);
+        rvBLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         Bundle bundle = getArguments();
 
         if (bundle != null) {
             BlListdata = bundle.getParcelableArrayList(Constants.BL_LOAN_QUOTES);
-            BlsavingEntity = bundle.getParcelable(Constants.BL_LOAN_SERVICE);
+          //  BlsavingEntity = bundle.getParcelableArrayList(Constants.BL_LOAN_SERVICE);
+            blLoanRequest =  bundle.getParcelable(Constants.BL_REQUEST);
             if (BlListdata != null) {
 
-                mAdapter = new BLQuoteAdapter(getActivity(), BlListdata);
-                rvPLQuotes.setAdapter(mAdapter);
+                mAdapter = new BLQuoteAdapter(getActivity(), BlListdata,blLoanRequest);
+                rvBLQuotes.setAdapter(mAdapter);
+
+                if(BlListdata.size() >0)
+                {
+                    txtCount.setText(""+BlListdata.size() + " Results from www.rupeeboss.com" );
+                    txtCount.setVisibility(View.VISIBLE);
+                }else{
+                    txtCount.setText("");
+                    txtCount.setVisibility(View.GONE);
+                }
+
+                if(blLoanRequest != null)
+                {
+                //    txtAppName.setText(""+blLoanRequest.getApplicantNme().toUpperCase() );
+                    txtLoanAmnt.setText(""+blLoanRequest.getLoanamount() );
+                    txtLoanTenure.setText(""+blLoanRequest.getLoanterm() );
+;
+                }
             }
         }
     }

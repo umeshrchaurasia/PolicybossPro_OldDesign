@@ -50,23 +50,27 @@
         <item>Son</item>
 
     </array>
-    <string name="title_activity_personal_loan_quote">Personal Loan</string>
-    <string name="title_activity_plquote_info">Personal Loan</string>
-    <string name="title_activity_home_loan_detail">Home Loan</string>
+    <string name="title_activity_personal_loan_quote">PERSONAL LOAN</string>
+    <string name="title_activity_plquote_info">PERSONAL LOAN</string>
+    <string name="title_activity_home_loan_detail">HOME LOAN</string>
     <string name="title_activity_add_quote__hl">Add Quote</string>
-    <string name="title_activity_home_loan">Home Loan</string>
-    <string name="title_activity_home_loan_quote">Home Loan</string>
-    <string name="title_activity_lap_loan_detail">Lap Loan</string>
-    <string name="title_activity_lap__loan">Lap Loan</string>
-    <string name="title_activity_lap_loan_quote">Lap Loan</string>
-    <string name="title_activity_personal_loan_apply">Personal Loan</string>
-    <string name="title_activity_plmain">Personal Loan</string>
-    <string name="title_activity_home_loan_apply">HomeLoanApplyActivity</string>
-    <string name="title_activity_input_quote_bottm">Car Insurance</string>
-    <string name="title_activity_hlmain">Home Loan</string>
-    <string name="title_activity_balance_transfer_detail">Balance Transfer</string>
-    <string name="title_activity_blmain">Balance Transfer</string>
-    <string name="title_activity_personal_loan_apply_web_view">Personal Loan</string>
+    <string name="title_activity_home_loan">HOME LOAN</string>
+    <string name="title_activity_home_loan_quote">HOME LOAN</string>
+    <string name="title_activity_lap_loan_detail">LOAN AGAINST PROPERTY</string>
+    <string name="title_activity_lap__loan">LOAN AGAINST PROPERTY</string>
+    <string name="title_activity_lap_loan_quote">LOAN AGAINST PROPERTY</string>
+    <string name="title_activity_personal_loan_apply">PERSONAL LOAN</string>
+    <string name="title_activity_plmain">PERSONAL LOAN</string>
+    <string name="title_activity_home_loan_apply">HOME LOAN</string>
+    <string name="title_activity_input_quote_bottm">MOTOR Insurance</string>
+    <string name="title_activity_hlmain">HOME LOAN</string>
+    <string name="title_activity_balance_transfer_detail">BALANCE TRANSFER</string>
+    <string name="title_activity_blmain">BALANCE TRANSFER</string>
+    <string name="title_activity_personal_loan_apply_web_view">PERSONAL LOAN</string>
+    <string name="title_activity_home_loan_apply_web_view">HOME LOAN</string>
+    <string name="title_activity_lapmain">LOAN AGAINST PROPERTY</string>
+    <string name="title_activity_lapapply">LOAN AGAINST PROPERTY</string>
+    <string name="title_activity_lapapply_web_view">LOAN AGAINST PROPERTY</string>
 
 
 </resources>
