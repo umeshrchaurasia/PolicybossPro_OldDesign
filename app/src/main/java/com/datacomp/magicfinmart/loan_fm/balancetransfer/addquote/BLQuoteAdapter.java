@@ -89,7 +89,7 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.PLQuotes
             @Override
             public void onClick(View v) {
 
-                 //  ((BLMainActivity) mContext).redirectToApplyLoan(quoteEntity,"",1);
+                   ((BLMainActivity) mContext).redirectToApplyLoan(quoteEntity,blLoanRequest,0);
 
             }
         });

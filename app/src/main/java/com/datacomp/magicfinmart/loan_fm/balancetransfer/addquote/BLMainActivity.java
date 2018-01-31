@@ -21,6 +21,7 @@ import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.QuoteFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 
 public class BLMainActivity extends BaseActivity {
 
@@ -164,11 +165,11 @@ public class BLMainActivity extends BaseActivity {
     }
 
 
-    public void redirectToApplyLoan(BLEntity entity, String url, int id) {
+    public void redirectToApplyLoan(BLEntity entity, BLLoanRequest blLoanRequest, int id) {
         startActivity(new Intent(BLMainActivity.this, BTLoanApplyWebView.class)
-                .putExtra("PL", entity)
-                .putExtra("PL_URL", url)
-                .putExtra("PL_QUOTE_ID", id));
+                .putExtra("BL", entity)
+                .putExtra("BL_Req", blLoanRequest)
+                .putExtra("BL_QUOTE_ID", id));
     }
 
     // Implementation the Interface for Communication of Fragment Input and Quote

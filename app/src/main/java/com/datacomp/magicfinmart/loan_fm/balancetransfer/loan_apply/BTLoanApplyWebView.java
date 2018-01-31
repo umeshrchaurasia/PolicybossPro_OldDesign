@@ -14,6 +14,7 @@ import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 
 /**
  * Created by IN-RB on 30-01-2018.
@@ -26,6 +27,7 @@ public class BTLoanApplyWebView extends AppCompatActivity {
     BLEntity entity ;
     String url;
     LoginResponseEntity loginEntity;
+    BLLoanRequest blLoanRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +42,13 @@ public class BTLoanApplyWebView extends AppCompatActivity {
         loginEntity   = new DBPersistanceController(BTLoanApplyWebView.this).getUserData();
         webView = (WebView) findViewById(R.id.webView);
 
-        if (getIntent().getStringExtra("PL_URL") != null) {
-            entity = getIntent().getParcelableExtra("PL");
-            quoteId = getIntent().getIntExtra("PL_QUOTE_ID", 0);
-            url = getIntent().getStringExtra("PL_URL");
-        }
+        //if (getIntent().getStringExtra("PL_URL") != null) {
+            entity = getIntent().getParcelableExtra("BL");
+            blLoanRequest = getIntent().getParcelableExtra("BL_Req");
+            quoteId = getIntent().getIntExtra("BL_QUOTE_ID", 0);
+
+        //}
+
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
 
@@ -63,16 +67,39 @@ public class BTLoanApplyWebView extends AppCompatActivity {
         webView.setWebViewClient(webViewClient);
         webView.getSettings().setBuiltInZoomControls(true);
 
-        //  url = url + "?qoutid=" + quoteId + "&bankid=" + bankId + "&productid=9" + "&brokerid=" + loginEntity.getBrokerId() + "&empcode=" + loginEntity.getEmpCode();
+     //  http://erp.rupeeboss.com/BalanceTransfer/PL_BT_Form.aspx?qoutid=0&coapp=0&fname=samuel&lname=dias&dob=01-01-1980&
+        // FatherName=&pan=asdfg1234a&Gender=M&Address1=&Address2=&Address3=&Pincode=&
+       // bankid=33&productid=9&IDType=Floating&ProcessingFee=10000&LoanAmout=500000&brokerid=25290
 
-        url = url + "?qoutid=" + quoteId + "&bankid=" + entity.getBank_Id()
-                + "&productid=9"
+        //erp.rupeeboss.com/BalanceTransfer/PL_BT_Form.aspx?qoutid=0&brokerid=0&loanamout=1580000&loaninterest=0.01&loanterm=120
+        // &bankid=33&productid=9&idtype=Fixed&processingfee=31600&empcode=&refapp=0&source=&coapp=0&pan=&CampaignName=Rupeeboss%20Online
+       if(String.valueOf(blLoanRequest.getProduct_id()).equals("9"))
+       {
+           url="http://erp.rupeeboss.com/BalanceTransfer/PL_BT_Form.aspx";
+
+       }else  if(String.valueOf(blLoanRequest.getProduct_id()).equals("7"))
+       {
+           url="http://erp.rupeeboss.com/BalanceTransfer/LAP_BT_Form.aspx";
+       }else  if(String.valueOf(blLoanRequest.getProduct_id()).equals("12"))
+       {
+           url="http://erp.rupeeboss.com/BalanceTransfer/HL_BT_Form.aspx";
+       }
+
+        url = url + "?qoutid=" + quoteId
+                + "&fname=" + blLoanRequest.getFname()
+                + "&lname=" + blLoanRequest.getLname()
+                + "&brokerid=" + loginEntity.getLoanId()
+                + "&productid=" + blLoanRequest.getProduct_id()
+                +"&bankid=" + entity.getBank_Id()
                 + "&refapp=0"
-                + "&brokerid=" + loginEntity.getFBAId()
+                + "&coapp=0"
                 + "&empcode=" + ""
-               // + "&loanamout=" + entity.getLoan_eligible()
+                + "&loanamout=" + blLoanRequest.getLoanamount()
                 + "&idtype=" + entity.getRoi_type()
-                + "&processingfee=" + entity.getProcessingfee();
+                + "&processingfee=" + entity.getProcessingfee()
+                + "&loaninterest=" + entity.getRoi()
+                + "&loanterm=" + (blLoanRequest.getLoanterm()* 12)
+                + "&Lead_Source="+"DC";
 
         Log.d("PERSONAL_LOAN_URL", url);
         webView.loadUrl(url);

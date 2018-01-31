@@ -67,7 +67,8 @@ public class LAPApplyWebView extends AppCompatActivity {
                 + "&empcode=" + ""
                 + "&loanamout=" + quoteEntity.getLoan_eligible()
                 + "&idtype=" + quoteEntity.getRoi_type()
-                + "&processingfee=" + quoteEntity.getProcessingfee();
+                + "&processingfee=" + quoteEntity.getProcessingfee()
+                + "&Lead_Source="+"DC";
         Log.d("LAP_LOAN_URL", url);
         webView.loadUrl(url);
     }
