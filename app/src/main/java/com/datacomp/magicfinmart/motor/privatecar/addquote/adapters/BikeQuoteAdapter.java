@@ -13,12 +13,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 
@@ -29,10 +27,12 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     BikePremiumResponse response;
 
     List<ResponseEntity> listQuotes;
+    DBPersistanceController dbPersistanceController;
 
     public BikeQuoteAdapter(Activity mContext, BikePremiumResponse response) {
         this.mContext = mContext;
         this.response = response;
+        dbPersistanceController = new DBPersistanceController(mContext);
         if (response.getResponse() != null)
             this.listQuotes = response.getResponse();
         else
@@ -65,10 +65,11 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         }
 
         holder.txtIDV.setText("\u20B9 " + String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
-        Glide.with(mContext)
-                //.load(getProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
-                .load(R.drawable.private_car)
-                .into(holder.imgInsurerLogo);
+        holder.imgInsurerLogo.setImageResource(dbPersistanceController.getProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
+        /*Glide.with(mContext)
+                //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
+                //.load(R.drawable.private_car)
+                .into(holder.imgInsurerLogo);*/
 
         holder.txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override

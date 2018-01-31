@@ -18,6 +18,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -57,7 +58,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
 public class InputFragment extends BaseFragment implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
-
+    LinearLayout llNoClaim;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo;
     View cvInput;
@@ -72,9 +73,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
-    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile;
+    EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC;
     AutoCompleteTextView acMakeModel, acRto;
-    TextView tvCarNo;
+    TextView tvCarNo, tvProgress, tvClaimYes, tvClaimNo;
     Switch swIndividual, swClaim;
     Spinner spNcbPercent;
     //endregion
@@ -272,7 +273,27 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         cvInput.setVisibility(View.GONE);
     }
 
+    public int getPercentFromProgress(int value) {
+        switch (value) {
+            case 0:
+                return 0;
+            case 1:
+                return 20;
+            case 2:
+                return 25;
+            case 3:
+                return 35;
+            case 4:
+                return 45;
+            case 5:
+                return 50;
+        }
+        return 0;
+    }
+
     private void setListener() {
+        tvClaimYes.setOnClickListener(this);
+        tvClaimNo.setOnClickListener(this);
         btnGetQuote.setOnClickListener(this);
         tvDontKnow.setOnClickListener(this);
         etreg1.addTextChangedListener(new GenericTextWatcher(etreg1, this));
@@ -287,38 +308,14 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         sbNoClaimBonus.setNumericTransformer(new DiscreteSeekBar.NumericTransformer() {
             @Override
             public int transform(int value) {
-                switch (value) {
-                    case 0:
-                        return 0;
-                    case 1:
-                        return 20;
-                    case 2:
-                        return 25;
-                    case 3:
-                        return 35;
-                    case 4:
-                        return 45;
-                    case 5:
-                        return 50;
-                }
-                return 0;
+                return getPercentFromProgress(value);
             }
         });
         sbNoClaimBonus.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 if (fromUser) {
-                    /*if (value > 0 && value <= 20) {
-                        seekBar.setProgress(20);
-                    } else if (value > 20 && value <= 25) {
-                        seekBar.setProgress(25);
-                    } else if (value > 25 && value <= 35) {
-                        seekBar.setProgress(35);
-                    } else if (value > 35 && value <= 45) {
-                        seekBar.setProgress(45);
-                    } else if (value > 45 && value <= 55) {
-                        seekBar.setProgress(50);
-                    }*/
+                    tvProgress.setText("" + getPercentFromProgress(value));
                 }
             }
 
@@ -329,17 +326,22 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-
             }
         });
     }
 
     private void intit_view(View view) {
+        llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
         cvRegNo = (CardView) view.findViewById(R.id.cvRegNo);
         cvInput = (View) view.findViewById(R.id.cvInput);
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
         tvDontKnow = (TextView) view.findViewById(R.id.tvDontKnow);
+        tvProgress = (TextView) view.findViewById(R.id.tvProgress);
+        tvClaimNo = (TextView) view.findViewById(R.id.tvClaimNo);
+        tvClaimYes = (TextView) view.findViewById(R.id.tvClaimYes);
+        etCC = (EditText) view.findViewById(R.id.etCC);
+
 
         etreg1 = (EditText) view.findViewById(R.id.etreg1);
         etreg1.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(2)});
@@ -376,6 +378,16 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tvClaimNo:
+                tvClaimNo.setBackgroundResource(R.drawable.customeborder_blue);
+                tvClaimYes.setBackgroundResource(R.drawable.customeborder);
+                llNoClaim.setVisibility(View.VISIBLE);
+                break;
+            case R.id.tvClaimYes:
+                tvClaimNo.setBackgroundResource(R.drawable.customeborder);
+                tvClaimYes.setBackgroundResource(R.drawable.customeborder_blue);
+                llNoClaim.setVisibility(View.GONE);
+                break;
             case R.id.btnGetQuote:
 
                 //region validations
