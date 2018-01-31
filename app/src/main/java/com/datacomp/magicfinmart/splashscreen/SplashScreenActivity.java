@@ -54,9 +54,9 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                 @Override
                 public void run() {
                     if (loginResponseEntity != null) {
-                        Toast.makeText(SplashScreenActivity.this, "User exist!", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(SplashScreenActivity.this, "User exist!", Toast.LENGTH_SHORT).show();
                         //TODO Redirect to homeactivity
-                        startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
                     } else {
                         startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                     }
