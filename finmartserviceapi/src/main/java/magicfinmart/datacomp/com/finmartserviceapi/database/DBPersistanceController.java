@@ -169,7 +169,7 @@ public class DBPersistanceController {
                 .equalTo("Model_Name", model.trim())
                 .equalTo("Variant_Name", varientName.trim()).findFirst();
 
-        return entity.getCubic_Capacity();
+        return entity.getCubic_Capacity() + "CC";
     }
 
     public String getVariantID(String variantName, String modelName, String makeName) {
@@ -557,7 +557,7 @@ public class DBPersistanceController {
 
     //region insurance image mapping
 
-    public  void MapCarInsuranceImage() {
+    public void MapCarInsuranceImage() {
 
         hasMapCarInsuranceImage.put(1, R.drawable.carins1);
         hasMapCarInsuranceImage.put(2, R.drawable.carins2);
@@ -590,7 +590,7 @@ public class DBPersistanceController {
         hasMapCarInsuranceImage.put(40, R.drawable.carins35);
     }
 
-    public  int getProfessionalID1(int pic) {
+    public int getProfessionalID1(int pic) {
 
         hasMapCarInsuranceImage = new HashMap<Integer, Integer>();
         MapCarInsuranceImage();
