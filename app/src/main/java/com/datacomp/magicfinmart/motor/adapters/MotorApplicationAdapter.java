@@ -56,9 +56,10 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
                 }
             });
 
-            try{
-                holder.imgInsurerLogo.setImageResource(new DBPersistanceController(fragment.getContext()).getInsurenceID());
-            }catch (Exception e){
+            try {
+                holder.imgInsurerLogo.setImageResource(
+                        new DBPersistanceController(fragment.getContext()).getInsurerImage(entity.getPrev_insurer_id()));
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

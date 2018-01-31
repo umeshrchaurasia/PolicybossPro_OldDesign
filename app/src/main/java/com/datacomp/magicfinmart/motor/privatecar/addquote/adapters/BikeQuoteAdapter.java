@@ -37,7 +37,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     public BikeQuoteAdapter(Fragment mContext, BikePremiumResponse response) {
         this.mContext = mContext;
         this.response = response;
-        dbPersistanceController = new DBPersistanceController(mContext);
+        dbPersistanceController = new DBPersistanceController(mContext.getContext());
         if (response.getResponse() != null)
             this.listQuotes = response.getResponse();
         else
@@ -70,7 +70,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         }
 
         holder.txtIDV.setText("\u20B9 " + String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
-        holder.imgInsurerLogo.setImageResource(dbPersistanceController.getProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
+        holder.imgInsurerLogo.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
         /*Glide.with(mContext)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
                 //.load(R.drawable.private_car)
