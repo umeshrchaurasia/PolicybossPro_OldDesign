@@ -22,16 +22,15 @@ public class BLLoanRequest  implements Parcelable {
     private int product_id;
     private int loanterm;
 
-    private String fname;
-    private String lname;
+    private String ApplicantNme;
+
 
     protected BLLoanRequest(Parcel in) {
         loanamount = in.readInt();
         loaninterest = in.readDouble();
         product_id = in.readInt();
         loanterm = in.readInt();
-        fname=in.readString();
-        lname=in.readString();
+        ApplicantNme=in.readString();
     }
 
     public static final Creator<BLLoanRequest> CREATOR = new Creator<BLLoanRequest>() {
@@ -81,20 +80,12 @@ public class BLLoanRequest  implements Parcelable {
         this.loanterm = loanterm;
     }
 
-    public String getFname() {
-        return fname;
+    public String getApplicantNme() {
+        return ApplicantNme;
     }
 
-    public void setFname(String fname) {
-        this.fname = fname;
-    }
-
-    public String getLname() {
-        return lname;
-    }
-
-    public void setLname(String lname) {
-        this.lname = lname;
+    public void setApplicantNme(String applicantNme) {
+        ApplicantNme = applicantNme;
     }
 
     @Override
@@ -108,7 +99,6 @@ public class BLLoanRequest  implements Parcelable {
         dest.writeDouble(loaninterest);
         dest.writeInt(product_id);
         dest.writeInt(loanterm);
-        dest.writeString(fname);
-        dest.writeString(lname);
+        dest.writeString(this.ApplicantNme);
     }
 }

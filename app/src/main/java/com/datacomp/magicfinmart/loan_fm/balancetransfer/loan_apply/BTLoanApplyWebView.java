@@ -45,7 +45,7 @@ public class BTLoanApplyWebView extends AppCompatActivity {
         //if (getIntent().getStringExtra("PL_URL") != null) {
             entity = getIntent().getParcelableExtra("BL");
             blLoanRequest = getIntent().getParcelableExtra("BL_Req");
-            quoteId = getIntent().getIntExtra("BL_QUOTE_ID", 0);
+            quoteId = getIntent().getIntExtra("BL_QUOTE_ID",0);
 
         //}
 
@@ -85,9 +85,12 @@ public class BTLoanApplyWebView extends AppCompatActivity {
            url="http://erp.rupeeboss.com/BalanceTransfer/HL_BT_Form.aspx";
        }
 
+        http://erp.rupeeboss.com/BalanceTransfer/PL_BT_Form.aspx?qoutid=0&brokerid=0&
+        // loanamout=5000000&loaninterest=11.49&loanterm=144&bankid=33&productid=9&idtype=Fixed&
+        // processingfee=100000&empcode=&refapp=0&source=&coapp=0&pan=&CampaignName=Rupeeboss%20Online
+
         url = url + "?qoutid=" + quoteId
-                + "&fname=" + blLoanRequest.getFname()
-                + "&lname=" + blLoanRequest.getLname()
+                + "&fname=" + blLoanRequest.getApplicantNme()
                 + "&brokerid=" + loginEntity.getLoanId()
                 + "&productid=" + blLoanRequest.getProduct_id()
                 +"&bankid=" + entity.getBank_Id()
@@ -99,6 +102,7 @@ public class BTLoanApplyWebView extends AppCompatActivity {
                 + "&processingfee=" + entity.getProcessingfee()
                 + "&loaninterest=" + entity.getRoi()
                 + "&loanterm=" + (blLoanRequest.getLoanterm()* 12)
+                + "&fba_id="+ loginEntity.getFBAId()
                 + "&Lead_Source="+"DC";
 
         Log.d("PERSONAL_LOAN_URL", url);
