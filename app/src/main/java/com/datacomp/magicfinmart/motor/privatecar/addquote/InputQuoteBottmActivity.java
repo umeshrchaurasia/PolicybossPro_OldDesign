@@ -12,7 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.BuyFragment;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.InputFragment;
@@ -24,12 +26,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteappli
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 
-public class InputQuoteBottmActivity extends AppCompatActivity {
+public class InputQuoteBottmActivity extends BaseActivity {
 
+    private static String INPUT_FRAGMENT = "input";
+    private static String QUOTE_FRAGMENT = "quote";
+    private static String BUY_FRAGMENT = "buy";
     BottomNavigationView bottomNavigationView;
-
-    int totCount = 0;
+    Bundle quoteBundle;
     Fragment tabFragment = null;
+    FragmentTransaction transactionSim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,18 +43,24 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-//        if(bottomNavigationView != null)
-//        {
-//            // Select first menu item by default and show Fragment accordingly.
-//            Menu menu = bottomNavigationView.getMenu();
-//        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        InputFragment inputFragment = new InputFragment();
-        FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
-        transactionSim.replace(R.id.frame_layout, inputFragment, "INPUT");
-        transactionSim.addToBackStack("INPUT");
-        transactionSim.commitAllowingStateLoss();
+
+        //first input fragment load
+        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+
+        quoteBundle = null;
+    }
+
+    private void loadFragment(Fragment fragment, String TAG) {
+        transactionSim = getSupportFragmentManager().beginTransaction();
+        transactionSim.replace(R.id.frame_layout, fragment, TAG);
+        transactionSim.addToBackStack(TAG);
+        transactionSim.show(fragment);
+        transactionSim.commit();
+        //transactionSim.commitAllowingStateLoss();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -59,83 +70,42 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("INPUT");
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (tabFragment != null) {
-
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, tabFragment, "INPUT");
-                        transaction.addToBackStack("INPUT");
-                        transaction.show(tabFragment);
-                        //   transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction.commit();
+                        loadFragment(tabFragment, INPUT_FRAGMENT);
 
                     } else {
-                        InputFragment inputFragment = new InputFragment();
-                        FragmentTransaction transaction_imm = getSupportFragmentManager().beginTransaction();
-                        transaction_imm.replace(R.id.frame_layout, inputFragment, "INPUT");
-                        transaction_imm.addToBackStack("INPUT");
-                        transaction_imm.show(inputFragment);
-                        //   transaction_imm.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction_imm.commit();
-
+                        loadFragment(new InputFragment(), INPUT_FRAGMENT);
                     }
-                    item.setCheckable(true);
-                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
-                    bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
                     return true;
                 case R.id.navigation_quote:
 
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("QUOTE");
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
                     if (tabFragment != null) {
-
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, tabFragment, "QUOTE");
-                        transaction.addToBackStack("QUOTE");
-                        transaction.show(tabFragment);
-                        // transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction.commitAllowingStateLoss();
+                        loadFragment(tabFragment, QUOTE_FRAGMENT);
 
                     } else {
-                        QuoteFragment quoteFragment = new QuoteFragment();
-                        FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
-                        transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-                        transaction_quote.addToBackStack("QUOTE");
-                        transaction_quote.show(quoteFragment);
-                        //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction_quote.commitAllowingStateLoss();
+                        if (quoteBundle != null) {
+                            QuoteFragment quoteFragment = new QuoteFragment();
+                            quoteFragment.setArguments(quoteBundle);
+                            loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                        } else {
 
-
+                            Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    item.setCheckable(true);
-                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-                    bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
                     return true;
                 case R.id.navigation_buy:
 
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
-                    if (tabFragment != null) {
-
-                        FragmentTransaction transaction = getSupportFragmentManager()
-                                .beginTransaction();
-                        transaction.show(tabFragment);
-                        //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction.addToBackStack("BUY");
-                        transaction.commitAllowingStateLoss();
-
-                    } else {
-                        BuyFragment buyFragment = new BuyFragment();
-                        FragmentTransaction transaction_buy = getSupportFragmentManager().beginTransaction();
-                        transaction_buy.replace(R.id.frame_layout, buyFragment, "BUY");
-                        transaction_buy.addToBackStack("BUY");
-                        transaction_buy.show(buyFragment);
-                        //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction_buy.commitAllowingStateLoss();
-
-
-                    }
-                    item.setCheckable(true);
-                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+//                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
+//                    if (tabFragment != null) {
+//                        loadFragment(tabFragment, INPUT_FRAGMENT);
+//
+//                    } else {
+//                        loadFragment(new BuyFragment(), INPUT_FRAGMENT);
+//                    }
 
                     return true;
             }
@@ -148,6 +118,15 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         InputQuoteBottmActivity.this.finish();
+    }
+
+    public void getQuoteParameterBundle(Bundle bundle) {
+
+        quoteBundle = bundle;
+        if (bundle == null)
+            Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+        else
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
     }
 
     //region unUsed code
