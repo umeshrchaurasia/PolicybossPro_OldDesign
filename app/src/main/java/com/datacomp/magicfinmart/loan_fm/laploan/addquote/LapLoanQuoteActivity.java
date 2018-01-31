@@ -37,7 +37,8 @@ public class LapLoanQuoteActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getQuoteResponse = getIntent().getParcelableExtra(Constants.QUOTES);
         homeLoanRequest = getIntent().getParcelableExtra(Constants.HL_REQUEST);
-        mAdapter = new LAPQuoteAdapter(LapLoanQuoteActivity.this, getQuoteResponse.getData());
+
+        mAdapter = new LAPQuoteAdapter(LapLoanQuoteActivity.this,getQuoteResponse.getData(),getQuoteResponse);
         rvQuotes.setAdapter(mAdapter);
     }
     public void redirectToApplyLoan(QuoteEntity entity) {

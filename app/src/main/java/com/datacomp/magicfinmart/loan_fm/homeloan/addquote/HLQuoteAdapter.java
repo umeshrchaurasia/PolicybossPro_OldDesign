@@ -16,6 +16,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 
 /**
  * Created by IN-RB on 19-01-2018.
@@ -24,10 +25,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuotesItem>  {
     Activity mContext;
     List<QuoteEntity> quoteEntities;
+    GetQuoteResponse getQuoteResponse;
 
-    public HLQuoteAdapter(Activity context, List<QuoteEntity> quoteEntities) {
+    public HLQuoteAdapter(Activity context, List<QuoteEntity> quoteEntities,GetQuoteResponse tmpgetQuoteResponse) {
         mContext = context;
         this.quoteEntities = quoteEntities;
+        this.getQuoteResponse = tmpgetQuoteResponse;
     }
     public class BankQuotesItem extends RecyclerView.ViewHolder {
 
@@ -65,7 +68,7 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
         final QuoteEntity quoteEntity = quoteEntities.get(position);
         holder.tvEligibleLoan.setText("" + "\u20B9"+" " + String.format("%.0f", quoteEntity.getLoan_eligible()));
         holder.tvBestRate.setText(""  + quoteEntity.getRoi() + " %");
-        holder.tvBankName.setText("" + quoteEntity.getBank_Name());
+        holder.tvBankName.setText("" + quoteEntity.getBank_Code());
         holder.tvBestEmi.setText(""+ "\u20B9" +" " +  String.format("%.0f", quoteEntity.getEmi()));
         holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure()+ " Years");
         holder.tvProcessingFee.setText(""+ "\u20B9"+" "  + String.format("%.0f", quoteEntity.getProcessingfee()));
@@ -84,7 +87,7 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
             @Override
             public void onClick(View v) {
 
-                ((HomeLoanQuoteActivity) mContext).redirectToApplyLoan(quoteEntity);
+                ((HLMainActivity) mContext).redirectToApplyLoan(quoteEntity,getQuoteResponse.getUrl(),getQuoteResponse.getQuote_id());
 
             }
         });

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:padding="8dp">
 
 
@@ -19,16 +20,30 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
+
             <TextView
-                android:id="@+id/textView3"
-                style="@style/TextViewStyle.Medium"
-                android:text="Type" />
+                android:id="@+id/txtInputSummry"
+                android:background="@color/white"
+                android:text="SELECT LOAN TYPE"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="6dp"
+                android:textColor="@color/black"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+
+                style="@style/TextViewStyle.Large" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="@color/lightGrey" />
 
             <LinearLayout
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <RadioGroup
@@ -43,13 +58,13 @@
                         android:id="@+id/rbimghl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Home Loan" />
+                        android:text="HOME LOAN" />
 
                     <RadioButton
                         android:id="@+id/rbimgpl"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Personal Loan" />
+                        android:text="PERSONAL LOAN" />
 
                     <RadioButton
                         android:id="@+id/rbimglap"
@@ -61,6 +76,11 @@
 
             </LinearLayout>
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.8dp"
+                android:background="@color/lightGrey" />
         </LinearLayout>
 
 
@@ -72,6 +92,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
@@ -80,7 +101,7 @@
             android:layout_width="0dp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:hint="Outstanding Amount">
+            android:hint="OUTSTANDING AMOUNT">
 
 
 
@@ -89,8 +110,9 @@
                 style="@style/Style.edittext"
                 android:digits="0123456789"
                 android:ems="10"
+                android:text="42000000"
                 android:inputType="phone"
-                android:maxLength="7" />
+                android:maxLength="15" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -99,21 +121,24 @@
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:hint="Curr Int Rate">
+            android:hint="CURR INT RATE">
 
             <EditText
                 android:id="@+id/etCurrInc"
                 style="@style/Style.edittext"
-                android:digits="0123456789"
                 android:ems="10"
-                android:inputType="phone" />
+                android:text="10"
+                android:maxLength="5"
+                android:digits="0123456789.+-"
+                android:inputType="numberDecimal" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:weightSum="100">
 
 
 
@@ -122,15 +147,17 @@
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
-            android:layout_weight="1"
-            android:hint="Rem. loan tenure yrs">
+
+            android:layout_weight="60"
+            android:hint="REM. LOAN TENURE (YRS)">
 
             <EditText
                 android:id="@+id/ettenureyrs"
                 style="@style/Style.edittext"
                 android:digits="0123456789"
                 android:inputType="phone"
-                android:maxLength="9" />
+                android:text="10"
+                android:maxLength="2" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 

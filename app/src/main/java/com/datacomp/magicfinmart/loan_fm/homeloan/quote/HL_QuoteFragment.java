@@ -15,7 +15,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HomeLoanActivity;
+
 
 import java.text.SimpleDateFormat;
 

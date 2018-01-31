@@ -36,7 +36,7 @@ public class HomeLoanQuoteActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getQuoteResponse = getIntent().getParcelableExtra(Constants.QUOTES);
         homeLoanRequest = getIntent().getParcelableExtra(Constants.HL_REQUEST);
-        mAdapter = new HLQuoteAdapter(HomeLoanQuoteActivity.this, getQuoteResponse.getData());
+        mAdapter = new HLQuoteAdapter(HomeLoanQuoteActivity.this,getQuoteResponse.getData(),getQuoteResponse);
         rvQuotes.setAdapter(mAdapter);
     }
     public void redirectToApplyLoan(QuoteEntity entity) {
