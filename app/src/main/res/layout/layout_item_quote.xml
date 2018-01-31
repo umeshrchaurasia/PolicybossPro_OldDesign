@@ -24,14 +24,14 @@
 
             <TextView
                 android:id="@+id/txtPersonName"
-                style="@style/TextViewStyle.Large"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:layout_weight="90"
                 android:gravity="center"
                 android:lines="2"
-                android:padding="0dp"
                 android:textAllCaps="true"
+                android:textAppearance="@style/TextStyle.Body1"
                 android:textColor="@color/header_dark_text"
                 android:textStyle="bold" />
 
@@ -43,7 +43,7 @@
                 android:layout_weight="10"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:text="@string/threedots"
-                android:textAppearance="?android:textAppearanceLarge"
+                android:textAppearance="@style/TextStyle.Title"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -69,20 +69,20 @@
                 android:padding="4dp">
 
                 <TextView
-                    style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="0dp"
                     android:text="Vehicle"
                     android:textAllCaps="true"
-                    android:textColor="@color/description_text" />
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/header_light_text"
+                    android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/txtVehicleName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="0dp"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/header_dark_text" />
@@ -96,20 +96,20 @@
                 android:padding="4dp">
 
                 <TextView
-                    style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="0dp"
                     android:text="Quote date"
                     android:textAllCaps="true"
-                    android:textColor="@color/description_text" />
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/header_light_text"
+                    android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/txtQuoteDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="0dp"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/header_dark_text" />

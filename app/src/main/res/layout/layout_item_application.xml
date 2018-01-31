@@ -53,6 +53,7 @@
                     android:lines="2"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.Body1"
+
                     android:textColor="@color/header_dark_text"
                     android:textStyle="bold" />
 
@@ -92,6 +93,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="App number"
+
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextStyle.Body1"
                         android:textColor="@color/header_light_text"
@@ -99,10 +101,11 @@
 
                     <TextView
                         android:id="@+id/txtCRN"
-                        style="@style/TextViewStyle.Medium"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textAllCaps="true"
+                        android:textAppearance="@style/TextStyle.Body1"
                         android:textColor="@color/header_dark_text" />
                 </LinearLayout>
 
@@ -124,10 +127,11 @@
 
                     <TextView
                         android:id="@+id/txtVehicleNo"
-                        style="@style/TextViewStyle.Medium"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textAllCaps="true"
+                        android:textAppearance="@style/TextStyle.Body1"
                         android:textColor="@color/header_dark_text" />
                 </LinearLayout>
 
@@ -149,10 +153,11 @@
 
                     <TextView
                         android:id="@+id/txtCreatedDate"
-                        style="@style/TextViewStyle.Medium"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textAllCaps="true"
+                        android:textAppearance="@style/TextStyle.Body1"
                         android:textColor="@color/header_dark_text" />
                 </LinearLayout>
             </LinearLayout>
