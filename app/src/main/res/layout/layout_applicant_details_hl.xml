@@ -58,12 +58,14 @@
                         android:id="@+id/rbimgMale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         android:drawableRight="@drawable/male" />
 
                     <RadioButton
                         android:id="@+id/rbimgFemale"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+
                         android:drawableRight="@drawable/female" />
                 </RadioGroup>
 
@@ -79,6 +81,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="bottom"
+
         android:orientation="horizontal">
 
 
@@ -86,9 +90,10 @@
             android:id="@+id/textView411"
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
-            android:layout_gravity="bottom"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
             android:hint="Date of Birth">
 
             <EditText
@@ -405,8 +410,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="0.5dp"
-        android:background="@color/lightGrey" />
+
 </LinearLayout>

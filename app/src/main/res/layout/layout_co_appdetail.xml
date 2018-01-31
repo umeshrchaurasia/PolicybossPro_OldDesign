@@ -11,6 +11,12 @@
         <!--android:layout_height="match_parent"-->
 
         <!--android:scrollbars="none">-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.8dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/lightGrey" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -69,6 +75,7 @@
                                 android:id="@+id/coApp_rbimgMale"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:checked="true"
                                 android:drawableRight="@drawable/male" />
 
                             <RadioButton
@@ -179,8 +186,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="10dp">
+                android:orientation="vertical">
 
 
                 <Spinner
@@ -192,6 +198,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/coApp_llSelfEmployeed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -238,7 +245,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/coApp_llSelfEmployeed"
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
@@ -324,18 +330,18 @@
 
 
                 <LinearLayout
+                    android:gravity="bottom"
                     android:id="@+id/coApp_llSalaried"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <android.support.design.widget.TextInputLayout
+                        <android.support.design.widget.TextInputLayout
                         android:id="@+id/textView110"
                         style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
-                        android:gravity="bottom"
                         android:hint="Mothly Income">
 
                         <EditText
@@ -368,9 +374,6 @@
                         android:layout_height="wrap_content" />
 
                     </LinearLayout>
-
-
-
 
 
                 </LinearLayout>

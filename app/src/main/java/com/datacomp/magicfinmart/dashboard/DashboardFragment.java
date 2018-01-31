@@ -41,12 +41,6 @@ public class DashboardFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         initialise(view);
 
-        DBPersistanceController controller = new DBPersistanceController(getActivity());
-        List<String> listMake = controller.getMake();
-        List<String> listModel = controller.getModel("Hyundai");
-        List<String> listVarient = controller.getVariant("Hyundai", "Elantra");
-        String cc = controller.getVarientCC("Hyundai", "Elantra", "1.8 GT");
-
         mAdapter = new DashboardRowAdapter(DashboardFragment.this);
         this.rvHome.setAdapter(mAdapter);
         return view;

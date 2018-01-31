@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
+import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 
@@ -94,11 +95,11 @@ public class HomeActivity extends BaseActivity {
                         break;
                     }
                     case R.id.nav_logout:
-//
-//                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-//                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        startActivity(intent);
-//                        finish();
+                        new DBPersistanceController(HomeActivity.this).logout();
+                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
                         Toast.makeText(HomeActivity.this, "Logout", Toast.LENGTH_SHORT).show();
                         break;
 

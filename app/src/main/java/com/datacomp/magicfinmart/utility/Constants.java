@@ -27,6 +27,7 @@ public class Constants {
     public static String PERSONAL_LOAN_QUOTES = "personalloanquotes";
     public static String BL_LOAN_QUOTES = "balanceTransferloanquotes";
     public static String BL_LOAN_SERVICE = "balanceTransferloanservice";
+    public static String BL_REQUEST = "balanceTransferRequest";
     public static String HOME_LOAN_QUOTES = "homeloanquotes";
     public static String HL_REQUEST = "homeloanRequest";
     public static String PL_REQUEST = "personalloanRequest";

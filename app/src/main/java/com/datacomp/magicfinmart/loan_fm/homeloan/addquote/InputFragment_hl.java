@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -43,6 +44,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
@@ -57,11 +59,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
  */
 public class InputFragment_hl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, SeekBar.OnSeekBarChangeListener, TextWatcher {
 
-    GetQuoteResponse getQuoteResponse;
 
+    DBPersistanceController databaseController;   //DB declare
+    LoginResponseEntity loginEntity;
+    GetQuoteResponse getQuoteResponse;
     CustomerEntity customerEntity;
     CustomerApplicationEntity customerApplicationEntity;
 
+    ScrollView scroll;
     TextView txtPropertyInfo, txtCoApplicantDetail, txtApplicantDetail;
     LinearLayout llPropertyInfo, llApplicantDetail, llCoApplicantDetail;
     Toolbar toolbar;
@@ -87,7 +92,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     //endregion
 
     //region PropertyIndo
-    EditText etCostOfProp, etTenureInYear, txtMaxLoanAmntAllow;
+    EditText etCostOfProp,  txtMaxLoanAmntAllow;
     TextView txtDispalayMinCostProp, txtDispalayMaxCostProp, txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     TextView textCoApplicant, txtCoSalaried, txtCoSelfEMp, txtSalaried, txtSelfEMp;
     Spinner spNewLoan;
@@ -95,6 +100,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     ArrayAdapter<String> newLoanAdapter;
     ArrayAdapter<String> preferedCityAdapter;
     SeekBar sbCostOfProp, sbTenure;
+
+    TextView etTenureInYear;
 
 
     int seekBarTenureProgress = 1;
@@ -119,6 +126,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     AutoCompleteTextView acCity;
     boolean isCitySelected;
     DBPersistanceController mReal;
+    List<String> cityList ;
     //endregion
     Context mContext;
 
@@ -134,7 +142,13 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_home_loan, container, false);
         mReal = new DBPersistanceController(getActivity());
+
+        databaseController = new DBPersistanceController(getActivity());
+        loginEntity = databaseController.getUserData();
+        cityList = databaseController.getRTOListNames();
+
         init_widgets(view);
+
         setListener();
 
 //        visibleApplicant(View.GONE);
@@ -318,7 +332,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     private void init_widgets(View view) {
 
         //region Main Initialize
-        toolbar = (Toolbar) view.findViewById(R.id.toolbar);
+        scroll = (ScrollView) view.findViewById(R.id.scroll);
         txtPropertyInfo = (TextView) view.findViewById(R.id.txtPropertyInfo);
         txtCoApplicantDetail = (TextView) view.findViewById(R.id.txtCoApplicantDetail);
         txtApplicantDetail = (TextView) view.findViewById(R.id.txtApplicantDetail);
@@ -358,7 +372,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         txtDispalayMaxCostProp = (TextView) view.findViewById(R.id.txtDispalayMaxCostProp);
         txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
         txtDispalayMaxTenureYear = (TextView) view.findViewById(R.id.txtDispalayMaxTenureYear);
-        etTenureInYear = (EditText) view.findViewById(R.id.etTenureInYear);
+        etTenureInYear = (TextView) view.findViewById(R.id.etTenureInYear);
         sbCostOfProp = (SeekBar) view.findViewById(R.id.sbCostOfProp);
         sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
 
@@ -367,8 +381,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 //        etCostOfProp.setText("500000");
         //txtMaxLoanAmntAllow.setText(String.format("%.2f", getPercent(500000)));
         sbTenure.setMax(30);
-        sbTenure.setProgress(1);
-        etTenureInYear.setText("1");
+
+        sbTenure.setProgress(5);
+        etTenureInYear.setText("5");
         acCity = (AutoCompleteTextView) view.findViewById(R.id.acCity);
 
         //endregion
@@ -576,22 +591,26 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    //                   txtCoApplicantDetail.setVisibility(View.VISIBLE);
-//                    visiblePropertyInfo(View.GONE);
-//                    visibleApplicant(View.GONE);
-                    //   visibleCoApplicant(View.VISIBLE);
+
                     lyParent_CoAppDetail.setVisibility(View.VISIBLE);
                     textCoApplicant.setBackgroundResource(R.color.button_color);
-                    coApp_etEMI.requestFocus();
+
+                  //  coApp_etEMI.requestFocus();
                     Constants.hideKeyBoard(buttonView, getActivity());
 
+
+                    scroll.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            scroll.fullScroll(ScrollView.FOCUS_DOWN);
+                        }
+                    },1000);
+
                 } else {
-                    // visibleCoApplicant(View.GONE);
+
                     lyParent_CoAppDetail.setVisibility(View.GONE);
                     textCoApplicant.setBackgroundResource(R.color.secondary_text_color);
-//                    visiblePropertyInfo(View.GONE);
-//                    visibleApplicant(View.VISIBLE);
-                    //                   txtCoApplicantDetail.setVisibility(View.GONE);
+
                 }
             }
         });
@@ -611,6 +630,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
     }
+
 
     private void visiblePropertyInfo(int visibility) {
         if (visibility == View.VISIBLE) {
@@ -1048,16 +1068,19 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         //region Preferred City Adapter
         arrayPreferedCity = new ArrayList<String>();
+//        preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
+//                android.R.layout.simple_list_item_1, cityList);
+
         preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, getCityList());
-        //preferedCityAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        //spPreferedCity.setAdapter(preferedCityAdapter);
+
         acCity.setAdapter(preferedCityAdapter);
-        acCity.setThreshold(2);
+        acCity.setThreshold(1);
         //endregion
 
     }
 
+    // delete below method ... Not in Used
     private ArrayList<String> getNewLoanList() {
         List<PropertyInfoEntity> listLoan = mReal.getLoanPropertyInfoList();
         if (listLoan != null) {
@@ -1148,10 +1171,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         } else {
             homeLoanRequest.setCoApplicantYes("N");
         }
-        //   homeLoanRequest.setBrokerId("" + new LoginFacade(getActivity()).getUser().getBrokerId());
-        //   homeLoanRequest.setempcode("" + new LoginFacade(getActivity()).getUser().getEmpCode());
 
-        homeLoanRequest.setBrokerId("" + "rb40000428");
+        homeLoanRequest.setBrokerId("" +loginEntity.getLoanId());
         homeLoanRequest.setempcode("");
         homeLoanRequest.setProductId("12");//HomeLoan
         homeLoanRequest.setApi_source("Finmart");
@@ -1238,15 +1259,28 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         switch (seekBar.getId()) {
 
+//            case R.id.sbTenure:
+//                if (progress >= seekBarTenureProgress) {
+//                    if (fromUser) {
+//                        // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
+//                        etTenureInYear.setText(String.valueOf(progress));
+//                    }
+//                } else {
+//                    etTenureInYear.setText(String.valueOf((long) seekBarTenureProgress));
+//                }
+//                break;
 
             case R.id.sbTenure:
-                if (progress >= seekBarTenureProgress) {
+                int MIN = 5;
+
+                if (progress >= MIN) {
                     if (fromUser) {
                         // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
                         etTenureInYear.setText(String.valueOf(progress));
                     }
                 } else {
-                    etTenureInYear.setText(String.valueOf((long) seekBarTenureProgress));
+                    sbTenure.setProgress(MIN);
+                    etTenureInYear.setText(String.valueOf(MIN));
                 }
                 break;
             //region comment

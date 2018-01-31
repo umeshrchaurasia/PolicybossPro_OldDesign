@@ -1,22 +1,19 @@
 package com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.InputFragment;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.QuoteFragment;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
 
 public class BLMainActivity extends BaseActivity {
 
@@ -160,6 +157,12 @@ public class BLMainActivity extends BaseActivity {
     }
 
 
+    public void redirectToApplyLoan(BLEntity entity, String url, int id) {
+        startActivity(new Intent(BLMainActivity.this, BTLoanApplyWebView.class)
+                .putExtra("PL", entity)
+                .putExtra("PL_URL", url)
+                .putExtra("PL_QUOTE_ID", id));
+    }
 
     // Implementation the Interface for Communication of Fragment Input and Quote
 
