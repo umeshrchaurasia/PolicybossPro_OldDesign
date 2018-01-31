@@ -192,6 +192,7 @@
 
 
                 <LinearLayout
+                    android:id="@+id/coApp_llSelfEmployeed"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -238,7 +239,6 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/coApp_llSelfEmployeed"
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
