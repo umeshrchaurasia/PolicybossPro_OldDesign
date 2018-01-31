@@ -435,10 +435,12 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                     acRto.setError("Enter Rto");
                     return;
                 }
-                if (!isEmpty(etExpDate)) {
-                    etExpDate.requestFocus();
-                    etExpDate.setError("Enter Expiry Date");
-                    return;
+                if (switchNewRenew.isChecked()) {
+                    if (!isEmpty(etExpDate)) {
+                        etExpDate.requestFocus();
+                        etExpDate.setError("Enter Expiry Date");
+                        return;
+                    }
                 }
                 if (!isEmpty(etCustomerName)) {
                     etCustomerName.requestFocus();
@@ -458,7 +460,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 //endregion
 
                 //TODO uncomment this
-                if (switchNewRenew.isChecked()) {
+                if (switchNewRenew.isChecked()) {  //renew
                     setInputParametersReNewCar();
                 } else {
                     setInputParametersNewCAR();
@@ -587,22 +589,68 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         public void onClick(final View view) {
             Constants.hideKeyBoard(view, getActivity());
 
+            //region regdate
             if (view.getId() == R.id.etRegDate) {
-                DateTimePicker.firstRegNewDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etRegDate.setText(currentDay);
-                            etMfgDate.setText(currentDay);
-                        }
-                    }
-                });
+                if (switchNewRenew.isChecked()) {
+                    //region  regdate renew
+                    DateTimePicker.invoiceReNewValidation(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                            if (view1.isShown()) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etRegDate.setText(currentDay);
+                                etMfgDate.setText(currentDay);
 
-            } else if (view.getId() == R.id.etExpDate) {
-                DateTimePicker.policyExpDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                                Calendar calendar1 = Calendar.getInstance();
+                                calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
+                                String expDate = simpleDateFormat.format(calendar1.getTime());
+                                etExpDate.setText(expDate);
+                            }
+                        }
+                    });
+
+                    //endregion
+                } else {
+                    //region  new regdate
+
+                    DateTimePicker.invoiceNewValidation(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                            if (view1.isShown()) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etRegDate.setText(currentDay);
+                                etMfgDate.setText(currentDay);
+                            }
+                        }
+                    });
+
+                    //endregion
+                }
+            }
+            //endregion
+
+            //region policy expirydate
+            else if (view.getId() == R.id.etExpDate) {
+
+                Date regDate = new Date();
+                if (etRegDate.getText().toString().isEmpty()) {
+                    Calendar calendar = Calendar.getInstance();
+                    regDate = calendar.getTime();
+                } else {
+                    try {
+                        regDate = simpleDateFormat.parse(etRegDate.getText().toString());
+                    } catch (ParseException e) {
+                        Calendar calendar = Calendar.getInstance();
+                        regDate = calendar.getTime();
+                        e.printStackTrace();
+                    }
+                }
+
+                DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -617,38 +665,39 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                         }
                     }
                 });
-            } else if (view.getId() == R.id.etMfgDate) {
-                if (etRegDate.getText().toString().equals("") || etRegDate.getText().toString() == null) {
-                    DateTimePicker.firstRegNewDatePicker(view.getContext(),
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                                    if (view1.isShown()) {
-                                        Calendar calendar = Calendar.getInstance();
-                                        calendar.set(year, monthOfYear, dayOfMonth);
-                                        String currentDay = simpleDateFormat.format(calendar.getTime());
-                                        etMfgDate.setText(currentDay);
-                                    }
-
-                                }
-                            });
-                } else {
-                    DateTimePicker.manufactDatePicker(view.getContext(), getYear(etRegDate.getText().toString()), getMonth(etRegDate.getText().toString()), getDate(etRegDate.getText().toString()),
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                                    if (view1.isShown()) {
-                                        Calendar calendar = Calendar.getInstance();
-                                        calendar.set(year, monthOfYear, dayOfMonth);
-                                        String currentDay = simpleDateFormat.format(calendar.getTime());
-                                        etMfgDate.setText(currentDay);
-                                    }
-
-                                }
-                            });
-                }
-
             }
+            //endregion
+
+            //region manufacture date
+            else if (view.getId() == R.id.etMfgDate) {
+
+                Date regDate = new Date();
+                if (etRegDate.getText().toString().isEmpty()) {
+                    Calendar calendar = Calendar.getInstance();
+                    regDate = calendar.getTime();
+                } else {
+                    try {
+                        regDate = simpleDateFormat.parse(etRegDate.getText().toString());
+                    } catch (ParseException e) {
+                        Calendar calendar = Calendar.getInstance();
+                        regDate = calendar.getTime();
+                        e.printStackTrace();
+                    }
+                }
+                DateTimePicker.mfgYearMonthValidation(view.getContext(), regDate,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                                if (view1.isShown()) {
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.set(year, monthOfYear, dayOfMonth);
+                                    String currentDay = simpleDateFormat.format(calendar.getTime());
+                                    etMfgDate.setText(currentDay);
+                                }
+                            }
+                        });
+            }
+            //endregion
 
         }
     };

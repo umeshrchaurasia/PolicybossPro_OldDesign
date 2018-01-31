@@ -69,7 +69,6 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
                         //   transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                         transaction.commit();
 
-
                     } else {
                         InputFragment inputFragment = new InputFragment();
                         FragmentTransaction transaction_imm = getSupportFragmentManager().beginTransaction();
