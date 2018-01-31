@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.motor.privatecar.addquote.fragment;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
@@ -181,73 +183,32 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         // region prev insurer adapter
         prevInsAdapter = new
-                ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, databaseController.getInsurerList());
-//        {
-//                    @Override
-//                    public boolean isEnabled(int position) {
-//                        if (position == 0) {
-//                            // Disable the first item from Spinner
-//                            // First item will be use for hint
-//                            return false;
-//                        } else {
-//                            return true;
-//                        }
-//                    }
-//
-//                    @Override
-//                    public View getDropDownView(int position, View convertView,
-//                                                ViewGroup parent) {
-//                        View view = super.getDropDownView(position, convertView, parent);
-//                        TextView tv = (TextView) view.findViewById(R.id.txtspinneritem);
-//                        tv.setPadding(0, 0, 0, 0);
-//                        if (position == 0) {
-//                            // Set the hint text color gray
-//                            tv.setTextColor(Color.GRAY);
-//                        } else {
-//                            tv.setTextColor(Color.BLACK);
-//                        }
-//                        return view;
-//                    }
-//
-//
-//                    @NonNull
-//                    @Override
-//                    public View getView(int position, @Nullable View convertView,
-//                                        @NonNull ViewGroup parent) {
-//                        View view1 = super.getView(position, convertView, parent);
-//                        view1.setPadding(0, 0, 0, 0);
-//                        return view1;
-//
-//                    }
-//                };
+                ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, databaseController.getInsurerList()) {
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
 
-//        prevInsAdapter = new
-//                ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, databaseController.getInsurerList()) {
-//                    @Override
-//                    public boolean isEnabled(int position) {
-//                        if (position == 0) {
-//                            // Disable the first item from Spinner
-//                            // First item will be use for hint
-//                            return false;
-//                        } else {
-//                            return true;
-//                        }
-//                    }
-//
-//                    @Override
-//                    public View getDropDownView(int position, View convertView,
-//                                                ViewGroup parent) {
-//                        View view = super.getDropDownView(position, convertView, parent);
-//                        TextView tv = (TextView) view;
-//                        if (position == 0) {
-//                            // Set the hint text color gray
-//                            tv.setTextColor(Color.GRAY);
-//                        } else {
-//                            tv.setTextColor(Color.BLACK);
-//                        }
-//                        return view;
-//                    }
-//                };
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
         spPrevIns.setAdapter(prevInsAdapter);
 
         //endregion
@@ -255,16 +216,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         // region ncb adapter
         ncbPerctAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.ncb_percent));
-//        {
-//            @NonNull
-//            @Override
-//            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//                View view1 = super.getView(position, convertView, parent);
-//                TextView tx = (TextView) view1.findViewById(R.id.txtspinneritem);
-//                tx.setPadding(0, 0, 0, 0);
-//                return view1;
-//            }
-//        };
         spNcbPercent.setAdapter(ncbPerctAdapter);
         //endregion
     }
@@ -442,8 +393,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 showDialog();
                 new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
 
-                //TODO remove this line
-                //startActivity(new Intent(this, QuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity).putExtra("RTO_NAME", regplace));
+
                 break;
             case R.id.tvDontKnow:
                 cvInput.setVisibility(View.VISIBLE);
@@ -507,6 +457,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
+    //region imp function
+
     public String getModel(String makeModel) {
         String[] parts = makeModel.split(",");
         return parts[1];
@@ -556,6 +508,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         //return manufac + "-" + calendar.getTime().getMonth() + "-" + calendar.getTime().getDate();
 
     }
+
+    //endregion
 
     //region datepicker
     protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
@@ -761,19 +715,10 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         cancelDialog();
         if (response instanceof BikeUniqueResponse) {
 
-
             Bundle bundle = new Bundle();
             bundle.putParcelable("CAR_REQUEST", motorRequestEntity);
             bundle.putString("RTO_NAME", regplace);
-            QuoteFragment quoteFragment = new QuoteFragment();
-            quoteFragment.setArguments(bundle);
-            FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-            transaction_quote.addToBackStack("QUOTE");
-            transaction_quote.show(quoteFragment);
-            //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction_quote.commit();
-            //startActivity(new Intent(getActivity(), QuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity).putExtra("RTO_NAME", regplace));
+            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(bundle);
         }
 
     }
