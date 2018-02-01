@@ -77,6 +77,17 @@ public class DBPersistanceController {
 
     }
 
+    public CityMasterEntity getRTO(String VehicleCity_Id) {
+
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity;
+        else
+            return null;
+
+    }
     //endregion
 
     //region master car

@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
 import android.util.Log;
@@ -44,6 +43,7 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
@@ -524,8 +524,13 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         return 0;
     }
 
-    private String getRegistrationNo(String city) {
-        return "" + city.charAt(1) + city.charAt(2) + "-" + city.charAt(3) + city.charAt(4) + "-AA-1234";
+    private String getRegistrationNo(String rtoId) {
+        CityMasterEntity cityMasterEntity = databaseController.getRTO(rtoId);
+        return formatRegistrationNo(cityMasterEntity.getVehicleCity_RTOCode() + "AA1234");
+    }
+
+    private String formatRegistrationNo(String regNo) {
+        return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
     }
 
     private String getManufacturingDate(String manufac) {
@@ -680,7 +685,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         if (regNo.equals(""))
             motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
         else
-            motorRequestEntity.setRegistration_no(regNo);
+            motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
         motorRequestEntity.setIs_llpd("no");
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
@@ -713,9 +718,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(acRto.getText().toString())));
             motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
             if (regNo.equals(""))
-                motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
+                motorRequestEntity.setRegistration_no(getRegistrationNo("" + motorRequestEntity.getRto_id()));
             else
-                motorRequestEntity.setRegistration_no(regNo);
+                motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
         }
 
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
@@ -887,9 +892,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         return simpleDateFormat.format(newDate);
     }
 
-    private String formatRegistrationNo(String regNo) {
-        return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
-    }
 
     private void setNcbAdapter(int yearDiff) {
         if (yearDiff >= 5) {
