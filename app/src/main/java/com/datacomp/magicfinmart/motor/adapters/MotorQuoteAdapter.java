@@ -54,11 +54,15 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
             holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
                     + " " + entity.getMotorRequestEntity().getLast_name());
+try{
+    CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+            .getVarientDetails(
+                    "" + entity.getMotorRequestEntity().getVehicle_id());
+    holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
 
-            CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity())
-                    .getVarientDetails(
-                            "" + entity.getMotorRequestEntity().getVehicle_id());
-            holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
+}catch (Exception e){
+
+}
             holder.txtQuoteDate.setText(entity.getMotorRequestEntity().getCreated_date());
 
 

@@ -77,13 +77,15 @@ public class BLQuoteFragment extends Fragment {
           //  BlsavingEntity = bundle.getParcelableArrayList(Constants.BL_LOAN_SERVICE);
             blLoanRequest =  bundle.getParcelable(Constants.BL_REQUEST);
             if (BlListdata != null) {
+                txtInputSummry.setVisibility(View.VISIBLE);
+                cvInputSummary.setVisibility(View.VISIBLE);
 
                 mAdapter = new BLQuoteAdapter(getActivity(), BlListdata,blLoanRequest);
                 rvBLQuotes.setAdapter(mAdapter);
 
                 if(BlListdata.size() >0)
                 {
-                    txtCount.setText(""+BlListdata.size() + " Results from www.rupeeboss.com" );
+                    txtCount.setText(""+BlListdata.size() + "Results from www.rupeeboss.com" );
                     txtCount.setVisibility(View.VISIBLE);
                 }else{
                     txtCount.setText("");
@@ -95,6 +97,7 @@ public class BLQuoteFragment extends Fragment {
                 //    txtAppName.setText(""+blLoanRequest.getApplicantNme().toUpperCase() );
                     txtLoanAmnt.setText(""+blLoanRequest.getLoanamount() );
                     txtLoanTenure.setText(""+blLoanRequest.getLoanterm() );
+                    txtAppName.setText(""+blLoanRequest.getApplicantName() );
 ;
                 }
             }
