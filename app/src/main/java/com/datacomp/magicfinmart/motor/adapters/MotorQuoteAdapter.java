@@ -56,8 +56,10 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
             CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity()).getVarientDetails(
                     "" + entity.getVehicle_id());
-            holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
-            holder.txtQuoteDate.setText(entity.getCreated_date());
+            if (carMasterEntity != null) {
+                holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
+                holder.txtQuoteDate.setText(entity.getCreated_date());
+            }
 
 
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
