@@ -29,29 +29,35 @@ import java.util.Calendar;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan.PersonalLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerApplicationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 
 /**
  * Created by Rajeev Ranjan on 24/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, SeekBar.OnSeekBarChangeListener {
+public class InputFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener {
 
     DBPersistanceController databaseController;
     LoginResponseEntity loginEntity;
     PersonalLoanRequest personalLoanRequest;
+    FmPersonalLoanRequest fmPersonalLoanRequest;
     CustomerEntity customerEntity;
     CustomerApplicationEntity customerApplicationEntity;
     GetPersonalLoanResponse getPersonalLoanResponse;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     Button btnGetQuote;
-    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI ,etPAN, etCostOfProp ;
+    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp;
 
     LinearLayout llSalaried, llSelfEmployeed;
 
@@ -60,20 +66,20 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     RadioButton rbimgMale, rbimgFemale;
 
     TextView txtTenureInYear;
-    TextView  txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
-    SeekBar  sbTenure;
+    TextView txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
+    SeekBar sbTenure;
     Context mContext;
 
 
-
     int seekBarTenureProgress = 1;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_add_plquote, container, false);
         initilize(view);
-        databaseController   = new DBPersistanceController(getActivity());
+        databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
         setListener();
 
@@ -142,7 +148,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     //endregion
 
 
-
     private void setApplicantDetails() {
         // region  HomeLoanRequest Binding
 
@@ -175,8 +180,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         personalLoanRequest.setApplicantObligations(etEMI.getText().toString());
         personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
-        personalLoanRequest.setBrokerId(""+ loginEntity.getLoanId());
-        personalLoanRequest.setempcode("" );
+        personalLoanRequest.setBrokerId("" + loginEntity.getLoanId());
+        personalLoanRequest.setempcode("");
 
     }
 
@@ -280,7 +285,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             }
 
 
-
             // endregion
             setApplicantDetails();
             showDialog();
@@ -289,7 +293,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         }
 
     }
-
 
 
     @Override
@@ -332,7 +335,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         if (response instanceof GetPersonalLoanResponse) {
             if (response.getStatus_Id() == 0) {
 
-                ((PLMainActivity)mContext).setQuoteCheck();
+                ((PLMainActivity) mContext).setQuoteCheck();
 
                 getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
 
@@ -348,8 +351,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 transaction_quote.commit();
 
-
-
+                setFmPeronalLoanRequest();
 
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
@@ -357,10 +359,35 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
+    private void setFmPeronalLoanRequest()
+    {
+
+        showDialog();
+        FmPersonalLoanRequest fmPersonalLoanRequest = new FmPersonalLoanRequest();
+        fmPersonalLoanRequest.setLoan_requestID("");
+        fmPersonalLoanRequest.setFba_id(String.valueOf(loginEntity.getFBAId()));
+        fmPersonalLoanRequest.setPersonalLoanRequest(personalLoanRequest);
+        new MainLoanController(getActivity()).savePLQuoteData(fmPersonalLoanRequest, this);
+
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
+    }
+
+
+
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+
+        cancelDialog();
+        if (response instanceof FmPersonalLoanResponse) {
+            if (response.getStatusNo() == 0) {
+                Toast.makeText(getActivity(), "Fm Saved", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     @Override

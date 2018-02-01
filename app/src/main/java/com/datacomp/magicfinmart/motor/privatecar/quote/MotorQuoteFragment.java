@@ -75,7 +75,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
 
                     QuoteListEntity entity = mQuoteList.get(position);
 
-                  //  startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
+                    startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
                 }
             };
 
