@@ -125,7 +125,7 @@
 
                         <Spinner
                             android:id="@+id/spFuel"
-                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </android.support.design.widget.TextInputLayout>
@@ -146,7 +146,7 @@
                         <!-- varient -->
                         <Spinner
                             android:id="@+id/spVarient"
-                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </android.support.design.widget.TextInputLayout>
@@ -272,7 +272,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
-                                android:background="@drawable/customeborder"
+                                android:background="@drawable/customeborder_blue"
                                 android:gravity="center"
                                 android:padding="3dp"
                                 android:text="YES"
@@ -284,7 +284,7 @@
                                 android:layout_width="50dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
-                                android:background="@drawable/customeborder_blue"
+                                android:background="@drawable/customeborder"
                                 android:gravity="center"
                                 android:padding="3dp"
                                 android:text="NO"
@@ -394,7 +394,7 @@
 
                         <Spinner
                             android:id="@+id/spPrevIns"
-                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                     </android.support.design.widget.TextInputLayout>

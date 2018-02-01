@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFr
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
@@ -44,15 +46,23 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
             final ApplicationListEntity entity = mAppList.get(position);
 
-            holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
-            holder.txtCRN.setText(String.valueOf(entity.getCrn()));
-            holder.txtCreatedDate.setText("" + entity.getCreated_date());
+            holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
+                    + " " + entity.getMotorRequestEntity().getLast_name());
+            holder.txtCRN.setText(String.valueOf(entity.getMotorRequestEntity().getCrn()));
+            holder.txtCreatedDate.setText("" + entity.getMotorRequestEntity().getCreated_date());
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     openPopUp(view, entity);
                 }
             });
+
+            try {
+                holder.imgInsurerLogo.setImageResource(
+                        new DBPersistanceController(fragment.getContext()).getInsurerImage(Integer.parseInt(entity.getMotorRequestEntity().getPrev_insurer_id())));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -68,7 +78,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getMobile(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
@@ -94,7 +104,8 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        public TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtVehicleNo, txtPersonName;
+        TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtVehicleNo, txtPersonName;
+        ImageView imgInsurerLogo;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -103,6 +114,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
             txtCRN = (TextView) itemView.findViewById(R.id.txtCRN);
             txtVehicleNo = (TextView) itemView.findViewById(R.id.txtVehicleNo);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
+            imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
         }
     }
 

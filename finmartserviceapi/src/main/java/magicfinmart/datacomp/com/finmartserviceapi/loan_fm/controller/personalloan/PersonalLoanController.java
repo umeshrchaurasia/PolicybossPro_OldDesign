@@ -119,7 +119,7 @@ public class PersonalLoanController  implements IPersonalLoan {
                 if (response.body().getStatus() == 1) {
                     iResponseSubcriber.OnSuccess(response.body(), "Saved");
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Failed"));
+                    iResponseSubcriber.OnFailure(new RuntimeException("Record Not Found"));
                 }
 
             }

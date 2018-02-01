@@ -45,7 +45,9 @@ public class DBPersistanceController {
         List<CityMasterEntity> list_Make = realm.where(CityMasterEntity.class).findAll();
         ArrayList listCity = new ArrayList();
         for (int i = 0; i < list_Make.size(); i++) {
-            listCity.add(list_Make.get(i).getRTO_CodeDiscription());
+            //listCity.add(list_Make.get(i).getRTO_CodeDiscription());
+            //listCity.add(list_Make.get(i).getRTO_City());
+            listCity.add(list_Make.get(i).getVehicleCity_RTOCode() + " - " + list_Make.get(i).getRTO_City());
         }
         return listCity;
     }
@@ -54,7 +56,9 @@ public class DBPersistanceController {
     public String getCityID(String cityName) {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
-                .equalTo("RTO_CodeDiscription", cityName).findFirst();
+                .equalTo("RTO_City", cityName).findFirst();
+                //.equalTo("VehicleCity_RTOCode", cityName.trim()).findFirst();
+        //.equalTo("RTO_CodeDiscription", cityName).findFirst();
 
         if (entity != null)
             return entity.getVehicleCity_Id();
@@ -75,6 +79,18 @@ public class DBPersistanceController {
 
     }
 
+    public CityMasterEntity getVehicleCity_Id(String RTO_City) {
+
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("RTO_City", RTO_City).findFirst();
+                //.equalTo("VehicleCity_RTOCode", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity;
+        else
+            return null;
+
+    }
     //endregion
 
     //region master car
@@ -169,7 +185,7 @@ public class DBPersistanceController {
                 .equalTo("Model_Name", model.trim())
                 .equalTo("Variant_Name", varientName.trim()).findFirst();
 
-        return entity.getCubic_Capacity();
+        return entity.getCubic_Capacity() + "CC";
     }
 
     public String getVariantID(String variantName, String modelName, String makeName) {
@@ -392,7 +408,7 @@ public class DBPersistanceController {
     public List<String> getInsurerList() {
         MapInsurence();
         ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
-        insurenceList.add(0, "Present Insurer");
+        insurenceList.add(0, "Insurerer");
         return insurenceList;
 
     }
@@ -557,7 +573,7 @@ public class DBPersistanceController {
 
     //region insurance image mapping
 
-    public  void MapCarInsuranceImage() {
+    public void MapCarInsuranceImage() {
 
         hasMapCarInsuranceImage.put(1, R.drawable.carins1);
         hasMapCarInsuranceImage.put(2, R.drawable.carins2);
@@ -590,11 +606,11 @@ public class DBPersistanceController {
         hasMapCarInsuranceImage.put(40, R.drawable.carins35);
     }
 
-    public  int getProfessionalID1(int pic) {
+    public int getInsurerImage(int insurerID) {
 
         hasMapCarInsuranceImage = new HashMap<Integer, Integer>();
         MapCarInsuranceImage();
-        return hasMapCarInsuranceImage.get(pic);
+        return hasMapCarInsuranceImage.get(insurerID);
     }
     //endregion
 }

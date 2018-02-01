@@ -31,13 +31,6 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        //TODO: Fetch all Quote and App list
-        showDialog("Fetching.., Please wait.!");
-        new QuoteApplicationController(this).getQuoteAppList("", "",
-                new DBPersistanceController(this).getUserData().getFBAId(),
-                0,
-                "",
-                this);
 
         tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
         tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
@@ -62,6 +55,23 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
 
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchQuoteApplication();
+
+    }
+
+    private void fetchQuoteApplication() {
+        
+        showDialog("Fetching.., Please wait.!");
+        new QuoteApplicationController(this).getQuoteAppList("", "",
+                new DBPersistanceController(this).getUserData().getFBAId(),
+                0,
+                "",
+                this);
     }
 
     @Override

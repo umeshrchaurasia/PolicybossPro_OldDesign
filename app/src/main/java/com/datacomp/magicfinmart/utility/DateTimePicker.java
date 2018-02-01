@@ -172,6 +172,7 @@ public class DateTimePicker {
         cal.setTime(date);
         return cal;
     }
+
     public static void showDataPickerDialogBeforeTwentyOne(Context mContex, DatePickerDialog.OnDateSetListener callBack) {
         final Calendar calendar = Calendar.getInstance();
 
@@ -180,8 +181,8 @@ public class DateTimePicker {
         //always shows 1 day ahead in calender
         // added 1 day in calender
         //calendar.add(Calendar.DATE,1);
-        calendar.add(Calendar.YEAR,-21);
-        calendar.add(Calendar.DATE,-1);
+        calendar.add(Calendar.YEAR, -21);
+        calendar.add(Calendar.DATE, -1);
 
 
         // disable all before date,
@@ -197,12 +198,69 @@ public class DateTimePicker {
         //always shows 1 day ahead in calender
         // added 1 day in calender
         //calendar.add(Calendar.DATE,1);
-        calendar.add(Calendar.YEAR,-2);
-        calendar.add(Calendar.DATE,-1);
+        calendar.add(Calendar.YEAR, -2);
+        calendar.add(Calendar.DATE, -1);
 
 
         // disable all before date,
         dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        dialog.show();
+    }
+
+
+    public static void invoiceNewValidation(Context context, DatePickerDialog.OnDateSetListener callBack) {
+
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        calendar.add(Calendar.MONTH, -6);
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+        dialog.show();
+    }
+
+    public static void invoiceReNewValidation(Context context, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR) - 1, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+
+        calendar.add(Calendar.MONTH, -6);
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        calendar.add(Calendar.MONTH, 6);
+        calendar.add(Calendar.YEAR, -15);
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+        dialog.show();
+    }
+
+    public static void mfgYearMonthValidation(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate());
+
+        calendar.add(Calendar.YEAR, -15);
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+        calendar.add(Calendar.YEAR, 15);
+
+        int yearDiff = calendar.getTime().getYear() - date.getYear();
+        int monthDif = date.getMonth() - calendar.getTime().getMonth();
+        //calendar.set(date.getYear(), date.getMonth(), date.getDate());
+        calendar.add(Calendar.YEAR, -yearDiff);
+        calendar.add(Calendar.MONTH, monthDif);
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+
+        dialog.show();
+    }
+
+    public static void policyExpValidation(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate());
+
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        calendar.add(Calendar.MONTH, 2);
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
         dialog.show();
     }
 }

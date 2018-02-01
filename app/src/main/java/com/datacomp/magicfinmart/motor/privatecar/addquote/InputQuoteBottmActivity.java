@@ -12,22 +12,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.BuyFragment;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.InputFragment;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
+import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 
-public class InputQuoteBottmActivity extends AppCompatActivity {
+public class InputQuoteBottmActivity extends BaseActivity {
 
+    private static String INPUT_FRAGMENT = "input";
+    private static String QUOTE_FRAGMENT = "quote";
+    private static String BUY_FRAGMENT = "buy";
     BottomNavigationView bottomNavigationView;
-
-    int totCount = 0;
+    Bundle quoteBundle;
     Fragment tabFragment = null;
+    FragmentTransaction transactionSim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,18 +47,49 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-//        if(bottomNavigationView != null)
-//        {
-//            // Select first menu item by default and show Fragment accordingly.
-//            Menu menu = bottomNavigationView.getMenu();
-//        }
+
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        InputFragment inputFragment = new InputFragment();
-        FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
-        transactionSim.replace(R.id.frame_layout, inputFragment, "INPUT");
-        transactionSim.addToBackStack("INPUT");
-        transactionSim.commitAllowingStateLoss();
+
+        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+
+        if (getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE) != null) {
+            QuoteListEntity entity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
+            if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
+
+                //1. update srn in preference
+                Utility.getSharedPreferenceEditor(this).
+                        putString(Utility.CARQUOTE_UNIQUEID, entity.getSRN()).commit();
+
+                //2. create bundle
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("CAR_REQUEST", entity.getMotorRequestEntity());
+                quoteBundle = bundle;
+
+                bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+            } else {
+                //send to Input
+                //modify
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            }
+        } else {
+            //first input fragment load
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        }
+
+        quoteBundle = null;
+
+
+    }
+
+    private void loadFragment(Fragment fragment, String TAG) {
+        transactionSim = getSupportFragmentManager().beginTransaction();
+        transactionSim.replace(R.id.frame_layout, fragment, TAG);
+        transactionSim.addToBackStack(TAG);
+        transactionSim.show(fragment);
+        transactionSim.commit();
+        //transactionSim.commitAllowingStateLoss();
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -57,84 +99,42 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("INPUT");
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (tabFragment != null) {
-
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, tabFragment, "INPUT");
-                        transaction.addToBackStack("INPUT");
-                        transaction.show(tabFragment);
-                        //   transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction.commit();
-
+                        loadFragment(tabFragment, INPUT_FRAGMENT);
 
                     } else {
-                        InputFragment inputFragment = new InputFragment();
-                        FragmentTransaction transaction_imm = getSupportFragmentManager().beginTransaction();
-                        transaction_imm.replace(R.id.frame_layout, inputFragment, "INPUT");
-                        transaction_imm.addToBackStack("INPUT");
-                        transaction_imm.show(inputFragment);
-                        //   transaction_imm.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction_imm.commit();
-
+                        loadFragment(new InputFragment(), INPUT_FRAGMENT);
                     }
-                    item.setCheckable(true);
-                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
-                    bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
                     return true;
                 case R.id.navigation_quote:
 
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("QUOTE");
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
                     if (tabFragment != null) {
-
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, tabFragment, "QUOTE");
-                        transaction.addToBackStack("QUOTE");
-                        transaction.show(tabFragment);
-                        // transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction.commitAllowingStateLoss();
+                        loadFragment(tabFragment, QUOTE_FRAGMENT);
 
                     } else {
-                        QuoteFragment quoteFragment = new QuoteFragment();
-                        FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
-                        transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-                        transaction_quote.addToBackStack("QUOTE");
-                        transaction_quote.show(quoteFragment);
-                        //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction_quote.commitAllowingStateLoss();
+                        if (quoteBundle != null) {
+                            QuoteFragment quoteFragment = new QuoteFragment();
+                            quoteFragment.setArguments(quoteBundle);
+                            loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                        } else {
 
-
+                            Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    item.setCheckable(true);
-                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-                    bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
                     return true;
                 case R.id.navigation_buy:
 
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
-                    if (tabFragment != null) {
-
-                        FragmentTransaction transaction = getSupportFragmentManager()
-                                .beginTransaction();
-                        transaction.show(tabFragment);
-                        //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction.addToBackStack("BUY");
-                        transaction.commitAllowingStateLoss();
-
-                    } else {
-                        BuyFragment buyFragment = new BuyFragment();
-                        FragmentTransaction transaction_buy = getSupportFragmentManager().beginTransaction();
-                        transaction_buy.replace(R.id.frame_layout, buyFragment, "BUY");
-                        transaction_buy.addToBackStack("BUY");
-                        transaction_buy.show(buyFragment);
-                        //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction_buy.commitAllowingStateLoss();
-
-
-                    }
-                    item.setCheckable(true);
-                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
+//                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
+//                    if (tabFragment != null) {
+//                        loadFragment(tabFragment, INPUT_FRAGMENT);
+//
+//                    } else {
+//                        loadFragment(new BuyFragment(), INPUT_FRAGMENT);
+//                    }
 
                     return true;
             }
@@ -149,6 +149,18 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
         InputQuoteBottmActivity.this.finish();
     }
 
+    public void getQuoteParameterBundle(Bundle bundle) {
+
+        quoteBundle = bundle;
+        if (bundle == null)
+            Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+        else
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+
+    }
+
+    //region unUsed code
+
     public interface ActivityCallback            // Interface creation
     {
         void onMethodCallback(String strTyp);
@@ -160,15 +172,19 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
             bottomNavigationView.getMenu().getItem(i).setCheckable(false);
         }
     }
-    public void redirectToBuy(String Service_Log_Unique_Id) {
-        String URL = "http://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
+
+
+    public void redirectToBuy(ResponseEntity entity) {
+
+        int fbaID = new DBPersistanceController(this).getUserData().getFBAId();
         String url = "http://qa.policyboss.com/";
         //String url = "http://policyboss.com/";
         String title = "";
         String name = "";
-        url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";
+        url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
         title = "Car Insurance";
 
+        //new QuoteApplicationController(this).convertQuoteToApp(entity.);
 
         startActivity(new Intent(this, CommonWebViewActivity.class)
                 .putExtra("URL", url)
@@ -182,5 +198,7 @@ public class InputQuoteBottmActivity extends AppCompatActivity {
 
 
     }
+
+    //endregion
 
 }

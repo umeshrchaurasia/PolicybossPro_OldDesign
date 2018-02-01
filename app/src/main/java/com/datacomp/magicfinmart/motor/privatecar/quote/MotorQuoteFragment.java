@@ -7,6 +7,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpda
  */
 public class MotorQuoteFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber {
 
+    public static final String FROM_QUOTE = "from_quote";
     FloatingActionButton btnAddQuote;
     RecyclerView rvQuoteList;
     MotorQuoteAdapter motorQuoteAdapter;
@@ -59,8 +62,22 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         }
         motorQuoteAdapter = new MotorQuoteAdapter(MotorQuoteFragment.this, mQuoteList);
         rvQuoteList.setAdapter(motorQuoteAdapter);
+
+        //recyclerview item click listener
+        rvQuoteList.addOnItemTouchListener(new RecyclerItemClickListener(rvQuoteList, onItemClickListener));
         return view;
     }
+
+    RecyclerItemClickListener.OnItemClickListener onItemClickListener =
+            new RecyclerItemClickListener.OnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int position) {
+
+                    QuoteListEntity entity = mQuoteList.get(position);
+
+                    startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
+                }
+            };
 
     private void initView(View view) {
         btnAddQuote = (FloatingActionButton) view.findViewById(R.id.fbAddQuote);
@@ -91,6 +108,9 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         }
     }
 
+
+    //region server response
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
 
@@ -107,6 +127,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-
     }
+
+    //endregion
 }
