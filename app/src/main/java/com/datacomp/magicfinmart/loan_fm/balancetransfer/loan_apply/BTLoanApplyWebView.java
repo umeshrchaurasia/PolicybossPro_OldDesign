@@ -90,7 +90,7 @@ public class BTLoanApplyWebView extends AppCompatActivity {
         // processingfee=100000&empcode=&refapp=0&source=&coapp=0&pan=&CampaignName=Rupeeboss%20Online
 
         url = url + "?qoutid=" + quoteId
-                + "&fname=" + blLoanRequest.getApplicantNme()
+                + "&fname=" + blLoanRequest.getApplicantName()
                 + "&brokerid=" + loginEntity.getLoanId()
                 + "&productid=" + blLoanRequest.getProduct_id()
                 +"&bankid=" + entity.getBank_Id()

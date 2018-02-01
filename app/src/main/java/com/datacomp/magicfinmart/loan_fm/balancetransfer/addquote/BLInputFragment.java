@@ -126,7 +126,7 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
         blLoanRequest.setLoanamount( Integer.parseInt(etOutstanding.getText().toString()));
         blLoanRequest.setLoanterm(Integer.parseInt(ettenureyrs.getText().toString()));
         blLoanRequest.setLoaninterest(Double.parseDouble(etCurrInc.getText().toString()));
-        blLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString());
+        blLoanRequest.setApplicantName(etNameOfApplicant.getText().toString());
 
         if (rbimghl.isChecked()) {
             blLoanRequest.setProduct_id(12);//hl

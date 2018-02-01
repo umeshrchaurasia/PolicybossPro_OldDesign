@@ -97,7 +97,7 @@ public class BLQuoteFragment extends Fragment {
                 //    txtAppName.setText(""+blLoanRequest.getApplicantNme().toUpperCase() );
                     txtLoanAmnt.setText(""+blLoanRequest.getLoanamount() );
                     txtLoanTenure.setText(""+blLoanRequest.getLoanterm() );
-                    txtAppName.setText(""+blLoanRequest.getApplicantNme() );
+                    txtAppName.setText(""+blLoanRequest.getApplicantName() );
 ;
                 }
             }
