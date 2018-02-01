@@ -20,6 +20,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEn
 
 public class PersonalLoanApplyWebView extends AppCompatActivity {
 
+    /********************************
+    //Note : quote id is babaID
+
+    // fba_id , broker_id is loan_id
+     *//////////////////////////////
+
+
     WebView webView;
     int quoteId;
     PersonalQuoteEntity entity ;

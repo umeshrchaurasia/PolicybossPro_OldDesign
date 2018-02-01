@@ -46,18 +46,24 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerApplicationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InputFragment_hl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, SeekBar.OnSeekBarChangeListener, TextWatcher {
+public class InputFragment_hl extends BaseFragment implements View.OnClickListener, IResponseSubcriber,IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener, TextWatcher {
 
 
     DBPersistanceController databaseController;   //DB declare
@@ -71,6 +77,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     LinearLayout llPropertyInfo, llApplicantDetail, llCoApplicantDetail;
     Toolbar toolbar;
     HomeLoanRequest homeLoanRequest;
+    FmHomeLoanRequest fmHomeLoanRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     boolean isPropertyInfoVisible = false;
     boolean isApplicantVisible = true;
@@ -1240,9 +1247,33 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                 //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
                 transaction_quote.commit();
 
+                setFmHomeLoanRequest();
 
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+    private void  setFmHomeLoanRequest()
+    {
+        showDialog();
+        fmHomeLoanRequest = new FmHomeLoanRequest();
+        fmHomeLoanRequest.setLoan_requestID("");
+        fmHomeLoanRequest.setFba_id(String.valueOf(loginEntity.getFBAId()));
+        fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
+        new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
+
+    }
+
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+
+        cancelDialog();
+        if (response instanceof FmHomelLoanResponse) {
+            if (response.getStatusNo() == 0) {
+                Toast.makeText(getActivity(), "Fm Saved", Toast.LENGTH_SHORT).show();
             }
         }
     }
