@@ -554,7 +554,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     }
     //endregion
 
-    //region datepicker
+    //region date picker
+
     protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
         @Override
         public void onClick(final View view) {

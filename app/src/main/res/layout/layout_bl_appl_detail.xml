@@ -87,7 +87,29 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textView2s"
+            style="@style/TextAppearence.App.TextInputLayout"
+            android:layout_width="0dp"
+            android:layout_marginRight="1dp"
+            android:layout_weight="1"
+            android:hint="Name Of Applicant">
+
+            <EditText
+                android:id="@+id/etNameOfApplicant"
+
+                style="@style/Style.edittext" />
+        </android.support.design.widget.TextInputLayout>
+
+
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -110,7 +132,7 @@
                 style="@style/Style.edittext"
                 android:digits="0123456789"
                 android:ems="10"
-                android:text="42000000"
+
                 android:inputType="phone"
                 android:maxLength="15" />
         </android.support.design.widget.TextInputLayout>
@@ -127,10 +149,10 @@
                 android:id="@+id/etCurrInc"
                 style="@style/Style.edittext"
                 android:ems="10"
-                android:text="10"
+
                 android:maxLength="5"
                 android:digits="0123456789.+-"
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal|numberSigned"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
@@ -156,7 +178,7 @@
                 style="@style/Style.edittext"
                 android:digits="0123456789"
                 android:inputType="phone"
-                android:text="10"
+
                 android:maxLength="2" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>

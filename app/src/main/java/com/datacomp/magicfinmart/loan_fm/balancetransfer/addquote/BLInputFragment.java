@@ -56,10 +56,10 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     Button btnGetQuote;
-    EditText etOutstanding, etCurrInc, ettenureyrs;
+    EditText etOutstanding, etCurrInc, ettenureyrs,etNameOfApplicant;
 
-    ArrayAdapter<String> salaryTypeAdapter;
-    LinearLayout llSalaried;
+//    ArrayAdapter<String> salaryTypeAdapter;
+//    LinearLayout llSalaried;
 
 
     RadioGroup rgloantype;
@@ -103,7 +103,11 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
 
         ettenureyrs = (EditText) view.findViewById(R.id.ettenureyrs);
 
-        llSalaried = (LinearLayout) view.findViewById(R.id.llSalaried);
+        etNameOfApplicant = (EditText) view.findViewById(R.id.etNameOfApplicant);
+
+
+
+//        llSalaried = (LinearLayout) view.findViewById(R.id.llSalaried);
 
         rgloantype = (RadioGroup) view.findViewById(R.id.rgloantype);
         rbimghl = (RadioButton) view.findViewById(R.id.rbimghl);
@@ -122,6 +126,7 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
         blLoanRequest.setLoanamount( Integer.parseInt(etOutstanding.getText().toString()));
         blLoanRequest.setLoanterm(Integer.parseInt(ettenureyrs.getText().toString()));
         blLoanRequest.setLoaninterest(Double.parseDouble(etCurrInc.getText().toString()));
+        blLoanRequest.setApplicantName(etNameOfApplicant.getText().toString());
 
         if (rbimghl.isChecked()) {
             blLoanRequest.setProduct_id(12);//hl
@@ -158,6 +163,15 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
             String Outstanding = etOutstanding.getText().toString();
             String CurrInc = etCurrInc.getText().toString();
             String TenureInYear = ettenureyrs.getText().toString();
+            String Name = etNameOfApplicant.getText().toString();
+
+            if (TextUtils.isEmpty(Name)) {
+
+                etNameOfApplicant.setError("Please Enter Name Of Applicant.");
+                etNameOfApplicant.requestFocus();
+                return;
+
+            }
             if (TextUtils.isEmpty(Outstanding)) {
 
                 etOutstanding.setError("Please Enter Outstanding Amount.");

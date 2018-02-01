@@ -239,6 +239,11 @@
             android:name=".loan_fm.laploan.application.LAPApplyWebView"
             android:label="@string/title_activity_lapapply_web_view"
             android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView"
+            android:label="@string/title_activity_balance_transfer_detail"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
