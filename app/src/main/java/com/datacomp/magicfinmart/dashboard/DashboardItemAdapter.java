@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
@@ -78,17 +79,22 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     {
                         mContext.startActivity(new Intent(mContext.getActivity(), BalanceTransferDetailActivity.class));
                     }
-                    else if( listInsur.get(position).getProductName().equals("CREDIT CARD" ))
-                    {
-                        //mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
-                    }
-                    else if( listInsur.get(position).getProductName().equals("OTHER LOAN" ))
-                    {
-                        //mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
-                    }
-                    else
+//                    else if( listInsur.get(position).getProductName().equals("CREDIT CARD" ))
+//                    {
+//                        //mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
+//                    }
+//                    else if( listInsur.get(position).getProductName().equals("OTHER LOAN" ))
+//                    {
+//                        //mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
+//                    }
+                    else if( listInsur.get(position).getProductName().equals("PRIVATE CAR" ))
                     {
                         mContext.startActivity(new Intent(mContext.getActivity(), PrivateCarDetailActivity.class));
+                    }
+
+                    else
+                    {
+                        Toast.makeText(mContext.getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
                     }
 
                 }
