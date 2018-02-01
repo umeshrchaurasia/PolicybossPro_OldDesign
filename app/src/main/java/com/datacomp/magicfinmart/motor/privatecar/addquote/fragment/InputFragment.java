@@ -1,10 +1,10 @@
 package com.datacomp.magicfinmart.motor.privatecar.addquote.fragment;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
 import android.util.Log;
@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
@@ -42,6 +43,7 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
@@ -203,73 +205,32 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         // region prev insurer adapter
         prevInsAdapter = new
-                ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, databaseController.getInsurerList());
-//        {
-//                    @Override
-//                    public boolean isEnabled(int position) {
-//                        if (position == 0) {
-//                            // Disable the first item from Spinner
-//                            // First item will be use for hint
-//                            return false;
-//                        } else {
-//                            return true;
-//                        }
-//                    }
-//
-//                    @Override
-//                    public View getDropDownView(int position, View convertView,
-//                                                ViewGroup parent) {
-//                        View view = super.getDropDownView(position, convertView, parent);
-//                        TextView tv = (TextView) view.findViewById(R.id.txtspinneritem);
-//                        tv.setPadding(0, 0, 0, 0);
-//                        if (position == 0) {
-//                            // Set the hint text color gray
-//                            tv.setTextColor(Color.GRAY);
-//                        } else {
-//                            tv.setTextColor(Color.BLACK);
-//                        }
-//                        return view;
-//                    }
-//
-//
-//                    @NonNull
-//                    @Override
-//                    public View getView(int position, @Nullable View convertView,
-//                                        @NonNull ViewGroup parent) {
-//                        View view1 = super.getView(position, convertView, parent);
-//                        view1.setPadding(0, 0, 0, 0);
-//                        return view1;
-//
-//                    }
-//                };
+                ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, databaseController.getInsurerList()) {
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
 
-//        prevInsAdapter = new
-//                ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, databaseController.getInsurerList()) {
-//                    @Override
-//                    public boolean isEnabled(int position) {
-//                        if (position == 0) {
-//                            // Disable the first item from Spinner
-//                            // First item will be use for hint
-//                            return false;
-//                        } else {
-//                            return true;
-//                        }
-//                    }
-//
-//                    @Override
-//                    public View getDropDownView(int position, View convertView,
-//                                                ViewGroup parent) {
-//                        View view = super.getDropDownView(position, convertView, parent);
-//                        TextView tv = (TextView) view;
-//                        if (position == 0) {
-//                            // Set the hint text color gray
-//                            tv.setTextColor(Color.GRAY);
-//                        } else {
-//                            tv.setTextColor(Color.BLACK);
-//                        }
-//                        return view;
-//                    }
-//                };
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
         spPrevIns.setAdapter(prevInsAdapter);
 
         //endregion
@@ -277,16 +238,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         // region ncb adapter
         ncbPerctAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1,
                 getResources().getStringArray(R.array.ncb_percent));
-//        {
-//            @NonNull
-//            @Override
-//            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-//                View view1 = super.getView(position, convertView, parent);
-//                TextView tx = (TextView) view1.findViewById(R.id.txtspinneritem);
-//                tx.setPadding(0, 0, 0, 0);
-//                return view1;
-//            }
-//        };
         spNcbPercent.setAdapter(ncbPerctAdapter);
         //endregion
     }
@@ -435,10 +386,12 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                     acRto.setError("Enter Rto");
                     return;
                 }
-                if (!isEmpty(etExpDate)) {
-                    etExpDate.requestFocus();
-                    etExpDate.setError("Enter Expiry Date");
-                    return;
+                if (switchNewRenew.isChecked()) {
+                    if (!isEmpty(etExpDate)) {
+                        etExpDate.requestFocus();
+                        etExpDate.setError("Enter Expiry Date");
+                        return;
+                    }
                 }
                 if (!isEmpty(etCustomerName)) {
                     etCustomerName.requestFocus();
@@ -458,7 +411,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 //endregion
 
                 //TODO uncomment this
-                if (switchNewRenew.isChecked()) {
+                if (switchNewRenew.isChecked()) {  //renew
                     setInputParametersReNewCar();
                 } else {
                     setInputParametersNewCAR();
@@ -466,8 +419,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 showDialog();
                 new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
 
-                //TODO remove this line
-                //startActivity(new Intent(this, QuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity).putExtra("RTO_NAME", regplace));
+
                 break;
             case R.id.tvDontKnow:
                 cvInput.setVisibility(View.VISIBLE);
@@ -531,6 +483,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
+    //region imp function
+
     public String getModel(String makeModel) {
         String[] parts = makeModel.split(",");
         return parts[1];
@@ -570,8 +524,13 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         return 0;
     }
 
-    private String getRegistrationNo(String city) {
-        return "" + city.charAt(1) + city.charAt(2) + "-" + city.charAt(3) + city.charAt(4) + "-AA-1234";
+    private String getRegistrationNo(String rtoId) {
+        CityMasterEntity cityMasterEntity = databaseController.getRTO(rtoId);
+        return formatRegistrationNo(cityMasterEntity.getVehicleCity_RTOCode() + "AA1234");
+    }
+
+    private String formatRegistrationNo(String regNo) {
+        return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
     }
 
     private String getManufacturingDate(String manufac) {
@@ -581,28 +540,76 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     }
 
+    //endregion
+
     //region datepicker
     protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
         @Override
         public void onClick(final View view) {
             Constants.hideKeyBoard(view, getActivity());
 
+            //region regdate
             if (view.getId() == R.id.etRegDate) {
-                DateTimePicker.firstRegNewDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etRegDate.setText(currentDay);
-                            etMfgDate.setText(currentDay);
-                        }
-                    }
-                });
+                if (switchNewRenew.isChecked()) {
+                    //region  regdate renew
+                    DateTimePicker.invoiceReNewValidation(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                            if (view1.isShown()) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etRegDate.setText(currentDay);
+                                etMfgDate.setText(currentDay);
 
-            } else if (view.getId() == R.id.etExpDate) {
-                DateTimePicker.policyExpDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                                Calendar calendar1 = Calendar.getInstance();
+                                calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
+                                String expDate = simpleDateFormat.format(calendar1.getTime());
+                                etExpDate.setText(expDate);
+                            }
+                        }
+                    });
+
+                    //endregion
+                } else {
+                    //region  new regdate
+
+                    DateTimePicker.invoiceNewValidation(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                            if (view1.isShown()) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etRegDate.setText(currentDay);
+                                etMfgDate.setText(currentDay);
+                            }
+                        }
+                    });
+
+                    //endregion
+                }
+            }
+            //endregion
+
+            //region policy expirydate
+            else if (view.getId() == R.id.etExpDate) {
+
+                Date regDate = new Date();
+                if (etRegDate.getText().toString().isEmpty()) {
+                    Calendar calendar = Calendar.getInstance();
+                    regDate = calendar.getTime();
+                } else {
+                    try {
+                        regDate = simpleDateFormat.parse(etRegDate.getText().toString());
+                    } catch (ParseException e) {
+                        Calendar calendar = Calendar.getInstance();
+                        regDate = calendar.getTime();
+                        e.printStackTrace();
+                    }
+                }
+
+                DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -617,38 +624,39 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                         }
                     }
                 });
-            } else if (view.getId() == R.id.etMfgDate) {
-                if (etRegDate.getText().toString().equals("") || etRegDate.getText().toString() == null) {
-                    DateTimePicker.firstRegNewDatePicker(view.getContext(),
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                                    if (view1.isShown()) {
-                                        Calendar calendar = Calendar.getInstance();
-                                        calendar.set(year, monthOfYear, dayOfMonth);
-                                        String currentDay = simpleDateFormat.format(calendar.getTime());
-                                        etMfgDate.setText(currentDay);
-                                    }
-
-                                }
-                            });
-                } else {
-                    DateTimePicker.manufactDatePicker(view.getContext(), getYear(etRegDate.getText().toString()), getMonth(etRegDate.getText().toString()), getDate(etRegDate.getText().toString()),
-                            new DatePickerDialog.OnDateSetListener() {
-                                @Override
-                                public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                                    if (view1.isShown()) {
-                                        Calendar calendar = Calendar.getInstance();
-                                        calendar.set(year, monthOfYear, dayOfMonth);
-                                        String currentDay = simpleDateFormat.format(calendar.getTime());
-                                        etMfgDate.setText(currentDay);
-                                    }
-
-                                }
-                            });
-                }
-
             }
+            //endregion
+
+            //region manufacture date
+            else if (view.getId() == R.id.etMfgDate) {
+
+                Date regDate = new Date();
+                if (etRegDate.getText().toString().isEmpty()) {
+                    Calendar calendar = Calendar.getInstance();
+                    regDate = calendar.getTime();
+                } else {
+                    try {
+                        regDate = simpleDateFormat.parse(etRegDate.getText().toString());
+                    } catch (ParseException e) {
+                        Calendar calendar = Calendar.getInstance();
+                        regDate = calendar.getTime();
+                        e.printStackTrace();
+                    }
+                }
+                DateTimePicker.mfgYearMonthValidation(view.getContext(), regDate,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                                if (view1.isShown()) {
+                                    Calendar calendar = Calendar.getInstance();
+                                    calendar.set(year, monthOfYear, dayOfMonth);
+                                    String currentDay = simpleDateFormat.format(calendar.getTime());
+                                    etMfgDate.setText(currentDay);
+                                }
+                            }
+                        });
+            }
+            //endregion
 
         }
     };
@@ -677,7 +685,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         if (regNo.equals(""))
             motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
         else
-            motorRequestEntity.setRegistration_no(regNo);
+            motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
         motorRequestEntity.setIs_llpd("no");
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
@@ -710,9 +718,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(acRto.getText().toString())));
             motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
             if (regNo.equals(""))
-                motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
+                motorRequestEntity.setRegistration_no(getRegistrationNo("" + motorRequestEntity.getRto_id()));
             else
-                motorRequestEntity.setRegistration_no(regNo);
+                motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
         }
 
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
@@ -785,19 +793,10 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         cancelDialog();
         if (response instanceof BikeUniqueResponse) {
 
-
             Bundle bundle = new Bundle();
             bundle.putParcelable("CAR_REQUEST", motorRequestEntity);
             bundle.putString("RTO_NAME", regplace);
-            QuoteFragment quoteFragment = new QuoteFragment();
-            quoteFragment.setArguments(bundle);
-            FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-            transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-            transaction_quote.addToBackStack("QUOTE");
-            transaction_quote.show(quoteFragment);
-            //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-            transaction_quote.commit();
-            //startActivity(new Intent(getActivity(), QuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity).putExtra("RTO_NAME", regplace));
+            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(bundle);
         }
 
     }
@@ -893,9 +892,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         return simpleDateFormat.format(newDate);
     }
 
-    private String formatRegistrationNo(String regNo) {
-        return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
-    }
 
     private void setNcbAdapter(int yearDiff) {
         if (yearDiff >= 5) {

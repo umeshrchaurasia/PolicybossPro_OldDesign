@@ -45,7 +45,8 @@ public class DBPersistanceController {
         List<CityMasterEntity> list_Make = realm.where(CityMasterEntity.class).findAll();
         ArrayList listCity = new ArrayList();
         for (int i = 0; i < list_Make.size(); i++) {
-            listCity.add(list_Make.get(i).getRTO_CodeDiscription());
+            //listCity.add(list_Make.get(i).getRTO_CodeDiscription());
+            listCity.add(list_Make.get(i).getRTO_City());
         }
         return listCity;
     }
@@ -54,7 +55,8 @@ public class DBPersistanceController {
     public String getCityID(String cityName) {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
-                .equalTo("RTO_CodeDiscription", cityName).findFirst();
+                .equalTo("RTO_City", cityName).findFirst();
+        //.equalTo("RTO_CodeDiscription", cityName).findFirst();
 
         if (entity != null)
             return entity.getVehicleCity_Id();
@@ -75,6 +77,17 @@ public class DBPersistanceController {
 
     }
 
+    public CityMasterEntity getRTO(String VehicleCity_Id) {
+
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity;
+        else
+            return null;
+
+    }
     //endregion
 
     //region master car
@@ -392,7 +405,7 @@ public class DBPersistanceController {
     public List<String> getInsurerList() {
         MapInsurence();
         ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
-        insurenceList.add(0, "Present Insurer");
+        insurenceList.add(0, "Insurerer");
         return insurenceList;
 
     }
