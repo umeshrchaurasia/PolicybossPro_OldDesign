@@ -408,6 +408,23 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                     Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)
+                        || spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
+                    if (etExtValue.getText().toString().equals("")) {
+                        etExtValue.requestFocus();
+                        etExtValue.setError("Enter Amount");
+                        return;
+                    } else {
+                        int extval = Integer.parseInt(etExtValue.getText().toString());
+                        if (extval < 10000 || extval > 50000) {
+                            etExtValue.requestFocus();
+                            etExtValue.setError("Enter Amount between 10000 & 50000");
+                            return;
+                        }
+                    }
+                }
+
                 //endregion
 
                 //TODO uncomment this
@@ -418,7 +435,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 }
                 showDialog();
                 new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
-
 
                 break;
             case R.id.tvDontKnow:
@@ -678,7 +694,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     //endregion
 
     private void setInputParametersNewCAR() {
-        motorRequestEntity.setBirth_date("1992-01-01");
+        // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
         varientId = databaseController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
@@ -692,7 +708,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         motorRequestEntity.setPolicy_expiry_date("");
         motorRequestEntity.setPrev_insurer_id("");
         motorRequestEntity.setVehicle_registration_type("individual");
-        motorRequestEntity.setVehicle_ncb_current("");
+        motorRequestEntity.setVehicle_ncb_current("0");
         motorRequestEntity.setIs_claim_exists("yes");
         motorRequestEntity.setMethod_type("Premium");
         motorRequestEntity.setElectrical_accessory("0");
@@ -717,6 +733,24 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn(0);
         motorRequestEntity.setIp_address("");
+
+        if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
+            motorRequestEntity.setExternal_bifuel_type("lpg");
+            motorRequestEntity.setIs_external_bifuel("yes");
+            if (!etExtValue.getText().toString().equals(""))
+                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
+        } else if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
+            motorRequestEntity.setExternal_bifuel_type("cng");
+            motorRequestEntity.setIs_external_bifuel("yes");
+            if (!etExtValue.getText().toString().equals(""))
+                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
+
+        } else {
+            motorRequestEntity.setExternal_bifuel_type("");
+            motorRequestEntity.setIs_external_bifuel("no");
+            motorRequestEntity.setExternal_bifuel_value(0);
+        }
+
         setCustomerDetails();
     }
 
@@ -742,7 +776,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         motorRequestEntity.setPolicy_expiry_date(etExpDate.getText().toString());
         motorRequestEntity.setPrev_insurer_id("" + databaseController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
 
-        motorRequestEntity.setBirth_date("1992-01-01");
+        // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
         //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
         //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
@@ -755,7 +789,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         if (isClaimExist) {
             motorRequestEntity.setIs_claim_exists("yes");
-            motorRequestEntity.setVehicle_ncb_current("");
+            motorRequestEntity.setVehicle_ncb_current("0");
         } else {
             motorRequestEntity.setIs_claim_exists("no");
             motorRequestEntity.setVehicle_ncb_current("" + getPercentFromProgress(sbNoClaimBonus.getProgress()));
@@ -780,6 +814,24 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn(0);
         motorRequestEntity.setIp_address("");
+
+        if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
+            motorRequestEntity.setExternal_bifuel_type("lpg");
+            motorRequestEntity.setIs_external_bifuel("yes");
+            if (!etExtValue.getText().toString().equals(""))
+                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
+        } else if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
+            motorRequestEntity.setExternal_bifuel_type("cng");
+            motorRequestEntity.setIs_external_bifuel("yes");
+            if (!etExtValue.getText().toString().equals(""))
+                motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
+
+        } else {
+            motorRequestEntity.setExternal_bifuel_type("");
+            motorRequestEntity.setIs_external_bifuel("no");
+            motorRequestEntity.setExternal_bifuel_value(0);
+        }
+
         setCustomerDetails();
 
     }

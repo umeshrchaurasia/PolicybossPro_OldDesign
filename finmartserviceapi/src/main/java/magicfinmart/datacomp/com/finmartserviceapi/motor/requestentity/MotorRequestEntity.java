@@ -13,7 +13,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 public class MotorRequestEntity implements Parcelable {
 
 
-
     /**
      * product_id : 10
      * vehicle_id : 50783
@@ -72,7 +71,7 @@ public class MotorRequestEntity implements Parcelable {
     private String is_antitheft_fit;
     private int voluntary_deductible;
     private String is_external_bifuel;
-    private String external_bifuel_value;
+    private int external_bifuel_value;
     private String pa_owner_driver_si;
     private String pa_named_passenger_si;
     private String pa_unnamed_passenger_si;
@@ -89,7 +88,6 @@ public class MotorRequestEntity implements Parcelable {
     private String client_key;
 
 
-
     /**
      * is_aai_member : no
      * external_bifuel_type :
@@ -104,7 +102,11 @@ public class MotorRequestEntity implements Parcelable {
     private int ss_id;
     private double geo_lat;
     private double geo_long;
+    /**
+     * agent_source :
+     */
 
+    private String agent_source;
 
 
     public int getIsTwentyfour() {
@@ -156,7 +158,11 @@ public class MotorRequestEntity implements Parcelable {
 
 
     public MotorRequestEntity() {
-        this.birth_date = "1992-01-01";
+        // this.birth_date = "1992-01-01";
+        this.agent_source = "";
+        this.is_aai_member = "no";
+        this.external_bifuel_type = "";
+
         this.product_id = 0;
         this.vehicle_id = 0;
         this.rto_id = 0;
@@ -179,7 +185,7 @@ public class MotorRequestEntity implements Parcelable {
         this.is_antitheft_fit = "no";
         this.voluntary_deductible = 0;
         this.is_external_bifuel = "";
-        this.external_bifuel_value = "";
+        this.external_bifuel_value = 0;
         this.pa_owner_driver_si = "";
         this.pa_named_passenger_si = "";
         this.pa_unnamed_passenger_si = "";
@@ -363,11 +369,11 @@ public class MotorRequestEntity implements Parcelable {
         this.is_external_bifuel = is_external_bifuel;
     }
 
-    public String getExternal_bifuel_value() {
+    public int getExternal_bifuel_value() {
         return external_bifuel_value;
     }
 
-    public void setExternal_bifuel_value(String external_bifuel_value) {
+    public void setExternal_bifuel_value(int external_bifuel_value) {
         this.external_bifuel_value = external_bifuel_value;
     }
 
@@ -484,7 +490,6 @@ public class MotorRequestEntity implements Parcelable {
     }
 
 
-
     public String getIs_aai_member() {
         return is_aai_member;
     }
@@ -525,6 +530,14 @@ public class MotorRequestEntity implements Parcelable {
         this.geo_long = geo_long;
     }
 
+    public String getAgent_source() {
+        return agent_source;
+    }
+
+    public void setAgent_source(String agent_source) {
+        this.agent_source = agent_source;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -553,7 +566,7 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.is_antitheft_fit);
         dest.writeInt(this.voluntary_deductible);
         dest.writeString(this.is_external_bifuel);
-        dest.writeString(this.external_bifuel_value);
+        dest.writeInt(this.external_bifuel_value);
         dest.writeString(this.pa_owner_driver_si);
         dest.writeString(this.pa_named_passenger_si);
         dest.writeString(this.pa_unnamed_passenger_si);
@@ -573,6 +586,7 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeInt(this.ss_id);
         dest.writeDouble(this.geo_lat);
         dest.writeDouble(this.geo_long);
+        dest.writeString(this.agent_source);
         dest.writeInt(this.isTwentyfour);
         dest.writeInt(this.isActive);
         dest.writeString(this.created_date);
@@ -602,7 +616,7 @@ public class MotorRequestEntity implements Parcelable {
         this.is_antitheft_fit = in.readString();
         this.voluntary_deductible = in.readInt();
         this.is_external_bifuel = in.readString();
-        this.external_bifuel_value = in.readString();
+        this.external_bifuel_value = in.readInt();
         this.pa_owner_driver_si = in.readString();
         this.pa_named_passenger_si = in.readString();
         this.pa_unnamed_passenger_si = in.readString();
@@ -622,6 +636,7 @@ public class MotorRequestEntity implements Parcelable {
         this.ss_id = in.readInt();
         this.geo_lat = in.readDouble();
         this.geo_long = in.readDouble();
+        this.agent_source = in.readString();
         this.isTwentyfour = in.readInt();
         this.isActive = in.readInt();
         this.created_date = in.readString();

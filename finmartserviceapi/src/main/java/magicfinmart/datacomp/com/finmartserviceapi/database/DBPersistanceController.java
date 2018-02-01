@@ -57,7 +57,7 @@ public class DBPersistanceController {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
                 .equalTo("RTO_City", cityName).findFirst();
-                //.equalTo("VehicleCity_RTOCode", cityName.trim()).findFirst();
+        //.equalTo("VehicleCity_RTOCode", cityName.trim()).findFirst();
         //.equalTo("RTO_CodeDiscription", cityName).findFirst();
 
         if (entity != null)
@@ -73,7 +73,7 @@ public class DBPersistanceController {
                 .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
 
         if (entity != null)
-            return entity.getRTO_CodeDiscription();
+            return entity.getVehicleCity_RTOCode() + " - " + entity.getRTO_City();
         else
             return "";
 
@@ -83,7 +83,7 @@ public class DBPersistanceController {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
                 .equalTo("RTO_City", RTO_City).findFirst();
-                //.equalTo("VehicleCity_RTOCode", VehicleCity_Id).findFirst();
+        //.equalTo("VehicleCity_RTOCode", VehicleCity_Id).findFirst();
 
         if (entity != null)
             return entity;
