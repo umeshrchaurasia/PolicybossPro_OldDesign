@@ -46,7 +46,8 @@ public class DBPersistanceController {
         ArrayList listCity = new ArrayList();
         for (int i = 0; i < list_Make.size(); i++) {
             //listCity.add(list_Make.get(i).getRTO_CodeDiscription());
-            listCity.add(list_Make.get(i).getRTO_City());
+            //listCity.add(list_Make.get(i).getRTO_City());
+            listCity.add(list_Make.get(i).getVehicleCity_RTOCode() + " - " + list_Make.get(i).getRTO_City());
         }
         return listCity;
     }
@@ -56,6 +57,7 @@ public class DBPersistanceController {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
                 .equalTo("RTO_City", cityName).findFirst();
+                //.equalTo("VehicleCity_RTOCode", cityName.trim()).findFirst();
         //.equalTo("RTO_CodeDiscription", cityName).findFirst();
 
         if (entity != null)
@@ -77,10 +79,11 @@ public class DBPersistanceController {
 
     }
 
-    public CityMasterEntity getRTO(String VehicleCity_Id) {
+    public CityMasterEntity getVehicleCity_Id(String RTO_City) {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
-                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+                .equalTo("RTO_City", RTO_City).findFirst();
+                //.equalTo("VehicleCity_RTOCode", VehicleCity_Id).findFirst();
 
         if (entity != null)
             return entity;

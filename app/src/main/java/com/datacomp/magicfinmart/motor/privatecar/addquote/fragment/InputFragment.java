@@ -524,8 +524,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         return 0;
     }
 
-    private String getRegistrationNo(String rtoId) {
-        CityMasterEntity cityMasterEntity = databaseController.getRTO(rtoId);
+    private String getRegistrationNo(String city) {
+        CityMasterEntity cityMasterEntity = databaseController.getVehicleCity_Id(city);
         return formatRegistrationNo(cityMasterEntity.getVehicleCity_RTOCode() + "AA1234");
     }
 
@@ -540,6 +540,18 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     }
 
+    private String getRtoCity(String city) {
+        String[] parts = city.split("-");
+        if (parts.length > 2) {
+            String s = parts[1].trim();
+            for (int i = 2; i < parts.length; i++) {
+                s = s + "-" + parts[i].trim();
+            }
+            return s;
+        } else {
+            return parts[1].trim();
+        }
+    }
     //endregion
 
     //region date picker
@@ -561,12 +573,14 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                                 calendar.set(year, monthOfYear, dayOfMonth);
                                 String currentDay = simpleDateFormat.format(calendar.getTime());
                                 etRegDate.setText(currentDay);
-                                etMfgDate.setText(currentDay);
+                                calendar.set(year, monthOfYear, 01);
+                                String currentDay1 = simpleDateFormat.format(calendar.getTime());
+                                etMfgDate.setText(currentDay1);
 
-                                Calendar calendar1 = Calendar.getInstance();
+                                /*Calendar calendar1 = Calendar.getInstance();
                                 calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
                                 String expDate = simpleDateFormat.format(calendar1.getTime());
-                                etExpDate.setText(expDate);
+                                etExpDate.setText(expDate);*/
                             }
                         }
                     });
@@ -650,7 +664,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                             public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                                 if (view1.isShown()) {
                                     Calendar calendar = Calendar.getInstance();
-                                    calendar.set(year, monthOfYear, dayOfMonth);
+                                    calendar.set(year, monthOfYear, 01);
                                     String currentDay = simpleDateFormat.format(calendar.getTime());
                                     etMfgDate.setText(currentDay);
                                 }
@@ -668,7 +682,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         motorRequestEntity.setProduct_id(1);
         varientId = databaseController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-        motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(regplace)));
+        motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(getRtoCity(regplace))));
         //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
         //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
         motorRequestEntity.setExecution_async("yes");
@@ -684,7 +698,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         motorRequestEntity.setElectrical_accessory("0");
         motorRequestEntity.setNon_electrical_accessory("0");
         if (regNo.equals(""))
-            motorRequestEntity.setRegistration_no(getRegistrationNo(acRto.getText().toString()));
+            motorRequestEntity.setRegistration_no(getRtoCity(acRto.getText().toString()));
         else
             motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
         motorRequestEntity.setIs_llpd("no");
@@ -716,10 +730,10 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         } else {
             varientId = databaseController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
             motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-            motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(acRto.getText().toString())));
+            motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(getRtoCity(acRto.getText().toString()))));
             motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
             if (regNo.equals(""))
-                motorRequestEntity.setRegistration_no(getRegistrationNo("" + motorRequestEntity.getRto_id()));
+                motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
             else
                 motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
         }
