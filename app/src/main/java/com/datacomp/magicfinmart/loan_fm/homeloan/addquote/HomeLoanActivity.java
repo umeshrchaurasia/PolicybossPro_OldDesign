@@ -82,7 +82,8 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
     //endregion
 
     //region PropertyIndo
-    EditText etCostOfProp, etTenureInYear;
+    EditText etCostOfProp;
+    TextView etTenureInYear;
     TextView txtMaxLoanAmntAllow, txtDispalayMinCostProp, txtDispalayMaxCostProp, txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     Spinner spNewLoan;
     ArrayList<String> arrayNewLoan, arrayPreferedCity;
@@ -104,7 +105,7 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
     Spinner coApp_sbSalary, coApp_sbRelation;
     ArrayAdapter<String> coApp_salaryTypeAdapter, coApp_relationTypeAdapter;
     LinearLayout coApp_llSalaried, coApp_llSelfEmployeed;
-  //  SeekBar coApp_sbMonthlyInc, coApp_sbTurnOver, coApp_sbProfitAfTax, coApp_sbDepreciation, coApp_sbDirecPartRemuntion;
+    //  SeekBar coApp_sbMonthlyInc, coApp_sbTurnOver, coApp_sbProfitAfTax, coApp_sbDepreciation, coApp_sbDirecPartRemuntion;
     RadioGroup coApp_rgGender;
     RadioButton coApp_rbimgMale, coApp_rbimgFemale;
     AutoCompleteTextView acCity;
@@ -135,14 +136,14 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
 
             customerEntity = getIntent().getParcelableExtra("CUST_DETAILS");
             fillCustomerDetails(customerEntity);
-            isCitySelected=true;
+            isCitySelected = true;
             visiblePropertyInfo(View.VISIBLE);
         }
         if (getIntent().getBooleanExtra("IS_APP_EDIT", false)) {
 
             customerApplicationEntity = getIntent().getParcelableExtra("CUST_APP_DETAILS");
             fillCustomerApplicationDetails(customerApplicationEntity);
-            isCitySelected=true;
+            isCitySelected = true;
             visiblePropertyInfo(View.VISIBLE);
         }
     }
@@ -321,7 +322,7 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
         txtDispalayMaxCostProp = (TextView) findViewById(R.id.txtDispalayMaxCostProp);
         txtDispalayMinTenureYear = (TextView) findViewById(R.id.txtDispalayMinTenureYear);
         txtDispalayMaxTenureYear = (TextView) findViewById(R.id.txtDispalayMaxTenureYear);
-        etTenureInYear = (EditText) findViewById(R.id.etTenureInYear);
+        etTenureInYear = (TextView) findViewById(R.id.etTenureInYear);
         sbCostOfProp = (SeekBar) findViewById(R.id.sbCostOfProp);
         sbTenure = (SeekBar) findViewById(R.id.sbTenure);
 
@@ -403,7 +404,6 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
         coApp_rgGender = (RadioGroup) findViewById(R.id.coApp_rgGender);
         coApp_rbimgMale = (RadioButton) findViewById(R.id.coApp_rbimgMale);
         coApp_rbimgFemale = (RadioButton) findViewById(R.id.coApp_rbimgFemale);
-
 
 
         //endregion
@@ -925,7 +925,7 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
     private ArrayList<String> getNewLoanList() {
         List<PropertyInfoEntity> listLoan = mReal.getLoanPropertyInfoList();
         if (listLoan != null) {
-            for (int i = 0; i <= listLoan.size()-1; i++) {
+            for (int i = 0; i <= listLoan.size() - 1; i++) {
                 arrayNewLoan.add(listLoan.get(i).getProperty_Type());
             }
         }
@@ -950,9 +950,9 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
 
         homeLoanRequest = new HomeLoanRequest();
 
-      //  homeLoanRequest.setPropertyID("" + new PropertyFacade(HomeLoanActivity.this).getPropertyId(spNewLoan.getSelectedItem().toString()));
+        //  homeLoanRequest.setPropertyID("" + new PropertyFacade(HomeLoanActivity.this).getPropertyId(spNewLoan.getSelectedItem().toString()));
 
-        homeLoanRequest.setPropertyID("" +  new DBPersistanceController(HomeLoanActivity.this).getPropertyId(spNewLoan.getSelectedItem().toString()));
+        homeLoanRequest.setPropertyID("" + new DBPersistanceController(HomeLoanActivity.this).getPropertyId(spNewLoan.getSelectedItem().toString()));
         homeLoanRequest.setPropertyCost(etCostOfProp.getText().toString());
         homeLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
         homeLoanRequest.setLoanRequired(txtMaxLoanAmntAllow.getText().toString());
@@ -1007,11 +1007,11 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
         } else {
             homeLoanRequest.setCoApplicantYes("N");
         }
-     //   homeLoanRequest.setBrokerId("" + new LoginFacade(HomeLoanActivity.this).getUser().getBrokerId());
-     //   homeLoanRequest.setempcode("" + new LoginFacade(HomeLoanActivity.this).getUser().getEmpCode());
+        //   homeLoanRequest.setBrokerId("" + new LoginFacade(HomeLoanActivity.this).getUser().getBrokerId());
+        //   homeLoanRequest.setempcode("" + new LoginFacade(HomeLoanActivity.this).getUser().getEmpCode());
 
-        homeLoanRequest.setBrokerId("" +"0");
-         homeLoanRequest.setempcode("" + "rb40000428");
+        homeLoanRequest.setBrokerId("" + "0");
+        homeLoanRequest.setempcode("" + "rb40000428");
         homeLoanRequest.setProductId("12");//HomeLoan
         homeLoanRequest.setApi_source("Finmart");
 
@@ -1052,8 +1052,8 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
 
 
     @Override
-    public void OnSuccess(APIResponse response, String message){
-       cancelDialog();
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
         if (response instanceof GetQuoteResponse) {
             if (response.getStatus_Id() == 0) {
                 getQuoteResponse = ((GetQuoteResponse) response);
@@ -1158,7 +1158,6 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
                     etDirecPartRemuntion.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
                 }
                 break;
-
 
 
         }
@@ -1301,6 +1300,7 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void afterTextChanged(Editable s) {
     }
+
     // endregion
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

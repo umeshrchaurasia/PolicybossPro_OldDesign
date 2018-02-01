@@ -75,7 +75,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     FloatingActionButton filter;
     ImageView ivEdit;
     CarMasterEntity carMasterEntity;
-    String rtoName;
     Realm realm;
     SaveQuoteResponse.SaveQuoteEntity saveQuoteEntity;
 
@@ -97,8 +96,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         if (getArguments() != null) {
             if (getArguments().getParcelable("CAR_REQUEST") != null) {
                 motorRequestEntity = getArguments().getParcelable("CAR_REQUEST");
-                rtoName = getArguments().getString("RTO_NAME");
-
                 initializeAdapters();
                 setListener();
                 updateHeader();
@@ -155,7 +152,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         if (motorRequestEntity != null) {
             carMasterEntity = databaseController.getVarientDetails("" + motorRequestEntity.getVehicle_id());
             tvPolicyExp.setText("" + motorRequestEntity.getPolicy_expiry_date());
-            tvRtoName.setText("" + rtoName);
+            //tvRtoName.setText("" + new DBPersistanceController(getActivity()).);
         }
 
         if (carMasterEntity != null) {
@@ -211,6 +208,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             updateCrn();
             Log.d("trackIssue", "Summary  = " + bikePremiumResponse.getSummary().getStatusX() +
                     " ,counter = " + Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0));
+
             if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
                     || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
 

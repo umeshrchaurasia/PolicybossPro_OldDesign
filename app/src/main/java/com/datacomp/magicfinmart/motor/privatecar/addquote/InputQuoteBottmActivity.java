@@ -22,6 +22,7 @@ import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragmen
 import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
@@ -53,20 +54,29 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
 
-//        if (getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE) != null) {
-//            QuoteListEntity entity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
-//            if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
-//                //send to Quote
-//
-//                bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
-//            } else {
-//                //send to Input
-//                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//            }
-//        } else {
-//            //first input fragment load
-//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//        }
+        if (getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE) != null) {
+            QuoteListEntity entity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
+            if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
+
+                //1. update srn in preference
+                Utility.getSharedPreferenceEditor(this).
+                        putString(Utility.CARQUOTE_UNIQUEID, entity.getSRN()).commit();
+
+                //2. create bundle
+                Bundle bundle = new Bundle();
+                bundle.putParcelable("CAR_REQUEST", entity.getMotorRequestEntity());
+                quoteBundle = bundle;
+
+                bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+            } else {
+                //send to Input
+                //modify
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            }
+        } else {
+            //first input fragment load
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        }
 
         quoteBundle = null;
 
