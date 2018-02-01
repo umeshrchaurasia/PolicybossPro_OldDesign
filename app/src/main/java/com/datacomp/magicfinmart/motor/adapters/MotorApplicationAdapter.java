@@ -46,9 +46,10 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
             final ApplicationListEntity entity = mAppList.get(position);
 
-            holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
-            holder.txtCRN.setText(String.valueOf(entity.getCrn()));
-            holder.txtCreatedDate.setText("" + entity.getCreated_date());
+            holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
+                    + " " + entity.getMotorRequestEntity().getLast_name());
+            holder.txtCRN.setText(String.valueOf(entity.getMotorRequestEntity().getCrn()));
+            holder.txtCreatedDate.setText("" + entity.getMotorRequestEntity().getCreated_date());
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -58,7 +59,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
             try {
                 holder.imgInsurerLogo.setImageResource(
-                        new DBPersistanceController(fragment.getContext()).getInsurerImage(entity.getPrev_insurer_id()));
+                        new DBPersistanceController(fragment.getContext()).getInsurerImage(Integer.parseInt(entity.getMotorRequestEntity().getPrev_insurer_id())));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -77,7 +78,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getMobile(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();

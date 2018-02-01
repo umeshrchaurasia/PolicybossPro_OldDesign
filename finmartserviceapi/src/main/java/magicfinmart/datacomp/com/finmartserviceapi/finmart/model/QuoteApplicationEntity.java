@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuoteApplicationEntity implements Parcelable {
+
     private List<QuoteListEntity> quote;
     private List<ApplicationListEntity> application;
 
@@ -26,6 +27,7 @@ public class QuoteApplicationEntity implements Parcelable {
         this.application = application;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -33,16 +35,18 @@ public class QuoteApplicationEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeTypedList(this.quote);
-        dest.writeTypedList(this.application);
+        dest.writeList(this.quote);
+        dest.writeList(this.application);
     }
 
     public QuoteApplicationEntity() {
     }
 
     protected QuoteApplicationEntity(Parcel in) {
-        this.quote = in.createTypedArrayList(QuoteListEntity.CREATOR);
-        this.application = in.createTypedArrayList(ApplicationListEntity.CREATOR);
+        this.quote = new ArrayList<QuoteListEntity>();
+        in.readList(this.quote, QuoteListEntity.class.getClassLoader());
+        this.application = new ArrayList<ApplicationListEntity>();
+        in.readList(this.application, ApplicationListEntity.class.getClassLoader());
     }
 
     public static final Parcelable.Creator<QuoteApplicationEntity> CREATOR = new Parcelable.Creator<QuoteApplicationEntity>() {

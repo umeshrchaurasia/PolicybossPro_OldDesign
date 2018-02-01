@@ -52,12 +52,14 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
         if (holder instanceof QuoteItem) {
             final QuoteListEntity entity = mQuoteList.get(position);
 
-            holder.txtPersonName.setText(entity.getFirst_name() + " " + entity.getLast_name());
+            holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
+                    + " " + entity.getMotorRequestEntity().getLast_name());
 
-            CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity()).getVarientDetails(
-                    "" + entity.getVehicle_id());
+            CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+                    .getVarientDetails(
+                            "" + entity.getMotorRequestEntity().getVehicle_id());
             holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
-            holder.txtQuoteDate.setText(entity.getCreated_date());
+            holder.txtQuoteDate.setText(entity.getMotorRequestEntity().getCreated_date());
 
 
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +81,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMobile(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();

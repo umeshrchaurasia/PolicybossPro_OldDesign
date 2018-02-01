@@ -19,12 +19,15 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.BuyFragment;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.InputFragment;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
+import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 
 public class InputQuoteBottmActivity extends BaseActivity {
 
@@ -48,10 +51,26 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        //first input fragment load
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
 
+//        if (getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE) != null) {
+//            QuoteListEntity entity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
+//            if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
+//                //send to Quote
+//
+//                bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+//            } else {
+//                //send to Input
+//                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+//            }
+//        } else {
+//            //first input fragment load
+//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+//        }
+
         quoteBundle = null;
+
+
     }
 
     private void loadFragment(Fragment fragment, String TAG) {
@@ -127,6 +146,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
             Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
         else
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+
     }
 
     //region unUsed code
