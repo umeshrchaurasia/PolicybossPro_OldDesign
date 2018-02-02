@@ -43,6 +43,7 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
@@ -83,12 +84,12 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     //endregion
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    DBPersistanceController databaseController;
+    DBPersistanceController dbController;
     Realm realm;
-    List<String> makeModelList, fuelList, variantList, cityList;
+    List<String> makeModelList, fuelList, variantList, cityList, prevInsurerList;
     ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter, ncbPerctAdapter;
     String modelId, varientId;
-    String regplace, makeModel;
+    String regplace, makeModel = "";
     boolean isClaimExist = true;
 
     @Override
@@ -96,116 +97,68 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_add_new_quote, container, false);
-        databaseController = new DBPersistanceController(getActivity());
-        cityList = databaseController.getRTOListNames();
-        makeModelList = databaseController.getCarMakeModel();
+        dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity();
-        intit_view(view);
+
+        init_view(view);
+
         setListener();
+
         initialize_views();
-        bind_Adapters();
+
+        bind_init_binders();
+
+        if (getArguments() != null) {
+            if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
+                motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST);
+                tvDontKnow.performClick();
+                bindInputsQuotes();
+            }
+        }
+
+        adapter_listeners();
+
         return view;
     }
 
-    private void bind_Adapters() {
+    private void bind_init_binders() {
 
-        //region make model
+        //fetching initial data
+
+        cityList = dbController.getRTOListNames();
+        makeModelList = dbController.getCarMakeModel();
+        prevInsurerList = dbController.getInsurerList();
+
+        //region Autocomplete Make Model
         makeModelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, makeModelList);
         acMakeModel.setAdapter(makeModelAdapter);
-
-        acMakeModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Constants.hideKeyBoard(acMakeModel, getActivity());
-                makeModel = makeModelAdapter.getItem(position).toString();
-
-                modelId = databaseController.getModelID(getModel(acMakeModel.getText().toString()));
-
-                fuelList = databaseController.getFuelTypeByModelId(modelId);
-                variantList = databaseController.getVariantbyModelID(modelId);
-
-                spFuel.setVisibility(View.VISIBLE);
-                spVarient.setVisibility(View.VISIBLE);
-
-                //region varient adapter
-
-                varientAdapter = new
-                        ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, variantList);
-                spVarient.setAdapter(varientAdapter);
-
-                //endregion
-
-                //region fuel adapter
-
-                fuelAdapter = new
-                        ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, fuelList) {
-                            @NonNull
-                            @Override
-                            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                                View view1 = super.getView(position, convertView, parent);
-                                view1.setPadding(8, 0, 8, 0);
-                                return view1;
-                            }
-                        };
-                spFuel.setAdapter(fuelAdapter);
-
-                //endregion
-
-            }
-        });
-
-
-        spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fuelList.get(position).equals(Constants.EXTERNAL_LPG)
-                        || fuelList.get(position).equals(Constants.EXTERNAL_CNG)) {
-                    etExtValue.setEnabled(true);
-                } else {
-                    etExtValue.setEnabled(false);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                etExtValue.setEnabled(false);
-            }
-        });
         //endregion
 
-        //region cubic capacity
-        spVarient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fastLaneResponseEntity == null)
-                    etCC.setText("" + databaseController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-        //endregion
-        // region city adapter
-
+        //region Autocomplete RTO
         cityAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, cityList);
         acRto.setAdapter(cityAdapter);
-        acRto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                regplace = cityAdapter.getItem(position).toString();
-                Constants.hideKeyBoard(acRto, getActivity());
-            }
-        });
+        //endregion
+
+        //region spinner Fuel
+
+        fuelList = new ArrayList<String>();
+        fuelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, fuelList);
+        spFuel.setAdapter(fuelAdapter);
+
+        //endregion
+
+        //region spinner Varient
+
+        variantList = new ArrayList<String>();
+        varientAdapter = new
+                ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, variantList);
+        spVarient.setAdapter(varientAdapter);
 
         //endregion
 
         // region prev insurer adapter
         prevInsAdapter = new
-                ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, databaseController.getInsurerList()) {
+                ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, prevInsurerList) {
                     @Override
                     public boolean isEnabled(int position) {
                         if (position == 0) {
@@ -242,6 +195,170 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         //endregion
     }
 
+    private void bindInputsQuotes() {
+
+        int vehicleID = motorRequestEntity.getVehicle_id();
+        CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
+        makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
+
+        //region make model
+        acMakeModel.setText(makeModel);
+        acMakeModel.performCompletion();
+
+        //endregion
+
+        //region varient list
+
+        variantList.clear();
+        List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(), carMasterEntity.getModel_Name());
+        variantList.addAll(varList);
+        varientAdapter.notifyDataSetChanged();
+
+
+        //endregion
+
+        //region fuel list
+        fuelList.clear();
+        fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
+        fuelAdapter.notifyDataSetChanged();
+
+        //endregion
+
+        //region spinner selection
+
+        int varientIndex = 0;
+        for (int i = 0; i < variantList.size(); i++) {
+            if (variantList.get(i).matches(carMasterEntity.getVariant_Name())) {
+                varientIndex = i;
+                break;
+            }
+        }
+        spVarient.setSelection(varientIndex);
+
+        int fuelIndex = 0;
+        for (int i = 0; i < fuelList.size(); i++) {
+            if (fuelList.get(i).matches(carMasterEntity.getFuel_Name())) {
+                fuelIndex = i;
+                break;
+            }
+        }
+        spFuel.setSelection(fuelIndex);
+
+        int prevInsurerIndex = 0;
+        String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
+        for (int i = 0; i < prevInsurerList.size(); i++) {
+            if (prevInsurerList.get(i).matches(insName)) {
+                prevInsurerIndex = i;
+                break;
+            }
+        }
+        spPrevIns.setSelection(prevInsurerIndex);
+
+
+        //endregion
+
+        //region Rto binding
+
+        acRto.setText(dbController.getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+        acRto.performCompletion();
+        regplace = acRto.getText().toString();
+
+        //endregion
+
+        if (motorRequestEntity.getExternal_bifuel_value() != null)
+            etExtValue.setText(motorRequestEntity.getExternal_bifuel_value());
+
+        etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
+
+        etMobile.setText(motorRequestEntity.getMobile());
+
+        try {
+            etRegDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_registration_date())));
+
+            etMfgDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date())));
+
+            etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void adapter_listeners() {
+
+        //region make model
+
+        acMakeModel.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Constants.hideKeyBoard(acMakeModel, getActivity());
+                makeModel = makeModelAdapter.getItem(position).toString();
+
+                modelId = dbController.getModelID(getModel(acMakeModel.getText().toString()));
+
+                fuelList.clear();
+                fuelList.addAll(dbController.getFuelTypeByModelId(modelId));
+                fuelAdapter.notifyDataSetChanged();
+
+                variantList.clear();
+                variantList.addAll(dbController.getVariantbyModelID(modelId));
+                varientAdapter.notifyDataSetChanged();
+
+            }
+        });
+
+
+        spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (fuelList.get(position).equals(Constants.EXTERNAL_LPG)
+                        || fuelList.get(position).equals(Constants.EXTERNAL_CNG)) {
+                    etExtValue.setEnabled(true);
+                } else {
+                    etExtValue.setEnabled(false);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                etExtValue.setEnabled(false);
+            }
+        });
+        //endregion
+
+        //region cubic capacity
+        spVarient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (fastLaneResponseEntity == null)
+                    etCC.setText("" + dbController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        //endregion
+
+        // region city adapter
+
+        acRto.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                regplace = cityAdapter.getItem(position).toString();
+                Constants.hideKeyBoard(acRto, getActivity());
+            }
+        });
+
+        //endregion
+
+    }
+
     private void initialize_views() {
         cvInput.setVisibility(View.GONE);
     }
@@ -273,11 +390,12 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
         etreg3.addTextChangedListener(new GenericTextWatcher(etreg3, this));
         etreg4.addTextChangedListener(new GenericTextWatcher(etreg4, this));
-        acMakeModel.addTextChangedListener(new GenericTextWatcher(acMakeModel, this));
-        acRto.addTextChangedListener(new GenericTextWatcher(acRto, this));
+//        acMakeModel.addTextChangedListener(new GenericTextWatcher(acMakeModel, this));
+//        acRto.addTextChangedListener(new GenericTextWatcher(acRto, this));
         etRegDate.setOnClickListener(datePickerDialog);
         etMfgDate.setOnClickListener(datePickerDialog);
         etExpDate.setOnClickListener(datePickerDialog);
+
         sbNoClaimBonus.setNumericTransformer(new DiscreteSeekBar.NumericTransformer() {
             @Override
             public int transform(int value) {
@@ -303,7 +421,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         });
     }
 
-    private void intit_view(View view) {
+    private void init_view(View view) {
         llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
         cvRegNo = (CardView) view.findViewById(R.id.cvRegNo);
@@ -371,6 +489,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                     acMakeModel.setError("Enter Make,Model");
                     return;
                 }
+
+
                 if (!isEmpty(etRegDate)) {
                     etRegDate.requestFocus();
                     etRegDate.setError("Enter Reg Date");
@@ -408,6 +528,21 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                     Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
                     return;
                 }
+
+                if (dbController.getVariantID(spVarient.getSelectedItem().toString(),
+                        getModel(acMakeModel.getText().toString()),
+                        getMake(acMakeModel.getText().toString())) == "") {
+                    acMakeModel.requestFocus();
+                    acMakeModel.setError("Enter Make,Model");
+                    return;
+                }
+
+                if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
+                    acRto.requestFocus();
+                    acRto.setError("Enter Rto");
+                    return;
+                }
+
                 //endregion
 
                 //TODO uncomment this
@@ -474,10 +609,10 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 etreg3.requestFocus();
                 break;
             case R.id.acRto:
-                regplace = null;
+                //regplace = null;
                 break;
             case R.id.acMakeModel:
-                makeModel = null;
+                // makeModel = null;
                 break;
 
         }
@@ -525,7 +660,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private String getRegistrationNo(String city) {
-        CityMasterEntity cityMasterEntity = databaseController.getVehicleCity_Id(city);
+        CityMasterEntity cityMasterEntity = dbController.getVehicleCity_Id(city);
         return formatRegistrationNo(cityMasterEntity.getVehicleCity_RTOCode() + "AA1234");
     }
 
@@ -680,9 +815,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     private void setInputParametersNewCAR() {
         motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
-        varientId = databaseController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+        varientId = dbController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-        motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(getRtoCity(regplace))));
+        motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(regplace))));
         //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
         //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
         motorRequestEntity.setExecution_async("yes");
@@ -728,9 +863,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
             motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
         } else {
-            varientId = databaseController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+            varientId = dbController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
             motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-            motorRequestEntity.setRto_id(Integer.parseInt(databaseController.getCityID(getRtoCity(acRto.getText().toString()))));
+            motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
             motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
             if (regNo.equals(""))
                 motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
@@ -740,7 +875,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
         motorRequestEntity.setPolicy_expiry_date(etExpDate.getText().toString());
-        motorRequestEntity.setPrev_insurer_id("" + databaseController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+        motorRequestEntity.setPrev_insurer_id("" + dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
 
         motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
@@ -807,11 +942,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof BikeUniqueResponse) {
-
-            Bundle bundle = new Bundle();
-            bundle.putParcelable("CAR_REQUEST", motorRequestEntity);
-            bundle.putString("RTO_NAME", regplace);
-            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(bundle);
+            ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(motorRequestEntity);
         }
 
     }
@@ -869,9 +1000,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         acMakeModel.setText("" + masterData.getMake_Name() + "," + masterData.getModel_Name());
         etRegDate.setText("" + changeDateFormat(masterData.getRegistration_Date()));
         etMfgDate.setText("" + changeDateFormat(masterData.getPurchase_Date()));
-        regplace = databaseController.getRTOCityName("" + masterData.getVehicleCity_Id());
+        regplace = dbController.getRTOCityName("" + masterData.getVehicleCity_Id());
         acRto.setText(regplace);
-        regplace = databaseController.getRTOCityName("" + masterData.getVehicleCity_Id());
+        regplace = dbController.getRTOCityName("" + masterData.getVehicleCity_Id());
         makeModel = masterData.getMake_Name() + " , " + masterData.getModel_Name();
         setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
     }

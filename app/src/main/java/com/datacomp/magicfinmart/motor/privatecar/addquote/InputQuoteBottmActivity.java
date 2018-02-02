@@ -35,6 +35,10 @@ public class InputQuoteBottmActivity extends BaseActivity {
     private static String INPUT_FRAGMENT = "input";
     private static String QUOTE_FRAGMENT = "quote";
     private static String BUY_FRAGMENT = "buy";
+
+    public static String MOTOR_INPUT_REQUEST = "input_request_entity";
+    public static String MOTOR_QUOTE_REQUEST = "quote_request_entity";
+
     BottomNavigationView bottomNavigationView;
     Bundle quoteBundle;
     Fragment tabFragment = null;
@@ -52,7 +56,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        //bottomNavigationView.setSelectedItemId(R.id.navigation_input);
 
         if (getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE) != null) {
             QuoteListEntity entity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
@@ -64,13 +68,16 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
                 //2. create bundle
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("CAR_REQUEST", entity.getMotorRequestEntity());
+                bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity.getMotorRequestEntity());
                 quoteBundle = bundle;
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
             } else {
                 //send to Input
                 //modify
+                quoteBundle = new Bundle();
+                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity.getMotorRequestEntity());
+
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             }
         } else {
@@ -104,7 +111,9 @@ public class InputQuoteBottmActivity extends BaseActivity {
                         loadFragment(tabFragment, INPUT_FRAGMENT);
 
                     } else {
-                        loadFragment(new InputFragment(), INPUT_FRAGMENT);
+                        InputFragment inputFragment = new InputFragment();
+                        inputFragment.setArguments(quoteBundle);
+                        loadFragment(inputFragment, INPUT_FRAGMENT);
                     }
 
                     return true;
@@ -149,10 +158,12 @@ public class InputQuoteBottmActivity extends BaseActivity {
         InputQuoteBottmActivity.this.finish();
     }
 
-    public void getQuoteParameterBundle(Bundle bundle) {
+    public void getQuoteParameterBundle(MotorRequestEntity entity) {
 
-        quoteBundle = bundle;
-        if (bundle == null)
+        quoteBundle = new Bundle();
+        quoteBundle.putParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST, entity);
+
+        if (entity == null)
             Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
         else
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
