@@ -152,7 +152,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         if (motorRequestEntity != null) {
             carMasterEntity = databaseController.getVarientDetails("" + motorRequestEntity.getVehicle_id());
             tvPolicyExp.setText("" + motorRequestEntity.getPolicy_expiry_date());
-            //tvRtoName.setText("" + new DBPersistanceController(getActivity()).);
+            tvRtoName.setText("" + new DBPersistanceController(getActivity())
+                    .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
         }
 
         if (carMasterEntity != null) {
@@ -206,8 +207,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
             rebindAdapter(bikePremiumResponse);
             updateCrn();
-            Log.d("trackIssue", "Summary  = " + bikePremiumResponse.getSummary().getStatusX() +
-                    " ,counter = " + Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0));
 
             if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
                     || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
@@ -847,7 +846,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 mobileAddOn.setMin(entity.getAddon_ambulance_charge_cover().getMin());
                 mobileAddOn.setMax(entity.getAddon_ambulance_charge_cover().getMax());
                 mobileAddOn.setAddonKey("addon_ambulance_charge_cover");
-                // item.add(databaseController.getAddonName("addon_ambulance_charge_cover"));
+                // item.add(dbController.getAddonName("addon_ambulance_charge_cover"));
                 listMobileAddOn.add(mobileAddOn);
             }
             if (entity.getAddon_consumable_cover() != null) {
@@ -1031,7 +1030,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 mobileAddOn.setAddonKey("addon_zero_dep_cover");
                 listMobileAddOn.add(mobileAddOn);
 
-                //item.add(databaseController.getAddonName("addon_zero_dep_cover"));
+                //item.add(dbController.getAddonName("addon_zero_dep_cover"));
             }
 
             return true;
