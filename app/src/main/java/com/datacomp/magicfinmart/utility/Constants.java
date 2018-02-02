@@ -2,15 +2,22 @@ package com.datacomp.magicfinmart.utility;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+
+import com.datacomp.magicfinmart.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -85,4 +92,15 @@ public class Constants {
         return arrayListYear;
     }
 
+    public static SpannableStringBuilder setStarToLabel(String text) {
+        String simple = text;
+        String colored = "*";
+        SpannableStringBuilder builder = new SpannableStringBuilder();
+        builder.append(simple);
+        int start = builder.length();
+        builder.append(colored);
+        int end = builder.length();
+        builder.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return builder;
+    }
 }
