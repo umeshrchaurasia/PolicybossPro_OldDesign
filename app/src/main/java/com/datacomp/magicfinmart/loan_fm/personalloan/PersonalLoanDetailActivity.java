@@ -11,6 +11,9 @@ import android.view.View;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
+
 public class PersonalLoanDetailActivity extends BaseActivity {
     Toolbar toolbar;
     ViewPager viewPager;
@@ -22,6 +25,7 @@ public class PersonalLoanDetailActivity extends BaseActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
@@ -29,6 +33,13 @@ public class PersonalLoanDetailActivity extends BaseActivity {
         tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
         tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
+//        showDialog("Fetching.., Please wait.!");
+//        new QuoteApplicationController(this).getQuoteAppList("", "",
+//                new DBPersistanceController(this).getUserData().getFBAId(),
+//                0,
+//                "",
+//                PersonalLoanDetailActivity.this);
 
         mAdapter = new ActivityTabsPagerAdapter_PL(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);

@@ -160,9 +160,11 @@
                         android:hint="Ext. CNG/LPG Value">
 
                         <EditText
+                            android:inputType="number"
                             android:id="@+id/etExtValue"
                             style="@style/Style.edittext"
                             android:layout_height="wrap_content"
+                            android:maxLength="6"
                             android:enabled="false" />
                     </android.support.design.widget.TextInputLayout>
 

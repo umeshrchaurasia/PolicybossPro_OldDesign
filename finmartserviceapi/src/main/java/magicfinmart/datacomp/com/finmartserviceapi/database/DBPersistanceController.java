@@ -73,6 +73,7 @@ public class DBPersistanceController {
             return entity.getVehicleCity_RTOCode() + " - " + entity.getRTO_City();
         else
             return "";
+
     }
 
     public CityMasterEntity getVehicleCity_Id(String RTO_City) {
