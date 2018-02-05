@@ -57,12 +57,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setListener();
         realm = Realm.getDefaultInstance();
 
-        List<String> listYears = Constants.getPastFifteenYear("");
-
-        List<String> listSeYears = Constants.getPastFifteenYear("30/01/2014");
-
-
-
         if (!checkPermission()) {
             requestPermission();
         }

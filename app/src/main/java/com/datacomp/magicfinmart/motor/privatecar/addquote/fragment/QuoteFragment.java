@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.PremiumBreakUpActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.AddonPopUpAdapter;
@@ -94,8 +95,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         databaseController = new DBPersistanceController(getActivity());
 
         if (getArguments() != null) {
-            if (getArguments().getParcelable("CAR_REQUEST") != null) {
-                motorRequestEntity = getArguments().getParcelable("CAR_REQUEST");
+            if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
+                motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
                 initializeAdapters();
                 setListener();
                 updateHeader();
@@ -185,6 +186,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     private void saveQuoteToServer(BikePremiumResponse response) {
         //store request and SRN to mySql
         SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
+        motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
         entity.setMotorRequestEntity(motorRequestEntity);
         entity.setSRN(response.getSummary().getRequest_Unique_Id());
         entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
@@ -804,7 +806,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
         //convert quote to application server
         new QuoteApplicationController(getActivity()).convertQuoteToApp(
-                "" + saveQuoteEntity.getVehicleRequestID(), bikePremiumResponse.getSummary().getPB_CRN(),
+                "" + saveQuoteEntity.getVehicleRequestID(),
                 this);
 
         startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
