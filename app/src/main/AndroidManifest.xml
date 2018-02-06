@@ -56,7 +56,12 @@
         <activity
             android:name=".motor.privatecar.PrivateCarDetailActivity"
             android:label="@string/title_activity_private_car_detail"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".home.HomeActivity" />
+        </activity>
         <activity
             android:name=".register.RegisterActivity"
             android:label="@string/title_activity_register"
@@ -260,6 +265,27 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".health.HealthQuoteAppActivity"
+            android:label="Health Insurance"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".home.HomeActivity" />
+        </activity>
+
+        <activity
+            android:name=".health.healthquotetabs.HealthQuoteTabsActivity"
+            android:label="Quotes"
+            android:parentActivityName=".health.HealthQuoteAppActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".health.HealthQuoteAppActivity" />
         </activity>
     </application>
 
