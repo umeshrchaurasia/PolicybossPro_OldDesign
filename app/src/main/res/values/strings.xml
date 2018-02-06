@@ -38,7 +38,6 @@
     <string name="title_activity_add_quote__pl">Add Quote</string>
     <string name="title_activity_add_plquote">Add Quote</string>
 
-
     <array name="IncomeSource">
         <item>Salaried</item>
         <item>Self-Employed</item>
@@ -71,6 +70,8 @@
     <string name="title_activity_lapmain">LOAN AGAINST PROPERTY</string>
     <string name="title_activity_lapapply">LOAN AGAINST PROPERTY</string>
     <string name="title_activity_lapapply_web_view">LOAN AGAINST PROPERTY</string>
+    <string name="title_activity_two_wheeler_quote_app">Two Wheeler</string>
+    <string name="title_activity_bike_add_quote">Bike Insurance</string>
 
 
 </resources>

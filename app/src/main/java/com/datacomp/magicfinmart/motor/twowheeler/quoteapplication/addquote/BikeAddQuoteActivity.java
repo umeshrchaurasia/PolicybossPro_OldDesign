@@ -1,44 +1,27 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote;
+package com.datacomp.magicfinmart.motor.twowheeler.quoteapplication.addquote;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
-import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.BuyFragment;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.InputFragment;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
 import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
-import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 
-public class InputQuoteBottmActivity extends BaseActivity {
-
+public class BikeAddQuoteActivity extends AppCompatActivity {
     private static String INPUT_FRAGMENT = "input";
     private static String QUOTE_FRAGMENT = "quote";
     private static String BUY_FRAGMENT = "buy";
-
-    public static String MOTOR_INPUT_REQUEST = "input_request_entity";
-    public static String MOTOR_QUOTE_REQUEST = "quote_request_entity";
-
     BottomNavigationView bottomNavigationView;
     Bundle quoteBundle;
     Fragment tabFragment = null;
@@ -47,7 +30,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_input_quote_bottm);
+        setContentView(R.layout.activity_bike_add_quote);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -56,7 +39,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        //bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
 
         if (getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE) != null) {
             QuoteListEntity entity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
@@ -68,16 +51,13 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
                 //2. create bundle
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(MOTOR_QUOTE_REQUEST, entity.getMotorRequestEntity());
+                bundle.putParcelable("CAR_REQUEST", entity.getMotorRequestEntity());
                 quoteBundle = bundle;
 
                 bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
             } else {
                 //send to Input
                 //modify
-                quoteBundle = new Bundle();
-                quoteBundle.putParcelable(MOTOR_INPUT_REQUEST, entity.getMotorRequestEntity());
-
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             }
         } else {
@@ -86,8 +66,6 @@ public class InputQuoteBottmActivity extends BaseActivity {
         }
 
         quoteBundle = null;
-
-
     }
 
     private void loadFragment(Fragment fragment, String TAG) {
@@ -111,9 +89,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                         loadFragment(tabFragment, INPUT_FRAGMENT);
 
                     } else {
-                        InputFragment inputFragment = new InputFragment();
-                        inputFragment.setArguments(quoteBundle);
-                        loadFragment(inputFragment, INPUT_FRAGMENT);
+                        loadFragment(new InputFragment(), INPUT_FRAGMENT);
                     }
 
                     return true;
@@ -130,7 +106,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                             loadFragment(quoteFragment, QUOTE_FRAGMENT);
                         } else {
 
-                            Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BikeAddQuoteActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -155,61 +131,16 @@ public class InputQuoteBottmActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        InputQuoteBottmActivity.this.finish();
+        BikeAddQuoteActivity.this.finish();
     }
 
-    public void getQuoteParameterBundle(MotorRequestEntity entity) {
+    public void getQuoteParameterBundle(Bundle bundle) {
 
-        quoteBundle = new Bundle();
-        quoteBundle.putParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST, entity);
-
-        if (entity == null)
-            Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+        quoteBundle = bundle;
+        if (bundle == null)
+            Toast.makeText(BikeAddQuoteActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
         else
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
 
     }
-
-    //region unUsed code
-
-    public interface ActivityCallback            // Interface creation
-    {
-        void onMethodCallback(String strTyp);
-    }
-
-    private void unCheckAllBottomMenu() {
-        int size = bottomNavigationView.getMenu().size();
-        for (int i = 0; i < size; i++) {
-            bottomNavigationView.getMenu().getItem(i).setCheckable(false);
-        }
-    }
-
-
-    public void redirectToBuy(ResponseEntity entity) {
-
-        int fbaID = new DBPersistanceController(this).getUserData().getFBAId();
-        String url = "http://qa.policyboss.com/";
-        //String url = "http://policyboss.com/";
-        String title = "";
-        String name = "";
-        url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
-        title = "Car Insurance";
-
-        //new QuoteApplicationController(this).convertQuoteToApp(entity.);
-
-        startActivity(new Intent(this, CommonWebViewActivity.class)
-                .putExtra("URL", url)
-                .putExtra("NAME", name)
-                .putExtra("TITLE", title));
-    }
-
-    public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
-        startActivity(new Intent(this, PremiumBreakUpActivity.class)
-                .putExtra("RESPONSE", entity));
-
-
-    }
-
-    //endregion
-
 }

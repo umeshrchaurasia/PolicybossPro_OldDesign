@@ -238,12 +238,29 @@
         <activity
             android:name=".loan_fm.laploan.application.LAPApplyWebView"
             android:label="@string/title_activity_lapapply_web_view"
-            android:theme="@style/AppTheme"></activity>
-
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView"
             android:label="@string/title_activity_balance_transfer_detail"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity"
+            android:label="@string/title_activity_two_wheeler_quote_app"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".motor.twowheeler.quoteapplication.addquote.BikeAddQuoteActivity"
+            android:label="@string/title_activity_bike_add_quote"
+            android:parentActivityName=".motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity" />
+        </activity>
     </application>
 
 </manifest>

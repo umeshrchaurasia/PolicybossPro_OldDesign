@@ -4,20 +4,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/nav_home"
             android:title="Home" />
         <item
             android:id="@+id/nav_myaccount"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/nav_myaccount"
             android:title="My Account" />
 
         <item
             android:id="@+id/nav_pospenrollment"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/nav_home"
             android:title="POSP ENROLLMENT" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/logout"
             android:title="LOG-OUT" />
 
 

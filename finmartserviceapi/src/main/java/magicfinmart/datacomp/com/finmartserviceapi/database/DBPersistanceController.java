@@ -57,9 +57,6 @@ public class DBPersistanceController {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
                 .equalTo("RTO_City", cityName).findFirst();
-                //.equalTo("VehicleCity_RTOCode", cityName.trim()).findFirst();
-        //.equalTo("RTO_CodeDiscription", cityName).findFirst();
-
         if (entity != null)
             return entity.getVehicleCity_Id();
         else
@@ -73,7 +70,7 @@ public class DBPersistanceController {
                 .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
 
         if (entity != null)
-            return entity.getRTO_CodeDiscription();
+            return entity.getVehicleCity_RTOCode() + " - " + entity.getRTO_City();
         else
             return "";
 
@@ -83,7 +80,6 @@ public class DBPersistanceController {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
                 .equalTo("RTO_City", RTO_City).findFirst();
-                //.equalTo("VehicleCity_RTOCode", VehicleCity_Id).findFirst();
 
         if (entity != null)
             return entity;
@@ -444,31 +440,19 @@ public class DBPersistanceController {
         hashMapInsurence.put("Religare Health Insurance", 34);
   */
 
-//        hashMapInsurence.put("Bajaj Allianz", 1);
-//        hashMapInsurence.put("Bharti Axa", 2);
-//        hashMapInsurence.put("Future Generali India", 4);
-//        hashMapInsurence.put("HDFC ERGO", 5);
-//        hashMapInsurence.put("ICICI Lombard", 6);
-//        hashMapInsurence.put("IFFCO Tokio", 7);
-//        hashMapInsurence.put("Universal Sompo", 19);
-//        hashMapInsurence.put("Liberty Videocon", 33);
-//        hashMapInsurence.put("Tata AIG", 11);
-//        hashMapInsurence.put("New India Assurance", 12);
-//        hashMapInsurence.put("Kotak Mahindra", 30);
-//        hashMapInsurence.put("Reliance General", 9);
-//        hashMapInsurence.put("Royal Sundaram", 10);
-//        hashMapInsurence.put("SBI General ", 17);
-//        hashMapInsurence.put("Shriram General ", 18);
-//        hashMapInsurence.put("National Insurance ", 8);
-//        hashMapInsurence.put("L & T General ", 15);
-//        hashMapInsurence.put("Cholamandalam MS General ", 3);
-//        hashMapInsurence.put("Raheja QBE General ", 16);
-//        hashMapInsurence.put("Liberty Videocon General ", 33);
-//        hashMapInsurence.put("Star Health Insurance", 26);
-//        hashMapInsurence.put("Magma HDI General ", 35);
-//        hashMapInsurence.put("The Oriental Insurance", 13);
-//        hashMapInsurence.put("United India Insurance ", 14);
-//        hashMapInsurence.put("Religare Health Insurance", 34);
+    }
+
+    public String getInsurername(int insurerID) {
+        MapInsurence();
+        String insName = "";
+        for (Map.Entry<String, Integer> entity : hashMapInsurence.entrySet()) {
+            if (entity.getValue() == insurerID) {
+                insName = entity.getKey();
+                break;
+            }
+
+        }
+        return insName;
     }
 
     public int getInsurenceID(String insurenceName) {

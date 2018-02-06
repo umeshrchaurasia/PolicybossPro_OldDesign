@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.PremiumBreakUpActivity;
 import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.AddonPopUpAdapter;
@@ -94,8 +95,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         databaseController = new DBPersistanceController(getActivity());
 
         if (getArguments() != null) {
-            if (getArguments().getParcelable("CAR_REQUEST") != null) {
-                motorRequestEntity = getArguments().getParcelable("CAR_REQUEST");
+            if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
+                motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
                 initializeAdapters();
                 setListener();
                 updateHeader();
@@ -152,7 +153,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         if (motorRequestEntity != null) {
             carMasterEntity = databaseController.getVarientDetails("" + motorRequestEntity.getVehicle_id());
             tvPolicyExp.setText("" + motorRequestEntity.getPolicy_expiry_date());
-            //tvRtoName.setText("" + new DBPersistanceController(getActivity()).);
+            tvRtoName.setText("" + new DBPersistanceController(getActivity())
+                    .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
         }
 
         if (carMasterEntity != null) {
@@ -184,6 +186,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     private void saveQuoteToServer(BikePremiumResponse response) {
         //store request and SRN to mySql
         SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
+        motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
         entity.setMotorRequestEntity(motorRequestEntity);
         entity.setSRN(response.getSummary().getRequest_Unique_Id());
         entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
@@ -206,8 +209,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
             rebindAdapter(bikePremiumResponse);
             updateCrn();
-            Log.d("trackIssue", "Summary  = " + bikePremiumResponse.getSummary().getStatusX() +
-                    " ,counter = " + Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0));
 
             if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
                     || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
@@ -805,7 +806,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
         //convert quote to application server
         new QuoteApplicationController(getActivity()).convertQuoteToApp(
-                "" + saveQuoteEntity.getVehicleRequestID(), bikePremiumResponse.getSummary().getPB_CRN(),
+                "" + saveQuoteEntity.getVehicleRequestID(),
                 this);
 
         startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
@@ -847,7 +848,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 mobileAddOn.setMin(entity.getAddon_ambulance_charge_cover().getMin());
                 mobileAddOn.setMax(entity.getAddon_ambulance_charge_cover().getMax());
                 mobileAddOn.setAddonKey("addon_ambulance_charge_cover");
-                // item.add(databaseController.getAddonName("addon_ambulance_charge_cover"));
+                // item.add(dbController.getAddonName("addon_ambulance_charge_cover"));
                 listMobileAddOn.add(mobileAddOn);
             }
             if (entity.getAddon_consumable_cover() != null) {
@@ -1031,7 +1032,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 mobileAddOn.setAddonKey("addon_zero_dep_cover");
                 listMobileAddOn.add(mobileAddOn);
 
-                //item.add(databaseController.getAddonName("addon_zero_dep_cover"));
+                //item.add(dbController.getAddonName("addon_zero_dep_cover"));
             }
 
             return true;
