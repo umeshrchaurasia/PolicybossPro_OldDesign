@@ -30,7 +30,7 @@
                 android:layout_weight="90"
                 android:gravity="center"
                 android:lines="2"
-                android:text="DataComp"
+                android:text=""
                 android:padding="4dp"
                 android:textAllCaps="true"
                 android:textColor="@color/header_dark_text"
@@ -87,7 +87,7 @@
                     android:gravity="center"
                     android:padding="4dp"
                     android:textAllCaps="true"
-                    android:text="6000000"
+                    android:text=""
                     android:textColor="@color/header_dark_text" />
             </LinearLayout>
 
@@ -108,12 +108,12 @@
                     android:textColor="@color/description_text" />
 
                 <TextView
-                    android:id="@+id/txtApplicationDate"
+                    android:id="@+id/txtQuoteDate"
                     style="@style/TextViewStyle.Medium"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:padding="4dp"
-                    android:text="01/01/2018"
+                    android:text=""
                     android:textAllCaps="true"
                     android:textColor="@color/header_dark_text" />
             </LinearLayout>

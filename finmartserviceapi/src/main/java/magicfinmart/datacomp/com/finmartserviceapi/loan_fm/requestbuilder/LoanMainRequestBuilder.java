@@ -29,11 +29,12 @@ public class LoanMainRequestBuilder extends FinmartRetroRequestBuilder {
         //    region HomeLoan
 
         @Headers("token:1234567890")
-        @POST("/api/get-HLloan-request")
+        @POST("/api/get-loan-request")
         Call<QuoteApplicatLoanResonse> getHLQuoteApplication(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
-        @POST("/api/save-HLloan-request")
+//        @POST("/api/save-HLloan-request")
+        @POST("/api/save-loan-request")
         Call<FmHomelLoanResponse> saveHLQuote(@Body FmHomeLoanRequest fmHomeLoanRequest);
 
 

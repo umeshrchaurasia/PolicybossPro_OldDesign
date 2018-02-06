@@ -8,15 +8,29 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
 
-public class HomeLoanDetailActivity extends BaseActivity {
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HLQuoteApplicationEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.QuoteApplicatLoanResonse;
+
+public class HomeLoanDetailActivity extends BaseActivity implements IResponseSubcriberFM {
 
     Toolbar toolbar;
     ViewPager viewPager;
     ActivityTabsPagerAdapter_HL mAdapter;
+    LoginResponseEntity loginEntity ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +41,15 @@ public class HomeLoanDetailActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
         tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        loginEntity =  new DBPersistanceController(this).getUserData();
 
-        mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager());
-        viewPager.setAdapter(mAdapter);
+//        mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager());
+//        viewPager.setAdapter(mAdapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -55,4 +71,45 @@ public class HomeLoanDetailActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchQuoteApplication();
+    }
+
+    private void fetchQuoteApplication() {
+
+        showDialog("Fetching.., Please wait.!");
+
+
+        new MainLoanController(this).getHLQuoteApplicationData(String.valueOf(loginEntity.getFBAId()),
+                "HML", HomeLoanDetailActivity.this);
+
+
+    }
+
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+
+        cancelDialog();
+        if (response instanceof QuoteApplicatLoanResonse) {
+            if (((QuoteApplicatLoanResonse) response).getMasterData() != null) {
+
+                HLQuoteApplicationEntity hlQuoteApplicationEntity =((QuoteApplicatLoanResonse)response).getMasterData();
+
+                mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager(),hlQuoteApplicationEntity);
+                viewPager.setAdapter(mAdapter);
+            }
+
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
+        cancelDialog();
+        Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
+
+
+    }
 }
