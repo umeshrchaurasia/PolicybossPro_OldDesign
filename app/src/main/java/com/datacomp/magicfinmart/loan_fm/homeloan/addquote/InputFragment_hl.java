@@ -34,6 +34,8 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -1183,6 +1185,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         homeLoanRequest.setempcode("");
         homeLoanRequest.setProductId("12");//HomeLoan
         homeLoanRequest.setApi_source("Finmart");
+                                                            // Below two For Node JS Maintainance
+        homeLoanRequest.setType("HML");
+        homeLoanRequest.setLoaniD("" +loginEntity.getLoanId());
 
 
 
@@ -1227,27 +1232,10 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         cancelDialog();
         if (response instanceof GetQuoteResponse) {
             if (response.getStatus_Id() == 0) {
-//                getQuoteResponse = ((GetQuoteResponse) response);
-//                startActivity(new Intent(getActivity(), HomeLoanQuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) getQuoteResponse.getData())
-//                        .putExtra(Constants.QUOTES, getQuoteResponse)
-//                        .putExtra(Constants.HL_REQUEST, homeLoanRequest));
-                ((HLMainActivity) mContext).setQuoteCheck();
 
                 getQuoteResponse = ((GetQuoteResponse) response);
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.HOME_LOAN_QUOTES, getQuoteResponse);
-                bundle.putParcelable(Constants.HL_REQUEST, homeLoanRequest);
-                QuoteFragment_hl quoteFragmenthl = new QuoteFragment_hl();
-                quoteFragmenthl.setArguments(bundle);
-                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction_quote.replace(R.id.frame_layout, quoteFragmenthl, "QUOTE");
-                transaction_quote.addToBackStack("QUOTE");
-                transaction_quote.show(quoteFragmenthl);
-                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction_quote.commit();
-
-                setFmHomeLoanRequest();
+                setFmHomeLoanRequest(getQuoteResponse.getQuote_id());
 
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
@@ -1256,16 +1244,20 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void  setFmHomeLoanRequest()
+    private void  setFmHomeLoanRequest(int QuoteID)
     {
+
         showDialog();
         fmHomeLoanRequest = new FmHomeLoanRequest();
         fmHomeLoanRequest.setLoan_requestID("");
-        fmHomeLoanRequest.setFba_id(String.valueOf(loginEntity.getFBAId()));
+        fmHomeLoanRequest.setFBA_id(String.valueOf(loginEntity.getFBAId()));
+        fmHomeLoanRequest.setQuote_id(QuoteID);
         fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
         new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
 
     }
+
+
 
     @Override
     public void OnSuccessFM(APIResponseFM response, String message) {
@@ -1274,6 +1266,12 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         if (response instanceof FmHomelLoanResponse) {
             if (response.getStatusNo() == 0) {
                 Toast.makeText(getActivity(), "Fm Saved", Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.HOME_LOAN_QUOTES, getQuoteResponse);
+                bundle.putParcelable(Constants.HL_REQUEST, homeLoanRequest);
+                ((HLMainActivity) getActivity()).getQuoteParameterBundle(bundle);
+
             }
         }
     }
@@ -1314,135 +1312,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                     etTenureInYear.setText(String.valueOf(MIN));
                 }
                 break;
-            //region comment
-            //            case R.id.sbCostOfProp:
-//                if (progress >= seekBarCostPropProgress) {
-//                    if (fromUser) {
-//                        //progress = ((int) Math.round(progress / seekBarCostPropProgress)) * seekBarCostPropProgress;
-//                        etCostOfProp.setText(String.valueOf(((long) progress) * 100000));
-//                        txtMaxLoanAmntAllow.setText("" + getMaxLoanAmount(etCostOfProp.getText().toString()).intValueExact());
-//                    }
-//                } else {
-//                    etCostOfProp.setText(String.valueOf(((long) seekBarCostPropProgress) * 100000));
-//                    txtMaxLoanAmntAllow.setText("" + getMaxLoanAmount(etCostOfProp.getText().toString()).intValueExact());
-//                }
-//
-//
-//                break;
-//
-//            case R.id.sbTurnOver:
-//                if (progress >= seekBarApplTurnOverProgress) {
-//                    if (fromUser) {
-//                        // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
-//                        etTurnOver.setText(String.valueOf(((long) progress) * 1000000));
-//                    }
-//                } else {
-//                    etTurnOver.setText(String.valueOf(((long) seekBarApplTurnOverProgress) * 1000000));
-//                }
-//                break;
-//
-//            case R.id.sbProfitAfTax:
-//                if (progress >= seekBarApplProfitProgress) {
-//                    if (fromUser) {
-//                        //    progress = ((int) Math.round(progress / seekBarApplProfitProgress)) * seekBarApplProfitProgress;
-//                        etProfitAtTax.setText(String.valueOf(((long) progress) * 1000000));
-//                    }
-//                } else {
-//                    etProfitAtTax.setText(String.valueOf(((long) seekBarApplProfitProgress) * 1000000));
-//                }
-//                break;
-//
-//            case R.id.sbDepreciation:
-//                if (progress >= seekBarApplDepricProgress) {
-//                    if (fromUser) {
-//                        //    progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-//                        etDepreciation.setText(String.valueOf(((long) progress) * 100000));
-//                    }
-//                } else {
-//                    etDepreciation.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-//                }
-//                break;
-//
-//            case R.id.sbMonthlyInc:
-//
-//                if (progress >= seekBarApplIncomeProgress) {
-//                    if (fromUser) {
-//                        //   progress = ((int) Math.round(progress / seekBarApplIncomeProgress)) * seekBarApplIncomeProgress;
-//                        etMonthlyInc.setText(String.valueOf(((long) progress) * 1000));
-//                    }
-//                } else {
-//                    etMonthlyInc.setText(String.valueOf(((long) seekBarApplIncomeProgress) * 1000));
-//                }
-//                break;
-//
-//            case R.id.sbDirecPartRemuntion:
-//                if (progress >= seekBarApplDepricProgress) {
-//                    if (fromUser) {
-//                        //    progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-//                        etDirecPartRemuntion.setText(String.valueOf(((long) progress) * 100000));
-//                    }
-//                } else {
-//                    etDirecPartRemuntion.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-//                }
-//                break;
-//
-//            // Co- Applicant
-//            case R.id.coApp_sbMonthlyInc:
-//                if (progress >= seekBarApplIncomeProgress) {
-//                    if (fromUser) {
-//                        //   progress = ((int) Math.round(progress / seekBarApplIncomeProgress)) * seekBarApplIncomeProgress;
-//                        coApp_etMonthlyInc.setText(String.valueOf(((long) progress) * 1000));
-//                    }
-//                } else {
-//                    coApp_etMonthlyInc.setText(String.valueOf(((long) seekBarApplIncomeProgress) * 1000));
-//                }
-//
-//                break;
-//
-//            case R.id.coApp_sbTurnOver:
-//                if (progress >= seekBarApplTurnOverProgress) {
-//                    if (fromUser) {
-//                        //    progress = ((int) Math.round(progress / seekBarApplTurnOverProgress)) * seekBarApplTurnOverProgress;
-//                        coApp_etTurnOver.setText(String.valueOf(((long) progress) * 1000000));
-//                    }
-//                } else {
-//                    coApp_etTurnOver.setText(String.valueOf(((long) seekBarApplTurnOverProgress) * 1000000));
-//                }
-//                break;
-//
-//            case R.id.coApp_sbProfitAfTax:
-//                if (progress >= seekBarApplProfitProgress) {
-//                    if (fromUser) {
-//                        //    progress = ((int) Math.round(progress / seekBarApplProfitProgress)) * seekBarApplProfitProgress;
-//                        coApp_etProfitAtTax.setText(String.valueOf(((long) progress) * 1000000));
-//                    }
-//                } else {
-//                    coApp_etProfitAtTax.setText(String.valueOf(((long) seekBarApplProfitProgress) * 1000000));
-//                }
-//                break;
-//
-//            case R.id.coApp_sbDepreciation:
-//                if (progress >= seekBarApplDepricProgress) {
-//                    if (fromUser) {
-//                        //   progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-//                        coApp_etDepreciation.setText(String.valueOf(((long) progress) * 100000));
-//                    }
-//                } else {
-//                    coApp_etDepreciation.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-//                }
-//                break;
-//
-//            case R.id.coApp_sbDirecPartRemuntion:
-//                if (progress >= seekBarApplDepricProgress) {
-//                    if (fromUser) {
-//                        //     progress = ((int) Math.round(progress / seekBarApplDepricProgress)) * seekBarApplDepricProgress;
-//                        coApp_etDirecPartRemuntion.setText(String.valueOf(((long) progress) * 100000));
-//                    }
-//                } else {
-//                    coApp_etDirecPartRemuntion.setText(String.valueOf(((long) seekBarApplDepricProgress) * 100000));
-//                }
-//                break;
-            //endregion
+
         }
     }
 
@@ -1481,93 +1351,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             else {
                 txtMaxLoanAmntAllow.setText("");
             }
-//
-//
-//        } else if (etTenureInYear.getText().hashCode() == s.hashCode()) {
-//
-//            if (!etTenureInYear.getText().toString().equals("") && !etTenureInYear.getText().toString().equals(null)) {
-//                int tenureInYear = Integer.parseInt(etTenureInYear.getText().toString());
-//                sbTenure.setProgress(tenureInYear);
-//
-//            }
-//
-//        } else if (etTurnOver.getText().hashCode() == s.hashCode()) {
-//
-//            if (!etTurnOver.getText().toString().equals("") && !etTurnOver.getText().toString().equals(null)) {
-//                int turnOver = Integer.parseInt(etTurnOver.getText().toString());
-//                sbTurnOver.setProgress(turnOver / 1000000);
-//            }
-//
-//        } else if (etProfitAtTax.getText().hashCode() == s.hashCode()) {
-//
-//            if (!etProfitAtTax.getText().toString().equals("") && !etProfitAtTax.getText().toString().equals(null)) {
-//                int profitAtTax = Integer.parseInt(etProfitAtTax.getText().toString());
-//                sbProfitAfTax.setProgress(profitAtTax / 1000000);
-//            }
-//
-//        } else if (etDepreciation.getText().hashCode() == s.hashCode()) {
-//
-//            if (!etDepreciation.getText().toString().equals("") && !etDepreciation.getText().toString().equals(null)) {
-//                int depreciation = Integer.parseInt(etDepreciation.getText().toString());
-//                sbDepreciation.setProgress(depreciation / 100000);
-//            }
-//
-//        } else if (etMonthlyInc.getText().hashCode() == s.hashCode()) {
-//
-//            if (!etMonthlyInc.getText().toString().equals("") && !etMonthlyInc.getText().toString().equals(null)) {
-//                int monthlyInc = Integer.parseInt(etMonthlyInc.getText().toString());
-//
-//                if (monthlyInc > 25000) {
-//                    sbMonthlyInc.setProgress(monthlyInc / 1000);
-//                } else {
-//                    sbMonthlyInc.setProgress(1);
-//                    etMonthlyInc.setSelection(etMonthlyInc.getText().length());
-//                }
-//
-//
-//            }
-//
-//        } else if (etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
-//            if (!etDirecPartRemuntion.getText().toString().equals("") && !etDirecPartRemuntion.getText().toString().equals(null)) {
-//                int direcPartRemuntion = Integer.parseInt(etDirecPartRemuntion.getText().toString());
-//                sbDirecPartRemuntion.setProgress(direcPartRemuntion / 100000);
-//            }
-//
-//        } else if (coApp_etMonthlyInc.getText().hashCode() == s.hashCode()) {
-//            if (!coApp_etMonthlyInc.getText().toString().equals("") && !coApp_etMonthlyInc.getText().toString().equals(null)) {
-//                int coApp_MonthlyInc = Integer.parseInt(coApp_etMonthlyInc.getText().toString());
-//                if (coApp_MonthlyInc > 25000) {
-//                    coApp_sbMonthlyInc.setProgress(coApp_MonthlyInc / 1000);
-//                } else {
-//                    coApp_sbMonthlyInc.setProgress(1);
-//                    coApp_etMonthlyInc.setSelection(coApp_etMonthlyInc.getText().length());
-//                }
-//            }
-//
-//        } else if (coApp_etTurnOver.getText().hashCode() == s.hashCode()) {
-//            if (!coApp_etTurnOver.getText().toString().equals("") && !coApp_etTurnOver.getText().toString().equals(null)) {
-//                int coApp_TurnOver = Integer.parseInt(coApp_etTurnOver.getText().toString());
-//                coApp_sbTurnOver.setProgress(coApp_TurnOver / 1000000);
-//            }
-//        } else if (coApp_etProfitAtTax.getText().hashCode() == s.hashCode()) {
-//            if (!coApp_etProfitAtTax.getText().toString().equals("") && !coApp_etProfitAtTax.getText().toString().equals(null)) {
-//                int coApp_ProfitAtTax = Integer.parseInt(coApp_etProfitAtTax.getText().toString());
-//                coApp_sbProfitAfTax.setProgress(coApp_ProfitAtTax / 1000000);
-//            }
-//
-//        } else if (coApp_etDepreciation.getText().hashCode() == s.hashCode()) {
-//            if (!coApp_etDepreciation.getText().toString().equals("") && !coApp_etDepreciation.getText().toString().equals(null)) {
-//                int coApp_Depreciation = Integer.parseInt(coApp_etDepreciation.getText().toString());
-//                coApp_sbDepreciation.setProgress(coApp_Depreciation / 100000);
-//            }
-//
-//        } else if (coApp_etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
-//            if (!coApp_etDirecPartRemuntion.getText().toString().equals("") && !coApp_etDirecPartRemuntion.getText().toString().equals(null)) {
-//                int coApp_DirecPartRemuntion = Integer.parseInt(coApp_etDirecPartRemuntion.getText().toString());
-//                coApp_sbDirecPartRemuntion.setProgress(coApp_DirecPartRemuntion / 100000);
-//            }
-//
-//        }
+
         }
     }
 

@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,8 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
+
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LoanQuoteEntity;
 
 /**
  * Created by IN-RB on 19-01-2018.
@@ -17,12 +25,27 @@ import com.datacomp.magicfinmart.R;
 
 public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAdapter.QuoteItem>  {
 
-    Context context;
+    Fragment mFrament;
+    List<LoanQuoteEntity> mQuoteList;
 
-    public HomeLoan_QuoteAdapter(Context context) {
-        this.context = context;
+    public HomeLoan_QuoteAdapter(Fragment mFrament, List<LoanQuoteEntity> mQuoteList) {
+        this.mFrament = mFrament;
+        this.mQuoteList = mQuoteList;
     }
 
+    public class QuoteItem extends RecyclerView.ViewHolder {
+
+        public TextView txtPersonName,  txtOverflowMenu,  txtloanamount , txtQuoteDate;
+
+
+        public QuoteItem(View itemView) {
+            super(itemView);
+            txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
+            txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
+            txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
+            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+        }
+    }
     @Override
     public QuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -38,9 +61,21 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 //                openPopUp(view);
 //            }
 //        });
+
+        if (holder instanceof HomeLoan_QuoteAdapter.QuoteItem) {
+            final LoanQuoteEntity entity = mQuoteList.get(position);
+
+            holder.txtPersonName.setText(""+ entity.getApplicantNme());
+            holder.txtQuoteDate.setText("" + entity.getApplicantDOB());
+
+            holder.txtloanamount.setText("" + entity.getLoanRequired());
+
+
+
+        }
     }
     private void openPopUp(View v) {
-        final PopupMenu popupMenu = new PopupMenu(context, v);
+        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
         final Menu menu = popupMenu.getMenu();
 
         popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
@@ -68,19 +103,15 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
         itemPosition = (int) view.getTag(R.id.tag_item_position);*/
         popupMenu.show();
     }
+
+
+
+    public void refreshAdapter(List<LoanQuoteEntity> list) {
+        mQuoteList = list;
+    }
+
     @Override
     public int getItemCount() {
-        return 2;
-    }
-    public class QuoteItem extends RecyclerView.ViewHolder {
-
-        //   public ImageView ivTripleDot;
-        public CheckBox chkAddon;
-
-
-        public QuoteItem(View itemView) {
-            super(itemView);
-            //ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
-        }
+        return mQuoteList.size();
     }
 }

@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -45,7 +46,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
  * Created by Rajeev Ranjan on 24/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener {
+public class PL_InputFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener {
 
     DBPersistanceController databaseController;
     LoginResponseEntity loginEntity;
@@ -335,21 +336,19 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         if (response instanceof GetPersonalLoanResponse) {
             if (response.getStatus_Id() == 0) {
 
-                ((PLMainActivity) mContext).setQuoteCheck();
-
                 getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
 
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse);
                 bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
-                PL_QuoteFragment quoteFragment = new PL_QuoteFragment();
-                quoteFragment.setArguments(bundle);
-                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-                transaction_quote.addToBackStack("QUOTE");
-                transaction_quote.show(quoteFragment);
-                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction_quote.commit();
+                ((PLMainActivity) getActivity()).getQuoteParameterBundle(bundle);
+//                quoteFragment.setArguments(bundle);
+//                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
+//                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
+//                transaction_quote.addToBackStack("QUOTE");
+//                transaction_quote.show(quoteFragment);
+//                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                transaction_quote.commit();
 
                 setFmPeronalLoanRequest();
 
