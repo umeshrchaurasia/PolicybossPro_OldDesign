@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote.fragment;
+package com.datacomp.magicfinmart.health.fragment;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,7 +59,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class QuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class HealthQuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
@@ -144,7 +143,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         bikeQuoteRecycler.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         bikeQuoteRecycler.setLayoutManager(mLayoutManager);
-        mAdapter = new BikeQuoteAdapter(QuoteFragment.this, bikePremiumResponse);
+        mAdapter = new BikeQuoteAdapter(HealthQuoteFragment.this, bikePremiumResponse);
         bikeQuoteRecycler.setAdapter(mAdapter);
 
     }

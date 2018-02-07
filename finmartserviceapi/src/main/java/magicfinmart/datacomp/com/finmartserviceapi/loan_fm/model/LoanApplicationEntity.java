@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model;
 
-public  class LoanApplicationEntity {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public  class LoanApplicationEntity implements Parcelable  {
             /**
              * loan_requestID : 5
              * ID : 4170
@@ -58,8 +61,8 @@ public  class LoanApplicationEntity {
             private int LoanRequired;
             private String City;
             private String ApplicantNme;
-            private Object Email;
-            private Object Contact;
+            private String Email;
+            private String Contact;
             private String ApplicantGender;
             private int ApplicantSource;
             private int ApplicantIncome;
@@ -82,22 +85,83 @@ public  class LoanApplicationEntity {
             private String empcode;
             private int BrokerId;
             private int ProductId;
-            private Object bank_id;
-            private Object roi_type;
-            private Object loan_eligible;
-            private Object processing_fee;
-            private Object api_source;
+            private String bank_id;
+            private String roi_type;
+            private String loan_eligible;
+            private String processing_fee;
+            private String api_source;
             private String created_at;
             private String updated_at;
             private int FBA_id;
             private int LoaniD;
             private String Type;
             private String row_created_date;
-            private Object row_updateddate;
+            private String row_updateddate;
             private String quote_application_type;
-            private Object conversiondate;
+            private String conversiondate;
 
-            public int getLoan_requestID() {
+    protected LoanApplicationEntity(Parcel in) {
+        loan_requestID = in.readInt();
+        ID = in.readInt();
+        PropertyID = in.readInt();
+        PropertyCost = in.readInt();
+        LoanTenure = in.readInt();
+        LoanRequired = in.readInt();
+        City = in.readString();
+        ApplicantNme = in.readString();
+        Email = in.readString();
+        Contact = in.readString();
+        ApplicantGender = in.readString();
+        ApplicantSource = in.readInt();
+        ApplicantIncome = in.readInt();
+        ApplicantObligations = in.readString();
+        ApplicantDOB = in.readString();
+        CoApplicantYes = in.readString();
+        CoApplicantGender = in.readString();
+        CoApplicantSource = in.readString();
+        CoApplicantIncome = in.readString();
+        CoApplicantObligations = in.readString();
+        CoApplicantDOB = in.readString();
+        Turnover = in.readString();
+        ProfitAfterTax = in.readString();
+        Depreciation = in.readString();
+        DirectorRemuneration = in.readString();
+        CoApplicantTurnover = in.readString();
+        CoApplicantProfitAfterTax = in.readString();
+        CoApplicantDepreciation = in.readString();
+        CoApplicantDirectorRemuneration = in.readString();
+        empcode = in.readString();
+        BrokerId = in.readInt();
+        ProductId = in.readInt();
+        bank_id = in.readString();
+        roi_type = in.readString();
+        loan_eligible = in.readString();
+        processing_fee = in.readString();
+        api_source = in.readString();
+        created_at = in.readString();
+        updated_at = in.readString();
+        FBA_id = in.readInt();
+        LoaniD = in.readInt();
+        Type = in.readString();
+        row_created_date = in.readString();
+        row_updateddate = in.readString();
+        quote_application_type = in.readString();
+        conversiondate = in.readString();
+    }
+
+    public static final Creator<LoanApplicationEntity> CREATOR = new Creator<LoanApplicationEntity>() {
+        @Override
+        public LoanApplicationEntity createFromParcel(Parcel in) {
+            return new LoanApplicationEntity(in);
+        }
+
+        @Override
+        public LoanApplicationEntity[] newArray(int size) {
+            return new LoanApplicationEntity[size];
+        }
+    };
+
+    public int getLoan_requestID() {
                 return loan_requestID;
             }
 
@@ -161,19 +225,19 @@ public  class LoanApplicationEntity {
                 this.ApplicantNme = ApplicantNme;
             }
 
-            public Object getEmail() {
+            public String getEmail() {
                 return Email;
             }
 
-            public void setEmail(Object Email) {
+            public void setEmail(String Email) {
                 this.Email = Email;
             }
 
-            public Object getContact() {
+            public String getContact() {
                 return Contact;
             }
 
-            public void setContact(Object Contact) {
+            public void setContact(String Contact) {
                 this.Contact = Contact;
             }
 
@@ -353,43 +417,43 @@ public  class LoanApplicationEntity {
                 this.ProductId = ProductId;
             }
 
-            public Object getBank_id() {
+            public String getBank_id() {
                 return bank_id;
             }
 
-            public void setBank_id(Object bank_id) {
+            public void setBank_id(String bank_id) {
                 this.bank_id = bank_id;
             }
 
-            public Object getRoi_type() {
+            public String getRoi_type() {
                 return roi_type;
             }
 
-            public void setRoi_type(Object roi_type) {
+            public void setRoi_type(String roi_type) {
                 this.roi_type = roi_type;
             }
 
-            public Object getLoan_eligible() {
+            public String getLoan_eligible() {
                 return loan_eligible;
             }
 
-            public void setLoan_eligible(Object loan_eligible) {
+            public void setLoan_eligible(String loan_eligible) {
                 this.loan_eligible = loan_eligible;
             }
 
-            public Object getProcessing_fee() {
+            public String getProcessing_fee() {
                 return processing_fee;
             }
 
-            public void setProcessing_fee(Object processing_fee) {
+            public void setProcessing_fee(String processing_fee) {
                 this.processing_fee = processing_fee;
             }
 
-            public Object getApi_source() {
+            public String getApi_source() {
                 return api_source;
             }
 
-            public void setApi_source(Object api_source) {
+            public void setApi_source(String api_source) {
                 this.api_source = api_source;
             }
 
@@ -441,11 +505,11 @@ public  class LoanApplicationEntity {
                 this.row_created_date = row_created_date;
             }
 
-            public Object getRow_updateddate() {
+            public String getRow_updateddate() {
                 return row_updateddate;
             }
 
-            public void setRow_updateddate(Object row_updateddate) {
+            public void setRow_updateddate(String row_updateddate) {
                 this.row_updateddate = row_updateddate;
             }
 
@@ -457,11 +521,67 @@ public  class LoanApplicationEntity {
                 this.quote_application_type = quote_application_type;
             }
 
-            public Object getConversiondate() {
+            public String getConversiondate() {
                 return conversiondate;
             }
 
-            public void setConversiondate(Object conversiondate) {
+            public void setConversiondate(String conversiondate) {
                 this.conversiondate = conversiondate;
             }
-        }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(loan_requestID);
+        dest.writeInt(ID);
+        dest.writeInt(PropertyID);
+        dest.writeInt(PropertyCost);
+        dest.writeInt(LoanTenure);
+        dest.writeInt(LoanRequired);
+        dest.writeString(City);
+        dest.writeString(ApplicantNme);
+        dest.writeString(Email);
+        dest.writeString(Contact);
+        dest.writeString(ApplicantGender);
+        dest.writeInt(ApplicantSource);
+        dest.writeInt(ApplicantIncome);
+        dest.writeString(ApplicantObligations);
+        dest.writeString(ApplicantDOB);
+        dest.writeString(CoApplicantYes);
+        dest.writeString(CoApplicantGender);
+        dest.writeString(CoApplicantSource);
+        dest.writeString(CoApplicantIncome);
+        dest.writeString(CoApplicantObligations);
+        dest.writeString(CoApplicantDOB);
+        dest.writeString(Turnover);
+        dest.writeString(ProfitAfterTax);
+        dest.writeString(Depreciation);
+        dest.writeString(DirectorRemuneration);
+        dest.writeString(CoApplicantTurnover);
+        dest.writeString(CoApplicantProfitAfterTax);
+        dest.writeString(CoApplicantDepreciation);
+        dest.writeString(CoApplicantDirectorRemuneration);
+        dest.writeString(empcode);
+        dest.writeInt(BrokerId);
+        dest.writeInt(ProductId);
+        dest.writeString(bank_id);
+        dest.writeString(roi_type);
+        dest.writeString(loan_eligible);
+        dest.writeString(processing_fee);
+        dest.writeString(api_source);
+        dest.writeString(created_at);
+        dest.writeString(updated_at);
+        dest.writeInt(FBA_id);
+        dest.writeInt(LoaniD);
+        dest.writeString(Type);
+        dest.writeString(row_created_date);
+        dest.writeString(row_updateddate);
+        dest.writeString(quote_application_type);
+        dest.writeString(conversiondate);
+    }
+}

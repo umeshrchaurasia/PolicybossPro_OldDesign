@@ -61,6 +61,8 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
 public class InputFragment extends BaseFragment implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
+    private static final String TAG = "AddNewQuoteActivity";
+
     LinearLayout llNoClaim;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo;
@@ -70,7 +72,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     EditText etreg1, etreg2, etreg3, etreg4;
     String regNo = "";
     Switch switchNewRenew;
-    String TAG = "AddNewQuoteActivity";
+
     MotorRequestEntity motorRequestEntity;
     FastLaneDataEntity fastLaneResponseEntity;
 
@@ -120,6 +122,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         return view;
     }
+
+    //region binding parameter
 
     private void bind_init_binders() {
 
@@ -279,12 +283,91 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
             etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
 
+            setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
 
     }
+
+    private void bindFastLaneData(FastLaneDataEntity masterData) {
+
+        int vehicleID = masterData.getVariant_Id();
+        CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
+        makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
+
+        //region make model
+
+        acMakeModel.setText(makeModel);
+        acMakeModel.performCompletion();
+
+        //endregion
+
+        //region varient list
+
+        variantList.clear();
+        List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(), carMasterEntity.getModel_Name());
+        variantList.addAll(varList);
+        varientAdapter.notifyDataSetChanged();
+
+
+        //endregion
+
+        //region fuel list
+        fuelList.clear();
+        fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
+        fuelAdapter.notifyDataSetChanged();
+
+        //endregion
+
+        //region spinner selection
+
+        int varientIndex = 0;
+        for (int i = 0; i < variantList.size(); i++) {
+            if (variantList.get(i).matches(carMasterEntity.getVariant_Name())) {
+                varientIndex = i;
+                break;
+            }
+        }
+        spVarient.setSelection(varientIndex);
+
+        int fuelIndex = 0;
+        for (int i = 0; i < fuelList.size(); i++) {
+            if (fuelList.get(i).matches(carMasterEntity.getFuel_Name())) {
+                fuelIndex = i;
+                break;
+            }
+        }
+        spFuel.setSelection(fuelIndex);
+
+        //endregion
+
+        //region Rto binding
+
+        acRto.setText(dbController.getRTOCityName(String.valueOf(masterData.getRTO_Code())));
+        acRto.performCompletion();
+        regplace = acRto.getText().toString();
+
+        //endregion
+
+        try {
+
+            etRegDate.setText(masterData.getRegistration_Date());
+
+            etMfgDate.setText(masterData.getPurchase_Date());
+
+            etCC.setText("" + masterData.getCubic_Capacity() + "CC");
+            //  setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //endregion
 
     private void adapter_listeners() {
 
@@ -602,7 +685,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 btnGetQuote.setVisibility(View.VISIBLE);
                 showDialog("Fetching Car Details...");
                 new FastLaneController(getActivity()).getVechileDetails(regNo, this);
-                Log.d(TAG, regNo);
                 break;
         }
     }
@@ -826,6 +908,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     };
     //endregion
 
+    //region set parameter
+
     private void setInputParametersNewCAR() {
         // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
@@ -886,7 +970,6 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         setCustomerDetails();
     }
-
 
     private void setInputParametersReNewCar() {
         if (fastLaneResponseEntity != null) {
@@ -969,6 +1052,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     }
 
+    //endregion
 
     void setCustomerDetails() {
         String[] fullName = etCustomerName.getText().toString().split(" ");
@@ -988,6 +1072,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         motorRequestEntity.setEmail("test@test.com");
     }
 
+    //region api response
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
@@ -999,9 +1085,11 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     @Override
     public void OnSuccess(magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse response, String message) {
+
         if (response instanceof FastLaneDataResponse) {
+
             cancelDialog();
-            Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+
             if (response.getStatusNo() == 0) {
                 if (((FastLaneDataResponse) response).getMasterData().getVariant_Id() != 0) {
                     this.fastLaneResponseEntity = ((FastLaneDataResponse) response).getMasterData();
@@ -1011,57 +1099,13 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
-    private void bindFastLaneData(FastLaneDataEntity masterData) {
-        modelId = String.valueOf(masterData.getModel_ID());
-        fuelList = new ArrayList<String>();
-        fuelList.add("" + masterData.getFuel_Type());
-
-        variantList = new ArrayList<String>();
-        variantList.add(masterData.getVariant_Name());
-
-        spFuel.setVisibility(View.VISIBLE);
-        spVarient.setVisibility(View.VISIBLE);
-
-        //region varient adapter
-
-        varientAdapter = new
-                ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, variantList);
-        spVarient.setAdapter(varientAdapter);
-
-        //endregion
-
-        //region fuel adapter
-
-        fuelAdapter = new
-                ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, fuelList) {
-                    @NonNull
-                    @Override
-                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-                        View view1 = super.getView(position, convertView, parent);
-                        view1.setPadding(8, 0, 8, 0);
-                        return view1;
-                    }
-                };
-        spFuel.setAdapter(fuelAdapter);
-
-        //endregion
-
-        etCC.setText("" + masterData.getCubic_Capacity() + "CC");
-        acMakeModel.setText("" + masterData.getMake_Name() + "," + masterData.getModel_Name());
-        etRegDate.setText("" + changeDateFormat(masterData.getRegistration_Date()));
-        etMfgDate.setText("" + changeDateFormat(masterData.getPurchase_Date()));
-        regplace = dbController.getRTOCityName("" + masterData.getVehicleCity_Id());
-        acRto.setText(regplace);
-        regplace = dbController.getRTOCityName("" + masterData.getVehicleCity_Id());
-        makeModel = masterData.getMake_Name() + " , " + masterData.getModel_Name();
-        setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
-    }
-
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
+    //endregion
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

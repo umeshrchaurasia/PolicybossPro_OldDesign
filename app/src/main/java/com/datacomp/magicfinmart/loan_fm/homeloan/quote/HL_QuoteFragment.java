@@ -13,22 +13,31 @@ import android.widget.EditText;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.homeloan.ActivityTabsPagerAdapter_HL;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
+import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LoanQuoteEntity;
 
 /**
  * Created by IN-RB on 19-01-2018.
  */
 
 public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener{
-    FloatingActionButton hlAddQuote;
 
+    public static final String FROM_QUOTE = "from_quote";
+    FloatingActionButton hlAddQuote;
     RecyclerView rvQuoteList;
     HomeLoan_QuoteAdapter homeLoan_QuoteAdapter;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    List<LoanQuoteEntity> mQuoteList;
+
+    LoanQuoteEntity  removeQuoteEntity;
 
     public HL_QuoteFragment() {
     }
@@ -39,6 +48,15 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_hl_quote, container, false);
         initView(view);
+
+        mQuoteList = new ArrayList<>();
+        if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST) != null)
+        {
+            mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST);
+
+        }
+        homeLoan_QuoteAdapter = new HomeLoan_QuoteAdapter(HL_QuoteFragment.this,mQuoteList);
+        rvQuoteList.setAdapter(homeLoan_QuoteAdapter);
         return view;
     }
 
@@ -50,8 +68,7 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvQuoteList.setLayoutManager(layoutManager);
 
-        homeLoan_QuoteAdapter = new HomeLoan_QuoteAdapter(getActivity());
-        rvQuoteList.setAdapter(homeLoan_QuoteAdapter);
+
         hlAddQuote.setOnClickListener(this);
     }
     @Override

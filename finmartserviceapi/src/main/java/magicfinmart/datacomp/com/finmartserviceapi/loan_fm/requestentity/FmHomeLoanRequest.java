@@ -14,7 +14,8 @@ public class FmHomeLoanRequest {
      */
 
     private String loan_requestID;
-    private String fba_id;
+    private String FBA_id;
+    private int quote_id;
     private HomeLoanRequest HomeLoanRequest;
 
     public String getLoan_requestID() {
@@ -25,13 +26,6 @@ public class FmHomeLoanRequest {
         this.loan_requestID = loan_requestID;
     }
 
-    public String getFba_id() {
-        return fba_id;
-    }
-
-    public void setFba_id(String fba_id) {
-        this.fba_id = fba_id;
-    }
 
     public HomeLoanRequest getHomeLoanRequest() {
         return HomeLoanRequest;
@@ -40,5 +34,22 @@ public class FmHomeLoanRequest {
     public void setHomeLoanRequest(HomeLoanRequest HomeLoanRequest) {
         this.HomeLoanRequest = HomeLoanRequest;
     }
+
+    public String getFBA_id() {
+        return FBA_id;
+    }
+
+    public void setFBA_id(String FBA_id) {
+        this.FBA_id = FBA_id;
+    }
+
+    public int getQuote_id() {
+        return quote_id;
+    }
+
+    public void setQuote_id(int quote_id) {
+        this.quote_id = quote_id;
+    }
+
 
 }

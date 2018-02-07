@@ -1,55 +1,41 @@
-package com.datacomp.magicfinmart.loan_fm.homeloan;
+package com.datacomp.magicfinmart.health;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HLQuoteApplicationEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.QuoteApplicatLoanResonse;
 
-public class HomeLoanDetailActivity extends BaseActivity implements IResponseSubcriberFM {
-
+public class HealthQuoteAppActivity extends BaseActivity implements IResponseSubcriber {
     Toolbar toolbar;
     ViewPager viewPager;
-    ActivityTabsPagerAdapter_HL mAdapter;
-    LoginResponseEntity loginEntity ;
+    HealthActivityTabsPagerAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_loan_detail);
+        setContentView(R.layout.activity_health_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ViewPager) findViewById(R.id.pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
 
         tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
         tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        loginEntity =  new DBPersistanceController(this).getUserData();
 
-//        mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager());
-//        viewPager.setAdapter(mAdapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -74,42 +60,39 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     @Override
     protected void onResume() {
         super.onResume();
-        fetchQuoteApplication();
+        fetchHealthQuoteApplication();
+
     }
 
-    private void fetchQuoteApplication() {
+    private void fetchHealthQuoteApplication() {
 
         showDialog("Fetching.., Please wait.!");
-
-
-        new MainLoanController(this).getHLQuoteApplicationData(String.valueOf(loginEntity.getFBAId()),
-                "HML", HomeLoanDetailActivity.this);
-
-
+        new QuoteApplicationController(this).getQuoteAppList("", "",
+                new DBPersistanceController(this).getUserData().getFBAId(),
+                0,
+                "",
+                this);
     }
 
     @Override
-    public void OnSuccessFM(APIResponseFM response, String message) {
-
+    public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
-        if (response instanceof QuoteApplicatLoanResonse) {
-            if (((QuoteApplicatLoanResonse) response).getMasterData() != null) {
-
-                HLQuoteApplicationEntity hlQuoteApplicationEntity =((QuoteApplicatLoanResonse)response).getMasterData();
-
-                mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager(),hlQuoteApplicationEntity);
+        if (response instanceof QuoteApplicationResponse) {
+            if (((QuoteApplicationResponse) response).getMasterData() != null) {
+                mAdapter = new HealthActivityTabsPagerAdapter(getSupportFragmentManager(),
+                        ((QuoteApplicationResponse) response).getMasterData());
                 viewPager.setAdapter(mAdapter);
             }
 
         }
+
     }
 
     @Override
     public void OnFailure(Throwable t) {
-
         cancelDialog();
-        Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
-
-
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        mAdapter = new HealthActivityTabsPagerAdapter(getSupportFragmentManager(), null);
+        viewPager.setAdapter(mAdapter);
     }
 }
