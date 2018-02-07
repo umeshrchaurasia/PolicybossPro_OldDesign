@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.twowheeler.quoteapplication.addquote.fragment;
+package com.datacomp.magicfinmart.motor.twowheeler.fragment;
 
 import com.datacomp.magicfinmart.BaseFragment;
 

@@ -265,7 +265,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         //endregion
 
-        if (motorRequestEntity.getExternal_bifuel_value() != null)
+        if (motorRequestEntity.getExternal_bifuel_value() != 0)
             etExtValue.setText(motorRequestEntity.getExternal_bifuel_value());
 
         etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());

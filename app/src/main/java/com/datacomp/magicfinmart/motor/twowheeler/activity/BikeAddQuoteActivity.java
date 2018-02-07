@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.twowheeler.quoteapplication.addquote;
+package com.datacomp.magicfinmart.motor.twowheeler.activity;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;

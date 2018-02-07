@@ -244,7 +244,7 @@
             android:label="@string/title_activity_balance_transfer_detail"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity"
+            android:name=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
             android:label="@string/title_activity_two_wheeler_quote_app"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
@@ -253,13 +253,13 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".motor.twowheeler.quoteapplication.addquote.BikeAddQuoteActivity"
+            android:name=".motor.twowheeler.activity.BikeAddQuoteActivity"
             android:label="@string/title_activity_bike_add_quote"
-            android:parentActivityName=".motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity"
+            android:parentActivityName=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity" />
+                android:value="com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity" />
         </activity>
     </application>
 

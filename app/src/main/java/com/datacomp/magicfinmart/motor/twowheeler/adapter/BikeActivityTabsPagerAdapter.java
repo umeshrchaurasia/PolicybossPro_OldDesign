@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.twowheeler.quoteapplication;
+package com.datacomp.magicfinmart.motor.twowheeler.adapter;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -6,8 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.datacomp.magicfinmart.motor.twowheeler.quoteapplication.application.BikeApplicationTabFragment;
-import com.datacomp.magicfinmart.motor.twowheeler.quoteapplication.quote.BikeQuoteTabFragment;
+
+import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeApplicationTabFragment;
+import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteTabFragment;
 
 import java.util.ArrayList;
 
