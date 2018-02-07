@@ -23,11 +23,11 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.ModifyQuoteActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.PremiumBreakUpActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.AddonPopUpAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.BikeQuoteAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.BikeQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 

@@ -11,8 +11,7 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.adapters.MotorApplicationAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

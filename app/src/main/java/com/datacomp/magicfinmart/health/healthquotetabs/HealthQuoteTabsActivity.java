@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart.health.healthquotetabs;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,18 +13,6 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.fragment.HealthInputFragment;
 import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.PremiumBreakUpActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.InputFragment;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
-import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
-import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
-
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 
 public class HealthQuoteTabsActivity extends BaseActivity {
 

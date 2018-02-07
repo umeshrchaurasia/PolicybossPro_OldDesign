@@ -54,7 +54,7 @@
                 android:value="com.datacomp.magicfinmart.splashscreen.SplashScreenActivity" />
         </activity>
         <activity
-            android:name=".motor.privatecar.PrivateCarDetailActivity"
+            android:name=".motor.privatecar.activity.PrivateCarDetailActivity"
             android:label="@string/title_activity_private_car_detail"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
@@ -87,43 +87,43 @@
             android:label="@string/title_pospenrollment"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".motor.privatecar.addquote.AddQuoteActivity"
+            android:name=".motor.privatecar.activity.AddQuoteActivity"
             android:label="@string/title_activity_add_new_quote"
-            android:parentActivityName=".motor.privatecar.PrivateCarDetailActivity"
+            android:parentActivityName=".motor.privatecar.activity.PrivateCarDetailActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity" />
+                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity" />
         </activity>
         <activity
-            android:name=".motor.privatecar.addquote.QuoteActivity"
+            android:name=".motor.privatecar.activity.QuoteActivity"
             android:label="@string/title_activity_quote"
-            android:parentActivityName=".motor.privatecar.addquote.AddQuoteActivity"
+            android:parentActivityName=".motor.privatecar.activity.AddQuoteActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity" />
+                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.AddQuoteActivity" />
         </activity>
         <activity
             android:name=".webviews.CommonWebViewActivity"
             android:label="@string/title_activity_common_web_view"
-            android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
+            android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity" />
+                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.QuoteActivity" />
         </activity>
         <activity
-            android:name=".motor.privatecar.addquote.PremiumBreakUpActivity"
+            android:name=".motor.privatecar.activity.PremiumBreakUpActivity"
             android:label="@string/title_activity_premium_break_up"
             android:noHistory="true"
-            android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
+            android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity" />
+                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.QuoteActivity" />
         </activity>
         <activity
             android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
@@ -170,9 +170,9 @@
             android:label="@string/title_activity_lap_loan_quote"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".motor.privatecar.addquote.ModifyQuoteActivity"
+            android:name=".motor.privatecar.activity.ModifyQuoteActivity"
             android:noHistory="true"
-            android:parentActivityName=".motor.privatecar.addquote.QuoteActivity"
+            android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
@@ -193,13 +193,13 @@
                 android:value="com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity" />
         </activity>
         <activity
-            android:name=".motor.privatecar.addquote.InputQuoteBottmActivity"
+            android:name=".motor.privatecar.activity.InputQuoteBottmActivity"
             android:label="@string/title_activity_input_quote_bottm"
-            android:parentActivityName=".motor.privatecar.PrivateCarDetailActivity"
+            android:parentActivityName=".motor.privatecar.activity.PrivateCarDetailActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity" />
+                android:value="com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity" />
         </activity>
         <activity
             android:name=".loan_fm.homeloan.addquote.HLMainActivity"
@@ -249,7 +249,7 @@
             android:label="@string/title_activity_balance_transfer_detail"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity"
+            android:name=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
             android:label="@string/title_activity_two_wheeler_quote_app"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
@@ -258,13 +258,13 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".motor.twowheeler.quoteapplication.addquote.BikeAddQuoteActivity"
+            android:name=".motor.twowheeler.activity.BikeAddQuoteActivity"
             android:label="@string/title_activity_bike_add_quote"
-            android:parentActivityName=".motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity"
+            android:parentActivityName=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.motor.twowheeler.quoteapplication.TwoWheelerQuoteAppActivity" />
+                android:value="com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity" />
         </activity>
 
 
