@@ -54,17 +54,17 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
             holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
                     + " " + entity.getMotorRequestEntity().getLast_name());
-try{
-    CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity())
-            .getVarientDetails(
-                    "" + entity.getMotorRequestEntity().getVehicle_id());
-    holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
+            try {
+                CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+                        .getVarientDetails(
+                                "" + entity.getMotorRequestEntity().getVehicle_id());
+                holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
 
-}catch (Exception e){
+            } catch (Exception e) {
 
-}
+            }
             holder.txtQuoteDate.setText(entity.getMotorRequestEntity().getCreated_date());
-
+            holder.txtCrnNo.setText("" + entity.getMotorRequestEntity().getCrn());
 
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -109,7 +109,7 @@ try{
     public class QuoteItem extends RecyclerView.ViewHolder {
 
         //  public ImageView ivTripleDot;
-        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtOverflowMenu;
+        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtOverflowMenu, txtCrnNo;
 
 
         public QuoteItem(View itemView) {
@@ -118,6 +118,7 @@ try{
             txtVehicleName = (TextView) itemView.findViewById(R.id.txtVehicleName);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+            txtCrnNo = (TextView) itemView.findViewById(R.id.txtCrnNo);
         }
     }
 

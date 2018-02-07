@@ -151,15 +151,15 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     private void updateHeader() {
         if (motorRequestEntity != null) {
             carMasterEntity = databaseController.getVarientDetails("" + motorRequestEntity.getVehicle_id());
-            tvPolicyExp.setText("" + motorRequestEntity.getPolicy_expiry_date());
+
             tvRtoName.setText("" + new DBPersistanceController(getActivity())
                     .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
         }
 
         if (carMasterEntity != null) {
-
+            tvPolicyExp.setText("" + carMasterEntity.getVariant_Name());
             tvFuel.setText(carMasterEntity.getFuel_Name());
-            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + " ," + carMasterEntity.getVariant_Name());
+            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name());
         }
     }
 

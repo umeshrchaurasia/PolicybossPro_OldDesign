@@ -142,7 +142,7 @@ public class DBPersistanceController {
     public List<String> getVariant(String make, String model) {
 
         List<String> listCarVariant = new ArrayList<>();
-
+        listCarVariant.add("Varient");
         List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
                 .equalTo("Make_Name", make.trim())
                 .equalTo("Model_Name", model.trim())
@@ -161,7 +161,7 @@ public class DBPersistanceController {
     public List<String> getVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
-
+        listCarVariant.add("Varient");
         List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");
@@ -180,8 +180,10 @@ public class DBPersistanceController {
         CarMasterEntity entity = realm.where(CarMasterEntity.class).equalTo("Make_Name", make.trim())
                 .equalTo("Model_Name", model.trim())
                 .equalTo("Variant_Name", varientName.trim()).findFirst();
-
-        return entity.getCubic_Capacity() + "CC";
+        if (entity != null)
+            return entity.getCubic_Capacity() + "CC";
+        else
+            return "";
     }
 
     public String getVariantID(String variantName, String modelName, String makeName) {
@@ -211,7 +213,7 @@ public class DBPersistanceController {
 
     public List<String> getFuelTypeByModelId(String modelID) {
         List<String> fuelType = new ArrayList<>();
-
+        fuelType.add("Fuel Type");
         List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Fuel_ID");
@@ -404,7 +406,7 @@ public class DBPersistanceController {
     public List<String> getInsurerList() {
         MapInsurence();
         ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
-        insurenceList.add(0, "Insurerer");
+        insurenceList.add(0, "Prev Insurer");
         return insurenceList;
 
     }
