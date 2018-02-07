@@ -18,6 +18,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.Healthinsurance
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 /**
@@ -596,5 +597,26 @@ public class DBPersistanceController {
         MapCarInsuranceImage();
         return hasMapCarInsuranceImage.get(insurerID);
     }
+    //endregion
+
+
+    //region sum assured
+    public List<HealthSumAssured> getSumAssured() {
+        List<HealthSumAssured> list = new ArrayList<HealthSumAssured>();
+        list.add(new HealthSumAssured("1 Lac", 100000, false));
+        list.add(new HealthSumAssured("2 Lac", 200000, false));
+        list.add(new HealthSumAssured("3 Lac", 300000, false));
+        list.add(new HealthSumAssured("5 Lac", 500000, false));
+        list.add(new HealthSumAssured("6 Lac", 600000, false));
+        list.add(new HealthSumAssured("8 Lac", 800000, false));
+        list.add(new HealthSumAssured("10 Lac", 1000000, false));
+        list.add(new HealthSumAssured("15 Lac", 1500000, false));
+        list.add(new HealthSumAssured("20 Lac", 2000000, false));
+        list.add(new HealthSumAssured("25 Lac", 2500000, false));
+        list.add(new HealthSumAssured("50 Lac", 5000000, false));
+        list.add(new HealthSumAssured("100 Lac", 10000000, false));
+        return list;
+    }
+
     //endregion
 }
