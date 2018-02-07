@@ -272,7 +272,8 @@
             android:name=".health.HealthQuoteAppActivity"
             android:label="Health Insurance"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".home.HomeActivity" />
@@ -282,7 +283,8 @@
             android:name=".health.healthquotetabs.HealthQuoteTabsActivity"
             android:label="Quotes"
             android:parentActivityName=".health.HealthQuoteAppActivity"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".health.HealthQuoteAppActivity" />
