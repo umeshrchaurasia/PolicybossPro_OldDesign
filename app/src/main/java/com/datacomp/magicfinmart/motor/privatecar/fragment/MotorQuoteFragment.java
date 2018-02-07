@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.quote;
+package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 
 import android.content.Intent;
@@ -7,18 +7,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.AddQuoteActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorQuoteAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.text.SimpleDateFormat;
@@ -28,7 +25,6 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 

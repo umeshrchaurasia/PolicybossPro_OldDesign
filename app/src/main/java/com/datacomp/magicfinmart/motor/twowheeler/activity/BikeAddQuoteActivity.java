@@ -11,9 +11,9 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.InputFragment;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
-import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;

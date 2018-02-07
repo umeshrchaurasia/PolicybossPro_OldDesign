@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.adapters;
+package com.datacomp.magicfinmart.motor.privatecar.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +12,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFragment;
 
 import java.util.List;
 

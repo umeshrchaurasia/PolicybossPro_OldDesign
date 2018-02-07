@@ -1,6 +1,5 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote.adapters;
+package com.datacomp.magicfinmart.motor.privatecar.adapter;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +10,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.QuoteActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
-
-import org.w3c.dom.Text;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 
 import java.util.List;
 

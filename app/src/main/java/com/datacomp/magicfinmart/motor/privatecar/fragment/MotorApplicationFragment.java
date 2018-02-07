@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.application;
+package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 
 import android.os.Bundle;
@@ -11,17 +11,13 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.adapters.MotorApplicationAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorApplicationAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 
 /**
  * A simple {@link Fragment} subclass.

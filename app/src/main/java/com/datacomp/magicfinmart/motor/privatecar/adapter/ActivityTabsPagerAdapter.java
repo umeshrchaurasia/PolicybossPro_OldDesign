@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar;
+package com.datacomp.magicfinmart.motor.privatecar.adapter;
 
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -6,8 +6,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.datacomp.magicfinmart.motor.privatecar.application.MotorApplicationFragment;
-import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 
 import java.util.ArrayList;
 

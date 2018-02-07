@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote;
+package com.datacomp.magicfinmart.motor.privatecar.activity;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;

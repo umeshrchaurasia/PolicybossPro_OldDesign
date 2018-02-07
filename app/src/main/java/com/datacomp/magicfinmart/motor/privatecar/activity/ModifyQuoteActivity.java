@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote;
+package com.datacomp.magicfinmart.motor.privatecar.activity;
 
 import android.content.Intent;
 import android.os.Bundle;

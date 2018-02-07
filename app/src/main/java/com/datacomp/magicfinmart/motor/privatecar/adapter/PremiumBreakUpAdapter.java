@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote.adapters;
+package com.datacomp.magicfinmart.motor.privatecar.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity"
+    tools:context="com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity"
     tools:showIn="@layout/activity_input_quote_bottm">
 
     <FrameLayout

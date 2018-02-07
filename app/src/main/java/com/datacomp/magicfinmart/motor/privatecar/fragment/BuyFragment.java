@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote.fragment;
+package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import com.datacomp.magicfinmart.BaseFragment;
 

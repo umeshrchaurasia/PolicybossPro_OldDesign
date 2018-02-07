@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteTabsActivity;
-import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.text.SimpleDateFormat;

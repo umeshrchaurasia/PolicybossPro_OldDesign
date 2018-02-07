@@ -12,7 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.quote.MotorQuoteFragment;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

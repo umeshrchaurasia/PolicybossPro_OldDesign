@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote.adapters;
+package com.datacomp.magicfinmart.motor.privatecar.adapter;
 
 /**
  * Created by Rajeev Ranjan on 19/01/2018.

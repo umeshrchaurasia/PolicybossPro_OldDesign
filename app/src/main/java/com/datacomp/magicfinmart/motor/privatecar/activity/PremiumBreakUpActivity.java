@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.motor.privatecar.addquote;
+package com.datacomp.magicfinmart.motor.privatecar.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,8 +14,8 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.PremiumBreakUpAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.adapters.PremiumBreakUpAdapterEntity;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapterEntity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.ArrayList;

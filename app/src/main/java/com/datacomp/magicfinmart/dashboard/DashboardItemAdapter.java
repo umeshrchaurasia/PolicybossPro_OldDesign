@@ -17,7 +17,7 @@ import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailAc
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
-import com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 
 import java.util.List;
 
