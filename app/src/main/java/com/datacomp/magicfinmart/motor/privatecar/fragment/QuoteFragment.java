@@ -838,9 +838,10 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            //case R.id.ivEdit:
-            //    finish();
-            //     break;
+            case R.id.ivEdit:
+                //finish();
+                ((InputQuoteBottmActivity) getActivity()).redirectInput(motorRequestEntity);
+                break;
             case R.id.filter:
                 startActivity(new Intent(getActivity(), ModifyQuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity));
                 break;

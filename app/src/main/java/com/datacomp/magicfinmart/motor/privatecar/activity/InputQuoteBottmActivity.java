@@ -107,10 +107,10 @@ public class InputQuoteBottmActivity extends BaseActivity {
                         if (motorRequestEntity != null) {
                             quoteBundle = new Bundle();
                             quoteBundle.putParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST, motorRequestEntity);
-                            tabFragment.setArguments(quoteBundle);
                         }
 
                         if (tabFragment != null) {
+                            tabFragment.setArguments(quoteBundle);
                             loadFragment(tabFragment, INPUT_FRAGMENT);
 
                         } else {
@@ -161,6 +161,22 @@ public class InputQuoteBottmActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
         InputQuoteBottmActivity.this.finish();
+    }
+
+    public void redirectInput(MotorRequestEntity entity) {
+
+        if (!isQuoteVisible) {
+            motorRequestEntity = entity;
+            quoteBundle = new Bundle();
+            quoteBundle.putParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST, motorRequestEntity);
+
+            if (motorRequestEntity == null)
+                Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+            else
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        }else {
+            Toast.makeText(InputQuoteBottmActivity.this, "Fetching all quotes", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void getQuoteParameterBundle(MotorRequestEntity entity) {

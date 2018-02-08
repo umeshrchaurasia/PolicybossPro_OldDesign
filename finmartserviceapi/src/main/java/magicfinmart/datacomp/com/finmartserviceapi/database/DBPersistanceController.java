@@ -581,7 +581,7 @@ public class DBPersistanceController {
         hasMapCarInsuranceImage.put(18, R.drawable.carins18);
         hasMapCarInsuranceImage.put(19, R.drawable.carins19);
         hasMapCarInsuranceImage.put(26, R.drawable.carins26);
-        hasMapCarInsuranceImage.put(30, R.drawable.carins35);
+        hasMapCarInsuranceImage.put(30, R.drawable.carins30);
         hasMapCarInsuranceImage.put(33, R.drawable.carins33);
         hasMapCarInsuranceImage.put(34, R.drawable.carins34);
         hasMapCarInsuranceImage.put(35, R.drawable.carins35);
