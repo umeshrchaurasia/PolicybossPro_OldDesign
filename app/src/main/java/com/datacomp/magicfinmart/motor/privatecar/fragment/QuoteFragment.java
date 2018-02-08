@@ -181,7 +181,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 motorRequestEntity.setCrn(Integer.valueOf(bikePremiumResponse.getSummary().getPB_CRN()));
 
                 boolean isQuoteFetch = false;
-                if (!bikePremiumResponse.getSummary().getStatusX().equals("complete")) {
+                if (webViewLoader.getVisibility() == View.GONE) {
                     isQuoteFetch = true;
                 }
 
