@@ -45,9 +45,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:paddingBottom="15dp"
+            android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:paddingTop=""
-            android:paddingLeft="5dp">
+            android:paddingTop="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -109,7 +110,7 @@
 
 
                     <Spinner
-                        android:id="@+id/spFuel"
+                        android:id="@+id/spPaCover"
                         style="@style/SpinnerStyle.Underlined"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
@@ -151,22 +152,22 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="LEGAL LIABILITY TO DRIVER"
-                        android:textAppearance="@style/TextViewStyle.Small" />
+                        android:textAppearance="@style/TextViewStyle.Small"
+                        android:textColor="@color/black" />
 
                     <LinearLayout
-                        android:layout_margin="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:gravity="center"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvClaimYes"
+                            android:id="@+id/tvLiabYes"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -179,7 +180,7 @@
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/tvClaimNo"
+                            android:id="@+id/tvLiabNo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -203,22 +204,22 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:textColor="@color/black"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="LEGAL LIABILITY TO DRIVER"
-                        android:textAppearance="@style/TextViewStyle.Small" />
+                        android:text="ANTI-THEFT DEVICE"
+                        android:textAppearance="@style/TextViewStyle.Small"
+                        android:textColor="@color/black" />
 
                     <LinearLayout
-                        android:layout_margin="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
                         android:gravity="center"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:id="@+id/tvClaimYes"
+                            android:id="@+id/tvAntiYes"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -231,7 +232,7 @@
                             android:textColor="@color/black" />
 
                         <TextView
-                            android:id="@+id/tvClaimNo"
+                            android:id="@+id/tvAntiNo"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -249,254 +250,6 @@
 
             </LinearLayout>
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <LinearLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="LEGAL LIABILITY TO DRIVER" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="NO" />
-
-                        <Switch
-                            android:id="@+id/swlldriver"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:padding="5dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="YES" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="ANTI-THEFT DEVICE" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="NO" />
-
-                        <Switch
-                            android:id="@+id/swAnti"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:padding="5dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="YES" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_weight="1">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:text="Un-named pass. PA cover"
-                        android:textAllCaps="true"
-                        android:textColor="@color/header_dark_text" />
-
-                    <Spinner
-                        android:id="@+id/spUnNamedPa"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_weight="1">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:text="Named pass. PA cover"
-                        android:textAllCaps="true"
-                        android:textColor="@color/header_dark_text" />
-
-                    <Spinner
-                        android:id="@+id/spNamedPa"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:hint="Expected IDV">
-
-                    <EditText
-                        android:id="@+id/etExpIdv"
-                        style="@style/Style.edittext" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_weight="1">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:text="voluntary excess amt"
-                        android:textAllCaps="true"
-                        android:textColor="@color/header_dark_text" />
-
-                    <Spinner
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <LinearLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Member of auto association" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="NO" />
-
-                        <Switch
-                            android:id="@+id/swMemAto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:padding="5dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="YES" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Paid Driver PA Cover" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="NO" />
-
-                        <Switch
-                            android:id="@+id/swPaidPa"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:padding="5dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="YES" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
         </LinearLayout>
 
 

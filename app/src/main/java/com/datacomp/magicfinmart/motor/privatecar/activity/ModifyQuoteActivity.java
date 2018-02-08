@@ -52,16 +52,10 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
         etElecAcc = (EditText) findViewById(R.id.etElecAcc);
         etNonElecAcc = (EditText) findViewById(R.id.etNonElecAcc);
-        etExpIdv = (EditText) findViewById(R.id.etExpIdv);
 
-        spUnNamedPa = (Spinner) findViewById(R.id.spUnNamedPa);
-        spNamedPa = (Spinner) findViewById(R.id.spNamedPa);
         spVolExcessAmt = (Spinner) findViewById(R.id.spVolExcessAmt);
 
-        swlldriver = (Switch) findViewById(R.id.swlldriver);
-        swAnti = (Switch) findViewById(R.id.swAnti);
-        swMemAto = (Switch) findViewById(R.id.swMemAto);
-        swPaidPa = (Switch) findViewById(R.id.swPaidPa);
+
     }
 
     @Override
