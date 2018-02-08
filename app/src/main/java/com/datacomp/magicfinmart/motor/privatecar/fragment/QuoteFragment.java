@@ -61,12 +61,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
 
 public class QuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
+    String status;
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
     BikeQuoteAdapter mAdapter;
     MotorRequestEntity motorRequestEntity;
     Menu menuAddon;
-    String[] addOns;
     DBPersistanceController databaseController;
     ImageView webViewLoader;
     List<MobileAddOn> listMobileAddOn;
@@ -105,7 +105,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             Toast.makeText(getActivity(), "Please fill inputs", Toast.LENGTH_SHORT).show();
         }
 
-
         return view;
     }
 
@@ -116,6 +115,17 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
+            }
+        });
+        bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && filter.getVisibility() == View.VISIBLE) {
+                    filter.hide();
+                } else if (dy < 0 && filter.getVisibility() != View.VISIBLE) {
+                    filter.show();
+                }
             }
         });
     }
@@ -168,6 +178,14 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
                 tvCrn.setText("" + bikePremiumResponse.getSummary().getPB_CRN());
                 tvCount.setText("" + bikePremiumResponse.getSummary().getSuccess() + " results from qa.policyboss.com");
+                motorRequestEntity.setCrn(Integer.valueOf(bikePremiumResponse.getSummary().getPB_CRN()));
+
+                boolean isQuoteFetch = false;
+                if (!bikePremiumResponse.getSummary().getStatusX().equals("complete")) {
+                    isQuoteFetch = true;
+                }
+
+                ((InputQuoteBottmActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
             }
         }
     }
@@ -191,6 +209,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
         entity.setIsActive(1);
 
+        if (saveQuoteEntity != null) {
+            entity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
+        }
         new QuoteApplicationController(getActivity()).saveQuote(entity, this);
     }
 
@@ -249,14 +270,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-
-    //region Add-on
-    /*public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.add_on_menu, menu);
-        menuAddon = menu;
-        return true;
-    }*/
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -794,25 +807,31 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
     public void redirectToBuy(ResponseEntity entity) {
 
-        int fbaID = new DBPersistanceController(getActivity()).getUserData().getFBAId();
+        if (webViewLoader.getVisibility() == View.GONE) {
 
-        String url = "http://qa.policyboss.com/";
-        //String url = "http://policyboss.com/";
-        String title = "";
-        String name = "";
-        url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
-        title = "Car Insurance";
 
-        //convert quote to application server
-        new QuoteApplicationController(getActivity()).convertQuoteToApp(
-                "" + saveQuoteEntity.getVehicleRequestID(),
-                this);
+            int fbaID = new DBPersistanceController(getActivity()).getUserData().getFBAId();
 
-        startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                .putExtra("URL", url)
-                .putExtra("NAME", name)
-                .putExtra("TITLE", title));
+            String url = "http://qa.policyboss.com/";
+            //String url = "http://policyboss.com/";
+            String title = "";
+            String name = "";
+            url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
+            title = "Car Insurance";
 
+            //convert quote to application server
+            new QuoteApplicationController(getActivity()).convertQuoteToApp(
+                    "" + saveQuoteEntity.getVehicleRequestID(),
+                    this);
+
+            startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                    .putExtra("URL", url)
+                    .putExtra("NAME", name)
+                    .putExtra("TITLE", title));
+        } else {
+
+            Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

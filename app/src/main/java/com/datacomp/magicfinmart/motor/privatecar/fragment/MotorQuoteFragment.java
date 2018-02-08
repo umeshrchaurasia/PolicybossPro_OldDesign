@@ -13,9 +13,9 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorQuoteAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorQuoteAdapter;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.text.SimpleDateFormat;
@@ -56,6 +56,8 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST) != null) {
             mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST);
         }
+
+        rvQuoteList.setAdapter(null);
         motorQuoteAdapter = new MotorQuoteAdapter(MotorQuoteFragment.this, mQuoteList);
         rvQuoteList.setAdapter(motorQuoteAdapter);
 

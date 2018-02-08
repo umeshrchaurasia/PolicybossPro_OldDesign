@@ -11,8 +11,8 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorApplicationAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorApplicationAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +44,7 @@ public class MotorApplicationFragment extends BaseFragment {
         if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST) != null) {
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST);
         }
+        rvApplicationList.setAdapter(null);
         motorApplicationAdapter = new MotorApplicationAdapter(MotorApplicationFragment.this, mApplicationList);
         rvApplicationList.setAdapter(motorApplicationAdapter);
         return view;
