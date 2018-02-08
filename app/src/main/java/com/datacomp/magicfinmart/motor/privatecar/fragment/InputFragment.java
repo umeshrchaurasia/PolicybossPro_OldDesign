@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -32,7 +33,6 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -56,11 +56,12 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class InputFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     private static final String TAG = "AddNewQuoteActivity";
-
-    LinearLayout llNoClaim;
+    TextView tvNew, tvRenew;
+    CardView cvNcb;
+    LinearLayout llNoClaim, llVerifyCarDetails;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo;
     View cvInput;
@@ -120,6 +121,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         return view;
     }
 
+
     //region binding parameter
 
     private void bind_init_binders() {
@@ -129,10 +131,27 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getCarMakeModel();
         prevInsurerList = dbController.getInsurerList();
-
+        fuelList = dbController.getFuelTypeByModelId("0");
+        variantList = dbController.getVariantbyModelID("0");
         //region Autocomplete Make Model
         makeModelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, makeModelList);
         acMakeModel.setAdapter(makeModelAdapter);
+        acMakeModel.setThreshold(2);
+       /* acMakeModel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (!b) {
+                    String makeModel = acMakeModel.getText().toString();
+                    String make = getMake(makeModel);
+                    String model = getModel(makeModel);
+
+                    if (make == "" && model == "") {
+                        acMakeModel.setError("Invalid Make model");
+                        acMakeModel.setFocusable(true);
+                    }
+                }
+            }
+        });*/
         //endregion
 
         //region Autocomplete RTO
@@ -142,17 +161,67 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         //region spinner Fuel
 
-        fuelList = new ArrayList<String>();
-        fuelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, fuelList);
+        //fuelList = new ArrayList<String>();
+        fuelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, fuelList) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
         spFuel.setAdapter(fuelAdapter);
 
         //endregion
 
         //region spinner Varient
 
-        variantList = new ArrayList<String>();
+        // variantList = new ArrayList<String>();
         varientAdapter = new
-                ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, variantList);
+                ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, variantList) {
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
         spVarient.setAdapter(varientAdapter);
 
         //endregion
@@ -291,8 +360,8 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     private void bindFastLaneData(FastLaneDataEntity masterData) {
 
-        int vehicleID = masterData.getVariant_Id();
-        CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
+        String vehicleID = masterData.getVariant_Id();
+        CarMasterEntity carMasterEntity = dbController.getVarientDetails(vehicleID);
         makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
 
         //region make model
@@ -351,9 +420,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
         try {
 
-            etRegDate.setText(masterData.getRegistration_Date());
+            etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
 
-            etMfgDate.setText(masterData.getPurchase_Date());
+            etMfgDate.setText(changeDateFormat(masterData.getPurchase_Date()));
 
             etCC.setText("" + masterData.getCubic_Capacity() + "CC");
             //  setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
@@ -381,13 +450,19 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
                 modelId = dbController.getModelID(getModel(acMakeModel.getText().toString()));
 
-                fuelList.clear();
-                fuelList.addAll(dbController.getFuelTypeByModelId(modelId));
-                fuelAdapter.notifyDataSetChanged();
+                if (modelId != "") {
+                    fuelList.clear();
+                    fuelList.addAll(dbController.getFuelTypeByModelId(modelId));
+                    fuelAdapter.notifyDataSetChanged();
 
-                variantList.clear();
-                variantList.addAll(dbController.getVariantbyModelID(modelId));
-                varientAdapter.notifyDataSetChanged();
+                    variantList.clear();
+                    variantList.addAll(dbController.getVariantbyModelID(modelId));
+                    varientAdapter.notifyDataSetChanged();
+                } else {
+                    acMakeModel.requestFocus();
+                    acMakeModel.setError("Enter Make,Model");
+                    return;
+                }
 
             }
         });
@@ -415,8 +490,10 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         spVarient.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fastLaneResponseEntity == null)
+                if (fastLaneResponseEntity == null && spVarient.getSelectedItemPosition() != 0) {
                     etCC.setText("" + dbController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
+                }
+
             }
 
             @Override
@@ -441,6 +518,9 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     private void initialize_views() {
         cvInput.setVisibility(View.GONE);
+        switchNewRenew.setChecked(true);
+        tvClaimYes.performClick();
+        llVerifyCarDetails.setVisibility(View.GONE);
     }
 
     public int getPercentFromProgress(int value) {
@@ -462,6 +542,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void setListener() {
+        switchNewRenew.setOnCheckedChangeListener(this);
         tvClaimYes.setOnClickListener(this);
         tvClaimNo.setOnClickListener(this);
         btnGetQuote.setOnClickListener(this);
@@ -502,6 +583,10 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
     }
 
     private void init_view(View view) {
+        tvNew = (TextView) view.findViewById(R.id.tvNew);
+        tvRenew = (TextView) view.findViewById(R.id.tvRenew);
+        llVerifyCarDetails = (LinearLayout) view.findViewById(R.id.llVerifyCarDetails);
+        cvNcb = (CardView) view.findViewById(R.id.cvNcb);
         llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
         cvRegNo = (CardView) view.findViewById(R.id.cvRegNo);
@@ -590,22 +675,23 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                         etExpDate.setError("Enter Expiry Date");
                         return;
                     }
+                    if (spPrevIns.getSelectedItemPosition() == 0) {
+                        spPrevIns.requestFocus();
+                        Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
                 if (!isEmpty(etCustomerName)) {
                     etCustomerName.requestFocus();
                     etCustomerName.setError("Enter Name");
                     return;
                 }
-                if (!isValidePhoneNumber(etMobile)) {
+                /*if (!isValidePhoneNumber(etMobile)) {
                     etMobile.requestFocus();
                     etMobile.setError("Enter Mobile");
                     return;
-                }
-                if (spPrevIns.getSelectedItemPosition() == 0) {
-                    spPrevIns.requestFocus();
-                    Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                }*/
+
 
                 if (dbController.getVariantID(spVarient.getSelectedItem().toString(),
                         getModel(acMakeModel.getText().toString()),
@@ -632,7 +718,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                         int extval = Integer.parseInt(etExtValue.getText().toString());
                         if (extval < 10000 || extval > 50000) {
                             etExtValue.requestFocus();
-                            etExtValue.setError("Enter Amount between 10000 & 50000");
+                            etExtValue.setError("Enter Amount between 10000 & 60000");
                             return;
                         }
                     }
@@ -646,7 +732,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
                 } else {
                     setInputParametersNewCAR();
                 }
-                showDialog();
+                showDialog("Please Wait. Fetching Quotes!!!");
                 new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
 
                 break;
@@ -675,6 +761,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
                 regNo = etreg1.getText().toString() + etreg2.getText().toString()
                         + etreg3.getText().toString() + etreg4.getText().toString();
+                llVerifyCarDetails.setVisibility(View.VISIBLE);
                 tvCarNo.setText(etreg1.getText().toString() + " " + etreg2.getText().toString()
                         + " " + etreg3.getText().toString() + " " + etreg4.getText().toString());
                 Constants.hideKeyBoard(etreg4, getActivity());
@@ -715,12 +802,16 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     public String getModel(String makeModel) {
         String[] parts = makeModel.split(",");
-        return parts[1];
+        if (parts.length == 2)
+            return parts[1];
+        else return "";
     }
 
     public String getMake(String makeModel) {
         String[] parts = makeModel.split(",");
-        return parts[0];
+        if (parts.length == 2)
+            return parts[0];
+        else return "";
     }
 
     public String getVarient(String varientWithCC) {
@@ -970,10 +1061,15 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
 
     private void setInputParametersReNewCar() {
         if (fastLaneResponseEntity != null) {
-            motorRequestEntity.setVehicle_id(fastLaneResponseEntity.getVariant_Id());
-            motorRequestEntity.setRto_id(fastLaneResponseEntity.getVehicleCity_Id());
-            motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
-            motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
+            try {
+                motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
+                motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));
+                motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
+                motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             varientId = dbController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
             motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
@@ -1088,7 +1184,7 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
             cancelDialog();
 
             if (response.getStatusNo() == 0) {
-                if (((FastLaneDataResponse) response).getMasterData().getVariant_Id() != 0) {
+                if (!((FastLaneDataResponse) response).getMasterData().getVariant_Id().equals("0")) {
                     this.fastLaneResponseEntity = ((FastLaneDataResponse) response).getMasterData();
                     bindFastLaneData(((FastLaneDataResponse) response).getMasterData());
                 }
@@ -1146,4 +1242,22 @@ public class InputFragment extends BaseFragment implements View.OnClickListener,
         }
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if (R.id.switchNewRenew == compoundButton.getId()) {
+            if (b) {
+                tvRenew.setTextColor(getResources().getColor(R.color.colorAccent));
+                tvNew.setTextColor(getResources().getColor(R.color.header_dark_text));
+                etExpDate.setEnabled(true);
+                spPrevIns.setEnabled(true);
+                cvNcb.setVisibility(View.VISIBLE);
+            } else {
+                tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
+                tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
+                etExpDate.setEnabled(false);
+                spPrevIns.setEnabled(false);
+                cvNcb.setVisibility(View.GONE);
+            }
+        }
+    }
 }
