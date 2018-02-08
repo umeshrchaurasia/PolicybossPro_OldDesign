@@ -1036,7 +1036,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        motorRequestEntity.setCrn(0);
+        //motorRequestEntity.setCrn(0);
         motorRequestEntity.setIp_address("");
 
         if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
@@ -1121,7 +1121,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        motorRequestEntity.setCrn(0);
+        //motorRequestEntity.setCrn(0);
         motorRequestEntity.setIp_address("");
 
         if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {

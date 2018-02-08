@@ -16,6 +16,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicatio
 
 public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
 
+    private static final int TOTAL = 2;
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     QuoteApplicationEntity mMasterData;
@@ -23,6 +24,11 @@ public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
     public ActivityTabsPagerAdapter(FragmentManager fm, QuoteApplicationEntity masterData) {
         super(fm);
         mMasterData = masterData;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     @Override
@@ -58,8 +64,7 @@ public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // get item count - equal to number of tabs
-        return 2;
+        return TOTAL;
     }
 
 }

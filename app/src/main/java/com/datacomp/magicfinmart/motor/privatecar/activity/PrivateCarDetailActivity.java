@@ -56,17 +56,20 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
 
             }
         });
+
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        viewPager.setAdapter(null);
         fetchQuoteApplication();
 
     }
 
     private void fetchQuoteApplication() {
-        
+
         showDialog("Fetching.., Please wait.!");
         new QuoteApplicationController(this).getQuoteAppList("", "",
                 new DBPersistanceController(this).getUserData().getFBAId(),
@@ -80,11 +83,12 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         cancelDialog();
         if (response instanceof QuoteApplicationResponse) {
             if (((QuoteApplicationResponse) response).getMasterData() != null) {
+
                 mAdapter = new ActivityTabsPagerAdapter(getSupportFragmentManager(),
                         ((QuoteApplicationResponse) response).getMasterData());
                 viewPager.setAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
             }
-
         }
 
     }
@@ -95,5 +99,6 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
         mAdapter = new ActivityTabsPagerAdapter(getSupportFragmentManager(), null);
         viewPager.setAdapter(mAdapter);
+
     }
 }
