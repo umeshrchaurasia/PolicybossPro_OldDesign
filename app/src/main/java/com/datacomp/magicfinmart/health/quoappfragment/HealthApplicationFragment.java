@@ -11,12 +11,14 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.HealthActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthApplication;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,7 +26,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationList
 public class HealthApplicationFragment extends BaseFragment {
     RecyclerView rvHealthApplicationList;
     HealthApplicationAdapter healthApplicationAdapter;
-    List<ApplicationListEntity> mApplicationList;
+    List<HealthApplication> mApplicationList;
 
     public HealthApplicationFragment() {
         // Required empty public constructor
@@ -40,8 +42,8 @@ public class HealthApplicationFragment extends BaseFragment {
 
         mApplicationList = new ArrayList<>();
 
-        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST) != null) {
-            mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST);
+        if (getArguments().getParcelableArrayList(HealthActivityTabsPagerAdapter.HEALTH_APPLICATION_LIST) != null) {
+            mApplicationList = getArguments().getParcelableArrayList(HealthActivityTabsPagerAdapter.HEALTH_APPLICATION_LIST);
         }
         healthApplicationAdapter = new HealthApplicationAdapter(HealthApplicationFragment.this, mApplicationList);
         rvHealthApplicationList.setAdapter(healthApplicationAdapter);

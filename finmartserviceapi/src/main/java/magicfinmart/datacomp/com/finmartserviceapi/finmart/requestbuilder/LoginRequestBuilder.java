@@ -28,7 +28,7 @@ public class LoginRequestBuilder extends FinmartRetroRequestBuilder {
 
     public interface LoginNetworkService {
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/login")
         Call<LoginResponse> login(@Body LoginRequestEntity body);
     }

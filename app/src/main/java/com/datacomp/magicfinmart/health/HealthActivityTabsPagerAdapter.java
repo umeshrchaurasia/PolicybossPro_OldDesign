@@ -12,15 +12,16 @@ import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
 import java.util.ArrayList;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicationEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 
 
 public class HealthActivityTabsPagerAdapter extends FragmentPagerAdapter {
 
     public final static String HEALTH_QUOTE_LIST = "HEALTH_LIST_QUOTE";
     public final static String HEALTH_APPLICATION_LIST = "HEALTH_LIST_APPLICATION";
-    QuoteApplicationEntity mMasterData;
+    HealthQuoteAppResponse mMasterData;
 
-    public HealthActivityTabsPagerAdapter(FragmentManager fm, QuoteApplicationEntity masterData) {
+    public HealthActivityTabsPagerAdapter(FragmentManager fm, HealthQuoteAppResponse masterData) {
         super(fm);
         mMasterData = masterData;
     }
@@ -36,7 +37,7 @@ public class HealthActivityTabsPagerAdapter extends FragmentPagerAdapter {
                 if (mMasterData == null) {
                     bundle.putParcelableArrayList(HEALTH_QUOTE_LIST, null);
                 } else {
-                    bundle.putParcelableArrayList(HEALTH_QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuote());
+                    bundle.putParcelableArrayList(HEALTH_QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getMasterData().getQuote());
                 }
                 Qfragment.setArguments(bundle);
                 return Qfragment;
@@ -47,7 +48,7 @@ public class HealthActivityTabsPagerAdapter extends FragmentPagerAdapter {
                 if (mMasterData == null) {
                     Abundle.putParcelableArrayList(HEALTH_APPLICATION_LIST, null);
                 } else {
-                    Abundle.putParcelableArrayList(HEALTH_APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getApplication());
+                    Abundle.putParcelableArrayList(HEALTH_APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getMasterData().getApplication());
                 }
                 Afragment.setArguments(Abundle);
                 return Afragment;

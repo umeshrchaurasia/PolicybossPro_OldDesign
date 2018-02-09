@@ -26,19 +26,19 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
 
     public interface RegisterQuotesNetworkService {
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/generate-otp")
         Call<GenerateOtpResponse> generateOtp(@Body HashMap<String, String> body);
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/retrive-otp")
         Call<VerifyOtpResponse> verifyOtp(@Body HashMap<String, String> body);
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/get-city-and-state")
         Call<PincodeResponse> getCityStateCityPincode(@Body HashMap<String, String> body);
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/insert-fba-registration")
         Call<RegisterFbaResponse> registerFba(@Body RegisterRequestEntity body);
     }
