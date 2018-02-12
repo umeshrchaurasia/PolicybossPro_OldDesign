@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.motor.privatecar.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -86,6 +87,8 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
     }
 
+
+
     private void loadFragment(Fragment fragment, String TAG) {
         transactionSim = getSupportFragmentManager().beginTransaction();
         transactionSim.replace(R.id.frame_layout, fragment, TAG);
@@ -163,6 +166,39 @@ public class InputQuoteBottmActivity extends BaseActivity {
         InputQuoteBottmActivity.this.finish();
     }
 
+
+    /* @Override
+     public void startActivityForResult(Intent intent, int requestCode) {
+         super.startActivityForResult(intent, requestCode);
+         if (requestCode == 1000) {
+             if (intent.getParcelableExtra("MODIFY") != null) {
+                 getQuoteParameterBundle((MotorRequestEntity) intent.getParcelableExtra("MODIFY"));
+             }
+         }
+     }
+ */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        /*switch (requestCode) {
+            case (1000): {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data.getParcelableExtra("MODIFY") != null) {
+                        getQuoteParameterBundle((MotorRequestEntity) data.getParcelableExtra("MODIFY"));
+                    }
+                }
+                break;
+            }
+        }*/
+    }
+
+    public void modifyQuote(MotorRequestEntity entity) {
+        motorRequestEntity = entity;
+        /*startActivityForResult(new Intent(this, ModifyQuoteActivity.class)
+                .putExtra("CAR_REQUEST", motorRequestEntity), 1000);*/
+
+    }
+
     public void redirectInput(MotorRequestEntity entity) {
 
         if (!isQuoteVisible) {
@@ -174,7 +210,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                 Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
             else
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-        }else {
+        } else {
             Toast.makeText(InputQuoteBottmActivity.this, "Fetching all quotes", Toast.LENGTH_SHORT).show();
         }
     }

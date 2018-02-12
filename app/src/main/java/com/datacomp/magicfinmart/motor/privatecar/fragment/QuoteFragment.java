@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -107,6 +108,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
         return view;
     }
+
 
     private void setListener() {
         ivEdit.setOnClickListener(this);
@@ -843,10 +845,12 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 ((InputQuoteBottmActivity) getActivity()).redirectInput(motorRequestEntity);
                 break;
             case R.id.filter:
-                startActivity(new Intent(getActivity(), ModifyQuoteActivity.class).putExtra("CAR_REQUEST", motorRequestEntity));
+                startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
+                        .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
                 break;
         }
     }
+
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
@@ -1060,6 +1064,24 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         @Override
         protected void onPostExecute(Boolean aVoid) {
             super.onPostExecute(aVoid);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case (1000): {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data.getParcelableExtra("MODIFY") != null) {
+                        //getQuoteParameterBundle((MotorRequestEntity) data.getParcelableExtra("MODIFY"));
+                        motorRequestEntity = (MotorRequestEntity) data.getParcelableExtra("MODIFY");
+                        ((InputQuoteBottmActivity) getActivity()).modifyQuote(motorRequestEntity);
+                        updateHeader();
+                        fetchQuotes();
+                    }
+                }
+                break;
+            }
         }
     }
 }
