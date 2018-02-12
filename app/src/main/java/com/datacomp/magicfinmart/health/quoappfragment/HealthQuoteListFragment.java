@@ -25,9 +25,11 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 
 /**
@@ -40,7 +42,7 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
     HealthQuoteAdapter healthQuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     List<HealthQuote> mQuoteList;
-    QuoteListEntity removeQuoteEntity;
+    HealthQuote removeQuoteEntity;
 
     public HealthQuoteListFragment() {
         // Required empty public constructor
@@ -76,7 +78,7 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
 
 
     public void quoteItemClick(HealthQuote healthQuote) {
-        Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Health Quote", Toast.LENGTH_SHORT).show();
     }
 
     private void initView(View view) {
@@ -89,15 +91,14 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
 
     }
 
-    public void removeQuote(QuoteListEntity entity) {
+    public void removeQuote(HealthQuote entity) {
 
         removeQuoteEntity = entity;
         showDialog("Please wait,Removing quote..");
-        new QuoteApplicationController(getContext()).deleteQuote("" + entity.getVehicleRequestID(),
+        new HealthController(getContext()).deleteQuote("" + entity.getHealthRequestId(),
                 this);
 
     }
-
 
 
     @Override
@@ -117,7 +118,7 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
     public void OnSuccess(APIResponse response, String message) {
 
         cancelDialog();
-        if (response instanceof QuoteAppUpdateDeleteResponse) {
+        if (response instanceof HealthDeleteResponse) {
             if (response.getStatusNo() == 0) {
                 mQuoteList.remove(removeQuoteEntity);
                 healthQuoteAdapter.refreshAdapter(mQuoteList);

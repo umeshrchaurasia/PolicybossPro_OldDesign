@@ -85,7 +85,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                         Toast.makeText(mFrament.getActivity(), "SMS", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
-                        Toast.makeText(mFrament.getActivity(), "DELETE", Toast.LENGTH_SHORT).show();
+                        ((HealthQuoteListFragment) mFrament).removeQuote(entity);
                         break;
                 }
                 return false;

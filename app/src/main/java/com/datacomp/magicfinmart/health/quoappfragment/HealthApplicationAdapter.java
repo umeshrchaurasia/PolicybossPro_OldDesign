@@ -15,6 +15,7 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthApplication;
 
 /**
@@ -47,17 +48,26 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             holder.txtPersonName.setText(healthApplication.getHealthRequest().getContactName());
             holder.txtSumAssured.setText(healthApplication.getHealthRequest().getSumInsured());
 
+            try {
+                holder.imgInsurerLogo.setImageResource(
+                        new DBPersistanceController(fragment.getContext()).
+                                getInsurerImage(healthApplication.getSelectedPrevInsID()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             holder.txtCRN.setTag(R.id.txtCRN, healthApplication);
             holder.txtCreatedDate.setTag(R.id.txtCreatedDate, healthApplication);
             holder.txtPersonName.setTag(R.id.txtPersonName, healthApplication);
             holder.txtSumAssured.setTag(R.id.txtSumAssured, healthApplication);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, healthApplication);
+            holder.imgInsurerLogo.setTag(R.id.imgInsurerLogo, healthApplication);
 
             holder.txtCRN.setOnClickListener(this);
             holder.txtCreatedDate.setOnClickListener(this);
             holder.txtPersonName.setOnClickListener(this);
             holder.txtSumAssured.setOnClickListener(this);
             holder.txtOverflowMenu.setOnClickListener(this);
+            holder.imgInsurerLogo.setOnClickListener(this);
 
 
         }
@@ -97,8 +107,8 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             case R.id.txtCreatedDate:
             case R.id.txtPersonName:
             case R.id.txtSumAssured:
-                //TODO : send data to application
-                //((HealthApplicationFragment) fragment);
+            case R.id.imgInsurerLogo:
+                ((HealthApplicationFragment) fragment).redirectToQuote((HealthApplication) view.getTag(view.getId()));
                 break;
             case R.id.txtOverflowMenu:
                 openPopUp(view, (HealthApplication) view.getTag(view.getId()));

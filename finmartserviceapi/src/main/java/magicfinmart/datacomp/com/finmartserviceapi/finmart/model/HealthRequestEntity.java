@@ -3,7 +3,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HealthRequestEntity implements Parcelable {
@@ -60,6 +59,15 @@ public class HealthRequestEntity implements Parcelable {
     private String updated_date;
     private int isActive;
     private List<MemberListEntity> MemberList;
+    private int selectedPrevInsID;
+
+    public int getSelectedPrevInsID() {
+        return selectedPrevInsID;
+    }
+
+    public void setSelectedPrevInsID(int selectedPrevInsID) {
+        this.selectedPrevInsID = selectedPrevInsID;
+    }
 
     public int getHealthRequestId() {
         return HealthRequestId;
@@ -261,70 +269,8 @@ public class HealthRequestEntity implements Parcelable {
         this.MemberList = MemberList;
     }
 
-    public static class MemberListEntity {
-        /**
-         * HealthMemberListId : 37
-         * MemberDOB : 07-06-1984
-         * MemberGender : M
-         * MemberNumber : 1
-         * MemberTypeID : 1
-         * HealthRequestId : 13
-         */
 
-        private String HealthMemberListId;
-        private String MemberDOB;
-        private String MemberGender;
-        private String MemberNumber;
-        private String MemberTypeID;
-        private String HealthRequestId;
-
-        public String getHealthMemberListId() {
-            return HealthMemberListId;
-        }
-
-        public void setHealthMemberListId(String HealthMemberListId) {
-            this.HealthMemberListId = HealthMemberListId;
-        }
-
-        public String getMemberDOB() {
-            return MemberDOB;
-        }
-
-        public void setMemberDOB(String MemberDOB) {
-            this.MemberDOB = MemberDOB;
-        }
-
-        public String getMemberGender() {
-            return MemberGender;
-        }
-
-        public void setMemberGender(String MemberGender) {
-            this.MemberGender = MemberGender;
-        }
-
-        public String getMemberNumber() {
-            return MemberNumber;
-        }
-
-        public void setMemberNumber(String MemberNumber) {
-            this.MemberNumber = MemberNumber;
-        }
-
-        public String getMemberTypeID() {
-            return MemberTypeID;
-        }
-
-        public void setMemberTypeID(String MemberTypeID) {
-            this.MemberTypeID = MemberTypeID;
-        }
-
-        public String getHealthRequestId() {
-            return HealthRequestId;
-        }
-
-        public void setHealthRequestId(String HealthRequestId) {
-            this.HealthRequestId = HealthRequestId;
-        }
+    public HealthRequestEntity() {
     }
 
     @Override
@@ -358,10 +304,8 @@ public class HealthRequestEntity implements Parcelable {
         dest.writeString(this.created_date);
         dest.writeString(this.updated_date);
         dest.writeInt(this.isActive);
-        dest.writeList(this.MemberList);
-    }
-
-    public HealthRequestEntity() {
+        dest.writeTypedList(this.MemberList);
+        dest.writeInt(this.selectedPrevInsID);
     }
 
     protected HealthRequestEntity(Parcel in) {
@@ -389,8 +333,8 @@ public class HealthRequestEntity implements Parcelable {
         this.created_date = in.readString();
         this.updated_date = in.readString();
         this.isActive = in.readInt();
-        this.MemberList = new ArrayList<MemberListEntity>();
-        in.readList(this.MemberList, MemberListEntity.class.getClassLoader());
+        this.MemberList = in.createTypedArrayList(MemberListEntity.CREATOR);
+        this.selectedPrevInsID = in.readInt();
     }
 
     public static final Parcelable.Creator<HealthRequestEntity> CREATOR = new Parcelable.Creator<HealthRequestEntity>() {
