@@ -805,7 +805,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         //convert quote to application server
         new QuoteApplicationController(getActivity()).convertQuoteToApp(
-                "" + saveQuoteEntity.getVehicleRequestID(), entity.getInsurer_Id(),
+                "" + saveQuoteEntity.getVehicleRequestID(),
                 this);
 
         startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
