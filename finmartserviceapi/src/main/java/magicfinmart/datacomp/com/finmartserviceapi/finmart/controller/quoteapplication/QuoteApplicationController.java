@@ -110,10 +110,10 @@ public class QuoteApplicationController implements IQuoteApp {
     }
 
     @Override
-    public void convertQuoteToApp(String vehicleRequestID, String selectedPrevInsID, final IResponseSubcriber iResponseSubcriber) {
+    public void convertQuoteToApp(String vehicleRequestID, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("VehicleRequestID", vehicleRequestID);
-        body.put("selectedPrevInsID", selectedPrevInsID);
+
 
         quoteApplicationNetworkService.quoteToApplication(body).enqueue(new Callback<QuoteAppUpdateDeleteResponse>() {
             @Override
