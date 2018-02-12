@@ -847,6 +847,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 break;
             case R.id.filter:
                 startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
+                        .putExtra("SUMMARY", bikePremiumResponse.getSummary())
                         .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
                 break;
         }
