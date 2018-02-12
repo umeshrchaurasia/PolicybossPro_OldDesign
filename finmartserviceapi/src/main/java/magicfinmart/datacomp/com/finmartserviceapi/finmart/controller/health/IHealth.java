@@ -14,5 +14,7 @@ public interface IHealth {
 
     void getHealthQuoteApplicationList(String fbaID, IResponseSubcriber iResponseSubcriber);
 
-    void convertQuoteToApp(String healthRequestID, IResponseSubcriber iResponseSubcriber);
+    void convertQuoteToApp(String healthRequestID, String insurerID, IResponseSubcriber iResponseSubcriber);
+
+    void deleteQuote(String healthRequestID, IResponseSubcriber iResponseSubcriber);
 }

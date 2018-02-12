@@ -598,7 +598,10 @@ public class DBPersistanceController {
 
         hasMapCarInsuranceImage = new HashMap<Integer, Integer>();
         MapCarInsuranceImage();
-        return hasMapCarInsuranceImage.get(insurerID);
+        if (hasMapCarInsuranceImage.get(insurerID) != null)
+            return hasMapCarInsuranceImage.get(insurerID);
+        else
+            return R.drawable.carins35;
     }
     //endregion
 
