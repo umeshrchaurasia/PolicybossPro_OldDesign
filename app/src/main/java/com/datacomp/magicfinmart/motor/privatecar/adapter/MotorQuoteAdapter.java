@@ -25,7 +25,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity
  * Created by Rajeev Ranjan on 11/01/2018.
  */
 
-public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.QuoteItem> {
+public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.QuoteItem> implements View.OnClickListener {
     Fragment mFrament;
     List<QuoteListEntity> mQuoteList;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -66,12 +66,29 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
             holder.txtQuoteDate.setText(entity.getMotorRequestEntity().getCreated_date());
             holder.txtCrnNo.setText("" + entity.getMotorRequestEntity().getCrn());
 
-            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openPopUp(view, entity);
-                }
-            });
+//            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    openPopUp(view, entity);
+//                }
+//            });
+
+
+            //set tag for sharing entity
+
+            holder.txtCrnNo.setTag(R.id.txtCrnNo, entity);
+            holder.txtQuoteDate.setTag(R.id.txtQuoteDate, entity);
+            holder.txtVehicleName.setTag(R.id.txtVehicleName, entity);
+            holder.txtPersonName.setTag(R.id.txtPersonName, entity);
+            holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
+
+            //click listener
+            holder.txtCrnNo.setOnClickListener(this);
+            holder.txtQuoteDate.setOnClickListener(this);
+            holder.txtVehicleName.setOnClickListener(this);
+            holder.txtPersonName.setOnClickListener(this);
+            holder.txtOverflowMenu.setOnClickListener(this);
+
         }
     }
 
@@ -104,6 +121,22 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
     @Override
     public int getItemCount() {
         return mQuoteList.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.txtCrnNo:
+            case R.id.txtQuoteDate:
+            case R.id.txtVehicleName:
+            case R.id.txtPersonName:
+                ((MotorQuoteFragment) mFrament).redirectToInputQuote((QuoteListEntity) view.getTag(view.getId()));
+                break;
+            case R.id.txtOverflowMenu:
+                openPopUp(view, (QuoteListEntity) view.getTag(view.getId()));
+                break;
+
+        }
     }
 
     public class QuoteItem extends RecyclerView.ViewHolder {
