@@ -113,7 +113,8 @@
                         android:id="@+id/spPaCover"
                         style="@style/SpinnerStyle.Underlined"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:entries="@array/pa_cover_car" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -135,7 +136,8 @@
                         android:id="@+id/spVolExcessAmt"
                         style="@style/SpinnerStyle.Underlined"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:entries="@array/voluntary_car" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 

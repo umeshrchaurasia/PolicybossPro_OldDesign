@@ -147,7 +147,8 @@
 
 
     <!--Dialog theme-->
-    <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+    <style name="DialogTheme" parent="AppTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
     </style>
