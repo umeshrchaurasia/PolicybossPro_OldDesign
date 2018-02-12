@@ -143,19 +143,29 @@ public class DBPersistanceController {
     public List<String> getVariant(String make, String model, String fuelname) {
 
         List<String> listCarVariant = new ArrayList<>();
+        List<CarMasterEntity> list = new ArrayList<>();
         listCarVariant.add("Varient");
-        List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
-                .equalTo("Make_Name", make.trim())
-                .equalTo("Model_Name", model.trim())
-                .equalTo("Fuel_Name", fuelname.trim())
-                .distinct("Variant_ID");
+        if (fuelname.equals("Petrol") || fuelname.equals("Diesel") || fuelname.equals("CNG")) {
+
+            list = realm.where(CarMasterEntity.class)
+                    .equalTo("Make_Name", make.trim())
+                    .equalTo("Model_Name", model.trim())
+                    .equalTo("Fuel_Name", fuelname.trim())
+                    .distinct("Variant_ID");
+
+        } else {
+            list = realm.where(CarMasterEntity.class)
+                    .equalTo("Make_Name", make.trim())
+                    .equalTo("Model_Name", model.trim())
+                    .equalTo("Fuel_Name", "Petrol")
+                    .distinct("Variant_ID");
+        }
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);
             String variant = entity.getVariant_Name();
             listCarVariant.add(variant);
         }
-
         return listCarVariant;
 
     }

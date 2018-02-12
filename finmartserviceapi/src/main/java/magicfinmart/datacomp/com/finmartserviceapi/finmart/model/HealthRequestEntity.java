@@ -271,6 +271,24 @@ public class HealthRequestEntity implements Parcelable {
 
 
     public HealthRequestEntity() {
+
+        CityID = 0;
+        ContactEmail = "test@test.com";
+        ContactMobile = "9934554512";
+        ContactName = "pramod parit";
+        DeductibleAmount = 0;
+        ExistingCustomerReferenceID = 0;
+        HealthType = "Health";
+        MaritalStatusID = 1;
+        PolicyFor = "";
+        PolicyTermYear = 1;
+        ProductID = 2;
+        SessionID = 0;
+        SourceType = "APP";
+        SumInsured = "";
+        SupportsAgentID = 2;
+        MemberList = null;
+
     }
 
     @Override

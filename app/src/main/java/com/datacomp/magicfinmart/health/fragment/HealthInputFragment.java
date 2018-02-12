@@ -13,10 +13,23 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 
 /**
  * Created by Rajeev Ranjan on 29/01/2018.
@@ -28,9 +41,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     Button btnSelf, btnFamily, btnParent;
     ImageView img1, img2, img3, img4, img5, img6;
     EditText et1, et2, et3, et4, et5, et6;
-    ArrayAdapter<String> listsumAssured;
-    Spinner spSumAssured;
     RecyclerView rvSumAssured;
+
+    List<MemberListEntity> memberList;
 
     // 0 - self , 1 -family , 2 - parent
     int coverFor = 0;
@@ -39,6 +52,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     EditText etAmount, etPincode, etName, etMobile;
 
     Button btnGetHealthQuote;
+
+    HealthQuote healthQuote;
+    HealthRequestEntity healthRequestEntity;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,46 +66,23 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         setListener();
 
-        // spinner binding
-        spinnerBinding();
+        // set initial values
+        healthQuote = new HealthQuote();
+        healthQuote.setAgent_source("App");
+        healthQuote.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
+
+        healthRequestEntity = new HealthRequestEntity();
+        memberList = new ArrayList<>();
 
         //default disableAll
         disableAllInputs();
 
+        //default self selected
+        btnSelf.performClick();
+
         return view;
     }
 
-    private void spinnerBinding() {
-        listsumAssured = new
-                ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,
-                        getResources().getStringArray(R.array.health_sum_assured)) {
-                    @Override
-                    public boolean isEnabled(int position) {
-                        if (position == 0) {
-                            // Disable the first item from Spinner
-                            // First item will be use for hint
-                            return false;
-                        } else {
-                            return true;
-                        }
-                    }
-
-                    @Override
-                    public View getDropDownView(int position, View convertView,
-                                                ViewGroup parent) {
-                        View view = super.getDropDownView(position, convertView, parent);
-                        TextView tv = (TextView) view;
-                        if (position == 0) {
-                            // Set the hint text color gray
-                            tv.setTextColor(Color.GRAY);
-                        } else {
-                            tv.setTextColor(Color.BLACK);
-                        }
-                        return view;
-                    }
-                };
-        spSumAssured.setAdapter(listsumAssured);
-    }
 
     //region initialise all
 
@@ -117,7 +110,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void init(View view) {
-        spSumAssured = (Spinner) view.findViewById(R.id.spSumAssured);
         rvSumAssured = (RecyclerView) view.findViewById(R.id.rvSumAssured);
 
         int numberOfColumns = 4;
@@ -196,6 +188,53 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 break;
 
             case R.id.btnGetHealthQuote:
+
+                if (coverFor == 0) { // self
+
+                    if (et1.isEnabled() && et1.getText().toString().length() != 0) {
+
+                        int Age = Integer.parseInt(et1.getText().toString());
+                        MemberListEntity entity = new MemberListEntity();
+                        if (Age > 18) {
+                            entity.setMemberNumber("1");
+                            entity.setMemberTypeID("1");
+                            entity.setMemberType("Adult");
+                            entity.setMemberGender("M");
+                        }
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
+                        healthRequestEntity.setPolicyFor("Self");
+
+
+                    }
+
+                }
+
+                healthRequestEntity.setContactName(etName.getText().toString());
+                healthRequestEntity.setContactMobile(etMobile.getText().toString());
+                healthRequestEntity.setSumInsured(etAmount.getText().toString());
+                healthRequestEntity.setMemberList(memberList);
+
+                healthQuote.setHealthRequest(healthRequestEntity);
+
+                new HealthController(getActivity()).getHealthQuote(healthQuote, new IResponseSubcriber() {
+                    @Override
+                    public void OnSuccess(APIResponse response, String message) {
+
+                        if (response instanceof HealthQuoteResponse) {
+                            if (((HealthQuoteResponse) response).getMasterData().getHealth_quote().size() != 0) {
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void OnFailure(Throwable t) {
+
+                    }
+                });
+
+
                 break;
         }
     }

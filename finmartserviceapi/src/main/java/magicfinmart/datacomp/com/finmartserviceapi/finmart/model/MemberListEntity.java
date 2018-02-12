@@ -3,70 +3,89 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public  class MemberListEntity implements Parcelable {
-                /**
-                 * HealthMemberListId : 37
-                 * MemberDOB : 07-06-1984
-                 * MemberGender : M
-                 * MemberNumber : 1
-                 * MemberTypeID : 1
-                 * HealthRequestId : 13
-                 */
+public class MemberListEntity implements Parcelable {
+    /**
+     * HealthMemberListId : 37
+     * MemberDOB : 07-06-1984
+     * MemberGender : M
+     * MemberNumber : 1
+     * MemberTypeID : 1
+     * HealthRequestId : 13
+     */
 
-                private String HealthMemberListId;
-                private String MemberDOB;
-                private String MemberGender;
-                private String MemberNumber;
-                private String MemberTypeID;
-                private String HealthRequestId;
+    private String HealthMemberListId;
+    private String MemberDOB;
+    private String MemberGender;
+    private String MemberNumber;
+    private String MemberTypeID;
+    private String HealthRequestId;
+    private String MemberType;
+    private int Age;
 
-                public String getHealthMemberListId() {
-                    return HealthMemberListId;
-                }
 
-                public void setHealthMemberListId(String HealthMemberListId) {
-                    this.HealthMemberListId = HealthMemberListId;
-                }
+    public String getMemberType() {
+        return MemberType;
+    }
 
-                public String getMemberDOB() {
-                    return MemberDOB;
-                }
+    public void setMemberType(String memberType) {
+        MemberType = memberType;
+    }
 
-                public void setMemberDOB(String MemberDOB) {
-                    this.MemberDOB = MemberDOB;
-                }
+    public int getAge() {
+        return Age;
+    }
 
-                public String getMemberGender() {
-                    return MemberGender;
-                }
+    public void setAge(int age) {
+        Age = age;
+    }
 
-                public void setMemberGender(String MemberGender) {
-                    this.MemberGender = MemberGender;
-                }
+    public String getHealthMemberListId() {
+        return HealthMemberListId;
+    }
 
-                public String getMemberNumber() {
-                    return MemberNumber;
-                }
+    public void setHealthMemberListId(String HealthMemberListId) {
+        this.HealthMemberListId = HealthMemberListId;
+    }
 
-                public void setMemberNumber(String MemberNumber) {
-                    this.MemberNumber = MemberNumber;
-                }
+    public String getMemberDOB() {
+        return MemberDOB;
+    }
 
-                public String getMemberTypeID() {
-                    return MemberTypeID;
-                }
+    public void setMemberDOB(String MemberDOB) {
+        this.MemberDOB = MemberDOB;
+    }
 
-                public void setMemberTypeID(String MemberTypeID) {
-                    this.MemberTypeID = MemberTypeID;
-                }
+    public String getMemberGender() {
+        return MemberGender;
+    }
 
-                public String getHealthRequestId() {
-                    return HealthRequestId;
-                }
+    public void setMemberGender(String MemberGender) {
+        this.MemberGender = MemberGender;
+    }
 
-                public void setHealthRequestId(String HealthRequestId) {
-                    this.HealthRequestId = HealthRequestId;
-                }
+    public String getMemberNumber() {
+        return MemberNumber;
+    }
+
+    public void setMemberNumber(String MemberNumber) {
+        this.MemberNumber = MemberNumber;
+    }
+
+    public String getMemberTypeID() {
+        return MemberTypeID;
+    }
+
+    public void setMemberTypeID(String MemberTypeID) {
+        this.MemberTypeID = MemberTypeID;
+    }
+
+    public String getHealthRequestId() {
+        return HealthRequestId;
+    }
+
+    public void setHealthRequestId(String HealthRequestId) {
+        this.HealthRequestId = HealthRequestId;
+    }
 
     @Override
     public int describeContents() {
@@ -81,6 +100,8 @@ public  class MemberListEntity implements Parcelable {
         dest.writeString(this.MemberNumber);
         dest.writeString(this.MemberTypeID);
         dest.writeString(this.HealthRequestId);
+        dest.writeString(this.MemberType);
+        dest.writeInt(this.Age);
     }
 
     public MemberListEntity() {
@@ -93,6 +114,8 @@ public  class MemberListEntity implements Parcelable {
         this.MemberNumber = in.readString();
         this.MemberTypeID = in.readString();
         this.HealthRequestId = in.readString();
+        this.MemberType = in.readString();
+        this.Age = in.readInt();
     }
 
     public static final Parcelable.Creator<MemberListEntity> CREATOR = new Parcelable.Creator<MemberListEntity>() {
