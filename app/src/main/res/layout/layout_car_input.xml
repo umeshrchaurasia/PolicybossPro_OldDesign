@@ -114,6 +114,7 @@
                         android:hint="Make, Model">
 
                         <AutoCompleteTextView
+                            android:dropDownWidth="250dp"
                             android:id="@+id/acMakeModel"
                             style="@style/Style.edittext" />
                     </android.support.design.widget.TextInputLayout>
@@ -126,6 +127,7 @@
                         android:hint="Fuel">
 
                         <Spinner
+                            android:dropDownWidth="250dp"
                             android:id="@+id/spFuel"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
@@ -147,6 +149,7 @@
                         android:layout_weight="1">
                         <!-- varient -->
                         <Spinner
+                            android:dropDownWidth="250dp"
                             android:id="@+id/spVarient"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
@@ -386,9 +389,9 @@
                         android:hint="RTO">
 
                         <AutoCompleteTextView
-
                             android:id="@+id/acRto"
-                            style="@style/Style.edittext" />
+                            style="@style/Style.edittext"
+                            android:dropDownWidth="250dp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout

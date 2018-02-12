@@ -48,6 +48,10 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
     private void setListener() {
         applyNow.setOnClickListener(this);
         ivCross.setOnClickListener(this);
+        tvAntiNo.setOnClickListener(this);
+        tvAntiYes.setOnClickListener(this);
+        tvLiabYes.setOnClickListener(this);
+        tvLiabNo.setOnClickListener(this);
     }
 
     private void initWidgets() {

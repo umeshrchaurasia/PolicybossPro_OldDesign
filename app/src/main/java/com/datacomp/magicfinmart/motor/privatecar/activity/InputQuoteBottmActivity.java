@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart.motor.privatecar.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -88,7 +87,6 @@ public class InputQuoteBottmActivity extends BaseActivity {
     }
 
 
-
     private void loadFragment(Fragment fragment, String TAG) {
         transactionSim = getSupportFragmentManager().beginTransaction();
         transactionSim.replace(R.id.frame_layout, fragment, TAG);
@@ -162,8 +160,11 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        InputQuoteBottmActivity.this.finish();
+        if (isQuoteVisible) {
+            finish();
+        } else {
+            Toast.makeText(InputQuoteBottmActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -231,6 +232,23 @@ public class InputQuoteBottmActivity extends BaseActivity {
     public void updateRequest(MotorRequestEntity entity, boolean isQuoteVisible) {
         motorRequestEntity = entity;
         this.isQuoteVisible = isQuoteVisible;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (isQuoteVisible) {
+                    finish();
+                    return true;
+                } else {
+                    Toast.makeText(InputQuoteBottmActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     //region unUsed code

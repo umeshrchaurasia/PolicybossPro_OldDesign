@@ -205,7 +205,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     private void saveQuoteToServer(BikePremiumResponse response) {
         //store request and SRN to mySql
         SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
-        motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
+        if (!response.getSummary().getPB_CRN().equals(""))
+            motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
         entity.setMotorRequestEntity(motorRequestEntity);
         entity.setSRN(response.getSummary().getRequest_Unique_Id());
         entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
@@ -236,7 +237,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                     || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
 
                 webViewLoader.setVisibility(View.GONE);
-
+                updateCrn();
                 new AsyncAddon().execute();
 
                 if (((BikePremiumResponse) response).getResponse().size() != 0)

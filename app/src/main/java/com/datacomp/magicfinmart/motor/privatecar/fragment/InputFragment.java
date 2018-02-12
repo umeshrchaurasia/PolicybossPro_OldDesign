@@ -1284,4 +1284,5 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
             }
         }
     }
+
 }
