@@ -824,7 +824,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
             //convert quote to application server
             new QuoteApplicationController(getActivity()).convertQuoteToApp(
-                    "" + saveQuoteEntity.getVehicleRequestID(),entity.
+                    "" + saveQuoteEntity.getVehicleRequestID(),
                     this);
 
             startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
