@@ -207,6 +207,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
         if (!response.getSummary().getPB_CRN().equals(""))
             motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
+        entity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
         entity.setMotorRequestEntity(motorRequestEntity);
         entity.setSRN(response.getSummary().getRequest_Unique_Id());
         entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));

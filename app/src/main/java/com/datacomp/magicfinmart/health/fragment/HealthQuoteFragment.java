@@ -187,6 +187,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
         motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
         entity.setMotorRequestEntity(motorRequestEntity);
+        entity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
         entity.setSRN(response.getSummary().getRequest_Unique_Id());
         entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
         entity.setIsActive(1);

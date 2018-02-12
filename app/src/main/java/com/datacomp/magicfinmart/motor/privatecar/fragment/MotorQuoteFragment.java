@@ -61,21 +61,14 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         motorQuoteAdapter = new MotorQuoteAdapter(MotorQuoteFragment.this, mQuoteList);
         rvQuoteList.setAdapter(motorQuoteAdapter);
 
-        //recyclerview item click listener
-        rvQuoteList.addOnItemTouchListener(new RecyclerItemClickListener(rvQuoteList, onItemClickListener));
         return view;
     }
 
-    RecyclerItemClickListener.OnItemClickListener onItemClickListener =
-            new RecyclerItemClickListener.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
 
-                    QuoteListEntity entity = mQuoteList.get(position);
-
-                    startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
-                }
-            };
+    //redirect to input quote bottom
+    public void redirectToInputQuote(QuoteListEntity entity) {
+        startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE, entity));
+    }
 
     private void initView(View view) {
         btnAddQuote = (FloatingActionButton) view.findViewById(R.id.fbAddQuote);
