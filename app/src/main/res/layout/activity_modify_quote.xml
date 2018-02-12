@@ -252,6 +252,73 @@
 
             </LinearLayout>
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="EXPECTED IDV"
+                android:textAppearance="@style/TextStyle.Body1"
+                android:textColor="@color/colorAccent" />
+
+            <EditText
+                android:id="@+id/etIdv"
+                style="@style/Style.edittext"
+                android:inputType="number"
+                android:maxLength="11" />
+
+            <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                android:id="@+id/sbIdv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                app:dsb_indicatorColor="@color/colorPrimary"
+                app:dsb_max="5"
+                app:dsb_min="0"
+                app:dsb_progressColor="@color/colorPrimaryDark"
+                app:dsb_rippleColor="@color/colorPrimary"
+                app:dsb_scrubberHeight="10dp"
+                app:dsb_thumbSize="15dp"
+                app:dsb_trackColor="@color/secondary_text_color"
+                app:dsb_trackHeight="10dp"
+                app:dsb_value="0" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvMinIdv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="0"
+                    android:textAppearance="@style/TextStyle.Body1" />
+
+                <TextView
+                    android:id="@+id/tvProgress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvMaxIdv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="50"
+                    android:textAppearance="@style/TextStyle.Body1" />
+            </LinearLayout>
         </LinearLayout>
 
 
