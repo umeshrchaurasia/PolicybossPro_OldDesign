@@ -2,6 +2,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
@@ -33,7 +34,7 @@ public class HealthRequestBuilder extends FinmartRetroRequestBuilder {
 
         @Headers("token:" + token)
         @POST("/api/smart-health")
-        Call<HealthQuoteResponse> getHealthQuote(@Body HealthRequestEntity body);
+        Call<HealthQuoteResponse> getHealthQuote(@Body HealthQuote body);
 
         @Headers("token:" + token)
         @POST("/api/set-quote-application-smart-health")

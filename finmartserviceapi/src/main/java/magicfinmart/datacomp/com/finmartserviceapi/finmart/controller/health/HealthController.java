@@ -10,6 +10,7 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.ILogin;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.HealthRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.LoginRequestBuilder;
@@ -38,8 +39,8 @@ public class HealthController implements IHealth {
     }
 
     @Override
-    public void getHealthQuote(HealthRequestEntity healthRequestEntity, final IResponseSubcriber iResponseSubcriber) {
-        healthNetworkService.getHealthQuote(healthRequestEntity).enqueue(new Callback<HealthQuoteResponse>() {
+    public void getHealthQuote(HealthQuote quote, final IResponseSubcriber iResponseSubcriber) {
+        healthNetworkService.getHealthQuote(quote).enqueue(new Callback<HealthQuoteResponse>() {
             @Override
             public void onResponse(Call<HealthQuoteResponse> call, Response<HealthQuoteResponse> response) {
 
