@@ -37,8 +37,9 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
     Spinner spPaCover, spVolExcessAmt;
     DiscreteSeekBar sbIdv;
     ArrayAdapter<String> volAccessAdapter, coverAdapter;
+    String[] volAccess, cover;
     Switch swlldriver, swAnti, swMemAto, swPaidPa;
-    TextView tvLiabYes, tvLiabNo, tvAntiYes, tvAntiNo, tvMinIdv, tvMaxIdv;
+    TextView tvLiabYes, tvLiabNo, tvAntiYes, tvAntiNo, tvMinIdv, tvMaxIdv, tvProgress;
     boolean isLiability = false, isAntiTheft = false;
 
     @Override
@@ -53,13 +54,57 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         if (getIntent().hasExtra("SUMMARY")) {
             summaryEntity = getIntent().getParcelableExtra("SUMMARY");
         }
+        volAccess = getResources().getStringArray(R.array.voluntary_car);
+        cover = getResources().getStringArray(R.array.pa_cover_car);
         initWidgets();
         bindAdapters();
         setListener();
+
+        filPrevInputs();
+    }
+
+    private void filPrevInputs() {
+
+        etElecAcc.setText(motorRequestEntity.getElectrical_accessory());
+        etNonElecAcc.setText(motorRequestEntity.getNon_electrical_accessory());
+
+        int volAmt = motorRequestEntity.getVoluntary_deductible();
+        for (int i = 0; i < volAccess.length; i++) {
+            if (volAmt == Integer.parseInt(volAccess[i])) {
+                spVolExcessAmt.setSelection(i);
+                break;
+            }
+        }
+        if (!motorRequestEntity.getPa_unnamed_passenger_si().equals("")) {
+            int coverAmt = Integer.parseInt(motorRequestEntity.getPa_unnamed_passenger_si());
+            for (int i = 0; i < cover.length; i++) {
+                if (coverAmt == Integer.parseInt(cover[i])) {
+                    spPaCover.setSelection(i);
+                    break;
+                }
+            }
+        }
+        if (motorRequestEntity.getIs_llpd().matches("yes")) {
+            tvLiabYes.performClick();
+        } else {
+            tvLiabNo.performClick();
+        }
+
+        if (motorRequestEntity.getIs_antitheft_fit().matches("yes")) {
+            tvAntiYes.performClick();
+        } else {
+            tvAntiNo.performClick();
+        }
+
+        if (motorRequestEntity.getVehicle_expected_idv() > 0) {
+            etIdv.setText("" + motorRequestEntity.getVehicle_expected_idv());
+            sbIdv.setProgress(motorRequestEntity.getVehicle_expected_idv());
+            tvProgress.setText("" + motorRequestEntity.getVehicle_expected_idv());
+        }
     }
 
     private void bindAdapters() {
-        volAccessAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.voluntary_car)) {
+        volAccessAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, volAccess) {
 
             @NonNull
             @Override
@@ -70,7 +115,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
             }
         };
         spVolExcessAmt.setAdapter(volAccessAdapter);
-        coverAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.pa_cover_car)) {
+        coverAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, cover) {
 
             @NonNull
             @Override
@@ -110,6 +155,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 if (fromUser) {
                     etIdv.setText("" + getPercentFromProgress(value));
+                    tvProgress.setText("" + getPercentFromProgress(value));
                 }
             }
 
@@ -147,6 +193,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         sbIdv = (DiscreteSeekBar) findViewById(R.id.sbIdv);
         tvMaxIdv = (TextView) findViewById(R.id.tvMaxIdv);
         tvMinIdv = (TextView) findViewById(R.id.tvMinIdv);
+        tvProgress = (TextView) findViewById(R.id.tvProgress);
         ivCross = (ImageView) findViewById(R.id.ivCross);
         applyNow = (Button) findViewById(R.id.applyNow);
 

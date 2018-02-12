@@ -160,7 +160,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (isQuoteVisible) {
+        if (!isQuoteVisible) {
             finish();
         } else {
             Toast.makeText(InputQuoteBottmActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
@@ -238,7 +238,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (isQuoteVisible) {
+                if (!isQuoteVisible) {
                     finish();
                     return true;
                 } else {
