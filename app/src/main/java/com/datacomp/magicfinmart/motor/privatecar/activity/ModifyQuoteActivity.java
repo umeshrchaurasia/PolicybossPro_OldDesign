@@ -64,9 +64,10 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void filPrevInputs() {
-
-        etElecAcc.setText(motorRequestEntity.getElectrical_accessory());
-        etNonElecAcc.setText(motorRequestEntity.getNon_electrical_accessory());
+        if (!motorRequestEntity.getElectrical_accessory().matches("0"))
+            etElecAcc.setText(motorRequestEntity.getElectrical_accessory());
+        if (!motorRequestEntity.getNon_electrical_accessory().matches("0"))
+            etNonElecAcc.setText(motorRequestEntity.getNon_electrical_accessory());
 
         int volAmt = motorRequestEntity.getVoluntary_deductible();
         for (int i = 0; i < volAccess.length; i++) {
@@ -261,8 +262,8 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
                     int minIdv = Integer.parseInt(summaryEntity.getVehicle_min_idv());
                     int maxIdv = Integer.parseInt(summaryEntity.getVehicle_max_idv());
                     if (idv < minIdv || idv > maxIdv) {
-                        etNonElecAcc.requestFocus();
-                        etNonElecAcc.setError("Enter Amount between " + minIdv + " & " + maxIdv);
+                        etIdv.requestFocus();
+                        etIdv.setError("Enter IDV between " + minIdv + " & " + maxIdv);
                         return;
                     }
                 }

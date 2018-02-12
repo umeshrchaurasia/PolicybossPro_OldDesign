@@ -40,7 +40,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
     MotorRequestEntity motorRequestEntity;
-    boolean isQuoteVisible = false;
+    boolean isQuoteVisible = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +103,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-                    if (!isQuoteVisible) {
+                    if (isQuoteVisible) {
                         tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                         if (motorRequestEntity != null) {
                             quoteBundle = new Bundle();
@@ -160,7 +160,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (!isQuoteVisible) {
+        if (isQuoteVisible) {
             finish();
         } else {
             Toast.makeText(InputQuoteBottmActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
@@ -181,16 +181,6 @@ public class InputQuoteBottmActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*switch (requestCode) {
-            case (1000): {
-                if (resultCode == Activity.RESULT_OK) {
-                    if (data.getParcelableExtra("MODIFY") != null) {
-                        getQuoteParameterBundle((MotorRequestEntity) data.getParcelableExtra("MODIFY"));
-                    }
-                }
-                break;
-            }
-        }*/
     }
 
     public void modifyQuote(MotorRequestEntity entity) {
@@ -202,7 +192,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
     public void redirectInput(MotorRequestEntity entity) {
 
-        if (!isQuoteVisible) {
+        if (isQuoteVisible) {
             motorRequestEntity = entity;
             quoteBundle = new Bundle();
             quoteBundle.putParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST, motorRequestEntity);
@@ -238,7 +228,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                if (!isQuoteVisible) {
+                if (isQuoteVisible) {
                     finish();
                     return true;
                 } else {

@@ -239,7 +239,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                     || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
 
                 webViewLoader.setVisibility(View.GONE);
-
+                updateCrn();
                 new AsyncAddon().execute();
 
                 if (((BikePremiumResponse) response).getResponse().size() != 0)
