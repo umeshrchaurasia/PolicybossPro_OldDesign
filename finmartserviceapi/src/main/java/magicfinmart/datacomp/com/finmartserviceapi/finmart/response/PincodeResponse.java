@@ -10,7 +10,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PincodeResponse
 public class PincodeResponse extends APIResponse {
 
     /**
-     * MasterData : {"map_id":34000,"pincode":"805110","postname":"Nawadah","districtname":"Nawada","stateid":5,"state_name":"BIHAR","cityid":247,"cityname":"Nawada"}
+     * HealthMasterData : {"map_id":34000,"pincode":"805110","postname":"Nawadah","districtname":"Nawada","stateid":5,"state_name":"BIHAR","cityid":247,"cityname":"Nawada"}
      */
 
     private PincodeResponseEntity MasterData;

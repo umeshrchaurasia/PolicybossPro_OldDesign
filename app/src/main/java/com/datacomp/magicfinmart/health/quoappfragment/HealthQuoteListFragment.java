@@ -10,9 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.HealthActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteTabsActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
@@ -24,6 +26,7 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 
@@ -36,7 +39,7 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
     RecyclerView rvHealthQuoteList;
     HealthQuoteAdapter healthQuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    List<QuoteListEntity> mQuoteList;
+    List<HealthQuote> mQuoteList;
     QuoteListEntity removeQuoteEntity;
 
     public HealthQuoteListFragment() {
@@ -51,14 +54,14 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
         View view = inflater.inflate(R.layout.fragment_health_quote, container, false);
         initView(view);
         mQuoteList = new ArrayList<>();
-        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST) != null) {
-            mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST);
+        if (getArguments().getParcelableArrayList(HealthActivityTabsPagerAdapter.HEALTH_QUOTE_LIST) != null) {
+            mQuoteList = getArguments().getParcelableArrayList(HealthActivityTabsPagerAdapter.HEALTH_QUOTE_LIST);
         }
         healthQuoteAdapter = new HealthQuoteAdapter(HealthQuoteListFragment.this, mQuoteList);
         rvHealthQuoteList.setAdapter(healthQuoteAdapter);
 
         //recyclerview item click listener
-        rvHealthQuoteList.addOnItemTouchListener(new RecyclerItemClickListener(rvHealthQuoteList, onItemClickListener));
+        //rvHealthQuoteList.addOnItemTouchListener(new RecyclerItemClickListener(rvHealthQuoteList, onItemClickListener));
         return view;
     }
 
@@ -70,6 +73,11 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
                     startActivity(new Intent(getActivity(), HealthQuoteTabsActivity.class));
                 }
             };
+
+
+    public void quoteItemClick(HealthQuote healthQuote) {
+        Toast.makeText(getActivity(), "clicked", Toast.LENGTH_SHORT).show();
+    }
 
     private void initView(View view) {
         btnAddQuote = (FloatingActionButton) view.findViewById(R.id.fbAddHealthQuote);
@@ -89,6 +97,8 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
                 this);
 
     }
+
+
 
     @Override
     public void onClick(View view) {

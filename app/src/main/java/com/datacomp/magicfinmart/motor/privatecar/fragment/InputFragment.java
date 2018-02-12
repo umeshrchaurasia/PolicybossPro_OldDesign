@@ -280,7 +280,9 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
         //region varient list
 
         variantList.clear();
-        List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(), carMasterEntity.getModel_Name());
+        List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
+                carMasterEntity.getModel_Name(),
+                carMasterEntity.getFuel_Name());
         variantList.addAll(varList);
         varientAdapter.notifyDataSetChanged();
 
@@ -374,7 +376,9 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
         //region varient list
 
         variantList.clear();
-        List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(), carMasterEntity.getModel_Name());
+        List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
+                carMasterEntity.getModel_Name(),
+                carMasterEntity.getFuel_Name());
         variantList.addAll(varList);
         varientAdapter.notifyDataSetChanged();
 
@@ -455,9 +459,9 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
                     fuelList.addAll(dbController.getFuelTypeByModelId(modelId));
                     fuelAdapter.notifyDataSetChanged();
 
-                    variantList.clear();
-                    variantList.addAll(dbController.getVariantbyModelID(modelId));
-                    varientAdapter.notifyDataSetChanged();
+//                    variantList.clear();
+//                    variantList.addAll(dbController.getVariantbyModelID(modelId));
+//                    varientAdapter.notifyDataSetChanged();
                 } else {
                     acMakeModel.requestFocus();
                     acMakeModel.setError("Enter Make,Model");
@@ -514,6 +518,26 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
 
         //endregion
 
+        //fuel adapter
+
+        spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                variantList.clear();
+                List<String> varList = dbController.getVariant(getMake(acMakeModel.getText().toString()),
+                        getModel(acMakeModel.getText().toString()),
+                        spFuel.getSelectedItem().toString());
+                variantList.addAll(varList);
+                varientAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        //endregion
     }
 
     private void initialize_views() {

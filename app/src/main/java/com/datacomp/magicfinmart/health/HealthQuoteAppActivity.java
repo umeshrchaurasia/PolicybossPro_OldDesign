@@ -12,8 +12,10 @@ import com.datacomp.magicfinmart.R;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicationEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 
 public class HealthQuoteAppActivity extends BaseActivity implements IResponseSubcriber {
@@ -43,7 +45,6 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-
             }
 
             @Override
@@ -61,33 +62,23 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
     @Override
     protected void onResume() {
         super.onResume();
-        // fetchHealthQuoteApplication();
-        //delete this
-        mAdapter = new HealthActivityTabsPagerAdapter(getSupportFragmentManager(),
-                new QuoteApplicationEntity());
-        viewPager.setAdapter(mAdapter);
-
+        fetchHealthQuoteApplication();
     }
 
     private void fetchHealthQuoteApplication() {
-
         showDialog("Fetching.., Please wait.!");
-        new QuoteApplicationController(this).getQuoteAppList("", "",
-                new DBPersistanceController(this).getUserData().getFBAId(),
-                0,
-                "",
+        new HealthController(this).getHealthQuoteApplicationList(
+                String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()),
                 this);
-
-
     }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
-        if (response instanceof QuoteApplicationResponse) {
-            if (((QuoteApplicationResponse) response).getMasterData() != null) {
+        if (response instanceof HealthQuoteAppResponse) {
+            if (((HealthQuoteAppResponse) response).getMasterData() != null) {
                 mAdapter = new HealthActivityTabsPagerAdapter(getSupportFragmentManager(),
-                        ((QuoteApplicationResponse) response).getMasterData());
+                        ((HealthQuoteAppResponse) response));
                 viewPager.setAdapter(mAdapter);
             }
 

@@ -30,19 +30,19 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
 
     public interface MasterNetworkService {
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/vehicle-details")
         Call<CarMasterResponse> getCarMaster(@Body HashMap<String, String> body);
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/vehicle-details")
         Call<BikeMasterResponse> getBikeMaster(@Body HashMap<String, String> body);
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @GET("/api/get-city-vehicle")
         Call<CityMasterResponse> getAllCity();
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @GET("/api/get-insurance-company")
         Call<InsuranceMasterResponse> getInsuranceMasters();
 

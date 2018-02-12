@@ -30,19 +30,19 @@ public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
 
     public interface QuoteApplicationNetworkService {
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/get-vehicle-request")
         Call<QuoteApplicationResponse> getQuoteApplication(@Body HashMap<String, String> body);
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/manage-vehicle")
         Call<SaveQuoteResponse> saveMotorRequest(@Body SaveMotorRequestEntity entity);
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/set-quote-to-application-vehicle")
         Call<QuoteAppUpdateDeleteResponse> quoteToApplication(@Body HashMap<String, String> body);
 
-        @Headers("token:1234567890")
+        @Headers("token:" + token)
         @POST("/api/delete-vehicle-request")
         Call<QuoteAppUpdateDeleteResponse> deleteQuote(@Body HashMap<String, String> body);
 
