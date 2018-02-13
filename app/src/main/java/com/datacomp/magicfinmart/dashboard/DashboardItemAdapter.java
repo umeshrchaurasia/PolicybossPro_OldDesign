@@ -12,11 +12,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
-import com.datacomp.magicfinmart.motor.privatecar.PrivateCarDetailActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 
 import java.util.List;
 
@@ -65,36 +66,51 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (listInsur.get(position).getProductName().equals("PERSONAL LOAN")) {
-                        mContext.startActivity(new Intent(mContext.getActivity(), PersonalLoanDetailActivity.class));
-                    }else if( listInsur.get(position).getProductName().equals("HOME LOAN" ))
-                    {
-                        mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
-                    }
-                    else if( listInsur.get(position).getProductName().equals("LOAN AGAINST PROPERTY" ))
-                    {
-                        mContext.startActivity(new Intent(mContext.getActivity(), LapLoanDetailActivity.class));
-                    }
-                    else if( listInsur.get(position).getProductName().equals("BALANCE TRANSFER" ))
-                    {
-                        mContext.startActivity(new Intent(mContext.getActivity(), BalanceTransferDetailActivity.class));
-                    }
-//                    else if( listInsur.get(position).getProductName().equals("CREDIT CARD" ))
-//                    {
-//                        //mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
-//                    }
-//                    else if( listInsur.get(position).getProductName().equals("OTHER LOAN" ))
-//                    {
-//                        //mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
-//                    }
-                    else if( listInsur.get(position).getProductName().equals("PRIVATE CAR" ))
-                    {
-                        mContext.startActivity(new Intent(mContext.getActivity(), PrivateCarDetailActivity.class));
-                    }
 
-                    else
-                    {
-                        Toast.makeText(mContext.getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                    switch (listInsur.get(position).getProductId()) {
+                        case 1:
+                            //car
+                            mContext.startActivity(new Intent(mContext.getActivity(), PrivateCarDetailActivity.class));
+                            break;
+                        case 10:
+                            //bike
+                            break;
+                        case 3:
+                            //health
+                            mContext.startActivity(new Intent(mContext.getActivity(), HealthQuoteAppActivity.class));
+                            break;
+                        case 4:
+                            //home loan
+                            mContext.startActivity(new Intent(mContext.getActivity(), HomeLoanDetailActivity.class));
+                            break;
+                        case 5:
+                            //personal loan
+                            mContext.startActivity(new Intent(mContext.getActivity(), PersonalLoanDetailActivity.class));
+                            break;
+                        case 6:
+                            //lap
+                            mContext.startActivity(new Intent(mContext.getActivity(), LapLoanDetailActivity.class));
+                            break;
+                        case 7:
+                            //cc
+                            break;
+                        case 8:
+                            //BT
+                            mContext.startActivity(new Intent(mContext.getActivity(), BalanceTransferDetailActivity.class));
+                            break;
+                        case 9:
+                            //Other loan
+                            break;
+                        case 2:
+                            //fin peace
+                            break;
+                        case 11:
+                            //health check up
+                            break;
+                        default:
+                            Toast.makeText(mContext.getContext(), "Work in progress", Toast.LENGTH_SHORT).show();
+                            break;
+
                     }
 
                 }

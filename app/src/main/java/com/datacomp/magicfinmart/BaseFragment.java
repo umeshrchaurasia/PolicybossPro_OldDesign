@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +45,7 @@ public class BaseFragment extends Fragment {
     protected void showDialog(String msg) {
         dialog = ProgressDialog.show(getActivity(), "", msg, true);
     }
+
     public static boolean isValidePhoneNumber(EditText editText) {
         String phoneNumberPattern = "^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$";
         String phoneNumberEntered = editText.getText().toString().trim();
@@ -79,5 +83,12 @@ public class BaseFragment extends Fragment {
         }
     }
 
+
+    public String getDateFromAge(int age) {
+        Calendar cal = Calendar.getInstance();
+        int year = age;
+        cal.add(Calendar.YEAR, -year);
+        return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
+    }
 
 }

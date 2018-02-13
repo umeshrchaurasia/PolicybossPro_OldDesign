@@ -5,7 +5,6 @@ package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
  */
 
 import android.app.Activity;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
 
 
 import java.util.List;

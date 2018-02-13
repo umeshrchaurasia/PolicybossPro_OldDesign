@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".motor.privatecar.quote.MotorQuoteFragment">
+    tools:context=".motor.privatecar.fragment.MotorQuoteFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvApplicationList"

@@ -148,8 +148,13 @@
 
     <!--Dialog theme-->
     <style name="DialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <!--status bar color-->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
+        <!--   <item name="windowBackground">@android:color/transparent</item>-->
     </style>
 
     <!--Spinner theme no use-->

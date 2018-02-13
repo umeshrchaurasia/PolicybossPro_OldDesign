@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    tools:context="com.datacomp.magicfinmart.motor.privatecar.addquote.ModifyQuoteActivity">
+    tools:context="com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,14 +14,14 @@
 
         <TextView
             android:id="@+id/txtPlanName"
-            style="@style/TextViewStyle.Large"
+            style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="left|center_vertical"
             android:minHeight="45dp"
             android:padding="8dp"
-            android:text="The New India Assurance Co.Ltd."
+            android:text="ADDITIONAL INFORMATION &amp; OPTIONS"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
@@ -45,197 +45,99 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="5dp">
+            android:paddingBottom="15dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:paddingTop="15dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
                     android:layout_weight="1"
-                    android:hint="ELEC ACCESSORIES">
+                    android:hint="ELEC ACCESSORIES"
+                    android:padding="5dp">
 
                     <EditText
                         android:id="@+id/etElecAcc"
-                        style="@style/Style.edittext" />
+                        style="@style/Style.edittext"
+                        android:inputType="number"
+                        android:maxLength="6" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_marginLeft="2dp"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
                     android:layout_weight="1"
-                    android:hint="NON-ELEC ACCESSORIES">
+                    android:hint="NON-ELEC ACCESSORIES"
+                    android:padding="5dp">
 
                     <EditText
                         android:id="@+id/etNonElecAcc"
-                        style="@style/Style.edittext" />
+                        style="@style/Style.edittext"
+                        android:inputType="number"
+                        android:maxLength="6" />
                 </android.support.design.widget.TextInputLayout>
+
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="bottom"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextInputLayoutStyle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:hint="Fuel">
 
                     <TextView
-                        style="@style/TextViewStyle.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="LEGAL LIABILITY TO DRIVER" />
+                        android:layout_marginLeft="5dp"
+                        android:text="PA COVER TO PAX"
+                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textColor="@color/colorAccent" />
 
-                    <LinearLayout
+
+                    <Spinner
+                        android:id="@+id/spPaCover"
+                        style="@style/SpinnerStyle.Underlined"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:entries="@array/pa_cover_car" />
+                </android.support.design.widget.TextInputLayout>
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="NO" />
-
-                        <Switch
-                            android:id="@+id/swlldriver"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:padding="5dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="YES" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextInputLayoutStyle"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
                     android:layout_weight="1"
-                    android:orientation="vertical">
+                    android:hint="Fuel">
 
                     <TextView
-                        style="@style/TextViewStyle.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ANTI-THEFT DEVICE" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="NO" />
-
-                        <Switch
-                            android:id="@+id/swAnti"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:padding="5dp" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="YES" />
-                    </LinearLayout>
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_weight="1">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:text="Un-named pass. PA cover"
-                        android:textAllCaps="true"
-                        android:textColor="@color/header_dark_text" />
-
-                    <Spinner
-                        android:id="@+id/spUnNamedPa"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_weight="1">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:text="Named pass. PA cover"
-                        android:textAllCaps="true"
-                        android:textColor="@color/header_dark_text" />
-
-                    <Spinner
-                        android:id="@+id/spNamedPa"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:hint="Expected IDV">
-
-                    <EditText
-                        android:id="@+id/etExpIdv"
-                        style="@style/Style.edittext" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_weight="1">
-
-                    <TextView
-                        style="@style/TextViewStyle.Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@null"
-                        android:text="voluntary excess amt"
-                        android:textAllCaps="true"
-                        android:textColor="@color/header_dark_text" />
+                        android:layout_marginLeft="5dp"
+                        android:text="VOLUNTARY DEDUCTIBLE"
+                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textColor="@color/colorAccent" />
 
                     <Spinner
                         android:id="@+id/spVolExcessAmt"
+                        style="@style/SpinnerStyle.Underlined"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
+                        android:layout_height="wrap_content"
+                        android:entries="@array/voluntary_car" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -245,79 +147,177 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/TextViewStyle.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Member of auto association" />
+                        android:gravity="center"
+                        android:text="LEGAL LIABILITY TO DRIVER"
+                        android:textAppearance="@style/TextViewStyle.Small"
+                        android:textColor="@color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tvLiabYes"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="NO" />
-
-                        <Switch
-                            android:id="@+id/swMemAto"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:padding="5dp" />
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/customeborder_blue"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="YES"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/black" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tvLiabNo"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="YES" />
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/customeborder"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="NO"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/black" />
                     </LinearLayout>
+
+
                 </LinearLayout>
 
                 <LinearLayout
-                    style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/TextViewStyle.Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Paid Driver PA Cover" />
+                        android:gravity="center"
+                        android:text="ANTI-THEFT DEVICE"
+                        android:textAppearance="@style/TextViewStyle.Small"
+                        android:textColor="@color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
                         android:orientation="horizontal">
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tvAntiYes"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="NO" />
-
-                        <Switch
-                            android:id="@+id/swPaidPa"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:padding="5dp" />
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/customeborder_blue"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="YES"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/black" />
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/tvAntiNo"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="YES" />
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/customeborder"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="NO"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/black" />
                     </LinearLayout>
+
+
                 </LinearLayout>
+
+            </LinearLayout>
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="EXPECTED IDV"
+                android:textAppearance="@style/TextStyle.Body1"
+                android:textColor="@color/colorAccent" />
+
+            <EditText
+                android:id="@+id/etIdv"
+                style="@style/Style.edittext"
+                android:inputType="number"
+                android:maxLength="11" />
+
+            <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                android:id="@+id/sbIdv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                app:dsb_indicatorColor="@color/colorPrimary"
+                app:dsb_max="5"
+                app:dsb_min="0"
+                app:dsb_progressColor="@color/colorPrimaryDark"
+                app:dsb_rippleColor="@color/colorPrimary"
+                app:dsb_scrubberHeight="10dp"
+                app:dsb_thumbSize="15dp"
+                app:dsb_trackColor="@color/secondary_text_color"
+                app:dsb_trackHeight="10dp"
+                app:dsb_value="0" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvMinIdv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="0"
+                    android:textAppearance="@style/TextStyle.Body1" />
+
+                <TextView
+                    android:id="@+id/tvProgress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="0"
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/tvMaxIdv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="50"
+                    android:textAppearance="@style/TextStyle.Body1" />
             </LinearLayout>
         </LinearLayout>
 

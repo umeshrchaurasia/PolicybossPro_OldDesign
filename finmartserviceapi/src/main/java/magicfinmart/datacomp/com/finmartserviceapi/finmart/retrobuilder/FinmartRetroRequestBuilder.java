@@ -20,6 +20,9 @@ public class FinmartRetroRequestBuilder {
     // production url
     public static String URL = "http://api.magicfinmart.com";
 
+    public static final String token ="1234567890";
+
+
     protected Retrofit build() {
         if (restAdapter == null) {
 
