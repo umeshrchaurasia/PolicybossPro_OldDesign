@@ -1,23 +1,19 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LoanQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 
 /**
  * Created by IN-RB on 19-01-2018.
@@ -26,9 +22,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LoanQuoteEntity
 public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAdapter.QuoteItem>  {
 
     Fragment mFrament;
-    List<LoanQuoteEntity> mQuoteList;
+    List<FmHomeLoanRequest> mQuoteList;
 
-    public HomeLoan_QuoteAdapter(Fragment mFrament, List<LoanQuoteEntity> mQuoteList) {
+    public HomeLoan_QuoteAdapter(Fragment mFrament, List<FmHomeLoanRequest> mQuoteList) {
         this.mFrament = mFrament;
         this.mQuoteList = mQuoteList;
     }
@@ -63,12 +59,12 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 //        });
 
         if (holder instanceof HomeLoan_QuoteAdapter.QuoteItem) {
-            final LoanQuoteEntity entity = mQuoteList.get(position);
+            final FmHomeLoanRequest entity = mQuoteList.get(position);
 
-            holder.txtPersonName.setText(""+ entity.getApplicantNme());
-            holder.txtQuoteDate.setText("" + entity.getApplicantDOB());
+            holder.txtPersonName.setText(""+ entity.getHomeLoanRequest().getApplicantNme());
+            holder.txtQuoteDate.setText("" + entity.getHomeLoanRequest().getRow_created_date().split("T")[0].toString());
 
-            holder.txtloanamount.setText("" + entity.getLoanRequired());
+            holder.txtloanamount.setText("" + entity.getHomeLoanRequest().getPropertyCost());
 
 
 
@@ -106,7 +102,7 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 
 
 
-    public void refreshAdapter(List<LoanQuoteEntity> list) {
+    public void refreshAdapter(List<FmHomeLoanRequest> list) {
         mQuoteList = list;
     }
 

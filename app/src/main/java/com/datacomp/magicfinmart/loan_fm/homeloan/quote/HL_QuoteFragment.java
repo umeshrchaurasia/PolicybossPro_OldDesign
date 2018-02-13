@@ -8,22 +8,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.ActivityTabsPagerAdapter_HL;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
-import com.datacomp.magicfinmart.motor.privatecar.ActivityTabsPagerAdapter;
 
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LoanQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 
 /**
  * Created by IN-RB on 19-01-2018.
@@ -31,13 +27,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LoanQuoteEntity
 
 public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener{
 
-    public static final String FROM_QUOTE = "from_quote";
+    //public static final String FROM_QUOTE = "from_quote";
     FloatingActionButton hlAddQuote;
     RecyclerView rvQuoteList;
     HomeLoan_QuoteAdapter homeLoan_QuoteAdapter;
-    List<LoanQuoteEntity> mQuoteList;
+    List<FmHomeLoanRequest> mQuoteList;
 
-    LoanQuoteEntity  removeQuoteEntity;
+    FmHomeLoanRequest  removeQuoteEntity;
 
     public HL_QuoteFragment() {
     }

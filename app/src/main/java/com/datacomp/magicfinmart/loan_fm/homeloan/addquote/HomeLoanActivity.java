@@ -1011,7 +1011,7 @@ public class HomeLoanActivity extends BaseActivity implements View.OnClickListen
         //   homeLoanRequest.setempcode("" + new LoginFacade(HomeLoanActivity.this).getUser().getEmpCode());
 
         homeLoanRequest.setBrokerId("" + "0");
-        homeLoanRequest.setempcode("" + "rb40000428");
+        homeLoanRequest.setEmpcode("" + "rb40000428");
         homeLoanRequest.setProductId("12");//HomeLoan
         homeLoanRequest.setApi_source("Finmart");
 

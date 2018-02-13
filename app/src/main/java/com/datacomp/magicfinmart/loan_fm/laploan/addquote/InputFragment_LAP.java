@@ -45,11 +45,16 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerApplicationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
@@ -57,7 +62,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
  * Created by IN-RB on 30-01-2018.
  */
 
- public class InputFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber, SeekBar.OnSeekBarChangeListener, TextWatcher {
+ public class InputFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber,IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener, TextWatcher {
 
         DBPersistanceController databaseController;   //DB declare
         LoginResponseEntity loginEntity;
@@ -69,6 +74,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         LinearLayout llPropertyInfo, llApplicantDetail, llCoApplicantDetail;
         Toolbar toolbar;
         HomeLoanRequest homeLoanRequest;
+        FmHomeLoanRequest fmHomeLoanRequest;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         boolean isPropertyInfoVisible = false;
         boolean isApplicantVisible = true;
@@ -1166,11 +1172,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             }
 
             homeLoanRequest.setBrokerId("" +loginEntity.getLoanId());
-            homeLoanRequest.setempcode("");
+            homeLoanRequest.setEmpcode("");
             homeLoanRequest.setProductId("7");//LAP
             homeLoanRequest.setApi_source("Finmart");
 
-
+            homeLoanRequest.setType("LAP");
+            homeLoanRequest.setLoaniD(Integer.valueOf(loginEntity.getLoanId()));
 
 
             //endregion
@@ -1217,21 +1224,24 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 //                startActivity(new Intent(getActivity(), HomeLoanQuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) getQuoteResponse.getData())
 //                        .putExtra(Constants.QUOTES, getQuoteResponse)
 //                        .putExtra(Constants.HL_REQUEST, homeLoanRequest));
-                    ((LAPMainActivity) mContext).setQuoteCheck();
+//                    ((LAPMainActivity) mContext).setQuoteCheck();
+//
+//                    getQuoteResponse = ((GetQuoteResponse) response);
+//
+//                    Bundle bundle = new Bundle();
+//                    bundle.putParcelable(Constants.HOME_LOAN_QUOTES, getQuoteResponse);
+//                    bundle.putParcelable(Constants.HL_REQUEST, homeLoanRequest);
+//                    QuoteFragment_LAP quoteFragmenthl = new QuoteFragment_LAP();
+//                    quoteFragmenthl.setArguments(bundle);
+//                    FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
+//                    transaction_quote.replace(R.id.frame_layout, quoteFragmenthl, "QUOTE");
+//                    transaction_quote.addToBackStack("QUOTE");
+//                    transaction_quote.show(quoteFragmenthl);
+//                    //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                    transaction_quote.commit();
 
                     getQuoteResponse = ((GetQuoteResponse) response);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.HOME_LOAN_QUOTES, getQuoteResponse);
-                    bundle.putParcelable(Constants.HL_REQUEST, homeLoanRequest);
-                    QuoteFragment_LAP quoteFragmenthl = new QuoteFragment_LAP();
-                    quoteFragmenthl.setArguments(bundle);
-                    FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction_quote.replace(R.id.frame_layout, quoteFragmenthl, "QUOTE");
-                    transaction_quote.addToBackStack("QUOTE");
-                    transaction_quote.show(quoteFragmenthl);
-                    //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                    transaction_quote.commit();
+                    setFmHomeLoanRequest(getQuoteResponse.getQuote_id());
 
 
                 } else {
@@ -1240,14 +1250,44 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             }
         }
 
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+
+        cancelDialog();
+        if (response instanceof FmHomelLoanResponse) {
+            if (response.getStatusNo() == 0) {
+                Toast.makeText(getActivity(), "Fm Saved", Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.HOME_LOAN_QUOTES, getQuoteResponse);
+                bundle.putParcelable(Constants.HL_REQUEST, homeLoanRequest);
+                ((LAPMainActivity) getActivity()).getQuoteParameterBundle(bundle);
+
+            }
+        }
+    }
+
         @Override
         public void OnFailure(Throwable t) {
             cancelDialog();
             // startActivity(new Intent(getActivity(), QuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) quoteEntities));
             Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    private void  setFmHomeLoanRequest(int QuoteID)
+    {
 
-        //region SeekBar ChangeListener
+        showDialog();
+        fmHomeLoanRequest = new FmHomeLoanRequest();
+        fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
+        fmHomeLoanRequest.setFba_id(loginEntity.getFBAId());
+     //   fmHomeLoanRequest.setQuote_id(QuoteID);
+        fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
+        new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
+
+    }
+
+
+    //region SeekBar ChangeListener
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             switch (seekBar.getId()) {

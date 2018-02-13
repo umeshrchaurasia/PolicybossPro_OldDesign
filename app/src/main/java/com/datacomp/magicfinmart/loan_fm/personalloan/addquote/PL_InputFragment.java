@@ -40,6 +40,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 
 /**
@@ -50,6 +51,7 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
 
     DBPersistanceController databaseController;
     LoginResponseEntity loginEntity;
+
     PersonalLoanRequest personalLoanRequest;
     FmPersonalLoanRequest fmPersonalLoanRequest;
     CustomerEntity customerEntity;
@@ -182,8 +184,9 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
         personalLoanRequest.setApplicantObligations(etEMI.getText().toString());
         personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
         personalLoanRequest.setBrokerId("" + loginEntity.getLoanId());
-        personalLoanRequest.setempcode("");
-
+        personalLoanRequest.setEmpcode("");
+        personalLoanRequest.setType("PSL");
+        personalLoanRequest.setApi_source("Finmart");
     }
 
     private void fillCustomerApplicationDetails(CustomerApplicationEntity customerEntity) {
@@ -338,19 +341,12 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
 
                 getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
 
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse);
-                bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
-                ((PLMainActivity) getActivity()).getQuoteParameterBundle(bundle);
-//                quoteFragment.setArguments(bundle);
-//                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-//                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-//                transaction_quote.addToBackStack("QUOTE");
-//                transaction_quote.show(quoteFragment);
-//                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                transaction_quote.commit();
-
-                setFmPeronalLoanRequest();
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelable(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse);
+//                bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
+//                ((PLMainActivity) getActivity()).getQuoteParameterBundle(bundle);
+////
+                setFmPeronalLoanRequest(getPersonalLoanResponse.getQuote_id());
 
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
@@ -358,14 +354,20 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void setFmPeronalLoanRequest()
+    private void setFmPeronalLoanRequest(int QuoteID)
     {
 
         showDialog();
-        FmPersonalLoanRequest fmPersonalLoanRequest = new FmPersonalLoanRequest();
-        fmPersonalLoanRequest.setLoan_requestID("");
-        fmPersonalLoanRequest.setFba_id(String.valueOf(loginEntity.getFBAId()));
+      //  personalLoanRequest = new PersonalLoanRequest();
+        personalLoanRequest.setQuote_id(QuoteID);
+
+        fmPersonalLoanRequest = new FmPersonalLoanRequest();
+        fmPersonalLoanRequest.setLoan_requestID(fmPersonalLoanRequest.getLoan_requestID());
+        fmPersonalLoanRequest.setFBA_id(loginEntity.getFBAId());
         fmPersonalLoanRequest.setPersonalLoanRequest(personalLoanRequest);
+
+
+
         new MainLoanController(getActivity()).savePLQuoteData(fmPersonalLoanRequest, this);
 
     }
@@ -382,9 +384,14 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
     public void OnSuccessFM(APIResponseFM response, String message) {
 
         cancelDialog();
-        if (response instanceof FmPersonalLoanResponse) {
+        if (response instanceof FmSaveQuotePersonalLoanResponse) {
             if (response.getStatusNo() == 0) {
                 Toast.makeText(getActivity(), "Fm Saved", Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse);
+                bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
+                ((PLMainActivity) getActivity()).getQuoteParameterBundle(bundle);
             }
         }
     }

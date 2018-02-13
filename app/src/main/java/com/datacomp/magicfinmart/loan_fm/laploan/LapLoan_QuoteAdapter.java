@@ -1,24 +1,30 @@
 package com.datacomp.magicfinmart.loan_fm.laploan;
 
-import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 
 /**
  * Created by IN-RB on 22-01-2018.
  */
 
 public class LapLoan_QuoteAdapter extends RecyclerView.Adapter<LapLoan_QuoteAdapter.QuoteItem> {
-    Context context;
+    Fragment mFrament;
+    List<FmHomeLoanRequest> mQuoteList;
 
 
-    public LapLoan_QuoteAdapter(Context context) {
-        this.context = context;
+    public LapLoan_QuoteAdapter(Fragment mFrament, List<FmHomeLoanRequest> mQuoteList) {
+        this.mFrament = mFrament;
+        this.mQuoteList = mQuoteList;
     }
     @Override
     public QuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -30,21 +36,37 @@ public class LapLoan_QuoteAdapter extends RecyclerView.Adapter<LapLoan_QuoteAdap
     @Override
     public void onBindViewHolder(LapLoan_QuoteAdapter.QuoteItem holder, int position) {
 
+
+        if (holder instanceof LapLoan_QuoteAdapter.QuoteItem) {
+            final FmHomeLoanRequest entity = mQuoteList.get(position);
+
+            holder.txtPersonName.setText(""+ entity.getHomeLoanRequest().getApplicantNme());
+            holder.txtQuoteDate.setText("" + entity.getHomeLoanRequest().getRow_created_date().split("T")[0].toString());
+
+            holder.txtloanamount.setText("" + entity.getHomeLoanRequest().getPropertyCost());
+
+
+
+        }
     }
 
-    @Override
-    public int getItemCount() {
-        return 2;
-    }
+
     public class QuoteItem extends RecyclerView.ViewHolder {
 
-        //   public ImageView ivTripleDot;
-        public CheckBox chkAddon;
+        public TextView txtPersonName,  txtOverflowMenu,  txtloanamount , txtQuoteDate;
 
 
         public QuoteItem(View itemView) {
             super(itemView);
-            //ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
+            txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
+            txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
+            txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
+            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mQuoteList.size();
     }
 }

@@ -59,6 +59,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeL
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
@@ -154,7 +155,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
-        cityList = databaseController.getRTOListNames();
+        cityList = databaseController.getCityListNames();
 
         init_widgets(view);
 
@@ -1077,11 +1078,11 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         //region Preferred City Adapter
         arrayPreferedCity = new ArrayList<String>();
-//        preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
-//                android.R.layout.simple_list_item_1, cityList);
-
         preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, getCityList());
+                android.R.layout.simple_list_item_1, cityList);
+
+//        preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
+//                android.R.layout.simple_list_item_1, getCityList());
 
         acCity.setAdapter(preferedCityAdapter);
         acCity.setThreshold(1);
@@ -1103,13 +1104,12 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
     private ArrayList<String> getCityList() {
-
-//               if (new CityFacade(getActivity()).getCityList() != null) {
+//        if (new loCityFacade(getActivity()).getCityList() != null) {
 //            for (CityEntity entity : new CityFacade(getActivity()).getCityList()) {
 //                arrayPreferedCity.add(entity.getCity_Name());
 //            }
 //        }
-        arrayPreferedCity.add("Mumbai");
+      //  arrayPreferedCity.add("Mumbai");
         return arrayPreferedCity;
     }
 
@@ -1182,12 +1182,12 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         }
 
         homeLoanRequest.setBrokerId("" +loginEntity.getLoanId());
-        homeLoanRequest.setempcode("");
+        homeLoanRequest.setEmpcode("");
         homeLoanRequest.setProductId("12");//HomeLoan
         homeLoanRequest.setApi_source("Finmart");
                                                             // Below two For Node JS Maintainance
         homeLoanRequest.setType("HML");
-        homeLoanRequest.setLoaniD("" +loginEntity.getLoanId());
+     //   homeLoanRequest.setLoaniD(Integer.valueOf(loginEntity.getLoanId()));
 
 
 
@@ -1249,9 +1249,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         showDialog();
         fmHomeLoanRequest = new FmHomeLoanRequest();
-        fmHomeLoanRequest.setLoan_requestID("");
-        fmHomeLoanRequest.setFBA_id(String.valueOf(loginEntity.getFBAId()));
-        fmHomeLoanRequest.setQuote_id(QuoteID);
+        fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
+        fmHomeLoanRequest.setFba_id(loginEntity.getFBAId());
+        homeLoanRequest.setQuote_id(QuoteID);
         fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
         new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
 
@@ -1263,7 +1263,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     public void OnSuccessFM(APIResponseFM response, String message) {
 
         cancelDialog();
-        if (response instanceof FmHomelLoanResponse) {
+        if (response instanceof FmSaveQuoteHomeLoanResponse) {
             if (response.getStatusNo() == 0) {
                 Toast.makeText(getActivity(), "Fm Saved", Toast.LENGTH_SHORT).show();
 

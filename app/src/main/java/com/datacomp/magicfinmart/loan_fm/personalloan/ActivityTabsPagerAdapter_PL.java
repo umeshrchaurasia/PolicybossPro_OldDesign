@@ -1,5 +1,7 @@
 package com.datacomp.magicfinmart.loan_fm.personalloan;
 
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -7,13 +9,24 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.datacomp.magicfinmart.loan_fm.personalloan.application.PL_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.personalloan.quote.PL_QuoteFragment;
 
+import java.util.ArrayList;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalMainEntity;
+
 /**
  * Created by IN-RB on 12-01-2018.
  */
 
 public class ActivityTabsPagerAdapter_PL extends FragmentPagerAdapter {
-    public ActivityTabsPagerAdapter_PL(FragmentManager fm) {
+
+    public final static String QUOTE_LIST = "LIST_QUOTE";
+    public final static String APPLICATION_LIST = "LIST_APPLICATION";
+    PersonalMainEntity mMasterData;
+
+
+    public ActivityTabsPagerAdapter_PL(FragmentManager fm,PersonalMainEntity masterData) {
         super(fm);
+        mMasterData = masterData;
     }
 
     @Override
@@ -22,10 +35,32 @@ public class ActivityTabsPagerAdapter_PL extends FragmentPagerAdapter {
         switch (index) {
             case 0:
                 // Salary fragment activity
-                return new PL_QuoteFragment();
+
+                PL_QuoteFragment Qfragment = new PL_QuoteFragment();
+                Bundle bundle = new Bundle();
+
+                if (mMasterData == null) {
+                    bundle.putParcelableArrayList(QUOTE_LIST, null);
+
+                }else{
+                    bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuote());
+                }
+                Qfragment.setArguments(bundle);
+                return Qfragment;
+
+
             case 1:
                 // ABN fragment activity
-                return new PL_ApplicationFragment();
+                PL_ApplicationFragment Afragment = new PL_ApplicationFragment();
+
+                Bundle Abundle = new Bundle();
+                if (mMasterData == null) {
+                    Abundle.putParcelableArrayList(APPLICATION_LIST, null);
+                } else {
+                    Abundle.putParcelableArrayList(APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getApplication());
+                }
+                Afragment.setArguments(Abundle);
+                return Afragment;
         }
 
         return null;

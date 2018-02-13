@@ -13,8 +13,7 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
 
 import java.util.ArrayList;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicationEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HLQuoteApplicationEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HomeLoanRequestMainEntity;
 
 
 /**
@@ -25,8 +24,8 @@ public class ActivityTabsPagerAdapter_HL extends FragmentPagerAdapter {
 
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
-    HLQuoteApplicationEntity mMasterData;
-    public ActivityTabsPagerAdapter_HL(FragmentManager fm, HLQuoteApplicationEntity masterData) {
+    HomeLoanRequestMainEntity mMasterData;
+    public ActivityTabsPagerAdapter_HL(FragmentManager fm, HomeLoanRequestMainEntity masterData) {
         super(fm);
         mMasterData = masterData;
     }
