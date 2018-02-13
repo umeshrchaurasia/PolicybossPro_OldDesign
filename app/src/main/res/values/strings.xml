@@ -118,5 +118,6 @@
         <item>1500</item>
         <item>3000</item>
     </string-array>
+    <string name="title_activity_health_member_details_dialog">" "</string>
 
 </resources>

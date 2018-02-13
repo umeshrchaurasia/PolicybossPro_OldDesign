@@ -1,16 +1,20 @@
 package com.datacomp.magicfinmart.health.fragment;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,16 +36,23 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 
 /**
- * Created by Rajeev Ranjan on 29/01/2018.
+ * Created by Nilesh Birhade on 11/02/2018.
  */
 
 public class HealthInputFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "HealthInputFragment";
+    public static final String MEMBER_LIST = "member_list";
+    public static final int REQUEST_MEMBER = 4444;
+
     Button btnSelf, btnFamily, btnParent;
     ImageView img1, img2, img3, img4, img5, img6;
     EditText et1, et2, et3, et4, et5, et6;
     RecyclerView rvSumAssured;
+    AutoCompleteTextView acCity;
+    ArrayAdapter<String> cityAdapter;
+
+    List<String> cityList;
 
     List<MemberListEntity> memberList;
 
@@ -64,7 +75,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         init(view);
 
-        setListener();
 
         // set initial values
         healthQuote = new HealthQuote();
@@ -73,6 +83,13 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         healthRequestEntity = new HealthRequestEntity();
         memberList = new ArrayList<>();
+
+        cityList = new ArrayList<>();
+        cityList = new DBPersistanceController(getActivity()).getHealthCity();
+
+        cityBinding();
+
+        setListener();
 
         //default disableAll
         disableAllInputs();
@@ -107,9 +124,45 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         btnFamily.setOnClickListener(this);
         btnParent.setOnClickListener(this);
         btnGetHealthQuote.setOnClickListener(this);
+
+        //for validating auto complete city
+        acCity.setOnFocusChangeListener(acCityFocusChange);
+
+    }
+
+    View.OnFocusChangeListener acCityFocusChange = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (!b) {
+
+                String str = acCity.getText().toString();
+
+                ListAdapter listAdapter = acCity.getAdapter();
+                for (int i = 0; i < listAdapter.getCount(); i++) {
+                    String temp = listAdapter.getItem(i).toString();
+                    if (str.compareTo(temp) == 0) {
+                        return;
+                    }
+                }
+
+                acCity.setText("");
+                acCity.setError("Invalid city");
+                acCity.setFocusable(true);
+            }
+        }
+    };
+
+    private void cityBinding() {
+        cityAdapter = new
+                ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, cityList);
+        acCity.setAdapter(cityAdapter);
+        acCity.setThreshold(1);
     }
 
     private void init(View view) {
+
+        acCity = (AutoCompleteTextView) view.findViewById(R.id.acCity);
+
         rvSumAssured = (RecyclerView) view.findViewById(R.id.rvSumAssured);
 
         int numberOfColumns = 4;
@@ -189,54 +242,125 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
             case R.id.btnGetHealthQuote:
 
-                if (coverFor == 0) { // self
+                //region validation
 
-                    if (et1.isEnabled() && et1.getText().toString().length() != 0) {
-
-                        int Age = Integer.parseInt(et1.getText().toString());
-                        MemberListEntity entity = new MemberListEntity();
-                        if (Age > 18) {
-                            entity.setMemberNumber("1");
-                            entity.setMemberTypeID("1");
-                            entity.setMemberType("Adult");
-                            entity.setMemberGender("M");
-                        }
-                        entity.setMemberDOB(getDateFromAge(Age));
-                        memberList.add(entity);
-                        healthRequestEntity.setPolicyFor("Self");
-
-
-                    }
-
+                if (etName.getText().toString().length() == 0) {
+                    etName.setError("Enter name");
+                    etName.setFocusable(true);
+                    return;
                 }
+                if (etMobile.getText().toString().length() < 10) {
+                    etMobile.setError("Invalid mobile");
+                    etMobile.setFocusable(true);
+                    return;
+                }
+                if (etAmount.getText().toString().length() == 0) {
+                    etAmount.setError("Select cover required.");
+                    etAmount.setFocusable(true);
+                    return;
+                }
+
+                //endregion
 
                 healthRequestEntity.setContactName(etName.getText().toString());
                 healthRequestEntity.setContactMobile(etMobile.getText().toString());
                 healthRequestEntity.setSumInsured(etAmount.getText().toString());
-                healthRequestEntity.setMemberList(memberList);
+                healthRequestEntity.setCityID(new DBPersistanceController(getActivity()).getHealthCityID(acCity.getText().toString()));
 
-                healthQuote.setHealthRequest(healthRequestEntity);
 
-                new HealthController(getActivity()).getHealthQuote(healthQuote, new IResponseSubcriber() {
-                    @Override
-                    public void OnSuccess(APIResponse response, String message) {
-
-                        if (response instanceof HealthQuoteResponse) {
-                            if (((HealthQuoteResponse) response).getMasterData().getHealth_quote().size() != 0) {
-
-                            }
-                        }
+                if (coverFor == 0) { // self
+                    MemberListEntity entity = new MemberListEntity();
+                    healthRequestEntity.setPolicyFor("Self");
+                    if (et1.isEnabled() && et1.getText().toString().length() != 0) {
+                        int Age = Integer.parseInt(et1.getText().toString());
+                        entity.setAge(Age);
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
                     }
 
-                    @Override
-                    public void OnFailure(Throwable t) {
+                    healthRequestEntity.setMemberList(memberList);
+                    healthQuote.setHealthRequest(healthRequestEntity);
 
+
+                } else if (coverFor == 1) { //family
+                    MemberListEntity entity = new MemberListEntity();
+                    healthRequestEntity.setPolicyFor("Family");
+                    if (et1.isEnabled() && et1.getText().toString().length() != 0) {
+                        int Age = Integer.parseInt(et1.getText().toString());
+                        entity.setAge(Age);
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
                     }
-                });
+                    if (et2.isEnabled() && et2.getText().toString().length() != 0) {
+                        int Age = Integer.parseInt(et2.getText().toString());
+                        entity.setAge(Age);
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
+                    }
+                    if (et3.isEnabled() && et3.getText().toString().length() != 0) {
+                        int Age = Integer.parseInt(et3.getText().toString());
+                        entity.setAge(Age);
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
+                    }
+                    if (et4.isEnabled() && et4.getText().toString().length() != 0) {
+                        int Age = Integer.parseInt(et4.getText().toString());
+                        entity.setAge(Age);
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
+                    }
+                    if (et5.isEnabled() && et5.getText().toString().length() != 0) {
+                        int Age = Integer.parseInt(et5.getText().toString());
+                        entity.setAge(Age);
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
+                    }
+                    if (et6.isEnabled() && et6.getText().toString().length() != 0) {
+                        int Age = Integer.parseInt(et6.getText().toString());
+                        entity.setAge(Age);
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
+                    }
 
+                    healthRequestEntity.setMemberList(memberList);
+                    healthQuote.setHealthRequest(healthRequestEntity);
 
+                } else if (coverFor == 2) {  // parent
+                    MemberListEntity entity = new MemberListEntity();
+                    healthRequestEntity.setPolicyFor("Parent");
+                    if (et1.isEnabled() && et1.getText().toString().length() != 0) {
+                        int Age = Integer.parseInt(et1.getText().toString());
+                        entity.setAge(Age);
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
+                    }
+                    if (et2.isEnabled() && et2.getText().toString().length() != 0) {
+                        int Age = Integer.parseInt(et2.getText().toString());
+                        entity.setAge(Age);
+                        entity.setMemberDOB(getDateFromAge(Age));
+                        memberList.add(entity);
+                    }
+
+                    healthRequestEntity.setMemberList(memberList);
+                    healthQuote.setHealthRequest(healthRequestEntity);
+                }
+
+                if (memberList.size() > 0) {
+                    //open pop up
+                    Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
+                    intent.putExtra(MEMBER_LIST, healthQuote);
+                    startActivityForResult(intent, REQUEST_MEMBER);
+
+                } else {
+                    Toast.makeText(getActivity(), "Select number of member", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void enableInputForParent() {
@@ -368,6 +492,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 } else {
                     img1.setImageResource(R.drawable.vector_person_health_unselect);
                     et1.setEnabled(false);
+                    et1.setText("");
                     et1.setFocusableInTouchMode(false);
                 }
                 break;
@@ -379,6 +504,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 } else {
                     img2.setImageResource(R.drawable.vector_person_health_unselect);
                     et2.setEnabled(false);
+                    et2.setText("");
                     et2.setFocusableInTouchMode(false);
                 }
                 break;
@@ -390,6 +516,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 } else {
                     img3.setImageResource(R.drawable.vector_person_health_unselect);
                     et3.setEnabled(false);
+                    et3.setText("");
                     et3.setFocusableInTouchMode(false);
                 }
                 break;
@@ -401,6 +528,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 } else {
                     img4.setImageResource(R.drawable.vector_person_health_unselect);
                     et4.setEnabled(false);
+                    et5.setText("");
                     et4.setFocusableInTouchMode(false);
                 }
                 break;
@@ -412,6 +540,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 } else {
                     img5.setImageResource(R.drawable.vector_person_health_unselect);
                     et5.setEnabled(false);
+                    et5.setText("");
                     et5.setFocusableInTouchMode(false);
                 }
                 break;
@@ -423,6 +552,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 } else {
                     img6.setImageResource(R.drawable.vector_person_health_unselect);
                     et6.setEnabled(false);
+                    et6.setText("");
                     et6.setFocusableInTouchMode(false);
                 }
                 break;

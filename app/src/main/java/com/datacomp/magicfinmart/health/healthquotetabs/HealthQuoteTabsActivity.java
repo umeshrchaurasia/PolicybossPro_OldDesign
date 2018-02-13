@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.health.healthquotetabs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -110,4 +111,8 @@ public class HealthQuoteTabsActivity extends BaseActivity {
         HealthQuoteTabsActivity.this.finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
