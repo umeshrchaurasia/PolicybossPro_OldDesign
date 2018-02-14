@@ -10,6 +10,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
 
 import java.util.List;
 
@@ -66,6 +67,12 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 
             holder.txtloanamount.setText("" + entity.getHomeLoanRequest().getPropertyCost());
 
+            holder.txtloanamount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
+                }
+            });
 
 
         }

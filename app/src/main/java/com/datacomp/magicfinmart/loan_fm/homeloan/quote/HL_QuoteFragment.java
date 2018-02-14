@@ -27,7 +27,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeL
 
 public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener{
 
-    //public static final String FROM_QUOTE = "from_quote";
+    public static final String FROM_QUOTE = "hl_from_quote";
     FloatingActionButton hlAddQuote;
     RecyclerView rvQuoteList;
     HomeLoan_QuoteAdapter homeLoan_QuoteAdapter;
@@ -67,6 +67,14 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
         hlAddQuote.setOnClickListener(this);
     }
+
+    public void redirectQuoteHL(FmHomeLoanRequest request){
+        Intent intent=new Intent(getActivity(), HLMainActivity.class);
+        intent.putExtra( FROM_QUOTE,request);
+        startActivity(intent);
+
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

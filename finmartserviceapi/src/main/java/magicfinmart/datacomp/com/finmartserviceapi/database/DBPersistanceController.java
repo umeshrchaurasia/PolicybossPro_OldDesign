@@ -41,18 +41,7 @@ public class DBPersistanceController {
         realm = Realm.getDefaultInstance();
     }
 
-    //City Name For loan
 
-    public ArrayList<String> getCityListNames() {
-        List<CityMasterEntity> list_Make = realm.where(CityMasterEntity.class).findAll();
-        ArrayList listCity = new ArrayList();
-        for (int i = 0; i < list_Make.size(); i++) {
-            //listCity.add(list_Make.get(i).getRTO_CodeDiscription());
-            //listCity.add(list_Make.get(i).getRTO_City());
-            listCity.add(list_Make.get(i).getRTO_City());
-        }
-        return listCity;
-    }
     //region RTO
 
     public ArrayList<String> getRTOListNames() {
