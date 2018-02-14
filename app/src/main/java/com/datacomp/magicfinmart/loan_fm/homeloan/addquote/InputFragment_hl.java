@@ -65,7 +65,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InputFragment_hl extends BaseFragment implements View.OnClickListener, IResponseSubcriber,IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener, TextWatcher {
+public class InputFragment_hl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener, TextWatcher {
 
 
     DBPersistanceController databaseController;   //DB declare
@@ -101,7 +101,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     //endregion
 
     //region PropertyIndo
-    EditText etCostOfProp,  txtMaxLoanAmntAllow;
+    EditText etCostOfProp, txtMaxLoanAmntAllow;
     TextView txtDispalayMinCostProp, txtDispalayMaxCostProp, txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     TextView textCoApplicant, txtCoSalaried, txtCoSelfEMp, txtSalaried, txtSelfEMp;
     Spinner spNewLoan;
@@ -135,7 +135,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     AutoCompleteTextView acCity;
     boolean isCitySelected;
     DBPersistanceController mReal;
-    List<String> cityList ;
+    List<String> cityList;
     //endregion
     Context mContext;
 
@@ -167,7 +167,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 //        txtCoApplicantDetail.setVisibility(View.GONE);
 
 
-
         loadSpinner();
         setSalaried();
         setCoAppSalaried();
@@ -188,7 +187,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         if (getArguments() != null) {
             if (getArguments().getParcelable(HLMainActivity.HL_INPUT_REQUEST) != null) {
                 homeLoanRequest = getArguments().getParcelable(HLMainActivity.HL_INPUT_REQUEST);
-
                 bindInputsQuotes();//bind value
             }
         }
@@ -618,7 +616,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                     lyParent_CoAppDetail.setVisibility(View.VISIBLE);
                     textCoApplicant.setBackgroundResource(R.color.button_color);
 
-                  //  coApp_etEMI.requestFocus();
+                    //  coApp_etEMI.requestFocus();
                     Constants.hideKeyBoard(buttonView, getActivity());
 
 
@@ -627,7 +625,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                         public void run() {
                             scroll.fullScroll(ScrollView.FOCUS_DOWN);
                         }
-                    },1000);
+                    }, 1000);
 
                 } else {
 
@@ -750,8 +748,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void setSalaried()
-    {
+    private void setSalaried() {
         ApplicantSource = "1";
         txtSalaried.setBackgroundResource(R.drawable.customeborder_blue);
         txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
@@ -762,8 +759,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         llSelfEmployeed.setVisibility(View.GONE);
     }
 
-    private  void setSelfEmplyoee()
-    {
+    private void setSelfEmplyoee() {
         ApplicantSource = "2";
         txtSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
         txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
@@ -776,8 +772,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void setCoAppSalaried()
-    {
+    private void setCoAppSalaried() {
         CoApplicantSource = "1";
         txtCoSalaried.setBackgroundResource(R.drawable.customeborder_blue);
         txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
@@ -789,8 +784,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
     }
 
-    private  void setCoAppSelfEmplyoee()
-    {
+    private void setCoAppSelfEmplyoee() {
         CoApplicantSource = "2";
         txtCoSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
         txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
@@ -936,7 +930,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
             }
-//////
+
 
             //endregion
 
@@ -1014,8 +1008,10 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             // endregion
             setApplicantDetails();
-            showDialog();
-            new HomeLoanController(getActivity()).getHomeLoan(homeLoanRequest, this);
+//            showDialog();
+//            new HomeLoanController(getActivity()).getHomeLoan(homeLoanRequest, this);
+
+            ((HLMainActivity) getActivity()).getQuoteParameterBundle(homeLoanRequest);
 
         }
 
@@ -1122,7 +1118,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 //                arrayPreferedCity.add(entity.getCity_Name());
 //            }
 //        }
-      //  arrayPreferedCity.add("Mumbai");
+        //  arrayPreferedCity.add("Mumbai");
         return arrayPreferedCity;
     }
 
@@ -1194,50 +1190,17 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             homeLoanRequest.setCoApplicantYes("N");
         }
 
-        homeLoanRequest.setBrokerId("" +loginEntity.getLoanId());
+        homeLoanRequest.setBrokerId("" + loginEntity.getLoanId());
         homeLoanRequest.setEmpcode("");
         homeLoanRequest.setProductId("12");//HomeLoan
         homeLoanRequest.setApi_source("Finmart");
-                                                            // Below two For Node JS Maintainance
+        // Below two For Node JS Maintainance
         homeLoanRequest.setType("HML");
-     //   homeLoanRequest.setLoaniD(Integer.valueOf(loginEntity.getLoanId()));
-
-
+        //   homeLoanRequest.setLoaniD(Integer.valueOf(loginEntity.getLoanId()));
 
 
         //endregion
     }
-
-
-    //region add-edit-delete HomeloanRequest
-
-//    private void saveHomeLoanRequest(HomeLoanRequest request) {
-//        new HomeLoanRequestfacade(this).storeHomeLoanRequest(request);
-//    }
-//
-//    private void clearHomeLoanRequest() {
-//        new HomeLoanRequestfacade(this).clearCache();
-//    }
-//
-//    private HomeLoanRequest getHomeLoanRequest() {
-//        return new HomeLoanRequestfacade(this).getHomeLoanRequest();
-//    }
-
-
-    //endregion
-
-
-//    private void setPropertyDetails() {
-//        ApplicantEntity propEntity = new ApplicantEntity();
-//        propEntity.setProCostOfProperty(etCostOfProp.getText().toString());
-//        propEntity.setProMaxLoanAmntAllow(txtMaxLoanAmntAllow.getText().toString());
-//        propEntity.setProTenureInYears(etTenureInYear.getText().toString());
-//
-//        propEntity.setProNewLoan(new ProductFacade(getActivity()).getProductId(spNewLoan.getSelectedItem().toString()));
-//        //propEntity.setProPreferedCity(new CityFacade(getActivity()).getCityId(spPreferedCity.getSelectedItem().toString()));
-//
-//
-//    }
 
 
     @Override
@@ -1257,8 +1220,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void  setFmHomeLoanRequest(int QuoteID)
-    {
+    private void setFmHomeLoanRequest(int QuoteID) {
 
         showDialog();
         fmHomeLoanRequest = new FmHomeLoanRequest();
@@ -1269,7 +1231,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
 
     }
-
 
 
     @Override
@@ -1360,8 +1321,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                 int costOfProperty = Integer.parseInt(etCostOfProp.getText().toString());
                 int sactionAmount = getMaxLoanAmount("" + costOfProperty).intValueExact();
                 txtMaxLoanAmntAllow.setText("" + sactionAmount);
-            }
-            else {
+            } else {
                 txtMaxLoanAmntAllow.setText("");
             }
 

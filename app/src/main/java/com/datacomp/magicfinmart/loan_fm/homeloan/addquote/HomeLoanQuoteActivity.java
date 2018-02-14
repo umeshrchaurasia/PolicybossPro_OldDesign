@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 
@@ -18,7 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 
-public class HomeLoanQuoteActivity extends AppCompatActivity {
+public class HomeLoanQuoteActivity extends BaseActivity {
 
     GetQuoteResponse getQuoteResponse;
     HomeLoanRequest homeLoanRequest;
@@ -26,6 +27,7 @@ public class HomeLoanQuoteActivity extends AppCompatActivity {
     RecyclerView rvQuotes;
     HLQuoteAdapter mAdapter;
     Fragment fragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,9 +38,10 @@ public class HomeLoanQuoteActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getQuoteResponse = getIntent().getParcelableExtra(Constants.QUOTES);
         homeLoanRequest = getIntent().getParcelableExtra(Constants.HL_REQUEST);
-        mAdapter = new HLQuoteAdapter(HomeLoanQuoteActivity.this,getQuoteResponse.getData(),getQuoteResponse);
-        rvQuotes.setAdapter(mAdapter);
+        // mAdapter = new HLQuoteAdapter(HomeLoanQuoteActivity.this,getQuoteResponse.getData(),getQuoteResponse);
+        rvQuotes.setAdapter(null);
     }
+
     public void redirectToApplyLoan(QuoteEntity entity) {
 
 //        startActivity(new Intent(this, HomeLoanApplyActivity.class)

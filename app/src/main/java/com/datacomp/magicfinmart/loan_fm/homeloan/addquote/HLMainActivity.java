@@ -47,17 +47,15 @@ public class HLMainActivity extends BaseActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-
 
         if (getIntent().getParcelableExtra(HL_QuoteFragment.FROM_QUOTE) != null) {
             FmHomeLoanRequest entity = getIntent().getParcelableExtra(HL_QuoteFragment.FROM_QUOTE);
-            homeLoanRequestEntity =entity.getHomeLoanRequest();
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(HL_QUOTE_REQUEST,homeLoanRequestEntity );
-                quoteBundle = bundle;
+            homeLoanRequestEntity = entity.getHomeLoanRequest();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(HL_QUOTE_REQUEST, homeLoanRequestEntity);
+            quoteBundle = bundle;
 
-                bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
 
         } else {
             //first input fragment load
@@ -68,6 +66,7 @@ public class HLMainActivity extends BaseActivity {
 
 
     }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -75,26 +74,24 @@ public class HLMainActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-                    if (isQuoteVisible) {
-                        tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
 
-                        if (homeLoanRequestEntity != null) {
-                            quoteBundle = new Bundle();
-                            quoteBundle.putParcelable( HLMainActivity.HL_QUOTE_REQUEST, homeLoanRequestEntity);
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
 
-                        }
-                        if (tabFragment != null) {
-                            tabFragment.setArguments(quoteBundle);
-                            loadFragment(tabFragment, INPUT_FRAGMENT);
+                    if (homeLoanRequestEntity != null) {
+                        quoteBundle = new Bundle();
+                        quoteBundle.putParcelable(HLMainActivity.HL_INPUT_REQUEST, homeLoanRequestEntity);
 
-                        } else {
-                            InputFragment_hl inputFragment= new InputFragment_hl();
-                            inputFragment.setArguments(quoteBundle);
-                            loadFragment(inputFragment, INPUT_FRAGMENT);
-                        }
-                    } else {
-                        Toast.makeText(HLMainActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
                     }
+                    if (tabFragment != null) {
+                        tabFragment.setArguments(quoteBundle);
+                        loadFragment(tabFragment, INPUT_FRAGMENT);
+
+                    } else {
+                        InputFragment_hl inputFragment = new InputFragment_hl();
+                        inputFragment.setArguments(quoteBundle);
+                        loadFragment(inputFragment, INPUT_FRAGMENT);
+                    }
+
                     return true;
                 case R.id.navigation_quote:
 
@@ -125,7 +122,6 @@ public class HLMainActivity extends BaseActivity {
     };
 
 
-
     @Override
     public void onBackPressed() {
 //        super.onBackPressed();
@@ -154,25 +150,20 @@ public class HLMainActivity extends BaseActivity {
     }
 
 
-
-    public void redirectToApplyLoan(QuoteEntity entity, String url, int id) {
-        startActivity(new Intent(HLMainActivity.this, HomeLoanApplyWebView.class)
-                .putExtra("QUOTE_ENTITY", entity)
-                .putExtra("URL", url)
-                .putExtra("QUOTE_ID", id));
-    }
     // Implementation the Interface for Communication of Fragment Input and Quote
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
+
     public void modifyQuote(HomeLoanRequest entity) {
         homeLoanRequestEntity = entity;
         /*startActivityForResult(new Intent(this, ModifyQuoteActivity.class)
                 .putExtra("CAR_REQUEST", motorRequestEntity), 1000);*/
 
     }
+
     public void redirectInput(HomeLoanRequest entity) {
         if (isQuoteVisible) {
             homeLoanRequestEntity = entity;
@@ -183,8 +174,7 @@ public class HLMainActivity extends BaseActivity {
                 Toast.makeText(HLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
             else
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-        }
-        else {
+        } else {
             Toast.makeText(HLMainActivity.this, "Fetching all quotes", Toast.LENGTH_SHORT).show();
         }
 
@@ -203,6 +193,7 @@ public class HLMainActivity extends BaseActivity {
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
 
     }
+
     public void updateRequest(HomeLoanRequest entity, boolean isQuoteVisible) {
         homeLoanRequestEntity = entity;
         this.isQuoteVisible = isQuoteVisible;
