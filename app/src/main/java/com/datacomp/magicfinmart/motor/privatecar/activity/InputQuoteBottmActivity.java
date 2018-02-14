@@ -219,7 +219,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
     }
 
-    public void updateRequest(MotorRequestEntity entity, boolean isQuoteVisible) {
+       public void updateRequest(MotorRequestEntity entity, boolean isQuoteVisible) {
         motorRequestEntity = entity;
         this.isQuoteVisible = isQuoteVisible;
     }

@@ -41,6 +41,7 @@ public class DBPersistanceController {
         realm = Realm.getDefaultInstance();
     }
 
+
     //region RTO
 
     public ArrayList<String> getRTOListNames() {

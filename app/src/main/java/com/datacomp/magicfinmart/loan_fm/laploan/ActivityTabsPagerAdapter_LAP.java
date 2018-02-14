@@ -1,5 +1,7 @@
 package com.datacomp.magicfinmart.loan_fm.laploan;
 
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -7,13 +9,22 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.datacomp.magicfinmart.loan_fm.laploan.application.LAP_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.laploan.quote.LAP_QuoteFragment;
 
+import java.util.ArrayList;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HomeLoanRequestMainEntity;
+
 /**
  * Created by IN-RB on 22-01-2018.
  */
 
 public class ActivityTabsPagerAdapter_LAP extends FragmentPagerAdapter {
-    public ActivityTabsPagerAdapter_LAP(FragmentManager fm) {
+
+    public final static String QUOTE_LIST = "LIST_QUOTE";
+    public final static String APPLICATION_LIST = "LIST_APPLICATION";
+    HomeLoanRequestMainEntity mMasterData;
+    public ActivityTabsPagerAdapter_LAP(FragmentManager fm, HomeLoanRequestMainEntity masterData) {
         super(fm);
+        mMasterData = masterData;
     }
 
     @Override
@@ -22,10 +33,33 @@ public class ActivityTabsPagerAdapter_LAP extends FragmentPagerAdapter {
         switch (index) {
             case 0:
                 // Salary fragment activity
-                return new LAP_QuoteFragment();
+               // return new LAP_QuoteFragment();
+
+
+                LAP_QuoteFragment Qfragment = new LAP_QuoteFragment();
+                Bundle bundle = new Bundle();
+
+                if (mMasterData == null) {
+                    bundle.putParcelableArrayList(QUOTE_LIST, null);
+
+                }else{
+                    bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuote());
+                }
+                Qfragment.setArguments(bundle);
+                return Qfragment;
             case 1:
                 // ABN fragment activity
-                return new LAP_ApplicationFragment();
+             //   return new LAP_ApplicationFragment();
+                LAP_ApplicationFragment Afragment = new LAP_ApplicationFragment();
+
+                Bundle Abundle = new Bundle();
+                if (mMasterData == null) {
+                    Abundle.putParcelableArrayList(APPLICATION_LIST, null);
+                } else {
+                    Abundle.putParcelableArrayList(APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getApplication());
+                }
+                Afragment.setArguments(Abundle);
+            return Afragment;
         }
 
         return null;

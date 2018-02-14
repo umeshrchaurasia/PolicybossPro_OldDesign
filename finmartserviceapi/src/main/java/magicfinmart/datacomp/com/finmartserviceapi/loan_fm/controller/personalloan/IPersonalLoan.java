@@ -13,7 +13,5 @@ public interface IPersonalLoan {
 
     void getPersonalLoan(PersonalLoanRequest personalLoanRequest, IResponseSubcriber iResponseSubcriber);
 
-    void getPersonalQuote(int ProductId, String BrokerID,String EmpCode, IResponseSubcriber iResponseSubcriber);
-
     void getBLQuote(BLLoanRequest blLoanRequest, IResponseSubcriberBL iResponseSubcriber);
 }

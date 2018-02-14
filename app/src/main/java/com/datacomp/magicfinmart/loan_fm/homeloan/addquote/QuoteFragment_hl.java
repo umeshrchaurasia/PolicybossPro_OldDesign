@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.loan_fm.homeloan.addquote;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
@@ -22,13 +24,22 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResp
 /**
  * A simple {@link Fragment} subclass.
  */
-public class QuoteFragment_hl extends Fragment {
+public class QuoteFragment_hl extends Fragment implements View.OnClickListener {
+
+    private static String INPUT_FRAGMENT = "input";
+
+
     GetQuoteResponse getQuoteResponse;
     HomeLoanRequest homeLoanRequest;
     RecyclerView rvQuotes;
     HLQuoteAdapter mAdapter;
     TextView  txtPropType , txtCostOfProp ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount ,txtInputSummary ;
     CardView cvInputSummary ;
+
+    LinearLayout ivllEdit;
+    Fragment tabFragment = null;
+    FragmentTransaction transactionSim;
+
     public QuoteFragment_hl() {
         // Required empty public constructor
     }
@@ -66,6 +77,8 @@ public class QuoteFragment_hl extends Fragment {
         txtExistEmi = (TextView) view.findViewById(R.id.txtExistEmi);
         txtCount = (TextView) view.findViewById(R.id.txtCount);
         cvInputSummary  = (CardView) view.findViewById(R.id.cvInputSummary );
+        ivllEdit= (LinearLayout) view.findViewById(R.id.ivllEdit );
+        ivllEdit.setOnClickListener(this);
 
         rvQuotes = (RecyclerView) view.findViewById(R.id.rvQuotes);
         rvQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -148,5 +161,29 @@ public class QuoteFragment_hl extends Fragment {
 
     }
 
+//////
 
+    private void loadFragment(Fragment fragment, String TAG) {
+        transactionSim = getActivity().getSupportFragmentManager().beginTransaction();
+        transactionSim.replace(R.id.frame_layout, fragment, TAG);
+        transactionSim.addToBackStack(TAG);
+        transactionSim.show(fragment);
+        transactionSim.commit();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.ivllEdit) {
+            tabFragment = getActivity().getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
+            if (tabFragment != null) {
+                loadFragment(tabFragment, INPUT_FRAGMENT);
+
+            } else {
+                loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
+            }
+
+        }
+
+    }
 }

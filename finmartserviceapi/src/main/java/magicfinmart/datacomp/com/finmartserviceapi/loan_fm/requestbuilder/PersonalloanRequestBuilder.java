@@ -6,7 +6,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanR
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BLDispalyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalQuoteAppDispalyResponse;
+
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.retrobuilder.LoanRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -26,8 +26,6 @@ public class PersonalloanRequestBuilder extends LoanRetroRequestBuilder {
         @POST("/api/personal-loan-mobile")
         Call<GetPersonalLoanResponse> getPersonalQuotes(@Body PersonalLoanRequest personalLoanRequest);
 
-        @POST("/api/get-personal-loan-broker-quote")
-        Call<PersonalQuoteAppDispalyResponse> getPersonalBrokerQuotes(@Body HashMap<String, String> bodyParameter);
 
         @POST("/api/balance-transfer")
         Call<BLDispalyResponse> getBLDispalyResponseQuotes(@Body BLLoanRequest blLoanRequest);

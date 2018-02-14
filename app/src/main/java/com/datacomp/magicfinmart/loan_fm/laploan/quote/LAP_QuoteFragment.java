@@ -11,11 +11,16 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.laploan.ActivityTabsPagerAdapter_LAP;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 
 /**
  * Created by IN-RB on 22-01-2018.
@@ -27,6 +32,9 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
     RecyclerView rvQuoteList;
     LapLoan_QuoteAdapter lapLoan_QuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    List<FmHomeLoanRequest> mQuoteList;
+
+
     public LAP_QuoteFragment() {
 
     }
@@ -36,6 +44,15 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lap_quote, container, false);
         initView(view);
+        mQuoteList = new ArrayList<>();
+        if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_LAP.QUOTE_LIST) != null)
+        {
+            mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_LAP.QUOTE_LIST);
+
+        }
+
+        lapLoan_QuoteAdapter = new LapLoan_QuoteAdapter(LAP_QuoteFragment.this,mQuoteList);
+        rvQuoteList.setAdapter(lapLoan_QuoteAdapter);
         return view;
     }
 
@@ -47,8 +64,8 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvQuoteList.setLayoutManager(layoutManager);
 
-        lapLoan_QuoteAdapter = new LapLoan_QuoteAdapter(getActivity());
-        rvQuoteList.setAdapter(lapLoan_QuoteAdapter);
+       // lapLoan_QuoteAdapter = new LapLoan_QuoteAdapter(getActivity());
+       // rvQuoteList.setAdapter(lapLoan_QuoteAdapter);
         lapAddQuote.setOnClickListener(this);
     }
     @Override

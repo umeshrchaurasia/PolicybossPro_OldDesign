@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -33,6 +34,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -55,6 +57,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
@@ -150,8 +154,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
-        cityList = databaseController.getRTOListNames();
+        cityList = databaseController.getHealthCity();
 
+        homeLoanRequest = new HomeLoanRequest();
         init_widgets(view);
 
         setListener();
@@ -160,6 +165,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 //        visibleCoApplicant(View.GONE);
 //        visiblePropertyInfo(View.GONE);
 //        txtCoApplicantDetail.setVisibility(View.GONE);
+
 
 
         loadSpinner();
@@ -179,6 +185,14 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             isCitySelected = true;
             visiblePropertyInfo(View.VISIBLE);
         }
+        if (getArguments() != null) {
+            if (getArguments().getParcelable(HLMainActivity.HL_INPUT_REQUEST) != null) {
+                homeLoanRequest = getArguments().getParcelable(HLMainActivity.HL_INPUT_REQUEST);
+
+                bindInputsQuotes();//bind value
+            }
+        }
+
         return view;
     }
 
@@ -494,6 +508,10 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
         //endregion
+
+    }
+
+    private void bindInputsQuotes() {
 
     }
 
@@ -1073,11 +1091,11 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         //region Preferred City Adapter
         arrayPreferedCity = new ArrayList<String>();
-//        preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
-//                android.R.layout.simple_list_item_1, cityList);
-
         preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_list_item_1, getCityList());
+                android.R.layout.simple_list_item_1, cityList);
+
+//        preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
+//                android.R.layout.simple_list_item_1, getCityList());
 
         acCity.setAdapter(preferedCityAdapter);
         acCity.setThreshold(1);
@@ -1099,13 +1117,12 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
     private ArrayList<String> getCityList() {
-
-//               if (new CityFacade(getActivity()).getCityList() != null) {
+//        if (new loCityFacade(getActivity()).getCityList() != null) {
 //            for (CityEntity entity : new CityFacade(getActivity()).getCityList()) {
 //                arrayPreferedCity.add(entity.getCity_Name());
 //            }
 //        }
-        arrayPreferedCity.add("Mumbai");
+      //  arrayPreferedCity.add("Mumbai");
         return arrayPreferedCity;
     }
 
@@ -1178,12 +1195,12 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         }
 
         homeLoanRequest.setBrokerId("" +loginEntity.getLoanId());
-        homeLoanRequest.setempcode("");
+        homeLoanRequest.setEmpcode("");
         homeLoanRequest.setProductId("12");//HomeLoan
         homeLoanRequest.setApi_source("Finmart");
                                                             // Below two For Node JS Maintainance
         homeLoanRequest.setType("HML");
-        homeLoanRequest.setLoaniD("" +loginEntity.getLoanId());
+     //   homeLoanRequest.setLoaniD(Integer.valueOf(loginEntity.getLoanId()));
 
 
 
@@ -1245,9 +1262,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         showDialog();
         fmHomeLoanRequest = new FmHomeLoanRequest();
-        fmHomeLoanRequest.setLoan_requestID("");
-        fmHomeLoanRequest.setFBA_id(String.valueOf(loginEntity.getFBAId()));
-        fmHomeLoanRequest.setQuote_id(QuoteID);
+        fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
+        fmHomeLoanRequest.setFba_id(loginEntity.getFBAId());
+        homeLoanRequest.setQuote_id(QuoteID);
         fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
         new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
 
@@ -1259,14 +1276,14 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     public void OnSuccessFM(APIResponseFM response, String message) {
 
         cancelDialog();
-        if (response instanceof FmHomelLoanResponse) {
+        if (response instanceof FmSaveQuoteHomeLoanResponse) {
             if (response.getStatusNo() == 0) {
                 Toast.makeText(getActivity(), "Fm Saved", Toast.LENGTH_SHORT).show();
 
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.HOME_LOAN_QUOTES, getQuoteResponse);
                 bundle.putParcelable(Constants.HL_REQUEST, homeLoanRequest);
-                ((HLMainActivity) getActivity()).getQuoteParameterBundle(bundle);
+                ((HLMainActivity) getActivity()).getQuoteParameterBundle(homeLoanRequest);
 
             }
         }
