@@ -120,4 +120,17 @@
     </string-array>
     <string name="title_activity_health_member_details_dialog">" "</string>
 
+
+    <!--Health relationship-->
+    <string-array name="health_relationship">
+        <item>Relationship</item>
+        <item>Self</item>
+        <item>Spouse</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Child1</item>
+        <item>Child2</item>
+        <item>Child3</item>
+
+    </string-array>
 </resources>

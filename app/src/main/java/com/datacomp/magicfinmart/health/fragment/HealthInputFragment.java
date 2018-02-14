@@ -1,9 +1,7 @@
 package com.datacomp.magicfinmart.health.fragment;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,25 +13,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.Sortbyroll;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 
 /**
  * Created by Nilesh Birhade on 11/02/2018.
@@ -269,9 +262,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
 
                 if (coverFor == 0) { // self
-                    MemberListEntity entity = new MemberListEntity();
+
                     healthRequestEntity.setPolicyFor("Self");
                     if (et1.isEnabled() && et1.getText().toString().length() != 0) {
+                        MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et1.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
@@ -283,39 +277,45 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
 
                 } else if (coverFor == 1) { //family
-                    MemberListEntity entity = new MemberListEntity();
+
                     healthRequestEntity.setPolicyFor("Family");
                     if (et1.isEnabled() && et1.getText().toString().length() != 0) {
+                        MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et1.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
                         memberList.add(entity);
                     }
                     if (et2.isEnabled() && et2.getText().toString().length() != 0) {
+                        MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et2.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
                         memberList.add(entity);
                     }
                     if (et3.isEnabled() && et3.getText().toString().length() != 0) {
+                        MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et3.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
                         memberList.add(entity);
                     }
                     if (et4.isEnabled() && et4.getText().toString().length() != 0) {
+                        MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et4.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
                         memberList.add(entity);
                     }
                     if (et5.isEnabled() && et5.getText().toString().length() != 0) {
+                        MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et5.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
                         memberList.add(entity);
                     }
                     if (et6.isEnabled() && et6.getText().toString().length() != 0) {
+                        MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et6.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
@@ -326,26 +326,35 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     healthQuote.setHealthRequest(healthRequestEntity);
 
                 } else if (coverFor == 2) {  // parent
-                    MemberListEntity entity = new MemberListEntity();
+
                     healthRequestEntity.setPolicyFor("Parent");
                     if (et1.isEnabled() && et1.getText().toString().length() != 0) {
+                        MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et1.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
                         memberList.add(entity);
                     }
                     if (et2.isEnabled() && et2.getText().toString().length() != 0) {
+                        MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et2.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
                         memberList.add(entity);
                     }
 
+
                     healthRequestEntity.setMemberList(memberList);
                     healthQuote.setHealthRequest(healthRequestEntity);
                 }
 
                 if (memberList.size() > 0) {
+
+                    //sort member list by higher age
+                    Collections.sort(memberList, new Sortbyroll());
+                    Collections.reverse(memberList);
+                    healthQuote.getHealthRequest().setMemberList(memberList);
+
                     //open pop up
                     Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
                     intent.putExtra(MEMBER_LIST, healthQuote);
@@ -360,7 +369,12 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_MEMBER) {
+            if (data != null) {
+                healthQuote = (HealthQuote) data.getParcelableExtra(MEMBER_LIST);
+                Toast.makeText(getActivity(), "Redirect to quote", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void enableInputForParent() {
