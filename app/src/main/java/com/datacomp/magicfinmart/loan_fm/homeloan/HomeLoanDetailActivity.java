@@ -14,8 +14,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEn
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HLQuoteApplicationEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.QuoteApplicatLoanResonse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HomeLoanRequestMainEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
+
 
 public class HomeLoanDetailActivity extends BaseActivity implements IResponseSubcriberFM {
 
@@ -84,10 +85,10 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     public void OnSuccessFM(APIResponseFM response, String message) {
 
         cancelDialog();
-        if (response instanceof QuoteApplicatLoanResonse) {
-            if (((QuoteApplicatLoanResonse) response).getMasterData() != null) {
+        if (response instanceof FmHomelLoanResponse) {
+            if (((FmHomelLoanResponse) response).getMasterData() != null) {
 
-                HLQuoteApplicationEntity hlQuoteApplicationEntity =((QuoteApplicatLoanResonse)response).getMasterData();
+                HomeLoanRequestMainEntity hlQuoteApplicationEntity =((FmHomelLoanResponse)response).getMasterData();
 
                 mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager(),hlQuoteApplicationEntity);
                 viewPager.setAdapter(mAdapter);

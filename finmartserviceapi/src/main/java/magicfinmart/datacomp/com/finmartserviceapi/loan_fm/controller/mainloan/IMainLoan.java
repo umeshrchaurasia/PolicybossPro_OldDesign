@@ -15,4 +15,6 @@ public interface IMainLoan {
     void saveHLQuoteData(FmHomeLoanRequest fmHomeLoanRequest, IResponseSubcriberFM iResponseSubcriber);
 
     void savePLQuoteData(FmPersonalLoanRequest fmPersonalLoanRequest, IResponseSubcriberFM iResponseSubcriber);
+
+    void getPLQuoteApplication(String fbaid, IResponseSubcriberFM iResponseSubcriber);
 }

@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.loan_fm.homeloan.addquote;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,19 +23,20 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResp
  * Created by IN-RB on 19-01-2018.
  */
 
-public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuotesItem>  {
-    Activity mContext;
+public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuotesItem> {
+    Fragment mContext;
     List<QuoteEntity> quoteEntities;
     GetQuoteResponse getQuoteResponse;
 
-    public HLQuoteAdapter(Activity context, List<QuoteEntity> quoteEntities,GetQuoteResponse tmpgetQuoteResponse) {
+    public HLQuoteAdapter(Fragment context, List<QuoteEntity> quoteEntities, GetQuoteResponse tmpgetQuoteResponse) {
         mContext = context;
         this.quoteEntities = quoteEntities;
         this.getQuoteResponse = tmpgetQuoteResponse;
     }
+
     public class BankQuotesItem extends RecyclerView.ViewHolder {
 
-        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply, tvEligibleLoan,tvEmiperlac;
+        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply, tvEligibleLoan, tvEmiperlac;
         ImageView ivBankLogo;
 
         public BankQuotesItem(View view) {
@@ -47,7 +49,7 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
             tvProcessingFee = (TextView) itemView.findViewById(R.id.tvProcessingFee);
             btnApply = (TextView) itemView.findViewById(R.id.btnApply);
             ivBankLogo = (ImageView) itemView.findViewById(R.id.ivBankLogo);
-          //  ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
+            //  ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
             tvEmiperlac = (TextView) itemView.findViewById(R.id.tvEmiperlac);
         }
     }
@@ -66,16 +68,16 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
     public void onBindViewHolder(BankQuotesItem holder, final int position) {
 
         final QuoteEntity quoteEntity = quoteEntities.get(position);
-        holder.tvEligibleLoan.setText("" + "\u20B9"+" " + String.format("%.0f", quoteEntity.getLoan_eligible()));
-        holder.tvBestRate.setText(""  + quoteEntity.getRoi() + " %");
+        holder.tvEligibleLoan.setText("" + "\u20B9" + " " + String.format("%.0f", quoteEntity.getLoan_eligible()));
+        holder.tvBestRate.setText("" + quoteEntity.getRoi() + " %");
         holder.tvBankName.setText("" + quoteEntity.getBank_Code());
-        holder.tvBestEmi.setText(""+ "\u20B9" +" " +  String.format("%.0f", quoteEntity.getEmi()));
-        holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure()+ " Years");
-        holder.tvProcessingFee.setText(""+ "\u20B9"+" "  + String.format("%.0f", quoteEntity.getProcessingfee()));
+        holder.tvBestEmi.setText("" + "\u20B9" + " " + String.format("%.0f", quoteEntity.getEmi()));
+        holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure() + " Years");
+        holder.tvProcessingFee.setText("" + "\u20B9" + " " + String.format("%.0f", quoteEntity.getProcessingfee()));
 
         double loanr = Double.parseDouble(quoteEntity.getLoanRequired().toString());
         double emiperlac = (quoteEntity.getEmi() / loanr) * 100000;
-        holder.tvEmiperlac.setText(""+ "\u20B9"+" "  + String.format("%.2f", emiperlac));
+        holder.tvEmiperlac.setText("" + "\u20B9" + " " + String.format("%.2f", emiperlac));
 
         Glide.with(mContext)
                 .load(quoteEntity.getBank_Logo())
@@ -87,7 +89,11 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
             @Override
             public void onClick(View v) {
 
-                ((HLMainActivity) mContext).redirectToApplyLoan(quoteEntity,getQuoteResponse.getUrl(),getQuoteResponse.getQuote_id());
+                //quote to app conversion
+                ((QuoteFragment_hl) mContext).quoteToApp();
+
+                //redirect to apply loan
+                ((QuoteFragment_hl) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
 
             }
         });

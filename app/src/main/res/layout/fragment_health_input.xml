@@ -289,13 +289,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Pincode">
+                        android:hint="City">
 
-                        <EditText
-                            android:id="@+id/etPincode"
+                        <AutoCompleteTextView
+                            android:id="@+id/acCity"
                             style="@style/Style.edittext"
-                            android:inputType="number"
-                            android:maxLength="6" />
+                            android:dropDownWidth="250dp" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 

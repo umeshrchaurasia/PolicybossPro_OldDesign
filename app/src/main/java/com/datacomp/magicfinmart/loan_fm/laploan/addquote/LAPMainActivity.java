@@ -12,19 +12,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.application.LAPApplyWebView;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 
 public class LAPMainActivity extends BaseActivity {
 
+    private static String INPUT_FRAGMENT = "input";
+    private static String QUOTE_FRAGMENT = "quote";
+    private static String BUY_FRAGMENT = "buy";
         BottomNavigationView bottomNavigationView;
 
-        int totCount = 0;
+         Bundle quoteBundle;
+
         Fragment tabFragment = null;
+        FragmentTransaction transactionSim;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -36,88 +43,75 @@ public class LAPMainActivity extends BaseActivity {
             bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
             bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
 
-
-            InputFragment_LAP inputFragment = new InputFragment_LAP();
-            FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
-            transactionSim.replace(R.id.frame_layout, inputFragment, "INPUT");
-            transactionSim.addToBackStack("INPUT");
-            transactionSim.commitAllowingStateLoss();
+//            InputFragment_LAP inputFragment = new InputFragment_LAP();
+//            FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
+//            transactionSim.replace(R.id.frame_layout, inputFragment, "INPUT");
+//            transactionSim.addToBackStack("INPUT");
+//            transactionSim.commitAllowingStateLoss();
         }
-        private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-                = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.navigation_input:
-                        tabFragment = getSupportFragmentManager().findFragmentByTag("INPUT");
-                        if (tabFragment != null) {
-
-                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                            transaction.replace(R.id.frame_layout, tabFragment, "INPUT");
-                            transaction.addToBackStack("INPUT");
-                            transaction.show(tabFragment);
-                            //   transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            transaction.commit();
-
-
-                        } else {
-                            InputFragment_LAP inputFragment = new InputFragment_LAP();
-                            FragmentTransaction transaction_imm = getSupportFragmentManager().beginTransaction();
-                            transaction_imm.replace(R.id.frame_layout, inputFragment, "INPUT");
-                            transaction_imm.addToBackStack("INPUT");
-                            transaction_imm.show(inputFragment);
-                            //   transaction_imm.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            transaction_imm.commit();
-
-                        }
-                        item.setCheckable(true);
-                        bottomNavigationView.getMenu().getItem(1).setCheckable(false);
-                        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
-                        return true;
-                    case R.id.navigation_quote:
-
-                        tabFragment = getSupportFragmentManager().findFragmentByTag("QUOTE");
-                        if (tabFragment != null) {
-
-                            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                            transaction.replace(R.id.frame_layout, tabFragment, "QUOTE");
-                            transaction.addToBackStack("QUOTE");
-                            transaction.show(tabFragment);
-                            // transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            transaction.commitAllowingStateLoss();
-
-                        } else {
-                            QuoteFragment_LAP quoteFragment = new QuoteFragment_LAP();
-                            FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
-                            transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-                            transaction_quote.addToBackStack("QUOTE");
-                            transaction_quote.show(quoteFragment);
-                            //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                            transaction_quote.commitAllowingStateLoss();
-
-
-                        }
-                        item.setCheckable(true);
-                        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-                        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
-                        return true;
-                    case R.id.navigation_buy:
-
-                        return true;
-                }
-
-                return false;
-            }
-        };
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_input:
+
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
+                    if (tabFragment != null) {
+                        loadFragment(tabFragment, INPUT_FRAGMENT);
+
+                    } else {
+                        loadFragment(new InputFragment_LAP(), INPUT_FRAGMENT);
+                    }
+
+
+                    return true;
+                case R.id.navigation_quote:
+
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
+                    if (tabFragment != null) {
+                        loadFragment(tabFragment, QUOTE_FRAGMENT);
+
+                    } else {
+                        if (quoteBundle != null) {
+                            QuoteFragment_LAP quoteFragment = new QuoteFragment_LAP();
+                            quoteFragment.setArguments(quoteBundle);
+                            loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                        } else {
+
+                            Toast.makeText(LAPMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    return true;
+
+                case R.id.navigation_buy:
+
+
+                    return true;
+            }
+
+            return false;
+        }
+    };
+
+
+
+    @Override
         public void onBackPressed() {
             super.onBackPressed();
             LAPMainActivity.this.finish();
         }
+    private void loadFragment(Fragment fragment, String TAG) {
+        transactionSim = getSupportFragmentManager().beginTransaction();
+        transactionSim.replace(R.id.frame_layout, fragment, TAG);
+        transactionSim.addToBackStack(TAG);
+        transactionSim.show(fragment);
+        transactionSim.commit();
 
+    }
 
         private void CheckAllBottomMenu() {
             int size = bottomNavigationView.getMenu().size();
@@ -126,7 +120,17 @@ public class LAPMainActivity extends BaseActivity {
             }
         }
 
-        public void setQuoteCheck()
+    public void getQuoteParameterBundle(Bundle bundle) {
+
+        quoteBundle = bundle;
+        if (bundle == null)
+            Toast.makeText(LAPMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+        else
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+
+    }
+
+    public void setQuoteCheck()
         {
             bottomNavigationView.getMenu().getItem(0).setCheckable(false);
             bottomNavigationView.getMenu().getItem(1).setCheckable(true);

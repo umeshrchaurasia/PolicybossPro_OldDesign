@@ -10,16 +10,37 @@ import android.widget.CheckBox;
 import android.widget.PopupMenu;
 
 import com.datacomp.magicfinmart.R;
+import java.util.List;
+import android.support.v4.app.Fragment;
+import android.widget.TextView;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 
 /**
  * Created by IN-RB on 12-01-2018.
  */
 
 public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_QuoteAdapter.QuoteItem> {
-    Context context;
+    Fragment mFrament;
+    List<FmPersonalLoanRequest> mQuoteList;
 
-    public PesonalLoan_QuoteAdapter(Context context) {
-        this.context = context;
+    public PesonalLoan_QuoteAdapter(Fragment mFrament,List<FmPersonalLoanRequest> mQuoteList) {
+        this.mFrament = mFrament;
+        this.mQuoteList = mQuoteList;
+    }
+
+    public class QuoteItem extends RecyclerView.ViewHolder {
+
+        public TextView txtPersonName,  txtOverflowMenu,  txtloanamount , txtQuoteDate;
+
+
+        public QuoteItem(View itemView) {
+            super(itemView);
+            txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
+            txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
+            txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
+            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+        }
     }
 
     @Override
@@ -37,10 +58,20 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
 //                openPopUp(view);
 //            }
 //        });
+
+        if (holder instanceof PesonalLoan_QuoteAdapter.QuoteItem) {
+            final FmPersonalLoanRequest entity = mQuoteList.get(position);
+
+            holder.txtPersonName.setText(""+ entity.getPersonalLoanRequest().getApplicantNme());
+            holder.txtQuoteDate.setText("" + entity.getPersonalLoanRequest().getRow_created_date().split("T")[0].toString());
+
+            holder.txtloanamount.setText("" + entity.getPersonalLoanRequest().getLoanRequired());
+
+        }
     }
 
     private void openPopUp(View v) {
-        final PopupMenu popupMenu = new PopupMenu(context, v);
+        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
         final Menu menu = popupMenu.getMenu();
 
         popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
@@ -70,18 +101,6 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
     }
     @Override
     public int getItemCount() {
-        return 2;
-    }
-
-    public class QuoteItem extends RecyclerView.ViewHolder {
-
-     //   public ImageView ivTripleDot;
-        public CheckBox chkAddon;
-
-
-        public QuoteItem(View itemView) {
-            super(itemView);
-            //ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
-        }
+        return mQuoteList.size();
     }
 }

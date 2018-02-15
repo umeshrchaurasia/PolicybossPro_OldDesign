@@ -1,10 +1,13 @@
 package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by IN-RB on 01-02-2018.
  */
 
-public class FmHomeLoanRequest {
+public class FmHomeLoanRequest  implements Parcelable {
 
 
     /**
@@ -13,19 +16,46 @@ public class FmHomeLoanRequest {
      * HomeLoanRequest : {"ApplicantDOB":"1997-01-02","ApplicantGender":"M","ApplicantIncome":"","ApplicantNme":"test Verma","ApplicantObligations":"700","ApplicantSource":"2","BrokerId":"0","City":"Mumbai","CoApplicantDOB":"1997-01-16","CoApplicantDepreciation":"5444","CoApplicantDirectorRemuneration":"5000","CoApplicantGender":"M","CoApplicantIncome":"","CoApplicantObligations":"","CoApplicantProfitAfterTax":"200","CoApplicantSource":"2","CoApplicantTurnover":"54000","CoApplicantYes":"Y","Depreciation":"2888","DirectorRemuneration":"500","LoanRequired":"5600000","LoanTenure":"22","ProductId":"12","ProfitAfterTax":"400","PropertyCost":"7000000","PropertyID":"1","Turnover":"858655","api_source":"Finmart","empcode":""}
      */
 
-    private String loan_requestID;
-    private String FBA_id;
-    private int quote_id;
+    private int loan_requestID;
+    private int fba_id;
     private HomeLoanRequest HomeLoanRequest;
 
-    public String getLoan_requestID() {
+    protected FmHomeLoanRequest(Parcel in) {
+        loan_requestID = in.readInt();
+        fba_id = in.readInt();
+        HomeLoanRequest = in.readParcelable(magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest.class.getClassLoader());
+    }
+
+    public static final Creator<FmHomeLoanRequest> CREATOR = new Creator<FmHomeLoanRequest>() {
+        @Override
+        public FmHomeLoanRequest createFromParcel(Parcel in) {
+            return new FmHomeLoanRequest(in);
+        }
+
+        @Override
+        public FmHomeLoanRequest[] newArray(int size) {
+            return new FmHomeLoanRequest[size];
+        }
+    };
+
+    public FmHomeLoanRequest() {
+    }
+
+    public int getLoan_requestID() {
         return loan_requestID;
     }
 
-    public void setLoan_requestID(String loan_requestID) {
+    public void setLoan_requestID(int loan_requestID) {
         this.loan_requestID = loan_requestID;
     }
 
+    public int getFba_id() {
+        return fba_id;
+    }
+
+    public void setFba_id(int fba_id) {
+        this.fba_id = fba_id;
+    }
 
     public HomeLoanRequest getHomeLoanRequest() {
         return HomeLoanRequest;
@@ -35,21 +65,15 @@ public class FmHomeLoanRequest {
         this.HomeLoanRequest = HomeLoanRequest;
     }
 
-    public String getFBA_id() {
-        return FBA_id;
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
-    public void setFBA_id(String FBA_id) {
-        this.FBA_id = FBA_id;
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(loan_requestID);
+        dest.writeInt(fba_id);
+        dest.writeParcelable(HomeLoanRequest, flags);
     }
-
-    public int getQuote_id() {
-        return quote_id;
-    }
-
-    public void setQuote_id(int quote_id) {
-        this.quote_id = quote_id;
-    }
-
-
 }
