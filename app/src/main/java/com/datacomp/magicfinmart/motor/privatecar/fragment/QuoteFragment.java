@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -73,7 +72,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     List<MobileAddOn> listMobileAddOn;
     TextView tvPolicyExp, tvMakeModel, tvFuel, tvCrn, tvCount, tvRtoName;
     Switch swAddon;
-    FloatingActionButton filter;
+    TextView filter;
     ImageView ivEdit;
     CarMasterEntity carMasterEntity;
     Realm realm;
@@ -119,7 +118,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
             }
         });
-        bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        /*bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -129,7 +128,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                     filter.show();
                 }
             }
-        });
+        });*/
     }
 
     private void initView(View view) {
@@ -145,7 +144,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         tvCount = (TextView) view.findViewById(R.id.tvCount);
         swAddon = (Switch) view.findViewById(R.id.swAddon);
         ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
-        filter = (FloatingActionButton) view.findViewById(R.id.filter);
+        filter = (TextView) view.findViewById(R.id.filter);
     }
 
     private void initializeAdapters() {
@@ -179,8 +178,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         if (bikePremiumResponse != null) {
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
                 tvCrn.setText("" + bikePremiumResponse.getSummary().getPB_CRN());
-                tvCount.setText("" + bikePremiumResponse.getSummary().getSuccess() + " results from qa.policyboss.com");
-                motorRequestEntity.setCrn(Integer.valueOf(bikePremiumResponse.getSummary().getPB_CRN()));
+                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from qa.policyboss.com");
+                if (!bikePremiumResponse.getSummary().getPB_CRN().equals(""))
+                    motorRequestEntity.setCrn(Integer.valueOf(bikePremiumResponse.getSummary().getPB_CRN()));
 
                 boolean isQuoteFetch = false;
                 if (webViewLoader.getVisibility() == View.GONE) {

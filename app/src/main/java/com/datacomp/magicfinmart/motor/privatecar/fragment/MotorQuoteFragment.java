@@ -7,16 +7,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorQuoteAdapter;
-import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,6 +44,9 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     List<QuoteListEntity> mQuoteList;
     QuoteListEntity removeQuoteEntity;
+    ImageView ivSearch, ivAdd;
+    TextView tvAdd, tvSearch;
+    EditText etSearch;
 
     public MotorQuoteFragment() {
         // Required empty public constructor
@@ -52,6 +59,8 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_motor_quote, container, false);
         initView(view);
+        setListener();
+        setTextWatcher();
         mQuoteList = new ArrayList<>();
         if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST) != null) {
             mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST);
@@ -64,6 +73,30 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         return view;
     }
 
+    private void setTextWatcher() {
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                motorQuoteAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    private void setListener() {
+        ivSearch.setOnClickListener(this);
+        ivAdd.setOnClickListener(this);
+        tvAdd.setOnClickListener(this);
+        tvSearch.setOnClickListener(this);
+    }
+
 
     //redirect to input quote bottom
     public void redirectToInputQuote(QuoteListEntity entity) {
@@ -71,6 +104,13 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     }
 
     private void initView(View view) {
+        ivSearch = (ImageView) view.findViewById(R.id.ivSearch);
+        ivAdd = (ImageView) view.findViewById(R.id.ivAdd);
+        tvAdd = (TextView) view.findViewById(R.id.tvAdd);
+        tvSearch = (TextView) view.findViewById(R.id.tvSearch);
+        etSearch = (EditText) view.findViewById(R.id.etSearch);
+        etSearch.setVisibility(View.INVISIBLE);
+
         btnAddQuote = (FloatingActionButton) view.findViewById(R.id.fbAddQuote);
         rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
         rvQuoteList.setHasFixedSize(true);
@@ -94,6 +134,18 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
 
         switch (view.getId()) {
             case R.id.fbAddQuote:
+                startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class));
+                break;
+            case R.id.tvSearch:
+            case R.id.ivSearch:
+                if (etSearch.getVisibility() == View.INVISIBLE) {
+                    etSearch.setVisibility(View.VISIBLE);
+                    etSearch.requestFocus();
+                }
+
+                break;
+            case R.id.ivAdd:
+            case R.id.tvAdd:
                 startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class));
                 break;
         }

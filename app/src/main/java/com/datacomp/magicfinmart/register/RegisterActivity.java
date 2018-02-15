@@ -22,7 +22,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -146,6 +145,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         spLifeIns.setEnabled(false);
         spGenIns.setEnabled(false);
         spHealthIns.setEnabled(false);
+        btnSubmit.setVisibility(View.INVISIBLE);
 
     }
 
@@ -297,9 +297,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             case R.id.btnSubmit:
                 if (isMobileValid) {
                     setProfessionInfo();
+                    showDialog();
+                    new RegisterController(this).registerFba(registerRequestEntity, this);
+                } else {
+                    showDialog("Sending otp...");
+                    new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
+                    showOtpAlert();
                 }
-                showDialog();
-                new RegisterController(this).registerFba(registerRequestEntity, this);
                 break;
         }
     }
@@ -471,7 +475,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             tvTitle.setText("Enter OTP sent on : " + etMobile1.getText().toString());
             TextView resend = (TextView) dialog.findViewById(R.id.tvResend);
             etOtp = (EditText) dialog.findViewById(R.id.etOtp);
-            dialog.setCancelable(true);
+            dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
 
             Window dialogWindow = dialog.getWindow();
@@ -618,4 +622,5 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     };
     //endregion
+
 }

@@ -18,6 +18,7 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
+import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 
 import java.util.List;
 
@@ -74,6 +75,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                             break;
                         case 10:
                             //bike
+                            //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
+                            mContext.startActivity(new Intent(mContext.getActivity(), TwoWheelerQuoteAppActivity.class));
                             break;
                         case 3:
                             //health
