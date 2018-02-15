@@ -16,9 +16,8 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
+import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeQuoteTabAdapter;
 
 import java.text.SimpleDateFormat;
@@ -62,8 +61,8 @@ public class BikeQuoteTabFragment extends BaseFragment implements View.OnClickLi
         setListener();
         setTextWatcher();
         mQuoteList = new ArrayList<>();
-        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST) != null) {
-            mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.QUOTE_LIST);
+        if (getArguments().getParcelableArrayList(BikeActivityTabsPagerAdapter.QUOTE_LIST) != null) {
+            mQuoteList = getArguments().getParcelableArrayList(BikeActivityTabsPagerAdapter.QUOTE_LIST);
         }
 
         rvQuoteList.setAdapter(null);
@@ -76,7 +75,7 @@ public class BikeQuoteTabFragment extends BaseFragment implements View.OnClickLi
 
     //redirect to input quote bottom
     public void redirectToInputQuote(QuoteListEntity entity) {
-        startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_QUOTE_BIKE, entity));
+        startActivity(new Intent(getActivity(), BikeAddQuoteActivity.class).putExtra(FROM_QUOTE_BIKE, entity));
     }
 
     private void initView(View view) {

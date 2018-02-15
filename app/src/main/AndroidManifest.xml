@@ -298,6 +298,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".health.healthquotetabs.HealthQuoteTabsActivity" />
         </activity>
+        <activity
+            android:name=".healthcheckupplans.HealthCheckUpPlansActivity"
+            android:label="@string/title_activity_health_check_up_plans"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

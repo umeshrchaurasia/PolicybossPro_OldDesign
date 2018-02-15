@@ -475,8 +475,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             tvTitle.setText("Enter OTP sent on : " + etMobile1.getText().toString());
             TextView resend = (TextView) dialog.findViewById(R.id.tvResend);
             etOtp = (EditText) dialog.findViewById(R.id.etOtp);
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
+            dialog.setCancelable(true);
+            dialog.setCanceledOnTouchOutside(true);
 
             Window dialogWindow = dialog.getWindow();
             WindowManager.LayoutParams lp = dialogWindow.getAttributes();
