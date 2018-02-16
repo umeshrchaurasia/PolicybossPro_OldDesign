@@ -117,7 +117,7 @@
                             android:id="@+id/img1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/vector_person_health_unselect" />
+                            app:srcCompat="@mipmap/user_unselected" />
 
                         <EditText
                             android:id="@+id/etOne"
@@ -140,7 +140,7 @@
                             android:id="@+id/img2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/vector_person_health_unselect" />
+                            app:srcCompat="@mipmap/user_unselected"/>
 
                         <EditText
                             android:id="@+id/etTwo"
@@ -164,7 +164,7 @@
                             android:id="@+id/img3"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/vector_person_health_unselect" />
+                            app:srcCompat="@mipmap/user_unselected" />
 
                         <EditText
                             android:id="@+id/etThree"
@@ -188,7 +188,7 @@
                             android:id="@+id/img4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/vector_person_health_unselect" />
+                            app:srcCompat="@mipmap/user_unselected"/>
 
                         <EditText
                             android:id="@+id/etFour"
@@ -211,7 +211,7 @@
                             android:id="@+id/img5"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/vector_person_health_unselect" />
+                            app:srcCompat="@mipmap/user_unselected" />
 
                         <EditText
                             android:id="@+id/etFive"
@@ -234,7 +234,7 @@
                             android:id="@+id/img6"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            app:srcCompat="@drawable/vector_person_health_unselect" />
+                            app:srcCompat="@mipmap/user_unselected" />
 
                         <EditText
                             android:id="@+id/etSix"

@@ -7,6 +7,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +18,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -25,14 +29,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity
  * Created by Rajeev Ranjan on 11/01/2018.
  */
 
-public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.QuoteItem> implements View.OnClickListener {
+public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.QuoteItem> implements View.OnClickListener, Filterable {
     Fragment mFrament;
     List<QuoteListEntity> mQuoteList;
+    List<QuoteListEntity> mQuoteListFiltered;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public MotorQuoteAdapter(Fragment context, List<QuoteListEntity> list) {
         this.mFrament = context;
         mQuoteList = list;
+        mQuoteListFiltered = list;
 
     }
 
@@ -50,7 +56,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
     public void onBindViewHolder(QuoteItem holder, int position) {
 
         if (holder instanceof QuoteItem) {
-            final QuoteListEntity entity = mQuoteList.get(position);
+            final QuoteListEntity entity = mQuoteListFiltered.get(position);
 
             holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
                     + " " + entity.getMotorRequestEntity().getLast_name());
@@ -120,7 +126,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     @Override
     public int getItemCount() {
-        return mQuoteList.size();
+        return mQuoteListFiltered.size();
     }
 
     @Override
@@ -129,6 +135,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
             case R.id.txtCrnNo:
             case R.id.txtQuoteDate:
             case R.id.txtVehicleName:
+            case R.id.llDetails:
             case R.id.txtPersonName:
                 ((MotorQuoteFragment) mFrament).redirectToInputQuote((QuoteListEntity) view.getTag(view.getId()));
                 break;
@@ -143,7 +150,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
         //  public ImageView ivTripleDot;
         public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtOverflowMenu, txtCrnNo;
-
+        LinearLayout llDetails;
 
         public QuoteItem(View itemView) {
             super(itemView);
@@ -152,10 +159,59 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
             txtCrnNo = (TextView) itemView.findViewById(R.id.txtCrnNo);
+            llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
         }
     }
 
     public void refreshAdapter(List<QuoteListEntity> list) {
         mQuoteList = list;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mQuoteListFiltered = mQuoteList;
+                } else {
+                    List<QuoteListEntity> filteredList = new ArrayList<>();
+                    for (QuoteListEntity row : mQuoteList) {
+                        CarMasterEntity carMasterEntity = new CarMasterEntity();
+                        try {
+
+                            carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+                                    .getVarientDetails(
+                                            "" + row.getMotorRequestEntity().getVehicle_id());
+
+                        } catch (Exception e) {
+
+                        }
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getMotorRequestEntity().getFirst_name().toLowerCase().contains(charString.toLowerCase())
+                                || row.getMotorRequestEntity().getLast_name().toLowerCase().contains(charString.toLowerCase())
+                                || carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
+                                || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())
+                                || String.valueOf(row.getMotorRequestEntity().getCrn()).contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    mQuoteListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mQuoteListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mQuoteListFiltered = (ArrayList<QuoteListEntity>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

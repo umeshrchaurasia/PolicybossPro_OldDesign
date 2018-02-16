@@ -273,6 +273,38 @@ public class DBPersistanceController {
         return listCarModel;
     }
 
+    public String getBikeVarientCC(String make, String model, String varientName) {
+        BikeMasterEntity entity = realm.where(BikeMasterEntity.class)
+                .equalTo("Make_Name", make.trim())
+                .equalTo("Model_Name", model.trim())
+                .equalTo("Variant_Name", varientName.trim()).findFirst();
+        if (entity != null)
+            return entity.getCubic_Capacity() + "CC";
+        else
+            return "";
+    }
+
+    public String getBikeVarient(String varientName, String model ,String make) {
+        BikeMasterEntity entity = realm.where(BikeMasterEntity.class)
+                .equalTo("Make_Name", make.trim())
+                .equalTo("Model_Name", model.trim())
+                .equalTo("Variant_Name", varientName.trim()).findFirst();
+        if (entity != null)
+            return entity.getVariant_ID();
+        else
+            return "";
+    }
+
+    public BikeMasterEntity getBikeVarientDetails(String varientId) {
+        BikeMasterEntity entity = realm.where(BikeMasterEntity.class)
+                .equalTo("Variant_ID", varientId).findFirst();
+
+        if (entity != null)
+            return entity;
+        else
+            return null;
+    }
+
     public String getBikeModelID(String modelName) {
         BikeMasterEntity entity = realm.where(BikeMasterEntity.class).equalTo("Model_Name", modelName.trim()).findFirst();
         if (entity != null)
@@ -281,17 +313,17 @@ public class DBPersistanceController {
             return "";
     }
 
-    public List<String> getBikeVariantbyModelID(int modelID) {
+    public List<String> getBikeVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
-
+        listCarVariant.add("Varient");
         List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");
 
         for (int i = 0; i < list.size(); i++) {
             BikeMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name() + " , ( " + entity.getCubic_Capacity() + "CC )";
+            String variant = entity.getVariant_Name() /*+ " , ( " + entity.getCubic_Capacity() + "CC )"*/;
             listCarVariant.add(variant);
         }
 
@@ -524,6 +556,7 @@ public class DBPersistanceController {
     //endregion
 
     //region Proprtyinfo Loan
+
     public List<PropertyInfoEntity> getLoanPropertyInfoList() {
         List<PropertyInfoEntity> propertyInfoEntity = new ArrayList<PropertyInfoEntity>();
         propertyInfoEntity.add(new PropertyInfoEntity(1, "Property Identified & ready to occupy"));
@@ -634,6 +667,20 @@ public class DBPersistanceController {
             return 0;
         }
 
+    }
+
+    public String getHealthCityName(int cityID) {
+        hashmapCity = new HashMap<String, Integer>();
+        MapHealthCity();
+        String HealthCityName = "";
+        for (Map.Entry<String, Integer> item : hashmapCity.entrySet()) {
+            if (item.getValue() == cityID) {
+                HealthCityName = item.getKey();
+                break;
+            }
+        }
+
+        return HealthCityName;
     }
 
     public void MapHealthCity() {

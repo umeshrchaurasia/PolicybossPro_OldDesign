@@ -22,15 +22,20 @@ public class HealthSumAssuredViewAdapter extends RecyclerView.Adapter<HealthSumA
     private LayoutInflater mInflater;
     Fragment mContext;
     List<HealthSumAssured> listSumAssured;
-    DBPersistanceController db;
+
 
     // data is passed into the constructor
-    HealthSumAssuredViewAdapter(Fragment context) {
+    HealthSumAssuredViewAdapter(Fragment context, List<HealthSumAssured> listSumAssured) {
         mContext = context;
         this.mInflater = LayoutInflater.from(mContext.getActivity());
-        db = new DBPersistanceController(mContext.getActivity());
-        listSumAssured = db.getSumAssured();
 
+        this.listSumAssured = listSumAssured;
+
+    }
+
+    public void refreshBinding(List<HealthSumAssured> list) {
+        listSumAssured = list;
+        notifyDataSetChanged();
     }
 
     // inflates the cell layout from xml when needed

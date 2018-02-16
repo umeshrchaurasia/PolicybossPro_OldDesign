@@ -15,8 +15,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.HealthActivityTabsPagerAdapter;
-import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteTabsActivity;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.text.SimpleDateFormat;
@@ -26,16 +25,16 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class HealthQuoteListFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber {
+
+    public static final String HEALTH_INPUT_FRAGMENT = "input_fragment_bottom";
+
 
     FloatingActionButton btnAddQuote;
     RecyclerView rvHealthQuoteList;
@@ -67,18 +66,13 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
         return view;
     }
 
-    RecyclerItemClickListener.OnItemClickListener onItemClickListener =
-            new RecyclerItemClickListener.OnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int position) {
-
-                    startActivity(new Intent(getActivity(), HealthQuoteTabsActivity.class));
-                }
-            };
-
-
+    /*
+        Redirect to health quote to show all quote
+     */
     public void quoteItemClick(HealthQuote healthQuote) {
-        Toast.makeText(getActivity(), "Health Quote", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(getActivity(), HealthQuoteBottomTabsActivity.class);
+        intent.putExtra(HEALTH_INPUT_FRAGMENT, healthQuote);
+        startActivity(intent);
     }
 
     private void initView(View view) {
@@ -106,7 +100,7 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
 
         switch (view.getId()) {
             case R.id.fbAddHealthQuote:
-                startActivity(new Intent(getActivity(), HealthQuoteTabsActivity.class));
+                startActivity(new Intent(getActivity(), HealthQuoteBottomTabsActivity.class));
                 break;
         }
     }
