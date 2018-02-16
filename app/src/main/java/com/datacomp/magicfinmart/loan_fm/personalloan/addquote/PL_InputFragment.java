@@ -179,7 +179,13 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
             personalLoanRequest.setApplicantGender("F");
         }
 
-        personalLoanRequest.setApplicantObligations(etEMI.getText().toString());
+        if (etEMI.getText().equals("")) {
+            personalLoanRequest.setApplicantObligations("0");
+        }else
+        {
+            personalLoanRequest.setApplicantObligations(etEMI.getText().toString());
+        }
+
         personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
         personalLoanRequest.setBrokerId("" + loginEntity.getLoanId());
         personalLoanRequest.setEmpcode("");
@@ -397,8 +403,7 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        // startActivity(new Intent(HomeLoanActivity.this, QuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) quoteEntities));
-        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+          Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
     }
 

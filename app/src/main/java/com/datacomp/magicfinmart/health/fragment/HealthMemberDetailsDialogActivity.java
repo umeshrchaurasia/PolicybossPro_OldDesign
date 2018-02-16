@@ -1,11 +1,13 @@
 package com.datacomp.magicfinmart.health.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -15,10 +17,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 
 public class HealthMemberDetailsDialogActivity extends BaseActivity implements View.OnClickListener {
+
+    public static final String UPDATE_MEMBER_QUOTE = "healthquote_update";
+
     HealthQuote healthQuote;
     //    LinearLayout llSelf;
     Button btnContinue;
@@ -33,7 +43,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_health_member_details_dialog);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        this.setFinishOnTouchOutside(true);
+        this.setFinishOnTouchOutside(false);
         init_widgets();
         listMemberList = new ArrayList<>();
 
@@ -42,8 +52,6 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
             popupMemberDetail();
         }
 
-
-        //  visibleCoverFor();
     }
 
     private void popupMemberDetail() {
@@ -52,51 +60,37 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
     }
 
     private void init_widgets() {
-//        llSelf = (LinearLayout) findViewById(R.id.llSelf);
+
         btnContinue = (Button) findViewById(R.id.btnContinue);
-//        swUnMarried = (Switch) findViewById(R.id.swUnMarried);
-//        rbSelfMale = (RadioButton) findViewById(R.id.rbSelfMale);
-//        rbSelfFemale = (RadioButton) findViewById(R.id.rbSelfFemale);
-//
         rvMemberDetail = (RecyclerView) findViewById(R.id.rvMemberDetail);
         rvMemberDetail.setLayoutManager(new LinearLayoutManager(this));
         btnContinue.setOnClickListener(this);
     }
 
-    private void visibleCoverFor() {
-        if (healthQuote.getHealthRequest().getPolicyFor().equals("Self")) {
-            //  llSelf.setVisibility(View.VISIBLE);
-        }
-    }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnContinue) {
 
-//            if (healthQuote.getHealthRequest().getPolicyFor().equals("Self")) {
-//                MemberListEntity entity = healthQuote.getHealthRequest().getMemberList().get(0);
-//                if (rbSelfMale.isChecked())
-//                    entity.setMemberGender("M");
-//                else
-//                    entity.setMemberGender("F");
-//
-//                entity.setMemberNumber("1");
-//
-//                if (entity.getAge() > 18)
-//                    entity.setMemberType("Adult");
-//                else
-//                    entity.setMemberType("Child");
-//
-//                entity.setMemberTypeID("1");
-//
-//                listMemberList.add(entity);
-//                healthQuote.getHealthRequest().setMemberList(listMemberList);
-//                Intent intent = new Intent();
-//                intent.putExtra(HealthInputFragment.MEMBER_LIST, healthQuote);
-//                setResult(HealthInputFragment.REQUEST_MEMBER, intent);
-//                finish();
-//            }
+            Intent intent = new Intent();
+            intent.putExtra(UPDATE_MEMBER_QUOTE, healthQuote);
+            setResult(HealthInputFragment.REQUEST_MEMBER, intent);
+            finish();
+
         }
+    }
+
+
+    public void updateMemberList(MemberListEntity entity, int maritialStatus, int position) {
+
+        if (maritialStatus != 0) {
+            healthQuote.getHealthRequest().setMaritalStatusID(maritialStatus);
+        }
+
+        MemberListEntity member = healthQuote.getHealthRequest().getMemberList().get(position);
+        member = entity;
+        healthQuote.getHealthRequest().getMemberList().set(position, member);
+
     }
 
 

@@ -34,7 +34,8 @@ public class HLMainActivity extends BaseActivity {
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
 
-    HomeLoanRequest homeLoanRequestEntity;
+    FmHomeLoanRequest fmHomeLoanRequest;
+    //HomeLoanRequest homeLoanRequestEntity;
     boolean isQuoteVisible = true;
 
     @Override
@@ -49,10 +50,9 @@ public class HLMainActivity extends BaseActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if (getIntent().getParcelableExtra(HL_QuoteFragment.FROM_QUOTE) != null) {
-            FmHomeLoanRequest entity = getIntent().getParcelableExtra(HL_QuoteFragment.FROM_QUOTE);
-            homeLoanRequestEntity = entity.getHomeLoanRequest();
+            fmHomeLoanRequest = getIntent().getParcelableExtra(HL_QuoteFragment.FROM_QUOTE);
             Bundle bundle = new Bundle();
-            bundle.putParcelable(HL_QUOTE_REQUEST, homeLoanRequestEntity);
+            bundle.putParcelable(HL_QUOTE_REQUEST, fmHomeLoanRequest);
             quoteBundle = bundle;
 
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
@@ -77,9 +77,9 @@ public class HLMainActivity extends BaseActivity {
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
 
-                    if (homeLoanRequestEntity != null) {
+                    if (fmHomeLoanRequest != null) {
                         quoteBundle = new Bundle();
-                        quoteBundle.putParcelable(HLMainActivity.HL_INPUT_REQUEST, homeLoanRequestEntity);
+                        quoteBundle.putParcelable(HLMainActivity.HL_INPUT_REQUEST, fmHomeLoanRequest);
 
                     }
                     if (tabFragment != null) {
@@ -124,13 +124,11 @@ public class HLMainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
-//        HLMainActivity.this.finish();
-        if (isQuoteVisible) {
-            finish();
-        } else {
-            Toast.makeText(HLMainActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
-        }
+        super.onBackPressed();
+        HLMainActivity.this.finish();
+
+        //  finish();
+
     }
 
     private void loadFragment(Fragment fragment, String TAG) {
@@ -157,20 +155,14 @@ public class HLMainActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void modifyQuote(HomeLoanRequest entity) {
-        homeLoanRequestEntity = entity;
-        /*startActivityForResult(new Intent(this, ModifyQuoteActivity.class)
-                .putExtra("CAR_REQUEST", motorRequestEntity), 1000);*/
 
-    }
-
-    public void redirectInput(HomeLoanRequest entity) {
+    public void redirectInput(FmHomeLoanRequest entity) {
         if (isQuoteVisible) {
-            homeLoanRequestEntity = entity;
+            fmHomeLoanRequest = entity;
             quoteBundle = new Bundle();
-            quoteBundle.putParcelable(HLMainActivity.HL_INPUT_REQUEST, homeLoanRequestEntity);
+            quoteBundle.putParcelable(HLMainActivity.HL_INPUT_REQUEST, fmHomeLoanRequest);
 
-            if (homeLoanRequestEntity == null)
+            if (fmHomeLoanRequest == null)
                 Toast.makeText(HLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
             else
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
@@ -181,21 +173,21 @@ public class HLMainActivity extends BaseActivity {
     }
 
 
-    public void getQuoteParameterBundle(HomeLoanRequest entity) {
+    public void getQuoteParameterBundle(FmHomeLoanRequest entity) {
 
-        homeLoanRequestEntity = entity;
+        fmHomeLoanRequest = entity;
         quoteBundle = new Bundle();
-        quoteBundle.putParcelable(HLMainActivity.HL_INPUT_REQUEST, homeLoanRequestEntity);
+        quoteBundle.putParcelable(HLMainActivity.HL_QUOTE_REQUEST, fmHomeLoanRequest);
 
-        if (homeLoanRequestEntity == null)
+        if (fmHomeLoanRequest == null)
             Toast.makeText(HLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
         else
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
 
     }
 
-    public void updateRequest(HomeLoanRequest entity, boolean isQuoteVisible) {
-        homeLoanRequestEntity = entity;
+    public void updateRequest(FmHomeLoanRequest entity, boolean isQuoteVisible) {
+        fmHomeLoanRequest = entity;
         this.isQuoteVisible = isQuoteVisible;
     }
 

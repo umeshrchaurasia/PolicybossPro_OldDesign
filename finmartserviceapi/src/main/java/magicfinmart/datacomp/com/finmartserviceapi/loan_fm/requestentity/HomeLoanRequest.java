@@ -50,7 +50,7 @@ public class HomeLoanRequest implements Parcelable {
      * api_source : Finmart
      * created_at : null
      * updated_at : null
-     * FBA_id : 35779
+
      * LoaniD : 0
      * Type : HML
      * row_created_date : 2018-02-06T11:12:14.000Z
@@ -104,7 +104,7 @@ public class HomeLoanRequest implements Parcelable {
     private String loan_eligible;
     private String processing_fee;
     private String api_source;
-    private int FBA_id;
+
     private int LoaniD;
     private String Type;
     private String row_created_date;
@@ -118,6 +118,9 @@ public class HomeLoanRequest implements Parcelable {
     private String ApplNumb;
     private String ApplDate;
     private String StatusPercent;
+    private String CoApplicantName;
+    private String CoApplicantRelation;
+
 
     public HomeLoanRequest() {
         this.loan_requestID = 0;
@@ -156,7 +159,7 @@ public class HomeLoanRequest implements Parcelable {
         this.loan_eligible = "";
         this.processing_fee = "";
         this.api_source = "";
-        this.FBA_id = 0;
+
         this.LoaniD = 0;
         this.Type = "";
         this.row_created_date = "";
@@ -170,6 +173,8 @@ public class HomeLoanRequest implements Parcelable {
         this.ApplNumb = "";
         this.ApplDate = "";
         this.StatusPercent = "";
+        this.CoApplicantName="";
+        this.CoApplicantRelation="";
     }
 
 
@@ -210,7 +215,7 @@ public class HomeLoanRequest implements Parcelable {
         loan_eligible = in.readString();
         processing_fee = in.readString();
         api_source = in.readString();
-        FBA_id = in.readInt();
+
         LoaniD = in.readInt();
         Type = in.readString();
         row_created_date = in.readString();
@@ -224,6 +229,8 @@ public class HomeLoanRequest implements Parcelable {
         ApplNumb = in.readString();
         ApplDate = in.readString();
         StatusPercent = in.readString();
+        CoApplicantName = in.readString();
+        CoApplicantRelation = in.readString();
     }
 
     public static final Creator<HomeLoanRequest> CREATOR = new Creator<HomeLoanRequest>() {
@@ -526,13 +533,6 @@ public class HomeLoanRequest implements Parcelable {
         this.api_source = api_source;
     }
 
-    public int getFBA_id() {
-        return FBA_id;
-    }
-
-    public void setFBA_id(int FBA_id) {
-        this.FBA_id = FBA_id;
-    }
 
     public int getLoaniD() {
         return LoaniD;
@@ -639,6 +639,23 @@ public class HomeLoanRequest implements Parcelable {
     }
 
 
+    public String getCoApplicantName() {
+        return CoApplicantName;
+    }
+
+    public void setCoApplicantName(String coApplicantName) {
+        CoApplicantName = coApplicantName;
+    }
+
+    public String getCoApplicantRelationt() {
+        return CoApplicantRelation;
+    }
+
+    public void setCoApplicantRelation(String coApplicantRelation) {
+        CoApplicantRelation = coApplicantRelation;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -682,7 +699,7 @@ public class HomeLoanRequest implements Parcelable {
         dest.writeString(loan_eligible);
         dest.writeString(processing_fee);
         dest.writeString(api_source);
-        dest.writeInt(FBA_id);
+
         dest.writeInt(LoaniD);
         dest.writeString(Type);
         dest.writeString(row_created_date);
@@ -696,5 +713,7 @@ public class HomeLoanRequest implements Parcelable {
         dest.writeString(ApplNumb);
         dest.writeString(ApplDate);
         dest.writeString(StatusPercent);
+        dest.writeString(CoApplicantName);
+        dest.writeString(CoApplicantRelation);
     }
 }

@@ -53,6 +53,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
 
+    FmHomeLoanRequest fmHomeLoanRequest;
     int LoanRequireID = 0;
 
     public QuoteFragment_hl() {
@@ -69,8 +70,8 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         initialise_widget(view);
 
         if (getArguments() != null) {
-            homeLoanRequest = getArguments().getParcelable(HLMainActivity.HL_QUOTE_REQUEST);
-
+            fmHomeLoanRequest = getArguments().getParcelable(HLMainActivity.HL_QUOTE_REQUEST);
+            homeLoanRequest = fmHomeLoanRequest.getHomeLoanRequest();
             showDialog("Wait..,Fetching quote");
             new HomeLoanController(getActivity()).getHomeLoan(homeLoanRequest, this);
         }
@@ -205,9 +206,9 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     private void setFmHomeLoanRequest(int QuoteID) {
 
         showDialog();
-        FmHomeLoanRequest fmHomeLoanRequest = new FmHomeLoanRequest();
-        fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
-        fmHomeLoanRequest.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
+
+       // fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
+     //   fmHomeLoanRequest.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
         homeLoanRequest.setQuote_id(QuoteID);
         fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
         new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
@@ -220,6 +221,9 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         if (response instanceof FmSaveQuoteHomeLoanResponse) {
             if (response.getStatusNo() == 0) {
                 LoanRequireID = ((FmSaveQuoteHomeLoanResponse) response).getMasterData().get(0).getLoanRequestID();
+                fmHomeLoanRequest.setLoan_requestID(LoanRequireID);
+                ((HLMainActivity) getActivity()).updateRequest(fmHomeLoanRequest, true);
+
             }
         }
     }
