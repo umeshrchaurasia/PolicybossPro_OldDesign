@@ -307,6 +307,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".healthcheckupplans.HealthCheckUpPopUpActivity"
+            android:noHistory="true"
+            android:parentActivityName=".healthcheckupplans.HealthCheckUpPlansActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
     </application>
 
 </manifest>

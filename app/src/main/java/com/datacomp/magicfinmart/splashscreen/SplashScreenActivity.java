@@ -23,10 +23,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.controller.healthcheckup.HealthCheckUPController;
-import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksDetailsRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.PackDetailsEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.PackParamEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackResponse;
 
@@ -47,19 +45,13 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
 
-        // remove this
-       /* HealthPacksRequestEntity healthPacksRequestEntity = new HealthPacksRequestEntity();
+        //region fetch  data of health checkup plans
+        HealthPacksRequestEntity healthPacksRequestEntity = new HealthPacksRequestEntity();
         PackDetailsEntity packDetailsEntity = new PackDetailsEntity();
         healthPacksRequestEntity.setPack_details(packDetailsEntity);
         new HealthCheckUPController(this).getHealthPacks(healthPacksRequestEntity, this);
+        //endregion
 
-
-        HealthPacksDetailsRequestEntity healthPacksDetailsRequestEntity = new HealthPacksDetailsRequestEntity();
-        PackParamEntity packParamEntity = new PackParamEntity();
-        packParamEntity.setPackcode(71);
-        healthPacksDetailsRequestEntity.setPack_param(packParamEntity);
-        new HealthCheckUPController(this).getHealthPacksDetails(healthPacksDetailsRequestEntity, this);
-*/
         if (prefManager.IsBikeMasterUpdate())
             new MasterController(this).getBikeMaster(this);
         if (prefManager.IsCarMasterUpdate())
@@ -111,7 +103,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         if (response instanceof HealthPackResponse) {
             Log.d("Test", "success");
         }
-        if(response instanceof HealthPackDetailsResponse){
+        if (response instanceof HealthPackDetailsResponse) {
             Log.d("Test", "success");
         }
     }

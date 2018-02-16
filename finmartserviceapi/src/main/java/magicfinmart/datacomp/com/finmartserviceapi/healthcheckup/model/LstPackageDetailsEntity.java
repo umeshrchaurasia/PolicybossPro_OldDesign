@@ -1,6 +1,8 @@
 package magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model;
 
-public class LstPackageDetailsEntity {
+import io.realm.RealmObject;
+
+public class LstPackageDetailsEntity extends RealmObject {
     /**
      * PackCode : 71
      * PackName : Basic Profile
@@ -21,7 +23,22 @@ public class LstPackageDetailsEntity {
     private String VisitType;
     private String cnt;
     private String Gender;
+
+    public LstPackageDetailsEntity() {
+        this.isVisible = false;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+
+    }
+
+    public void setVisible(boolean visible) {
+        isVisible = visible;
+    }
+
     private String Age;
+    private boolean isVisible;
 
     public String getPackCode() {
         return PackCode;

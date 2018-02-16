@@ -37,6 +37,7 @@ public class HealthCheckUPController implements IHealthCheckUp {
 
                 if (response.body() != null) {
                     if (response.body().getD().getStatus().equals("Success")) {
+                        new AsyncHealthPacks(mContext, response.body().getD()).execute();
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getD().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getD().getMessage()));
@@ -65,13 +66,16 @@ public class HealthCheckUPController implements IHealthCheckUp {
     }
 
     @Override
-    public void getHealthPacksDetails(HealthPacksDetailsRequestEntity healthPacksDetailsRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+    public void getHealthPacksDetails(final HealthPacksDetailsRequestEntity healthPacksDetailsRequestEntity, final IResponseSubcriber iResponseSubcriber) {
         healthCheckNetworkService.getHealthPacksDetails(healthPacksDetailsRequestEntity).enqueue(new Callback<HealthPackDetailsResponse>() {
             @Override
             public void onResponse(Call<HealthPackDetailsResponse> call, Response<HealthPackDetailsResponse> response) {
 
                 if (response.body() != null) {
                     if (response.body().getD().getStatus().equals("Success")) {
+                        if(healthPacksDetailsRequestEntity!=null)
+                            response.body().getD().setPackcode(healthPacksDetailsRequestEntity.getPack_param().getPackcode());
+                        new AsyncHealthPacksDetails(mContext, response.body().getD()).execute();
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getD().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getD().getMessage()));
