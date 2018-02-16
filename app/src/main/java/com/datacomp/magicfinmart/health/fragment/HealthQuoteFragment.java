@@ -1,6 +1,8 @@
 package com.datacomp.magicfinmart.health.fragment;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +27,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 
 /**
- * Created by Rajeev Ranjan on 29/01/2018.
+ * Created by Nilesh Birhade on 14/02/2018.
  */
 
 public class HealthQuoteFragment extends BaseFragment implements IResponseSubcriber {
@@ -35,6 +37,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     TextView txtCoverType, txtCoverAmount;
     HealthQuote healthQuote;
     LinearLayout llMembers;
+    ImageView webViewLoader;
+    RecyclerView rvHealthQuote;
+    HealthQuoteAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             if (getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA) != null) {
                 healthQuote = getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA);
                 bindHeaders();
-                // fetchQuotes();
+                fetchQuotes();
             }
         }
 
@@ -94,37 +99,47 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
     private void initView(View view) {
-//        imgMember1 = (ImageView) view.findViewById(R.id.imgMember1);
-//        imgMember2 = (ImageView) view.findViewById(R.id.imgMember2);
-//        imgMember3 = (ImageView) view.findViewById(R.id.imgMember3);
-//        imgMember4 = (ImageView) view.findViewById(R.id.imgMember4);
-//        imgMember5 = (ImageView) view.findViewById(R.id.imgMember5);
-//        imgMember6 = (ImageView) view.findViewById(R.id.imgMember6);
+        webViewLoader = (ImageView) view.findViewById(R.id.webViewLoader);
         txtCoverAmount = (TextView) view.findViewById(R.id.txtCoverAmount);
         txtCoverType = (TextView) view.findViewById(R.id.txtCoverType);
         llMembers = (LinearLayout) view.findViewById(R.id.llMembers);
+        rvHealthQuote = (RecyclerView) view.findViewById(R.id.rvHealthQuote);
+        rvHealthQuote.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvHealthQuote.setLayoutManager(layoutManager);
+        adapter = new HealthQuoteAdapter(this, null);
+        rvHealthQuote.setAdapter(adapter);
     }
 
 
     public void fetchQuotes() {
-        showDialog();
+        visibleLoader();
         new HealthController(getActivity()).getHealthQuote(healthQuote, this);
     }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
+        hideLoader();
         if (response instanceof HealthQuoteResponse) {
             if (response.getStatusNo() == 0) {
                 List<HealthQuoteEntity> listQuotes =
                         ((HealthQuoteResponse) response).getMasterData().getHealth_quote();
-                Toast.makeText(getActivity(), "No. of Quotes : " + listQuotes.size(), Toast.LENGTH_SHORT).show();
+
             }
         }
     }
 
     @Override
     public void OnFailure(Throwable t) {
+        hideLoader();
+        Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 
+    private void visibleLoader() {
+        webViewLoader.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoader() {
+        webViewLoader.setVisibility(View.GONE);
     }
 }
