@@ -1,0 +1,101 @@
+package magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.controller.healthcheckup;
+
+import android.content.Context;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestbuilder.HealthCheckUpRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksDetailsRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Created by Rajeev Ranjan on 15/02/2018.
+ */
+
+public class HealthCheckUPController implements IHealthCheckUp {
+    HealthCheckUpRequestBuilder.HealthCheckNetworkService healthCheckNetworkService;
+    Context mContext;
+
+    public HealthCheckUPController(Context context) {
+        healthCheckNetworkService = new HealthCheckUpRequestBuilder().getService();
+        mContext = context;
+    }
+
+    @Override
+    public void getHealthPacks(HealthPacksRequestEntity healthPacksRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+        healthCheckNetworkService.getHealthPacks(healthPacksRequestEntity).enqueue(new Callback<HealthPackResponse>() {
+            @Override
+            public void onResponse(Call<HealthPackResponse> call, Response<HealthPackResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getD().getStatus().equals("Success")) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getD().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getD().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<HealthPackResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getHealthPacksDetails(HealthPacksDetailsRequestEntity healthPacksDetailsRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+        healthCheckNetworkService.getHealthPacksDetails(healthPacksDetailsRequestEntity).enqueue(new Callback<HealthPackDetailsResponse>() {
+            @Override
+            public void onResponse(Call<HealthPackDetailsResponse> call, Response<HealthPackDetailsResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getD().getStatus().equals("Success")) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getD().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getD().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<HealthPackDetailsResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+}

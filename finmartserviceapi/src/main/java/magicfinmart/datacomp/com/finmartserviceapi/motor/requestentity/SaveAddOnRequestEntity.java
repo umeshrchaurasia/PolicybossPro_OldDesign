@@ -251,7 +251,7 @@ public class SaveAddOnRequestEntity {
         this.addon_hydrostatic_lock_cover = "no";
         this.addon_guaranteed_auto_protection_cover = "no";
         this.addon_final_premium = "no";
-        this.data_type = "no";
+        this.data_type = "addon_quote";
         this.search_reference_number = "";
         this.secret_key = Utility.SECRET_KEY;
         this.client_key = Utility.CLIENT_KEY;

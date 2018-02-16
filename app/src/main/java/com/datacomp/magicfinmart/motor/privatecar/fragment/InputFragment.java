@@ -93,8 +93,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
     boolean isClaimExist = true;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_add_new_quote, container, false);
         dbController = new DBPersistanceController(getActivity());
@@ -458,6 +457,9 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
                     fuelList.clear();
                     fuelList.addAll(dbController.getFuelTypeByModelId(modelId));
                     fuelAdapter.notifyDataSetChanged();
+                    spFuel.setSelection(0);
+                    spVarient.setSelection(0);
+                    etCC.setText("");
 
 //                    variantList.clear();
 //                    variantList.addAll(dbController.getVariantbyModelID(modelId));
@@ -472,7 +474,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
         });
 
 
-        spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (fuelList.get(position).equals(Constants.EXTERNAL_LPG)
@@ -487,7 +489,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
             public void onNothingSelected(AdapterView<?> parent) {
                 etExtValue.setEnabled(false);
             }
-        });
+        });*/
         //endregion
 
         //region cubic capacity
@@ -523,6 +525,14 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
         spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+
+                if (fuelList.get(pos).equals(Constants.EXTERNAL_LPG)
+                        || fuelList.get(pos).equals(Constants.EXTERNAL_CNG)) {
+                    etExtValue.setEnabled(true);
+                } else {
+                    etExtValue.setEnabled(false);
+                }
+
                 variantList.clear();
                 List<String> varList = dbController.getVariant(getMake(acMakeModel.getText().toString()),
                         getModel(acMakeModel.getText().toString()),

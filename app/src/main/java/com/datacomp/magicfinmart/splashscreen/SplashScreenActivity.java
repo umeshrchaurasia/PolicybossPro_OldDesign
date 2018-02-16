@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.splashscreen;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -21,8 +22,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.controller.healthcheckup.HealthCheckUPController;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksDetailsRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.PackDetailsEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.PackParamEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackResponse;
 
-public class SplashScreenActivity extends BaseActivity implements IResponseSubcriber {
+public class SplashScreenActivity extends BaseActivity implements IResponseSubcriber,
+        magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber {
 
     private static final String TAG = "Splashscreen";
     private final int SPLASH_DISPLAY_LENGTH = 3000;
@@ -37,6 +46,20 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         prefManager = new PrefManager(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
+
+        // remove this
+       /* HealthPacksRequestEntity healthPacksRequestEntity = new HealthPacksRequestEntity();
+        PackDetailsEntity packDetailsEntity = new PackDetailsEntity();
+        healthPacksRequestEntity.setPack_details(packDetailsEntity);
+        new HealthCheckUPController(this).getHealthPacks(healthPacksRequestEntity, this);
+
+
+        HealthPacksDetailsRequestEntity healthPacksDetailsRequestEntity = new HealthPacksDetailsRequestEntity();
+        PackParamEntity packParamEntity = new PackParamEntity();
+        packParamEntity.setPackcode(71);
+        healthPacksDetailsRequestEntity.setPack_param(packParamEntity);
+        new HealthCheckUPController(this).getHealthPacksDetails(healthPacksDetailsRequestEntity, this);
+*/
         if (prefManager.IsBikeMasterUpdate())
             new MasterController(this).getBikeMaster(this);
         if (prefManager.IsCarMasterUpdate())
@@ -80,6 +103,16 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         } else if (response instanceof InsuranceMasterResponse) {
             if (response.getStatusNo() == 0)
                 prefManager.setIsInsuranceMasterUpdate(false);
+        }
+    }
+
+    @Override
+    public void OnSuccess(magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.APIResponse response, String message) {
+        if (response instanceof HealthPackResponse) {
+            Log.d("Test", "success");
+        }
+        if(response instanceof HealthPackDetailsResponse){
+            Log.d("Test", "success");
         }
     }
 

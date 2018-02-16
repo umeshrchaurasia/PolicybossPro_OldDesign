@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -22,13 +25,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationList
  * Created by Rajeev Ranjan on 11/01/2018.
  */
 
-public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicationAdapter.ApplicationItem> {
+public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicationAdapter.ApplicationItem> implements Filterable {
     Fragment fragment;
     List<ApplicationListEntity> mAppList;
+    List<ApplicationListEntity> mAppListFiltered;
 
     public MotorApplicationAdapter(Fragment context, List<ApplicationListEntity> mApplicationList) {
         this.fragment = context;
         mAppList = mApplicationList;
+        mAppListFiltered = mApplicationList;
     }
 
     @Override
@@ -43,7 +48,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
     public void onBindViewHolder(ApplicationItem holder, int position) {
         if (holder instanceof ApplicationItem) {
 
-            final ApplicationListEntity entity = mAppList.get(position);
+            final ApplicationListEntity entity = mAppListFiltered.get(position);
 
             holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
                     + " " + entity.getMotorRequestEntity().getLast_name());
@@ -94,11 +99,49 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
     @Override
     public int getItemCount() {
-        if (mAppList == null) {
+        if (mAppListFiltered == null) {
             return 0;
         } else {
-            return mAppList.size();
+            return mAppListFiltered.size();
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mAppListFiltered = mAppList;
+                } else {
+                    List<ApplicationListEntity> filteredList = new ArrayList<>();
+                    for (ApplicationListEntity row : mAppList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getMotorRequestEntity().getFirst_name().toLowerCase().contains(charString.toLowerCase())
+                                || row.getMotorRequestEntity().getLast_name().toLowerCase().contains(charString.toLowerCase())
+                                || row.getMotorRequestEntity().getRegistration_no().toLowerCase().contains(charString.toLowerCase())
+                                || String.valueOf(row.getMotorRequestEntity().getCrn()).contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    mAppListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mAppListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mAppListFiltered = (ArrayList<ApplicationListEntity>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
     public class ApplicationItem extends RecyclerView.ViewHolder {

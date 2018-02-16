@@ -20,6 +20,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
@@ -58,9 +59,14 @@ public class InputQuoteBottmActivity extends BaseActivity {
             QuoteListEntity entity = getIntent().getParcelableExtra(MotorQuoteFragment.FROM_QUOTE);
             if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
 
+                //update counetr to hit  two times only to manage multiple hits
+                Utility.getSharedPreferenceEditor(this).putInt(Utility.QUOTE_COUNTER,
+                        MotorController.NO_OF_SERVER_HITS - 1)
+                        .commit();
                 //1. update srn in preference
                 Utility.getSharedPreferenceEditor(this).
                         putString(Utility.CARQUOTE_UNIQUEID, entity.getSRN()).commit();
+
 
                 //2. create bundle
                 Bundle bundle = new Bundle();

@@ -21,6 +21,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.AppliedAddonsPremiumBreakup;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.LiabilityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.OwnDamageEntity;
@@ -35,6 +36,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     Button btnBuy, btnBackToQuote;
     CardView cvAddon;
     List<PremiumBreakUpAdapterEntity> damageList, liabilityList, addonList;
+    DBPersistanceController dbPersistanceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         setContentView(R.layout.content_premium_break_up);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setFinishOnTouchOutside(false);
-
+        dbPersistanceController = new DBPersistanceController(this);
         if (getIntent().hasExtra("RESPONSE")) {
             responseEntity = getIntent().getParcelableExtra("RESPONSE");
         }
@@ -57,7 +59,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     private void bindData() {
         if (responseEntity != null) {
-            txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Name());
+            txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Code());
             if (responseEntity.getFinal_premium_without_addon() != null && !responseEntity.getFinal_premium_without_addon().equals("")) {
                 tvTotalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_without_addon()));
                 tvNetPremium.setText(getRupeesRound(responseEntity.getFinal_premium_with_addon()));
@@ -113,7 +115,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         btnBuy = (Button) findViewById(R.id.btnBuy);
         btnBackToQuote = (Button) findViewById(R.id.btnBackToQuote);
         cvAddon = (CardView) findViewById(R.id.cvAddon);
-
+        ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
     }
 
 
