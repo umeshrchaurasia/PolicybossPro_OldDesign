@@ -283,12 +283,5 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
         Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
-//    public void OnFailure(Throwable t) {
-//        cancelDialog();
-//        // startActivity(new Intent(HomeLoanActivity.this, QuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) quoteEntities));
-//        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-//
-//    }
 
 }

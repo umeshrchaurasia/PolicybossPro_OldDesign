@@ -166,52 +166,6 @@
 
 
 
-        <Spinner
-            android:visibility="gone"
-            android:id="@+id/spNewLoan"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/spinner_bg" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp"
-
-
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/txtDispalayMinCostProp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:text="5 lac"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-            <TextView
-                android:id="@+id/txtDispalayMaxCostProp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:text="50 cr"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
-
-
-        </RelativeLayout>
-
-
-        <SeekBar
-            android:id="@+id/sbCostOfProp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:max="5000"
-            android:progress="5"
-            android:thumbTintMode="multiply"
-            android:visibility="gone" />
-
         <TextView
             android:id="@+id/txtApplicantDetail"
             style="@style/TextViewStyle.Large"
@@ -283,10 +237,6 @@
             android:splitTrack="false"
             android:progressDrawable="@drawable/seekbar_style"
             android:thumb="@drawable/custom_thumb" />
-
-
-
-
 
 
 

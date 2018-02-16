@@ -17,12 +17,12 @@ public class FmHomeLoanRequest  implements Parcelable {
      */
 
     private int loan_requestID;
-    private int fba_id;
+    private int FBA_id;
     private HomeLoanRequest HomeLoanRequest;
 
     protected FmHomeLoanRequest(Parcel in) {
         loan_requestID = in.readInt();
-        fba_id = in.readInt();
+        FBA_id = in.readInt();
         HomeLoanRequest = in.readParcelable(magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest.class.getClassLoader());
     }
 
@@ -50,11 +50,11 @@ public class FmHomeLoanRequest  implements Parcelable {
     }
 
     public int getFba_id() {
-        return fba_id;
+        return FBA_id;
     }
 
-    public void setFba_id(int fba_id) {
-        this.fba_id = fba_id;
+    public void setFba_id(int FBA_id) {
+        this.FBA_id = FBA_id;
     }
 
     public HomeLoanRequest getHomeLoanRequest() {
@@ -73,7 +73,7 @@ public class FmHomeLoanRequest  implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(loan_requestID);
-        dest.writeInt(fba_id);
+        dest.writeInt(FBA_id);
         dest.writeParcelable(HomeLoanRequest, flags);
     }
 }

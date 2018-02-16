@@ -4,10 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
@@ -20,7 +22,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeL
  * Created by IN-RB on 19-01-2018.
  */
 
-public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAdapter.QuoteItem>  {
+public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAdapter.QuoteItem>  implements View.OnClickListener {
 
     Fragment mFrament;
     List<FmHomeLoanRequest> mQuoteList;
@@ -29,6 +31,7 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
         this.mFrament = mFrament;
         this.mQuoteList = mQuoteList;
     }
+
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
@@ -67,6 +70,24 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 
             holder.txtloanamount.setText("" + entity.getHomeLoanRequest().getPropertyCost());
 
+
+            //click listener
+
+
+            holder.txtOverflowMenu.setOnClickListener(this);
+
+            holder.txtPersonName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
+                }
+            });
+            holder.txtQuoteDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
+                }
+            });
             holder.txtloanamount.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -75,37 +96,35 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
             });
 
 
+
+
         }
     }
-    private void openPopUp(View v) {
-        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
-        final Menu menu = popupMenu.getMenu();
-
-        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
-        //popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
-
-      /*  switch (Settings.Global.listMode) {
-            case Settings.Global.LIST_STYLE_NORMAL: {
-                menu.findItem(R.id.nav_call).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_FAVORITE: {
-                menu.findItem(R.id.action_add_to_favorite).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_WATCH_LIST: {
-                menu.findItem(R.id.action_add_to_watch_list).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_DOWNLOAD: {
-                menu.findItem(R.id.action_download).setVisible(false);
-                break;
-            }
-        }
-
-        itemPosition = (int) view.getTag(R.id.tag_item_position);*/
-        popupMenu.show();
-    }
+//    private void openPopUp(View v, final QuoteListEntity entity) {
+//        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
+//        final Menu menu = popupMenu.getMenu();
+//
+//        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
+//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                switch (menuItem.getItemId()) {
+//                    case R.id.menuCall:
+//                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.menuSms:
+//                        Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.menuDelete:
+//                        ((MotorQuoteFragment) mFrament).removeQuote(entity);
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
+//
+//        popupMenu.show();
+//    }
 
 
 
@@ -117,4 +136,24 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
     public int getItemCount() {
         return mQuoteList.size();
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.txtloanamount:
+                ((HL_QuoteFragment)mFrament).redirectQuoteHL((FmHomeLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.txtQuoteDate:
+                ((HL_QuoteFragment)mFrament).redirectQuoteHL((FmHomeLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.txtPersonName:
+                ((HL_QuoteFragment)mFrament).redirectQuoteHL((FmHomeLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.txtOverflowMenu:
+                //openPopUp(view, (QuoteListEntity) view.getTag(view.getId()));
+                break;
+
+        }
+    }
+
 }
