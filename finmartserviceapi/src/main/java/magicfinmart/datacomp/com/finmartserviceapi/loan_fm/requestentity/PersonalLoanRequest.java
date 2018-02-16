@@ -65,7 +65,7 @@ public class PersonalLoanRequest implements Parcelable{
         this.ApplicantGender = "";
         this.ApplicantIncome = "";
         this.ApplicantNme="";
-        this.ApplicantObligations = "";
+        this.ApplicantObligations = "0";
         this.ApplicantSource = "";
         this.BrokerId = "";
         this.LoanRequired = "";

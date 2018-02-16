@@ -367,17 +367,17 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
             //region Property Initialize
 
-            spNewLoan = (Spinner) view.findViewById(R.id.spNewLoan);
+          //  spNewLoan = (Spinner) view.findViewById(R.id.spNewLoan);
             etCostOfProp = (EditText) view.findViewById(R.id.etCostOfProp);
 
 
             txtMaxLoanAmntAllow = (EditText) view.findViewById(R.id.txtMaxLoanAmntAllow);
-            txtDispalayMinCostProp = (TextView) view.findViewById(R.id.txtDispalayMinCostProp);
-            txtDispalayMaxCostProp = (TextView) view.findViewById(R.id.txtDispalayMaxCostProp);
-            txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
+          //  txtDispalayMinCostProp = (TextView) view.findViewById(R.id.txtDispalayMinCostProp);
+        //    txtDispalayMaxCostProp = (TextView) view.findViewById(R.id.txtDispalayMaxCostProp);
+         //   txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
             txtDispalayMaxTenureYear = (TextView) view.findViewById(R.id.txtDispalayMaxTenureYear);
             etTenureInYear = (TextView) view.findViewById(R.id.etTenureInYear);
-            sbCostOfProp = (SeekBar) view.findViewById(R.id.sbCostOfProp);
+          //  sbCostOfProp = (SeekBar) view.findViewById(R.id.sbCostOfProp);
             sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
 
 //        sbCostOfProp.setMax(5000);    // 50 cr
@@ -402,12 +402,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             etDepreciation = (EditText) view.findViewById(R.id.etDepreciation);
             etDirecPartRemuntion = (EditText) view.findViewById(R.id.etDirecPartRemuntion);
             et_DOB = (EditText) view.findViewById(R.id.et_DOB);
-            sbSalary = (Spinner) view.findViewById(R.id.sbSalary);
-            sbMonthlyInc = (SeekBar) view.findViewById(R.id.sbMonthlyInc);
-            sbTurnOver = (SeekBar) view.findViewById(R.id.sbTurnOver);
-            sbProfitAfTax = (SeekBar) view.findViewById(R.id.sbProfitAfTax);
-            sbDepreciation = (SeekBar) view.findViewById(R.id.sbDepreciation);
-            sbDirecPartRemuntion = (SeekBar) view.findViewById(R.id.sbDirecPartRemuntion);
+          //  sbSalary = (Spinner) view.findViewById(R.id.sbSalary);
+
             etMonthlyInc = (EditText) view.findViewById(R.id.etMonthlyInc);
             etEMI = (EditText) view.findViewById(R.id.etEMI);
             chkCoApplicant = (CheckBox) view.findViewById(R.id.chkCoApplicant);
@@ -415,26 +411,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             rbimgMale = (RadioButton) view.findViewById(R.id.rbimgMale);
             rbimgFemale = (RadioButton) view.findViewById(R.id.rbimgFemale);
 
-//        sbTurnOver.setMax(1000);    // 100 cr
-//        sbTurnOver.setProgress(10);  // 10 lac
-//        etTurnOver.setText("1000000");
-//
-//        sbProfitAfTax.setMax(100);
-//        sbProfitAfTax.setProgress(10);
-//        etProfitAtTax.setText("1000000");
-//
-//        sbDepreciation.setMax(100);
-//        sbDepreciation.setProgress(1);
-//        etDepreciation.setText("100000");
-//
-//        sbMonthlyInc.setMax(2500);    //2500
-//        sbMonthlyInc.setProgress(1);
-//        etMonthlyInc.setText("25000");
-//
-//
-//        sbDirecPartRemuntion.setMax(100);
-//        sbDirecPartRemuntion.setProgress(1);
-//        etDirecPartRemuntion.setText("100000");
 
 
             //endregion
@@ -456,13 +432,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             coApp_etDepreciation = (EditText) view.findViewById(R.id.coApp_etDepreciation);
             coApp_etDirecPartRemuntion = (EditText) view.findViewById(R.id.coApp_etDirecPartRemuntion);
             coApp_et_DOB = (EditText) view.findViewById(R.id.coApp_et_DOB);
-            coApp_sbSalary = (Spinner) view.findViewById(R.id.coApp_sbSalary);
+
             coApp_sbRelation = (Spinner) view.findViewById(R.id.coApp_sbRelation);
-            coApp_sbMonthlyInc = (SeekBar) view.findViewById(R.id.coApp_sbMonthlyInc);
-            coApp_sbTurnOver = (SeekBar) view.findViewById(R.id.coApp_sbTurnOver);
-            coApp_sbProfitAfTax = (SeekBar) view.findViewById(R.id.coApp_sbProfitAfTax);
-            coApp_sbDepreciation = (SeekBar) view.findViewById(R.id.coApp_sbDepreciation);
-            coApp_sbDirecPartRemuntion = (SeekBar) view.findViewById(R.id.coApp_sbDirecPartRemuntion);
             coApp_etMonthlyInc = (EditText) view.findViewById(R.id.coApp_etMonthlyInc);
             coApp_etEMI = (EditText) view.findViewById(R.id.coApp_etEMI);
             coApp_rgGender = (RadioGroup) view.findViewById(R.id.coApp_rgGender);
