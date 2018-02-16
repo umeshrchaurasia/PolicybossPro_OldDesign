@@ -24,6 +24,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
@@ -66,7 +67,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class InputFragment_hl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener, TextWatcher {
+public class InputFragment_hl extends BaseFragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener, TextWatcher {
 
 
     DBPersistanceController databaseController;   //DB declare
@@ -126,7 +127,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     private RadioGroup rgProperty1;
     private RadioGroup rgProperty2;
     AutoCompleteTextView acCity;
-    boolean isCitySelected;
     DBPersistanceController mReal;
     List<String> cityList;
     //endregion
@@ -151,10 +151,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
         cityList = databaseController.getHealthCity();
-
-        homeLoanRequest = new HomeLoanRequest();
-
-
         setListener();
         loadSpinner();
         setSalaried();
@@ -169,6 +165,12 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
                 visiblePropertyInfo(View.VISIBLE);
             }
+        } else {
+            fmHomeLoanRequest = new FmHomeLoanRequest();
+            fmHomeLoanRequest.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
+            fmHomeLoanRequest.setLoan_requestID(0);
+            homeLoanRequest = new HomeLoanRequest();
+            fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
         }
 
         return view;
@@ -223,12 +225,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             int tenureInYear = Integer.parseInt(homeLoanRequest.getLoanTenure());
             sbTenure.setProgress(tenureInYear);
             if (homeLoanRequest.getCity() != null) {
-//                cityList.clear();
-//                cityList.addAll(databaseController.getHealthCity())
-//
+
                 acCity.setText(homeLoanRequest.getCity());
                 acCity.performCompletion();
-                isCitySelected = true;
             }
 
             if (homeLoanRequest.getApplicantNme() != null)
@@ -488,31 +487,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     //endregion
 
     private void setListener() {
-        // region auto complete city listener
-        acCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                isCitySelected = true;
-            }
-        });
-        acCity.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                isCitySelected = false;
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
-        // endregion
         sbTenure.setOnSeekBarChangeListener(this);
-
-
         txtSalaried.setOnClickListener(this);
         txtSelfEMp.setOnClickListener(this);
         txtCoSalaried.setOnClickListener(this);
@@ -555,10 +531,32 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         etCostOfProp.addTextChangedListener(this);
 //
-
+        //for validating auto complete city
+        acCity.setOnFocusChangeListener(acCityFocusChange);
 
     }
 
+    View.OnFocusChangeListener acCityFocusChange = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (!b) {
+
+                String str = acCity.getText().toString();
+
+                ListAdapter listAdapter = acCity.getAdapter();
+                for (int i = 0; i < listAdapter.getCount(); i++) {
+                    String temp = listAdapter.getItem(i).toString();
+                    if (str.compareTo(temp) == 0) {
+                        return;
+                    }
+                }
+
+                acCity.setText("");
+                acCity.setError("Invalid city");
+                acCity.setFocusable(true);
+            }
+        }
+    };
 
     private void visiblePropertyInfo(int visibility) {
         if (visibility == View.VISIBLE) {
@@ -765,7 +763,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                 return;
 
             }
-            if (!isCitySelected) {
+            if (acCity.getText().toString().equals("") || acCity.getText().toString().length() == 0) {
                 acCity.setError("Please Enter city.");
                 acCity.requestFocus();
                 return;
@@ -922,10 +920,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             //endregion
 
-            // endregion
             setApplicantDetails();
-//            showDialog();
-//            new HomeLoanController(getActivity()).getHomeLoan(homeLoanRequest, this);
 
             ((HLMainActivity) getActivity()).getQuoteParameterBundle(fmHomeLoanRequest);
 
@@ -936,10 +931,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
     private void loadSpinner() {
 
-        //region Applicant Income Source Adapter
-
-
-        //endregion
 
         //region Relation Type Adapter
         coApp_relationTypeAdapter = new ArrayAdapter<String>(getActivity(),
@@ -949,23 +940,10 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         //endregion
 
 
-        //endregion
-
-        //region Loan Type Adapter
-//        arrayNewLoan = new ArrayList<String>();
-//        newLoanAdapter = new ArrayAdapter<String>(getActivity(),
-//                android.R.layout.simple_spinner_item, getNewLoanList());
-//        newLoanAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-//        spNewLoan.setAdapter(newLoanAdapter);
-        //endregion
-
         //region Preferred City Adapter
         arrayPreferedCity = new ArrayList<String>();
         preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
                 android.R.layout.simple_list_item_1, cityList);
-
-//        preferedCityAdapter = new ArrayAdapter<String>(getActivity(),
-//                android.R.layout.simple_list_item_1, getCityList());
 
         acCity.setAdapter(preferedCityAdapter);
         acCity.setThreshold(1);
@@ -986,16 +964,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     }
 
 
-    private ArrayList<String> getCityList() {
-//        if (new loCityFacade(getActivity()).getCityList() != null) {
-//            for (CityEntity entity : new CityFacade(getActivity()).getCityList()) {
-//                arrayPreferedCity.add(entity.getCity_Name());
-//            }
-//        }
-        //  arrayPreferedCity.add("Mumbai");
-        return arrayPreferedCity;
-    }
-
     private void setApplicantDetails() {
         // region  HomeLoanRequest Binding
 
@@ -1014,12 +982,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             homeLoanRequest.setApplicantGender("M");
         }
 
-//        if (sbSalary.getSelectedItem().toString().contains("Salaried")) {
-//
-//            homeLoanRequest.setApplicantSource("1");
-//        } else if (sbSalary.getSelectedItem().toString().contains("Self-Employed")) {
-//            homeLoanRequest.setApplicantSource("2");
-//        }
         homeLoanRequest.setApplicantSource(ApplicantSource);
 
         if (homeLoanRequest.getApplicantSource() == "1") {
@@ -1052,11 +1014,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
             homeLoanRequest.setCoApplicantSource(CoApplicantSource);
-//            if (coApp_sbSalary.getSelectedItem().toString().contains("Salaried")) {
-//                homeLoanRequest.setCoApplicantSource("1");
-//            } else if (sbSalary.getSelectedItem().toString().contains("Self-Employed")) {
-//                homeLoanRequest.setCoApplicantSource("2");
-//            }
+
             if (homeLoanRequest.getCoApplicantSource() == "1") {
                 homeLoanRequest.setCoApplicantIncome(coApp_etMonthlyInc.getText().toString());
             } else if (homeLoanRequest.getCoApplicantSource() == "2") {
@@ -1095,57 +1053,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         //endregion
     }
 
-
-    @Override
-    public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
-        if (response instanceof GetQuoteResponse) {
-            if (response.getStatus_Id() == 0) {
-
-                getQuoteResponse = ((GetQuoteResponse) response);
-
-                setFmHomeLoanRequest(getQuoteResponse.getQuote_id());
-
-            } else {
-                Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-
-    private void setFmHomeLoanRequest(int QuoteID) {
-
-        showDialog();
-        fmHomeLoanRequest = new FmHomeLoanRequest();
-        fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
-        fmHomeLoanRequest.setFba_id(loginEntity.getFBAId());
-        homeLoanRequest.setQuote_id(QuoteID);
-        fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
-        new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
-
-    }
-
-
-    @Override
-    public void OnSuccessFM(APIResponseFM response, String message) {
-
-        cancelDialog();
-        if (response instanceof FmSaveQuoteHomeLoanResponse) {
-            if (response.getStatusNo() == 0) {
-                LoanRequireID = ((FmSaveQuoteHomeLoanResponse) response).getMasterData().get(0).getLoanRequestID();
-                fmHomeLoanRequest.setLoan_requestID(LoanRequireID);
-                ((HLMainActivity) getActivity()).getQuoteParameterBundle(fmHomeLoanRequest);
-
-            }
-        }
-    }
-
-    @Override
-    public void OnFailure(Throwable t) {
-        cancelDialog();
-        // startActivity(new Intent(getActivity(), QuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) quoteEntities));
-        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-    }
 
     //region SeekBar ChangeListener
     @Override
