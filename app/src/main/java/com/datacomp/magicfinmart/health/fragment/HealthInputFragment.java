@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.utility.Sortbyroll;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
 /**
  * Created by Nilesh Birhade on 11/02/2018.
@@ -59,6 +61,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     HealthQuote healthQuote;
     HealthRequestEntity healthRequestEntity;
+    DBPersistanceController db;
+    List<HealthSumAssured> listSumAssured;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,26 +75,103 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         // set initial values
         healthQuote = new HealthQuote();
-        healthQuote.setAgent_source("App");
-        healthQuote.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
-
-        healthRequestEntity = new HealthRequestEntity();
-        memberList = new ArrayList<>();
-
         cityList = new ArrayList<>();
+        memberList = new ArrayList<>();
+        healthRequestEntity = new HealthRequestEntity();
+
         cityList = new DBPersistanceController(getActivity()).getHealthCity();
 
         cityBinding();
+
+        db = new DBPersistanceController(getActivity());
+        listSumAssured = db.getSumAssured();
+
+        sumAssuredBinding();
 
         setListener();
 
         //default disableAll
         disableAllInputs();
 
-        //default self selected
-        btnSelf.performClick();
+        if (getArguments() != null) {
+            healthQuote = getArguments().getParcelable(HealthQuoteBottomTabsActivity.INPUT_DATA);
+            healthRequestEntity = healthQuote.getHealthRequest();
+            processMemberForAge();
+            bindInput();
+        } else {
+            healthQuote.setAgent_source("App");
+            healthQuote.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
+            //default self selected
+            btnSelf.performClick();
+        }
+
 
         return view;
+    }
+
+    private void processMemberForAge() {
+        List<MemberListEntity> listM = new ArrayList<MemberListEntity>();
+        for (int i = 0; i < healthRequestEntity.getMemberList().size(); i++) {
+            MemberListEntity entity = healthRequestEntity.getMemberList().get(i);
+            entity.setAge(getAgeFromDate(entity.getMemberDOB()));
+            listM.add(entity);
+        }
+
+        healthRequestEntity.setMemberList(listM);
+    }
+
+    private void sumAssuredBinding() {
+
+        adapter = new HealthSumAssuredViewAdapter(this, listSumAssured);
+        rvSumAssured.setAdapter(adapter);
+    }
+
+    private void bindInput() {
+
+        selectCoverFor();
+        etAmount.setText(healthRequestEntity.getSumInsured());
+        etMobile.setText(healthRequestEntity.getContactMobile());
+        etName.setText(healthRequestEntity.getContactName());
+
+        //select existing sum assured amount in recycler view
+
+        for (int i = 0; i < listSumAssured.size(); i++) {
+            if (listSumAssured.get(i).getSumAssuredAmount() == Long.parseLong(healthRequestEntity.getSumInsured())) {
+                listSumAssured.get(i).setSelected(true);
+                break;
+            }
+        }
+        adapter.refreshBinding(listSumAssured);
+
+        acCity.setText(db.getHealthCityName(healthRequestEntity.getCityID()));
+        acCity.performCompletion();
+
+        enableMembers();
+    }
+
+    private void enableMembers() {
+
+        for (int i = 0; i < healthRequestEntity.getMemberList().size(); i++) {
+            MemberListEntity entity = healthRequestEntity.getMemberList().get(i);
+            if (i == 0) {
+                et1.setText(String.valueOf(entity.getAge()));
+                img1.setImageResource(R.mipmap.user_selected);
+            }
+        }
+    }
+
+    private void selectCoverFor() {
+        switch (healthQuote.getHealthRequest().getPolicyFor().toLowerCase()) {
+            case "self":
+                btnSelf.performClick();
+                break;
+            case "family":
+                btnFamily.performClick();
+                break;
+            case "parent":
+                btnParent.performClick();
+                break;
+        }
     }
 
 
@@ -160,8 +241,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         int numberOfColumns = 4;
         rvSumAssured.setLayoutManager(new GridLayoutManager(getActivity(), numberOfColumns));
-        adapter = new HealthSumAssuredViewAdapter(this);
-        rvSumAssured.setAdapter(adapter);
+
 
         btnSelf = (Button) view.findViewById(R.id.btnSelf);
         btnFamily = (Button) view.findViewById(R.id.btnFamily);
@@ -236,7 +316,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             case R.id.btnGetHealthQuote:
 
                 //region validation
-
+                memberList.clear();
                 if (etName.getText().toString().length() == 0) {
                     etName.setError("Enter name");
                     etName.setFocusable(true);
@@ -269,6 +349,13 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et1.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
+                        entity.setMemberTypeID("1");
+                        entity.setMemberNumber("1");
+                        if (Age > 18)
+                            entity.setMemberType("Adult");
+                        else
+                            entity.setMemberType("Child");
+
                         memberList.add(entity);
                     }
 
@@ -279,11 +366,20 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 } else if (coverFor == 1) { //family
 
                     healthRequestEntity.setPolicyFor("Family");
+                    healthRequestEntity.setMaritalStatusID(2);
+
                     if (et1.isEnabled() && et1.getText().toString().length() != 0) {
                         MemberListEntity entity = new MemberListEntity();
                         int Age = Integer.parseInt(et1.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
+                        entity.setMemberTypeID("1");
+                        entity.setMemberNumber("1");
+                        if (Age > 18)
+                            entity.setMemberType("Adult");
+                        else
+                            entity.setMemberType("Child");
+
                         memberList.add(entity);
                     }
                     if (et2.isEnabled() && et2.getText().toString().length() != 0) {
@@ -291,6 +387,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et2.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
+
+                        entity.setMemberTypeID("2");
+                        entity.setMemberNumber("2");
+                        if (Age > 18)
+                            entity.setMemberType("Adult");
+                        else
+                            entity.setMemberType("Child");
+
                         memberList.add(entity);
                     }
                     if (et3.isEnabled() && et3.getText().toString().length() != 0) {
@@ -298,6 +402,15 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et3.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
+
+                        entity.setMemberTypeID("3");
+                        entity.setMemberNumber("3");
+                        if (Age > 18)
+                            entity.setMemberType("Adult");
+                        else
+                            entity.setMemberType("Child");
+
+
                         memberList.add(entity);
                     }
                     if (et4.isEnabled() && et4.getText().toString().length() != 0) {
@@ -305,6 +418,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et4.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
+
+                        entity.setMemberTypeID("4");
+                        entity.setMemberNumber("4");
+                        if (Age > 18)
+                            entity.setMemberType("Adult");
+                        else
+                            entity.setMemberType("Child");
+
                         memberList.add(entity);
                     }
                     if (et5.isEnabled() && et5.getText().toString().length() != 0) {
@@ -312,6 +433,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et5.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
+
+                        entity.setMemberTypeID("5");
+                        entity.setMemberNumber("5");
+                        if (Age > 18)
+                            entity.setMemberType("Adult");
+                        else
+                            entity.setMemberType("Child");
+
                         memberList.add(entity);
                     }
                     if (et6.isEnabled() && et6.getText().toString().length() != 0) {
@@ -319,6 +448,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et6.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
+
+                        entity.setMemberTypeID("6");
+                        entity.setMemberNumber("6");
+                        if (Age > 18)
+                            entity.setMemberType("Adult");
+                        else
+                            entity.setMemberType("Child");
+
                         memberList.add(entity);
                     }
 
@@ -333,6 +470,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et1.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
+
+                        entity.setMemberTypeID("1");
+                        entity.setMemberNumber("1");
+                        if (Age > 18)
+                            entity.setMemberType("Adult");
+                        else
+                            entity.setMemberType("Child");
+
                         memberList.add(entity);
                     }
                     if (et2.isEnabled() && et2.getText().toString().length() != 0) {
@@ -340,6 +485,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et2.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
+
+                        entity.setMemberTypeID("2");
+                        entity.setMemberNumber("2");
+                        if (Age > 18)
+                            entity.setMemberType("Adult");
+                        else
+                            entity.setMemberType("Child");
+
                         memberList.add(entity);
                     }
 
@@ -371,8 +524,12 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_MEMBER) {
             if (data != null) {
-                healthQuote = (HealthQuote) data.getParcelableExtra(MEMBER_LIST);
-                Toast.makeText(getActivity(), "Redirect to quote", Toast.LENGTH_SHORT).show();
+                healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
+
+                //TODO: Health Quote accepted.
+                //1. pass bundle to quote fragment
+                //2. trigger quote fragment
+                ((HealthQuoteBottomTabsActivity) getActivity()).redirectToQuote(healthQuote);
             }
         }
     }
@@ -468,12 +625,12 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     private void resetonClick() {
 
-        img1.setImageResource(R.drawable.vector_person_health_unselect);
-        img2.setImageResource(R.drawable.vector_person_health_unselect);
-        img3.setImageResource(R.drawable.vector_person_health_unselect);
-        img4.setImageResource(R.drawable.vector_person_health_unselect);
-        img5.setImageResource(R.drawable.vector_person_health_unselect);
-        img6.setImageResource(R.drawable.vector_person_health_unselect);
+        img1.setImageResource(R.mipmap.user_unselected);
+        img2.setImageResource(R.mipmap.user_unselected);
+        img3.setImageResource(R.mipmap.user_unselected);
+        img4.setImageResource(R.mipmap.user_unselected);
+        img5.setImageResource(R.mipmap.user_unselected);
+        img6.setImageResource(R.mipmap.user_unselected);
         et1.setEnabled(false);
         et1.setText("");
         et2.setEnabled(false);
@@ -500,11 +657,11 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         switch (view.getId()) {
             case R.id.img1:
                 if (!et1.isEnabled()) {
-                    img1.setImageResource(R.drawable.vector_person_health_select);
+                    img1.setImageResource(R.mipmap.user_selected);
                     et1.setEnabled(true);
                     et1.setFocusableInTouchMode(true);
                 } else {
-                    img1.setImageResource(R.drawable.vector_person_health_unselect);
+                    img1.setImageResource(R.mipmap.user_unselected);
                     et1.setEnabled(false);
                     et1.setText("");
                     et1.setFocusableInTouchMode(false);
@@ -512,11 +669,11 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 break;
             case R.id.img2:
                 if (!et2.isEnabled()) {
-                    img2.setImageResource(R.drawable.vector_person_health_select);
+                    img2.setImageResource(R.mipmap.user_selected);
                     et2.setEnabled(true);
                     et2.setFocusableInTouchMode(true);
                 } else {
-                    img2.setImageResource(R.drawable.vector_person_health_unselect);
+                    img2.setImageResource(R.mipmap.user_unselected);
                     et2.setEnabled(false);
                     et2.setText("");
                     et2.setFocusableInTouchMode(false);
@@ -524,11 +681,11 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 break;
             case R.id.img3:
                 if (!et3.isEnabled()) {
-                    img3.setImageResource(R.drawable.vector_person_health_select);
+                    img3.setImageResource(R.mipmap.user_selected);
                     et3.setEnabled(true);
                     et3.setFocusableInTouchMode(true);
                 } else {
-                    img3.setImageResource(R.drawable.vector_person_health_unselect);
+                    img3.setImageResource(R.mipmap.user_unselected);
                     et3.setEnabled(false);
                     et3.setText("");
                     et3.setFocusableInTouchMode(false);
@@ -536,23 +693,23 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 break;
             case R.id.img4:
                 if (!et4.isEnabled()) {
-                    img4.setImageResource(R.drawable.vector_person_health_select);
+                    img4.setImageResource(R.mipmap.user_selected);
                     et4.setEnabled(true);
                     et4.setFocusableInTouchMode(true);
                 } else {
-                    img4.setImageResource(R.drawable.vector_person_health_unselect);
+                    img4.setImageResource(R.mipmap.user_unselected);
                     et4.setEnabled(false);
-                    et5.setText("");
+                    et4.setText("");
                     et4.setFocusableInTouchMode(false);
                 }
                 break;
             case R.id.img5:
                 if (!et5.isEnabled()) {
-                    img5.setImageResource(R.drawable.vector_person_health_select);
+                    img5.setImageResource(R.mipmap.user_selected);
                     et5.setEnabled(true);
                     et5.setFocusableInTouchMode(true);
                 } else {
-                    img5.setImageResource(R.drawable.vector_person_health_unselect);
+                    img5.setImageResource(R.mipmap.user_unselected);
                     et5.setEnabled(false);
                     et5.setText("");
                     et5.setFocusableInTouchMode(false);
@@ -560,11 +717,11 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 break;
             case R.id.img6:
                 if (!et6.isEnabled()) {
-                    img6.setImageResource(R.drawable.vector_person_health_select);
+                    img6.setImageResource(R.mipmap.user_selected);
                     et6.setEnabled(true);
                     et6.setFocusableInTouchMode(true);
                 } else {
-                    img6.setImageResource(R.drawable.vector_person_health_unselect);
+                    img6.setImageResource(R.mipmap.user_unselected);
                     et6.setEnabled(false);
                     et6.setText("");
                     et6.setFocusableInTouchMode(false);
@@ -591,5 +748,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     }
 
     //endregion
+
 
 }

@@ -524,6 +524,7 @@ public class DBPersistanceController {
     //endregion
 
     //region Proprtyinfo Loan
+
     public List<PropertyInfoEntity> getLoanPropertyInfoList() {
         List<PropertyInfoEntity> propertyInfoEntity = new ArrayList<PropertyInfoEntity>();
         propertyInfoEntity.add(new PropertyInfoEntity(1, "Property Identified & ready to occupy"));
@@ -634,6 +635,20 @@ public class DBPersistanceController {
             return 0;
         }
 
+    }
+
+    public String getHealthCityName(int cityID) {
+        hashmapCity = new HashMap<String, Integer>();
+        MapHealthCity();
+        String HealthCityName = "";
+        for (Map.Entry<String, Integer> item : hashmapCity.entrySet()) {
+            if (item.getValue() == cityID) {
+                HealthCityName = item.getKey();
+                break;
+            }
+        }
+
+        return HealthCityName;
     }
 
     public void MapHealthCity() {

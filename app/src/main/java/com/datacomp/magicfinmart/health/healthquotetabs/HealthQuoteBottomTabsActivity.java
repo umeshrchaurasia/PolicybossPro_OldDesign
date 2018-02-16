@@ -14,20 +14,26 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.fragment.HealthInputFragment;
 import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
+import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
 
-public class HealthQuoteTabsActivity extends BaseActivity {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 
-    private static String INPUT_FRAGMENT = "input";
-    private static String QUOTE_FRAGMENT = "quote";
+public class HealthQuoteBottomTabsActivity extends BaseActivity {
+
+    private static String INPUT_FRAGMENT = "input_health";
+    private static String QUOTE_FRAGMENT = "quote_health";
+
+
+    public static String INPUT_DATA = "input_health_data";
+    public static String QUOTE_DATA = "quote_health_data";
+
     private static String BUY_FRAGMENT = "buy";
-
-    public static String MOTOR_INPUT_REQUEST = "input_request_entity";
-    public static String MOTOR_QUOTE_REQUEST = "quote_request_entity";
 
     BottomNavigationView bottomNavigationView;
     Bundle quoteBundle;
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
+    HealthQuote healthQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,12 @@ public class HealthQuoteTabsActivity extends BaseActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        if (getIntent().getParcelableExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT) != null) {
+            healthQuote = getIntent().getParcelableExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT);
+            quoteBundle = new Bundle();
+            quoteBundle.putParcelable(INPUT_DATA, healthQuote);
+        }
 
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
     }
@@ -73,31 +85,23 @@ public class HealthQuoteTabsActivity extends BaseActivity {
                 case R.id.navigation_quote:
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
+
                     if (tabFragment != null) {
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
 
                     } else {
-                        if (quoteBundle != null) {
+                        if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
                             HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
                             quoteFragment.setArguments(quoteBundle);
                             loadFragment(quoteFragment, QUOTE_FRAGMENT);
                         } else {
 
-                            Toast.makeText(HealthQuoteTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     return true;
                 case R.id.navigation_buy:
-
-//                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
-//                    if (tabFragment != null) {
-//                        loadFragment(tabFragment, INPUT_FRAGMENT);
-//
-//                    } else {
-//                        loadFragment(new BuyFragment(), INPUT_FRAGMENT);
-//                    }
-
                     return true;
             }
 
@@ -108,11 +112,25 @@ public class HealthQuoteTabsActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        HealthQuoteTabsActivity.this.finish();
+        HealthQuoteBottomTabsActivity.this.finish();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    public void redirectToQuote(HealthQuote healthQuote) {
+        this.healthQuote = healthQuote;
+        quoteBundle = new Bundle();
+        quoteBundle.putParcelable(QUOTE_DATA, healthQuote);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+    }
+
+    public void redirectToInput() {
+        quoteBundle = new Bundle();
+        quoteBundle.putParcelable(INPUT_DATA, healthQuote);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
     }
 }

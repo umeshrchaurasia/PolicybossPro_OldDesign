@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -91,4 +92,21 @@ public class BaseFragment extends Fragment {
         return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
     }
 
+    public int getAgeFromDate(String birthdate) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Calendar bithDate = Calendar.getInstance();
+            bithDate.setTime(dateFormat.parse(birthdate));
+            Calendar today = Calendar.getInstance();
+            int curYear = today.get(Calendar.YEAR);
+            int dobYear = bithDate.get(Calendar.YEAR);
+
+            return curYear - dobYear;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

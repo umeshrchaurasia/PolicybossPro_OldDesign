@@ -338,7 +338,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
         //endregion
 
         if (motorRequestEntity.getExternal_bifuel_value() != 0)
-            etExtValue.setText(motorRequestEntity.getExternal_bifuel_value());
+            etExtValue.setText(String.valueOf(motorRequestEntity.getExternal_bifuel_value()));
 
         etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
 

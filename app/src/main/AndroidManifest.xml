@@ -277,7 +277,7 @@
                 android:value=".home.HomeActivity" />
         </activity>
         <activity
-            android:name=".health.healthquotetabs.HealthQuoteTabsActivity"
+            android:name=".health.healthquotetabs.HealthQuoteBottomTabsActivity"
             android:label="Quotes"
             android:parentActivityName=".health.HealthQuoteAppActivity"
             android:theme="@style/AppTheme"
@@ -290,13 +290,13 @@
             android:name=".health.fragment.HealthMemberDetailsDialogActivity"
             android:label="@string/title_activity_health_member_details_dialog"
             android:noHistory="true"
-            android:parentActivityName=".health.healthquotetabs.HealthQuoteTabsActivity"
+            android:parentActivityName=".health.healthquotetabs.HealthQuoteBottomTabsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".health.healthquotetabs.HealthQuoteTabsActivity" />
+                android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
         </activity>
     </application>
 
