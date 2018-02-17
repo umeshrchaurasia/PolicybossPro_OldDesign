@@ -93,10 +93,12 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         initView(view);
         realm = Realm.getDefaultInstance();
         databaseController = new DBPersistanceController(getActivity());
+        saveQuoteEntity = new SaveQuoteResponse.SaveQuoteEntity();
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
+                saveQuoteEntity.setVehicleRequestID(Integer.parseInt(motorRequestEntity.getVehicleRequestID()));
                 initializeAdapters();
                 setListener();
                 updateHeader();
