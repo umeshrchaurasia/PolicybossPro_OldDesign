@@ -96,7 +96,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
-                saveQuoteEntity.setVehicleRequestID(Integer.parseInt(motorRequestEntity.getVehicleRequestID()));
+                if (motorRequestEntity.getVehicleRequestID() != null)
+                    saveQuoteEntity.setVehicleRequestID(Integer.parseInt(motorRequestEntity.getVehicleRequestID()));
                 initializeAdapters();
                 setListener();
                 updateHeader();
@@ -216,7 +217,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         entity.setIsActive(1);
 
         if (saveQuoteEntity != null) {
-            entity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
+            if (saveQuoteEntity.getVehicleRequestID() != 0)
+                entity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
         }
         new QuoteApplicationController(getActivity()).saveQuote(entity, this);
     }
