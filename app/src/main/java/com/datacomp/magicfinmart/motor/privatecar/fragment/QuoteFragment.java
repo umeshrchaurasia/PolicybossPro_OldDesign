@@ -28,7 +28,6 @@ import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.CarQuoteAdapter;
-import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
@@ -62,7 +61,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
 
 public class QuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
-    String status;
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
     CarQuoteAdapter mAdapter;
@@ -348,7 +346,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 alertDialog.dismiss();
             }
         });
-
 
         alertDialog.setCancelable(false);
         alertDialog.show();

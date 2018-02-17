@@ -131,11 +131,6 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
 
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getCarMakeModel();
-
-        if (makeModelList == null) {
-            showDialog();
-            new MasterController(getActivity()).getCarMaster(this);
-        }
         prevInsurerList = dbController.getInsurerList();
         fuelList = dbController.getFuelTypeByModelId("0");
         variantList = dbController.getVariantbyModelID("0");

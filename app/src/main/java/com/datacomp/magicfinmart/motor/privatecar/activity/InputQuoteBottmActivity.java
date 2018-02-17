@@ -142,7 +142,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                             loadFragment(quoteFragment, QUOTE_FRAGMENT);
                         } else {
 
-                            Toast.makeText(InputQuoteBottmActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(InputQuoteBottmActivity.this, "Tap get Quotes ", Toast.LENGTH_SHORT).show();
                         }
                     }
 

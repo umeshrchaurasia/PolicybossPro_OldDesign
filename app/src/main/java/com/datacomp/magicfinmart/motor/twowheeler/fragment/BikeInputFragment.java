@@ -130,10 +130,6 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
 
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getBikeMakeModel();
-        if (makeModelList == null) {
-            showDialog();
-            new MasterController(getActivity()).getBikeMaster(this);
-        }
         prevInsurerList = dbController.getInsurerList();
         //fuelList = dbController.getFuelTypeByModelId("0");
         variantList = dbController.getVariantbyModelID("0");

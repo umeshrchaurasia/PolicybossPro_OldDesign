@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.introslider;
+package magicfinmart.datacomp.com.finmartserviceapi;
 
 import android.content.Context;
 import android.content.SharedPreferences;
