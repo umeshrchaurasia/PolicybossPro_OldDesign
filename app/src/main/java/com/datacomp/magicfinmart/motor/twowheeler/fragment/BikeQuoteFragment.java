@@ -71,7 +71,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     List<MobileAddOn> listMobileAddOn;
     TextView tvPolicyExp, tvMakeModel, tvFuel, tvCrn, tvCount, tvRtoName;
     Switch swAddon;
-    TextView filter;
+    TextView filter,tvWithoutAddon,tvWithAddon;
     ImageView ivEdit;
     BikeMasterEntity carMasterEntity;
     Realm realm;
@@ -117,7 +117,20 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         swAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+                if (webViewLoader.getVisibility() == View.GONE) {
+                    if (b) {
+                        tvWithAddon.setTextColor(getResources().getColor(R.color.colorAccent));
+                        tvWithoutAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
+                        applyAllAddon();
+                    } else {
+                        tvWithoutAddon.setTextColor(getResources().getColor(R.color.colorAccent));
+                        tvWithAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
+                        removeAllAddon();
+                    }
+                } else {
+                    swAddon.setChecked(false);
+                    Toast.makeText(getActivity(), "Please Wait.. Fetching all quotes", Toast.LENGTH_SHORT).show();
+                }
             }
         });
        /* bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -147,6 +160,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         swAddon = (Switch) view.findViewById(R.id.swAddon);
         ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
         filter = (TextView) view.findViewById(R.id.filter);
+        tvWithAddon = (TextView) view.findViewById(R.id.tvWithAddon);
+        tvWithoutAddon = (TextView) view.findViewById(R.id.tvWithoutAddon);
     }
 
     private void initializeAdapters() {
@@ -165,14 +180,21 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         if (motorRequestEntity != null) {
             carMasterEntity = databaseController.getBikeVarientDetails("" + motorRequestEntity.getVehicle_id());
 
-            tvRtoName.setText("" + new DBPersistanceController(getActivity())
-                    .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+            if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {
+                tvRtoName.setText("" + new DBPersistanceController(getActivity())
+                        .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+            } else {
+                String s = new DBPersistanceController(getActivity()).getRTOCityName(String.valueOf(motorRequestEntity.getRto_id()));
+                s = s + " | ";
+                s = s + motorRequestEntity.getRegistration_no();
+                tvRtoName.setText(s);
+            }
         }
 
         if (carMasterEntity != null) {
             tvPolicyExp.setText("" + carMasterEntity.getVariant_Name());
             tvFuel.setText(carMasterEntity.getFuel_Name());
-            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name());
+            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + "(" + carMasterEntity.getCubic_Capacity() + "CC)");
         }
     }
 
@@ -267,6 +289,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         } else if (response instanceof SaveQuoteResponse) {
             if (response.getStatusNo() == 0) {
                 saveQuoteEntity = ((SaveQuoteResponse) response).getMasterData().get(0);
+                motorRequestEntity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
             }
         }
     }
@@ -432,7 +455,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             }*/
         }
 
-        entity.setSearch_reference_number(Constants.getSharedPreference(getActivity()).getString(Utility.CARQUOTE_UNIQUEID, ""));
+        entity.setSearch_reference_number(Constants.getSharedPreference(getActivity()).getString(Utility.BIKEQUOTE_UNIQUEID, ""));
 
 
         new MotorController(getActivity()).saveAddOn(entity, this);

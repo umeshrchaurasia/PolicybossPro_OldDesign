@@ -4,12 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.login.LoginActivity;
+import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -23,6 +26,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMas
 public class EulaActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     Button btnAgree, btnDisAgree;
     PrefManager prefManager;
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,9 +46,11 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
             new MasterController(this).getRTOMaster(this);
         if (prefManager.IsInsuranceMasterUpdate())
             new MasterController(this).getInsuranceMaster(this);
+        settingWebview();
     }
 
     private void initWidgets() {
+        webView = (WebView) findViewById(R.id.webView);
         btnAgree = (Button) findViewById(R.id.btnAgree);
         btnDisAgree = (Button) findViewById(R.id.btnDisAgree);
     }
@@ -60,11 +66,13 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
             case R.id.btnAgree:
                 if (checkAllMastersIsUpdate()) {
                     startActivity(new Intent(this, LoginActivity.class));
-                }else{
+                } else {
                     Toast.makeText(this, "Server Down Try After some time", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btnDisAgree:
+                prefManager.setFirstTimeLaunch(false);
+                finish();
                 break;
         }
     }
@@ -106,5 +114,50 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
             return false;
 
         return true;
+    }
+
+    private void settingWebview() {
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+
+        settings.setBuiltInZoomControls(true);
+        settings.setUseWideViewPort(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportMultipleWindows(false);
+
+        settings.setLoadsImagesAutomatically(true);
+        settings.setLightTouchEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptEnabled(true);
+
+
+        MyWebViewClient webViewClient = new MyWebViewClient();
+        webView.setWebViewClient(webViewClient);
+       /* webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                // TODO show you progress image
+                showDialog();
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // TODO hide your progress image
+                cancelDialog();
+                super.onPageFinished(view, url);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+                return false;
+            }
+        });*/
+        webView.getSettings().setBuiltInZoomControls(true);
+       /* Log.d("URL", url);
+        //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+        webView.loadUrl(url);*/
+        webView.loadUrl("file:///android_asset/eula.html");
     }
 }

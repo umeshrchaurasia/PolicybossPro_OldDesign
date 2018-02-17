@@ -367,76 +367,84 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
 
         String vehicleID = masterData.getVariant_Id();
         CarMasterEntity carMasterEntity = dbController.getVarientDetails(vehicleID);
-        makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
+        if (carMasterEntity != null) {
+            try {
 
-        //region make model
+                makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
 
-        acMakeModel.setText(makeModel);
-        acMakeModel.performCompletion();
+                //region make model
 
-        //endregion
+                acMakeModel.setText(makeModel);
+                acMakeModel.performCompletion();
 
-        //region varient list
+                //endregion
 
-        variantList.clear();
-        List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
-                carMasterEntity.getModel_Name(),
-                carMasterEntity.getFuel_Name());
-        variantList.addAll(varList);
-        varientAdapter.notifyDataSetChanged();
+                //region varient list
+
+                variantList.clear();
+                List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
+                        carMasterEntity.getModel_Name(),
+                        carMasterEntity.getFuel_Name());
+                variantList.addAll(varList);
+                varientAdapter.notifyDataSetChanged();
 
 
-        //endregion
+                //endregion
 
-        //region fuel list
-        fuelList.clear();
-        fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
-        fuelAdapter.notifyDataSetChanged();
+                //region fuel list
+                fuelList.clear();
+                fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
+                fuelAdapter.notifyDataSetChanged();
 
-        //endregion
+                //endregion
 
-        //region spinner selection
+                //region spinner selection
 
-        int varientIndex = 0;
-        for (int i = 0; i < variantList.size(); i++) {
-            if (variantList.get(i).matches(carMasterEntity.getVariant_Name())) {
-                varientIndex = i;
-                break;
+                int varientIndex = 0;
+                for (int i = 0; i < variantList.size(); i++) {
+                    if (variantList.get(i).matches(carMasterEntity.getVariant_Name())) {
+                        varientIndex = i;
+                        break;
+                    }
+                }
+                spVarient.setSelection(varientIndex);
+
+                int fuelIndex = 0;
+                for (int i = 0; i < fuelList.size(); i++) {
+                    if (fuelList.get(i).matches(carMasterEntity.getFuel_Name())) {
+                        fuelIndex = i;
+                        break;
+                    }
+                }
+                spFuel.setSelection(fuelIndex);
+
+                //endregion
+
+                //region Rto binding
+
+                acRto.setText(dbController.getRTOCityName(String.valueOf(masterData.getRTO_Code())));
+                acRto.performCompletion();
+                regplace = acRto.getText().toString();
+
+                if (masterData.getRegistration_Date() != null)
+                    etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
+
+                if (masterData.getPurchase_Date() != null)
+                    etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getPurchase_Date())));
+                else
+                    etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getRegistration_Date())));
+
+                // etCC.setText("" + masterData.getCubic_Capacity() + "CC");
+                etCC.setText(carMasterEntity.getCubic_Capacity() + "CC");
+                //  setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
-        spVarient.setSelection(varientIndex);
-
-        int fuelIndex = 0;
-        for (int i = 0; i < fuelList.size(); i++) {
-            if (fuelList.get(i).matches(carMasterEntity.getFuel_Name())) {
-                fuelIndex = i;
-                break;
-            }
-        }
-        spFuel.setSelection(fuelIndex);
 
         //endregion
 
-        //region Rto binding
-
-        acRto.setText(dbController.getRTOCityName(String.valueOf(masterData.getRTO_Code())));
-        acRto.performCompletion();
-        regplace = acRto.getText().toString();
-
-        //endregion
-
-        try {
-
-            etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
-
-            etMfgDate.setText(changeDateFormat(masterData.getPurchase_Date()));
-
-            etCC.setText("" + masterData.getCubic_Capacity() + "CC");
-            //  setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
     }
 
@@ -754,7 +762,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
                         return;
                     } else {
                         int extval = Integer.parseInt(etExtValue.getText().toString());
-                        if (extval < 10000 || extval > 50000) {
+                        if (extval < 10000 || extval > 60000) {
                             etExtValue.requestFocus();
                             etExtValue.setError("Enter Amount between 10000 & 60000");
                             return;
@@ -1057,7 +1065,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
         motorRequestEntity.setElectrical_accessory("0");
         motorRequestEntity.setNon_electrical_accessory("0");
         if (regNo.equals(""))
-            motorRequestEntity.setRegistration_no(getRtoCity(acRto.getText().toString()));
+            motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
         else
             motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
         motorRequestEntity.setIs_llpd("no");
@@ -1223,8 +1231,11 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
 
             if (response.getStatusNo() == 0) {
                 if (!((FastLaneDataResponse) response).getMasterData().getVariant_Id().equals("0")) {
-                    this.fastLaneResponseEntity = ((FastLaneDataResponse) response).getMasterData();
-                    bindFastLaneData(((FastLaneDataResponse) response).getMasterData());
+                    CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(((FastLaneDataResponse) response).getMasterData().getVariant_Id()));
+                    if (carMasterEntity != null) {
+                        this.fastLaneResponseEntity = ((FastLaneDataResponse) response).getMasterData();
+                        bindFastLaneData(((FastLaneDataResponse) response).getMasterData());
+                    }
                 }
             }
         } else if (response instanceof CarMasterResponse) {

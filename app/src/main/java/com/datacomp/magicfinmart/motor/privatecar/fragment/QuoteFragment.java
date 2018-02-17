@@ -71,7 +71,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     List<MobileAddOn> listMobileAddOn;
     TextView tvPolicyExp, tvMakeModel, tvFuel, tvCrn, tvCount, tvRtoName;
     Switch swAddon;
-    TextView filter;
+    TextView filter,tvWithoutAddon,tvWithAddon;
     ImageView ivEdit;
     CarMasterEntity carMasterEntity;
     Realm realm;
@@ -117,11 +117,21 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         swAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if (b) {
-                    applyAllAddon();
+                if (webViewLoader.getVisibility() == View.GONE) {
+                    if (b) {
+                        tvWithAddon.setTextColor(getResources().getColor(R.color.colorAccent));
+                        tvWithoutAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
+                        applyAllAddon();
+                    } else {
+                        tvWithoutAddon.setTextColor(getResources().getColor(R.color.colorAccent));
+                        tvWithAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
+                        removeAllAddon();
+                    }
                 } else {
-                    removeAllAddon();
+                    swAddon.setChecked(false);
+                    Toast.makeText(getActivity(), "Please Wait.. Fetching all quotes", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
         /*bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -151,6 +161,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         swAddon = (Switch) view.findViewById(R.id.swAddon);
         ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
         filter = (TextView) view.findViewById(R.id.filter);
+        tvWithAddon = (TextView) view.findViewById(R.id.tvWithAddon);
+        tvWithoutAddon = (TextView) view.findViewById(R.id.tvWithoutAddon);
     }
 
     private void initializeAdapters() {
@@ -169,14 +181,21 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         if (motorRequestEntity != null) {
             carMasterEntity = databaseController.getVarientDetails("" + motorRequestEntity.getVehicle_id());
 
-            tvRtoName.setText("" + new DBPersistanceController(getActivity())
-                    .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+            if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {
+                tvRtoName.setText("" + new DBPersistanceController(getActivity())
+                        .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+            } else {
+                String s = new DBPersistanceController(getActivity()).getRTOCityName(String.valueOf(motorRequestEntity.getRto_id()));
+                s = s + " | ";
+                s = s + motorRequestEntity.getRegistration_no();
+                tvRtoName.setText(s);
+            }
         }
 
         if (carMasterEntity != null) {
             tvPolicyExp.setText("" + carMasterEntity.getVariant_Name());
             tvFuel.setText(carMasterEntity.getFuel_Name());
-            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name());
+            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + "(" + carMasterEntity.getCubic_Capacity() + "CC)");
         }
     }
 
@@ -272,6 +291,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         } else if (response instanceof SaveQuoteResponse) {
             if (response.getStatusNo() == 0) {
                 saveQuoteEntity = ((SaveQuoteResponse) response).getMasterData().get(0);
+                motorRequestEntity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
             }
         }
     }
@@ -846,7 +866,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             String title = "";
             String name = "";
             url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
-            title = "Car Insurance";
+            title = "Motor Insurance";
 
             //convert quote to application server
             new QuoteApplicationController(getActivity()).convertQuoteToApp(

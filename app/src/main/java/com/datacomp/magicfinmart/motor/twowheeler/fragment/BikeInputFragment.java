@@ -1046,7 +1046,7 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
         motorRequestEntity.setElectrical_accessory("0");
         motorRequestEntity.setNon_electrical_accessory("0");
         if (regNo.equals(""))
-            motorRequestEntity.setRegistration_no(getRtoCity(acRto.getText().toString()));
+            motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
         else
             motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
         motorRequestEntity.setIs_llpd("no");
