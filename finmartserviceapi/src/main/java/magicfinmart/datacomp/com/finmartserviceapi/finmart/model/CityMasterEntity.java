@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class CityMasterEntity extends RealmObject {
     /**
@@ -13,7 +14,7 @@ public class CityMasterEntity extends RealmObject {
      * IsActive : true
      * VehicleTariff_Zone : B
      */
-
+    @PrimaryKey
     private String VehicleCity_Id;
     private String State_Id;
     private String State_Name;
