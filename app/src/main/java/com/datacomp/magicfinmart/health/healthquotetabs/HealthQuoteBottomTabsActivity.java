@@ -14,6 +14,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.fragment.HealthInputFragment;
 import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
+import com.datacomp.magicfinmart.health.fragment.TestFragment;
 import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
@@ -71,15 +72,19 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
-                    if (tabFragment != null) {
-                        loadFragment(tabFragment, INPUT_FRAGMENT);
 
-                    } else {
-                        HealthInputFragment inputFragment = new HealthInputFragment();
-                        inputFragment.setArguments(quoteBundle);
-                        loadFragment(inputFragment, INPUT_FRAGMENT);
-                    }
+                    TestFragment testFragment = new TestFragment();
+                    loadFragment(testFragment, "TEST");
+
+//                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
+//                    if (tabFragment != null) {
+//                        loadFragment(tabFragment, INPUT_FRAGMENT);
+//
+//                    } else {
+//                        HealthInputFragment inputFragment = new HealthInputFragment();
+//                        inputFragment.setArguments(quoteBundle);
+//                        loadFragment(inputFragment, INPUT_FRAGMENT);
+//                    }
 
                     return true;
                 case R.id.navigation_quote:

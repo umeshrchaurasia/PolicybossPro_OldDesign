@@ -34,7 +34,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     compile project(path: ':finmartserviceapi')
     implementation 'com.android.support:cardview-v7:27.0.2'
+
 }
+
 
 
 

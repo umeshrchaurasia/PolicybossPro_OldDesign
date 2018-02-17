@@ -164,7 +164,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
     }
 
     public void refreshAdapter(List<QuoteListEntity> list) {
-        mQuoteList = list;
+        mQuoteListFiltered = list;
     }
 
     @Override
