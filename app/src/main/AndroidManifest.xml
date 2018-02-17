@@ -153,7 +153,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
         <activity
             android:name=".loan_fm.homeloan.addquote.HomeLoanQuoteActivity"
             android:label="@string/title_activity_home_loan_quote"
@@ -310,7 +309,16 @@
             android:parentActivityName=".healthcheckupplans.HealthCheckUpPlansActivity"
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+        <activity
+            android:name=".introslider.EulaActivity"
+            android:label="@string/title_activity_eula"
+            android:parentActivityName=".introslider.WelcomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.introslider.WelcomeActivity" />
+        </activity>
     </application>
 
 </manifest>

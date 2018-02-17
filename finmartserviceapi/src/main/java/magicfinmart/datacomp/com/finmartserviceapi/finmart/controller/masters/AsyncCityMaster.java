@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import java.util.List;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 
 /**
@@ -13,13 +14,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntit
  */
 
 public class AsyncCityMaster extends AsyncTask<Void, Void, Void> {
-
+    PrefManager prefManager;
     Context mContext;
     List<CityMasterEntity> listRTOMaster;
 
     public AsyncCityMaster(Context context, List<CityMasterEntity> list) {
         listRTOMaster = list;
         mContext = context;
+        prefManager = new PrefManager(mContext);
     }
 
 
@@ -50,5 +52,6 @@ public class AsyncCityMaster extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
+        prefManager.setIsRtoMasterUpdate(false);
     }
 }

@@ -40,7 +40,6 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
@@ -131,11 +130,6 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
 
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getCarMakeModel();
-
-        if (makeModelList == null) {
-            showDialog();
-            new MasterController(getActivity()).getCarMaster(this);
-        }
         prevInsurerList = dbController.getInsurerList();
         fuelList = dbController.getFuelTypeByModelId("0");
         variantList = dbController.getVariantbyModelID("0");
@@ -356,8 +350,11 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
             etMfgDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date())));
 
             etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
-
-            setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            if (motorRequestEntity.getIs_claim_exists().equals("no")) {
+                setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            } else {
+                tvClaimYes.performClick();
+            }
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -1279,9 +1276,13 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
 
     private void setSeekbarProgress(int yearDiff) {
         if (yearDiff >= 5) {
+            tvClaimNo.performClick();
             sbNoClaimBonus.setProgress(5);
+            tvProgress.setText("" + getPercentFromProgress(5));
         } else {
+            tvClaimNo.performClick();
             sbNoClaimBonus.setProgress(yearDiff);
+            tvProgress.setText("" + getPercentFromProgress(yearDiff));
         }
     }
 

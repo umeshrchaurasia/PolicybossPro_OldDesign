@@ -32,7 +32,6 @@ import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.CarQuoteAdapter;
-import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
@@ -72,7 +71,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
 
 public class QuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
-    String status;
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
     CarQuoteAdapter mAdapter;
@@ -108,7 +106,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
-                saveQuoteEntity.setVehicleRequestID(Integer.parseInt(motorRequestEntity.getVehicleRequestID()));
+                if (motorRequestEntity.getVehicleRequestID() != null)
+                    saveQuoteEntity.setVehicleRequestID(Integer.parseInt(motorRequestEntity.getVehicleRequestID()));
                 initializeAdapters();
                 setListener();
                 updateHeader();
@@ -129,7 +128,11 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         swAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+                if (b) {
+                    applyAllAddon();
+                } else {
+                    removeAllAddon();
+                }
             }
         });
         /*bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -229,7 +232,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         entity.setIsActive(1);
 
         if (saveQuoteEntity != null) {
-            entity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
+            if (saveQuoteEntity.getVehicleRequestID() != 0)
+                entity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
         }
         new QuoteApplicationController(getActivity()).saveQuote(entity, this);
     }
@@ -348,8 +352,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             public void onClick(View v) {
                 listMobileAddOn = popUpAdapter.getUpdateMobileAddonList();
                 // applyAddons();
-                applyPositiveAddons();
-                updateAddonToserver();
+                applyPositiveAddons(listMobileAddOn);
+                updateAddonToserver(listMobileAddOn);
                 alertDialog.dismiss();
             }
         });
@@ -362,15 +366,14 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             }
         });
 
-
         alertDialog.setCancelable(false);
         alertDialog.show();
     }
 
-    private void updateAddonToserver() {
+    private void updateAddonToserver(List<MobileAddOn> addOnList) {
         SaveAddOnRequestEntity entity = new SaveAddOnRequestEntity();
-        for (int i = 0; i < listMobileAddOn.size(); i++) {
-            MobileAddOn mobileAddOn = listMobileAddOn.get(i);
+        for (int i = 0; i < addOnList.size(); i++) {
+            MobileAddOn mobileAddOn = addOnList.get(i);
 
             if (mobileAddOn.getAddonKey().matches("addon_zero_dep_cover") && mobileAddOn.isSelected) {
                 entity.setAddon_zero_dep_cover("yes");
@@ -450,7 +453,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         new MotorController(getActivity()).saveAddOn(entity, this);
     }
 
-    private void applyPositiveAddons() {
+    private void applyPositiveAddons(List<MobileAddOn> addOnList) {
 
         for (ResponseEntity entity : bikePremiumResponse.getResponse()) { // itrate for each quote
             double addonValue = 0;
@@ -462,9 +465,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                         new ArrayList<AppliedAddonsPremiumBreakup>();// list of applied addon
 
                 //region list of available addons
-                for (int i = 0; i < listMobileAddOn.size(); i++) {
+                for (int i = 0; i < addOnList.size(); i++) {
 
-                    MobileAddOn mobileAddOn = listMobileAddOn.get(i);
+                    MobileAddOn mobileAddOn = addOnList.get(i);
                     // check if addon is selected
                     if (!mobileAddOn.isSelected()) {
                         continue;
@@ -821,6 +824,24 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         }
 
         rebindAdapter(bikePremiumResponse);
+    }
+
+    private void applyAllAddon() {
+        List<MobileAddOn> mobileAddOnAll = listMobileAddOn;
+        for (int i = 0; i < mobileAddOnAll.size(); i++) {
+            mobileAddOnAll.get(i).setSelected(true);
+        }
+        applyPositiveAddons(mobileAddOnAll);
+        updateAddonToserver(mobileAddOnAll);
+    }
+
+    private void removeAllAddon() {
+        List<MobileAddOn> mobileAddOnAll = listMobileAddOn;
+        for (int i = 0; i < mobileAddOnAll.size(); i++) {
+            mobileAddOnAll.get(i).setSelected(false);
+        }
+        applyPositiveAddons(mobileAddOnAll);
+        updateAddonToserver(mobileAddOnAll);
     }
 
 

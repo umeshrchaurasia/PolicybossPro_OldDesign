@@ -134,4 +134,5 @@
 
     </string-array>
     <string name="title_activity_health_check_up_plans">HEALTH CHECK UP PLANS</string>
+    <string name="title_activity_eula">Agreement</string>
 </resources>

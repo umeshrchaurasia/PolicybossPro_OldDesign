@@ -40,7 +40,6 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
@@ -51,6 +50,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorControl
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResponse;
 
+import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffDays;
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
 /**
@@ -130,10 +130,6 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
 
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getBikeMakeModel();
-        if (makeModelList == null) {
-            showDialog();
-            new MasterController(getActivity()).getBikeMaster(this);
-        }
         prevInsurerList = dbController.getInsurerList();
         //fuelList = dbController.getFuelTypeByModelId("0");
         variantList = dbController.getVariantbyModelID("0");
@@ -339,8 +335,12 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
             etMfgDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date())));
 
             etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
+            if (motorRequestEntity.getIs_claim_exists().equals("no")) {
+                setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            } else {
+                tvClaimYes.performClick();
+            }
 
-            setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -859,6 +859,15 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
         return 0;
     }
 
+    private long getDaysDiff(String firstDay, String lastDay) {
+        try {
+            return getDiffDays(simpleDateFormat.parse(firstDay), simpleDateFormat.parse(lastDay));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     private String getRegistrationNo(String city) {
         CityMasterEntity cityMasterEntity = dbController.getVehicleCity_Id(city);
         return formatRegistrationNo(cityMasterEntity.getVehicleCity_RTOCode() + "AA1234");
@@ -959,17 +968,19 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
                     }
                 }
 
-                DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.BikepolicyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
                             Calendar calendar = Calendar.getInstance();
+                            String currDate = simpleDateFormat.format(calendar.getTime());
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etExpDate.setText(currentDay);
-                            if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
-                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
-                                setSeekbarProgress(yearDiff);
+                            String expDate = simpleDateFormat.format(calendar.getTime());
+                            etExpDate.setText(expDate);
+                            if (getDaysDiff(expDate, currDate) < 90) {
+                                cvNcb.setVisibility(View.VISIBLE);
+                            } else {
+                                cvNcb.setVisibility(View.GONE);
                             }
                         }
                     }

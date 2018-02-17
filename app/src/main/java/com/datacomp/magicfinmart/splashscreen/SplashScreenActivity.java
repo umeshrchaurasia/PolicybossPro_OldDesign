@@ -9,10 +9,10 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.introslider.PrefManager;
 import com.datacomp.magicfinmart.introslider.WelcomeActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -62,7 +62,9 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
             new MasterController(this).getInsuranceMaster(this);
 
         if (prefManager.isFirstTimeLaunch()) {
+
             prefManager.setFirstTimeLaunch(false);
+
             startActivity(new Intent(this, WelcomeActivity.class));
         } else {
             new Handler().postDelayed(new Runnable() {
@@ -73,7 +75,11 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                         //TODO Redirect to homeactivity
                         startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
                     } else {
-                        startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                        if (checkAllMastersIsUpdate()) {
+                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                        } else {
+                            Toast.makeText(SplashScreenActivity.this, "Server Down Try After Some time.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }, SPLASH_DISPLAY_LENGTH);
@@ -84,17 +90,21 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
     @Override
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof BikeMasterResponse) {
-            if (response.getStatusNo() == 0)
-                prefManager.setIsBikeMasterUpdate(false);
+            if (checkAllMastersIsUpdate()) {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            }
         } else if (response instanceof CarMasterResponse) {
-            if (response.getStatusNo() == 0)
-                prefManager.setIsCarMasterUpdate(false);
+            if (checkAllMastersIsUpdate()) {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            }
         } else if (response instanceof CityMasterResponse) {
-            if (response.getStatusNo() == 0)
-                prefManager.setIsRtoMasterUpdate(false);
+            if (checkAllMastersIsUpdate()) {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            }
         } else if (response instanceof InsuranceMasterResponse) {
-            if (response.getStatusNo() == 0)
-                prefManager.setIsInsuranceMasterUpdate(false);
+            if (checkAllMastersIsUpdate()) {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            }
         }
     }
 
@@ -111,5 +121,18 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
     @Override
     public void OnFailure(Throwable t) {
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean checkAllMastersIsUpdate() {
+        if (prefManager.IsBikeMasterUpdate())
+            return false;
+        else if (prefManager.IsCarMasterUpdate())
+            return false;
+        else if (prefManager.IsRtoMasterUpdate())
+            return false;
+        else if (prefManager.IsInsuranceMasterUpdate())
+            return false;
+
+        return true;
     }
 }

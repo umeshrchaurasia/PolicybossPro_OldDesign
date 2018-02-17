@@ -188,6 +188,7 @@
                         android:padding="8dp">
 
                         <TextView
+                            android:id="@+id/tvWithAddon"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="wrap_content"
                             android:layout_marginRight="8dp"
@@ -203,6 +204,7 @@
                             android:textColor="@color/secondary_text_color" />
 
                         <TextView
+                            android:id="@+id/tvWithoutAddon"
                             style="@style/TextViewStyle.Medium"
                             android:layout_width="wrap_content"
                             android:layout_marginLeft="8dp"
