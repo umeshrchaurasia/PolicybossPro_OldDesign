@@ -7,34 +7,34 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 
 /**
  * Created by Nilesh birhade on 05/02/2018.
  */
 
-public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.QuoteItem> implements View.OnClickListener {
+public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.QuoteItem> implements View.OnClickListener, Filterable {
     Fragment mFrament;
     List<HealthQuote> mQuoteList;
+    List<HealthQuote> mQuoteListFiltered;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public HealthQuoteAdapter(Fragment context, List<HealthQuote> list) {
         this.mFrament = context;
         mQuoteList = list;
-
+        mQuoteListFiltered = list;
     }
 
     @Override
@@ -51,7 +51,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     public void onBindViewHolder(QuoteItem holder, int position) {
 
         if (holder instanceof QuoteItem) {
-            final HealthQuote quote = mQuoteList.get(position);
+            final HealthQuote quote = mQuoteListFiltered.get(position);
             holder.txtPersonName.setText(quote.getHealthRequest().getContactName());
             holder.txtSumAssured.setText(quote.getHealthRequest().getSumInsured());
             holder.txtQuoteDate.setText(quote.getHealthRequest().getCreated_date());
@@ -97,7 +97,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
     @Override
     public int getItemCount() {
-        return mQuoteList.size();
+        return mQuoteListFiltered.size();
     }
 
     @Override
@@ -132,6 +132,41 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     }
 
     public void refreshAdapter(List<HealthQuote> list) {
-        mQuoteList = list;
+        mQuoteListFiltered = list;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mQuoteListFiltered = mQuoteList;
+                } else {
+                    List<HealthQuote> filteredList = new ArrayList<>();
+                    for (HealthQuote row : mQuoteList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getHealthRequest().getContactName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    mQuoteListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mQuoteListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mQuoteListFiltered = (ArrayList<HealthQuote>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

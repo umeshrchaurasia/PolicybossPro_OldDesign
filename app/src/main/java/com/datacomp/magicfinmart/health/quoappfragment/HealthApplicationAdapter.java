@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -22,13 +25,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthApplicati
  * Created by Nilesh on 05/02/2018.
  */
 
-public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplicationAdapter.ApplicationItem> implements View.OnClickListener {
+public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplicationAdapter.ApplicationItem> implements View.OnClickListener, Filterable {
     Fragment fragment;
     List<HealthApplication> mAppList;
+    List<HealthApplication> mAppListFiltered;
 
     public HealthApplicationAdapter(Fragment context, List<HealthApplication> mApplicationList) {
         this.fragment = context;
         mAppList = mApplicationList;
+        mAppListFiltered = mApplicationList;
     }
 
     @Override
@@ -42,7 +47,7 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
     @Override
     public void onBindViewHolder(ApplicationItem holder, int position) {
         if (holder instanceof ApplicationItem) {
-            HealthApplication healthApplication = mAppList.get(position);
+            HealthApplication healthApplication = mAppListFiltered.get(position);
             holder.txtCRN.setText(healthApplication.getCrn());
             holder.txtCreatedDate.setText(healthApplication.getHealthRequest().getCreated_date());
             holder.txtPersonName.setText(healthApplication.getHealthRequest().getContactName());
@@ -119,10 +124,10 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
 
     @Override
     public int getItemCount() {
-        if (mAppList == null) {
+        if (mAppListFiltered == null) {
             return 0;
         } else {
-            return mAppList.size();
+            return mAppListFiltered.size();
         }
     }
 
@@ -144,7 +149,37 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
 
 
     public void refreshAdapter(List<HealthApplication> list) {
-        mAppList = list;
+        mAppListFiltered = list;
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mAppListFiltered = mAppList;
+                } else {
+                    List<HealthApplication> filteredList = new ArrayList<>();
+                    for (HealthApplication row : mAppList) {
+                        if (row.getHealthRequest().getContactName().toLowerCase().contains(charString.toLowerCase())
+                                || row.getHealthRequest().getCrn().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+                    mAppListFiltered = filteredList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mAppListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mAppListFiltered = (ArrayList<HealthApplication>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
 }
