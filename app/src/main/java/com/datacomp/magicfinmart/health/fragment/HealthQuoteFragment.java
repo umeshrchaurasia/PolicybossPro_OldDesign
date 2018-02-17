@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -83,7 +84,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         for (int i = 0; i < listmember.size(); i++) {
 
-            Toast.makeText(getActivity(), "" + i, Toast.LENGTH_SHORT).show();
             ImageView imageview = new ImageView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout
                     .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -107,8 +107,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         rvHealthQuote.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvHealthQuote.setLayoutManager(layoutManager);
-        adapter = new HealthQuoteAdapter(this, null);
-        rvHealthQuote.setAdapter(adapter);
+
     }
 
 
@@ -125,6 +124,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 List<HealthQuoteEntity> listQuotes =
                         ((HealthQuoteResponse) response).getMasterData().getHealth_quote();
 
+                adapter = new HealthQuoteAdapter(this, listQuotes);
+                rvHealthQuote.setAdapter(adapter);
             }
         }
     }
@@ -137,6 +138,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     private void visibleLoader() {
         webViewLoader.setVisibility(View.VISIBLE);
+        Glide.with(this).load(R.drawable.preloader).into(webViewLoader);
     }
 
     private void hideLoader() {
