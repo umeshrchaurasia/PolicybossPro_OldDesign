@@ -335,8 +335,12 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
             etMfgDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date())));
 
             etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
+            if (motorRequestEntity.getIs_claim_exists().equals("no")) {
+                setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            } else {
+                tvClaimYes.performClick();
+            }
 
-            setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -973,7 +977,7 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String expDate = simpleDateFormat.format(calendar.getTime());
                             etExpDate.setText(expDate);
-                            if (getDaysDiff(expDate, currDate) > 90) {
+                            if (getDaysDiff(expDate, currDate) < 90) {
                                 cvNcb.setVisibility(View.VISIBLE);
                             } else {
                                 cvNcb.setVisibility(View.GONE);

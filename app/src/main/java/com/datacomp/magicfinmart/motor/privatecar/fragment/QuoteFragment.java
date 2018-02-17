@@ -117,7 +117,11 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         swAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+                if (b) {
+                    applyAllAddon();
+                } else {
+                    removeAllAddon();
+                }
             }
         });
         /*bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -337,8 +341,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             public void onClick(View v) {
                 listMobileAddOn = popUpAdapter.getUpdateMobileAddonList();
                 // applyAddons();
-                applyPositiveAddons();
-                updateAddonToserver();
+                applyPositiveAddons(listMobileAddOn);
+                updateAddonToserver(listMobileAddOn);
                 alertDialog.dismiss();
             }
         });
@@ -355,10 +359,10 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         alertDialog.show();
     }
 
-    private void updateAddonToserver() {
+    private void updateAddonToserver(List<MobileAddOn> addOnList) {
         SaveAddOnRequestEntity entity = new SaveAddOnRequestEntity();
-        for (int i = 0; i < listMobileAddOn.size(); i++) {
-            MobileAddOn mobileAddOn = listMobileAddOn.get(i);
+        for (int i = 0; i < addOnList.size(); i++) {
+            MobileAddOn mobileAddOn = addOnList.get(i);
 
             if (mobileAddOn.getAddonKey().matches("addon_zero_dep_cover") && mobileAddOn.isSelected) {
                 entity.setAddon_zero_dep_cover("yes");
@@ -438,7 +442,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         new MotorController(getActivity()).saveAddOn(entity, this);
     }
 
-    private void applyPositiveAddons() {
+    private void applyPositiveAddons(List<MobileAddOn> addOnList) {
 
         for (ResponseEntity entity : bikePremiumResponse.getResponse()) { // itrate for each quote
             double addonValue = 0;
@@ -450,9 +454,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                         new ArrayList<AppliedAddonsPremiumBreakup>();// list of applied addon
 
                 //region list of available addons
-                for (int i = 0; i < listMobileAddOn.size(); i++) {
+                for (int i = 0; i < addOnList.size(); i++) {
 
-                    MobileAddOn mobileAddOn = listMobileAddOn.get(i);
+                    MobileAddOn mobileAddOn = addOnList.get(i);
                     // check if addon is selected
                     if (!mobileAddOn.isSelected()) {
                         continue;
@@ -809,6 +813,24 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         }
 
         rebindAdapter(bikePremiumResponse);
+    }
+
+    private void applyAllAddon() {
+        List<MobileAddOn> mobileAddOnAll = listMobileAddOn;
+        for (int i = 0; i < mobileAddOnAll.size(); i++) {
+            mobileAddOnAll.get(i).setSelected(true);
+        }
+        applyPositiveAddons(mobileAddOnAll);
+        updateAddonToserver(mobileAddOnAll);
+    }
+
+    private void removeAllAddon() {
+        List<MobileAddOn> mobileAddOnAll = listMobileAddOn;
+        for (int i = 0; i < mobileAddOnAll.size(); i++) {
+            mobileAddOnAll.get(i).setSelected(false);
+        }
+        applyPositiveAddons(mobileAddOnAll);
+        updateAddonToserver(mobileAddOnAll);
     }
 
 
