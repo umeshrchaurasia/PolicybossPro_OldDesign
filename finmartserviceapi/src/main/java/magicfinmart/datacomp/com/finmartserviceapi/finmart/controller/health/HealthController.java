@@ -17,6 +17,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.LoginR
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
@@ -36,6 +37,42 @@ public class HealthController implements IHealth {
     public HealthController(Context context) {
         healthNetworkService = new HealthRequestBuilder().getService();
         mContext = context;
+    }
+
+    @Override
+    public void getHealthQuoteExp(HealthQuote quote, final IResponseSubcriber iResponseSubcriber) {
+        healthNetworkService.getHealthQuoteExp(quote).enqueue(new Callback<HealthQuoteExpResponse>() {
+            @Override
+            public void onResponse(Call<HealthQuoteExpResponse> call, Response<HealthQuoteExpResponse> response) {
+
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<HealthQuoteExpResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
     }
 
     @Override

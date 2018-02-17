@@ -1,12 +1,16 @@
 package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,7 +35,13 @@ import com.datacomp.magicfinmart.motor.privatecar.adapter.CarQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -112,6 +122,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
 
     private void setListener() {
+        tvCount.setOnClickListener(this);
         ivEdit.setOnClickListener(this);
         filter.setOnClickListener(this);
         swAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -896,6 +907,10 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                         .putExtra("SUMMARY", bikePremiumResponse.getSummary())
                         .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
                 break;
+            case R.id.tvCount:
+
+
+                break;
         }
     }
 
@@ -1132,4 +1147,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             }
         }
     }
+
+
 }

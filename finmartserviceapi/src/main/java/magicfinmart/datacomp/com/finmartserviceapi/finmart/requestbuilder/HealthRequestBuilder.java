@@ -6,6 +6,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
@@ -35,6 +36,11 @@ public class HealthRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/smart-health")
         Call<HealthQuoteResponse> getHealthQuote(@Body HealthQuote body);
+
+        @Headers("token:" + token)
+        @POST("/api/smart-health")
+        Call<HealthQuoteExpResponse> getHealthQuoteExp(@Body HealthQuote body);
+
 
         @Headers("token:" + token)
         @POST("/api/set-quote-application-smart-health")

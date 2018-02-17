@@ -6,12 +6,352 @@
     android:orientation="vertical"
     android:padding="8dp">
 
+    <!--android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"-->
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@color/white"-->
+        <!--android:orientation="vertical">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="100">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/imgInsurer"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="25" />-->
+
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="2dp"-->
+                <!--android:layout_weight="25"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical">-->
+
+
+                <!--<TextView-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="Sum Assured"-->
+                    <!--android:textAllCaps="true" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtSumAssured"-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@color/black" />-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="25"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="Deductible"-->
+                    <!--android:textAllCaps="true" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtDeductible"-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@color/black" />-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="25"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<CheckBox-->
+                    <!--android:id="@+id/chkCompare"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAlignment="center" />-->
+
+                <!--<TextView-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="COMPARE"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@color/black" />-->
+            <!--</LinearLayout>-->
+        <!--</LinearLayout>-->
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginBottom="2dp"-->
+            <!--android:layout_marginTop="2dp"-->
+            <!--android:background="@color/divider" />-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="100">-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="25"-->
+                <!--android:gravity="center|bottom"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Floater"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@color/black"-->
+                    <!--android:visibility="invisible" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtPlanName"-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text=""-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@color/black" />-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginRight="4dp"-->
+                <!--android:layout_weight="37"-->
+                <!--android:gravity="center|bottom"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                    <!--style="@style/TextViewStyle.Small"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center|top"-->
+                    <!--android:text="Premium"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="#ff5c61" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtFinalPremium"-->
+                    <!--style="@style/ButtonStyle"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:background="#ff5c61"-->
+                    <!--android:gravity="center"-->
+                    <!--android:minHeight="30dp"-->
+                    <!--android:textColor="@android:color/white" />-->
+
+
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginLeft="4dp"-->
+                <!--android:layout_marginRight="4dp"-->
+                <!--android:layout_weight="37"-->
+                <!--android:gravity="center|bottom"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                    <!--style="@style/TextViewStyle.Small"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center|top"-->
+                    <!--android:text="Premium"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="#ff5c61"-->
+                    <!--android:visibility="invisible" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtBuy"-->
+                    <!--style="@style/ButtonStyle"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="5dp"-->
+                    <!--android:background="#f38d1e"-->
+                    <!--android:drawableLeft="@drawable/vector_cart"-->
+                    <!--android:drawablePadding="4dp"-->
+                    <!--android:gravity="center"-->
+                    <!--android:minHeight="30dp"-->
+                    <!--android:text="BUY NOW"-->
+                    <!--android:textColor="@android:color/white" />-->
+            <!--</LinearLayout>-->
+
+
+        <!--</LinearLayout>-->
+
+        <!--&lt;!&ndash;Features&ndash;&gt;-->
+
+
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:layout_marginTop="12dp"-->
+            <!--android:background="@color/divider" />-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+
+            <!--android:orientation="horizontal"-->
+            <!--android:weightSum="100">-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="40"-->
+                <!--android:background="@color/divider"-->
+                <!--android:orientation="vertical"-->
+                <!--android:padding="4dp">-->
+
+
+                <!--<TextView-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:drawableLeft="@drawable/ic_correct_tick"-->
+                    <!--android:drawablePadding="4dp"-->
+                    <!--android:text="ROOM RENT"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@color/black" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtRoomRent"-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="26dp"-->
+                    <!--android:text="No Limit" />-->
+
+                <!--<TextView-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="12dp"-->
+                    <!--android:drawableLeft="@drawable/ic_correct_tick"-->
+                    <!--android:drawablePadding="4dp"-->
+                    <!--android:text="PRE-HOSP"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@color/black" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtPreHosp"-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="26dp"-->
+                    <!--android:text="60 days" />-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="40"-->
+                <!--android:background="@color/divider"-->
+                <!--android:orientation="vertical"-->
+                <!--android:padding="4dp">-->
+
+
+                <!--<TextView-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:drawableLeft="@drawable/ic_correct_tick"-->
+                    <!--android:drawablePadding="4dp"-->
+                    <!--android:text="ICU RENT"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@color/black" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtIcuRent"-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="26dp"-->
+                    <!--android:text="No Limit" />-->
+
+                <!--<TextView-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginTop="12dp"-->
+                    <!--android:drawableLeft="@drawable/ic_correct_tick"-->
+                    <!--android:drawablePadding="4dp"-->
+                    <!--android:text="POST-HOSP"-->
+                    <!--android:textAllCaps="true"-->
+                    <!--android:textColor="@color/black" />-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtPostHosp"-->
+                    <!--style="@style/TextStyle.Body1"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="26dp"-->
+                    <!--android:text="60 days" />-->
+            <!--</LinearLayout>-->
+
+            <!--<LinearLayout-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="20"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical">-->
+
+                <!--<TextView-->
+                    <!--android:id="@+id/txtNoOfInsurer"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textAlignment="center"-->
+                    <!--android:textColor="@android:color/holo_red_dark" />-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="24dp"-->
+                    <!--android:layout_height="24dp"-->
+                    <!--android:src="@drawable/drop_down_arrow" />-->
+            <!--</LinearLayout>-->
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
 
     <TextView
         android:id="@+id/lblListHeader"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+        android:paddingLeft="12dp"
         android:textColor="#f9f93d"
         android:textSize="17dp" />
 
