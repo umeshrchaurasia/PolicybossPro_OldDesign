@@ -2,7 +2,11 @@ package magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model;
 
 import java.util.List;
 
-public class HealthPackDetailsDBean {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class HealthPackDetailsDBean extends RealmObject {
     /**
      * __type : HealthProduct.MobileDAL.packparamresponse
      * lstPackParameter : [{"Name":"CBC","ParamDetails":["Basophils","Eosinophils","Hematocrit (Hct)","Hemoglobin (Hbg)","Lymphocytes","Mean corpuscular hemoglobin (MCH)","Mean corpuscular hemoglobin concentration","Mean corpuscular volume (MCV)","Mean Platelet Volume (MPV)","Monocytes","Neutrophils","Platelet count","Platelet Distribution Width","RBC","Red Blood Cell Count","Red cell distribution width (RDW)","WBC","White blood cell count (WBC or leukocyte count)"]},{"Name":"Fasting Blood Sugar","ParamDetails":[]},{"Name":"ESR","ParamDetails":[]},{"Name":"Physician Consultation","ParamDetails":[]},{"Name":"Urine Analysis","ParamDetails":["Bacteria","Bilirubin","Blood","Casts","Clarity/turbidity","Colour","Crystals","Glucose","Ketones","Leukocyte esterase","Nitrites","pH","Protein","RBCs","Specific gravity","Squamous epithelial cells","Urobilirubin","WBCs","Yeast"]}]
@@ -15,7 +19,17 @@ public class HealthPackDetailsDBean {
     private int status_code;
     private String status;
     private String message;
-    private List<LstPackParameterEntity> lstPackParameter;
+    private RealmList<LstPackParameterEntity> lstPackParameter;
+    @PrimaryKey
+    private int packcode;
+
+    public int getPackcode() {
+        return packcode;
+    }
+
+    public void setPackcode(int packcode) {
+        this.packcode = packcode;
+    }
 
     public String get__type() {
         return __type;
@@ -49,11 +63,11 @@ public class HealthPackDetailsDBean {
         this.message = message;
     }
 
-    public List<LstPackParameterEntity> getLstPackParameter() {
+    public RealmList<LstPackParameterEntity> getLstPackParameter() {
         return lstPackParameter;
     }
 
-    public void setLstPackParameter(List<LstPackParameterEntity> lstPackParameter) {
+    public void setLstPackParameter(RealmList<LstPackParameterEntity> lstPackParameter) {
         this.lstPackParameter = lstPackParameter;
     }
 
