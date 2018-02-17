@@ -27,7 +27,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.BikeQuoteAdapter;
+import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeQuoteAdapter;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -40,7 +40,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
@@ -430,7 +429,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             }*/
         }
 
-        entity.setSearch_reference_number(Constants.getSharedPreference(getActivity()).getString(Utility.CARQUOTE_UNIQUEID, ""));
+        entity.setSearch_reference_number(Constants.getSharedPreference(getActivity()).getString(Utility.BIKEQUOTE_UNIQUEID, ""));
 
 
         new MotorController(getActivity()).saveAddOn(entity, this);
@@ -821,8 +820,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             //String url = "http://policyboss.com/";
             String title = "";
             String name = "";
-            url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
-            title = "Car Insurance";
+            url = url + "buynowTwoWheeler/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
+            title = "Bike Insurance";
 
             //convert quote to application server
             new QuoteApplicationController(getActivity()).convertQuoteToApp(

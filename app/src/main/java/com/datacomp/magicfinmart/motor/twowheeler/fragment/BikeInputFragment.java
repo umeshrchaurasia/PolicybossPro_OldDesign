@@ -40,6 +40,7 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
@@ -129,6 +130,10 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
 
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getBikeMakeModel();
+        if (makeModelList == null) {
+            showDialog();
+            new MasterController(getActivity()).getBikeMaster(this);
+        }
         prevInsurerList = dbController.getInsurerList();
         //fuelList = dbController.getFuelTypeByModelId("0");
         variantList = dbController.getVariantbyModelID("0");

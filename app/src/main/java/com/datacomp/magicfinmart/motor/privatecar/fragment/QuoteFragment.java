@@ -27,7 +27,8 @@ import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivi
 import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.BikeQuoteAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.CarQuoteAdapter;
+import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
@@ -64,7 +65,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     String status;
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
-    BikeQuoteAdapter mAdapter;
+    CarQuoteAdapter mAdapter;
     MotorRequestEntity motorRequestEntity;
     Menu menuAddon;
     DBPersistanceController databaseController;
@@ -154,7 +155,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         bikeQuoteRecycler.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         bikeQuoteRecycler.setLayoutManager(mLayoutManager);
-        mAdapter = new BikeQuoteAdapter(QuoteFragment.this, bikePremiumResponse);
+        mAdapter = new CarQuoteAdapter(QuoteFragment.this, bikePremiumResponse);
         bikeQuoteRecycler.setAdapter(mAdapter);
 
     }

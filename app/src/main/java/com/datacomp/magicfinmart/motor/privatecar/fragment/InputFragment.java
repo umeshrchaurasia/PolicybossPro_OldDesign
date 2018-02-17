@@ -40,9 +40,11 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
@@ -129,6 +131,11 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
 
         cityList = dbController.getRTOListNames();
         makeModelList = dbController.getCarMakeModel();
+
+        if (makeModelList == null) {
+            showDialog();
+            new MasterController(getActivity()).getCarMaster(this);
+        }
         prevInsurerList = dbController.getInsurerList();
         fuelList = dbController.getFuelTypeByModelId("0");
         variantList = dbController.getVariantbyModelID("0");
@@ -1223,6 +1230,8 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
                     bindFastLaneData(((FastLaneDataResponse) response).getMasterData());
                 }
             }
+        } else if (response instanceof CarMasterResponse) {
+
         }
     }
 
