@@ -58,7 +58,7 @@ public class QuoteFragment_LAP extends Fragment {
         private void initialise_widget(View view) {
 
             txtInputSummary = (TextView) view.findViewById(R.id.txtInputSummary);
-            txtPropType = (TextView) view.findViewById(R.id.txtPropType);
+            txtPropType = (TextView) view.findViewById(R.id.txtAppName);
             txtCostOfProp = (TextView) view.findViewById(R.id.txtCostOfProp);
             txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
             txtOccupation = (TextView) view.findViewById(R.id.txtOccupation);
@@ -94,7 +94,7 @@ public class QuoteFragment_LAP extends Fragment {
                     if(homeLoanRequest != null)
                     {
 
-                        String strPropTyp =   getProperty(homeLoanRequest.getPropertyID());
+                        String strPropTyp =   getProperty(homeLoanRequest.getPropertyID());//value
 
                         txtPropType.setText(""+strPropTyp.toUpperCase() );
                         txtCostOfProp.setText(""+homeLoanRequest.getPropertyCost() );

@@ -21,7 +21,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HomeLoanRequest
  */
 
 public class ActivityTabsPagerAdapter_HL extends FragmentPagerAdapter {
-
+    private static final int TOTAL = 2;
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     HomeLoanRequestMainEntity mMasterData;
@@ -30,6 +30,10 @@ public class ActivityTabsPagerAdapter_HL extends FragmentPagerAdapter {
         mMasterData = masterData;
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 
     @Override
     public Fragment getItem(int index) {
@@ -69,7 +73,6 @@ public class ActivityTabsPagerAdapter_HL extends FragmentPagerAdapter {
     }
     @Override
     public int getCount() {
-        // get item count - equal to number of tabs
-        return 2;
+        return TOTAL;
     }
 }

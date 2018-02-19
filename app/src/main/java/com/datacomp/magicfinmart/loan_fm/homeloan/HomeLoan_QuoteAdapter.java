@@ -66,9 +66,9 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
             final FmHomeLoanRequest entity = mQuoteList.get(position);
 
             holder.txtPersonName.setText(""+ entity.getHomeLoanRequest().getApplicantNme());
-            holder.txtQuoteDate.setText("" + entity.getHomeLoanRequest().getRow_created_date().split("T")[0].toString());
+            holder.txtQuoteDate.setText("" + entity.getHomeLoanRequest().getRow_created_date().toString());
 
-            holder.txtloanamount.setText("" + entity.getHomeLoanRequest().getPropertyCost());
+            holder.txtloanamount.setText("" + entity.getHomeLoanRequest().getLoanRequired());
 
 
             //click listener

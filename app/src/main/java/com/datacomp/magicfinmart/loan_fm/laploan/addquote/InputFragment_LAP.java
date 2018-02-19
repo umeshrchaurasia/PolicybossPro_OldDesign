@@ -436,9 +436,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             coApp_sbRelation = (Spinner) view.findViewById(R.id.coApp_sbRelation);
             coApp_etMonthlyInc = (EditText) view.findViewById(R.id.coApp_etMonthlyInc);
             coApp_etEMI = (EditText) view.findViewById(R.id.coApp_etEMI);
-            coApp_rgGender = (RadioGroup) view.findViewById(R.id.coApp_rgGender);
-            coApp_rbimgMale = (RadioButton) view.findViewById(R.id.coApp_rbimgMale);
-            coApp_rbimgFemale = (RadioButton) view.findViewById(R.id.coApp_rbimgFemale);
+         //   coApp_rgGender = (RadioGroup) view.findViewById(R.id.coApp_rgGender);
+         //   coApp_rbimgMale = (RadioButton) view.findViewById(R.id.coApp_rbimgMale);
+         //   coApp_rbimgFemale = (RadioButton) view.findViewById(R.id.coApp_rbimgFemale);
 
 
             //co-appdetail

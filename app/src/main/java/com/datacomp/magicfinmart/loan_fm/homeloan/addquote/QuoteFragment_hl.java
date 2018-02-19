@@ -46,7 +46,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     HomeLoanRequest homeLoanRequest;
     RecyclerView rvQuotes;
     HLQuoteAdapter mAdapter;
-    TextView txtPropType, txtCostOfProp, txtLoanTenure, txtOccupation, txtMonthlyIncome, txtExistEmi, txtCount, txtInputSummary;
+    TextView txtPropertyType, txtCostOfProp, txtLoanTenure, txtOccupation, txtMonthlyIncome, txtExistEmi, txtCount, txtInputSummary;
     CardView cvInputSummary;
 
     LinearLayout ivllEdit;
@@ -92,7 +92,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     private void initialise_widget(View view) {
 
         txtInputSummary = (TextView) view.findViewById(R.id.txtInputSummary);
-        txtPropType = (TextView) view.findViewById(R.id.txtPropType);
+        txtPropertyType = (TextView) view.findViewById(R.id.txtPropertyType);
         txtCostOfProp = (TextView) view.findViewById(R.id.txtCostOfProp);
         txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
         txtOccupation = (TextView) view.findViewById(R.id.txtOccupation);
@@ -137,20 +137,27 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
             if (homeLoanRequest != null) {
 
-                String strPropTyp = getProperty(homeLoanRequest.getPropertyID());
+                try {
+                    String strPropTyp = getProperty(homeLoanRequest.getPropertyID());
 
-                txtPropType.setText("" + strPropTyp.toUpperCase());
-                txtCostOfProp.setText("" + homeLoanRequest.getPropertyCost());
-                txtLoanTenure.setText("" + homeLoanRequest.getLoanTenure());
+                    txtPropertyType.setText("" + strPropTyp.toString());
+                    txtCostOfProp.setText("" + homeLoanRequest.getPropertyCost());
+                    txtLoanTenure.setText("" + homeLoanRequest.getLoanTenure() + " Years");
 
-                if (homeLoanRequest.getApplicantSource().equals("1")) {
-                    txtOccupation.setText("SALARIED");
-                } else {
-                    txtOccupation.setText("SELF-EMP");
+                    if (homeLoanRequest.getApplicantSource().equals("1")) {
+                        txtOccupation.setText("SALARIED");
+                    } else {
+                        txtOccupation.setText("SELF-EMP");
+                    }
+
+                    txtMonthlyIncome.setText("" + homeLoanRequest.getApplicantIncome());
+                    txtExistEmi.setText("" + homeLoanRequest.getApplicantObligations());
+                }
+                catch (Exception e)
+                {
+                    e.printStackTrace();
                 }
 
-                txtMonthlyIncome.setText("" + homeLoanRequest.getApplicantIncome());
-                txtExistEmi.setText("" + homeLoanRequest.getApplicantObligations());
             }
 
         }
@@ -169,7 +176,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             strProp = "RESALE";
         } else if (id.equals("5")) {
             strProp = "FOR CONS";
-        } else if (id.equals("5")) {
+        } else if (id.equals("6")) {
             strProp = "OTHER";
         }
 
@@ -191,14 +198,14 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ivllEdit) {
-            tabFragment = getActivity().getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
-            if (tabFragment != null) {
-                loadFragment(tabFragment, INPUT_FRAGMENT);
-
-            } else {
-                loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
-            }
-
+//            tabFragment = getActivity().getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
+//            if (tabFragment != null) {
+//                loadFragment(tabFragment, INPUT_FRAGMENT);
+//
+//            } else {
+//                loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
+//            }
+            ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
         }
 
     }
