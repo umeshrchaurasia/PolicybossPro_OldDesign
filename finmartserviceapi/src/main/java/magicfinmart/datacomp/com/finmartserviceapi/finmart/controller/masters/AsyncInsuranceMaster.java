@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceMasterEntity;
 
 /**
@@ -11,13 +12,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceMaster
  */
 
 public class AsyncInsuranceMaster extends AsyncTask<Void, Void, Void> {
-
+    PrefManager prefManager;
     Context mContext;
     InsuranceMasterEntity listCarMaster;
 
     public AsyncInsuranceMaster(Context context, InsuranceMasterEntity list) {
         listCarMaster = list;
         mContext = context;
+        prefManager = new PrefManager(mContext);
     }
 
 
@@ -63,6 +65,6 @@ public class AsyncInsuranceMaster extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
 
         super.onPostExecute(aVoid);
-
+        prefManager.setIsInsuranceMasterUpdate(false);
     }
 }

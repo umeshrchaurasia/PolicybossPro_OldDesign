@@ -44,7 +44,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     List<QuoteListEntity> mQuoteList;
     QuoteListEntity removeQuoteEntity;
-    ImageView ivSearch, ivAdd;
+    ImageView ivSearch;
     TextView tvAdd, tvSearch;
     EditText etSearch;
 
@@ -92,7 +92,6 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
 
     private void setListener() {
         ivSearch.setOnClickListener(this);
-        ivAdd.setOnClickListener(this);
         tvAdd.setOnClickListener(this);
         tvSearch.setOnClickListener(this);
     }
@@ -105,7 +104,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
 
     private void initView(View view) {
         ivSearch = (ImageView) view.findViewById(R.id.ivSearch);
-        ivAdd = (ImageView) view.findViewById(R.id.ivAdd);
+
         tvAdd = (TextView) view.findViewById(R.id.tvAdd);
         tvSearch = (TextView) view.findViewById(R.id.tvSearch);
         etSearch = (EditText) view.findViewById(R.id.etSearch);
@@ -133,6 +132,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     public void onClick(View view) {
 
         switch (view.getId()) {
+            case R.id.tvAdd:
             case R.id.fbAddQuote:
                 startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class));
                 break;
@@ -144,10 +144,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
                 }
 
                 break;
-            case R.id.ivAdd:
-            case R.id.tvAdd:
-                startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class));
-                break;
+
         }
     }
 

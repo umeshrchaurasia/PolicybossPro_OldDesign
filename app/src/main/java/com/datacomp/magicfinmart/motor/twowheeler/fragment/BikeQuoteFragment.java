@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,8 +26,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.BikeQuoteAdapter;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
+import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
@@ -40,7 +39,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
@@ -73,7 +71,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     List<MobileAddOn> listMobileAddOn;
     TextView tvPolicyExp, tvMakeModel, tvFuel, tvCrn, tvCount, tvRtoName;
     Switch swAddon;
-    FloatingActionButton filter;
+    TextView filter,tvWithoutAddon,tvWithAddon;
     ImageView ivEdit;
     BikeMasterEntity carMasterEntity;
     Realm realm;
@@ -93,10 +91,13 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         initView(view);
         realm = Realm.getDefaultInstance();
         databaseController = new DBPersistanceController(getActivity());
+        saveQuoteEntity = new SaveQuoteResponse.SaveQuoteEntity();
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(BikeAddQuoteActivity.BIKE_QUOTE_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(BikeAddQuoteActivity.BIKE_QUOTE_REQUEST);
+                if (motorRequestEntity.getVehicleRequestID() != null)
+                    saveQuoteEntity.setVehicleRequestID(Integer.parseInt(motorRequestEntity.getVehicleRequestID()));
                 initializeAdapters();
                 setListener();
                 updateHeader();
@@ -116,10 +117,23 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         swAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+                if (webViewLoader.getVisibility() == View.GONE) {
+                    if (b) {
+                        tvWithAddon.setTextColor(getResources().getColor(R.color.colorAccent));
+                        tvWithoutAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
+                        applyAllAddon();
+                    } else {
+                        tvWithoutAddon.setTextColor(getResources().getColor(R.color.colorAccent));
+                        tvWithAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
+                        removeAllAddon();
+                    }
+                } else {
+                    swAddon.setChecked(false);
+                    Toast.makeText(getActivity(), "Please Wait.. Fetching all quotes", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-        bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+       /* bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
@@ -129,7 +143,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                     filter.show();
                 }
             }
-        });
+        });*/
     }
 
     private void initView(View view) {
@@ -145,7 +159,9 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         tvCount = (TextView) view.findViewById(R.id.tvCount);
         swAddon = (Switch) view.findViewById(R.id.swAddon);
         ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
-        filter = (FloatingActionButton) view.findViewById(R.id.filter);
+        filter = (TextView) view.findViewById(R.id.filter);
+        tvWithAddon = (TextView) view.findViewById(R.id.tvWithAddon);
+        tvWithoutAddon = (TextView) view.findViewById(R.id.tvWithoutAddon);
     }
 
     private void initializeAdapters() {
@@ -164,14 +180,21 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         if (motorRequestEntity != null) {
             carMasterEntity = databaseController.getBikeVarientDetails("" + motorRequestEntity.getVehicle_id());
 
-            tvRtoName.setText("" + new DBPersistanceController(getActivity())
-                    .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+            if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {
+                tvRtoName.setText("" + new DBPersistanceController(getActivity())
+                        .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+            } else {
+                String s = new DBPersistanceController(getActivity()).getRTOCityName(String.valueOf(motorRequestEntity.getRto_id()));
+                s = s + " | ";
+                s = s + motorRequestEntity.getRegistration_no();
+                tvRtoName.setText(s);
+            }
         }
 
         if (carMasterEntity != null) {
             tvPolicyExp.setText("" + carMasterEntity.getVariant_Name());
             tvFuel.setText(carMasterEntity.getFuel_Name());
-            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name());
+            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + "(" + carMasterEntity.getCubic_Capacity() + "CC)");
         }
     }
 
@@ -179,7 +202,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         if (bikePremiumResponse != null) {
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
                 tvCrn.setText("" + bikePremiumResponse.getSummary().getPB_CRN());
-                tvCount.setText("" + bikePremiumResponse.getSummary().getSuccess() + " results from qa.policyboss.com");
+                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from qa.policyboss.com");
                 motorRequestEntity.setCrn(Integer.valueOf(bikePremiumResponse.getSummary().getPB_CRN()));
 
                 boolean isQuoteFetch = false;
@@ -215,7 +238,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         entity.setIsActive(1);
 
         if (saveQuoteEntity != null) {
-            entity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
+            if (saveQuoteEntity.getVehicleRequestID() != 0)
+                entity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
         }
         new QuoteApplicationController(getActivity()).saveQuote(entity, this);
     }
@@ -265,6 +289,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         } else if (response instanceof SaveQuoteResponse) {
             if (response.getStatusNo() == 0) {
                 saveQuoteEntity = ((SaveQuoteResponse) response).getMasterData().get(0);
+                motorRequestEntity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
             }
         }
     }
@@ -334,8 +359,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             public void onClick(View v) {
                 listMobileAddOn = popUpAdapter.getUpdateMobileAddonList();
                 // applyAddons();
-                applyPositiveAddons();
-                updateAddonToserver();
+                applyPositiveAddons(listMobileAddOn);
+                updateAddonToserver(listMobileAddOn);
                 alertDialog.dismiss();
             }
         });
@@ -353,10 +378,10 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         alertDialog.show();
     }
 
-    private void updateAddonToserver() {
+    private void updateAddonToserver(List<MobileAddOn> addOnList) {
         SaveAddOnRequestEntity entity = new SaveAddOnRequestEntity();
-        for (int i = 0; i < listMobileAddOn.size(); i++) {
-            MobileAddOn mobileAddOn = listMobileAddOn.get(i);
+        for (int i = 0; i < addOnList.size(); i++) {
+            MobileAddOn mobileAddOn = addOnList.get(i);
 
             if (mobileAddOn.getAddonKey().matches("addon_zero_dep_cover") && mobileAddOn.isSelected) {
                 entity.setAddon_zero_dep_cover("yes");
@@ -430,13 +455,13 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             }*/
         }
 
-        entity.setSearch_reference_number(Constants.getSharedPreference(getActivity()).getString(Utility.CARQUOTE_UNIQUEID, ""));
+        entity.setSearch_reference_number(Constants.getSharedPreference(getActivity()).getString(Utility.BIKEQUOTE_UNIQUEID, ""));
 
 
         new MotorController(getActivity()).saveAddOn(entity, this);
     }
 
-    private void applyPositiveAddons() {
+    private void applyPositiveAddons(List<MobileAddOn> addOnList) {
 
         for (ResponseEntity entity : bikePremiumResponse.getResponse()) { // itrate for each quote
             double addonValue = 0;
@@ -448,9 +473,9 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                         new ArrayList<AppliedAddonsPremiumBreakup>();// list of applied addon
 
                 //region list of available addons
-                for (int i = 0; i < listMobileAddOn.size(); i++) {
+                for (int i = 0; i < addOnList.size(); i++) {
 
-                    MobileAddOn mobileAddOn = listMobileAddOn.get(i);
+                    MobileAddOn mobileAddOn = addOnList.get(i);
                     // check if addon is selected
                     if (!mobileAddOn.isSelected()) {
                         continue;
@@ -809,6 +834,23 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         rebindAdapter(bikePremiumResponse);
     }
 
+    private void applyAllAddon() {
+        List<MobileAddOn> mobileAddOnAll = listMobileAddOn;
+        for (int i = 0; i < mobileAddOnAll.size(); i++) {
+            mobileAddOnAll.get(i).setSelected(true);
+        }
+        applyPositiveAddons(mobileAddOnAll);
+        updateAddonToserver(mobileAddOnAll);
+    }
+
+    private void removeAllAddon() {
+        List<MobileAddOn> mobileAddOnAll = listMobileAddOn;
+        for (int i = 0; i < mobileAddOnAll.size(); i++) {
+            mobileAddOnAll.get(i).setSelected(false);
+        }
+        applyPositiveAddons(mobileAddOnAll);
+        updateAddonToserver(mobileAddOnAll);
+    }
 
     public void redirectToBuy(ResponseEntity entity) {
 
@@ -821,8 +863,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             //String url = "http://policyboss.com/";
             String title = "";
             String name = "";
-            url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
-            title = "Car Insurance";
+            url = url + "buynowTwoWheeler/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
+            title = "Bike Insurance";
 
             //convert quote to application server
             new QuoteApplicationController(getActivity()).convertQuoteToApp(

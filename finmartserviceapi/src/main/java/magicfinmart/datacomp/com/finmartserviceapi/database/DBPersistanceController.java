@@ -17,6 +17,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.Generalinsuranc
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
@@ -284,7 +286,7 @@ public class DBPersistanceController {
             return "";
     }
 
-    public String getBikeVarient(String varientName, String model ,String make) {
+    public String getBikeVarient(String varientName, String model, String make) {
         BikeMasterEntity entity = realm.where(BikeMasterEntity.class)
                 .equalTo("Make_Name", make.trim())
                 .equalTo("Model_Name", model.trim())
@@ -1398,6 +1400,28 @@ public class DBPersistanceController {
         list.add(new HealthSumAssured("50 Lac", 5000000, false));
         list.add(new HealthSumAssured("100 Lac", 10000000, false));
         return list;
+    }
+
+
+    //endregion
+
+    //region health checkup plans
+    public HealthPackDEntity getHealthCheckUPPlans() {
+        HealthPackDEntity entity = realm.where(HealthPackDEntity.class).findFirst();
+        if (entity != null)
+            return entity;
+        else
+            return null;
+    }
+
+    public HealthPackDetailsDBean getHealthCheckUPPlansDetails(int packcode) {
+        HealthPackDetailsDBean entity = realm.where(HealthPackDetailsDBean.class)
+                .equalTo("packcode", packcode).findFirst();
+
+        if (entity != null)
+            return entity;
+        else
+            return null;
     }
 
 

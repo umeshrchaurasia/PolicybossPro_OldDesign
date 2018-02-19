@@ -9,10 +9,10 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.introslider.PrefManager;
 import com.datacomp.magicfinmart.introslider.WelcomeActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -23,10 +23,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.controller.healthcheckup.HealthCheckUPController;
-import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksDetailsRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.PackDetailsEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.PackParamEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackResponse;
 
@@ -47,19 +45,13 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
 
-        // remove this
-       /* HealthPacksRequestEntity healthPacksRequestEntity = new HealthPacksRequestEntity();
+        //region fetch  data of health checkup plans
+        HealthPacksRequestEntity healthPacksRequestEntity = new HealthPacksRequestEntity();
         PackDetailsEntity packDetailsEntity = new PackDetailsEntity();
         healthPacksRequestEntity.setPack_details(packDetailsEntity);
         new HealthCheckUPController(this).getHealthPacks(healthPacksRequestEntity, this);
+        //endregion
 
-
-        HealthPacksDetailsRequestEntity healthPacksDetailsRequestEntity = new HealthPacksDetailsRequestEntity();
-        PackParamEntity packParamEntity = new PackParamEntity();
-        packParamEntity.setPackcode(71);
-        healthPacksDetailsRequestEntity.setPack_param(packParamEntity);
-        new HealthCheckUPController(this).getHealthPacksDetails(healthPacksDetailsRequestEntity, this);
-*/
         if (prefManager.IsBikeMasterUpdate())
             new MasterController(this).getBikeMaster(this);
         if (prefManager.IsCarMasterUpdate())
@@ -70,7 +62,9 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
             new MasterController(this).getInsuranceMaster(this);
 
         if (prefManager.isFirstTimeLaunch()) {
+
             prefManager.setFirstTimeLaunch(false);
+
             startActivity(new Intent(this, WelcomeActivity.class));
         } else {
             new Handler().postDelayed(new Runnable() {
@@ -81,7 +75,11 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                         //TODO Redirect to homeactivity
                         startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
                     } else {
-                        startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                        if (checkAllMastersIsUpdate()) {
+                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                        } else {
+                            Toast.makeText(SplashScreenActivity.this, "Server Down Try After Some time.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }, SPLASH_DISPLAY_LENGTH);
@@ -92,17 +90,21 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
     @Override
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof BikeMasterResponse) {
-            if (response.getStatusNo() == 0)
-                prefManager.setIsBikeMasterUpdate(false);
+            if (checkAllMastersIsUpdate()) {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            }
         } else if (response instanceof CarMasterResponse) {
-            if (response.getStatusNo() == 0)
-                prefManager.setIsCarMasterUpdate(false);
+            if (checkAllMastersIsUpdate()) {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            }
         } else if (response instanceof CityMasterResponse) {
-            if (response.getStatusNo() == 0)
-                prefManager.setIsRtoMasterUpdate(false);
+            if (checkAllMastersIsUpdate()) {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            }
         } else if (response instanceof InsuranceMasterResponse) {
-            if (response.getStatusNo() == 0)
-                prefManager.setIsInsuranceMasterUpdate(false);
+            if (checkAllMastersIsUpdate()) {
+                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+            }
         }
     }
 
@@ -111,7 +113,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         if (response instanceof HealthPackResponse) {
             Log.d("Test", "success");
         }
-        if(response instanceof HealthPackDetailsResponse){
+        if (response instanceof HealthPackDetailsResponse) {
             Log.d("Test", "success");
         }
     }
@@ -119,5 +121,18 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
     @Override
     public void OnFailure(Throwable t) {
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean checkAllMastersIsUpdate() {
+        if (prefManager.IsBikeMasterUpdate())
+            return false;
+        else if (prefManager.IsCarMasterUpdate())
+            return false;
+        else if (prefManager.IsRtoMasterUpdate())
+            return false;
+        else if (prefManager.IsInsuranceMasterUpdate())
+            return false;
+
+        return true;
     }
 }

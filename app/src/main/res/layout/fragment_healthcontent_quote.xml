@@ -79,14 +79,22 @@
         android:scaleType="fitCenter" />
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rvHealthQuote"
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/rvHealthQuote"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@+id/webViewLoader"-->
+    <!--android:layout_marginTop="4dp"-->
+    <!--android:visibility="gone">
+     </android.support.v7.widget.RecyclerView>-->
+
+    <ExpandableListView
+        android:id="@+id/elvHealthQuote"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/webViewLoader"
-        android:layout_marginTop="4dp">
+        android:layout_marginTop="4dp" />
 
-    </android.support.v7.widget.RecyclerView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/filter"

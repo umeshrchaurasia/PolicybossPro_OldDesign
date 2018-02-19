@@ -7,15 +7,19 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -24,6 +28,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.Hea
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 
 /**
@@ -38,8 +43,15 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     HealthQuote healthQuote;
     LinearLayout llMembers;
     ImageView webViewLoader;
-    RecyclerView rvHealthQuote;
+    // RecyclerView rvHealthQuote;
     HealthQuoteAdapter adapter;
+
+
+    ExpandableListView elvHealthQuote;
+    HealthQuoteExpandableListAdapter mAdapter;
+
+    List<HealthQuoteEntity> listDataHeader;
+    HashMap<HealthQuoteEntity, List<HealthQuoteEntity>> listDataChild;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,6 +65,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_healthcontent_quote, container, false);
         initView(view);
+        listDataHeader = new ArrayList<>();
+        listDataChild = new HashMap<HealthQuoteEntity, List<HealthQuoteEntity>>();
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA) != null) {
@@ -83,7 +97,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         for (int i = 0; i < listmember.size(); i++) {
 
-            Toast.makeText(getActivity(), "" + i, Toast.LENGTH_SHORT).show();
             ImageView imageview = new ImageView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout
                     .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -103,18 +116,75 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         txtCoverAmount = (TextView) view.findViewById(R.id.txtCoverAmount);
         txtCoverType = (TextView) view.findViewById(R.id.txtCoverType);
         llMembers = (LinearLayout) view.findViewById(R.id.llMembers);
-        rvHealthQuote = (RecyclerView) view.findViewById(R.id.rvHealthQuote);
-        rvHealthQuote.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        rvHealthQuote.setLayoutManager(layoutManager);
-        adapter = new HealthQuoteAdapter(this, null);
-        rvHealthQuote.setAdapter(adapter);
+//        rvHealthQuote = (RecyclerView) view.findViewById(R.id.rvHealthQuote);
+//        rvHealthQuote.setHasFixedSize(true);
+//
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+//        rvHealthQuote.setLayoutManager(layoutManager);
+
+        elvHealthQuote = (ExpandableListView) view.findViewById(R.id.elvHealthQuote);
+
+        // Listview Group click listener
+        elvHealthQuote.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+
+            @Override
+            public boolean onGroupClick(ExpandableListView parent, View v,
+                                        int groupPosition, long id) {
+                Toast.makeText(getActivity(),
+                        "Group Clicked " + listDataHeader.get(groupPosition).getInsurerId(),
+                        Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
+        // Listview Group expanded listener
+        elvHealthQuote.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                Toast.makeText(getActivity(),
+                        listDataHeader.get(groupPosition) + " Expanded",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Listview Group collasped listener
+        elvHealthQuote.setOnGroupCollapseListener(new ExpandableListView.OnGroupCollapseListener() {
+
+            @Override
+            public void onGroupCollapse(int groupPosition) {
+                Toast.makeText(getActivity(),
+                        listDataHeader.get(groupPosition).getPlanName() + " Collapsed",
+                        Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+        // Listview on child click listener
+        elvHealthQuote.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
+                // TODO Auto-generated method stub
+                Toast.makeText(
+                        getActivity(),
+                        "" + listDataHeader.get(groupPosition).getInsurerId()
+                                + " : "
+                                + listDataChild.get(
+                                listDataHeader.get(groupPosition)).get(
+                                childPosition).getInsurerId(), Toast.LENGTH_SHORT)
+                        .show();
+                return false;
+            }
+        });
     }
 
 
     public void fetchQuotes() {
         visibleLoader();
-        new HealthController(getActivity()).getHealthQuote(healthQuote, this);
+        //new HealthController(getActivity()).getHealthQuote(healthQuote, this);
+        new HealthController(getActivity()).getHealthQuoteExp(healthQuote, this);
     }
 
     @Override
@@ -125,7 +195,41 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 List<HealthQuoteEntity> listQuotes =
                         ((HealthQuoteResponse) response).getMasterData().getHealth_quote();
 
+                //adapter = new HealthQuoteAdapter(this, listQuotes);
+                //rvHealthQuote.setAdapter(adapter);
             }
+        } else if (response instanceof HealthQuoteExpResponse) {
+            if (((HealthQuoteExpResponse) response).getMasterData().getHealth_quote().getHeader() != null) {
+                prepareChild(((HealthQuoteExpResponse) response).getMasterData()
+                        .getHealth_quote().getHeader(), ((HealthQuoteExpResponse) response).getMasterData()
+                        .getHealth_quote().getChild());
+
+                mAdapter = new HealthQuoteExpandableListAdapter(getActivity(), listDataHeader, listDataChild);
+                elvHealthQuote.setAdapter(mAdapter);
+
+            }
+        }
+
+    }
+
+    private void prepareChild(List<HealthQuoteEntity> listHeader, List<HealthQuoteEntity> listChild) {
+
+        for (int i = 0; i < listHeader.size(); i++) {
+
+            HealthQuoteEntity header = listHeader.get(i);
+            List<HealthQuoteEntity> childList = new ArrayList<>();
+
+            for (int j = 0; j < listChild.size(); j++) {
+                HealthQuoteEntity child = listChild.get(j);
+                if (header.getInsurerId() == child.getInsurerId()) {
+                    childList.add(child);
+                }
+            }
+
+            header.setTotalChilds(childList.size());
+
+            listDataChild.put(header, childList);
+            listDataHeader.add(header);
         }
     }
 
@@ -137,6 +241,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     private void visibleLoader() {
         webViewLoader.setVisibility(View.VISIBLE);
+        Glide.with(this).load(R.drawable.preloader).into(webViewLoader);
     }
 
     private void hideLoader() {

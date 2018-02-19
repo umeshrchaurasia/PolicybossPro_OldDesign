@@ -53,6 +53,17 @@ public class HealthQuoteEntity {
     private String QuoteStatus;
     private String ProposerPageUrl;
 
+    //to show no of childs count
+    private int totalChilds;
+
+    public int getTotalChilds() {
+        return totalChilds;
+    }
+
+    public void setTotalChilds(int totalChilds) {
+        this.totalChilds = totalChilds;
+    }
+
     public int getCustomerReferenceID() {
         return CustomerReferenceID;
     }

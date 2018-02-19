@@ -1,7 +1,13 @@
 package com.datacomp.magicfinmart;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 
 import java.text.ParseException;
@@ -109,4 +115,5 @@ public class BaseFragment extends Fragment {
         }
         return 0;
     }
+
 }

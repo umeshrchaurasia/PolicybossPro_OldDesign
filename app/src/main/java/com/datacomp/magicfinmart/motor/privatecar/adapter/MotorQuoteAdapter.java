@@ -67,7 +67,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
                 holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
 
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
             holder.txtQuoteDate.setText(entity.getMotorRequestEntity().getCreated_date());
             holder.txtCrnNo.setText("" + entity.getMotorRequestEntity().getCrn());
@@ -164,7 +164,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
     }
 
     public void refreshAdapter(List<QuoteListEntity> list) {
-        mQuoteList = list;
+        mQuoteListFiltered = list;
     }
 
     @Override

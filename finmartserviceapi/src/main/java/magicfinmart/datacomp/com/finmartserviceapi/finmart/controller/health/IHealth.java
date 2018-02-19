@@ -13,6 +13,8 @@ public interface IHealth {
 
     void getHealthQuote(HealthQuote quote, IResponseSubcriber iResponseSubcriber);
 
+    void getHealthQuoteExp(HealthQuote quote,IResponseSubcriber iResponseSubcriber);
+
     void getHealthQuoteApplicationList(String fbaID, IResponseSubcriber iResponseSubcriber);
 
     void convertQuoteToApp(String healthRequestID, String insurerID, IResponseSubcriber iResponseSubcriber);

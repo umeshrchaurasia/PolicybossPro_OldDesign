@@ -19,7 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 
-public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.BikeQuoteItem> {
+public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQuoteItem> {
 
 
     Fragment mContext;
@@ -28,7 +28,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     List<ResponseEntity> listQuotes;
     DBPersistanceController dbPersistanceController;
 
-    public BikeQuoteAdapter(Fragment mContext, BikePremiumResponse response) {
+    public CarQuoteAdapter(Fragment mContext, BikePremiumResponse response) {
         this.mContext = mContext;
         this.response = response;
         dbPersistanceController = new DBPersistanceController(mContext.getContext());
@@ -42,7 +42,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     public BikeQuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.layout_bikequote_item_new, parent, false);
-        return new BikeQuoteAdapter.BikeQuoteItem(itemView);
+        return new CarQuoteAdapter.BikeQuoteItem(itemView);
     }
 
     @Override

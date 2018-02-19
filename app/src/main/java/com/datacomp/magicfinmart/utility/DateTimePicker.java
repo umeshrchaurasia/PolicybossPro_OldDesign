@@ -4,12 +4,14 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class DateTimePicker {
-
+    static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     public static void showDatePickerDialog(Context mContex, DatePickerDialog.OnDateSetListener callBack) {
         final Calendar calendar = Calendar.getInstance();
@@ -167,6 +169,11 @@ public class DateTimePicker {
         return diff;
     }
 
+    public static long getDiffDays(Date first, Date last) {
+        long diff = last.getTime() - first.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
+
     public static Calendar getCalendar(Date date) {
         Calendar cal = Calendar.getInstance(Locale.US);
         cal.setTime(date);
@@ -257,6 +264,32 @@ public class DateTimePicker {
         DatePickerDialog dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate());
 
         dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        calendar.add(Calendar.MONTH, 2);
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        dialog.show();
+    }
+
+    public static void BikepolicyExpValidation(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
+
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate());
+
+        Calendar calendarToday = Calendar.getInstance();
+        calendarToday.add(Calendar.DAY_OF_MONTH, -180);
+        Date currDate = calendarToday.getTime();
+
+        Calendar calendarReg = Calendar.getInstance();
+        calendarReg.setTime(date);
+        calendarReg.add(Calendar.DAY_OF_MONTH, 180);
+        Date regDate = calendarReg.getTime();
+
+        if (regDate.after(currDate)) {
+            dialog.getDatePicker().setMinDate(calendarReg.getTimeInMillis());
+        } else {
+            dialog.getDatePicker().setMinDate(calendarToday.getTimeInMillis());
+        }
 
         calendar.add(Calendar.MONTH, 2);
         dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
