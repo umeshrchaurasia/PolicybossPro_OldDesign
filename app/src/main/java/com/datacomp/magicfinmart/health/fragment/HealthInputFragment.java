@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
-import com.datacomp.magicfinmart.utility.Sortbyroll;
+import com.datacomp.magicfinmart.utility.SortbyAge;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -156,6 +156,35 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if (i == 0) {
                 et1.setText(String.valueOf(entity.getAge()));
                 img1.setImageResource(R.mipmap.user_selected);
+                img1.performClick();
+            }
+            if (i == 1) {
+                et2.setText(String.valueOf(entity.getAge()));
+                img2.setImageResource(R.mipmap.user_selected);
+                img2.performClick();
+            }
+
+            if (i == 2) {
+                et3.setText(String.valueOf(entity.getAge()));
+                img3.setImageResource(R.mipmap.user_selected);
+                img3.performClick();
+            }
+
+            if (i == 3) {
+                et4.setText(String.valueOf(entity.getAge()));
+                img4.setImageResource(R.mipmap.user_selected);
+                img4.performClick();
+            }
+
+            if (i == 4) {
+                et5.setText(String.valueOf(entity.getAge()));
+                img5.setImageResource(R.mipmap.user_selected);
+                img5.performClick();
+            }
+            if (i == 5) {
+                et6.setText(String.valueOf(entity.getAge()));
+                img6.setImageResource(R.mipmap.user_selected);
+                img6.performClick();
             }
         }
     }
@@ -504,7 +533,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 if (memberList.size() > 0) {
 
                     //sort member list by higher age
-                    Collections.sort(memberList, new Sortbyroll());
+                    Collections.sort(memberList, new SortbyAge());
                     Collections.reverse(memberList);
                     healthQuote.getHealthRequest().setMemberList(memberList);
 
