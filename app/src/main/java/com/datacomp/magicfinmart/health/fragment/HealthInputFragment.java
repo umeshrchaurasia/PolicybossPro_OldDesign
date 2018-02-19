@@ -18,7 +18,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
-import com.datacomp.magicfinmart.utility.Sortbyroll;
+import com.datacomp.magicfinmart.utility.SortbyAge;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -504,7 +504,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 if (memberList.size() > 0) {
 
                     //sort member list by higher age
-                    Collections.sort(memberList, new Sortbyroll());
+                    Collections.sort(memberList, new SortbyAge());
                     Collections.reverse(memberList);
                     healthQuote.getHealthRequest().setMemberList(memberList);
 
