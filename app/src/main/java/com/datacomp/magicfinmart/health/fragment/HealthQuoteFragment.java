@@ -8,7 +8,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,29 +31,27 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 
 /**
  * Created by Nilesh Birhade on 14/02/2018.
  */
 
-public class HealthQuoteFragment extends BaseFragment implements IResponseSubcriber {
+public class HealthQuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener {
 
     private static final String FLOATER = "FLOATER STANDARD";
     private static final String INDIVIDUAL = "INDIVIDUAL STANDARD";
+    private static final String SHARE_TEXT = " results from www.policyboss.com";
+
     TextView txtCoverType, txtCoverAmount;
     HealthQuote healthQuote;
     LinearLayout llMembers;
     ImageView webViewLoader;
     RecyclerView rvHealthQuote;
     HealthQuoteAdapter adapter;
-    List<HealthQuoteEntity> listCompare;
+    ImageView ivEdit;
     TextView tvCount, txtCompareCount;
 
-    //    ExpandableListView elvHealthQuote;
-//    HealthQuoteExpandableListAdapter mAdapter;
-    String shareText = " results from www.policyboss.com";
-
+    List<HealthQuoteEntity> listCompare;
     List<HealthQuoteEntity> listDataHeader;
     HashMap<Integer, List<HealthQuoteEntity>> listDataChild;
 
@@ -70,6 +67,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_healthcontent_quote, container, false);
         initView(view);
+        setListener();
         listCompare = new ArrayList<>();
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<Integer, List<HealthQuoteEntity>>();
@@ -86,6 +84,17 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         return view;
     }
 
+    private void setListener() {
+        ivEdit.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.ivEdit) {
+            ((HealthQuoteBottomTabsActivity) getActivity()).redirectToInput();
+        }
+    }
+
     private void bindHeaders() {
 
         if (healthQuote.getHealthRequest().getMemberList().size() > 1) {
@@ -94,7 +103,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             txtCoverType.setText(INDIVIDUAL);
         }
 
-        tvCount.setText(shareText);
+        tvCount.setText(SHARE_TEXT);
         String cover = "COVER :" + "<b>" + String.valueOf(healthQuote.getHealthRequest().getSumInsured()) + "</b>";
         txtCoverAmount.setText(Html.fromHtml(cover));
         bindImages(healthQuote.getHealthRequest().getMemberList());
@@ -125,9 +134,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         txtCoverType = (TextView) view.findViewById(R.id.txtCoverType);
         llMembers = (LinearLayout) view.findViewById(R.id.llMembers);
         tvCount = (TextView) view.findViewById(R.id.tvCount);
+        ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
 
         txtCompareCount = (TextView) view.findViewById(R.id.txtCompareCount);
-
         rvHealthQuote = (RecyclerView) view.findViewById(R.id.rvHealthQuote);
         rvHealthQuote.setHasFixedSize(true);
 
@@ -146,14 +155,15 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
 
     public void fetchQuotes() {
-        visibleLoader();
-        //new HealthController(getActivity()).getHealthQuote(healthQuote, this);
+        //visibleLoader();
+        showDialog("Please wait.., Fetching quotes");
         new HealthController(getActivity()).getHealthQuoteExp(healthQuote, this);
     }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        hideLoader();
+        //hideLoader();
+        cancelDialog();
         if (response instanceof HealthQuoteExpResponse) {
             if (((HealthQuoteExpResponse) response).getMasterData().getHealth_quote().getHeader() != null) {
                 prepareChild(((HealthQuoteExpResponse) response).getMasterData()
@@ -186,7 +196,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         }
         bindRecyclerView(listDataHeader);
         int total = listHeader.size() + listChild.size();
-        tvCount.setText(total + shareText);
+        tvCount.setText(total + SHARE_TEXT);
     }
 
     public void bindRecyclerView(List<HealthQuoteEntity> list) {
@@ -228,7 +238,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     @Override
     public void OnFailure(Throwable t) {
-        hideLoader();
+        cancelDialog();
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 

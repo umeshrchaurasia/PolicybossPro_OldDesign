@@ -156,6 +156,35 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if (i == 0) {
                 et1.setText(String.valueOf(entity.getAge()));
                 img1.setImageResource(R.mipmap.user_selected);
+                img1.performClick();
+            }
+            if (i == 1) {
+                et2.setText(String.valueOf(entity.getAge()));
+                img2.setImageResource(R.mipmap.user_selected);
+                img2.performClick();
+            }
+
+            if (i == 2) {
+                et3.setText(String.valueOf(entity.getAge()));
+                img3.setImageResource(R.mipmap.user_selected);
+                img3.performClick();
+            }
+
+            if (i == 3) {
+                et4.setText(String.valueOf(entity.getAge()));
+                img4.setImageResource(R.mipmap.user_selected);
+                img4.performClick();
+            }
+
+            if (i == 4) {
+                et5.setText(String.valueOf(entity.getAge()));
+                img5.setImageResource(R.mipmap.user_selected);
+                img5.performClick();
+            }
+            if (i == 5) {
+                et6.setText(String.valueOf(entity.getAge()));
+                img6.setImageResource(R.mipmap.user_selected);
+                img6.performClick();
             }
         }
     }
