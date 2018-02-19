@@ -8,6 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -35,6 +39,10 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
     FmHomeLoanRequest  removeQuoteEntity;
 
+    ImageView ivSearch, ivAdd;
+    TextView tvAdd, tvSearch;
+    EditText etSearch;
+
     public HL_QuoteFragment() {
     }
 
@@ -44,7 +52,7 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_hl_quote, container, false);
         initView(view);
-
+        setListener();
         mQuoteList = new ArrayList<>();
         if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST) != null)
         {
@@ -57,6 +65,14 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     }
 
     private void initView(View view) {
+
+        ivSearch = (ImageView) view.findViewById(R.id.ivSearch);
+        ivAdd = (ImageView) view.findViewById(R.id.ivAdd);
+        tvAdd = (TextView) view.findViewById(R.id.tvAdd);
+        tvSearch = (TextView) view.findViewById(R.id.tvSearch);
+        etSearch = (EditText) view.findViewById(R.id.etSearch);
+        etSearch.setVisibility(View.INVISIBLE);
+
         hlAddQuote = (FloatingActionButton) view.findViewById(R.id.hlAddQuote);
 
         rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
@@ -68,10 +84,24 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         hlAddQuote.setOnClickListener(this);
     }
 
+    private void setListener() {
+        ivSearch.setOnClickListener(this);
+        ivAdd.setOnClickListener(this);
+        tvAdd.setOnClickListener(this);
+        tvSearch.setOnClickListener(this);
+    }
+
     public void redirectQuoteHL(FmHomeLoanRequest request){
         Intent intent=new Intent(getActivity(), HLMainActivity.class);
         intent.putExtra( FROM_QUOTE,request);
         startActivity(intent);
+
+    }
+    public void removeQuote(FmHomeLoanRequest entity) {
+
+        removeQuoteEntity = entity;
+        showDialog("Please wait,Removing quote..");
+      //  new QuoteApplicationController(getContext()).deleteQuote("" + entity.getVehicleRequestID(),this);
 
     }
 
@@ -79,6 +109,18 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.hlAddQuote:
+                startActivity(new Intent(getActivity(), HLMainActivity.class));
+                break;
+            case R.id.tvSearch:
+            case R.id.ivSearch:
+                if (etSearch.getVisibility() == View.INVISIBLE) {
+                    etSearch.setVisibility(View.VISIBLE);
+                    etSearch.requestFocus();
+                }
+
+                break;
+            case R.id.ivAdd:
+            case R.id.tvAdd:
                 startActivity(new Intent(getActivity(), HLMainActivity.class));
                 break;
         }

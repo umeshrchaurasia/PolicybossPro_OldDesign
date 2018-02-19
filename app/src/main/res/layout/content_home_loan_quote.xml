@@ -60,11 +60,11 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="APPLICANT NAME"
+                            android:text="Property Type"
                             />
 
                         <TextView
-                            android:id="@+id/txtPropType"
+                            android:id="@+id/txtPropertyType"
                             style="@style/TextViewStyle.Small"
                             android:text=""
                             android:textColor="@color/black" />
@@ -81,8 +81,8 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="REQ. LOAN AMOUNT"
-                            />
+                            android:layout_height="wrap_content"
+                            android:text="REQ. LOAN AMOUNT" />
                         <TextView
                             android:id="@+id/txtCostOfProp"
                             style="@style/TextViewStyle.Small"

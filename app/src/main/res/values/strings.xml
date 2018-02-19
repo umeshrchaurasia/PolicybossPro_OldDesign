@@ -43,10 +43,13 @@
         <item>Self-Employed</item>
     </array>
     <array name="RelationType">
-        <item>Spouse</item>
-        <item>Wife</item>
-        <item>Father</item>
-        <item>Son</item>
+        <item>SPOUSE</item>
+        <item>FATHER</item>
+        <item>MOTHER</item>
+        <item>SON</item>
+        <item>DAUGHTER</item>
+        <item>BROTHER</item>
+        <item>SISTER</item>
 
     </array>
     <string name="title_activity_personal_loan_quote">PERSONAL LOAN</string>

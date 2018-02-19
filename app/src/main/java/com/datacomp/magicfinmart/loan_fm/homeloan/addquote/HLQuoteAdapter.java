@@ -75,9 +75,11 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
         holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure() + " Years");
         holder.tvProcessingFee.setText("" + "\u20B9" + " " + String.format("%.0f", quoteEntity.getProcessingfee()));
 
-        double loanr = Double.parseDouble(quoteEntity.getLoanRequired().toString());
+        double loanr = quoteEntity.getLoan_eligible();
         double emiperlac = (quoteEntity.getEmi() / loanr) * 100000;
-        holder.tvEmiperlac.setText("" + "\u20B9" + " " + String.format("%.2f", emiperlac));
+       // holder.tvEmiperlac.setText("" + "\u20B9" + " " + String.format("%.2f", emiperlac));
+
+        holder.tvEmiperlac.setText("" + "\u20B9" + " " +Math.round(emiperlac));
 
         Glide.with(mContext)
                 .load(quoteEntity.getBank_Logo())
