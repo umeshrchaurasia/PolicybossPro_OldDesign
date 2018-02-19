@@ -300,16 +300,17 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
             }
         }
         spFuel.setSelection(fuelIndex);*/
-
-        int prevInsurerIndex = 0;
-        String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
-        for (int i = 0; i < prevInsurerList.size(); i++) {
-            if (prevInsurerList.get(i).matches(insName)) {
-                prevInsurerIndex = i;
-                break;
+        if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
+            int prevInsurerIndex = 0;
+            String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
+            for (int i = 0; i < prevInsurerList.size(); i++) {
+                if (prevInsurerList.get(i).matches(insName)) {
+                    prevInsurerIndex = i;
+                    break;
+                }
             }
+            spPrevIns.setSelection(prevInsurerIndex);
         }
-        spPrevIns.setSelection(prevInsurerIndex);
 
 
         //endregion

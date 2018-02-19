@@ -43,10 +43,13 @@
         <item>Self-Employed</item>
     </array>
     <array name="RelationType">
-        <item>Spouse</item>
-        <item>Wife</item>
-        <item>Father</item>
-        <item>Son</item>
+        <item>SPOUSE</item>
+        <item>FATHER</item>
+        <item>MOTHER</item>
+        <item>SON</item>
+        <item>DAUGHTER</item>
+        <item>BROTHER</item>
+        <item>SISTER</item>
 
     </array>
     <string name="title_activity_personal_loan_quote">PERSONAL LOAN</string>
@@ -135,4 +138,9 @@
     </string-array>
     <string name="title_activity_health_check_up_plans">HEALTH CHECK UP PLANS</string>
     <string name="title_activity_eula">Agreement</string>
+    <string name="title_activity_knowledge_guru">KNOWLEDGE GURU</string>
+    <string name="knowledge_guru_header">WELCOME TO KNOWLEDGE BANK \nFOR ALL THAT YOU NEED</string>
+    <string name="title_activity_home_loan_application">Home Loan Apply</string>
+    <string name="title_activity_credit_card_main">"Credit Card "</string>
+
 </resources>

@@ -19,10 +19,11 @@
             android:layout_gravity="bottom"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:hint="Name Of Applicant">
+            android:hint="Applicant Name">
 
             <EditText
                 android:id="@+id/etNameOfApplicant"
+                android:inputType="text"
                 style="@style/Style.edittext" />
         </android.support.design.widget.TextInputLayout>
 
@@ -39,38 +40,40 @@
                 style="@style/TextViewStyle.Medium"
                 android:text="Gender" />
 
-            <LinearLayout
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="horizontal">
-
-                <RadioGroup
-                    android:id="@+id/rgGender"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:checkedButton="@+id/rbimgMale"
-                    android:gravity="left|center_vertical"
-                    android:orientation="horizontal">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
 
-                    <RadioButton
-                        android:id="@+id/rbimgMale"
-                        android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/txtrbimgMale"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:drawableRight="@drawable/male" />
+                        android:layout_marginRight="5dp"
+                        android:layout_weight="50"
+                        android:background="@drawable/customeborder_blue"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Male"
+                        android:textColor="@color/colorPrimary" />
 
-                    <RadioButton
-                        android:id="@+id/rbimgFemale"
-                        android:layout_width="wrap_content"
+                    <TextView
+
+                        android:id="@+id/txtrbimgFemale"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="50"
+                        android:background="@drawable/customeborder"
+                        android:gravity="center"
+                        android:padding="5dp"
+                        android:text="Female"
+                        android:textColor="@color/description_text" />
 
-                        android:drawableRight="@drawable/female" />
-                </RadioGroup>
 
+                </LinearLayout>
 
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -81,7 +84,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
+
 
         android:orientation="horizontal">
 
@@ -90,10 +93,11 @@
             android:id="@+id/textView411"
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
+            android:gravity="bottom"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
+
+
             android:hint="Date of Birth">
 
             <EditText
@@ -202,7 +206,7 @@
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
-                    android:hint="EMI,If Any">
+                    android:hint="Profit After Tax">
 
                     <EditText
                         android:id="@+id/etProfitAtTax"
@@ -210,7 +214,7 @@
                         android:digits="0123456789"
                         android:ems="10"
                         android:inputType="phone"
-                        android:maxLength="9" />
+                        android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -236,7 +240,7 @@
                         android:digits="0123456789"
                         android:ems="10"
                         android:inputType="phone"
-                        android:maxLength="8" />
+                        android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -253,7 +257,7 @@
                         android:digits="0123456789"
                         android:ems="10"
                         android:inputType="phone"
-                        android:maxLength="8" />
+                        android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -281,7 +285,7 @@
                     android:layout_width="0dp"
                     android:layout_marginRight="1dp"
                     android:layout_weight="1"
-                    android:hint="Mothly Income">
+                    android:hint="Monthly Income">
 
                     <EditText
                         android:id="@+id/etMonthlyInc"
@@ -289,7 +293,7 @@
                         android:digits="0123456789"
                         android:ems="10"
                         android:inputType="phone"
-                        android:maxLength="7" />
+                        android:maxLength="12" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -298,13 +302,15 @@
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
-                    android:hint="EMI,If Any">
+                    android:hint="Existing EMI (If Any)">
 
                     <EditText
                         android:id="@+id/etEMI"
                         style="@style/Style.edittext"
                         android:digits="0123456789"
                         android:ems="10"
+                        android:text="0"
+                        android:maxLength="10"
                         android:inputType="phone" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
