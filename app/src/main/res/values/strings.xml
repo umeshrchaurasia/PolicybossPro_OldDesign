@@ -21,7 +21,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">Login</string>
-    <string name="title_activity_private_car_detail">MOTOR CAR</string>
+    <string name="title_activity_private_car_detail">Motor Insurance</string>
     <string name="title_activity_register">Register</string>
     <string name="title_activity_add_quote">Add Quote</string>
     <string name="title_myaccount">MY ACCOUNT</string>
@@ -61,7 +61,7 @@
     <string name="title_activity_personal_loan_apply">PERSONAL LOAN</string>
     <string name="title_activity_plmain">PERSONAL LOAN</string>
     <string name="title_activity_home_loan_apply">HOME LOAN</string>
-    <string name="title_activity_input_quote_bottm">MOTOR Insurance</string>
+    <string name="title_activity_input_quote_bottm">Motor Insurance</string>
     <string name="title_activity_hlmain">HOME LOAN</string>
     <string name="title_activity_balance_transfer_detail">BALANCE TRANSFER</string>
     <string name="title_activity_blmain">BALANCE TRANSFER</string>
@@ -73,5 +73,66 @@
     <string name="title_activity_two_wheeler_quote_app">Two Wheeler</string>
     <string name="title_activity_bike_add_quote">Bike Insurance</string>
 
+    <!--health-->
+    <string-array name="health_sum_assured">
+        <!--<item>Select sum assured in lakhs</item>-->
+        <item>100000</item>
+        <item>200000</item>
+        <item>300000</item>
+        <item>400000</item>
+        <item>500000</item>
+        <item>600000</item>
+        <item>700000</item>
+        <item>750000</item>
+        <item>800000</item>
+        <item>900000</item>
+        <item>700000</item>
+        <item>1000000</item>
+        <item>1200000</item>
+        <item>1500000</item>
+        <item>1800000</item>
+        <item>2000000</item>
+        <item>2500000</item>
+        <item>3000000</item>
+        <item>5000000</item>
+        <item>10000000</item>
 
+    </string-array>
+    <!-- Modify Car-->
+    <string-array name="pa_cover_car">
+        <item>0</item>
+        <item>10000</item>
+        <item>20000</item>
+        <item>30000</item>
+        <item>40000</item>
+        <item>50000</item>
+        <item>100000</item>
+        <item>200000</item>
+    </string-array>
+
+    <string-array name="voluntary_car">
+        <item>0</item>
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
+        <item>1500</item>
+        <item>3000</item>
+    </string-array>
+    <string name="title_activity_health_member_details_dialog">" "</string>
+
+
+    <!--Health relationship-->
+    <string-array name="health_relationship">
+        <item>Relationship</item>
+        <item>Self</item>
+        <item>Spouse</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Child1</item>
+        <item>Child2</item>
+        <item>Child3</item>
+
+    </string-array>
+    <string name="title_activity_health_check_up_plans">HEALTH CHECK UP PLANS</string>
+    <string name="title_activity_eula">Agreement</string>
 </resources>

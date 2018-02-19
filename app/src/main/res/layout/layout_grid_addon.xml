@@ -10,7 +10,7 @@
         android:drawableLeft="@drawable/tickgreen"
         android:drawablePadding="5dp"
         android:padding="8dp"
-        android:textColor="@color/black"
         android:text="Zero addon"
-        android:textSize="10sp" />
+        android:textColor="@color/black"
+        android:textSize="12sp" />
 </LinearLayout>

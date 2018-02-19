@@ -1,37 +1,37 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.adapters.MotorQuoteAdapter;
+import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.LoanQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 
 /**
  * Created by IN-RB on 19-01-2018.
  */
 
-public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAdapter.QuoteItem>  {
+public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAdapter.QuoteItem>  implements View.OnClickListener {
 
     Fragment mFrament;
-    List<LoanQuoteEntity> mQuoteList;
+    List<FmHomeLoanRequest> mQuoteList;
 
-    public HomeLoan_QuoteAdapter(Fragment mFrament, List<LoanQuoteEntity> mQuoteList) {
+    public HomeLoan_QuoteAdapter(Fragment mFrament, List<FmHomeLoanRequest> mQuoteList) {
         this.mFrament = mFrament;
         this.mQuoteList = mQuoteList;
     }
+
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
@@ -63,50 +63,72 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 //        });
 
         if (holder instanceof HomeLoan_QuoteAdapter.QuoteItem) {
-            final LoanQuoteEntity entity = mQuoteList.get(position);
+            final FmHomeLoanRequest entity = mQuoteList.get(position);
 
-            holder.txtPersonName.setText(""+ entity.getApplicantNme());
-            holder.txtQuoteDate.setText("" + entity.getApplicantDOB());
+            holder.txtPersonName.setText(""+ entity.getHomeLoanRequest().getApplicantNme());
+            holder.txtQuoteDate.setText("" + entity.getHomeLoanRequest().getRow_created_date().split("T")[0].toString());
 
-            holder.txtloanamount.setText("" + entity.getLoanRequired());
+            holder.txtloanamount.setText("" + entity.getHomeLoanRequest().getPropertyCost());
+
+
+            //click listener
+
+
+            holder.txtOverflowMenu.setOnClickListener(this);
+
+            holder.txtPersonName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
+                }
+            });
+            holder.txtQuoteDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
+                }
+            });
+            holder.txtloanamount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
+                }
+            });
+
 
 
 
         }
     }
-    private void openPopUp(View v) {
-        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
-        final Menu menu = popupMenu.getMenu();
-
-        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
-        //popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
-
-      /*  switch (Settings.Global.listMode) {
-            case Settings.Global.LIST_STYLE_NORMAL: {
-                menu.findItem(R.id.nav_call).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_FAVORITE: {
-                menu.findItem(R.id.action_add_to_favorite).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_WATCH_LIST: {
-                menu.findItem(R.id.action_add_to_watch_list).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_DOWNLOAD: {
-                menu.findItem(R.id.action_download).setVisible(false);
-                break;
-            }
-        }
-
-        itemPosition = (int) view.getTag(R.id.tag_item_position);*/
-        popupMenu.show();
-    }
+//    private void openPopUp(View v, final QuoteListEntity entity) {
+//        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
+//        final Menu menu = popupMenu.getMenu();
+//
+//        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
+//        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                switch (menuItem.getItemId()) {
+//                    case R.id.menuCall:
+//                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.menuSms:
+//                        Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case R.id.menuDelete:
+//                        ((MotorQuoteFragment) mFrament).removeQuote(entity);
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
+//
+//        popupMenu.show();
+//    }
 
 
 
-    public void refreshAdapter(List<LoanQuoteEntity> list) {
+    public void refreshAdapter(List<FmHomeLoanRequest> list) {
         mQuoteList = list;
     }
 
@@ -114,4 +136,24 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
     public int getItemCount() {
         return mQuoteList.size();
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.txtloanamount:
+                ((HL_QuoteFragment)mFrament).redirectQuoteHL((FmHomeLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.txtQuoteDate:
+                ((HL_QuoteFragment)mFrament).redirectQuoteHL((FmHomeLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.txtPersonName:
+                ((HL_QuoteFragment)mFrament).redirectQuoteHL((FmHomeLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.txtOverflowMenu:
+                //openPopUp(view, (QuoteListEntity) view.getTag(view.getId()));
+                break;
+
+        }
+    }
+
 }

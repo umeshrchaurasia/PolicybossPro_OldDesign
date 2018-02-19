@@ -13,11 +13,16 @@ import android.widget.EditText;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.ActivityTabsPagerAdapter_PL;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PesonalLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 
 /**
  * Created by IN-RB on 12-01-2018.
@@ -30,7 +35,7 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
     RecyclerView rvQuoteList;
     PesonalLoan_QuoteAdapter pesonalLoan_QuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
+    List<FmPersonalLoanRequest> mQuoteList;
     public PL_QuoteFragment() {
         // Required empty public constructor
     }
@@ -41,6 +46,15 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_pl_quote, container, false);
         initView(view);
+
+        mQuoteList = new ArrayList<>();
+        if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_PL.QUOTE_LIST) != null)
+        {
+            mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_PL.QUOTE_LIST);
+
+        }
+        pesonalLoan_QuoteAdapter = new PesonalLoan_QuoteAdapter(PL_QuoteFragment.this,mQuoteList);
+        rvQuoteList.setAdapter(pesonalLoan_QuoteAdapter);
         return view;
     }
 
@@ -52,8 +66,7 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvQuoteList.setLayoutManager(layoutManager);
 
-        pesonalLoan_QuoteAdapter = new PesonalLoan_QuoteAdapter(getActivity());
-        rvQuoteList.setAdapter(pesonalLoan_QuoteAdapter);
+
         plAddQuote.setOnClickListener(this);
     }
     @Override

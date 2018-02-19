@@ -1,9 +1,19 @@
 package com.datacomp.magicfinmart;
 
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +52,7 @@ public class BaseFragment extends Fragment {
     protected void showDialog(String msg) {
         dialog = ProgressDialog.show(getActivity(), "", msg, true);
     }
+
     public static boolean isValidePhoneNumber(EditText editText) {
         String phoneNumberPattern = "^(?:(?:\\+|0{0,2})91(\\s*[\\-]\\s*)?|[0]?)?[789]\\d{9}$";
         String phoneNumberEntered = editText.getText().toString().trim();
@@ -79,5 +90,30 @@ public class BaseFragment extends Fragment {
         }
     }
 
+
+    public String getDateFromAge(int age) {
+        Calendar cal = Calendar.getInstance();
+        int year = age;
+        cal.add(Calendar.YEAR, -year);
+        return new SimpleDateFormat("dd-MM-yyyy").format(cal.getTime());
+    }
+
+    public int getAgeFromDate(String birthdate) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Calendar bithDate = Calendar.getInstance();
+            bithDate.setTime(dateFormat.parse(birthdate));
+            Calendar today = Calendar.getInstance();
+            int curYear = today.get(Calendar.YEAR);
+            int dobYear = bithDate.get(Calendar.YEAR);
+
+            return curYear - dobYear;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
 }

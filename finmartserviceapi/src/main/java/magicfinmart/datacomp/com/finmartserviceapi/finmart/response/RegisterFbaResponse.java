@@ -10,7 +10,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RegisterRespons
 public class RegisterFbaResponse extends APIResponse {
 
     /**
-     * MasterData : {"SavedStatus":0,"Message":"Record saved successfully.","FBAID":35770}
+     * HealthMasterData : {"SavedStatus":0,"Message":"Record saved successfully.","FBAID":35770}
      */
 
     private RegisterResponseEntity MasterData;

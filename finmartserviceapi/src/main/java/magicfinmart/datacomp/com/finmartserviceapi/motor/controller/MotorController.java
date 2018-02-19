@@ -37,7 +37,7 @@ import retrofit2.Response;
 public class MotorController implements IMotor {
 
     public static final long SLEEP_DELAY = 5000; // 5 seconds delay.
-    public static final long NO_OF_SERVER_HITS = 10;
+    public static final int NO_OF_SERVER_HITS = 10;
     MotorQuotesRequestBuilder.MotorQuotesNetworkService motorQuotesNetworkService;
     Context mContext;
     Handler handler;
@@ -174,6 +174,7 @@ public class MotorController implements IMotor {
                             Utility.getSharedPreferenceEditor(mContext).remove(Utility.QUOTE_COUNTER).commit();
                         }
                     } else {
+                        Utility.getSharedPreferenceEditor(mContext).remove(Utility.QUOTE_COUNTER).commit();
                         handler.removeCallbacks(runnable);
                     }
 

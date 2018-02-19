@@ -7,7 +7,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeL
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.QuoteApplicatLoanResonse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
@@ -30,12 +32,12 @@ public class LoanMainRequestBuilder extends FinmartRetroRequestBuilder {
 
         @Headers("token:1234567890")
         @POST("/api/get-loan-request")
-        Call<QuoteApplicatLoanResonse> getHLQuoteApplication(@Body HashMap<String, String> body);
+        Call<FmHomelLoanResponse> getHLQuoteApplication(@Body HashMap<String, String> body);
 
         @Headers("token:1234567890")
 //        @POST("/api/save-HLloan-request")
         @POST("/api/save-loan-request")
-        Call<FmHomelLoanResponse> saveHLQuote(@Body FmHomeLoanRequest fmHomeLoanRequest);
+        Call<FmSaveQuoteHomeLoanResponse> saveHLQuote(@Body FmHomeLoanRequest fmHomeLoanRequest);
 
 
         //endregion
@@ -43,8 +45,12 @@ public class LoanMainRequestBuilder extends FinmartRetroRequestBuilder {
         //    region PersonalLoan
 
         @Headers("token:1234567890")
-        @POST("/api/save-PLloan-request")
-        Call<FmPersonalLoanResponse> savePLQuote(@Body FmPersonalLoanRequest fmPersonalLoanRequest);
+        @POST("/api/get-personalloan-request")
+        Call<FmPersonalLoanResponse> getPLQuoteApplication(@Body HashMap<String, String> body);
+
+        @Headers("token:1234567890")
+        @POST("/api/manage-personalloan")
+        Call<FmSaveQuotePersonalLoanResponse> savePLQuote(@Body FmPersonalLoanRequest fmPersonalLoanRequest);
 
         //endregion
     }

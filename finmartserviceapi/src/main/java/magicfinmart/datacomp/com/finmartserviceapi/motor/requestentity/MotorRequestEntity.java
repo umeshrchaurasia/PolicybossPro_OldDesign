@@ -108,6 +108,23 @@ public class MotorRequestEntity implements Parcelable {
 
     private String agent_source;
 
+    /**
+     * VehicleRequestID : 171
+     * birth_date : null
+     * fba_id : 35779
+     * prev_insurer_id : 2
+     * registration_no : 0
+     * voluntary_deductible : 0
+     * external_bifuel_type : 0
+     * geo_lat : 0
+     * geo_long : 0
+     * isTwentyfour : null
+     * conversiondate : null
+     * srn : SRN-HQFT4UHK-KHBZ-QCHL-DB7S-W5TKOWIXBWDH
+     * agent_source : null
+     * selectedPrevInsID : 0
+     */
+
 
     public int getIsTwentyfour() {
         return isTwentyfour;
@@ -155,7 +172,18 @@ public class MotorRequestEntity implements Parcelable {
     private String created_date;
     private String type;
     private String conversiondate;
+    private String VehicleRequestID;
+    private int fba_id;
+    private String srn;
+    private int selectedPrevInsID;
 
+    public String getVehicleRequestID() {
+        return VehicleRequestID;
+    }
+
+    public void setVehicleRequestID(String vehicleRequestID) {
+        VehicleRequestID = vehicleRequestID;
+    }
 
     public MotorRequestEntity() {
         // this.birth_date = "1992-01-01";
@@ -538,6 +566,30 @@ public class MotorRequestEntity implements Parcelable {
         this.agent_source = agent_source;
     }
 
+    public int getFba_id() {
+        return fba_id;
+    }
+
+    public void setFba_id(int fba_id) {
+        this.fba_id = fba_id;
+    }
+
+    public String getSrn() {
+        return srn;
+    }
+
+    public void setSrn(String srn) {
+        this.srn = srn;
+    }
+
+    public int getSelectedPrevInsID() {
+        return selectedPrevInsID;
+    }
+
+    public void setSelectedPrevInsID(int selectedPrevInsID) {
+        this.selectedPrevInsID = selectedPrevInsID;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -592,6 +644,10 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.created_date);
         dest.writeString(this.type);
         dest.writeString(this.conversiondate);
+        dest.writeString(this.VehicleRequestID);
+        dest.writeInt(this.fba_id);
+        dest.writeString(this.srn);
+        dest.writeInt(this.selectedPrevInsID);
     }
 
     protected MotorRequestEntity(Parcel in) {
@@ -642,6 +698,10 @@ public class MotorRequestEntity implements Parcelable {
         this.created_date = in.readString();
         this.type = in.readString();
         this.conversiondate = in.readString();
+        this.VehicleRequestID = in.readString();
+        this.fba_id = in.readInt();
+        this.srn = in.readString();
+        this.selectedPrevInsID = in.readInt();
     }
 
     public static final Parcelable.Creator<MotorRequestEntity> CREATOR = new Parcelable.Creator<MotorRequestEntity>() {

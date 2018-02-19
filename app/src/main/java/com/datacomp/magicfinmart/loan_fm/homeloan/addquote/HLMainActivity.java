@@ -4,38 +4,39 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplyWebView;
-import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.InputQuoteBottmActivity;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.InputFragment;
-import com.datacomp.magicfinmart.motor.privatecar.addquote.fragment.QuoteFragment;
+import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
 
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
 
 public class HLMainActivity extends BaseActivity {
 
-    private static String INPUT_FRAGMENT = "input";
-    private static String QUOTE_FRAGMENT = "quote";
+    private static String INPUT_FRAGMENT = "inputhl";
+    private static String QUOTE_FRAGMENT = "quotehl";
     private static String BUY_FRAGMENT = "buy";
+
+    public static String HL_INPUT_REQUEST = "input_request_entityhl";
+    public static String HL_QUOTE_REQUEST = "quote_request_entityhl";
+
     BottomNavigationView bottomNavigationView;
 
     Bundle quoteBundle;
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
+
+    FmHomeLoanRequest fmHomeLoanRequest;
+    //HomeLoanRequest homeLoanRequestEntity;
+    boolean isQuoteVisible = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,10 +48,25 @@ public class HLMainActivity extends BaseActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+
+        if (getIntent().getParcelableExtra(HL_QuoteFragment.FROM_QUOTE) != null) {
+            fmHomeLoanRequest = getIntent().getParcelableExtra(HL_QuoteFragment.FROM_QUOTE);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(HL_QUOTE_REQUEST, fmHomeLoanRequest);
+            quoteBundle = bundle;
+
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+
+        } else {
+            //first input fragment load
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        }
+
+        quoteBundle = null;
 
 
     }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -60,13 +76,21 @@ public class HLMainActivity extends BaseActivity {
                 case R.id.navigation_input:
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
-                        if (tabFragment != null) {
-                            loadFragment(tabFragment, INPUT_FRAGMENT);
 
-                        } else {
-                            loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
-                        }
+                    if (fmHomeLoanRequest != null) {
+                        quoteBundle = new Bundle();
+                        quoteBundle.putParcelable(HLMainActivity.HL_INPUT_REQUEST, fmHomeLoanRequest);
 
+                    }
+                    if (tabFragment != null) {
+                        tabFragment.setArguments(quoteBundle);
+                        loadFragment(tabFragment, INPUT_FRAGMENT);
+
+                    } else {
+                        InputFragment_hl inputFragment = new InputFragment_hl();
+                        inputFragment.setArguments(quoteBundle);
+                        loadFragment(inputFragment, INPUT_FRAGMENT);
+                    }
 
                     return true;
                 case R.id.navigation_quote:
@@ -98,11 +122,13 @@ public class HLMainActivity extends BaseActivity {
     };
 
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         HLMainActivity.this.finish();
+
+        //  finish();
+
     }
 
     private void loadFragment(Fragment fragment, String TAG) {
@@ -121,24 +147,64 @@ public class HLMainActivity extends BaseActivity {
         }
     }
 
-    public void getQuoteParameterBundle(Bundle bundle) {
 
-        quoteBundle = bundle;
-        if (bundle == null)
+    // Implementation the Interface for Communication of Fragment Input and Quote
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
+    public void redirectInput(FmHomeLoanRequest entity) {
+        if (isQuoteVisible) {
+            fmHomeLoanRequest = entity;
+            quoteBundle = new Bundle();
+            quoteBundle.putParcelable(HLMainActivity.HL_INPUT_REQUEST, fmHomeLoanRequest);
+
+            if (fmHomeLoanRequest == null)
+                Toast.makeText(HLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+            else
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            Toast.makeText(HLMainActivity.this, "Fetching all quotes", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    public void getQuoteParameterBundle(FmHomeLoanRequest entity) {
+
+        fmHomeLoanRequest = entity;
+        quoteBundle = new Bundle();
+        quoteBundle.putParcelable(HLMainActivity.HL_QUOTE_REQUEST, fmHomeLoanRequest);
+
+        if (fmHomeLoanRequest == null)
             Toast.makeText(HLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
         else
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
 
     }
 
-
-
-    public void redirectToApplyLoan(QuoteEntity entity, String url, int id) {
-        startActivity(new Intent(HLMainActivity.this, HomeLoanApplyWebView.class)
-                .putExtra("QUOTE_ENTITY", entity)
-                .putExtra("URL", url)
-                .putExtra("QUOTE_ID", id));
+    public void updateRequest(FmHomeLoanRequest entity, boolean isQuoteVisible) {
+        fmHomeLoanRequest = entity;
+        this.isQuoteVisible = isQuoteVisible;
     }
-    // Implementation the Interface for Communication of Fragment Input and Quote
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (isQuoteVisible) {
+                    finish();
+                    return true;
+                } else {
+                    Toast.makeText(HLMainActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

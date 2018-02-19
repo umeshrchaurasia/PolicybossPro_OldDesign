@@ -18,7 +18,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="30dp"
             android:orientation="horizontal"
+            android:padding="4dp"
             android:weightSum="100">
 
 
@@ -27,21 +30,21 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_weight="90"
+                android:layout_weight="70"
                 android:gravity="center"
                 android:lines="2"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextStyle.Body1"
-                android:textColor="@color/header_dark_text"
+                android:textColor="@color/blue"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtOverflowMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="10"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:layout_weight="30"
+                android:gravity="right"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:text="@string/threedots"
                 android:textAppearance="@style/TextStyle.Title"
                 android:textStyle="bold" />
@@ -56,15 +59,18 @@
             android:paddingTop="4dp" />
 
         <LinearLayout
+            android:id="@+id/llDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:gravity="center"
             android:orientation="horizontal"
-            android:weightSum="100">
+            android:padding="8dp">
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_weight="6"
                 android:orientation="vertical"
                 android:padding="4dp">
 
@@ -75,8 +81,7 @@
                     android:text="Vehicle"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.Body1"
-                    android:textColor="@color/header_light_text"
-                    android:textSize="9sp" />
+                    android:textColor="@color/header_light_text" />
 
                 <TextView
                     android:id="@+id/txtVehicleName"
@@ -85,13 +90,41 @@
                     android:gravity="center"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.Body1"
-                    android:textColor="@color/header_dark_text" />
+                    android:textColor="@color/header_dark_text"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_weight="4"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="CRN NO."
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/header_light_text" />
+
+                <TextView
+                    android:id="@+id/txtCrnNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/header_dark_text"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="4"
                 android:orientation="vertical"
                 android:padding="4dp">
 
@@ -102,8 +135,7 @@
                     android:text="Quote date"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.Body1"
-                    android:textColor="@color/header_light_text"
-                    android:textSize="9sp" />
+                    android:textColor="@color/header_light_text" />
 
                 <TextView
                     android:id="@+id/txtQuoteDate"
@@ -112,7 +144,8 @@
                     android:gravity="center"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.Body1"
-                    android:textColor="@color/header_dark_text" />
+                    android:textColor="@color/header_dark_text"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
 

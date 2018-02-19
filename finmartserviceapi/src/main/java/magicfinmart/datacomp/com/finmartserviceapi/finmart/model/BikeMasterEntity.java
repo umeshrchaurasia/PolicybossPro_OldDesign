@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class BikeMasterEntity extends RealmObject {
     /**
@@ -30,6 +31,7 @@ public class BikeMasterEntity extends RealmObject {
     private String Make_Name;
     private String Model_ID;
     private String Model_Name;
+    @PrimaryKey
     private String Variant_ID;
     private String Variant_Name;
     private String Model_ID1;

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvInputDetails"
+        style="@style/CardViewStyle"
+        android:layout_marginBottom="4dp"
+        android:layout_marginTop="8dp"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="12dp"
+            android:paddingTop="12dp"
+            android:weightSum="100">
+
+            <LinearLayout
+                android:id="@+id/llMembers"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="30"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="0dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="50"
+                android:gravity="left|center_vertical"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/txtCoverType"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtCoverAmount"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAllCaps="true" />
+            </LinearLayout>
+
+
+            <ImageView
+                android:id="@+id/ivEdit"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:layout_weight="20"
+                android:scaleType="centerInside"
+                android:src="@mipmap/edit_icon" />
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <ImageView
+        android:id="@+id/webViewLoader"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_below="@+id/cvInputDetails"
+        android:scaleType="fitCenter" />
+
+
+    <!--<android.support.v7.widget.RecyclerView-->
+    <!--android:id="@+id/rvHealthQuote"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_below="@+id/webViewLoader"-->
+    <!--android:layout_marginTop="4dp"-->
+    <!--android:visibility="gone">
+     </android.support.v7.widget.RecyclerView>-->
+
+    <ExpandableListView
+        android:id="@+id/elvHealthQuote"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/webViewLoader"
+        android:layout_marginTop="4dp" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/filter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
+        app:srcCompat="@drawable/vector_edit" />
+
+</RelativeLayout>

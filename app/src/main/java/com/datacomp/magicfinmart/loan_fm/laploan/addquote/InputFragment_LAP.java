@@ -45,11 +45,16 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerApplicationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
@@ -57,7 +62,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
  * Created by IN-RB on 30-01-2018.
  */
 
- public class InputFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber, SeekBar.OnSeekBarChangeListener, TextWatcher {
+ public class InputFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber,IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener, TextWatcher {
 
         DBPersistanceController databaseController;   //DB declare
         LoginResponseEntity loginEntity;
@@ -69,6 +74,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         LinearLayout llPropertyInfo, llApplicantDetail, llCoApplicantDetail;
         Toolbar toolbar;
         HomeLoanRequest homeLoanRequest;
+        FmHomeLoanRequest fmHomeLoanRequest;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         boolean isPropertyInfoVisible = false;
         boolean isApplicantVisible = true;
@@ -361,17 +367,17 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
             //region Property Initialize
 
-            spNewLoan = (Spinner) view.findViewById(R.id.spNewLoan);
+          //  spNewLoan = (Spinner) view.findViewById(R.id.spNewLoan);
             etCostOfProp = (EditText) view.findViewById(R.id.etCostOfProp);
 
 
             txtMaxLoanAmntAllow = (EditText) view.findViewById(R.id.txtMaxLoanAmntAllow);
-            txtDispalayMinCostProp = (TextView) view.findViewById(R.id.txtDispalayMinCostProp);
-            txtDispalayMaxCostProp = (TextView) view.findViewById(R.id.txtDispalayMaxCostProp);
-            txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
+          //  txtDispalayMinCostProp = (TextView) view.findViewById(R.id.txtDispalayMinCostProp);
+        //    txtDispalayMaxCostProp = (TextView) view.findViewById(R.id.txtDispalayMaxCostProp);
+         //   txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
             txtDispalayMaxTenureYear = (TextView) view.findViewById(R.id.txtDispalayMaxTenureYear);
             etTenureInYear = (TextView) view.findViewById(R.id.etTenureInYear);
-            sbCostOfProp = (SeekBar) view.findViewById(R.id.sbCostOfProp);
+          //  sbCostOfProp = (SeekBar) view.findViewById(R.id.sbCostOfProp);
             sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
 
 //        sbCostOfProp.setMax(5000);    // 50 cr
@@ -396,12 +402,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             etDepreciation = (EditText) view.findViewById(R.id.etDepreciation);
             etDirecPartRemuntion = (EditText) view.findViewById(R.id.etDirecPartRemuntion);
             et_DOB = (EditText) view.findViewById(R.id.et_DOB);
-            sbSalary = (Spinner) view.findViewById(R.id.sbSalary);
-            sbMonthlyInc = (SeekBar) view.findViewById(R.id.sbMonthlyInc);
-            sbTurnOver = (SeekBar) view.findViewById(R.id.sbTurnOver);
-            sbProfitAfTax = (SeekBar) view.findViewById(R.id.sbProfitAfTax);
-            sbDepreciation = (SeekBar) view.findViewById(R.id.sbDepreciation);
-            sbDirecPartRemuntion = (SeekBar) view.findViewById(R.id.sbDirecPartRemuntion);
+          //  sbSalary = (Spinner) view.findViewById(R.id.sbSalary);
+
             etMonthlyInc = (EditText) view.findViewById(R.id.etMonthlyInc);
             etEMI = (EditText) view.findViewById(R.id.etEMI);
             chkCoApplicant = (CheckBox) view.findViewById(R.id.chkCoApplicant);
@@ -409,26 +411,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             rbimgMale = (RadioButton) view.findViewById(R.id.rbimgMale);
             rbimgFemale = (RadioButton) view.findViewById(R.id.rbimgFemale);
 
-//        sbTurnOver.setMax(1000);    // 100 cr
-//        sbTurnOver.setProgress(10);  // 10 lac
-//        etTurnOver.setText("1000000");
-//
-//        sbProfitAfTax.setMax(100);
-//        sbProfitAfTax.setProgress(10);
-//        etProfitAtTax.setText("1000000");
-//
-//        sbDepreciation.setMax(100);
-//        sbDepreciation.setProgress(1);
-//        etDepreciation.setText("100000");
-//
-//        sbMonthlyInc.setMax(2500);    //2500
-//        sbMonthlyInc.setProgress(1);
-//        etMonthlyInc.setText("25000");
-//
-//
-//        sbDirecPartRemuntion.setMax(100);
-//        sbDirecPartRemuntion.setProgress(1);
-//        etDirecPartRemuntion.setText("100000");
 
 
             //endregion
@@ -450,13 +432,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             coApp_etDepreciation = (EditText) view.findViewById(R.id.coApp_etDepreciation);
             coApp_etDirecPartRemuntion = (EditText) view.findViewById(R.id.coApp_etDirecPartRemuntion);
             coApp_et_DOB = (EditText) view.findViewById(R.id.coApp_et_DOB);
-            coApp_sbSalary = (Spinner) view.findViewById(R.id.coApp_sbSalary);
+
             coApp_sbRelation = (Spinner) view.findViewById(R.id.coApp_sbRelation);
-            coApp_sbMonthlyInc = (SeekBar) view.findViewById(R.id.coApp_sbMonthlyInc);
-            coApp_sbTurnOver = (SeekBar) view.findViewById(R.id.coApp_sbTurnOver);
-            coApp_sbProfitAfTax = (SeekBar) view.findViewById(R.id.coApp_sbProfitAfTax);
-            coApp_sbDepreciation = (SeekBar) view.findViewById(R.id.coApp_sbDepreciation);
-            coApp_sbDirecPartRemuntion = (SeekBar) view.findViewById(R.id.coApp_sbDirecPartRemuntion);
             coApp_etMonthlyInc = (EditText) view.findViewById(R.id.coApp_etMonthlyInc);
             coApp_etEMI = (EditText) view.findViewById(R.id.coApp_etEMI);
             coApp_rgGender = (RadioGroup) view.findViewById(R.id.coApp_rgGender);
@@ -1166,11 +1143,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             }
 
             homeLoanRequest.setBrokerId("" +loginEntity.getLoanId());
-            homeLoanRequest.setempcode("");
+            homeLoanRequest.setEmpcode("");
             homeLoanRequest.setProductId("7");//LAP
             homeLoanRequest.setApi_source("Finmart");
 
-
+            homeLoanRequest.setType("LAP");
+            homeLoanRequest.setLoaniD(Integer.valueOf(loginEntity.getLoanId()));
 
 
             //endregion
@@ -1217,21 +1195,24 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 //                startActivity(new Intent(getActivity(), HomeLoanQuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) getQuoteResponse.getData())
 //                        .putExtra(Constants.QUOTES, getQuoteResponse)
 //                        .putExtra(Constants.HL_REQUEST, homeLoanRequest));
-                    ((LAPMainActivity) mContext).setQuoteCheck();
+//                    ((LAPMainActivity) mContext).setQuoteCheck();
+//
+//                    getQuoteResponse = ((GetQuoteResponse) response);
+//
+//                    Bundle bundle = new Bundle();
+//                    bundle.putParcelable(Constants.HOME_LOAN_QUOTES, getQuoteResponse);
+//                    bundle.putParcelable(Constants.HL_REQUEST, homeLoanRequest);
+//                    QuoteFragment_LAP quoteFragmenthl = new QuoteFragment_LAP();
+//                    quoteFragmenthl.setArguments(bundle);
+//                    FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
+//                    transaction_quote.replace(R.id.frame_layout, quoteFragmenthl, "QUOTE");
+//                    transaction_quote.addToBackStack("QUOTE");
+//                    transaction_quote.show(quoteFragmenthl);
+//                    //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                    transaction_quote.commit();
 
                     getQuoteResponse = ((GetQuoteResponse) response);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelable(Constants.HOME_LOAN_QUOTES, getQuoteResponse);
-                    bundle.putParcelable(Constants.HL_REQUEST, homeLoanRequest);
-                    QuoteFragment_LAP quoteFragmenthl = new QuoteFragment_LAP();
-                    quoteFragmenthl.setArguments(bundle);
-                    FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-                    transaction_quote.replace(R.id.frame_layout, quoteFragmenthl, "QUOTE");
-                    transaction_quote.addToBackStack("QUOTE");
-                    transaction_quote.show(quoteFragmenthl);
-                    //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                    transaction_quote.commit();
+                    setFmHomeLoanRequest(getQuoteResponse.getQuote_id());
 
 
                 } else {
@@ -1240,14 +1221,44 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             }
         }
 
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+
+        cancelDialog();
+        if (response instanceof FmHomelLoanResponse) {
+            if (response.getStatusNo() == 0) {
+                Toast.makeText(getActivity(), "Fm Saved", Toast.LENGTH_SHORT).show();
+
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.HOME_LOAN_QUOTES, getQuoteResponse);
+                bundle.putParcelable(Constants.HL_REQUEST, homeLoanRequest);
+                ((LAPMainActivity) getActivity()).getQuoteParameterBundle(bundle);
+
+            }
+        }
+    }
+
         @Override
         public void OnFailure(Throwable t) {
             cancelDialog();
             // startActivity(new Intent(getActivity(), QuoteActivity.class).putParcelableArrayListExtra(Constants.QUOTES, (ArrayList<QuoteEntity>) quoteEntities));
             Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    private void  setFmHomeLoanRequest(int QuoteID)
+    {
 
-        //region SeekBar ChangeListener
+        showDialog();
+        fmHomeLoanRequest = new FmHomeLoanRequest();
+        fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
+        fmHomeLoanRequest.setFba_id(loginEntity.getFBAId());
+     //   fmHomeLoanRequest.setQuote_id(QuoteID);
+        fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
+        new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
+
+    }
+
+
+    //region SeekBar ChangeListener
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             switch (seekBar.getId()) {
