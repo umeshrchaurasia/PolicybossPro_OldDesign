@@ -191,7 +191,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                 //region posp Info validation
                 if (etFirstName.getText().toString().isEmpty()) {
-
+                    if (llMyProfile.getVisibility() == View.GONE) {
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         etFirstName.requestFocus();
                         etFirstName.setError("Enter First Name");
@@ -205,7 +208,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 }
 
                 if (etLastName.getText().toString().isEmpty()) {
-
+                    if (llMyProfile.getVisibility() == View.GONE) {
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         etLastName.requestFocus();
                         etLastName.setError("Enter Last Name");
@@ -218,6 +224,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     }
                 }
                 if (etDob.getText().toString().isEmpty()) {
+                    if (llMyProfile.getVisibility() == View.GONE) {
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         etDob.requestFocus();
                         etDob.setError("Enter Dob");
@@ -230,7 +240,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     }
                 }
                 if (!isValidePhoneNumber(etMobileNo1)) {
-
+                    if (llMyProfile.getVisibility() == View.GONE) {
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         etMobileNo1.requestFocus();
                         etMobileNo1.setError("Enter Mobile1");
@@ -257,7 +270,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 }*/
 
                 if (!isValideEmailID(etEmailId)) {
-
+                    if (llMyProfile.getVisibility() == View.GONE) {
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         etEmailId.requestFocus();
                         etEmailId.setError("Enter Email");
@@ -270,6 +286,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     }
                 }
                 if (etPan.getText().toString().isEmpty()) {
+                    if (llMyProfile.getVisibility() == View.GONE) {
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         etPan.requestFocus();
                         etPan.setError("Enter Pan No.");
@@ -282,6 +302,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     }
                 }
                 if (etAadhar.getText().toString().isEmpty()) {
+                    if (llMyProfile.getVisibility() == View.GONE) {
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
+                    }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         etAadhar.requestFocus();
                         etAadhar.setError("Enter Aadhar");
