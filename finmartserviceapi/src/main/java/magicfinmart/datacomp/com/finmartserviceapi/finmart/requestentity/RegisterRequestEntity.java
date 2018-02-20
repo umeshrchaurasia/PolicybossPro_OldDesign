@@ -197,6 +197,7 @@ public class RegisterRequestEntity {
     private String IsFOC;
     private String password;
 
+
     public RegisterRequestEntity() {
         this.FBAID = 0;
         this.FBALiveID = 0;
