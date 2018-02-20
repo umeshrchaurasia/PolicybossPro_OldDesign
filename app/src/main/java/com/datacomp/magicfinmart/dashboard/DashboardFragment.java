@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.dashboard;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 
 import java.util.List;
 
@@ -65,6 +67,7 @@ public class DashboardFragment extends BaseFragment {
                     return true;
                 case R.id.nav_pending:
                     //redirect to pending status
+                    startActivity(new Intent(getContext(), PendingCasesActivity.class));
                     return true;
                 case R.id.nav_knowledge:
                     //redirect to knowledge guru
