@@ -1067,7 +1067,11 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
         //motorRequestEntity.setCrn(0);
         motorRequestEntity.setIp_address("");
 
-        if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
+
+        motorRequestEntity.setExternal_bifuel_type("");
+        motorRequestEntity.setIs_external_bifuel("no");
+        motorRequestEntity.setExternal_bifuel_value(0);
+       /* if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
             motorRequestEntity.setIs_external_bifuel("yes");
             if (!etExtValue.getText().toString().equals(""))
@@ -1079,10 +1083,8 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
                 motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
 
         } else {
-            motorRequestEntity.setExternal_bifuel_type("");
-            motorRequestEntity.setIs_external_bifuel("no");
-            motorRequestEntity.setExternal_bifuel_value(0);
-        }
+
+        }*/
 
         setCustomerDetails();
     }

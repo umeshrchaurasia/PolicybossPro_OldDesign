@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.register.RegisterActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -33,17 +32,17 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeRespo
  * Created by daniyalshaikh on 10/01/18.
  */
 
-public class MyAccountActivity extends BaseActivity implements View.OnClickListener ,View.OnFocusChangeListener ,IResponseSubcriber {
+public class MyAccountActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
 
 
-    LinearLayout llMyProfile, llAddress,llBankDetail,llDocumentUpload;
-    ImageView ivMyProfile, ivAddress,ivBankDetail,ivDocumentUpload;
-    RelativeLayout rlMyProfile, rlAddress,rlBankDetail,rlDocumentUpload;
+    LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload;
+    ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload;
+    RelativeLayout rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload;
 
-    EditText etSubHeading , etMobileNo , etEmailId , etAddress1 , etAddress2 , etAddress3, etPincode ,
-            etCity , etState , etAccountHolderName,etAadhaar, etPAN, etBankAcNo, etIfscCode ,
-            etMicrCode , etBankName, etBankBranch , etBankCity;
-    TextView txtSaving , txtCurrent;
+    EditText etSubHeading, etMobileNo, etEmailId, etAddress1, etAddress2, etAddress3, etPincode,
+            etCity, etState, etAccountHolderName, etAadhaar, etPAN, etBankAcNo, etIfscCode,
+            etMicrCode, etBankName, etBankBranch, etBankCity;
+    TextView txtSaving, txtCurrent;
 
     Button btnSave;
     RegisterRequestEntity registerRequestEntity;
@@ -106,9 +105,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         rlAddress = (RelativeLayout) findViewById(R.id.rlAddress);
 
         rlBankDetail = (RelativeLayout) findViewById(R.id.rlBankDetail);
-        ivBankDetail =  (ImageView) findViewById(R.id.ivBankDetail);
+        ivBankDetail = (ImageView) findViewById(R.id.ivBankDetail);
         rlDocumentUpload = (RelativeLayout) findViewById(R.id.rlDocumentUpload);
-        ivDocumentUpload =  (ImageView) findViewById(R.id.ivDocumentUpload);
+        ivDocumentUpload = (ImageView) findViewById(R.id.ivDocumentUpload);
 
         etSubHeading = (EditText) findViewById(R.id.etSubHeading);
         etMobileNo = (EditText) findViewById(R.id.etMobileNo);
@@ -117,9 +116,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         etAddress2 = (EditText) findViewById(R.id.etAddress2);
 
         etAddress3 = (EditText) findViewById(R.id.etAddress3);
-        etPincode  = (EditText) findViewById(R.id.etPincode);
+        etPincode = (EditText) findViewById(R.id.etPincode);
         etCity = (EditText) findViewById(R.id.etCity);
-        etState = (EditText) findViewById(R.id.etState );
+        etState = (EditText) findViewById(R.id.etState);
         etAccountHolderName = (EditText) findViewById(R.id.etAccountHolderName);
 
         etAadhaar = (EditText) findViewById(R.id.etAadhaar);
@@ -145,23 +144,23 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         switch (view.getId()) {
             case R.id.ivMyProfile:
             case R.id.rlMyProfile:
-                manageMainLayouts(llMyProfile,llAddress,llBankDetail,llDocumentUpload);
-                manageImages(llMyProfile,ivMyProfile,ivAddress,ivBankDetail,ivDocumentUpload);
+                manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+                manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
                 break;
             case R.id.ivAddress:
             case R.id.rlAddress:
-                manageMainLayouts(llAddress,llMyProfile,llBankDetail,llDocumentUpload);
-                manageImages(llAddress,ivAddress,ivMyProfile,ivBankDetail,ivDocumentUpload);
+                manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
+                manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
                 break;
             case R.id.ivBankDetail:
             case R.id.rlBankDetail:
-                manageMainLayouts(llBankDetail,llMyProfile,llAddress,llDocumentUpload);
-                manageImages(llBankDetail,ivBankDetail,ivAddress,ivMyProfile,ivDocumentUpload);
+                manageMainLayouts(llBankDetail, llMyProfile, llAddress, llDocumentUpload);
+                manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload);
                 break;
             case R.id.ivDocumentUpload:
             case R.id.rlDocumentUpload:
-                manageMainLayouts(llDocumentUpload,llBankDetail,llMyProfile,llAddress);
-                manageImages(llDocumentUpload,ivDocumentUpload,ivBankDetail,ivAddress,ivMyProfile);
+                manageMainLayouts(llDocumentUpload, llBankDetail, llMyProfile, llAddress);
+                manageImages(llDocumentUpload, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile);
 
                 break;
 
@@ -209,7 +208,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             if (start == 9) {
-               // isMobileValid = false;
+                // isMobileValid = false;
             }
         }
 
@@ -265,6 +264,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
     }
+
     private void manageMainLayouts(LinearLayout visibleLayout, LinearLayout hideLayout1, LinearLayout hideLayout2, LinearLayout hideLayout3) {
 
         if (visibleLayout.getVisibility() == View.GONE) {
@@ -272,21 +272,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             hideLayout1.setVisibility(View.GONE);
             hideLayout2.setVisibility(View.GONE);
             hideLayout3.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             visibleLayout.setVisibility(View.GONE);
         }
     }
 
-    private void manageImages(LinearLayout clickedLayout ,ImageView downImage,ImageView upImage1,ImageView upImage2,ImageView upImage3) {
+    private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3) {
 
         if (clickedLayout.getVisibility() == View.GONE) {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
             upImage1.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
             upImage2.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-        }
-        else{
+        } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage1.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
             upImage2.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
@@ -316,8 +314,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    private  void validateProfile()
-    {
+    private void validateProfile() {
 
         if (!isEmpty(etSubHeading)) {
             etSubHeading.requestFocus();
@@ -394,8 +391,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (etIfscCode.getText().length() > 3) {
 
 
-            showDialog("Fetching Bank Details...");
-            new RegisterController(MyAccountActivity.this).getIFSC(etIfscCode.getText().toString(), MyAccountActivity.this);
+                showDialog("Fetching Bank Details...");
+                new RegisterController(MyAccountActivity.this).getIFSC(etIfscCode.getText().toString(), MyAccountActivity.this);
             }
         }
     }

@@ -355,7 +355,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity" />
         </activity>
-        <activity android:name=".posp.IrdaPanVerifyActivity"></activity>
     </application>
 
 </manifest>
