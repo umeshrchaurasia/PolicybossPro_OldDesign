@@ -19,4 +19,6 @@ public interface IRegister {
     void registerFba(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);
 
     void enrollPosp(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);
+
+    void getIFSC(String IfscCode, IResponseSubcriber iResponseSubcriber);
 }

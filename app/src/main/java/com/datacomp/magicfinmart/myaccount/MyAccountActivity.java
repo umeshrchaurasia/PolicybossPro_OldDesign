@@ -12,24 +12,28 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.register.RegisterActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IfscEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
-
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 
 
 /**
  * Created by daniyalshaikh on 10/01/18.
  */
 
-public class MyAccountActivity extends BaseActivity implements View.OnClickListener ,IResponseSubcriber {
+public class MyAccountActivity extends BaseActivity implements View.OnClickListener ,View.OnFocusChangeListener ,IResponseSubcriber {
 
 
     LinearLayout llMyProfile, llAddress,llBankDetail,llDocumentUpload;
@@ -44,7 +48,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     Button btnSave;
     RegisterRequestEntity registerRequestEntity;
     DBPersistanceController dbPersistanceController;
-    private String ACCOUNT_TYPE = "SAVING";
+    public String ACCOUNT_TYPE = "SAVING";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +89,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         btnSave.setOnClickListener(this);
         txtSaving.setOnClickListener(this);
         txtCurrent.setOnClickListener(this);
+
         etPincode.addTextChangedListener(pincodeTextWatcher);
+        etIfscCode.setOnFocusChangeListener(this);
 
     }
 
@@ -159,14 +166,15 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.txtSaving:
-                setSaving();
+                setSavingAcc();
                 break;
             case R.id.txtCurrent:
-                setCurrent();
+                setCurrentAcc();
                 break;
 
             case R.id.btnSave:
 
+                validateProfile();
                 break;
         }
     }
@@ -236,7 +244,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    private void setSaving() {
+    private void setSavingAcc() {
         ACCOUNT_TYPE = "SAVING";
         txtSaving.setBackgroundResource(R.drawable.customeborder_blue);
         txtSaving.setTextColor(ContextCompat.getColor(MyAccountActivity.this, R.color.colorPrimary));
@@ -247,7 +255,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private void setCurrent() {
+    private void setCurrentAcc() {
         ACCOUNT_TYPE = "CURRENT";
         txtCurrent.setBackgroundResource(R.drawable.customeborder_blue);
         txtCurrent.setTextColor(ContextCompat.getColor(MyAccountActivity.this, R.color.colorPrimary));
@@ -308,14 +316,87 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    private  void validateProfile()
+    {
+
+        if (!isEmpty(etSubHeading)) {
+            etSubHeading.requestFocus();
+            etSubHeading.setError("Enter First Name");
+            return;
+        }
+
+
+        if (!isEmpty(etMobileNo)) {
+            etMobileNo.requestFocus();
+            etMobileNo.setError("Enter Mobile ");
+            return;
+        }
+        if (!isValideEmailID(etEmailId)) {
+            etEmailId.requestFocus();
+            etEmailId.setError("Enter Email");
+            return;
+        }
+    }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
 
+        if (response instanceof PincodeResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                Constants.hideKeyBoard(etPincode, this);
+                etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
+                etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
+
+                registerRequestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
+                registerRequestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
+                registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
+
+            }
+        }
+
+        if (response instanceof IfscCodeResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                Constants.hideKeyBoard(etPincode, this);
+
+                IfscEntity ifscEntity = ((IfscCodeResponse) response).getMasterData().get(0);
+
+                etIfscCode.setText("" + ifscEntity.getIFSCCode());
+                etMicrCode.setText("" + ifscEntity.getMICRCode());
+                etBankName.setText("" + ifscEntity.getBankName());
+                etBankBranch.setText("" + ifscEntity.getBankName());
+                etBankCity.setText("" + ifscEntity.getCityName());
+
+                etMicrCode.setSelection(etMicrCode.getText().length());
+
+
+                registerRequestEntity.setLoan_BankName("" + ifscEntity.getBankName());
+                registerRequestEntity.setLoan_BankBranch("" + ifscEntity.getBankBran());
+                registerRequestEntity.setLoan_IFSC("" + ifscEntity.getIFSCCode());
+                registerRequestEntity.setLoan_IFSC("" + ifscEntity.getIFSCCode());
+
+            }
+        }
     }
 
     @Override
     public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+
+        if (!hasFocus) {
+
+            if (etIfscCode.getText().length() > 3) {
+
+
+            showDialog("Fetching Bank Details...");
+            new RegisterController(MyAccountActivity.this).getIFSC(etIfscCode.getText().toString(), MyAccountActivity.this);
+            }
+        }
     }
 }

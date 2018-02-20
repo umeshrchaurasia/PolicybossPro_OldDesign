@@ -105,8 +105,8 @@
                             <EditText
                                 android:id="@+id/etMobileNo"
                                 style="@style/Style.edittext"
-                                android:inputType="number"
                                 android:digits="0123456789"
+                                android:inputType="number"
                                 android:maxLength="10" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -126,7 +126,7 @@
                             <EditText
                                 android:id="@+id/etEmailId"
                                 style="@style/Style.edittext"
-                                android:inputType="textEmailAddress"/>
+                                android:inputType="textEmailAddress" />
                         </android.support.design.widget.TextInputLayout>
 
                     </LinearLayout>
@@ -185,7 +185,7 @@
 
                             <EditText
                                 android:id="@+id/etAddress1"
-                                style="@style/Style.edittext"/>
+                                style="@style/Style.edittext" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
@@ -250,8 +250,7 @@
                             <EditText
                                 android:id="@+id/etCity"
                                 style="@style/Style.edittext"
-                                android:editable="false"
-                             />
+                                android:enabled="false" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
@@ -269,7 +268,7 @@
                             <EditText
                                 android:id="@+id/etState"
                                 style="@style/Style.edittext"
-                                android:editable="false"/>
+                                android:enabled="false" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
@@ -342,7 +341,7 @@
 
                             <EditText
                                 android:id="@+id/etAccountHolderName"
-                                style="@style/Style.edittext"  />
+                                style="@style/Style.edittext" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
@@ -363,7 +362,7 @@
                                 android:digits="0123456789"
                                 android:ems="10"
                                 android:inputType="phone"
-                                android:maxLength="10"/>
+                                android:maxLength="10" />
                         </android.support.design.widget.TextInputLayout>
 
 
@@ -375,15 +374,15 @@
 
                             <EditText
                                 android:id="@+id/etAadhaar"
-                                style="@style/Style.edittext"
-                               />
+                                style="@style/Style.edittext" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
+                        android:layout_gravity="bottom"
+                        android:gravity="bottom"
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
@@ -395,10 +394,8 @@
 
                             <EditText
                                 android:id="@+id/etBankAcNo"
-                                style="@style/Style.edittext"
-                                />
+                                style="@style/Style.edittext" />
                         </android.support.design.widget.TextInputLayout>
-
 
 
                         <LinearLayout
@@ -475,7 +472,7 @@
 
                             <EditText
                                 android:id="@+id/etMicrCode"
-                                style="@style/Style.edittext"  />
+                                style="@style/Style.edittext" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
@@ -492,13 +489,16 @@
 
                             <EditText
                                 android:id="@+id/etBankName"
-                                style="@style/Style.edittext" />
+                                style="@style/Style.edittext"
+                                android:enabled="false" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="bottom"
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
@@ -509,7 +509,8 @@
 
                             <EditText
                                 android:id="@+id/etBankBranch"
-                                style="@style/Style.edittext" />
+                                style="@style/Style.edittext"
+                                android:enabled="false" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -520,7 +521,8 @@
 
                             <EditText
                                 android:id="@+id/etBankCity"
-                                style="@style/Style.edittext" />
+                                style="@style/Style.edittext"
+                                android:enabled="false" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
                 </LinearLayout>
