@@ -17,4 +17,8 @@ public interface IRegister {
     void getCityState(String PinCode, IResponseSubcriber iResponseSubcriber);
 
     void registerFba(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);
+
+    void enrollPosp(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);
+
+    void getIFSC(String IfscCode, IResponseSubcriber iResponseSubcriber);
 }

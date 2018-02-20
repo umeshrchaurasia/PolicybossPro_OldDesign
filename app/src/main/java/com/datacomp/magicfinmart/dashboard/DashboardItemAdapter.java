@@ -21,18 +21,26 @@ import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 
 public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Fragment mContext;
     List<DashboardEntity> listInsur;
+    DBPersistanceController dbPersistanceController;
+    int fbaId = 0;
 
     public DashboardItemAdapter(Fragment context, List<DashboardEntity> list) {
         mContext = context;
         listInsur = list;
+        dbPersistanceController = new DBPersistanceController(mContext.getActivity());
+        if (dbPersistanceController.getUserData().getFBAId() != 0) {
+            fbaId = dbPersistanceController.getUserData().getFBAId();
+        }
     }
 
     public class DashboardItemHolder extends RecyclerView.ViewHolder {
@@ -106,9 +114,22 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                             break;
                         case 9:
                             //Other loan
+                            String brokerId = "";
+                            if (dbPersistanceController.getUserData().getLoanId() != null) {
+                                brokerId = dbPersistanceController.getUserData().getLoanId();
+                            }
+                            String source = "DC";
+                            mContext.startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                                    .putExtra("URL", "http://www.rupeeboss.com/other-loans?brokerId=" + brokerId + "&Source=" + source)
+                                    .putExtra("NAME", "MAGIC FIN-MART")
+                                    .putExtra("TITLE", "MAGIC FIN-MART"));
                             break;
                         case 2:
                             //fin peace
+                            mContext.startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+                                    .putExtra("URL", "https://10oqcnw.finpeace.ind.in/app#/" + fbaId)
+                                    .putExtra("NAME", "FIN-PEACE")
+                                    .putExtra("TITLE", "FIN-PEACE"));
                             break;
                         case 11:
                             //health check up

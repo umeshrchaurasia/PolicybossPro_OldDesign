@@ -85,7 +85,12 @@
         <activity
             android:name=".posp.PospEnrollment"
             android:label="@string/title_pospenrollment"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
         <activity
             android:name=".motor.privatecar.activity.AddQuoteActivity"
             android:label="@string/title_activity_add_new_quote"
@@ -341,6 +346,16 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
+            android:label="@string/title_activity_knowledge_guru_webview"
+            android:parentActivityName=".knowledgeguru.KnowledgeGuruActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity" />
+        </activity>
+        <activity android:name=".posp.IrdaPanVerifyActivity"></activity>
         <activity
             android:name=".pendingcases.PendingCasesActivity"
             android:label="@string/title_activity_pending_cases"

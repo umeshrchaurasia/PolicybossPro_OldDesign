@@ -5,6 +5,7 @@
     android:id="@+id/scrollMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     android:paddingTop="50dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
@@ -15,13 +16,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"
-        android:background="@color/white"
+        android:layout_margin="10dp"
         android:orientation="vertical">
         <!--POSP INFORMATION START-->
         <RelativeLayout
             android:id="@+id/rlMyProfile"
-            style="@style/HeaderLayout">
+            style="@style/HeaderLayout"
+            android:layout_marginTop="5dp">
 
             <ImageView
                 android:id="@+id/ivMyProfile"
@@ -38,9 +39,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="15dp"
                 android:text="POSP INFORMATION"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -95,29 +96,71 @@
 
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_vertical">
 
                     <EditText
+                        android:id="@+id/etDob"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableRight="@drawable/datepicker"
+                        android:focusable="false"
                         android:hint="DATE OF BIRTH" />
                 </android.support.design.widget.TextInputLayout>
 
-                <ImageView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:src="@drawable/male_selected" />
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="2dp"
-                    android:src="@drawable/female" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="GENDER"
+                        android:textAppearance="@style/TextViewStyle.Small"
+                        android:textColor="@color/black" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/tvMale"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/customeborder_blue"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="MALE"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/black" />
+
+                        <TextView
+                            android:id="@+id/tvFemale"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/customeborder"
+                            android:gravity="center"
+                            android:padding="3dp"
+                            android:text="FEMALE"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/black" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -136,8 +179,9 @@
                     <EditText
                         android:id="@+id/etMobileNo1"
                         android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
 
-                        android:layout_height="wrap_content" />
+                        android:inputType="number" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -150,8 +194,8 @@
                     <EditText
                         android:id="@+id/etMobileNo2"
                         android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -166,8 +210,9 @@
                 <EditText
                     android:id="@+id/etEmailId"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-                    android:layout_height="wrap_content" />
+                    android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -200,8 +245,8 @@
                     <EditText
                         android:id="@+id/etAadhar"
                         android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="number" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -230,7 +275,6 @@
                 <EditText
                     android:id="@+id/etChannelPartner"
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
 
@@ -259,7 +303,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
                 android:text="ADDRESS"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -407,7 +453,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
                 android:text="BANK DETAILS"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -513,7 +561,7 @@
                     android:hint="BANK NAME">
 
                     <Spinner
-                        android:id="@+id/etSpinner"
+                        android:id="@+id/spBankName"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -575,7 +623,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="15dp"
                 android:text="DOCUMENTS UPLOAD"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
@@ -759,6 +809,7 @@
         <!--END START-->
         <Button
             android:id="@+id/btnSave"
+            style="@style/ButtonStyle.Colored"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

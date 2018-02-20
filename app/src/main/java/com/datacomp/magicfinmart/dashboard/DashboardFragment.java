@@ -20,6 +20,7 @@ import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 
 
 /**
@@ -71,6 +72,7 @@ public class DashboardFragment extends BaseFragment {
                     return true;
                 case R.id.nav_knowledge:
                     //redirect to knowledge guru
+                    startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
                     return true;
             }
             return false;

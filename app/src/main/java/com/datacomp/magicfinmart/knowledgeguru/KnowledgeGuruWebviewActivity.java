@@ -1,11 +1,10 @@
-package com.datacomp.magicfinmart.webviews;
+package com.datacomp.magicfinmart.knowledgeguru;
 
 import android.app.DownloadManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,23 +14,32 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.Toast;
 
-import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 
-public class CommonWebViewActivity extends BaseActivity {
+public class KnowledgeGuruWebviewActivity extends AppCompatActivity {
 
     WebView webView;
     String url;
     String name;
     String title;
+    Button btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_common_web_view);
+        setContentView(R.layout.activity_knowledge_guru_webview);
         webView = (WebView) findViewById(R.id.webView);
+        btnBack = (Button) findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         url = getIntent().getStringExtra("URL");
         name = getIntent().getStringExtra("NAME");
         title = getIntent().getStringExtra("TITLE");
@@ -66,7 +74,7 @@ public class CommonWebViewActivity extends BaseActivity {
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
 
-        settings.setBuiltInZoomControls(true);
+        settings.setBuiltInZoomControls(false);
         settings.setUseWideViewPort(false);
         settings.setJavaScriptEnabled(true);
         settings.setSupportMultipleWindows(false);
@@ -134,6 +142,4 @@ public class CommonWebViewActivity extends BaseActivity {
         }
 
     }
-
-
 }

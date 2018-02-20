@@ -1,13 +1,10 @@
 package com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
@@ -21,15 +18,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEn
 public class PersonalLoanApplyWebView extends AppCompatActivity {
 
     /********************************
-    //Note : quote id is babaID
+     //Note : quote id is babaID
 
-    // fba_id , broker_id is loan_id
+     // fba_id , broker_id is loan_id
      *//////////////////////////////
 
 
     WebView webView;
     int quoteId;
-    PersonalQuoteEntity entity ;
+    PersonalQuoteEntity entity;
     String url;
     LoginResponseEntity loginEntity;
 
@@ -43,7 +40,7 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        loginEntity   = new DBPersistanceController(PersonalLoanApplyWebView.this).getUserData();
+        loginEntity = new DBPersistanceController(PersonalLoanApplyWebView.this).getUserData();
         webView = (WebView) findViewById(R.id.webView);
 
         if (getIntent().getStringExtra("PL_URL") != null) {
@@ -65,7 +62,7 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptEnabled(true);
 
-        MyWebViewClient webViewClient = new MyWebViewClient();
+        MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
         webView.getSettings().setBuiltInZoomControls(true);
 
@@ -79,7 +76,7 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
                 + "&loanamout=" + entity.getLoan_eligible()
                 + "&idtype=" + entity.getRoi_type()
                 + "&processingfee=" + entity.getProcessingfee()
-                + "&Lead_Source="+"DC";
+                + "&Lead_Source=" + "DC";
 
         Log.d("PERSONAL_LOAN_URL", url);
         webView.loadUrl(url);

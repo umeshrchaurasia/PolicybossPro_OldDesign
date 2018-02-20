@@ -3,17 +3,17 @@
 
     <item
         android:id="@+id/nav_sales"
-        android:icon="@drawable/camera_icon"
+        android:icon="@drawable/sales_material_icon"
         android:title="SALES MANAGER" />
 
     <item
         android:id="@+id/nav_pending"
-        android:icon="@drawable/camera_icon"
+        android:icon="@drawable/pending_cases_icon"
         android:title="PENDING CASE" />
 
     <item
         android:id="@+id/nav_knowledge"
-        android:icon="@drawable/camera_icon"
+        android:icon="@drawable/knowledge_guru_icon"
         android:title="KNOWLEDGE GURU" />
 
     <!--<item-->
