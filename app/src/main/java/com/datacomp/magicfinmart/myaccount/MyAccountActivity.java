@@ -1,25 +1,50 @@
 package com.datacomp.magicfinmart.myaccount;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.register.RegisterActivity;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+
+
 
 /**
  * Created by daniyalshaikh on 10/01/18.
  */
 
-public class MyAccountActivity extends BaseActivity implements View.OnClickListener {
+public class MyAccountActivity extends BaseActivity implements View.OnClickListener ,IResponseSubcriber {
 
 
     LinearLayout llMyProfile, llAddress,llBankDetail,llDocumentUpload;
     ImageView ivMyProfile, ivAddress,ivBankDetail,ivDocumentUpload;
     RelativeLayout rlMyProfile, rlAddress,rlBankDetail,rlDocumentUpload;
+
+    EditText etSubHeading , etMobileNo , etEmailId , etAddress1 , etAddress2 , etAddress3, etPincode ,
+            etCity , etState , etAccountHolderName,etAadhaar, etPAN, etBankAcNo, etIfscCode ,
+            etMicrCode , etBankName, etBankBranch , etBankCity;
+    TextView txtSaving , txtCurrent;
+
+    Button btnSave;
+    RegisterRequestEntity registerRequestEntity;
+    DBPersistanceController dbPersistanceController;
+    private String ACCOUNT_TYPE = "SAVING";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +53,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dbPersistanceController = new DBPersistanceController(this);
+        registerRequestEntity = new RegisterRequestEntity();
         initWidgets();
         setListener();
         initLayouts();
@@ -53,6 +80,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         rlDocumentUpload.setOnClickListener(this);
         ivDocumentUpload.setOnClickListener(this);
+
+        btnSave.setOnClickListener(this);
+        txtSaving.setOnClickListener(this);
+        txtCurrent.setOnClickListener(this);
+        etPincode.addTextChangedListener(pincodeTextWatcher);
+
     }
 
     private void initWidgets() {
@@ -69,6 +102,35 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         ivBankDetail =  (ImageView) findViewById(R.id.ivBankDetail);
         rlDocumentUpload = (RelativeLayout) findViewById(R.id.rlDocumentUpload);
         ivDocumentUpload =  (ImageView) findViewById(R.id.ivDocumentUpload);
+
+        etSubHeading = (EditText) findViewById(R.id.etSubHeading);
+        etMobileNo = (EditText) findViewById(R.id.etMobileNo);
+        etEmailId = (EditText) findViewById(R.id.etEmailId);
+        etAddress1 = (EditText) findViewById(R.id.etAddress1);
+        etAddress2 = (EditText) findViewById(R.id.etAddress2);
+
+        etAddress3 = (EditText) findViewById(R.id.etAddress3);
+        etPincode  = (EditText) findViewById(R.id.etPincode);
+        etCity = (EditText) findViewById(R.id.etCity);
+        etState = (EditText) findViewById(R.id.etState );
+        etAccountHolderName = (EditText) findViewById(R.id.etAccountHolderName);
+
+        etAadhaar = (EditText) findViewById(R.id.etAadhaar);
+        etPAN = (EditText) findViewById(R.id.etPAN);
+        etBankAcNo = (EditText) findViewById(R.id.etBankAcNo);
+        etIfscCode = (EditText) findViewById(R.id.etIfscCode);
+
+        etMicrCode = (EditText) findViewById(R.id.etMicrCode);
+        etBankName = (EditText) findViewById(R.id.etBankName);
+        etBankBranch = (EditText) findViewById(R.id.etBankBranch);
+        etBankCity = (EditText) findViewById(R.id.etBankCity);
+
+        txtSaving = (TextView) findViewById(R.id.txtSaving);
+        txtCurrent = (TextView) findViewById(R.id.txtCurrent);
+
+        btnSave = (Button) findViewById(R.id.btnSave);
+
+
     }
 
     @Override
@@ -95,10 +157,106 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 manageImages(llDocumentUpload,ivDocumentUpload,ivBankDetail,ivAddress,ivMyProfile);
 
                 break;
+
+            case R.id.txtSaving:
+                setSaving();
+                break;
+            case R.id.txtCurrent:
+                setCurrent();
+                break;
+
+            case R.id.btnSave:
+
+                break;
         }
     }
 
 
+    //region textwatcher
+    TextWatcher pincodeTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (start == 5) {
+                etCity.setText("");
+                etState.setText("");
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() == 6) {
+                showDialog("Fetching City...");
+                new RegisterController(MyAccountActivity.this).getCityState(etPincode.getText().toString(), MyAccountActivity.this);
+
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    TextWatcher mobileTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (start == 9) {
+               // isMobileValid = false;
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    //endregion
+
+    private void setAccountRequest() {
+//        registerRequestEntity.setFirstName("" + etFirstName.getText().toString());
+//        registerRequestEntity.setLastName("" + etLastName.getText().toString());
+//        registerRequestEntity.setDOB("" + etDob.getText().toString());
+//        registerRequestEntity.setMobile_1("" + etMobile1.getText().toString());
+//        registerRequestEntity.setMobile_2("" + etMobile2.getText().toString());
+//        registerRequestEntity.setEmailId("" + etEmail.getText().toString());
+//        registerRequestEntity.setPinCode("" + etPincode.getText().toString());
+//        if (isMale) {
+//            registerRequestEntity.setGender("M");
+//        } else {
+//            registerRequestEntity.setGender("F");
+//        }
+//        registerRequestEntity.setPassword(pass);
+
+    }
+
+
+    private void setSaving() {
+        ACCOUNT_TYPE = "SAVING";
+        txtSaving.setBackgroundResource(R.drawable.customeborder_blue);
+        txtSaving.setTextColor(ContextCompat.getColor(MyAccountActivity.this, R.color.colorPrimary));
+
+        txtCurrent.setBackgroundResource(R.drawable.customeborder);
+        txtCurrent.setTextColor(ContextCompat.getColor(MyAccountActivity.this, R.color.description_text));
+
+
+    }
+
+    private void setCurrent() {
+        ACCOUNT_TYPE = "CURRENT";
+        txtCurrent.setBackgroundResource(R.drawable.customeborder_blue);
+        txtCurrent.setTextColor(ContextCompat.getColor(MyAccountActivity.this, R.color.colorPrimary));
+
+        txtSaving.setBackgroundResource(R.drawable.customeborder);
+        txtSaving.setTextColor(ContextCompat.getColor(MyAccountActivity.this, R.color.description_text));
+
+
+    }
     private void manageMainLayouts(LinearLayout visibleLayout, LinearLayout hideLayout1, LinearLayout hideLayout2, LinearLayout hideLayout3) {
 
         if (visibleLayout.getVisibility() == View.GONE) {
@@ -141,12 +299,23 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             llAddress.setVisibility(View.GONE);
             //endregion
 
-            linearLayout.setVisibility(View.VISIBLE);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
+            linearLayout.setVisibility(View.GONE);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
 
         } else {
             linearLayout.setVisibility(View.GONE);
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
         }
+    }
+
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
     }
 }
