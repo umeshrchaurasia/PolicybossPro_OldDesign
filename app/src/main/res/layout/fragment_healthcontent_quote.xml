@@ -70,30 +70,78 @@
 
     </android.support.v7.widget.CardView>
 
+    <android.support.v7.widget.CardView
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/cvInputDetails"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:visibility="visible"
+        app:cardCornerRadius="2dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
+
+            <TextView
+                android:id="@+id/tvCount"
+                style="@style/TextViewStyle.Large"
+                android:layout_width="0dp"
+                android:layout_weight="85"
+                android:paddingTop="3dp"
+                android:textAlignment="center"
+                android:textAllCaps="true"
+                android:textColor="?attr/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/txtCompareCount"
+                style="@style/TextViewStyle.Large"
+                android:layout_width="0dp"
+                android:layout_weight="5"
+                android:background="@drawable/compare_roundshape"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="24dp"
+                android:layout_weight="10"
+                android:src="@drawable/share_icon_white" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
 
     <ImageView
         android:id="@+id/webViewLoader"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:layout_below="@+id/cvInputDetails"
-        android:scaleType="fitCenter" />
+        android:layout_below="@+id/card_view"
+        android:scaleType="fitCenter"
+        android:visibility="gone"/>
 
 
-    <!--<android.support.v7.widget.RecyclerView-->
-    <!--android:id="@+id/rvHealthQuote"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:layout_below="@+id/webViewLoader"-->
-    <!--android:layout_marginTop="4dp"-->
-    <!--android:visibility="gone">
-     </android.support.v7.widget.RecyclerView>-->
-
-    <ExpandableListView
-        android:id="@+id/elvHealthQuote"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvHealthQuote"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/webViewLoader"
         android:layout_marginTop="4dp" />
+
+    <!--
+        <ExpandableListView
+            android:id="@+id/elvHealthQuote"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/webViewLoader"
+            android:layout_marginTop="4dp" />
+    -->
 
 
     <android.support.design.widget.FloatingActionButton

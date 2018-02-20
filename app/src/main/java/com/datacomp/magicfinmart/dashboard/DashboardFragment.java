@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.dashboard;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -14,10 +15,7 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-
-import java.util.List;
-
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 
 
 /**
@@ -68,6 +66,7 @@ public class DashboardFragment extends BaseFragment {
                     return true;
                 case R.id.nav_knowledge:
                     //redirect to knowledge guru
+                    startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
                     return true;
             }
             return false;

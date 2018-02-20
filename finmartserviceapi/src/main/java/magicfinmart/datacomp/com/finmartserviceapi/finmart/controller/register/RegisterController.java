@@ -10,6 +10,7 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.RegisterRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
@@ -104,7 +105,7 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void getCityState(String PinCode,final IResponseSubcriber iResponseSubcriber) {
+    public void getCityState(String PinCode, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
         body.put("PinCode", PinCode);
         registerQuotesNetworkService.getCityStateCityPincode(body).enqueue(new Callback<PincodeResponse>() {
@@ -156,6 +157,39 @@ public class RegisterController implements IRegister {
 
             @Override
             public void onFailure(Call<RegisterFbaResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void enrollPosp(RegisterRequestEntity registerRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+        registerQuotesNetworkService.enrollPosp(registerRequestEntity).enqueue(new Callback<EnrollPospResponse>() {
+            @Override
+            public void onResponse(Call<EnrollPospResponse> call, Response<EnrollPospResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), "");
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EnrollPospResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

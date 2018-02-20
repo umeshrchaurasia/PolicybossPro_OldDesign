@@ -19,7 +19,11 @@
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
             android:title="LOG-OUT" />
-
+        <item
+            android:id="@+id/nav_homeloanApplication"
+            android:icon="@drawable/logout"
+            android:title="Home Loan Apply"
+            android:visible="true" />
 
         <!--<item-->
         <!--android:id="@+id/nav_bas"-->
