@@ -300,6 +300,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 if (isPospInfo) {
                     manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
                     manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
+
                 }
 
                 break;
