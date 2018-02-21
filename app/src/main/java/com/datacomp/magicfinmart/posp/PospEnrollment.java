@@ -44,9 +44,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IfscEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospDetailsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 
 /**
  * Created by daniyalshaikh on 11/01/18.
@@ -79,6 +82,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     String URL = "http://www.irdaonline.org/PublicAccess/LookUpPAN.aspx";
     int count = 0;
     PrefManager prefManager;
+    PospDetailsEntity pospDetailsEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,20 +98,115 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         setListener();
         initLayouts();
         setTextWatcher();
-        if (prefManager.getPospInformation() != null) {
-            registerRequestEntity = prefManager.getPospInformation();
-            setInputParameters(registerRequestEntity);
-        }
+        showDialog("Fetching Posp Details ...");
+        new RegisterController(this).getPospDetails(this);
+        setInputParameters();
+
     }
 
-    private void setInputParameters(RegisterRequestEntity registerRequestEntity) {
+    private void setInputParameters() {
+        if (prefManager.getPospInformation() != null) {
+            registerRequestEntity = prefManager.getPospInformation();
+        }
+        if (registerRequestEntity != null) {
+
+            //regionset profile Details
+            if (!registerRequestEntity.getPosp_FirstName().equals("") && registerRequestEntity.getPosp_FirstName() != null) {
+                etFirstName.setText("" + registerRequestEntity.getPosp_FirstName());
+            }
+            if (!registerRequestEntity.getPosp_LastName().equals("") && registerRequestEntity.getPosp_LastName() != null) {
+                etLastName.setText("" + registerRequestEntity.getPosp_LastName());
+            }
+            if (!registerRequestEntity.getPosp_DOB().equals("") && registerRequestEntity.getPosp_DOB() != null) {
+                etDob.setText("" + registerRequestEntity.getPosp_DOB());
+            }
+            if (registerRequestEntity.getPosp_Gender().equals("F")) {
+                tvFemale.performClick();
+            } else {
+                tvMale.performClick();
+            }
+            if (!registerRequestEntity.getPosp_Mobile1().equals("") && registerRequestEntity.getPosp_Mobile1() != null) {
+                etMobileNo1.setText("" + registerRequestEntity.getPosp_Mobile1());
+            }
+            if (!registerRequestEntity.getPosp_Mobile2().equals("") && registerRequestEntity.getPosp_Mobile2() != null) {
+                etMobileNo2.setText("" + registerRequestEntity.getPosp_Mobile2());
+            }
+            if (!registerRequestEntity.getPosp_Email().equals("") && registerRequestEntity.getPosp_Email() != null) {
+                etEmailId.setText("" + registerRequestEntity.getPosp_Email());
+            }
+            if (!registerRequestEntity.getPosp_PAN().equals("") && registerRequestEntity.getPosp_PAN() != null) {
+                etPan.setText("" + registerRequestEntity.getPosp_PAN());
+            }
+            if (!registerRequestEntity.getPosp_Aadhaar().equals("") && registerRequestEntity.getPosp_Aadhaar() != null) {
+                etAadhar.setText("" + registerRequestEntity.getPosp_Aadhaar());
+            }
+            if (!registerRequestEntity.getPosp_ServiceTaxNo().equals("") && registerRequestEntity.getPosp_ServiceTaxNo() != null) {
+                etGST.setText("" + registerRequestEntity.getPosp_ServiceTaxNo());
+            }
+            if (!registerRequestEntity.getPosp_ChanPartCode().equals("") && registerRequestEntity.getPosp_ChanPartCode() != null) {
+                etChannelPartner.setText("" + registerRequestEntity.getPosp_ChanPartCode());
+            }
+            //endregion
+
+            //region set address details
+
+            if (!registerRequestEntity.getPosp_Address1().equals("") && registerRequestEntity.getPosp_Address1() != null) {
+                etAddress1.setText("" + registerRequestEntity.getPosp_Address1());
+            }
+            if (!registerRequestEntity.getPosp_Address2().equals("") && registerRequestEntity.getPosp_Address2() != null) {
+                etAddress2.setText("" + registerRequestEntity.getPosp_Address2());
+            }
+            if (!registerRequestEntity.getPosp_Address3().equals("") && registerRequestEntity.getPosp_Address3() != null) {
+                etAddress3.setText("" + registerRequestEntity.getPosp_Address3());
+            }
+            if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
+                etPincode.setText("" + registerRequestEntity.getPosp_PinCode());
+            }
+            if (!registerRequestEntity.getPosp_City().equals("") && registerRequestEntity.getPosp_City() != null) {
+                etCity.setText("" + registerRequestEntity.getPosp_City());
+            }
+            if (!registerRequestEntity.getPosp_StatID().equals("") && registerRequestEntity.getPosp_StatID() != null) {
+                etState.setText("" + registerRequestEntity.getPosp_StatID());
+            }
+            //endregion
+
+            //region set bank details
+            if (!registerRequestEntity.getPosp_BankAcNo().equals("") && registerRequestEntity.getPosp_BankAcNo() != null) {
+                etBankAcNo.setText("" + registerRequestEntity.getPosp_BankAcNo());
+            }
+            if (registerRequestEntity.getPosp_Account_Type().equals("CURRENT")) {
+                setSavingAcc();
+            } else {
+                setSavingAcc();
+            }
+            if (!registerRequestEntity.getPosp_IFSC().equals("") && registerRequestEntity.getPosp_IFSC() != null) {
+                etIfscCode.setText("" + registerRequestEntity.getPosp_IFSC());
+            }
+            if (!registerRequestEntity.getPosp_MICR().equals("") && registerRequestEntity.getPosp_MICR() != null) {
+                erMicrCode.setText("" + registerRequestEntity.getPosp_MICR());
+            }
+            if (!registerRequestEntity.getPosp_BankName().equals("") && registerRequestEntity.getPosp_BankName() != null) {
+                etBankName.setText("" + registerRequestEntity.getPosp_BankName());
+            }
+            if (!registerRequestEntity.getPosp_BankBranch().equals("") && registerRequestEntity.getPosp_BankBranch() != null) {
+                etBankBranch.setText("" + registerRequestEntity.getPosp_BankBranch());
+            }
+            if (!registerRequestEntity.getPosp_BankCity().equals("") && registerRequestEntity.getPosp_BankCity() != null) {
+                etBankCity.setText("" + registerRequestEntity.getPosp_BankCity());
+            }
+            //endregion
+        }
+
+    }
+
+    private void bindInputFromeServer(PospDetailsEntity registerRequestEntity) {
         //set profile Details
-        if (!registerRequestEntity.getPosp_FirstName().equals("") && registerRequestEntity.getPosp_FirstName() != null) {
+      /*  if (!registerRequestEntity.getPosp_FirstName().equals("") && registerRequestEntity.getPosp_FirstName() != null) {
             etFirstName.setText("" + registerRequestEntity.getPosp_FirstName());
         }
         if (!registerRequestEntity.getPosp_LastName().equals("") && registerRequestEntity.getPosp_LastName() != null) {
             etLastName.setText("" + registerRequestEntity.getPosp_LastName());
-        }
+        }*/
         if (!registerRequestEntity.getPosp_DOB().equals("") && registerRequestEntity.getPosp_DOB() != null) {
             etDob.setText("" + registerRequestEntity.getPosp_DOB());
         }
@@ -180,14 +279,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (!registerRequestEntity.getPosp_BankBranch().equals("") && registerRequestEntity.getPosp_BankBranch() != null) {
             etBankBranch.setText("" + registerRequestEntity.getPosp_BankBranch());
         }
-        if (!registerRequestEntity.getPosp_BankCity().equals("") && registerRequestEntity.getPosp_BankCity() != null) {
+        /*if (!registerRequestEntity.getPosp_BankCity().equals("") && registerRequestEntity.getPosp_BankCity() != null) {
             etBankCity.setText("" + registerRequestEntity.getPosp_BankCity());
-        }
+        }*/
     }
 
     private void setTextWatcher() {
         etDob.setOnClickListener(datePickerDialog);
-        etPincode.addTextChangedListener(pincodeTextWatcher);
+        //etPincode.addTextChangedListener(pincodeTextWatcher);
     }
 
     //region pincode textwatcher
@@ -247,6 +346,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         etIfscCode.setOnFocusChangeListener(this);
         etPan.setOnFocusChangeListener(this);
+        etPincode.setOnFocusChangeListener(this);
     }
 
     private void initWidgets() {
@@ -587,75 +687,104 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     return;
                 }
                 //region bank validation
-                if (etAddress1.getText().toString().isEmpty()) {
-                    if (llAddress.getVisibility() == View.GONE) {
+                if (etBankAcNo.getText().toString().isEmpty()) {
+                    if (llBankDetail.getVisibility() == View.GONE) {
                         manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
                         manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        etAddress1.requestFocus();
-                        etAddress1.setError("Enter Address 1");
-                        etAddress1.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        etBankAcNo.requestFocus();
+                        etBankAcNo.setError("Enter Bank Account No");
+                        etBankAcNo.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
                         return;
                     } else {
-                        etAddress1.requestFocus();
-                        etAddress1.setError("Enter Address 1");
+                        etBankAcNo.requestFocus();
+                        etBankAcNo.setError("Enter Bank Account No");
                         return;
                     }
                 }
-
-                if (etAddress2.getText().toString().isEmpty()) {
-                    if (llAddress.getVisibility() == View.GONE) {
+                if (etIfscCode.getText().toString().isEmpty()) {
+                    if (llBankDetail.getVisibility() == View.GONE) {
                         manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
                         manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        etAddress2.requestFocus();
-                        etAddress2.setError("Enter Address 1");
-                        etAddress2.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        etIfscCode.requestFocus();
+                        etIfscCode.setError("Enter Bank IFSC");
+                        etIfscCode.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
                         return;
                     } else {
-                        etAddress2.requestFocus();
-                        etAddress2.setError("Enter Address 1");
+                        etIfscCode.requestFocus();
+                        etIfscCode.setError("Enter Bank IFSC");
                         return;
                     }
                 }
-                if (etPincode.getText().toString().isEmpty()) {
-                    if (llAddress.getVisibility() == View.GONE) {
+                if (erMicrCode.getText().toString().isEmpty()) {
+                    if (llBankDetail.getVisibility() == View.GONE) {
                         manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
                         manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        etPincode.requestFocus();
-                        etPincode.setError("Enter Pincode");
-                        etPincode.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        erMicrCode.requestFocus();
+                        erMicrCode.setError("Enter Bank MICR");
+                        erMicrCode.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
                         return;
                     } else {
-                        etPincode.requestFocus();
-                        etPincode.setError("Enter Pincode");
+                        erMicrCode.requestFocus();
+                        erMicrCode.setError("Enter Bank MICR");
                         return;
                     }
-
                 }
-                if (!etPincode.getText().toString().isEmpty()) {
-                    if (etPincode.getText().toString().length() != 6) {
-                        if (llAddress.getVisibility() == View.GONE) {
-                            manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
-                            manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
-                        }
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                            etPincode.requestFocus();
-                            etPincode.setError("Enter Pincode");
-                            etPincode.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                            return;
-                        } else {
-                            etPincode.requestFocus();
-                            etPincode.setError("Enter Pincode");
-                            return;
-                        }
+
+                if (etBankName.getText().toString().isEmpty()) {
+                    if (llBankDetail.getVisibility() == View.GONE) {
+                        manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
+                        manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
                     }
-
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        etBankName.requestFocus();
+                        etBankName.setError("Enter Bank Name");
+                        etBankName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        return;
+                    } else {
+                        etBankName.requestFocus();
+                        etBankName.setError("Enter Bank Name");
+                        return;
+                    }
                 }
+                if (etBankBranch.getText().toString().isEmpty()) {
+                    if (llBankDetail.getVisibility() == View.GONE) {
+                        manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
+                        manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        etBankBranch.requestFocus();
+                        etBankBranch.setError("Enter Bank Branch");
+                        etBankBranch.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        return;
+                    } else {
+                        etBankBranch.requestFocus();
+                        etBankBranch.setError("Enter Bank Branck");
+                        return;
+                    }
+                }
+                if (etBankCity.getText().toString().isEmpty()) {
+                    if (llBankDetail.getVisibility() == View.GONE) {
+                        manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
+                        manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        etBankCity.requestFocus();
+                        etBankCity.setError("Enter Bank City");
+                        etBankCity.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        return;
+                    } else {
+                        etBankCity.requestFocus();
+                        etBankCity.setError("Enter Bank City");
+                        return;
+                    }
+                }
+
                 //endregion
 
                 setBankDetails();
@@ -684,13 +813,19 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setCurrentAcc();
                 break;
             case R.id.btnSave:
-                if (!isPospInfo) {
+                if (!isPospInfo)
                     ivAddress.performClick();
-                } else if (!isAddress) {
+                if (!isAddress)
                     ivBankDetail.performClick();
-                } else if (!isBankDetails) {
+                if (!isBankDetails)
                     ivDocumentUpload.performClick();
+                if (isPospInfo && isAddress && isBankDetails) {
+                    showDialog();
+                    new RegisterController(this).enrollPosp(registerRequestEntity, this);
+                } else {
+                    Toast.makeText(this, "Please Fill all details.", Toast.LENGTH_SHORT).show();
                 }
+
                 break;
         }
     }
@@ -846,7 +981,27 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     }
                 }
             }
+        } else if (response instanceof PospDetailsResponse) {
+            cancelDialog();
+            Constants.hideKeyBoard(etPincode, this);
+            if (response.getStatusNo() == 0) {
+                if (((PospDetailsResponse) response).getMasterData() != null) {
+                    if (((PospDetailsResponse) response).getMasterData().size() > 0) {
+                        pospDetailsEntity = ((PospDetailsResponse) response).getMasterData().get(0);
+                        if (pospDetailsEntity != null) {
+                            bindInputFromeServer(pospDetailsEntity);
+                        }
+                    }
+                }
+            }
+            if (pospDetailsEntity == null) {
+                setInputParameters();
+            }
+        } else if (response instanceof EnrollPospResponse) {
+            cancelDialog();
+            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @Override
@@ -957,6 +1112,15 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     }
                 }
 
+                break;
+
+            case R.id.etPincode:
+                if (!hasFocus) {
+                    if (etPincode.getText().length() == 6) {
+                        showDialog("Fetching City...");
+                        new RegisterController(PospEnrollment.this).getCityState(etPincode.getText().toString(), PospEnrollment.this);
+                    }
+                }
                 break;
         }
     }

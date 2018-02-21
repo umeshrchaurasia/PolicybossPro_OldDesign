@@ -198,11 +198,11 @@
                     android:hint="MOBILE 2">
 
                     <EditText
-                        android:maxLength="10"
                         android:id="@+id/etMobileNo2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -236,10 +236,10 @@
                     android:hint="PAN">
 
                     <EditText
-                        android:maxLength="10"
                         android:id="@+id/etPan"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -250,11 +250,11 @@
                     android:hint="AADHAR">
 
                     <EditText
-                        android:maxLength="12"
                         android:id="@+id/etAadhar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="12" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -400,7 +400,8 @@
                     <EditText
                         android:id="@+id/etPincode"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:maxLength="6" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -782,7 +783,40 @@
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:text="POSP AADHAR CARD" />
+                    android:text="POSP AADHAR CARD FRONT" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="2dp"
+                    android:src="@drawable/camera_icon" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/folder_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/doc_notuploaded" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:text="POSP AADHAR CARD BACK" />
 
                 <ImageView
                     android:layout_width="25dp"
