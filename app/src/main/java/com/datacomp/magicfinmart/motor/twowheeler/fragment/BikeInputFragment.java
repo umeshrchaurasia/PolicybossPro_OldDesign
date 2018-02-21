@@ -489,6 +489,8 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (fastLaneResponseEntity == null && spVarient.getSelectedItemPosition() != 0) {
                     etCC.setText("" + dbController.getBikeVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
+                    varientId = dbController.getBikeVarient(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+                    motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 }
 
             }

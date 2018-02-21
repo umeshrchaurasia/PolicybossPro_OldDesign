@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -38,6 +39,7 @@ import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
@@ -69,12 +71,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     //region bank details
     EditText etBankAcNo, etAccountType, etIfscCode, erMicrCode, etBankBranch, etBankCity, etBankName;
     TextView txtSaving, txtCurrent;
+    IfscEntity ifscEntity;
     public String ACCOUNT_TYPE = "SAVING";
     RegisterRequestEntity registerRequestEntity;
     Button btnSave;
     WebView webView;
     String URL = "http://www.irdaonline.org/PublicAccess/LookUpPAN.aspx";
     int count = 0;
+    PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +88,101 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         registerRequestEntity = new RegisterRequestEntity();
+        prefManager = new PrefManager(this);
+
         initWidgets();
         setListener();
         initLayouts();
         setTextWatcher();
+        if (prefManager.getPospInformation() != null) {
+            registerRequestEntity = prefManager.getPospInformation();
+            setInputParameters(registerRequestEntity);
+        }
+    }
+
+    private void setInputParameters(RegisterRequestEntity registerRequestEntity) {
+        //set profile Details
+        if (!registerRequestEntity.getPosp_FirstName().equals("") && registerRequestEntity.getPosp_FirstName() != null) {
+            etFirstName.setText("" + registerRequestEntity.getPosp_FirstName());
+        }
+        if (!registerRequestEntity.getPosp_LastName().equals("") && registerRequestEntity.getPosp_LastName() != null) {
+            etLastName.setText("" + registerRequestEntity.getPosp_LastName());
+        }
+        if (!registerRequestEntity.getPosp_DOB().equals("") && registerRequestEntity.getPosp_DOB() != null) {
+            etDob.setText("" + registerRequestEntity.getPosp_DOB());
+        }
+        if (registerRequestEntity.getPosp_Gender().equals("F")) {
+            tvFemale.performClick();
+        } else {
+            tvMale.performClick();
+        }
+        if (!registerRequestEntity.getPosp_Mobile1().equals("") && registerRequestEntity.getPosp_Mobile1() != null) {
+            etMobileNo1.setText("" + registerRequestEntity.getPosp_Mobile1());
+        }
+        if (!registerRequestEntity.getPosp_Mobile2().equals("") && registerRequestEntity.getPosp_Mobile2() != null) {
+            etMobileNo2.setText("" + registerRequestEntity.getPosp_Mobile2());
+        }
+        if (!registerRequestEntity.getPosp_Email().equals("") && registerRequestEntity.getPosp_Email() != null) {
+            etEmailId.setText("" + registerRequestEntity.getPosp_Email());
+        }
+        if (!registerRequestEntity.getPosp_PAN().equals("") && registerRequestEntity.getPosp_PAN() != null) {
+            etPan.setText("" + registerRequestEntity.getPosp_PAN());
+        }
+        if (!registerRequestEntity.getPosp_Aadhaar().equals("") && registerRequestEntity.getPosp_Aadhaar() != null) {
+            etAadhar.setText("" + registerRequestEntity.getPosp_Aadhaar());
+        }
+        if (!registerRequestEntity.getPosp_ServiceTaxNo().equals("") && registerRequestEntity.getPosp_ServiceTaxNo() != null) {
+            etGST.setText("" + registerRequestEntity.getPosp_ServiceTaxNo());
+        }
+        if (!registerRequestEntity.getPosp_ChanPartCode().equals("") && registerRequestEntity.getPosp_ChanPartCode() != null) {
+            etChannelPartner.setText("" + registerRequestEntity.getPosp_ChanPartCode());
+        }
+
+        //set address details
+
+        if (!registerRequestEntity.getPosp_Address1().equals("") && registerRequestEntity.getPosp_Address1() != null) {
+            etAddress1.setText("" + registerRequestEntity.getPosp_Address1());
+        }
+        if (!registerRequestEntity.getPosp_Address2().equals("") && registerRequestEntity.getPosp_Address2() != null) {
+            etAddress2.setText("" + registerRequestEntity.getPosp_Address2());
+        }
+        if (!registerRequestEntity.getPosp_Address3().equals("") && registerRequestEntity.getPosp_Address3() != null) {
+            etAddress3.setText("" + registerRequestEntity.getPosp_Address3());
+        }
+        if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
+            etPincode.setText("" + registerRequestEntity.getPosp_PinCode());
+        }
+        if (!registerRequestEntity.getPosp_City().equals("") && registerRequestEntity.getPosp_City() != null) {
+            etCity.setText("" + registerRequestEntity.getPosp_City());
+        }
+        if (!registerRequestEntity.getPosp_StatID().equals("") && registerRequestEntity.getPosp_StatID() != null) {
+            etState.setText("" + registerRequestEntity.getPosp_StatID());
+        }
+
+        // set bank details
+        if (!registerRequestEntity.getPosp_BankAcNo().equals("") && registerRequestEntity.getPosp_BankAcNo() != null) {
+            etBankAcNo.setText("" + registerRequestEntity.getPosp_BankAcNo());
+        }
+        if (registerRequestEntity.getPosp_Account_Type().equals("CURRENT")) {
+            setSavingAcc();
+        } else {
+            setSavingAcc();
+        }
+        if (!registerRequestEntity.getPosp_IFSC().equals("") && registerRequestEntity.getPosp_IFSC() != null) {
+            etIfscCode.setText("" + registerRequestEntity.getPosp_IFSC());
+        }
+        if (!registerRequestEntity.getPosp_MICR().equals("") && registerRequestEntity.getPosp_MICR() != null) {
+            erMicrCode.setText("" + registerRequestEntity.getPosp_MICR());
+        }
+        if (!registerRequestEntity.getPosp_BankName().equals("") && registerRequestEntity.getPosp_BankName() != null) {
+            etBankName.setText("" + registerRequestEntity.getPosp_BankName());
+        }
+        if (!registerRequestEntity.getPosp_BankBranch().equals("") && registerRequestEntity.getPosp_BankBranch() != null) {
+            etBankBranch.setText("" + registerRequestEntity.getPosp_BankBranch());
+        }
+        if (!registerRequestEntity.getPosp_BankCity().equals("") && registerRequestEntity.getPosp_BankCity() != null) {
+            etBankCity.setText("" + registerRequestEntity.getPosp_BankCity());
+        }
     }
 
     private void setTextWatcher() {
@@ -317,7 +412,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         return;
                     }
                 }
-                if (etPan.getText().toString().isEmpty()) {
+                if (!isValidPan(etPan)) {
                     if (llMyProfile.getVisibility() == View.GONE) {
                         manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
                         manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
@@ -333,7 +428,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         return;
                     }
                 }
-                if (etAadhar.getText().toString().isEmpty()) {
+                if (!isValidAadhar(etAadhar)) {
                     if (llMyProfile.getVisibility() == View.GONE) {
                         manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
                         manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
@@ -355,14 +450,19 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setProfileDetails();
 
                 isPospInfo = true;
-                if (isPospInfo) {
-                    manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
-                    manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
-                }
+
+                manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
+                manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
+
 
                 break;
             case R.id.ivBankDetail:
             case R.id.rlBankDetail:
+
+                if (!isPospInfo) {
+                    ivAddress.performClick();
+                    return;
+                }
 
                 //region address validation
                 if (etAddress1.getText().toString().isEmpty()) {
@@ -471,14 +571,21 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setAddressDetails();
 
                 isAddress = true;
-                if (isPospInfo && isAddress) {
-                    manageMainLayouts(llBankDetail, llMyProfile, llAddress, llDocumentUpload);
-                    manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload);
-                }
+
+                manageMainLayouts(llBankDetail, llMyProfile, llAddress, llDocumentUpload);
+                manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload);
+
                 break;
             case R.id.ivDocumentUpload:
             case R.id.rlDocumentUpload:
 
+                if (!isPospInfo) {
+                    ivAddress.performClick();
+                    return;
+                } else if (!isAddress) {
+                    ivBankDetail.performClick();
+                    return;
+                }
                 //region bank validation
                 if (etAddress1.getText().toString().isEmpty()) {
                     if (llAddress.getVisibility() == View.GONE) {
@@ -550,11 +657,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                 }
                 //endregion
+
+                setBankDetails();
+
                 isBankDetails = true;
-                if (isPospInfo && isAddress && isBankDetails) {
-                    manageMainLayouts(llDocumentUpload, llBankDetail, llMyProfile, llAddress);
-                    manageImages(llDocumentUpload, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile);
-                }
+
+                manageMainLayouts(llDocumentUpload, llBankDetail, llMyProfile, llAddress);
+                manageImages(llDocumentUpload, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile);
+
                 break;
 
             case R.id.tvMale:
@@ -574,14 +684,63 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setCurrentAcc();
                 break;
             case R.id.btnSave:
+                if (!isPospInfo) {
+                    ivAddress.performClick();
+                } else if (!isAddress) {
+                    ivBankDetail.performClick();
+                } else if (!isBankDetails) {
+                    ivDocumentUpload.performClick();
+                }
                 break;
         }
     }
 
     private void setAddressDetails() {
+        registerRequestEntity.setPosp_Address1(etAddress1.getText().toString());
+        registerRequestEntity.setPosp_Address2(etAddress2.getText().toString());
+        if (!etAddress3.getText().toString().isEmpty())
+            registerRequestEntity.setPosp_Address3(etAddress3.getText().toString());
+        registerRequestEntity.setPosp_PinCode(etPincode.getText().toString());
+        registerRequestEntity.setPosp_City(etCity.getText().toString());
+        //registerRequestEntity.setPosp_StatID(etState.getText().toString());// to be changed to id
+
+        prefManager.setPospInformation(registerRequestEntity);
     }
 
     private void setProfileDetails() {
+        registerRequestEntity.setPosp_FirstName(etFirstName.getText().toString());
+        registerRequestEntity.setPosp_LastName(etLastName.getText().toString());
+        registerRequestEntity.setPosp_DOB(etDob.getText().toString());
+        if (isMale)
+            registerRequestEntity.setPosp_Gender("M");
+        else
+            registerRequestEntity.setPosp_Gender("F");
+        registerRequestEntity.setPosp_Mobile1(etMobileNo1.getText().toString());
+        registerRequestEntity.setPosp_Mobile2(etMobileNo2.getText().toString());
+        registerRequestEntity.setPosp_Email(etEmailId.getText().toString());
+        registerRequestEntity.setPosp_PAN(etPan.getText().toString());
+        registerRequestEntity.setPosp_Aadhaar(etAadhar.getText().toString());
+        if (!etGST.getText().toString().isEmpty())
+            registerRequestEntity.setPosp_ServiceTaxNo(etGST.getText().toString());
+        if (!etChannelPartner.getText().toString().isEmpty())
+            registerRequestEntity.setPosp_ChanPartCode(etChannelPartner.getText().toString());
+
+        prefManager.setPospInformation(registerRequestEntity);
+    }
+
+    private void setBankDetails() {
+        registerRequestEntity.setPosp_BankAcNo(etBankAcNo.getText().toString());
+        registerRequestEntity.setPosp_Account_Type(ACCOUNT_TYPE);
+        registerRequestEntity.setPosp_IFSC(etIfscCode.getText().toString());
+
+        if (!erMicrCode.getText().toString().isEmpty())
+            registerRequestEntity.setPosp_MICR(erMicrCode.getText().toString());
+
+        registerRequestEntity.setPosp_BankName(etBankName.getText().toString());
+        registerRequestEntity.setPosp_BankBranch(etBankBranch.getText().toString());
+        registerRequestEntity.setPosp_BankCity(etBankCity.getText().toString());// to be changed to id
+
+        prefManager.setPospInformation(registerRequestEntity);
     }
 
     private void setSavingAcc() {
@@ -664,6 +823,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
                 etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
 
+                registerRequestEntity.setPosp_StatID("" + ((PincodeResponse) response).getMasterData().getStateid());
                 /*registerRequestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
                 registerRequestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
                 registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());*/
@@ -673,30 +833,26 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 Constants.hideKeyBoard(etPincode, this);
+                if (((IfscCodeResponse) response).getMasterData() != null) {
+                    if (((IfscCodeResponse) response).getMasterData().size() > 0) {
+                        ifscEntity = ((IfscCodeResponse) response).getMasterData().get(0);
 
-                IfscEntity ifscEntity = ((IfscCodeResponse) response).getMasterData().get(0);
-
-                etIfscCode.setText("" + ifscEntity.getIFSCCode());
-                erMicrCode.setText("" + ifscEntity.getMICRCode());
-                etBankName.setText("" + ifscEntity.getBankName());
-                etBankBranch.setText("" + ifscEntity.getBankName());
-                etBankCity.setText("" + ifscEntity.getCityName());
-
-                erMicrCode.setSelection(erMicrCode.getText().length());
-
-
-                registerRequestEntity.setLoan_BankName("" + ifscEntity.getBankName());
-                registerRequestEntity.setLoan_BankBranch("" + ifscEntity.getBankBran());
-                registerRequestEntity.setLoan_IFSC("" + ifscEntity.getIFSCCode());
-                registerRequestEntity.setLoan_IFSC("" + ifscEntity.getIFSCCode());
-
+                        etIfscCode.setText("" + ifscEntity.getIFSCCode());
+                        if (ifscEntity.getMICRCode() != null)
+                            erMicrCode.setText("" + ifscEntity.getMICRCode());
+                        etBankName.setText("" + ifscEntity.getBankName());
+                        etBankBranch.setText("" + ifscEntity.getBankName());
+                        etBankCity.setText("" + ifscEntity.getCityName());
+                    }
+                }
             }
         }
     }
 
     @Override
     public void OnFailure(Throwable t) {
-
+        cancelDialog();
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -796,10 +952,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.etPan:
                 if (!hasFocus) {
-                    if (etPan.getText().length() > 3) {
+                    if (isValidPan(etPan)) {
                         settingWebview();
                     }
                 }
+
                 break;
         }
     }
@@ -850,10 +1007,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 public void onClick(View v) {
                     // Close dialog
                     dialog.cancel();
+                    etPan.setText("");
                 }
             });
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 }

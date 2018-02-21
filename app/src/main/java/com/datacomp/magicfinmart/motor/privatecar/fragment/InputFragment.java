@@ -511,6 +511,8 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (fastLaneResponseEntity == null && spVarient.getSelectedItemPosition() != 0) {
                     etCC.setText("" + dbController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
+                    varientId = dbController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+                    motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 }
 
             }

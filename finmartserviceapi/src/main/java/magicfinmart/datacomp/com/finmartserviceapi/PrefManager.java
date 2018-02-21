@@ -3,6 +3,10 @@ package magicfinmart.datacomp.com.finmartserviceapi;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.google.gson.Gson;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+
 public class PrefManager {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -19,6 +23,8 @@ public class PrefManager {
     private static final String IS_CAR_MASTER_UPDATE = "isCarMasterUpdate";
     private static final String IS_RTO_MASTER_UPDATE = "isRtoMasterUpdate";
     private static final String IS_INSURANCE_MASTER_UPDATE = "isRtoMasterUpdate";
+
+    private static final String POSP_INFO = "pospinfo";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -73,5 +79,25 @@ public class PrefManager {
         return pref.getBoolean(IS_INSURANCE_MASTER_UPDATE, true);
     }
 
+    public boolean setPospInformation(RegisterRequestEntity registerRequestEntity) {
+        try {
+            Gson gson = new Gson();
+            editor.putString(POSP_INFO, gson.toJson(registerRequestEntity));
+            return editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public RegisterRequestEntity getPospInformation() {
+        String user = pref.getString(POSP_INFO, "");
+        Gson gson = new Gson();
+        RegisterRequestEntity registerRequestEntity = gson.fromJson(user, RegisterRequestEntity.class);
+        if (registerRequestEntity != null)
+            return registerRequestEntity;
+        else
+            return null;
+    }
 
 }
