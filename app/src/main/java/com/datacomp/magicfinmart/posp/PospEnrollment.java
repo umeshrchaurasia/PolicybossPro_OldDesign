@@ -40,6 +40,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
@@ -83,6 +84,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     int count = 0;
     PrefManager prefManager;
     PospDetailsEntity pospDetailsEntity;
+    DBPersistanceController dbPersistanceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dbPersistanceController = new DBPersistanceController(this);
         registerRequestEntity = new RegisterRequestEntity();
+        registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
         prefManager = new PrefManager(this);
 
         initWidgets();
@@ -279,9 +283,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (!registerRequestEntity.getPosp_BankBranch().equals("") && registerRequestEntity.getPosp_BankBranch() != null) {
             etBankBranch.setText("" + registerRequestEntity.getPosp_BankBranch());
         }
-        /*if (!registerRequestEntity.getPosp_BankCity().equals("") && registerRequestEntity.getPosp_BankCity() != null) {
-            etBankCity.setText("" + registerRequestEntity.getPosp_BankCity());
-        }*/
+
     }
 
     private void setTextWatcher() {
