@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.datacomp.magicfinmart.posp.IrdaPanVerifyActivity">
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.datacomp.magicfinmart.helpfeedback.aboutus.AboutUsActivity"
+    tools:showIn="@layout/activity_about_us">
 
 </android.support.constraint.ConstraintLayout>

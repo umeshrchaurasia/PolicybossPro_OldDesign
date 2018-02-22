@@ -58,7 +58,7 @@ public class HomeLoanApplyWebView extends AppCompatActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptEnabled(true);
 
-        MyWebViewClient webViewClient = new MyWebViewClient();
+        MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
         webView.getSettings().setBuiltInZoomControls(true);
 
@@ -70,6 +70,7 @@ public class HomeLoanApplyWebView extends AppCompatActivity {
                 + "&loanamout=" + quoteEntity.getLoan_eligible()
                 + "&idtype=" + quoteEntity.getRoi_type()
                 + "&processingfee=" + quoteEntity.getProcessingfee()
+               // +"&fbaid"+loginEntity.getFBAId()//future
                 + "&Lead_Source="+"DC";
         Log.d("HOME_LOAN_URL", url);
         webView.loadUrl(url);

@@ -10,13 +10,11 @@ android:orientation="vertical"
 tools:context=".loan_fm.balancetransfer.quote.BL_QuoteFragment">
 
 
-
-
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/rvQuoteList"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:scrollbarStyle="insideOverlay" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvQuoteList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarStyle="insideOverlay" />
 
 <android.support.design.widget.FloatingActionButton
     android:id="@+id/blAddQuote"

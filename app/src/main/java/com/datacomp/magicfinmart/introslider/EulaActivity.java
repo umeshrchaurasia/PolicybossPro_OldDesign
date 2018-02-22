@@ -132,7 +132,7 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
         settings.setJavaScriptEnabled(true);
 
 
-        MyWebViewClient webViewClient = new MyWebViewClient();
+        MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
        /* webView.setWebViewClient(new WebViewClient() {
             @Override

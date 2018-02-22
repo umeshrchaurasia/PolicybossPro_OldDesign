@@ -10,16 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLQuoteAdapter;
-import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HomeLoanQuoteActivity;
+
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 
-public class LapLoanQuoteActivity extends AppCompatActivity {
+public class LapLoanQuoteActivity extends BaseActivity {
 
     GetQuoteResponse getQuoteResponse;
     HomeLoanRequest homeLoanRequest;
@@ -38,8 +38,7 @@ public class LapLoanQuoteActivity extends AppCompatActivity {
         getQuoteResponse = getIntent().getParcelableExtra(Constants.QUOTES);
         homeLoanRequest = getIntent().getParcelableExtra(Constants.HL_REQUEST);
 
-        mAdapter = new LAPQuoteAdapter(LapLoanQuoteActivity.this,getQuoteResponse.getData(),getQuoteResponse);
-        rvQuotes.setAdapter(mAdapter);
+          rvQuotes.setAdapter(mAdapter);
     }
     public void redirectToApplyLoan(QuoteEntity entity) {
 

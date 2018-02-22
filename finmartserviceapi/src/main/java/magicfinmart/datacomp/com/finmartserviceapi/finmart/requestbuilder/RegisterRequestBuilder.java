@@ -12,6 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
@@ -58,6 +59,10 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/posp-registration")
         Call<EnrollPospResponse> enrollPosp(@Body RegisterRequestEntity body);
+
+        @Headers("token:" + token)
+        @POST("/api/get-posp-detail")
+        Call<PospDetailsResponse> getPospDetails(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
         @POST("/api/get-ifsc-code")

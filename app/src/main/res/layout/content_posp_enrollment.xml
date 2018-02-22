@@ -18,6 +18,12 @@
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:orientation="vertical">
+
+        <WebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"></WebView>
         <!--POSP INFORMATION START-->
         <RelativeLayout
             android:id="@+id/rlMyProfile"
@@ -180,8 +186,8 @@
                         android:id="@+id/etMobileNo1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -195,7 +201,8 @@
                         android:id="@+id/etMobileNo2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -231,8 +238,8 @@
                     <EditText
                         android:id="@+id/etPan"
                         android:layout_width="match_parent"
-
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -246,7 +253,8 @@
                         android:id="@+id/etAadhar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:maxLength="12" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -392,7 +400,8 @@
                     <EditText
                         android:id="@+id/etPincode"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:maxLength="6" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -491,7 +500,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="BANK A/C NO">
@@ -502,12 +511,63 @@
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView39"
+                        style="@style/TextViewStyle.Medium"
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:text="ACCOUNT TYPE" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:id="@+id/txtSaving"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="50"
+                            android:background="@drawable/customeborder_blue"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="SAVING"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+
+                            android:id="@+id/txtCurrent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_weight="50"
+                            android:background="@drawable/customeborder"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="CURRENT"
+                            android:textColor="@color/description_text" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="ACCOUNT TYPE">
+                    android:hint="ACCOUNT TYPE"
+                    android:visibility="gone">
 
                     <EditText
                         android:id="@+id/etAccountType"
@@ -560,8 +620,8 @@
                     android:layout_weight="1"
                     android:hint="BANK NAME">
 
-                    <Spinner
-                        android:id="@+id/spBankName"
+                    <EditText
+                        android:id="@+id/etBankName"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -723,7 +783,40 @@
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:text="POSP AADHAR CARD" />
+                    android:text="POSP AADHAR CARD FRONT" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="2dp"
+                    android:src="@drawable/camera_icon" />
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/folder_icon" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:padding="2dp"
+                    android:src="@drawable/doc_notuploaded" />
+
+                <TextView
+                    android:layout_width="200dp"
+                    android:layout_height="match_parent"
+                    android:text="POSP AADHAR CARD BACK" />
 
                 <ImageView
                     android:layout_width="25dp"

@@ -7,7 +7,7 @@
         android:id="@+id/addonName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:drawableLeft="@drawable/tickgreen"
+        android:drawableLeft="@drawable/checked_ic"
         android:drawablePadding="5dp"
         android:padding="8dp"
         android:text="Zero addon"

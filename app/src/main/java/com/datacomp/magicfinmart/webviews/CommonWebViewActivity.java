@@ -78,7 +78,7 @@ public class CommonWebViewActivity extends BaseActivity {
         settings.setJavaScriptEnabled(true);
 
 
-        MyWebViewClient webViewClient = new MyWebViewClient();
+        MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
        /* webView.setWebViewClient(new WebViewClient() {
             @Override

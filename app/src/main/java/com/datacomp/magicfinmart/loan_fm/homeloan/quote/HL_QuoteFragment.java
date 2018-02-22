@@ -97,7 +97,7 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         startActivity(intent);
 
     }
-    public void removeQuote(FmHomeLoanRequest entity) {
+    public void removeQuoteHL(FmHomeLoanRequest entity) {
 
         removeQuoteEntity = entity;
         showDialog("Please wait,Removing quote..");

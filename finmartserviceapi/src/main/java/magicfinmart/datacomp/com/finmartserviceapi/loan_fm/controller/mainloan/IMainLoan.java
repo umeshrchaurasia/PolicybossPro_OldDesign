@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 
@@ -17,4 +18,6 @@ public interface IMainLoan {
     void savePLQuoteData(FmPersonalLoanRequest fmPersonalLoanRequest, IResponseSubcriberFM iResponseSubcriber);
 
     void getPLQuoteApplication(String fbaid, IResponseSubcriberFM iResponseSubcriber);
+
+    void savebankFbABuyData(BankSaveRequest bankSaveRequest, IResponseSubcriberFM iResponseSubcriber);
 }

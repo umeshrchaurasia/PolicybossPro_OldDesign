@@ -13,156 +13,185 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="100">
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/imgInsurerLogo"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="29.6"
-            android:padding="4dp"
-            android:scaleType="fitCenter" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+
+            <TextView
+                android:id="@+id/txtPersonName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="90"
+                android:gravity="center"
+                android:lines="2"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextStyle.Body1"
+                android:textColor="@color/header_dark_text"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtOverflowMenu"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:gravity="center"
+                android:text="@string/threedots"
+                android:textAppearance="@style/TextStyle.Title"
+                android:textStyle="bold" />
+
+        </LinearLayout>
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.4"
+            android:layout_width="match_parent"
+            android:layout_height="1.4dp"
             android:background="@color/seperator" />
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="70"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:weightSum="100">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="100">
-
-
-                <TextView
-                    android:id="@+id/txtPersonName"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_weight="85"
-                    android:gravity="center"
-                    android:lines="2"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextStyle.Body1"
-
-                    android:textColor="@color/header_dark_text"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtOverflowMenu"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_weight="15"
-                    android:paddingLeft="@dimen/activity_horizontal_margin"
-                    android:text="@string/threedots"
-                    android:textAppearance="@style/TextStyle.Title"
-                    android:textStyle="bold" />
-
-            </LinearLayout>
+            <ImageView
+                android:id="@+id/imgInsurerLogo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="29.6"
+                android:padding="4dp"
+                android:scaleType="fitCenter" />
 
             <View
-                android:layout_width="match_parent"
-                android:layout_height="1.4dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
                 android:background="@color/seperator" />
 
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="4dp"
-                android:weightSum="100">
+                android:layout_weight="70"
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="33"
-                    android:orientation="vertical">
+                    android:gravity="center"
+                    android:weightSum="5"
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="App number"
+                        android:layout_weight="2"
+                        android:orientation="vertical">
 
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
-                        android:textColor="@color/header_light_text"
-                        android:textSize="9sp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="App number"
 
-                    <TextView
-                        android:id="@+id/txtCRN"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
-                        android:textColor="@color/header_dark_text" />
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/header_light_text"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/txtCRN"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/header_dark_text" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="3"
+                        android:paddingLeft="8dp"
+                        android:paddingRight="8dp"
+                        android:src="@drawable/ten_percent" />
                 </LinearLayout>
+
+                <View
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.4dp"
+                    android:background="@color/seperator" />
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="33"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:weightSum="100">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Vehicle No"
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
-                        android:textColor="@color/header_light_text"
-                        android:textSize="9sp" />
 
-                    <TextView
-                        android:id="@+id/txtVehicleNo"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
-                        android:textColor="@color/header_dark_text" />
+                        android:layout_weight="50"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Vehicle No"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/header_light_text"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/txtVehicleNo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/header_dark_text" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="App date"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/header_light_text"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/txtCreatedDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textColor="@color/header_dark_text" />
+                    </LinearLayout>
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="33"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="App date"
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
-                        android:textColor="@color/header_light_text"
-                        android:textSize="9sp" />
-
-                    <TextView
-                        android:id="@+id/txtCreatedDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
-                        android:textColor="@color/header_dark_text" />
-                </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
+
+
 </android.support.v7.widget.CardView>
 

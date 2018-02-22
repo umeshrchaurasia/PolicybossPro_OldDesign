@@ -15,7 +15,14 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
+
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
+import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 
 
 /**
@@ -60,9 +67,11 @@ public class DashboardFragment extends BaseFragment {
             switch (item.getItemId()) {
                 case R.id.nav_sales:
                     //redirect to sales
+                    startActivity(new Intent(getContext(), SalesMaterialActivity.class));
                     return true;
                 case R.id.nav_pending:
                     //redirect to pending status
+                    startActivity(new Intent(getContext(), PendingCasesActivity.class));
                     return true;
                 case R.id.nav_knowledge:
                     //redirect to knowledge guru
