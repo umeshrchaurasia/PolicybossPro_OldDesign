@@ -19,6 +19,7 @@ public class PrefManager {
     private static final String IS_CAR_MASTER_UPDATE = "isCarMasterUpdate";
     private static final String IS_RTO_MASTER_UPDATE = "isRtoMasterUpdate";
     private static final String IS_INSURANCE_MASTER_UPDATE = "isRtoMasterUpdate";
+    private static final String IS_DEVICE_TOKEN = "devicetoken";
 
     public PrefManager(Context context) {
         this._context = context;
@@ -73,5 +74,9 @@ public class PrefManager {
         return pref.getBoolean(IS_INSURANCE_MASTER_UPDATE, true);
     }
 
+    public void setToken(String token) {
 
+        editor.putString(IS_DEVICE_TOKEN, token);
+        editor.commit();
+    }
 }
