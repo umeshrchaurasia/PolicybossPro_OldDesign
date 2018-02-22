@@ -59,7 +59,7 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setJavaScriptEnabled(true);
 
-        MyWebViewClient webViewClient = new MyWebViewClient();
+        MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
         webView.getSettings().setBuiltInZoomControls(true);
 
