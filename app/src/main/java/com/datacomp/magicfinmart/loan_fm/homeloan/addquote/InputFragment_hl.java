@@ -125,8 +125,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     ArrayAdapter<String> coApp_salaryTypeAdapter, coApp_relationTypeAdapter;
     LinearLayout coApp_llSalaried, coApp_llSelfEmployeed;
 
-    RadioGroup coApp_rgGender;
-    RadioButton coApp_rbimgMale, coApp_rbimgFemale;
+
     private RadioGroup rgProperty1;
     private RadioGroup rgProperty2;
     AutoCompleteTextView acCity;
@@ -157,8 +156,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         cityList = databaseController.getHealthCity();
         setListener();
         loadSpinner();
-        setSalaried();
-        setCoAppSalaried();
+        setSalaried("E");
+        setCoAppSalaried("E");
 
         setApp_Male_gender();
         setCo_App_FeMale_gender();
@@ -231,12 +230,12 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             if (homeLoanRequest.getApplicantSource().matches("1")) {
 
-                setSalaried();
+                setSalaried("E");
 
 
             } else {
 
-                setSelfEmplyoee();
+                setSelfEmplyoee("E");
             }
 
             if (homeLoanRequest.getApplicantGender().matches("M")) {
@@ -320,11 +319,11 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                     /////////////// Co- Applicant//////////////////
                     if (homeLoanRequest.getCoApplicantSource().matches("1")) {
 
-                        setCoAppSalaried();
+                        setCoAppSalaried("E");
 
                     } else if (homeLoanRequest.getCoApplicantSource().matches("2")) {
 
-                        setCoAppSelfEmplyoee();
+                        setCoAppSelfEmplyoee("E");
 
                     }
                 }
@@ -682,7 +681,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void setSalaried() {
+    private void setSalaried(String edit) {
         ApplicantSource = "1";
         txtSalaried.setBackgroundResource(R.drawable.customeborder_blue);
         txtSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
@@ -692,16 +691,20 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         llSelfEmployeed.setVisibility(View.GONE);
         etMonthlyInc.setEnabled(true);
-        etMonthlyInc.setText("");
-        etProfitAtTax.setText("");
-        etDirecPartRemuntion.setText("");
-        etDepreciation.setText("");
-        etTurnOver.setText("");
+        if(edit.matches("E")) {
+
+        }else {
+            etMonthlyInc.setText("");
+            etProfitAtTax.setText("");
+            etDirecPartRemuntion.setText("");
+            etDepreciation.setText("");
+            etTurnOver.setText("");
+        }
 
 
     }
 
-    private void setSelfEmplyoee() {
+    private void setSelfEmplyoee(String edit) {
         ApplicantSource = "2";
         txtSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
         txtSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
@@ -712,15 +715,19 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         llSelfEmployeed.setVisibility(View.VISIBLE);
         etMonthlyInc.setEnabled(false);
 
-        etMonthlyInc.setText("");
-        etProfitAtTax.setText("");
-        etDirecPartRemuntion.setText("");
-        etDepreciation.setText("");
-        etTurnOver.setText("");
+        if(edit.matches("E")) {
+
+        }else {
+            etMonthlyInc.setText("");
+            etProfitAtTax.setText("");
+            etDirecPartRemuntion.setText("");
+            etDepreciation.setText("");
+            etTurnOver.setText("");
+        }
     }
 
 
-    private void setCoAppSalaried() {
+    private void setCoAppSalaried(String edit) {
         CoApplicantSource = "1";
         txtCoSalaried.setBackgroundResource(R.drawable.customeborder_blue);
         txtCoSalaried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
@@ -730,14 +737,18 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         coApp_etMonthlyInc.setEnabled(true);
         coApp_llSelfEmployeed.setVisibility(View.GONE);
 
-        coApp_etMonthlyInc.setText("");
-        coApp_etProfitAtTax.setText("");
-        coApp_etDirecPartRemuntion.setText("");
-        coApp_etDepreciation.setText("");
-        coApp_etTurnOver.setText("");
+        if(edit.matches("E")) {
+
+        }else {
+            coApp_etMonthlyInc.setText("");
+            coApp_etProfitAtTax.setText("");
+            coApp_etDirecPartRemuntion.setText("");
+            coApp_etDepreciation.setText("");
+            coApp_etTurnOver.setText("");
+        }
     }
 
-    private void setCoAppSelfEmplyoee() {
+    private void setCoAppSelfEmplyoee(String edit) {
         CoApplicantSource = "2";
         txtCoSelfEMp.setBackgroundResource(R.drawable.customeborder_blue);
         txtCoSelfEMp.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
@@ -748,11 +759,15 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         coApp_llSelfEmployeed.setVisibility(View.VISIBLE);
         coApp_etMonthlyInc.setEnabled(false);
 
-       coApp_etMonthlyInc.setText("");
-        coApp_etProfitAtTax.setText("");
-        coApp_etDirecPartRemuntion.setText("");
-        coApp_etDepreciation.setText("");
-        coApp_etTurnOver.setText("");
+        if(edit.matches("E")) {
+
+        }else {
+            coApp_etMonthlyInc.setText("");
+            coApp_etProfitAtTax.setText("");
+            coApp_etDirecPartRemuntion.setText("");
+            coApp_etDepreciation.setText("");
+            coApp_etTurnOver.setText("");
+        }
     }
 
     //radio gender
@@ -808,21 +823,21 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         if (v.getId() == R.id.txtSalaried) {
 
-            setSalaried();
+            setSalaried("");
 
 
         } else if (v.getId() == R.id.txtSelfEMp) {
 
-            setSelfEmplyoee();
+            setSelfEmplyoee("");
         }
         /////////////// Co- Applicant//////////////////
         else if (v.getId() == R.id.txtCoSalaried) {
 
-            setCoAppSalaried();
+            setCoAppSalaried("");
 
         } else if (v.getId() == R.id.txtCoSelfEMp) {
 
-            setCoAppSelfEmplyoee();
+            setCoAppSelfEmplyoee("");
 
         }
         //gender txtco_app_rbimgMale,txtco_app_rbimgFemale,txtrbimgMale,txtrbimgFemale

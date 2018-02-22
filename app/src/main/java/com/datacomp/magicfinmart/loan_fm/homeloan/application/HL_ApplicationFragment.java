@@ -71,7 +71,7 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
         rvApplicationList.setLayoutManager(layoutManager);
 
 
-           }
+ }
 
     private void setListener() {
         ivSearch.setOnClickListener(this);

@@ -7,7 +7,7 @@ android:layout_marginBottom="3dp"
 android:background="@color/white"
 android:gravity="center_horizontal|center_vertical"
 android:orientation="vertical"
-android:weightSum="100">
+>
 
     <android.support.v7.widget.CardView
         android:layout_width="wrap_content"
@@ -17,6 +17,11 @@ android:weightSum="100">
         app:cardCornerRadius="0dp"
         app:cardElevation="2dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
         <TableLayout
 
             android:id="@+id/tableLayout1"
@@ -278,6 +283,234 @@ android:weightSum="100">
 
             </TableRow>
         </TableLayout>
+
+            <LinearLayout
+                android:id="@+id/llivArrow"
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+
+                android:gravity="center"
+
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Key Highlights" />
+
+                <ImageView
+                    android:id="@+id/ivArrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:src="@drawable/down_arrow_grey" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/rvhlknowmore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+
+                >
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:background="@color/lightGrey"
+                    >
+
+                    <TextView
+                        android:id="@+id/tvDetails1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:drawablePadding="5dp"
+                        android:text="Pre-Closure Fee"
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvDetailsCount1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:text=""
+                        android:textAppearance="@style/TextViewStyle.Medium"
+
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:orientation="horizontal"
+                    >
+                    <TextView
+                        android:id="@+id/tvDetails2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:drawablePadding="5dp"
+                        android:text="Part Payment Available"
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvDetailsCount2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+
+                        android:textAppearance="@style/TextViewStyle.Medium"
+
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:background="@color/lightGrey"
+                    >
+                    <TextView
+                        android:id="@+id/tvDetails3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:drawablePadding="5dp"
+                        android:text="Guarantor Required"
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvDetailsCount3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+
+                        android:textAppearance="@style/TextViewStyle.Medium"
+
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:background="@color/white"
+                    >
+                    <TextView
+                        android:id="@+id/tvDetails4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:drawablePadding="5dp"
+                        android:text="Special Rates For Women Applicable"
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvDetailsCount4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+
+                        android:textAppearance="@style/TextViewStyle.Medium"
+
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:background="@color/lightGrey"
+                    >
+                    <TextView
+                        android:id="@+id/tvDetails5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:drawablePadding="5dp"
+                        android:text="E-Approvl Available"
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvDetailsCount5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+
+                        android:textAppearance="@style/TextViewStyle.Medium"
+
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingTop="3dp"
+                    android:paddingBottom="3dp"
+                    android:background="@color/white"
+                    >
+                    <TextView
+                        android:id="@+id/tvDetails6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:drawablePadding="5dp"
+                        android:text="Balance Transfer Available"
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvDetailsCount6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+
+                        android:textAppearance="@style/TextViewStyle.Medium"
+
+                        android:textStyle="bold" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:id="@+id/llbacklist"
+                    android:background="@color/colorPrimaryDark"
+                    >
+                    <TextView
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:drawablePadding="5dp"
+                        android:text="BACK TO LIST"
+                        android:textAppearance="@style/TextViewStyle.Medium"
+                        />
+
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </android.support.v7.widget.CardView>
 
 </LinearLayout>

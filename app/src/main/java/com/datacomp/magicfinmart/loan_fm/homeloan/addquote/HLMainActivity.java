@@ -51,6 +51,7 @@ public class HLMainActivity extends BaseActivity {
 
         if (getIntent().getParcelableExtra(HL_QuoteFragment.FROM_QUOTE) != null) {
             fmHomeLoanRequest = getIntent().getParcelableExtra(HL_QuoteFragment.FROM_QUOTE);
+          //  homeLoanRequestEntity = fmHomeLoanRequest.getHomeLoanRequest();
             Bundle bundle = new Bundle();
             bundle.putParcelable(HL_QUOTE_REQUEST, fmHomeLoanRequest);
             quoteBundle = bundle;

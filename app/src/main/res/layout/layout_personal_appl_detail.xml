@@ -22,7 +22,7 @@
 
             <EditText
                 android:id="@+id/etNameOfApplicant"
-                android:text="test"
+                android:text=""
                 style="@style/Style.edittext" />
         </android.support.design.widget.TextInputLayout>
 
@@ -40,32 +40,34 @@
                 android:text="Gender" />
 
             <LinearLayout
-
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="100">
+                <TextView
+                    android:id="@+id/txtrbimgMale"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/customeborder_blue"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Male"
+                    android:textColor="@color/colorPrimary" />
 
-                <RadioGroup
-                    android:id="@+id/rgGender"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:checkedButton="@+id/rbimgMale"
-                    android:gravity="left|center_vertical"
-                    android:orientation="horizontal">
+                <TextView
 
-                    <RadioButton
-                        android:id="@+id/rbimgMale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableRight="@drawable/male" />
-
-                    <RadioButton
-                        android:id="@+id/rbimgFemale"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableRight="@drawable/female" />
-                </RadioGroup>
+                    android:id="@+id/txtrbimgFemale"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/customeborder"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Female"
+                    android:textColor="@color/description_text" />
 
 
             </LinearLayout>
@@ -138,7 +140,7 @@
                 style="@style/Style.edittext"
                 android:digits="0123456789"
                 android:ems="10"
-                android:text="19200"
+                android:text=""
                 android:inputType="phone"
                 android:maxLength="7" />
         </android.support.design.widget.TextInputLayout>
@@ -177,7 +179,7 @@
             <EditText
                 android:id="@+id/etPAN"
                 style="@style/Style.edittext"
-                android:text="ANBPB9647L"
+                android:text=""
                 android:maxLength="10" />
         </android.support.design.widget.TextInputLayout>
 
@@ -194,8 +196,8 @@
                 style="@style/Style.edittext"
                 android:digits="0123456789"
                 android:inputType="phone"
-                android:text="500000"
-                android:maxLength="9" />
+                android:text=""
+                android:maxLength="10" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
@@ -211,7 +213,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="5dp">
 
         <TextView
             android:id="@+id/txtDispalayMinTenureYear"
@@ -231,7 +234,7 @@
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Small" />
 
         <TextView
-            android:id="@+id/txtTenureInYear"
+            android:id="@+id/etTenureInYear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
            android:layout_centerInParent="true"
@@ -246,9 +249,9 @@
         android:id="@+id/sbTenure"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+
         android:layout_centerVertical="true"
-        android:max="5"
+        android:max="4"
         android:progress="1"
         android:splitTrack="false"
         android:progressDrawable="@drawable/seekbar_style"

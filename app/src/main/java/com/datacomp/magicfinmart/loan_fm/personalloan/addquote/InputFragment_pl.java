@@ -3,7 +3,10 @@ package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,39 +25,30 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan.PersonalLoanController;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerApplicationEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
+
 
 /**
  * Created by Rajeev Ranjan on 24/01/2018.
  */
 
-public class PL_InputFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, SeekBar.OnSeekBarChangeListener {
+public class InputFragment_pl extends BaseFragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
 
     DBPersistanceController databaseController;
-    LoginResponseEntity loginEntity;
 
+    LoginResponseEntity loginEntity;
+    GetPersonalLoanResponse getPersonalLoanResponse;
     PersonalLoanRequest personalLoanRequest;
     FmPersonalLoanRequest fmPersonalLoanRequest;
-    CustomerEntity customerEntity;
-    CustomerApplicationEntity customerApplicationEntity;
-    GetPersonalLoanResponse getPersonalLoanResponse;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     Button btnGetQuote;
@@ -62,40 +56,46 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
 
     LinearLayout llSalaried, llSelfEmployeed;
 
-
-    RadioGroup rgGender;
-    RadioButton rbimgMale, rbimgFemale;
-
-    TextView txtTenureInYear;
+    TextView etTenureInYear,txtrbimgMale,txtrbimgFemale;
     TextView txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     SeekBar sbTenure;
     Context mContext;
+    String GenderApplicantSource = "M";
 
 
-    int seekBarTenureProgress = 1;
-
+    public InputFragment_pl() {
+        // Required empty public constructor
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_add_plquote, container, false);
-        initilize(view);
+        init_widgets(view);
         databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
         setListener();
+        setApp_Male_gender();
 
-        if (getActivity().getIntent().getBooleanExtra("IS_EDIT", false)) {
-            customerEntity = getActivity().getIntent().getParcelableExtra("CUST_DETAILS");
-            fillCustomerDetails(customerEntity);
-        }
-        if (getActivity().getIntent().getBooleanExtra("IS_APP_EDIT", false)) {
-            customerApplicationEntity = getActivity().getIntent().getParcelableExtra("CUST_APP_DETAILS");
-            fillCustomerApplicationDetails(customerApplicationEntity);
+        if (getArguments() != null) {
+            if (getArguments().getParcelable(PLMainActivity.PL_INPUT_REQUEST) != null) {
+                fmPersonalLoanRequest = getArguments().getParcelable(PLMainActivity.PL_INPUT_REQUEST);
+                personalLoanRequest = fmPersonalLoanRequest.getPersonalLoanRequest();
+                fillCustomerDetails();
+
+
+            }
+        } else {
+            fmPersonalLoanRequest = new FmPersonalLoanRequest();
+            fmPersonalLoanRequest.setFBA_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
+            fmPersonalLoanRequest.setLoan_requestID(0);
+            personalLoanRequest = new PersonalLoanRequest();
+            fmPersonalLoanRequest.setPersonalLoanRequest(personalLoanRequest);
         }
         return view;
     }
 
-    private void initilize(View view) {
+    private void init_widgets(View view) {
 
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
 
@@ -104,13 +104,13 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
         etPAN = (EditText) view.findViewById(R.id.etPAN);
         txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
         txtDispalayMaxTenureYear = (TextView) view.findViewById(R.id.txtDispalayMaxTenureYear);
-        txtTenureInYear = (TextView) view.findViewById(R.id.txtTenureInYear);
+        etTenureInYear = (TextView) view.findViewById(R.id.etTenureInYear);
 
 
         sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
-        sbTenure.setMax(5);
-        sbTenure.setProgress(1);
-        txtTenureInYear.setText("1");
+        sbTenure.setMax(4);
+        sbTenure.setProgress(0);
+        etTenureInYear.setText("1");
         //endregion
 
         //region Applicant Initialize
@@ -120,9 +120,9 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
         et_DOB = (EditText) view.findViewById(R.id.et_DOB);
         etMonthlyInc = (EditText) view.findViewById(R.id.etMonthlyInc);
         etEMI = (EditText) view.findViewById(R.id.etEMI);
-        rgGender = (RadioGroup) view.findViewById(R.id.rgGender);
-        rbimgMale = (RadioButton) view.findViewById(R.id.rbimgMale);
-        rbimgFemale = (RadioButton) view.findViewById(R.id.rbimgFemale);
+
+        txtrbimgMale = (TextView) view.findViewById(R.id.txtrbimgMale);
+        txtrbimgFemale = (TextView) view.findViewById(R.id.txtrbimgFemale);
 
         //endregion
 
@@ -150,11 +150,11 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
 
 
     private void setApplicantDetails() {
-        // region  HomeLoanRequest Binding
+        // region  PersonaalLoanRequest Binding
 
-        personalLoanRequest = new PersonalLoanRequest();
+        personalLoanRequest = fmPersonalLoanRequest.getPersonalLoanRequest();
         personalLoanRequest.setLoanRequired(etCostOfProp.getText().toString());
-        personalLoanRequest.setLoanTenure(txtTenureInYear.getText().toString());
+        personalLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
         personalLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString());
 
         // region Default Salaried
@@ -163,19 +163,9 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
 
         //endregion
 
-        // region comment
-//        if (personalLoanRequest.getApplicantSource() == "1") {
-//                personalLoanRequest.setApplicantIncome(etMonthlyInc.getText().toString());
-//        } else if (personalLoanRequest.getApplicantSource() == "2") {
-//            personalLoanRequest.setApplicantIncome(etTurnOver.getText().toString());
-//            //same in personal loan
-//
-//        }
-        //endregion
-
-        if (rbimgMale.isChecked()) {
+        if (personalLoanRequest.getApplicantGender()=="M") {
             personalLoanRequest.setApplicantGender("M");
-        } else {
+        } else  if (personalLoanRequest.getApplicantGender()=="F") {
             personalLoanRequest.setApplicantGender("F");
         }
 
@@ -188,49 +178,45 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
 
         personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
         personalLoanRequest.setBrokerId("" + loginEntity.getLoanId());
+       // personalLoanRequest.setLoaniD(Integer.parseInt(loginEntity.getLoanId()));
+
         personalLoanRequest.setEmpcode("");
         personalLoanRequest.setType("PSL");
         personalLoanRequest.setApi_source("Finmart");
+        personalLoanRequest.setQuote_id(fmPersonalLoanRequest.getPersonalLoanRequest().getQuote_id());
     }
 
-    private void fillCustomerApplicationDetails(CustomerApplicationEntity customerEntity) {
-        if (customerEntity.getLoanRequired() != null)
-            etCostOfProp.setText(customerEntity.getLoanRequired());
-        if (customerEntity.getLoanTenure() != null)
-            txtTenureInYear.setText(customerEntity.getLoanTenure());
-        if (customerEntity.getApplicantNme() != null)
-            etNameOfApplicant.setText(customerEntity.getApplicantNme());
-        /*if (customerEntity.getApplicantGender().equals("M")) {
-            rbimgMale.setSelected(true);
-        } else {
-            rbimgFemale.setSelected(true);
-        }*/
-        if (customerEntity.getApplicantDOB() != null)
-            et_DOB.setText(customerEntity.getApplicantDOB());
-        if (customerEntity.getApplicantIncome() != null)
-            etMonthlyInc.setText("" + customerEntity.getApplicantIncome());
 
 
-    }
+    private void fillCustomerDetails() {
 
-    private void fillCustomerDetails(CustomerEntity customerEntity) {
-        if (customerEntity.getLoanRequired() != null)
-            etCostOfProp.setText(customerEntity.getLoanRequired());
-        if (customerEntity.getLoanTenure() != null)
-            txtTenureInYear.setText(customerEntity.getLoanTenure());
-        if (customerEntity.getApplicantNme() != null)
-            etNameOfApplicant.setText(customerEntity.getApplicantNme());
-        /*if (customerEntity.getApplicantGender().equals("M")) {
-            rbimgMale.setSelected(true);
-        } else {
-            rbimgFemale.setSelected(true);
-        }*/
-        if (customerEntity.getApplicantDOB() != null)
-            et_DOB.setText(customerEntity.getApplicantDOB());
-        if (customerEntity.getApplicantIncome() != null)
-            etMonthlyInc.setText("" + customerEntity.getApplicantIncome());
+        Log.d("DETAILS", personalLoanRequest.toString());
+
+        try {
 
 
+        if (personalLoanRequest.getLoanRequired() != null)
+            etCostOfProp.setText(personalLoanRequest.getLoanRequired());
+        if (personalLoanRequest.getLoanTenure() != null)
+            etTenureInYear.setText(personalLoanRequest.getLoanTenure());
+        if (personalLoanRequest.getApplicantNme() != null)
+            etNameOfApplicant.setText(personalLoanRequest.getApplicantNme());
+
+
+            if (personalLoanRequest.getApplicantGender().matches("M")) {
+                setApp_Male_gender();
+            } else {
+                setApp_FeMale_gender();
+            }
+
+        if (personalLoanRequest.getApplicantDOB() != null)
+            et_DOB.setText(personalLoanRequest.getApplicantDOB());
+        if (personalLoanRequest.getApplicantIncome() != null)
+            etMonthlyInc.setText("" + personalLoanRequest.getApplicantIncome());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setListener() {
@@ -238,13 +224,23 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
         btnGetQuote.setOnClickListener(this);
         et_DOB.setOnClickListener(datePickerDialogApplicant);
 
+        txtrbimgMale.setOnClickListener(this);
+        txtrbimgFemale.setOnClickListener(this);
+
     }
 
 
     @Override
     public void onClick(View v) {
+        if (v.getId() == R.id.txtrbimgMale) {
 
-        if (v.getId() == R.id.btnGetQuote) {
+            setApp_Male_gender();
+        }
+        else if (v.getId() == R.id.txtrbimgFemale) {
+
+            setApp_FeMale_gender();
+        }
+        else if (v.getId() == R.id.btnGetQuote) {
             //region Validation
             String NameOfApplicant = etNameOfApplicant.getText().toString();
             String DOB = et_DOB.getText().toString();
@@ -292,11 +288,11 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
 
             }
 
-
             // endregion
             setApplicantDetails();
-            showDialog();
-            new PersonalLoanController(getActivity()).getPersonalLoan(personalLoanRequest, this);
+
+          //  new PersonalLoanController(getActivity()).getPersonalLoan(personalLoanRequest, this);
+            ((PLMainActivity) getActivity()).getQuoteParameterBundle(fmPersonalLoanRequest);
 
         }
 
@@ -308,15 +304,15 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
 
         switch (seekBar.getId()) {
             case R.id.sbTenure:
-                int MIN = 1;
+                int MIN = 0;
                 if (progress >= MIN) {
                     if (fromUser) {
                         // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
-                        txtTenureInYear.setText(String.valueOf(progress));
+                        etTenureInYear.setText(String.valueOf(progress+1));
                     }
                 } else {
                     sbTenure.setProgress(MIN);
-                    txtTenureInYear.setText(String.valueOf(MIN));
+                    etTenureInYear.setText(String.valueOf(MIN));
                 }
                 break;
 
@@ -334,47 +330,31 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
 
     }
 
+
+    private void setApp_Male_gender() {
+        GenderApplicantSource = "M";
+        txtrbimgMale.setBackgroundResource(R.drawable.customeborder_blue);
+        txtrbimgMale.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+        txtrbimgFemale.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgFemale.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+
+    }
+
+    private void setApp_FeMale_gender() {
+        GenderApplicantSource = "F";
+        txtrbimgFemale.setBackgroundResource(R.drawable.customeborder_blue);
+        txtrbimgFemale.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+        txtrbimgMale.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgMale.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+
+    }
+
     //endegion
 
-    @Override
-    public void OnSuccess(APIResponse response, String message) {
-
-        cancelDialog();
-        if (response instanceof GetPersonalLoanResponse) {
-            if (response.getStatus_Id() == 0) {
-
-                getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
-
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelable(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse);
-//                bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
-//                ((PLMainActivity) getActivity()).getQuoteParameterBundle(bundle);
-////
-                setFmPeronalLoanRequest(getPersonalLoanResponse.getQuote_id());
-
-            } else {
-                Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
-
-    private void setFmPeronalLoanRequest(int QuoteID)
-    {
-
-        showDialog();
-      //  personalLoanRequest = new PersonalLoanRequest();
-        personalLoanRequest.setQuote_id(QuoteID);
-
-        fmPersonalLoanRequest = new FmPersonalLoanRequest();
-        fmPersonalLoanRequest.setLoan_requestID(fmPersonalLoanRequest.getLoan_requestID());
-        fmPersonalLoanRequest.setFBA_id(loginEntity.getFBAId());
-        fmPersonalLoanRequest.setPersonalLoanRequest(personalLoanRequest);
-
-
-
-        new MainLoanController(getActivity()).savePLQuoteData(fmPersonalLoanRequest, this);
-
-    }
 
     @Override
     public void onAttach(Context context) {
@@ -382,30 +362,6 @@ public class PL_InputFragment extends BaseFragment implements View.OnClickListen
         mContext = context;
     }
 
-
-
-    @Override
-    public void OnSuccessFM(APIResponseFM response, String message) {
-
-        cancelDialog();
-        if (response instanceof FmSaveQuotePersonalLoanResponse) {
-            if (response.getStatusNo() == 0) {
-                Toast.makeText(getActivity(), "Fm Saved", Toast.LENGTH_SHORT).show();
-
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.PERSONAL_LOAN_QUOTES, getPersonalLoanResponse);
-                bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
-                ((PLMainActivity) getActivity()).getQuoteParameterBundle(bundle);
-            }
-        }
-    }
-
-    @Override
-    public void OnFailure(Throwable t) {
-        cancelDialog();
-          Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
-    }
 
 
 }
