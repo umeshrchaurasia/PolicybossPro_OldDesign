@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCasesResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
@@ -28,7 +29,7 @@ public class PendingCasesRequestBuilder extends FinmartRetroRequestBuilder {
         Call<PendingCasesResponse> getPendingCases(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/api/pending-cases")
-        Call<PendingCasesResponse> deletePendingCase(@Body HashMap<String, String> body);
+        @POST("/api/delete-pending-cases")
+        Call<PendingCaseDeleteResponse> deletePendingCase(@Body HashMap<String, String> body);
     }
 }

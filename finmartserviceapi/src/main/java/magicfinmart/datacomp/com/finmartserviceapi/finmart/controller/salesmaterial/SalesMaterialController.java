@@ -1,4 +1,4 @@
-package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.pendingcases;
+package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial;
 
 import android.content.Context;
 
@@ -8,17 +8,12 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.IHealth;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.HealthRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.pendingcases.IPendingCases;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.PendingCasesRequestBuilder;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseDeleteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.SalesMaterialRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCasesResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,24 +22,23 @@ import retrofit2.Response;
  * Created by Nilesh Birhade on 09/02/2018.
  */
 
-public class PendingController implements IPendingCases {
+public class SalesMaterialController implements ISalesMaterial {
 
-    PendingCasesRequestBuilder.PendingNetworkService pendingNetworkService;
+    SalesMaterialRequestBuilder.SalesMaterialNetworkService salesMaterialNetworkService;
     Context mContext;
 
-    public PendingController(Context context) {
-        pendingNetworkService = new PendingCasesRequestBuilder().getService();
+    public SalesMaterialController(Context context) {
+        salesMaterialNetworkService = new SalesMaterialRequestBuilder().getService();
         mContext = context;
     }
 
 
     @Override
-    public void getPendingCases(String fbaID, final IResponseSubcriber iResponseSubcriber) {
-        HashMap<String, String> body = new HashMap<String, String>();
-        body.put("FBAID", fbaID);
-        pendingNetworkService.getPendingCases(body).enqueue(new Callback<PendingCasesResponse>() {
+    public void getSalesProducts(final IResponseSubcriber iResponseSubcriber) {
+        salesMaterialNetworkService.getSalesProducts().enqueue(new Callback<SalesMaterialProductResponse>() {
             @Override
-            public void onResponse(Call<PendingCasesResponse> call, Response<PendingCasesResponse> response) {
+            public void onResponse(Call<SalesMaterialProductResponse> call, Response<SalesMaterialProductResponse> response) {
+
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
 
@@ -55,10 +49,12 @@ public class PendingController implements IPendingCases {
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
                 }
+
             }
 
             @Override
-            public void onFailure(Call<PendingCasesResponse> call, Throwable t) {
+            public void onFailure(Call<SalesMaterialProductResponse> call, Throwable t) {
+
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {
@@ -70,19 +66,20 @@ public class PendingController implements IPendingCases {
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                 }
+
             }
         });
     }
 
     @Override
-    public void deletePending(String quoteType, int pendingID, final IResponseSubcriber iResponseSubcriber) {
-        HashMap<String, String> body = new HashMap<String, String>();
-        body.put("quotetype", quoteType);
-        body.put("id", String.valueOf(pendingID));
+    public void getProductPromotions(int productID, final IResponseSubcriber iResponseSubcriber) {
 
-        pendingNetworkService.deletePendingCase(body).enqueue(new Callback<PendingCaseDeleteResponse>() {
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("product_id", String.valueOf(productID));
+
+        salesMaterialNetworkService.getProductPromotions(body).enqueue(new Callback<SalesPromotionResponse>() {
             @Override
-            public void onResponse(Call<PendingCaseDeleteResponse> call, Response<PendingCaseDeleteResponse> response) {
+            public void onResponse(Call<SalesPromotionResponse> call, Response<SalesPromotionResponse> response) {
 
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
@@ -98,7 +95,8 @@ public class PendingController implements IPendingCases {
             }
 
             @Override
-            public void onFailure(Call<PendingCaseDeleteResponse> call, Throwable t) {
+            public void onFailure(Call<SalesPromotionResponse> call, Throwable t) {
+
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {
@@ -110,7 +108,9 @@ public class PendingController implements IPendingCases {
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                 }
+
             }
         });
+
     }
 }
