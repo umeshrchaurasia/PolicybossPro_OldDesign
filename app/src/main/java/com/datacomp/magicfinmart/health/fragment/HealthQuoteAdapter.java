@@ -7,21 +7,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.SortbyInsurer;
 
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
-public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.ViewHolder> {
+public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.ViewHolder> implements View.OnClickListener {
 
 
+    public static final String HIDE_OPTIONS = "Hide Options";
     private LayoutInflater mInflater;
     Fragment mContext;
     List<HealthQuoteEntity> listHealthQuotes;
@@ -47,14 +52,8 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-        HealthQuoteEntity entity = listHealthQuotes.get(position);
+        final HealthQuoteEntity entity = listHealthQuotes.get(position);
 
-        if (position == 2 || position == 5 || position == 7) {
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT);
-            params.height = 0;
-            holder.cvHealthQuote.setLayoutParams(params);
-        }
         if (entity.getQuoteStatus().equals("Success")) {
             holder.txtSumAssured.setText("" + entity.getSumInsured());
             holder.txtDeductible.setText("" + entity.getDeductible_Amount());
@@ -62,10 +61,46 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             holder.txtFinalPremium.setText("\u20B9 " + Math.round(entity.getNetPremium()) + " /Year");
 
             holder.imgInsurer.setImageResource(new DBPersistanceController(mContext.getActivity()).getInsurerImage(entity.getInsurerId()));
+            holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
+            holder.chkCompare.setTag(R.id.chkCompare, entity);
+            holder.txtBuy.setTag(R.id.txtBuy, entity);
 
+            holder.txtBuy.setOnClickListener(this);
+
+            if (entity.isCompare()) {
+                holder.chkCompare.setChecked(true);
+            } else {
+                holder.chkCompare.setChecked(false);
+            }
+
+            holder.chkCompare.setOnCheckedChangeListener(checkedChangeListener);
+
+            if (!entity.getIsMore() && entity.getTotalChilds() > 0) {
+                holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " \nMore"));
+                holder.imgDropDown.setVisibility(View.VISIBLE);
+                holder.txtNoOfInsurer.setOnClickListener(this);
+            } else if (!entity.getIsMore() && entity.getTotalChilds() == 0) {
+                holder.txtNoOfInsurer.setText("");
+                holder.imgDropDown.setVisibility(View.GONE);
+                holder.txtNoOfInsurer.setOnClickListener(null);
+            } else {
+                holder.txtNoOfInsurer.setText(HIDE_OPTIONS);
+                holder.imgDropDown.setVisibility(View.VISIBLE);
+                holder.txtNoOfInsurer.setOnClickListener(this);
+            }
         }
 
     }
+
+    CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+            HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
+            entity.setCompare(b);
+            ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+        }
+    };
 
     // total number of cells
     @Override
@@ -79,7 +114,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         TextView txtSumAssured, txtDeductible, txtPlanName, txtFinalPremium, txtBuy;
         TextView txtRoomRent, txtIcuRent, txtPreHosp, txtPostHosp, txtNoOfInsurer;
         CheckBox chkCompare;
-        ImageView imgInsurer;
+        ImageView imgInsurer, imgDropDown;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -97,8 +132,61 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
             chkCompare = (CheckBox) itemView.findViewById(R.id.chkCompare);
             imgInsurer = (ImageView) itemView.findViewById(R.id.imgInsurer);
+            imgDropDown = (ImageView) itemView.findViewById(R.id.imgDropDown);
         }
     }
 
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.txtNoOfInsurer:
 
+                if (((TextView) view).getText() != HIDE_OPTIONS) {
+                    ((HealthQuoteFragment) mContext).addMoreQuote(((HealthQuoteEntity) view.getTag(R.id.txtNoOfInsurer)).getInsurerId());
+                    ((HealthQuoteEntity) view.getTag(R.id.txtNoOfInsurer)).setIsMore(true);
+                    ((TextView) view).setText(HIDE_OPTIONS);
+
+                } else {
+
+                    ((TextView) view).setText(" + \n" + String.valueOf(((HealthQuoteEntity) view.getTag(R.id.txtNoOfInsurer)).getTotalChilds() + " \nMore"));
+                    ((HealthQuoteEntity) view.getTag(R.id.txtNoOfInsurer)).setIsMore(false);
+                    //remove all added insurer + check no of childs
+                    removeInsurer(((HealthQuoteEntity) view.getTag(R.id.txtNoOfInsurer)));
+                }
+                break;
+
+            case R.id.txtBuy:
+                ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+                break;
+        }
+    }
+
+    public void refreshNewQuote(List<HealthQuoteEntity> list) {
+        listHealthQuotes.addAll(list);
+        Collections.sort(listHealthQuotes, new SortbyInsurer());
+        Collections.reverse(listHealthQuotes);
+        notifyDataSetChanged();
+    }
+
+    public void removeRefresh(List<HealthQuoteEntity> list) {
+        listHealthQuotes = list;
+        Collections.sort(listHealthQuotes, new SortbyInsurer());
+        Collections.reverse(listHealthQuotes);
+        notifyDataSetChanged();
+    }
+
+    private void removeInsurer(HealthQuoteEntity entity) {
+
+        List<HealthQuoteEntity> list = listHealthQuotes;
+        for (Iterator<HealthQuoteEntity> iter = list.listIterator(); iter.hasNext(); ) {
+            HealthQuoteEntity a = iter.next();
+            if (a.getInsurerId() == entity.getInsurerId()) {
+                if (a.getTotalChilds() == 0) {
+                    iter.remove();
+                }
+            }
+        }
+
+        removeRefresh(list);
+    }
 }

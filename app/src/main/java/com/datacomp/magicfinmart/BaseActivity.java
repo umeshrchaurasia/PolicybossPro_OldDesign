@@ -6,6 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import io.realm.Realm;
 
 /**
@@ -64,5 +67,17 @@ public class BaseActivity extends AppCompatActivity {
     public static boolean isEmpty(EditText editText) {
         String text = editText.getText().toString().trim();
         return !(text.isEmpty());
+    }
+
+    public static boolean isValidPan(EditText editText) {
+        String panNo = "[A-Z]{5}[0-9]{4}[A-Z]{1}";
+        String panNoAlter = editText.getText().toString().toUpperCase();
+        return !(panNoAlter.isEmpty() || !panNoAlter.matches(panNo));
+    }
+
+    public static boolean isValidAadhar(EditText editText) {
+        String aadharPattern = "[0-9]{12}";
+        String aadharNo = editText.getText().toString().toUpperCase();
+        return !(aadharNo.isEmpty() || !aadharNo.matches(aadharPattern));
     }
 }

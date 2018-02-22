@@ -136,6 +136,6 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     public void redirectToInput() {
         quoteBundle = new Bundle();
         quoteBundle.putParcelable(INPUT_DATA, healthQuote);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
     }
 }

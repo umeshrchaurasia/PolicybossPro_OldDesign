@@ -45,13 +45,33 @@ public class HealthQuoteEntity {
     private String KeyFeatures;
     private String BroucherDownloadLink;
     private int Discount;
-    private int GrossPremium;
+    private double GrossPremium;
     private String DiscountPercent;
     private String Premium;
     private String Group_name;
-    private int Deductible_Amount;
+    private double Deductible_Amount;
     private String QuoteStatus;
     private String ProposerPageUrl;
+
+    //for compare check
+    private boolean isCompare;
+    private boolean isMore;
+
+    public boolean getIsMore() {
+        return isMore;
+    }
+
+    public void setIsMore(boolean isMore) {
+        this.isMore = isMore;
+    }
+
+    public boolean isCompare() {
+        return isCompare;
+    }
+
+    public void setCompare(boolean compare) {
+        isCompare = compare;
+    }
 
     //to show no of childs count
     private int totalChilds;
@@ -200,11 +220,11 @@ public class HealthQuoteEntity {
         this.Discount = Discount;
     }
 
-    public int getGrossPremium() {
+    public double getGrossPremium() {
         return GrossPremium;
     }
 
-    public void setGrossPremium(int GrossPremium) {
+    public void setGrossPremium(double GrossPremium) {
         this.GrossPremium = GrossPremium;
     }
 
@@ -232,11 +252,11 @@ public class HealthQuoteEntity {
         this.Group_name = Group_name;
     }
 
-    public int getDeductible_Amount() {
+    public double getDeductible_Amount() {
         return Deductible_Amount;
     }
 
-    public void setDeductible_Amount(int Deductible_Amount) {
+    public void setDeductible_Amount(double Deductible_Amount) {
         this.Deductible_Amount = Deductible_Amount;
     }
 

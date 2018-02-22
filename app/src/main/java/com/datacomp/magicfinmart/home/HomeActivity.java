@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
+import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
@@ -94,6 +95,9 @@ public class HomeActivity extends BaseActivity {
                         // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
                         break;
                     }
+                    case R.id.nav_homeloanApplication:
+                        startActivity(new Intent(HomeActivity.this, HomeLoanApplicationActivity.class));
+                        break;
                     case R.id.nav_logout:
                         new DBPersistanceController(HomeActivity.this).logout();
                         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);

@@ -315,16 +315,17 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
             }
         }
         spFuel.setSelection(fuelIndex);
-
-        int prevInsurerIndex = 0;
-        String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
-        for (int i = 0; i < prevInsurerList.size(); i++) {
-            if (prevInsurerList.get(i).matches(insName)) {
-                prevInsurerIndex = i;
-                break;
+        if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
+            int prevInsurerIndex = 0;
+            String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
+            for (int i = 0; i < prevInsurerList.size(); i++) {
+                if (prevInsurerList.get(i).matches(insName)) {
+                    prevInsurerIndex = i;
+                    break;
+                }
             }
+            spPrevIns.setSelection(prevInsurerIndex);
         }
-        spPrevIns.setSelection(prevInsurerIndex);
 
 
         //endregion
@@ -510,6 +511,8 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (fastLaneResponseEntity == null && spVarient.getSelectedItemPosition() != 0) {
                     etCC.setText("" + dbController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
+                    varientId = dbController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+                    motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 }
 
             }
