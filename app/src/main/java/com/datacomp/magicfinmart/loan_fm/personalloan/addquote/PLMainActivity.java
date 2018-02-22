@@ -12,19 +12,30 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
+import com.datacomp.magicfinmart.loan_fm.personalloan.quote.PL_QuoteFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 
 public class PLMainActivity extends BaseActivity  {
 
-    private static String INPUT_FRAGMENT = "input";
-    private static String QUOTE_FRAGMENT = "quote";
-    private static String BUY_FRAGMENT = "buy";
+    private static String INPUT_FRAGMENT_PL = "inputpl";
+    private static String QUOTE_FRAGMENT_PL = "quotepl";
+    private static String BUY_FRAGMENT_PL = "buypl";
+
+    public static String PL_INPUT_REQUEST = "input_request_entitypl";
+    public static String PL_QUOTE_REQUEST = "quote_request_entitypl";
+
     BottomNavigationView bottomNavigationView;
     Bundle quoteBundle;
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
+
+    FmPersonalLoanRequest fmPersonalLoanRequest;
+
+    boolean isQuoteVisible = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +47,23 @@ public class PLMainActivity extends BaseActivity  {
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        if (getIntent().getParcelableExtra(PL_QuoteFragment.FROM_QUOTEPL) != null) {
+            fmPersonalLoanRequest = getIntent().getParcelableExtra(PL_QuoteFragment.FROM_QUOTEPL);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(PL_QUOTE_REQUEST, fmPersonalLoanRequest);
+            quoteBundle = bundle;
+
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+
+        } else {
+            //first input fragment load
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        }
+
+        quoteBundle = null;
+
     }
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -46,109 +72,46 @@ public class PLMainActivity extends BaseActivity  {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("INPUT");
+
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT_PL);
+
+                    if (fmPersonalLoanRequest != null) {
+                        quoteBundle = new Bundle();
+                        quoteBundle.putParcelable(PLMainActivity.PL_INPUT_REQUEST, fmPersonalLoanRequest);
+
+                    }
                     if (tabFragment != null) {
-                        loadFragment(tabFragment, INPUT_FRAGMENT);
+                        tabFragment.setArguments(quoteBundle);
+                        loadFragment(tabFragment, INPUT_FRAGMENT_PL);
 
                     } else {
-                        loadFragment(new PL_InputFragment(), INPUT_FRAGMENT);
+                        InputFragment_pl inputFragment = new InputFragment_pl();
+                        inputFragment.setArguments(quoteBundle);
+                        loadFragment(inputFragment, INPUT_FRAGMENT_PL);
                     }
+
                     return true;
 
-//                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                        transaction.replace(R.id.frame_layout, tabFragment, "INPUT");
-//                        transaction.addToBackStack("INPUT");
-//                        transaction.show(tabFragment);
-//                        //   transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction.commit();
-
-
-
-//
-//                    } else {
-//                        PL_InputFragment PLInputFragment = new PL_InputFragment();
-//                        FragmentTransaction transaction_imm = getSupportFragmentManager().beginTransaction();
-//                        transaction_imm.replace(R.id.frame_layout, PLInputFragment, "INPUT");
-//                        transaction_imm.addToBackStack("INPUT");
-//                        transaction_imm.show(PLInputFragment);
-//                        //   transaction_imm.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction_imm.commit();
-//
-//                    }
-//                    item.setCheckable(true);
-//                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
-//                    bottomNavigationView.getMenu().getItem(2).setCheckable(false);
-//                    return true;
                 case R.id.navigation_quote:
 
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("QUOTE");
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT_PL);
                     if (tabFragment != null) {
-                        loadFragment(tabFragment, QUOTE_FRAGMENT);
+                        loadFragment(tabFragment, QUOTE_FRAGMENT_PL);
 
                     } else {
                         if (quoteBundle != null) {
-                            PL_QuoteFragment quoteFragment = new PL_QuoteFragment();
+                            QuoteFragment_pl quoteFragment = new QuoteFragment_pl();
                             quoteFragment.setArguments(quoteBundle);
-                            loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                            loadFragment(quoteFragment, QUOTE_FRAGMENT_PL);
                         } else {
 
                             Toast.makeText(PLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
                     }
-
                     return true;
-//                    if (tabFragment != null) {
 //
-//                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-//                        transaction.replace(R.id.frame_layout, tabFragment, "QUOTE");
-//                        transaction.addToBackStack("QUOTE");
-//                        transaction.show(tabFragment);
-//                        // transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction.commitAllowingStateLoss();
-//
-//                    } else {
-//                        PL_QuoteFragment quoteFragment = new PL_QuoteFragment();
-//                        FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
-//                        transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-//                        transaction_quote.addToBackStack("QUOTE");
-//                        transaction_quote.show(quoteFragment);
-//                        //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction_quote.commitAllowingStateLoss();
-//
-//
-//                    }
-//                    item.setCheckable(true);
-//                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-//                    bottomNavigationView.getMenu().getItem(2).setCheckable(false);
-//                    return true;
                 case R.id.navigation_buy:
 
-                    //region comment
-//                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
-//                    if (tabFragment != null) {
-//
-//                        FragmentTransaction transaction = getSupportFragmentManager()
-//                                .beginTransaction();
-//                        transaction.show(tabFragment);
-//                        //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction.addToBackStack("BUY");
-//                        transaction.commitAllowingStateLoss();
-//
-//                    } else {
-//                        BuyFragment buyFragment = new BuyFragment();
-//                        FragmentTransaction transaction_buy = getSupportFragmentManager().beginTransaction();
-//                        transaction_buy.replace(R.id.frame_layout, buyFragment, "BUY");
-//                        transaction_buy.addToBackStack("BUY");
-//                        transaction_buy.show(buyFragment);
-//                        //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction_buy.commitAllowingStateLoss();
-//
-//
-//                    }
-//                    item.setCheckable(true);
-//                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-//                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
-                    //endregion
 
                     return false;
             }
@@ -177,32 +140,69 @@ public class PLMainActivity extends BaseActivity  {
         }
     }
 
-    public void setQuoteCheck()
-    {
-        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-        bottomNavigationView.getMenu().getItem(1).setCheckable(true);
-        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
-    public void getQuoteParameterBundle(Bundle bundle) {
 
-        quoteBundle = bundle;
-        if (bundle == null)
+    public void redirectInput(FmPersonalLoanRequest entity) {
+        if (isQuoteVisible) {
+            fmPersonalLoanRequest = entity;
+            quoteBundle = new Bundle();
+            quoteBundle.putParcelable(PLMainActivity.PL_INPUT_REQUEST, fmPersonalLoanRequest);
+
+            if (fmPersonalLoanRequest == null)
+                Toast.makeText(PLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+            else
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            Toast.makeText(PLMainActivity.this, "Fetching all quotes", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+//    public void redirectToApplyLoan(PersonalQuoteEntity entity,String url, int id) {
+//        startActivity(new Intent(PLMainActivity.this, PersonalLoanApplyWebView.class)
+//                .putExtra("PL", entity)
+//                .putExtra("PL_URL", url)
+//                .putExtra("PL_QUOTE_ID", id));
+//    }
+
+
+    public void getQuoteParameterBundle(FmPersonalLoanRequest entity) {
+
+        fmPersonalLoanRequest = entity;
+        quoteBundle = new Bundle();
+        quoteBundle.putParcelable(PLMainActivity.PL_QUOTE_REQUEST, fmPersonalLoanRequest);
+
+        if (fmPersonalLoanRequest == null)
             Toast.makeText(PLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
         else
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
 
     }
 
-
-    public void redirectToApplyLoan(PersonalQuoteEntity entity,String url, int id) {
-        startActivity(new Intent(PLMainActivity.this, PersonalLoanApplyWebView.class)
-                .putExtra("PL", entity)
-                .putExtra("PL_URL", url)
-                .putExtra("PL_QUOTE_ID", id));
+    public void updateRequest(FmPersonalLoanRequest entity, boolean isQuoteVisible) {
+        fmPersonalLoanRequest = entity;
+        this.isQuoteVisible = isQuoteVisible;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (isQuoteVisible) {
+                    finish();
+                    return true;
+                } else {
+                    Toast.makeText(PLMainActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
 
-
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     // Implementation the Interface for Communication of Fragment Input and Quote
 

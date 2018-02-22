@@ -55,6 +55,9 @@ public class QuoteEntity implements Parcelable {
     private double loan_eligible;
 
     private double emi;
+
+
+    private boolean iskeyvisible;
     private List<FixedRateofInterestEntity> fixed_roi;
     /**
      * loan_eligible : 1181407.80
@@ -273,6 +276,21 @@ public class QuoteEntity implements Parcelable {
     }
 
 
+    public boolean isIskeyvisible() {
+        return iskeyvisible;
+    }
+
+    public void setIskeyvisible(boolean iskeyvisible) {
+        this.iskeyvisible = iskeyvisible;
+    }
+
+
+
+    public QuoteEntity() {
+        iskeyvisible=false;
+    }
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -301,11 +319,9 @@ public class QuoteEntity implements Parcelable {
         dest.writeInt(this.Profession);
         dest.writeDouble(this.loan_eligible);
         dest.writeDouble(this.emi);
+        dest.writeByte(this.iskeyvisible ? (byte) 1 : (byte) 0);
         dest.writeTypedList(this.fixed_roi);
         dest.writeString(this.roi_type);
-    }
-
-    public QuoteEntity() {
     }
 
     protected QuoteEntity(Parcel in) {
@@ -330,6 +346,7 @@ public class QuoteEntity implements Parcelable {
         this.Profession = in.readInt();
         this.loan_eligible = in.readDouble();
         this.emi = in.readDouble();
+        this.iskeyvisible = in.readByte() != 0;
         this.fixed_roi = in.createTypedArrayList(FixedRateofInterestEntity.CREATOR);
         this.roi_type = in.readString();
     }

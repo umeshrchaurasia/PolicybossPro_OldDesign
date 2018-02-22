@@ -16,6 +16,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
 import java.util.List;
@@ -68,6 +69,7 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
             holder.txtloanamount.setText(""+String.valueOf(entity.getHomeLoanRequest().getPropertyCost()));
 
 
+
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -75,12 +77,15 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
                 }
             });
 
-//            try {
-//                holder.imgbankLogo.setImageResource(
-//                        new DBPersistanceController(fragment.getContext()).getInsurerImage(Integer.parseInt(entity.getMotorRequestEntity().getPrev_insurer_id())));
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
+            try {
+                Glide.with(fragment)
+                        .load(entity.getHomeLoanRequest().getbank_image())
+                        .into(holder.imgbankLogo);
+                //change Fresco
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
     private void openPopUp(View v, final FmHomeLoanRequest entity) {

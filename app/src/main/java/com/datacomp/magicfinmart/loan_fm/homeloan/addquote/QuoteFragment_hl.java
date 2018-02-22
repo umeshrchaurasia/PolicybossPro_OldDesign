@@ -21,6 +21,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplyWebView;
 import com.datacomp.magicfinmart.utility.Constants;
 
+import java.util.List;
+
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
@@ -29,8 +31,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BankForNodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 
@@ -43,6 +47,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
 
     GetQuoteResponse getQuoteResponse;
+
     HomeLoanRequest homeLoanRequest;
     RecyclerView rvQuotes;
     HLQuoteAdapter mAdapter;
@@ -55,6 +60,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
     FmHomeLoanRequest fmHomeLoanRequest;
     int LoanRequireID = 0;
+    BankSaveRequest bankSaveRequest;
 
     public QuoteFragment_hl() {
         // Required empty public constructor
@@ -80,13 +86,8 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         return view;
     }
 
-    public void redirectToApplyLoan(QuoteEntity entity) {
-
-//        startActivity(new Intent(this, HomeLoanApplyActivity.class)
-//                .putExtra("QUOTE_ENTITY", entity)
-//                .putExtra("URL", getQuoteResponse.getUrl())
-//                .putExtra("QUOTE_ID", getQuoteResponse.getQuote_id())
-//        );
+    public void redirectToApplyBank(QuoteEntity entity) {
+        setFmBankRequest(entity);
     }
 
     private void initialise_widget(View view) {
@@ -214,11 +215,28 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
         showDialog();
 
-       // fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
-     //   fmHomeLoanRequest.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
+        // fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
+        //   fmHomeLoanRequest.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
         homeLoanRequest.setQuote_id(QuoteID);
         fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
         new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
+
+    }
+
+    private void setFmBankRequest(QuoteEntity entity) {
+
+
+        try{
+            bankSaveRequest = new BankSaveRequest();
+            bankSaveRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
+            bankSaveRequest.setBank_id((entity.getBank_Id()));
+            bankSaveRequest.setType("HML");
+            new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
 
     }
 
@@ -232,6 +250,11 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
                 ((HLMainActivity) getActivity()).updateRequest(fmHomeLoanRequest, true);
 
             }
+        }else if(response instanceof BankForNodeResponse)
+        {
+            if (response.getStatusNo() == 0) {
+                ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+            }
         }
     }
 
@@ -242,6 +265,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             if (response.getStatus_Id() == 0) {
 
                 getQuoteResponse = ((GetQuoteResponse) response);
+
                 bindQuotes();
                 setFmHomeLoanRequest(getQuoteResponse.getQuote_id());
 

@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestbuilder;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
@@ -53,6 +54,11 @@ public class LoanMainRequestBuilder extends FinmartRetroRequestBuilder {
         Call<FmSaveQuotePersonalLoanResponse> savePLQuote(@Body FmPersonalLoanRequest fmPersonalLoanRequest);
 
         //endregion
+
+        //bank save
+        @Headers("token:1234567890")
+        @POST("/api/update-bank-id")
+        Call<FmSaveQuotePersonalLoanResponse> savebankFbABuy(@Body BankSaveRequest bankSaveRequest);
     }
 
 }

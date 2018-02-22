@@ -36,10 +36,6 @@ public class PersonalQuoteEntity implements Parcelable {
     private String Product_Id;
     private String roi;
     private double loan_eligible;
-
-
-
-
     private double processingfee;
     private double emi;
     private int LoanTenure;
@@ -55,15 +51,12 @@ public class PersonalQuoteEntity implements Parcelable {
     private String Part_Pmt_Fixed;
     private int Profession;
     private String roi_type;
+    private boolean iskeyvisible;
 
-
-    public String getRoi_type() {
-        return roi_type;
+    public PersonalQuoteEntity() {
+        iskeyvisible=false;
     }
 
-    public void setRoi_type(String roi_type) {
-        this.roi_type = roi_type;
-    }
 
     public int getBank_Id() {
         return Bank_Id;
@@ -226,6 +219,21 @@ public class PersonalQuoteEntity implements Parcelable {
         this.Profession = Profession;
     }
 
+    public String getRoi_type() {
+        return roi_type;
+    }
+
+    public void setRoi_type(String roi_type) {
+        this.roi_type = roi_type;
+    }
+    public boolean isIskeyvisible() {
+        return iskeyvisible;
+    }
+
+    public void setIskeyvisible(boolean iskeyvisible) {
+        this.iskeyvisible = iskeyvisible;
+    }
+
 
     @Override
     public int describeContents() {
@@ -255,10 +263,10 @@ public class PersonalQuoteEntity implements Parcelable {
         dest.writeString(this.Part_Pmt_Fixed);
         dest.writeInt(this.Profession);
         dest.writeString(this.roi_type);
+        dest.writeByte(this.iskeyvisible ? (byte) 1 : (byte) 0);
     }
 
-    public PersonalQuoteEntity() {
-    }
+
 
     protected PersonalQuoteEntity(Parcel in) {
         this.Bank_Id = in.readInt();
@@ -282,6 +290,7 @@ public class PersonalQuoteEntity implements Parcelable {
         this.Part_Pmt_Fixed = in.readString();
         this.Profession = in.readInt();
         this.roi_type = in.readString();
+        this.iskeyvisible = in.readByte() != 0;
     }
 
     public static final Parcelable.Creator<PersonalQuoteEntity> CREATOR = new Parcelable.Creator<PersonalQuoteEntity>() {
