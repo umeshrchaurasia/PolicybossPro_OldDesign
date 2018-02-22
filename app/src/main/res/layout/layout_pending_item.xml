@@ -29,13 +29,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Customer name"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textSize="11sp" />
 
             <TextView
+                android:id="@+id/txtCustName"
                 style="@style/TextStyle.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Test"
+                android:lines="2"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -53,14 +55,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Category"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/txtCategory"
                 style="@style/TextStyle.Body1"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Health insurance"
+                android:layout_height="32dp"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
 
@@ -70,14 +72,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Type"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/txtType"
                 style="@style/TextStyle.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Q"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -95,12 +97,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="App status"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textSize="11sp" />
 
             <ImageView
                 android:id="@+id/imgStatus"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="32dp" />
 
             <TextView
                 style="@style/TextStyle.Body1"
@@ -108,14 +111,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:text="Pending days"
-                android:textAllCaps="true" />
+                android:textAllCaps="true"
+                android:textSize="11sp" />
 
             <TextView
                 android:id="@+id/txtPendingDays"
                 style="@style/TextStyle.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Q"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -130,10 +133,9 @@
 
             <TextView
                 android:id="@+id/txtOverflowMenu"
-                android:layout_width="24dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="right"
-
+                android:gravity="center"
                 android:text="@string/threedots"
                 android:textAppearance="@style/TextStyle.Title"
                 android:textStyle="bold" />

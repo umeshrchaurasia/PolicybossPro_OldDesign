@@ -11,5 +11,5 @@ public interface IPendingCases {
 
     void getPendingCases(String fbaID, IResponseSubcriber iResponseSubcriber);
 
-    void deletePending(int pendingID, IResponseSubcriber iResponseSubcriber);
+    void deletePending(String quoteType, int pendingID, IResponseSubcriber iResponseSubcriber);
 }

@@ -39,13 +39,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanR
 public class BLQuoteFragment extends Fragment {
 
     RecyclerView rvBLQuotes;
-    TextView txtAppName , txtLoanAmnt ,txtLoanTenure,txtInputSummry,txtCount ;
+    TextView txtAppName, txtLoanAmnt, txtLoanTenure, txtInputSummry, txtCount;
     BLQuoteAdapter mAdapter;
     List<BLEntity> BlListdata;
     List<BLSavingEntity> BlsavingEntity;
     CardView cvInputSummary;
     BLLoanRequest blLoanRequest;
-
 
 
     @Override
@@ -74,212 +73,35 @@ public class BLQuoteFragment extends Fragment {
 
         if (bundle != null) {
             BlListdata = bundle.getParcelableArrayList(Constants.BL_LOAN_QUOTES);
-          //  BlsavingEntity = bundle.getParcelableArrayList(Constants.BL_LOAN_SERVICE);
-            blLoanRequest =  bundle.getParcelable(Constants.BL_REQUEST);
+            //  BlsavingEntity = bundle.getParcelableArrayList(Constants.BL_LOAN_SERVICE);
+            blLoanRequest = bundle.getParcelable(Constants.BL_REQUEST);
             if (BlListdata != null) {
                 txtInputSummry.setVisibility(View.VISIBLE);
                 cvInputSummary.setVisibility(View.VISIBLE);
 
-                mAdapter = new BLQuoteAdapter(getActivity(), BlListdata,blLoanRequest);
+                mAdapter = new BLQuoteAdapter(getActivity(), BlListdata, blLoanRequest);
                 rvBLQuotes.setAdapter(mAdapter);
 
-                if(BlListdata.size() >0)
-                {
-                    txtCount.setText(""+BlListdata.size() + "Results from www.rupeeboss.com" );
+                if (BlListdata.size() > 0) {
+                    txtCount.setText("" + BlListdata.size() + "Results from www.rupeeboss.com");
                     txtCount.setVisibility(View.VISIBLE);
-                }else{
+                } else {
                     txtCount.setText("");
                     txtCount.setVisibility(View.GONE);
                 }
 
-                if(blLoanRequest != null)
-                {
-                //    txtAppName.setText(""+blLoanRequest.getApplicantNme().toUpperCase() );
-                    txtLoanAmnt.setText(""+blLoanRequest.getLoanamount() );
-                    txtLoanTenure.setText(""+blLoanRequest.getLoanterm() );
-                    txtAppName.setText(""+blLoanRequest.getApplicantName() );
-;
+                if (blLoanRequest != null) {
+                    //    txtAppName.setText(""+blLoanRequest.getApplicantNme().toUpperCase() );
+                    txtLoanAmnt.setText("" + blLoanRequest.getLoanamount());
+                    txtLoanTenure.setText("" + blLoanRequest.getLoanterm());
+                    txtAppName.setText("" + blLoanRequest.getApplicantName());
+                    ;
                 }
             }
         }
     }
 
     public void redirectToApplyLoan(PersonalQuoteEntity entity) {
-//
-
-//        startActivity(new Intent(getActivity(), PersonalLoanApplyActivity.class)
-//                .putExtra("PL", entity)
-//                .putExtra("PL_URL", getPersonalLoanResponse.getUrl())
-//                .putExtra("PL_QUOTE_ID", getPersonalLoanResponse.getQuote_id()));
-    }
-
-
-    private void shareData() {
-        View rootView = getActivity().getWindow().getDecorView().findViewById(R.id.rvPLQuotes);
-
-        datashareList(getScreenShot(rootView), "Quotes Details", "");
 
     }
-
-
-    public Bitmap getScreenShot(View view) {
-        View screenView = view.getRootView();
-        screenView.setDrawingCacheEnabled(true);
-        Bitmap bitmap = Bitmap.createBitmap(screenView.getDrawingCache());
-        screenView.setDrawingCacheEnabled(false);
-        return bitmap;
-    }
-
-
-    private void datashareList(Bitmap bitmap, String strSubject, String strDetail) {
-
-        String prdSubject = strSubject;
-        String prdDetail = strDetail;
-        try {
-
-            //  File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Screenshots" + System.currentTimeMillis() + ".png");
-
-            File file = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Screenshots", Utility.getCurrentMobileDateTime() + ".png");
-            // Utility.getCurrentMobileDateTime()
-            file.getParentFile().mkdirs();
-            FileOutputStream out = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
-            out.close();
-
-            Uri screenshotUri = Uri.fromFile(file);
-
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-
-            shareIntent.setType("text/plain");
-
-            PackageManager pm = getActivity().getPackageManager();
-
-
-            List<ResolveInfo> resInfo = pm.queryIntentActivities(shareIntent, 0);
-            List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
-            ///////////
-            for (int i = 0; i < resInfo.size(); i++) {
-                // Extract the label, append it, and repackage it in a LabeledIntent
-                ResolveInfo ri = resInfo.get(i);
-                String packageName = ri.activityInfo.packageName;
-                String processName = ri.activityInfo.processName;
-                String AppName = ri.activityInfo.name;
-
-                if ((packageName.contains("android.email") || packageName.contains("twitter") || (packageName.contains("whatsapp")) || packageName.contains("android.gm") || packageName.contains("com.google.android.apps.plus")) || (packageName.contains("apps.docs")) && processName.contains("android.apps.docs:Clipboard") || (packageName.contains("android.talk")) && AppName.contains("hangouts")) {
-
-                    shareIntent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
-
-                    if (packageName.contains("android.email")) {
-                        shareIntent.setType("image/*");
-                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-                        shareIntent.setPackage(packageName);
-
-                    } else if (packageName.contains("twitter")) {
-
-                        shareIntent.setType("image/*");
-                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                        shareIntent.setPackage(packageName);
-
-                    }
-//                    else if (packageName.contains("facebook.katana")) {
-//                        shareIntent.setType("text/plain");
-//                        shareIntent.putExtra(Intent.EXTRA_TEXT, product.getImageUrl());
-//                        shareIntent.setPackage("com.facebook.katana");
-//                        //shareIntent.putExtra(Intent.EXTRA_STREAM, Deeplink);
-//                    }
-//                    else if (packageName.contains("facebook.orca")) {
-//                        shareIntent.setType("image/*");
-//                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-//                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-//                        shareIntent.setPackage("com.facebook.orca");
-//
-//                    }
-
-                    else if (packageName.contains("whatsapp")) {
-                        shareIntent.setType("image/*");
-
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                        shareIntent.setPackage(packageName);
-
-
-                    } else if (packageName.contains("com.google.android.apps.plus")) {
-                        shareIntent.setType("image/*");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                        shareIntent.setPackage(packageName);
-
-                    } else if (packageName.contains("android.talk")) {
-                        if (AppName.contains("hangouts")) {
-                            shareIntent.setType("image/*");
-                            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-                            shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                            shareIntent.setPackage(packageName);
-                        }
-
-                    } else if (packageName.contains("apps.docs")) {
-                        if (processName.contains("android.apps.docs:Clipboard")) {
-                            shareIntent.setType("text/plain");
-                            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-                            shareIntent.setPackage(packageName);
-                        }
-
-                    } else if (packageName.contains("android.gm")) {
-                        shareIntent.setType("image/*");
-                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
-                        shareIntent.setPackage(packageName);
-
-                    } else {
-                        shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-
-                    }
-
-                    intentList.add(new LabeledIntent(shareIntent, packageName, ri.loadLabel(pm), ri.icon));
-
-                }
-            }
-
-
-            if (intentList.size() > 1) {
-                intentList.remove(intentList.size() - 1);
-            }
-
-            Intent openInChooser = Intent.createChooser(shareIntent, "Share Via");
-
-            // convert intentList to array
-            LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
-            openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
-
-            startActivity(openInChooser);
-        } catch (Exception e) {
-
-            // Toast.makeText(getActivity(), "Please check your permissions settings.Permission issue.", Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        switch (requestCode) {
-            case Utility.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    shareData();
-                } else {
-                    //code for deny
-                }
-                break;
-        }
-    }
-
 }

@@ -18,7 +18,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalMainEnt
  */
 
 public class ActivityTabsPagerAdapter_PL extends FragmentPagerAdapter {
-
+    private static final int TOTAL = 2;
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     PersonalMainEntity mMasterData;
@@ -27,6 +27,11 @@ public class ActivityTabsPagerAdapter_PL extends FragmentPagerAdapter {
     public ActivityTabsPagerAdapter_PL(FragmentManager fm,PersonalMainEntity masterData) {
         super(fm);
         mMasterData = masterData;
+    }
+
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 
     @Override
@@ -68,7 +73,6 @@ public class ActivityTabsPagerAdapter_PL extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // get item count - equal to number of tabs
-        return 2;
+        return TOTAL;
     }
 }

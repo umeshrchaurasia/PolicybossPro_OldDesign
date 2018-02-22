@@ -149,5 +149,6 @@
     <string name="title_activity_help_feed_back">HELP &amp; FEEDBACK</string>
     <string name="title_activity_contact_us">CONTACT US</string>
     <string name="title_activity_about_us">ABOUT US</string>
+    <string name="title_activity_sales_material">"Sales Material "</string>
 
 </resources>

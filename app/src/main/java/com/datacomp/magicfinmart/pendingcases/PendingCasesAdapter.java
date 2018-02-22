@@ -1,27 +1,20 @@
 package com.datacomp.magicfinmart.pendingcases;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.health.quoappfragment.HealthApplicationFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthApplication;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PendingCasesEntity;
 
 /**
@@ -49,6 +42,31 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
     @Override
     public void onBindViewHolder(ApplicationItem holder, int position) {
 
+        if (holder instanceof ApplicationItem) {
+            ApplicationItem item = (ApplicationItem) holder;
+            PendingCasesEntity entity = mAppList.get(position);
+
+            item.txtCustName.setText(entity.getCustomerName());
+            item.txtCategory.setText(entity.getCategory());
+            item.txtPendingDays.setText(String.valueOf(entity.getPendingdays()));
+            item.txtType.setText(entity.getQatype());
+
+            item.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
+            item.txtOverflowMenu.setOnClickListener(this);
+
+            try {
+                if (Integer.parseInt(entity.getApplnStatus()) == 25) {
+                    item.imgStatus.setImageResource(R.mipmap.status_25);
+                } else if (Integer.parseInt(entity.getApplnStatus()) == 50) {
+                    item.imgStatus.setImageResource(R.mipmap.status_50);
+                } else if (Integer.parseInt(entity.getApplnStatus()) == 100) {
+                    item.imgStatus.setImageResource(R.mipmap.status_100);
+                }
+            } catch (Exception e) {
+                item.imgStatus.setImageResource(R.mipmap.status_25);
+            }
+        }
+
     }
 
 
@@ -56,7 +74,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
         //creating a popup menu
         PopupMenu popup = new PopupMenu(mContex, v);
         //inflating menu from xml resource
-        popup.inflate(R.menu.recycler_menu_application);
+        popup.inflate(R.menu.recycler_menu_quote);
         //adding click listener
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
@@ -67,6 +85,9 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
                         break;
                     case R.id.menuSms:
                         Toast.makeText(mContex, "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menuDelete:
+                        ((PendingCasesActivity) mContex).deletePendingcases(entity);
                         break;
 
                 }
@@ -81,15 +102,8 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.txtCRN:
-            case R.id.txtCreatedDate:
-            case R.id.txtPersonName:
-            case R.id.txtSumAssured:
-            case R.id.imgInsurerLogo:
-
-                break;
             case R.id.txtOverflowMenu:
-
+                openPopUp(view, (PendingCasesEntity) view.getTag(R.id.txtOverflowMenu));
                 break;
 
         }
@@ -97,23 +111,22 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
 
     @Override
     public int getItemCount() {
-        return 5;
-        //return mAppList.size();
+        return mAppList.size();
     }
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtSumAssured, txtPersonName;
-        ImageView imgInsurerLogo;
+        TextView txtOverflowMenu, txtCustName, txtType, txtCategory, txtPendingDays;
+        ImageView imgStatus;
 
         public ApplicationItem(View itemView) {
             super(itemView);
             txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
-            txtCreatedDate = (TextView) itemView.findViewById(R.id.txtCreatedDate);
-            txtCRN = (TextView) itemView.findViewById(R.id.txtCRN);
-            txtSumAssured = (TextView) itemView.findViewById(R.id.txtSumAssured);
-            txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
-            imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
+            txtCustName = (TextView) itemView.findViewById(R.id.txtCustName);
+            txtCategory = (TextView) itemView.findViewById(R.id.txtCategory);
+            txtType = (TextView) itemView.findViewById(R.id.txtType);
+            txtPendingDays = (TextView) itemView.findViewById(R.id.txtPendingDays);
+            imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
         }
     }
 

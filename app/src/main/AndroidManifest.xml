@@ -166,11 +166,19 @@
         <activity
             android:name=".loan_fm.laploan.LapLoanDetailActivity"
             android:label="@string/title_activity_lap_loan_detail"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".loan_fm.laploan.addquote.LapLoanQuoteActivity"
             android:label="@string/title_activity_lap_loan_quote"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
         <activity
             android:name=".motor.privatecar.activity.ModifyQuoteActivity"
             android:noHistory="true"
@@ -401,6 +409,24 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
+        </activity>
+        <activity
+            android:name=".pendingcases.PendingCasesActivity"
+            android:label="Pending cases"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".salesmaterial.SalesMaterialActivity"
+            android:label="@string/title_activity_sales_material"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
     </application>
 
