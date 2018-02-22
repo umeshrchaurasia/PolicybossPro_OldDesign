@@ -15,10 +15,13 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
+import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
+import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
+import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.util.List;
 
@@ -98,6 +101,26 @@ public class HomeActivity extends BaseActivity {
                     case R.id.nav_homeloanApplication:
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplicationActivity.class));
                         break;
+                    case R.id.nav_offlineQuotes:
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        break;
+                    case R.id.nav_myBusiness:
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        break;
+                    case R.id.nav_referFriend:
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        break;
+                    case R.id.nav_mps:
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        break;
+                    case R.id.nav_helpfeedback:
+                        startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
+                        break;
+
+                    case R.id.nav_whatsnew:
+                        startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
+                        break;
+
                     case R.id.nav_logout:
                         new DBPersistanceController(HomeActivity.this).logout();
                         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);

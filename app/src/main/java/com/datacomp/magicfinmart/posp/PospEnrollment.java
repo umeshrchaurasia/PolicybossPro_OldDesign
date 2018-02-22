@@ -822,6 +822,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 if (!isBankDetails)
                     ivDocumentUpload.performClick();
                 if (isPospInfo && isAddress && isBankDetails) {
+                    registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
                     showDialog();
                     new RegisterController(this).enrollPosp(registerRequestEntity, this);
                 } else {

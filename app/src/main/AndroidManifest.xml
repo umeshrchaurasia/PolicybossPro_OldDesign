@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".MyApplication"
@@ -354,6 +355,52 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity" />
+        </activity>
+        <activity
+            android:name=".underconstruction.UnderConstructionActivity"
+            android:label="@string/title_activity_under_construction"
+            android:noHistory="true"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".whatsnew.WhatsNewActivity"
+            android:label="@string/title_activity_whats_new"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".helpfeedback.HelpFeedBackActivity"
+            android:label="@string/title_activity_help_feed_back"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".helpfeedback.contactus.ContactUsActivity"
+            android:label="@string/title_activity_contact_us"
+            android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
+        </activity>
+        <activity
+            android:name=".helpfeedback.aboutus.AboutUsActivity"
+            android:label="@string/title_activity_about_us"
+            android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
         </activity>
     </application>
 

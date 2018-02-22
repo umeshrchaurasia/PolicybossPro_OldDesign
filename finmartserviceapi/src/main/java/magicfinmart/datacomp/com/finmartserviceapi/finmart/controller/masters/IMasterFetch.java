@@ -17,4 +17,6 @@ public interface IMasterFetch {
 
     public void getInsuranceMaster(IResponseSubcriber iResponseSubcriber);
 
+    public void getContactList(IResponseSubcriber iResponseSubcriber);
+
 }
