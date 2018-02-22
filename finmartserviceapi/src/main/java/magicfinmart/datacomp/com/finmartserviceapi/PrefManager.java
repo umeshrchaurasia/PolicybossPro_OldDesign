@@ -81,6 +81,11 @@ public class PrefManager {
     }
 
     public void setToken(String token) {
+
+        editor.putString(IS_DEVICE_TOKEN, token);
+        editor.commit();
+    }
+
     public boolean setPospInformation(RegisterRequestEntity registerRequestEntity) {
         try {
             Gson gson = new Gson();
@@ -102,7 +107,5 @@ public class PrefManager {
             return null;
     }
 
-        editor.putString(IS_DEVICE_TOKEN, token);
-        editor.commit();
-    }
+
 }
