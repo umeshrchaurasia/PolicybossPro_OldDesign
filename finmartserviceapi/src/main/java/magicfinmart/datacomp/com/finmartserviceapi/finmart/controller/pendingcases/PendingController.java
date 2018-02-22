@@ -74,7 +74,11 @@ public class PendingController implements IPendingCases {
     }
 
     @Override
-    public void deletePending(int pendingID, IResponseSubcriber iResponseSubcriber) {
+    public void deletePending(String quoteType, int pendingID, IResponseSubcriber iResponseSubcriber) {
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("quotetype", quoteType);
+        body.put("id", String.valueOf(pendingID));
 
+        //pendingNetworkService.deletePendingCase(body)
     }
 }

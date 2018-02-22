@@ -27,5 +27,8 @@ public class PendingCasesRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/pending-cases")
         Call<PendingCasesResponse> getPendingCases(@Body HashMap<String, String> body);
 
+        @Headers("token:" + token)
+        @POST("/api/pending-cases")
+        Call<PendingCasesResponse> deletePendingCase(@Body HashMap<String, String> body);
     }
 }
