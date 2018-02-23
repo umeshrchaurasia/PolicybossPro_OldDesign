@@ -584,8 +584,7 @@ public class DBPersistanceController {
 
     public void storeUserData(LoginResponseEntity loginResponseEntity) {
         realm.beginTransaction();
-        realm.delete(LoginResponseEntity.class);
-        realm.copyToRealm(loginResponseEntity);
+        realm.copyToRealmOrUpdate(loginResponseEntity);
         realm.commitTransaction();
     }
 

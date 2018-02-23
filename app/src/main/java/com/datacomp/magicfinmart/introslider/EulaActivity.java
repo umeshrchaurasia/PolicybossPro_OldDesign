@@ -113,8 +113,6 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
             return false;
         else if (prefManager.IsInsuranceMasterUpdate())
             return false;
-        else if (prefManager.isFirstTimeLaunch())
-            return false;
 
         return true;
     }

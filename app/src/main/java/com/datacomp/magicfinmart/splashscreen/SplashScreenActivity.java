@@ -45,12 +45,12 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
 
-        //region fetch  data of health checkup plans
+        /*//region fetch  data of health checkup plans
         HealthPacksRequestEntity healthPacksRequestEntity = new HealthPacksRequestEntity();
         PackDetailsEntity packDetailsEntity = new PackDetailsEntity();
         healthPacksRequestEntity.setPack_details(packDetailsEntity);
         new HealthCheckUPController(this).getHealthPacks(healthPacksRequestEntity, this);
-        //endregion
+        //endregion*/
 
         if (prefManager.IsBikeMasterUpdate())
             new MasterController(this).getBikeMaster(this);

@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.whatsnew;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,11 +8,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPopUpActivity;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.LstPackParameterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.WhatsNewEntity;
 
 /**
  * Created by Rajeev Ranjan on 11/01/2018.
@@ -21,7 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.LstPackPa
 
 public class WhatsNewAdapter extends RecyclerView.Adapter<WhatsNewAdapter.WhatsNewItem> implements View.OnClickListener {
     Context context;
-    List<WhatsNewEntity>  whatsNewEntities;
+    List<WhatsNewEntity> whatsNewEntities;
 
     public WhatsNewAdapter(Context context, List<WhatsNewEntity> list) {
         this.context = context;
@@ -43,8 +41,8 @@ public class WhatsNewAdapter extends RecyclerView.Adapter<WhatsNewAdapter.WhatsN
 
         if (holder instanceof WhatsNewItem) {
             final WhatsNewEntity entity = whatsNewEntities.get(position);
-            holder.tvTitle.setText(""+entity.getTitle());
-            holder.tvDesc.setText(""+entity.getDesc());
+            holder.tvTitle.setText("" + entity.getTitle());
+            holder.tvDesc.setText("" + entity.getDiscription());
         }
     }
 
@@ -63,6 +61,7 @@ public class WhatsNewAdapter extends RecyclerView.Adapter<WhatsNewAdapter.WhatsN
     public class WhatsNewItem extends RecyclerView.ViewHolder {
 
         TextView tvTitle, tvDesc;
+
         public WhatsNewItem(View itemView) {
             super(itemView);
             tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);

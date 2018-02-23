@@ -1,17 +1,24 @@
 package com.datacomp.magicfinmart.whatsnew;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class WhatsNewActivity extends AppCompatActivity {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.WhatsNewEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactUsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.WhatsNewResponse;
+
+public class WhatsNewActivity extends BaseActivity implements IResponseSubcriber {
     RecyclerView rvWhatsNew;
     WhatsNewAdapter mAdapter;
     List<WhatsNewEntity> whatsNewEntities;
@@ -23,17 +30,32 @@ public class WhatsNewActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        whatsNewEntities = new ArrayList<>();
-        whatsNewEntities.add(new WhatsNewEntity("Improved UI", "This new version includes improved and streamlined UI with new icons."));
-        whatsNewEntities.add(new WhatsNewEntity("Improved UI", "This new version includes improved and streamlined UI with new icons."));
-        whatsNewEntities.add(new WhatsNewEntity("Improved UI", "This new version includes improved and streamlined UI with new icons."));
-        whatsNewEntities.add(new WhatsNewEntity("Improved UI", "This new version includes improved and streamlined UI with new icons."));
-        whatsNewEntities.add(new WhatsNewEntity("Improved UI", "This new version includes improved and streamlined UI with new icons."));
         rvWhatsNew = (RecyclerView) findViewById(R.id.rvWhatsNew);
         rvWhatsNew.setHasFixedSize(true);
         rvWhatsNew.setLayoutManager(new LinearLayoutManager(this));
-        mAdapter = new WhatsNewAdapter(this, whatsNewEntities);
-        rvWhatsNew.setAdapter(mAdapter);
+        showDialog();
+        new MasterController(this).getWhatsNew("1.0", this);
     }
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof WhatsNewResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                if (((WhatsNewResponse) response).getMasterData() != null) {
+                    if (((WhatsNewResponse) response).getMasterData().size() > 0) {
+                        whatsNewEntities = ((WhatsNewResponse) response).getMasterData();
+                        mAdapter = new WhatsNewAdapter(this, whatsNewEntities);
+                        rvWhatsNew.setAdapter(mAdapter);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 }

@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.posp;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -34,6 +35,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 
 import java.text.SimpleDateFormat;
@@ -45,7 +47,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IfscEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospDetailsEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospEnrollEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
@@ -85,6 +89,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     PrefManager prefManager;
     PospDetailsEntity pospDetailsEntity;
     DBPersistanceController dbPersistanceController;
+    PospEnrollEntity pospEnrollEntity;
+    LoginResponseEntity loginResponseEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +100,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(this);
+        loginResponseEntity = dbPersistanceController.getUserData();
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
         prefManager = new PrefManager(this);
@@ -211,6 +218,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (!registerRequestEntity.getPosp_LastName().equals("") && registerRequestEntity.getPosp_LastName() != null) {
             etLastName.setText("" + registerRequestEntity.getPosp_LastName());
         }*/
+        if (!registerRequestEntity.getPosp_PinCode().equals("")) {
+            // showDialog();
+            new RegisterController(this).getCityState(registerRequestEntity.getPosp_PinCode(), this);
+        }
+        if (!registerRequestEntity.getPosp_IFSC().equals("")) {
+            //showDialog();
+            new RegisterController(this).getIFSC(registerRequestEntity.getPosp_IFSC(), this);
+        }
         if (!registerRequestEntity.getPosp_DOB().equals("") && registerRequestEntity.getPosp_DOB() != null) {
             etDob.setText("" + registerRequestEntity.getPosp_DOB());
         }
@@ -815,20 +830,23 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setCurrentAcc();
                 break;
             case R.id.btnSave:
-                if (!isPospInfo)
-                    ivAddress.performClick();
-                if (!isAddress)
-                    ivBankDetail.performClick();
-                if (!isBankDetails)
-                    ivDocumentUpload.performClick();
-                if (isPospInfo && isAddress && isBankDetails) {
-                    registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
-                    showDialog();
-                    new RegisterController(this).enrollPosp(registerRequestEntity, this);
+                if (loginResponseEntity.getPaymentUrl() != null) {
+                    openWebView(loginResponseEntity.getPaymentUrl());
                 } else {
-                    Toast.makeText(this, "Please Fill all details.", Toast.LENGTH_SHORT).show();
+                    if (!isPospInfo)
+                        ivAddress.performClick();
+                    if (!isAddress)
+                        ivBankDetail.performClick();
+                    if (!isBankDetails)
+                        ivDocumentUpload.performClick();
+                    if (isPospInfo && isAddress && isBankDetails) {
+                        registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
+                        showDialog();
+                        new RegisterController(this).enrollPosp(registerRequestEntity, this);
+                    } else {
+                        Toast.makeText(this, "Please Fill all details.", Toast.LENGTH_SHORT).show();
+                    }
                 }
-
                 break;
         }
     }
@@ -992,9 +1010,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
 
                 registerRequestEntity.setPosp_StatID("" + ((PincodeResponse) response).getMasterData().getStateid());
-                /*registerRequestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
+                registerRequestEntity.setPosp_City("" + ((PincodeResponse) response).getMasterData().getCityname());
+
+                registerRequestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
                 registerRequestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
-                registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());*/
+                registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
 
             }
         } else if (response instanceof IfscCodeResponse) {
@@ -1011,6 +1031,13 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         etBankName.setText("" + ifscEntity.getBankName());
                         etBankBranch.setText("" + ifscEntity.getBankName());
                         etBankCity.setText("" + ifscEntity.getCityName());
+
+                        if (!erMicrCode.getText().toString().isEmpty())
+                            registerRequestEntity.setPosp_MICR(erMicrCode.getText().toString());
+
+                        registerRequestEntity.setPosp_BankName(etBankName.getText().toString());
+                        registerRequestEntity.setPosp_BankBranch(etBankBranch.getText().toString());
+                        registerRequestEntity.setPosp_BankCity(etBankCity.getText().toString());// to be changed to id
                     }
                 }
             }
@@ -1032,6 +1059,17 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             }
         } else if (response instanceof EnrollPospResponse) {
             cancelDialog();
+            if (response.getStatusNo() == 0) {
+                if (((EnrollPospResponse) response).getMasterData() != null) {
+                    if (!((EnrollPospResponse) response).getMasterData().getPaymentURL().equals("")) {
+                        pospEnrollEntity = ((EnrollPospResponse) response).getMasterData();
+                        //update login response
+                        loginResponseEntity.setPaymentUrl(pospEnrollEntity.getPaymentURL());
+                        dbPersistanceController.storeUserData(loginResponseEntity);
+                        openWebView(pospEnrollEntity.getPaymentURL());
+                    }
+                }
+            }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
 
@@ -1212,4 +1250,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         }
     }
 
+    public void openWebView(String url) {
+        if (!url.equals("")) {
+            startActivity(new Intent(this, CommonWebViewActivity.class)
+                    .putExtra("URL", url)
+                    .putExtra("NAME", "MAGIC FIN-MART")
+                    .putExtra("TITLE", "MAGIC FIN-MART"));
+        }
+    }
 }
