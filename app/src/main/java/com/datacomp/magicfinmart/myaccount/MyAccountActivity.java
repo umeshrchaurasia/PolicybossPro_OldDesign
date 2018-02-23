@@ -78,14 +78,17 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     LoginResponseEntity loginEntity;
     public String ACCOUNT_TYPE = "SAVING";
 
-    HashMap<String, String> body;
+    HashMap<String, Integer> body;
     MultipartBody.Part part;
     File file;
-    private String PROFILE = "1", PHOTO = "2", PAN = "3", CANCEL_CHQ = "4", AADHAR = "5";
+   // private String PROFILE = "1", PHOTO = "2", PAN = "3", CANCEL_CHQ = "4", AADHAR = "5";
+
+    private int PROFILE = 1, PHOTO = 2, PAN = 3, CANCEL_CHQ = 4, AADHAR = 5;
+
+    private String PHOTO_File = "FBAPhotograph", PAN_File = "LoanRepPanCard", CANCEL_CHQ_File = "LoanRepCancelChq", AADHAR_File = "OtherAadharCard";
 
     private String PHOTO_EXT = "FBAPhotograph.jpg", PAN_EXT = "LoanRepPanCard.jpg", CANCEL_CHQ_EXT = "LoanRepCancelChq.jpg", AADHAR_EXT = "OtherAadharCard.jpg";
 
-    Boolean isRcClicked, isPolicyClicked, isChassisClicked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +103,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginEntity.getFBAId());
+
+
         initWidgets();
         setListener();
         initLayouts();
@@ -689,7 +694,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         else if (response instanceof DocumentResponse) {
             if (response.getStatusNo() == 0) {
 
-                Toast.makeText(this,"Data Saved",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
                 setDocumentUpload();
 
             }
@@ -838,46 +843,42 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             Bitmap mphoto = (Bitmap) data.getExtras().get("data");
             switch (type) {
                 case 1:
-
+                    showDialog();
                     ivUser.setImageBitmap(mphoto);
                     file = saveImageToStorage(mphoto, "PROFILE");
                     part = Utility.getMultipartImage(file);
-                     body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE, "PROFILE.jpg", "jpg");
-                     showDialog();
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE );
+
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 2:
-
-                    file = saveImageToStorage(mphoto, PHOTO);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO, PHOTO_EXT, "jpg");
                     showDialog();
+                    file = saveImageToStorage(mphoto, PHOTO_File);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginEntity.getFBAId(),PHOTO);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 3:
 
-
-                    file = saveImageToStorage(mphoto, PAN );
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this,loginEntity.getFBAId(), PAN , PAN_EXT , "jpg");
                     showDialog();
-                    new RegisterController(this).uploadDocuments(part, body, this);
+                    file = saveImageToStorage(mphoto, PAN_File );
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this,loginEntity.getFBAId(),PAN);
+                   new RegisterController(this).uploadDocuments(part, body, this);
                     break;
 
                 case 4:
-
-                    file = saveImageToStorage(mphoto, CANCEL_CHQ);
-                    part = Utility.getMultipartImage(file);
-                   body = Utility.getBody(this,loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_EXT, "jpg");
                     showDialog();
+                    file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this,loginEntity.getFBAId(),CANCEL_CHQ);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 5:
-
-                    file = saveImageToStorage(mphoto, AADHAR);
-                    part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(),AADHAR, AADHAR_EXT, "jpg");
                     showDialog();
+                    file = saveImageToStorage(mphoto, AADHAR_File);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginEntity.getFBAId(),AADHAR);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
             }
@@ -892,45 +893,41 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                 switch (type) {
                     case 1:
+                        showDialog();
                         ivUser.setImageBitmap(mphoto);
                         file = saveImageToStorage(mphoto, "PROFILE");
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE, "PROFILE.jpg", "jpg");
-                        showDialog();
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE );
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 2:
-
-                        file = saveImageToStorage(mphoto, PHOTO);
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO, PHOTO_EXT, "jpg");
                         showDialog();
+                        file = saveImageToStorage(mphoto, PHOTO_File);
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this, loginEntity.getFBAId(),PHOTO);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 3:
 
-
-                        file = saveImageToStorage(mphoto, PAN );
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this,loginEntity.getFBAId(), PAN , PAN_EXT , "jpg");
                         showDialog();
+                        file = saveImageToStorage(mphoto, PAN_File );
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this,loginEntity.getFBAId(),PAN);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
 
                     case 4:
-
-                        file = saveImageToStorage(mphoto, CANCEL_CHQ);
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this,loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_EXT, "jpg");
                         showDialog();
+                        file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this,loginEntity.getFBAId(),CANCEL_CHQ);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 5:
-
-                        file = saveImageToStorage(mphoto, AADHAR);
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(),AADHAR, AADHAR_EXT, "jpg");
                         showDialog();
+                        file = saveImageToStorage(mphoto, AADHAR_File);
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this, loginEntity.getFBAId(),AADHAR);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                 }
@@ -944,23 +941,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    public File saveImageToStorage(Bitmap bitmap, String name) {
-        FileOutputStream outStream = null;
 
-        File dir = Utility.createDirIfNotExists();
-        //String fileName = String.format("%d.jpg", frontRearEntity.getName() /*+ "-" + System.currentTimeMillis()*/);
-        String fileName = name + ".jpg";
-        fileName = fileName.replaceAll("\\s+", "");
-        File outFile = new File(dir, fileName);
-        try {
-            outStream = new FileOutputStream(outFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-            outStream.flush();
-            outStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return outFile;
-    }
 
 }

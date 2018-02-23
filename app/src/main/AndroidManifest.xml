@@ -184,15 +184,14 @@
         <activity
             android:name=".loan_fm.laploan.LapLoanDetailActivity"
             android:label="@string/title_activity_lap_loan_detail"
-            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".loan_fm.laploan.addquote.LapLoanQuoteActivity"
             android:label="@string/title_activity_lap_loan_quote"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -457,6 +456,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".salesmaterial.SalesDetailActivity"
+            android:label="@string/title_activity_sales_detail"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

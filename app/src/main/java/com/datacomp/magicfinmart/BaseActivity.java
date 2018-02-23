@@ -13,7 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 
 /**
  * Created by Rohit on 12/12/15.
@@ -145,6 +149,25 @@ public class BaseActivity extends AppCompatActivity {
     }*/
 
         return cs;
+    }
+
+    public File saveImageToStorage(Bitmap bitmap, String name) {
+        FileOutputStream outStream = null;
+
+        File dir = Utility.createDirIfNotExists();
+        //String fileName = String.format("%d.jpg", frontRearEntity.getName() /*+ "-" + System.currentTimeMillis()*/);
+        String fileName = name + ".jpg";
+        fileName = fileName.replaceAll("\\s+", "");
+        File outFile = new File(dir, fileName);
+        try {
+            outStream = new FileOutputStream(outFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 70, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outFile;
     }
 
 }

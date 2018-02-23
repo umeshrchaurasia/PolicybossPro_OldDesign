@@ -57,25 +57,30 @@ public class Utility {
         return imgFile;
     }
 
-    public static HashMap<String, String> getBody(Context context,int FbaID,String DocTyp, String docName, String DocExt) {
-        HashMap<String, String> body = new HashMap<String, String>();
-
-        body.put("FBAID", String.valueOf(FbaID) );
-        body.put("DocType",DocTyp);
-        body.put("DocName", docName);
-        body.put("DocExt",DocExt);
-        return body;
-    }
-
-//    public static HashMap<String, RequestBody> getBody2(Context context,int FbaID,String DocTyp, String docName, String DocExt) {
+//    public static HashMap<String, String> getBody(Context context,int FbaID,String DocTyp, String docName, String DocExt) {
 //        HashMap<String, String> body = new HashMap<String, String>();
+//
 //
 //        body.put("FBAID", String.valueOf(FbaID) );
 //        body.put("DocType",DocTyp);
 //        body.put("DocName", docName);
 //        body.put("DocExt",DocExt);
+//
 //        return body;
 //    }
+
+
+    public static HashMap<String, Integer> getBody(Context context,int FbaID,int DocTyp) {
+        HashMap<String, Integer> body = new HashMap<String, Integer>();
+
+
+        body.put("FBAID", FbaID);
+        body.put("DocType",DocTyp);
+
+
+        return body;
+    }
+
 
     public static File createDirIfNotExists() {
         boolean ret = true;

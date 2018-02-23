@@ -29,7 +29,7 @@ public interface IRegister {
 
     void saveAccDtl(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);
 
-    void uploadDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber);
+    void uploadDocuments(MultipartBody.Part document, HashMap<String, Integer> body, final IResponseSubcriber iResponseSubcriber);
 
     void getMyAcctDtl(String FBAID, IResponseSubcriber iResponseSubcriber);
 
