@@ -335,11 +335,17 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
 
             etMfgDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date())));
 
-            etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
-            if (motorRequestEntity.getIs_claim_exists().equals("no")) {
-                setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
+                etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
+                if (motorRequestEntity.getIs_claim_exists().equals("no")) {
+                    cvNcb.setVisibility(View.VISIBLE);
+                    setSeekbarProgress(Integer.parseInt(motorRequestEntity.getVehicle_ncb_current()));
+                    //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+                } else {
+                    tvClaimYes.performClick();
+                }
             } else {
-                tvClaimYes.performClick();
+                cvNcb.setVisibility(View.GONE);
             }
 
 
@@ -560,6 +566,24 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
         return 0;
     }
 
+    public int getProgressFromPercent(int value) {
+        switch (value) {
+            case 0:
+                return 0;
+            case 20:
+                return 1;
+            case 25:
+                return 2;
+            case 35:
+                return 3;
+            case 45:
+                return 4;
+            case 50:
+                return 5;
+        }
+        return 0;
+    }
+
     private void setListener() {
         switchNewRenew.setOnCheckedChangeListener(this);
         tvClaimYes.setOnClickListener(this);
@@ -664,6 +688,7 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder_blue);
                 sbNoClaimBonus.setEnabled(false);
+                sbNoClaimBonus.setProgress(0);
                 break;
             case R.id.btnGetQuote:
 
@@ -1270,12 +1295,20 @@ public class BikeInputFragment extends BaseFragment implements CompoundButton.On
         }
     }
 
-    private void setSeekbarProgress(int yearDiff) {
-        if (yearDiff >= 5) {
+    private void setSeekbarProgress(int progress) {
+
+        tvClaimNo.performClick();
+        tvProgress.setText("" + progress);
+        sbNoClaimBonus.setProgress(getProgressFromPercent(progress));
+        /*if (yearDiff >= 5) {
+            tvClaimNo.performClick();
             sbNoClaimBonus.setProgress(5);
+            tvProgress.setText("" + getPercentFromProgress(5));
         } else {
+            tvClaimNo.performClick();
             sbNoClaimBonus.setProgress(yearDiff);
-        }
+            tvProgress.setText("" + getPercentFromProgress(yearDiff));
+        }*/
     }
 
     @Override

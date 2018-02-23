@@ -842,6 +842,16 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         registerRequestEntity.setPosp_City(etCity.getText().toString());
         //registerRequestEntity.setPosp_StatID(etState.getText().toString());// to be changed to id
 
+
+        //setting nonposp
+        registerRequestEntity.setAddress_1(etAddress1.getText().toString());
+        registerRequestEntity.setAddress_2(etAddress2.getText().toString());
+        if (!etAddress3.getText().toString().isEmpty())
+            registerRequestEntity.setAddress_3(etAddress3.getText().toString());
+        registerRequestEntity.setPinCode(etPincode.getText().toString());
+        registerRequestEntity.setCity(etCity.getText().toString());
+        //registerRequestEntity.setPosp_StatID(etState.getText().toString());// to be changed to id
+
         prefManager.setPospInformation(registerRequestEntity);
     }
 
@@ -863,6 +873,25 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (!etChannelPartner.getText().toString().isEmpty())
             registerRequestEntity.setPosp_ChanPartCode(etChannelPartner.getText().toString());
 
+
+        //non posp
+        registerRequestEntity.setFirstName(etFirstName.getText().toString());
+        registerRequestEntity.setLastName(etLastName.getText().toString());
+        registerRequestEntity.setDOB(etDob.getText().toString());
+        if (isMale)
+            registerRequestEntity.setGender("M");
+        else
+            registerRequestEntity.setGender("F");
+        registerRequestEntity.setMobile_1(etMobileNo1.getText().toString());
+        registerRequestEntity.setMobile_2(etMobileNo2.getText().toString());
+        registerRequestEntity.setEmailId(etEmailId.getText().toString());
+        registerRequestEntity.setFBAPan(etPan.getText().toString());
+        //registerRequestEntity.setOther_Aadhaar(etAadhar.getText().toString());
+        if (!etGST.getText().toString().isEmpty())
+            registerRequestEntity.setGSTNumb(etGST.getText().toString());
+       /* if (!etChannelPartner.getText().toString().isEmpty())
+            registerRequestEntity.setPosp_ChanPartCode(etChannelPartner.getText().toString());*/
+
         prefManager.setPospInformation(registerRequestEntity);
     }
 
@@ -877,6 +906,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         registerRequestEntity.setPosp_BankName(etBankName.getText().toString());
         registerRequestEntity.setPosp_BankBranch(etBankBranch.getText().toString());
         registerRequestEntity.setPosp_BankCity(etBankCity.getText().toString());// to be changed to id
+
 
         prefManager.setPospInformation(registerRequestEntity);
     }

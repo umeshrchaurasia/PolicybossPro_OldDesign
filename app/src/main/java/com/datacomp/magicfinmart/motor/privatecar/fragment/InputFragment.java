@@ -694,6 +694,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder_blue);
                 sbNoClaimBonus.setEnabled(false);
+                sbNoClaimBonus.setProgress(0);
                 break;
             case R.id.btnGetQuote:
 

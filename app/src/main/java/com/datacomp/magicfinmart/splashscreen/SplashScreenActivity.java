@@ -63,8 +63,6 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
         if (prefManager.isFirstTimeLaunch()) {
 
-            prefManager.setFirstTimeLaunch(false);
-
             startActivity(new Intent(this, WelcomeActivity.class));
         } else {
             new Handler().postDelayed(new Runnable() {
