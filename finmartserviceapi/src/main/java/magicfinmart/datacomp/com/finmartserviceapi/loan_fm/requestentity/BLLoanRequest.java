@@ -3,47 +3,34 @@ package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by IN-RB on 27-01-2018.
  */
 
-public class BLLoanRequest  implements Parcelable {
-
-
+public class BLLoanRequest implements Parcelable {
     /**
      * loanamount : 500000
      * loaninterest : 12.49
      * product_id : 9
      * loanterm : 5
+     * applicantname : test
+     * email : test@test.com
+     * contact : 1234567890
+     * brokerid : 0
+     * source : Demo APP
      */
 
     private int loanamount;
     private double loaninterest;
     private int product_id;
     private int loanterm;
-
-    private String ApplicantName;
-
-
-    protected BLLoanRequest(Parcel in) {
-        loanamount = in.readInt();
-        loaninterest = in.readDouble();
-        product_id = in.readInt();
-        loanterm = in.readInt();
-        ApplicantName=in.readString();
-    }
-
-    public static final Creator<BLLoanRequest> CREATOR = new Creator<BLLoanRequest>() {
-        @Override
-        public BLLoanRequest createFromParcel(Parcel in) {
-            return new BLLoanRequest(in);
-        }
-
-        @Override
-        public BLLoanRequest[] newArray(int size) {
-            return new BLLoanRequest[size];
-        }
-    };
+    private String applicantname;
+    private String email;
+    private String contact;
+    private String brokerid;
+    private String source;
 
     public BLLoanRequest() {
     }
@@ -80,12 +67,44 @@ public class BLLoanRequest  implements Parcelable {
         this.loanterm = loanterm;
     }
 
-    public String getApplicantName() {
-        return ApplicantName;
+    public String getApplicantname() {
+        return applicantname;
     }
 
-    public void setApplicantName(String applicantName) {
-        ApplicantName = applicantName;
+    public void setApplicantname(String applicantname) {
+        this.applicantname = applicantname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getBrokerid() {
+        return brokerid;
+    }
+
+    public void setBrokerid(String brokerid) {
+        this.brokerid = brokerid;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
     }
 
     @Override
@@ -95,10 +114,38 @@ public class BLLoanRequest  implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(loanamount);
-        dest.writeDouble(loaninterest);
-        dest.writeInt(product_id);
-        dest.writeInt(loanterm);
-        dest.writeString(this.ApplicantName);
+        dest.writeInt(this.loanamount);
+        dest.writeDouble(this.loaninterest);
+        dest.writeInt(this.product_id);
+        dest.writeInt(this.loanterm);
+        dest.writeString(this.applicantname);
+        dest.writeString(this.email);
+        dest.writeString(this.contact);
+        dest.writeString(this.brokerid);
+        dest.writeString(this.source);
     }
+
+    protected BLLoanRequest(Parcel in) {
+        this.loanamount = in.readInt();
+        this.loaninterest = in.readDouble();
+        this.product_id = in.readInt();
+        this.loanterm = in.readInt();
+        this.applicantname = in.readString();
+        this.email = in.readString();
+        this.contact = in.readString();
+        this.brokerid = in.readString();
+        this.source = in.readString();
+    }
+
+    public static final Parcelable.Creator<BLLoanRequest> CREATOR = new Parcelable.Creator<BLLoanRequest>() {
+        @Override
+        public BLLoanRequest createFromParcel(Parcel source) {
+            return new BLLoanRequest(source);
+        }
+
+        @Override
+        public BLLoanRequest[] newArray(int size) {
+            return new BLLoanRequest[size];
+        }
+    };
 }

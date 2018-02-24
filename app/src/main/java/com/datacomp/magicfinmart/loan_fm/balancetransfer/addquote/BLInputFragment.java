@@ -1,58 +1,41 @@
 package com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
-import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseBL;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberBL;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan.PersonalLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerApplicationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.CustomerEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BLDispalyResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
 
-public class BLInputFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriberBL {
+public class BLInputFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber {
 
     BLLoanRequest blLoanRequest;
     CustomerEntity customerEntity;
     CustomerApplicationEntity customerApplicationEntity;
 
-    BLDispalyResponse getBLDispalyLoanResponse;
+    GetBLDispalyResponse getBLDispalyLoanResponse;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     Button btnGetQuote;
@@ -126,7 +109,7 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
         blLoanRequest.setLoanamount( Integer.parseInt(etOutstanding.getText().toString()));
         blLoanRequest.setLoanterm(Integer.parseInt(ettenureyrs.getText().toString()));
         blLoanRequest.setLoaninterest(Double.parseDouble(etCurrInc.getText().toString()));
-        blLoanRequest.setApplicantName(etNameOfApplicant.getText().toString());
+       // blLoanRequest.setApplicantName(etNameOfApplicant.getText().toString());
 
         if (rbimghl.isChecked()) {
             blLoanRequest.setProduct_id(12);//hl
@@ -214,12 +197,12 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
 //    public void OnSuccess(APIResponse response, String message) {
 //
 //        cancelDialog();
-//        if (response instanceof BLDispalyResponse) {
-//            if (((BLDispalyResponse) response).getStatusbl() == 0) {
+//        if (response instanceof GetBLDispalyResponse) {
+//            if (((GetBLDispalyResponse) response).getStatusbl() == 0) {
 //
 ////                ((BLMainActivity)mContext).setQuoteCheck();
 ////
-////                getBLDispalyLoanResponse = ((BLDispalyResponse) response);
+////                getBLDispalyLoanResponse = ((GetBLDispalyResponse) response);
 ////
 ////                Bundle bundle = new Bundle();
 ////                bundle.putParcelable(Constants.BL_LOAN_QUOTES, getBLDispalyLoanResponse);
@@ -248,32 +231,32 @@ public class BLInputFragment extends BaseFragment implements View.OnClickListene
     }
 
     @Override
-    public void OnSuccess(APIResponseBL response, String message) {
+    public void OnSuccess(APIResponse response, String message) {
 
-        cancelDialog();
-        if (response instanceof BLDispalyResponse) {
-            if (((BLDispalyResponse) response).getStatus() == 1) {
-
-                ((BLMainActivity)mContext).setQuoteCheck();
-
-                getBLDispalyLoanResponse = ((BLDispalyResponse) response);
-
-                Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.BL_LOAN_SERVICE, getBLDispalyLoanResponse.getSaving());
-                bundle.putParcelable(Constants.BL_REQUEST, blLoanRequest);
-                bundle.putParcelableArrayList(Constants.BL_LOAN_QUOTES, (ArrayList<BLEntity>) getBLDispalyLoanResponse.getData());
-
-                BLQuoteFragment quoteFragment = new BLQuoteFragment();
-                quoteFragment.setArguments(bundle);
-                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-                transaction_quote.addToBackStack("QUOTE");
-                transaction_quote.show(quoteFragment);
-                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                transaction_quote.commit();
+//        cancelDialog();
+//        if (response instanceof GetBLDispalyResponse) {
+//            if (((GetBLDispalyResponse) response).getStatus() == 1) {
 //
-            }
-        }
+//                ((BLMainActivity)mContext).setQuoteCheck();
+//
+//                getBLDispalyLoanResponse = ((GetBLDispalyResponse) response);
+//
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelable(Constants.BL_LOAN_SERVICE, getBLDispalyLoanResponse.getSaving());
+//                bundle.putParcelable(Constants.BL_REQUEST, blLoanRequest);
+//                bundle.putParcelableArrayList(Constants.BL_LOAN_QUOTES, (ArrayList<BLEntity>) getBLDispalyLoanResponse.getData());
+//
+//                BLQuoteFragment quoteFragment = new BLQuoteFragment();
+//                quoteFragment.setArguments(bundle);
+//                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
+//                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
+//                transaction_quote.addToBackStack("QUOTE");
+//                transaction_quote.show(quoteFragment);
+//                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
+//                transaction_quote.commit();
+////
+//            }
+//        }
 
     }
 

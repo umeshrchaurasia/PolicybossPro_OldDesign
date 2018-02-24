@@ -7,21 +7,18 @@ import com.google.gson.JsonParseException;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.R;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberBL;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestbuilder.PersonalloanRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BLDispalyResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 /**
  * Created by IN-RB on 15-01-2018.
@@ -68,14 +65,12 @@ public class PersonalLoanController  implements IPersonalLoan {
         });
     }
 
-
     @Override
-    public void getBLQuote(BLLoanRequest bLLoanRequest, final IResponseSubcriberBL iResponseSubcriber) {
-
-        personalloanNetworkService.getBLDispalyResponseQuotes(bLLoanRequest).enqueue(new Callback<BLDispalyResponse>() {
+    public void getBLQuote(BLLoanRequest blLoanRequest, final IResponseSubcriber iResponseSubcriber) {
+        personalloanNetworkService.getBLDispalyResponseQuotes(blLoanRequest).enqueue(new Callback<GetBLDispalyResponse>() {
             @Override
-            public void onResponse(Call<BLDispalyResponse> call, Response<BLDispalyResponse> response) {
-                if (response.body().getStatus() == 1) {
+            public void onResponse(Call<GetBLDispalyResponse> call, Response<GetBLDispalyResponse> response) {
+                if (response.body().getStatus_Id() == 1) {
                     iResponseSubcriber.OnSuccess(response.body(), "Saved");
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Record Not Found"));
@@ -84,7 +79,7 @@ public class PersonalLoanController  implements IPersonalLoan {
             }
 
             @Override
-            public void onFailure(Call<BLDispalyResponse> call, Throwable t) {
+            public void onFailure(Call<GetBLDispalyResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {
@@ -98,5 +93,8 @@ public class PersonalLoanController  implements IPersonalLoan {
                 }
             }
         });
+
     }
+
+
 }

@@ -69,31 +69,31 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.PLQuotes
     @Override
     public void onBindViewHolder(BLQuoteAdapter.PLQuotesItem holder, final int position) {
 
-        final BLEntity quoteEntity = quoteEntities.get(position);
-        holder.tvLoanAmt.setText("" + "\u20B9" + " "+ blLoanRequest.getLoanamount());
-
-       // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
-        holder.tvBestRate.setText(""+ "\u20B9"+ " " + quoteEntity.getRoi() +" %");
-        holder.tvBankName.setText("" + quoteEntity.getBank_Code());
-        holder.tvpf.setText("" + quoteEntity.getPf());
-        holder.tvpf_type.setText("" + quoteEntity.getPf_type());
-        holder.tvProcessingFee.setText("" + "\u20B9" + " "+quoteEntity.getProcessingfee());
-        //holder.tvEligibleLoan.setText(""+quoteEntity.getLoan_eligible());
-        Glide.with(mContext)
-                .load(quoteEntity.getBank_Logo())
-                .into(holder.ivBankLogo);
-        //change Fresco
-
-
-        holder.btnApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                  ((BLMainActivity) mContext).redirectToApplyLoan(quoteEntity,blLoanRequest,0);
-
-            }
-        });
-
+//        final BLEntity quoteEntity = quoteEntities.get(position);
+//        holder.tvLoanAmt.setText("" + "\u20B9" + " "+ blLoanRequest.getLoanamount());
+//
+//       // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
+//        holder.tvBestRate.setText(""+ "\u20B9"+ " " + quoteEntity.getRoi() +" %");
+//        holder.tvBankName.setText("" + quoteEntity.getBank_Code());
+//        holder.tvpf.setText("" + quoteEntity.getPf());
+//        holder.tvpf_type.setText("" + quoteEntity.getPf_type());
+//        holder.tvProcessingFee.setText("" + "\u20B9" + " "+quoteEntity.getProcessingfee());
+//        //holder.tvEligibleLoan.setText(""+quoteEntity.getLoan_eligible());
+//        Glide.with(mContext)
+//                .load(quoteEntity.getBank_Logo())
+//                .into(holder.ivBankLogo);
+//        //change Fresco
+//
+//
+//        holder.btnApply.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                  ((BLMainActivity) mContext).redirectToApplyLoan(quoteEntity,blLoanRequest,0);
+//
+//            }
+//        });
+//
 
     }
 

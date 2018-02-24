@@ -52,53 +52,53 @@ public class BLQuoteFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_bl_loan_quote, container, false);
-        initialize(view);
+     //   initialize(view);
         return view;
     }
 
     private void initialize(View view) {
 
-        cvInputSummary = (CardView) view.findViewById(R.id.cvInputSummary);
-
-        txtInputSummry = (TextView) view.findViewById(R.id.txtInputSummry);
-        txtAppName = (TextView) view.findViewById(R.id.txtAppName);
-        txtLoanAmnt = (TextView) view.findViewById(R.id.txtLoanAmnt);
-        txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
-        txtCount = (TextView) view.findViewById(R.id.txtCount);
-
-        rvBLQuotes = (RecyclerView) view.findViewById(R.id.rvbLQuotes);
-        rvBLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        Bundle bundle = getArguments();
-
-        if (bundle != null) {
-            BlListdata = bundle.getParcelableArrayList(Constants.BL_LOAN_QUOTES);
-            //  BlsavingEntity = bundle.getParcelableArrayList(Constants.BL_LOAN_SERVICE);
-            blLoanRequest = bundle.getParcelable(Constants.BL_REQUEST);
-            if (BlListdata != null) {
-                txtInputSummry.setVisibility(View.VISIBLE);
-                cvInputSummary.setVisibility(View.VISIBLE);
-
-                mAdapter = new BLQuoteAdapter(getActivity(), BlListdata, blLoanRequest);
-                rvBLQuotes.setAdapter(mAdapter);
-
-                if (BlListdata.size() > 0) {
-                    txtCount.setText("" + BlListdata.size() + "Results from www.rupeeboss.com");
-                    txtCount.setVisibility(View.VISIBLE);
-                } else {
-                    txtCount.setText("");
-                    txtCount.setVisibility(View.GONE);
-                }
-
-                if (blLoanRequest != null) {
-                    //    txtAppName.setText(""+blLoanRequest.getApplicantNme().toUpperCase() );
-                    txtLoanAmnt.setText("" + blLoanRequest.getLoanamount());
-                    txtLoanTenure.setText("" + blLoanRequest.getLoanterm());
-                    txtAppName.setText("" + blLoanRequest.getApplicantName());
-                    ;
-                }
-            }
-        }
+//        cvInputSummary = (CardView) view.findViewById(R.id.cvInputSummary);
+//
+//        txtInputSummry = (TextView) view.findViewById(R.id.txtInputSummry);
+//        txtAppName = (TextView) view.findViewById(R.id.txtAppName);
+//        txtLoanAmnt = (TextView) view.findViewById(R.id.txtLoanAmnt);
+//        txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
+//        txtCount = (TextView) view.findViewById(R.id.txtCount);
+//
+//        rvBLQuotes = (RecyclerView) view.findViewById(R.id.rvbLQuotes);
+//        rvBLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
+//
+//        Bundle bundle = getArguments();
+//
+//        if (bundle != null) {
+//            BlListdata = bundle.getParcelableArrayList(Constants.BL_LOAN_QUOTES);
+//            //  BlsavingEntity = bundle.getParcelableArrayList(Constants.BL_LOAN_SERVICE);
+//            blLoanRequest = bundle.getParcelable(Constants.BL_REQUEST);
+//            if (BlListdata != null) {
+//                txtInputSummry.setVisibility(View.VISIBLE);
+//                cvInputSummary.setVisibility(View.VISIBLE);
+//
+//                mAdapter = new BLQuoteAdapter(getActivity(), BlListdata, blLoanRequest);
+//                rvBLQuotes.setAdapter(mAdapter);
+//
+//                if (BlListdata.size() > 0) {
+//                    txtCount.setText("" + BlListdata.size() + "Results from www.rupeeboss.com");
+//                    txtCount.setVisibility(View.VISIBLE);
+//                } else {
+//                    txtCount.setText("");
+//                    txtCount.setVisibility(View.GONE);
+//                }
+//
+//                if (blLoanRequest != null) {
+//                    //    txtAppName.setText(""+blLoanRequest.getApplicantNme().toUpperCase() );
+//                    txtLoanAmnt.setText("" + blLoanRequest.getLoanamount());
+//                    txtLoanTenure.setText("" + blLoanRequest.getLoanterm());
+//                    txtAppName.setText("" + blLoanRequest.getApplicantName());
+//                    ;
+//                }
+//            }
+//        }
     }
 
     public void redirectToApplyLoan(PersonalQuoteEntity entity) {
