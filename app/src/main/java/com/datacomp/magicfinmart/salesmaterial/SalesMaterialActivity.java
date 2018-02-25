@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.salesmaterial;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesAdapter;
+import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.List;
 
@@ -63,5 +65,13 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    public void  redirectToApplyMain( int prdID)
+    {
+
+        Intent intent = new Intent(this, SalesDetailActivity.class);
+        intent.putExtra(Constants.PRODUCT_ID, prdID);
+        startActivity(intent);
     }
 }

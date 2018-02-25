@@ -61,7 +61,8 @@ public class Constants {
     public static String WEB_URL = "WEBURL";
     public static String PUSH_NOTIFY = "pushNotify";
     public static int REQUEST_CODE = 22;
-
+    public static String PRODUCT_ID = "salesProductID";
+    public static String DOC_DATA = "docData";
 
     public static void hideKeyBoard(View view, Context context) {
         if (view != null) {

@@ -1,20 +1,40 @@
 package com.datacomp.magicfinmart;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.LabeledIntent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.datacomp.magicfinmart.salesmaterial.SalesShareActivity;
+import com.google.firebase.messaging.RemoteMessage;
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -69,6 +89,16 @@ public class BaseActivity extends AppCompatActivity {
             mobNumber = mobNumber.replaceAll(",", "");
             Intent callIntent = new Intent(Intent.ACTION_CALL);
             callIntent.setData(Uri.parse("tel:" + mobNumber));
+            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
             startActivity(callIntent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -168,6 +198,218 @@ public class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return outFile;
+    }
+
+
+
+    public void datashareList(Context context , Bitmap bitmap , String prdSubject , String prdDetail ) {
+
+      //  String Deeplink = "https://nykaa.ly/P_" + Sharedata_product_id;
+
+      //  String prdSubject = "Look what I found on Nykaa!";
+      //  String prdDetail = "Check out " + Sharedata_product_name + " on Nykaa" + "\n" + Deeplink;
+        try {
+
+
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Finmart_product.png");
+
+            file.getParentFile().mkdirs();
+            FileOutputStream out = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+            out.close();
+
+            Uri screenshotUri = Uri.fromFile(file);
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+            shareIntent.setType("text/plain");
+
+            PackageManager pm = context.getPackageManager();
+
+
+            List<ResolveInfo> resInfo = pm.queryIntentActivities(shareIntent, 0);
+            List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
+
+            for (int i = 0; i < resInfo.size(); i++) {
+                // Extract the label, append it, and repackage it in a LabeledIntent
+                ResolveInfo ri = resInfo.get(i);
+                String packageName = ri.activityInfo.packageName;
+                String processName = ri.activityInfo.processName;
+                String AppName = ri.activityInfo.name;
+
+                if ((packageName.contains("android.email") || packageName.contains("mms") || packageName.contains("twitter") || (packageName.contains("whatsapp")) || packageName.contains("messaging") || packageName.contains("android.gm") || packageName.contains("com.google.android.apps.plus")) || (packageName.contains("apps.docs")) && processName.contains("android.apps.docs:Clipboard") || (packageName.contains("android.talk")) && AppName.contains("hangouts")) {
+
+                    shareIntent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+
+                    if (packageName.contains("android.email")) {
+                        shareIntent.setType("image/*");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("twitter")) {
+
+                        shareIntent.setType("image/*");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                        shareIntent.setPackage(packageName);
+
+                    }
+//                    else if (packageName.contains("facebook.katana")) {
+//                        shareIntent.setType("text/plain");
+//                        shareIntent.putExtra(Intent.EXTRA_TEXT, product.getImageUrl());
+//                        shareIntent.setPackage("com.facebook.katana");
+//                        //shareIntent.putExtra(Intent.EXTRA_STREAM, Deeplink);
+//                    }
+//                    else if (packageName.contains("facebook.orca")) {
+//                        shareIntent.setType("image/*");
+//                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+//                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+//                        shareIntent.setPackage("com.facebook.orca");
+//
+//                    }
+                    else if (packageName.contains("mms")) {
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("whatsapp")) {
+                        shareIntent.setType("image/*");
+
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                        shareIntent.setPackage(packageName);
+
+
+                    } else if (packageName.contains("messaging")) {
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+                    } else if (packageName.contains("com.google.android.apps.plus")) {
+                        shareIntent.setType("image/*");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("android.talk")) {
+                        if (AppName.contains("hangouts")) {
+                            shareIntent.setType("image/*");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                            shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                            shareIntent.setPackage(packageName);
+                        }
+
+                    } else if (packageName.contains("apps.docs")) {
+                        if (processName.contains("android.apps.docs:Clipboard")) {
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                            shareIntent.setPackage(packageName);
+                        }
+
+                    } else if (packageName.contains("android.gm")) {
+                        shareIntent.setType("image/*");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.putExtra(Intent.EXTRA_STREAM, screenshotUri);
+                        shareIntent.setPackage(packageName);
+
+                    } else {
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+                    }
+
+                    intentList.add(new LabeledIntent(shareIntent, packageName, ri.loadLabel(pm), ri.icon));
+
+                }
+            }
+
+
+            if (intentList.size() > 1) {
+                intentList.remove(intentList.size() - 1);
+            }
+
+            Intent openInChooser = Intent.createChooser(shareIntent, "Share Via");
+            // convert intentList to array
+            LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
+            openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+
+            startActivity(openInChooser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
+    public class shareImage extends AsyncTask<Void, Void, Bitmap>{
+
+        String Subject = "";
+        String Body = "";
+        URL url = null;
+
+
+        public shareImage(String imgUrl ,String subject, String body) {
+
+            try {
+                Subject = subject;
+                Body = body;
+                url = new URL(imgUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showDialog();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap networkBitmap = null;
+
+          //  URL networkUrl = urls[0]; //Load the first element
+            URL networkUrl = url;
+            try {
+                networkBitmap = BitmapFactory.decodeStream(
+                        networkUrl.openConnection().getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + url);
+            }
+
+            return networkBitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+
+            try {
+
+                if (result != null) {
+                    datashareList(BaseActivity.this,result,Subject,Body);
+                    cancelDialog();
+                } else {
+                    cancelDialog();
+                    // Snackbar.make()
+
+                }
+
+
+            } catch (Exception e) {
+                cancelDialog();
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + e.getMessage());
+
+            }
+        }
     }
 
 }

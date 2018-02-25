@@ -458,8 +458,26 @@
         </activity>
         <activity
             android:name=".salesmaterial.SalesDetailActivity"
-            android:label="@string/title_activity_sales_detail"
-            android:theme="@style/AppTheme"></activity>
+            android:label="@string/title_activity_sales_material"
+            android:parentActivityName=".salesmaterial.SalesMaterialActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity" />
+        </activity>
+        <activity
+            android:name=".salesmaterial.SalesShareActivity"
+            android:label="@string/title_activity_sales_material"
+            android:parentActivityName=".salesmaterial.SalesDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.salesmaterial.SalesDetailActivity" />
+        </activity>
     </application>
 
 </manifest>
