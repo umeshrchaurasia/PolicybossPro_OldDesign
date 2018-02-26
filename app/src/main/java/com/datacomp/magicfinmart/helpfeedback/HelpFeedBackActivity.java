@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.helpfeedback.aboutus.AboutUsActivity;
 import com.datacomp.magicfinmart.helpfeedback.contactus.ContactUsActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 
@@ -50,7 +51,7 @@ public class HelpFeedBackActivity extends BaseActivity implements View.OnClickLi
                 startActivity(new Intent(this, UnderConstructionActivity.class));
                 break;
             case R.id.cvAboutUs:
-                startActivity(new Intent(this, UnderConstructionActivity.class));
+                startActivity(new Intent(this, AboutUsActivity.class));
                 break;
             case R.id.cvDisclosure:
                 startActivity(new Intent(this, UnderConstructionActivity.class));

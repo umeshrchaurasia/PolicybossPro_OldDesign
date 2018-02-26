@@ -220,7 +220,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (!registerRequestEntity.getPosp_LastName().equals("") && registerRequestEntity.getPosp_LastName() != null) {
             etLastName.setText("" + registerRequestEntity.getPosp_LastName());
         }*/
-        if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
+         if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
             // showDialog();
             new RegisterController(this).getCityState(registerRequestEntity.getPosp_PinCode(), this);
         }
