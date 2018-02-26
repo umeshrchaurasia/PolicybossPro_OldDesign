@@ -405,6 +405,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".creditcard.RBLCreditApplyActivity"
+            android:label="@string/title_activity_rblcredit_apply"
+            android:parentActivityName=".creditcard.CreditCardActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.creditcard.CreditCardActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -146,5 +146,6 @@
     <string name="title_activity_pending_cases">"Pending Cases "</string>
     <string name="title_activity_sales_material">"Sales Material "</string>
     <string name="title_activity_credit_card">"Credit Card "</string>
+    <string name="title_activity_rblcredit_apply">Credit card</string>
 
 </resources>

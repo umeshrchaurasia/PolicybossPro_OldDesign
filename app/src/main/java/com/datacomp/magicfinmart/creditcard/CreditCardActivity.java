@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.creditcard;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +63,7 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
         rvCreditCards.setLayoutManager(new LinearLayoutManager(this));
 
     }
+
 
     private void bindSpinner() {
 
@@ -128,21 +131,6 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
         new CreditCardController(this).getAllCreditCards(this);
     }
 
-
-    @Override
-    public void OnSuccess(APIResponse response, String message) {
-
-        cancelDialog();
-        if (response instanceof CreditCardMasterResponse) {
-            if (response.getStatusNo() == 0) {
-                listFilterEntity = ((CreditCardMasterResponse) response).getMasterData().getFilter();
-                listCreditCardEntity = ((CreditCardMasterResponse) response).getMasterData().getFilterdata();
-                incomeFilterData();
-
-            }
-        }
-    }
-
     private void incomeFilterData() {
         strFilterList.clear();
         for (int i = 0; i < listFilterEntity.size(); i++) {
@@ -166,6 +154,32 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
         }
 
         return list;
+    }
+
+    public void redirectToApply(CreditCardEntity entity) {
+        if (spIncome.getSelectedItemPosition() != 0) {
+            // redirect to apply
+            // 1- RBL, 2- ICICI
+            if (entity.getCreditCardId() == 1) {
+                startActivity(new Intent(this, RBLCreditApplyActivity.class));
+            }
+        } else {
+            Toast.makeText(this, "Select net annual income", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+        cancelDialog();
+        if (response instanceof CreditCardMasterResponse) {
+            if (response.getStatusNo() == 0) {
+                listFilterEntity = ((CreditCardMasterResponse) response).getMasterData().getFilter();
+                listCreditCardEntity = ((CreditCardMasterResponse) response).getMasterData().getFilterdata();
+                incomeFilterData();
+
+            }
+        }
     }
 
     @Override

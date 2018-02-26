@@ -54,7 +54,7 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         ViewHolder hold = (ViewHolder) holder;
-        CreditCardEntity entity = listCreditCards.get(position);
+        final CreditCardEntity entity = listCreditCards.get(position);
         hold.txtCardbankName.setText("" + entity.getBankName());
         hold.txtCardType.setText(entity.getCreditCardType());
 
@@ -70,6 +70,12 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
         }
         hold.txtCCDesc.setText("" + sb.toString());
 
+        hold.cvCCItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((CreditCardActivity) mContext).redirectToApply(entity);
+            }
+        });
     }
 
 
@@ -83,7 +89,7 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
     public class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtCCDesc, txtCardType, txtCardbankName;
         ImageView imgCard;
-
+        CardView cvCCItem;
 
         ViewHolder(View v) {
             super(v);
@@ -91,6 +97,7 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
             txtCardType = (TextView) v.findViewById(R.id.txtCardType);
             txtCardbankName = (TextView) v.findViewById(R.id.txtCardbankName);
             imgCard = (ImageView) v.findViewById(R.id.imgCard);
+            cvCCItem = (CardView) v.findViewById(R.id.cvCCItem);
 
         }
     }
