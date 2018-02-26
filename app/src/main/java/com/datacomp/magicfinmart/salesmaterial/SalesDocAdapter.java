@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.design.CustomImageView;
+import com.datacomp.magicfinmart.design.SquareImageView;
 
 import java.util.List;
 
@@ -34,13 +36,13 @@ public class SalesDocAdapter extends RecyclerView.Adapter<SalesDocAdapter.SalesD
 
     public class SalesDocItem extends RecyclerView.ViewHolder{
 
-        ImageView ivProduct;
+        CustomImageView ivProduct;
         LinearLayout lyParent;
 
 
         public SalesDocItem(View itemView) {
             super(itemView);
-            ivProduct = (ImageView) itemView.findViewById(R.id.ivProduct);
+            ivProduct = (CustomImageView) itemView.findViewById(R.id.ivProduct);
             lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
 
         }

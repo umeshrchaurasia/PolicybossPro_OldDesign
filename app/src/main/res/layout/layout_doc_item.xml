@@ -7,17 +7,15 @@
     android:background="@color/bg_white"
     android:orientation="horizontal">
 
-    <ImageView
-
-        android:minHeight="350dp"
-        android:minWidth="25dp"
+    <com.datacomp.magicfinmart.design.CustomImageView
+        android:layout_margin="8dp"
         android:id="@+id/ivProduct"
-        android:scaleType="fitCenter"
-        android:layout_margin="10dp"
-        android:layout_width="220dp"
-        android:layout_height="350dp"
+        android:minHeight="200dp"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:src="@drawable/credit_card">
-    </ImageView>
+    </com.datacomp.magicfinmart.design.CustomImageView>
 
 
 </LinearLayout>
