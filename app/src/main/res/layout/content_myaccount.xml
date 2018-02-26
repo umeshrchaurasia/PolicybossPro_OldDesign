@@ -121,7 +121,7 @@
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:hint="E-MAIL ID">
+                            android:hint="E-MAIL ID TO SHARE">
 
                             <EditText
                                 android:id="@+id/etEmailId"
@@ -571,6 +571,7 @@
                         android:padding="8dp">
 
                         <ImageView
+                            android:id="@+id/ivPhoto"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_alignParentRight="true"
@@ -585,12 +586,14 @@
                             android:text="FBA PHOTOGRAPH" />
 
                         <ImageView
+                            android:id="@+id/ivPhotoCam"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:padding="2dp"
                             android:src="@drawable/camera_icon" />
 
                         <ImageView
+                            android:id="@+id/ivPhotoGallery"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_marginLeft="10dp"
@@ -610,6 +613,7 @@
                         android:padding="8dp">
 
                         <ImageView
+                            android:id="@+id/ivPan"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_alignParentRight="true"
@@ -624,12 +628,14 @@
                             android:text="FBA PAN CARD" />
 
                         <ImageView
+                            android:id="@+id/ivPanCam"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:padding="2dp"
                             android:src="@drawable/camera_icon" />
 
                         <ImageView
+                            android:id="@+id/ivPanGallery"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_marginLeft="10dp"
@@ -649,6 +655,7 @@
                         android:padding="8dp">
 
                         <ImageView
+                            android:id="@+id/ivCancel"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_alignParentRight="true"
@@ -663,12 +670,14 @@
                             android:text="CANCELLED CHQ" />
 
                         <ImageView
+                            android:id="@+id/ivCancelCam"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:padding="2dp"
                             android:src="@drawable/camera_icon" />
 
                         <ImageView
+                            android:id="@+id/ivCancelGallery"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_marginLeft="10dp"
@@ -688,6 +697,7 @@
                         android:padding="8dp">
 
                         <ImageView
+                            android:id="@+id/ivAadhar"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_alignParentRight="true"
@@ -702,12 +712,14 @@
                             android:text="FBA AADHAR CARD" />
 
                         <ImageView
+                            android:id="@+id/ivAadharCam"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:padding="2dp"
                             android:src="@drawable/camera_icon" />
 
                         <ImageView
+                            android:id="@+id/ivAadharGallery"
                             android:layout_width="25dp"
                             android:layout_height="25dp"
                             android:layout_marginLeft="10dp"
@@ -716,6 +728,111 @@
                     </LinearLayout>
 
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <RelativeLayout
+                    android:id="@+id/rlPOSP"
+                    style="@style/HeaderLayout"
+                    android:padding="15dp">
+
+                    <ImageView
+                        android:id="@+id/ivPOSP"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/down_arrow" />
+
+                    <TextView
+                        style="@style/TextViewStyle.Large"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="15dp"
+                        android:text="POSP INFORMATION"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textStyle="normal" />
+
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:id="@+id/llPosp"
+                    style="@style/LinearLayoutStyle"
+                    android:animateLayoutChanges="true"
+                    android:visibility="visible">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="SUB HEADING">
+
+                            <EditText
+                                android:id="@+id/etSubHeading_posp"
+                                style="@style/Style.edittext" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="MOBILE NUMBER TO SHARE">
+
+                            <EditText
+                                android:id="@+id/etMobileNo_posp"
+                                style="@style/Style.edittext"
+                                android:digits="0123456789"
+                                android:inputType="number"
+                                android:maxLength="10" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:hint="E-MAIL ID TO SHARE">
+
+                            <EditText
+                                android:id="@+id/etEmailId_posp"
+                                style="@style/Style.edittext"
+                                android:inputType="textEmailAddress" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
 
             </LinearLayout>
 
@@ -743,6 +860,7 @@
                     android:src="@drawable/user_blank" />
 
                 <ImageView
+                    android:id="@+id/ivProfile"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_below="@+id/ivUser"
