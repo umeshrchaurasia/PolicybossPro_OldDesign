@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "424986722841",
+    "firebase_url": "https://finmart-129f0.firebaseio.com",
+    "project_id": "finmart-129f0",
+    "storage_bucket": "finmart-129f0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424986722841:android:e75dd8d7d7b8d02e",
+        "android_client_info": {
+          "package_name": "com.datacomp.magicfinmart"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424986722841-qakjtv6ckbnt4qt64buqish981tpf8k2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyByX-EmgvR1skLTUcuiZE1EJKOjXaYSufk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

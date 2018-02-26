@@ -64,14 +64,15 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnAgree:
+
                 if (checkAllMastersIsUpdate()) {
+                    prefManager.setFirstTimeLaunch(false);
                     startActivity(new Intent(this, LoginActivity.class));
                 } else {
                     Toast.makeText(this, "Server Down Try After some time", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.btnDisAgree:
-                prefManager.setFirstTimeLaunch(false);
                 finish();
                 break;
         }

@@ -6,8 +6,9 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactUsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.WhatsNewResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -45,6 +46,14 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @GET("/api/get-insurance-company")
         Call<InsuranceMasterResponse> getInsuranceMasters();
+
+        @Headers("token:" + token)
+        @POST("/api/contact-us")
+        Call<ContactUsResponse> getContactUs();
+
+        @Headers("token:" + token)
+        @POST("/api/whats-new")
+        Call<WhatsNewResponse> getWhatsNew(@Body HashMap<String, String> body);
 
        /* @Headers("token:1234567890")
         @POST("/api/generate-otp")

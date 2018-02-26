@@ -104,6 +104,8 @@ public class RegisterRequestEntity {
 
     private int FBAID;
     private int FBALiveID;
+
+    private String FBA_Designation;
     private String FirstName;
     private String LastName;
     private String DOB;
@@ -196,11 +198,15 @@ public class RegisterRequestEntity {
     private int BrokID;
     private String IsFOC;
     private String password;
+    private String DisplayEmail;
+    private String DisplayPhoneNo;
+    private String DisplayDesignation;
 
 
     public RegisterRequestEntity() {
         this.FBAID = 0;
         this.FBALiveID = 0;
+        FBA_Designation = "";
         FirstName = "";
         LastName = "";
         this.DOB = "";
@@ -293,6 +299,9 @@ public class RegisterRequestEntity {
         BrokID = 0;
         IsFOC = "";
         this.password = "";
+        DisplayEmail= "";
+        DisplayPhoneNo = "";
+        DisplayDesignation = "";
     }
 
     public int getFBAID() {
@@ -1045,5 +1054,37 @@ public class RegisterRequestEntity {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFBA_Designation() {
+        return FBA_Designation;
+    }
+
+    public void setFBA_Designation(String FBA_Designation) {
+        this.FBA_Designation = FBA_Designation;
+    }
+
+    public String getDisplayEmail() {
+        return DisplayEmail;
+    }
+
+    public void setDisplayEmail(String DisplayEmail) {
+        this.DisplayEmail = DisplayEmail;
+    }
+
+    public String getDisplayPhoneNo() {
+        return DisplayPhoneNo;
+    }
+
+    public void setDisplayPhoneNo(String DisplayPhoneNo) {
+        this.DisplayPhoneNo = DisplayPhoneNo;
+    }
+
+    public String getDisplayDesignation() {
+        return DisplayDesignation;
+    }
+
+    public void setDisplayDesignation(String DisplayDesignation) {
+        this.DisplayDesignation = DisplayDesignation;
     }
 }

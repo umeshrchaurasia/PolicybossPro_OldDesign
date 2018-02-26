@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -592,6 +595,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
 
     private void setListener() {
         switchNewRenew.setOnCheckedChangeListener(this);
+        swIndividual.setOnCheckedChangeListener(this);
         tvClaimYes.setOnClickListener(this);
         tvClaimNo.setOnClickListener(this);
         btnGetQuote.setOnClickListener(this);
@@ -694,6 +698,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder_blue);
                 sbNoClaimBonus.setEnabled(false);
+                sbNoClaimBonus.setProgress(0);
                 break;
             case R.id.btnGetQuote:
 
@@ -730,10 +735,43 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
                         return;
                     }
                 }
-                if (!isEmpty(etCustomerName)) {
+
+                if (etCustomerName.getText().toString().equals("")) {
                     etCustomerName.requestFocus();
                     etCustomerName.setError("Enter Name");
                     return;
+                } else {
+                    String[] fullName = etCustomerName.getText().toString().split(" ");
+                    if (fullName.length == 1) {
+                        if (fullName[0].length() < 2) {
+                            etCustomerName.requestFocus();
+                            etCustomerName.setError("First Name should be greater than 1 character");
+                            return;
+                        }
+                    } else if (fullName.length == 2) {
+                        if (fullName[0].length() < 2) {
+                            etCustomerName.requestFocus();
+                            etCustomerName.setError("First Name should be greater than 1 character");
+                            return;
+                        }
+                        if (fullName[1].length() < 2) {
+                            etCustomerName.requestFocus();
+                            etCustomerName.setError("Last Name should be greater than 1 character");
+                            return;
+                        }
+                    } else if (fullName.length == 3) {
+                        if (fullName[0].length() < 2) {
+                            etCustomerName.requestFocus();
+                            etCustomerName.setError("First Name should be greater than 1 character");
+                            return;
+                        }
+                        if (fullName[2].length() < 2) {
+                            etCustomerName.requestFocus();
+                            etCustomerName.setError("Last Name should be greater than 1 character");
+                            return;
+                        }
+                    }
+
                 }
                 /*if (!isValidePhoneNumber(etMobile)) {
                     etMobile.requestFocus();
@@ -1316,6 +1354,53 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
                 spPrevIns.setEnabled(false);
                 cvNcb.setVisibility(View.GONE);
             }
+        } else if (R.id.swIndividual == compoundButton.getId()) {
+            if (!b) {
+                //openPop up
+                swIndividual.setChecked(true);
+                showPopUp("CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "", "OK", true);
+            }
+        }
+
+    }
+
+    private void showPopUp(String title, String message, String buttonName, boolean isCancelable) {
+
+        try {
+            final Dialog dialog;
+            dialog = new Dialog(getActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.layout_pancard_popup);
+
+            TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
+            tvTitle.setText(title);
+            TextView tvOk = (TextView) dialog.findViewById(R.id.tvOk);
+            tvOk.setText(buttonName);
+            tvOk.setVisibility(View.GONE);
+            TextView txtMessage = (TextView) dialog.findViewById(R.id.txtMessage);
+            txtMessage.setText(message);
+            txtMessage.setVisibility(View.GONE);
+
+            dialog.setCancelable(isCancelable);
+            dialog.setCanceledOnTouchOutside(isCancelable);
+
+            Window dialogWindow = dialog.getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = lp.MATCH_PARENT;
+            ; // Width
+            lp.height = lp.WRAP_CONTENT; // Height
+            dialogWindow.setAttributes(lp);
+
+            dialog.show();
+            tvOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    dialog.cancel();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

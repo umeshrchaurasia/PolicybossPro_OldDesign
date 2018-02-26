@@ -74,7 +74,7 @@
     <string name="title_activity_lapapply">LOAN AGAINST PROPERTY</string>
     <string name="title_activity_lapapply_web_view">LOAN AGAINST PROPERTY</string>
     <string name="title_activity_two_wheeler_quote_app">Two Wheeler</string>
-    <string name="title_activity_bike_add_quote">Bike Insurance</string>
+    <string name="title_activity_bike_add_quote">Two Wheeler</string>
 
     <!--health-->
     <string-array name="health_sum_assured">
@@ -143,7 +143,13 @@
     <string name="title_activity_home_loan_application">Home Loan Apply</string>
     <string name="title_activity_credit_card_main">"Credit Card "</string>
     <string name="title_activity_knowledge_guru_webview">Knowledge Guru</string>
+    <string name="title_activity_notification">Notification</string>
     <string name="title_activity_pending_cases">"Pending Cases "</string>
+    <string name="title_activity_under_construction">MAGIC FINMART</string>
+    <string name="title_activity_whats_new">WHAT\'S NEW</string>
+    <string name="title_activity_help_feed_back">HELP &amp; FEEDBACK</string>
+    <string name="title_activity_contact_us">CONTACT US</string>
+    <string name="title_activity_about_us">ABOUT US</string>
     <string name="title_activity_sales_material">"Sales Material "</string>
     <string name="title_activity_credit_card">"Credit Card "</string>
     <string name="title_activity_rblcredit_apply">Credit card</string>

@@ -11,6 +11,8 @@
     <color name="button_color">@color/colorPrimary</color>
     <color name="bg_light">#eaeff7</color>
     <color name="blue">#005faf</color>
+    <color name="holo_red_dark">#ffcc0000</color>
+    <color name="red_descent">#de6d75</color>
 
 
     <!--mintpro-->
