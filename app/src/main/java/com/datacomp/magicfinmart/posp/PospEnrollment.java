@@ -211,6 +211,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     }
 
     private void bindInputFromeServer(PospDetailsEntity registerRequestEntity) {
+
+
         //set profile Details
       /*  if (!registerRequestEntity.getPosp_FirstName().equals("") && registerRequestEntity.getPosp_FirstName() != null) {
             etFirstName.setText("" + registerRequestEntity.getPosp_FirstName());
@@ -218,11 +220,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (!registerRequestEntity.getPosp_LastName().equals("") && registerRequestEntity.getPosp_LastName() != null) {
             etLastName.setText("" + registerRequestEntity.getPosp_LastName());
         }*/
-        if (!registerRequestEntity.getPosp_PinCode().equals("")) {
+        if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
             // showDialog();
             new RegisterController(this).getCityState(registerRequestEntity.getPosp_PinCode(), this);
         }
-        if (!registerRequestEntity.getPosp_IFSC().equals("")) {
+        if (!registerRequestEntity.getPosp_IFSC().equals("") && registerRequestEntity.getPosp_IFSC() != null) {
             //showDialog();
             new RegisterController(this).getIFSC(registerRequestEntity.getPosp_IFSC(), this);
         }
@@ -1049,6 +1051,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     if (((PospDetailsResponse) response).getMasterData().size() > 0) {
                         pospDetailsEntity = ((PospDetailsResponse) response).getMasterData().get(0);
                         if (pospDetailsEntity != null) {
+                            if (!pospDetailsEntity.getPOSPNo().equals("") && pospDetailsEntity.getPOSPNo() != null)
+                                registerRequestEntity.setPOSPID(Integer.parseInt(pospDetailsEntity.getPOSPNo()));
                             bindInputFromeServer(pospDetailsEntity);
                         }
                     }

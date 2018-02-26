@@ -1,15 +1,19 @@
 package com.datacomp.magicfinmart.helpfeedback.aboutus;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
+import android.widget.TextView;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
-public class AboutUsActivity extends AppCompatActivity {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+
+public class AboutUsActivity extends BaseActivity implements IResponseSubcriber {
+
+    TextView tvAppVersion, tvNAme, tvFbaCode, tvPospNo, tvLoginId, tvPospStatus, tvManagerMobile,
+            tvManagerEmail, tvSupportNo, tvSupportEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,16 +21,30 @@ public class AboutUsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about_us);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        init_widgets();
     }
 
+    private void init_widgets() {
+        tvAppVersion = (TextView) findViewById(R.id.tvAppVersion);
+        tvNAme = (TextView) findViewById(R.id.tvNAme);
+        tvFbaCode = (TextView) findViewById(R.id.tvFbaCode);
+        tvPospNo = (TextView) findViewById(R.id.tvPospNo);
+        tvLoginId = (TextView) findViewById(R.id.tvLoginId);
+        tvPospStatus = (TextView) findViewById(R.id.tvPospStatus);
+        tvManagerMobile = (TextView) findViewById(R.id.tvManagerMobile);
+        tvManagerEmail = (TextView) findViewById(R.id.tvManagerEmail);
+        tvSupportNo = (TextView) findViewById(R.id.tvSupportNo);
+        tvSupportEmail = (TextView) findViewById(R.id.tvSupportEmail);
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
+    }
 }
