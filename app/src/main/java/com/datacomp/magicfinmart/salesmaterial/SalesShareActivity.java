@@ -75,7 +75,8 @@ public class SalesShareActivity extends BaseActivity {
 
     public void showShareProduct() {
 
-      new  shareImage(docsEntity.getImage_path(),"Finmart","Look what I found on Finmart!").execute();
+      new  shareImageNormal(docsEntity.getImage_path(),"Finmart","Look what I found on Finmart!").execute();
+
 
 
     }

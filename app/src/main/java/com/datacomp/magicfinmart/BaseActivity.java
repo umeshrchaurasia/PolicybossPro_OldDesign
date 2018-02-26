@@ -143,6 +143,26 @@ public class BaseActivity extends AppCompatActivity {
         return !(aadharNo.isEmpty() || !aadharNo.matches(aadharPattern));
     }
 
+
+    public File saveImageToStorage(Bitmap bitmap, String name) {
+        FileOutputStream outStream = null;
+
+        File dir = Utility.createDirIfNotExists();
+        String fileName = name + ".jpg";
+        fileName = fileName.replaceAll("\\s+", "");
+        File outFile = new File(dir, fileName);
+        try {
+            outStream = new FileOutputStream(outFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 70, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outFile;
+    }
+
+
     public Bitmap createBitmap() {
         Bitmap resultBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(resultBitmap);
@@ -153,7 +173,7 @@ public class BaseActivity extends AppCompatActivity {
         return resultBitmap;
     }
 
-    public Bitmap combineImages(Bitmap first, Bitmap second) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom
+    public Bitmap combineImages(Bitmap first, Bitmap second,String pospName,String pospDesg,String pospMob,String pospEmail) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom
         Bitmap cs = null;
 
         int width, height = 0;
@@ -181,33 +201,12 @@ public class BaseActivity extends AppCompatActivity {
         return cs;
     }
 
-    public File saveImageToStorage(Bitmap bitmap, String name) {
-        FileOutputStream outStream = null;
+    public void datashareList(Context context, Bitmap bitmap, String prdSubject, String prdDetail) {
 
-        File dir = Utility.createDirIfNotExists();
-        //String fileName = String.format("%d.jpg", frontRearEntity.getName() /*+ "-" + System.currentTimeMillis()*/);
-        String fileName = name + ".jpg";
-        fileName = fileName.replaceAll("\\s+", "");
-        File outFile = new File(dir, fileName);
-        try {
-            outStream = new FileOutputStream(outFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 70, outStream);
-            outStream.flush();
-            outStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return outFile;
-    }
+        //  String Deeplink = "https://nykaa.ly/P_" + Sharedata_product_id;
 
-
-
-    public void datashareList(Context context , Bitmap bitmap , String prdSubject , String prdDetail ) {
-
-      //  String Deeplink = "https://nykaa.ly/P_" + Sharedata_product_id;
-
-      //  String prdSubject = "Look what I found on Nykaa!";
-      //  String prdDetail = "Check out " + Sharedata_product_name + " on Nykaa" + "\n" + Deeplink;
+        //  String prdSubject = "Look what I found on Nykaa!";
+        //  String prdDetail = "Check out " + Sharedata_product_name + " on Nykaa" + "\n" + Deeplink;
         try {
 
 
@@ -345,24 +344,22 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    public class shareImage extends AsyncTask<Void, Void, Bitmap>{
+    public class shareImageNormal extends AsyncTask<Void, Void, Bitmap> {
 
-        String Subject = "";
-        String Body = "";
-        URL url = null;
+        String subject, body;
+        URL imgUrl;
 
-
-        public shareImage(String imgUrl ,String subject, String body) {
+        public shareImageNormal(String imgUrl, String subject, String body) {
+            this.subject = subject;
+            this.body = body;
 
             try {
-                Subject = subject;
-                Body = body;
-                url = new URL(imgUrl);
+
+                this.imgUrl = new URL(imgUrl);
             } catch (Exception e) {
                 e.printStackTrace();
 
             }
-
         }
 
 
@@ -376,14 +373,84 @@ public class BaseActivity extends AppCompatActivity {
         protected Bitmap doInBackground(Void... voids) {
             Bitmap networkBitmap = null;
 
-          //  URL networkUrl = urls[0]; //Load the first element
-            URL networkUrl = url;
+            //  URL networkUrl = urls[0]; //Load the first element
+            URL networkUrl = imgUrl;
             try {
                 networkBitmap = BitmapFactory.decodeStream(
                         networkUrl.openConnection().getInputStream());
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + url);
+                Log.e("TAG", "Could not load Bitmap from: " + imgUrl);
+            }
+
+            return networkBitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+
+            try {
+                cancelDialog();
+                if (result != null) {
+
+                    datashareList(BaseActivity.this, result, subject, body);
+
+                } else {
+                    cancelDialog();
+
+                }
+
+
+            } catch (Exception e) {
+                cancelDialog();
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + e.getMessage());
+
+            }
+        }
+    }
+
+
+    public class shareImage extends AsyncTask<Void, Void, Bitmap> {
+
+        String pospNAme, pospDesg, PospMobNo, pospEmail, subject, body;
+        URL imgUrl, pospPhotoUrl;
+
+        public shareImage(String imgUrl, String pospPhotoUrl, String pospNAme, String pospDesg, String pospMobNo, String pospEmail, String subject, String body) {
+            this.pospNAme = pospNAme;
+            this.pospDesg = pospDesg;
+            PospMobNo = pospMobNo;
+            this.pospEmail = pospEmail;
+            this.subject = subject;
+            this.body = body;
+
+            try {
+                this.pospPhotoUrl = new URL(pospPhotoUrl);
+                this.imgUrl = new URL(imgUrl);
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showDialog();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap networkBitmap = null;
+
+            //  URL networkUrl = urls[0]; //Load the first element
+            URL networkUrl = imgUrl;
+            try {
+                networkBitmap = BitmapFactory.decodeStream(
+                        networkUrl.openConnection().getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + imgUrl);
             }
 
             return networkBitmap;
@@ -394,12 +461,74 @@ public class BaseActivity extends AppCompatActivity {
             try {
 
                 if (result != null) {
-                    datashareList(BaseActivity.this,result,Subject,Body);
-                    cancelDialog();
+                    new createBitmapFromURL(result,pospPhotoUrl,pospNAme,pospDesg,PospMobNo,pospEmail,subject,body).execute();
+                    //datashareList(BaseActivity.this, result, Subject, Body);
+
                 } else {
                     cancelDialog();
                     // Snackbar.make()
 
+                }
+
+
+            } catch (Exception e) {
+                cancelDialog();
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + e.getMessage());
+
+            }
+        }
+    }
+
+    public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
+        URL  pospPhotoUrl;
+        String pospNAme, pospDesg, PospMobNo, pospEmail, subject, body;
+        Bitmap salesMaterial;
+        public createBitmapFromURL(Bitmap salesMaterial,URL pospPhotoUrl, String pospNAme, String pospDesg,
+                                   String pospMobNo, String pospEmail, String subject, String body) {
+
+            this.salesMaterial=salesMaterial;
+            this.pospNAme = pospNAme;
+            this.pospDesg = pospDesg;
+            PospMobNo = pospMobNo;
+            this.pospEmail = pospEmail;
+            this.subject = subject;
+            this.body = body;
+            this.pospPhotoUrl=pospPhotoUrl;
+        }
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap networkBitmap = null;
+
+            //  URL networkUrl = urls[0]; //Load the first element
+            try {
+                networkBitmap = BitmapFactory.decodeStream(
+                        pospPhotoUrl.openConnection().getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + pospPhotoUrl);
+            }
+
+            return networkBitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+
+            try {
+
+                if (result != null) {
+                    //datashareList(BaseActivity.this, result);
+                    Bitmap combined = combineImages(salesMaterial,result,pospNAme,pospDesg,PospMobNo,pospEmail);
+                    datashareList(BaseActivity.this,combined,subject,body);
+                    cancelDialog();
+                } else {
+                    cancelDialog();
+                    // Snackbar.make()
                 }
 
 

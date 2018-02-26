@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -23,6 +24,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.register.RegisterActivity;
@@ -32,6 +34,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -39,6 +42,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocAvailableEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IfscEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
@@ -63,8 +67,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     int type;
     LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile,
-            ivPhotoCam , ivPhotoGallery ,ivPanCam , ivPanGallery ,ivCancelCam,ivCancelGallery ,ivAadharCam ,ivAadharGallery,
-            ivAadhar ,ivCancel , ivPan ,ivPhoto ,ivUser;
+            ivPhotoCam, ivPhotoGallery, ivPanCam, ivPanGallery, ivCancelCam, ivCancelGallery, ivAadharCam, ivAadharGallery,
+            ivAadhar, ivCancel, ivPan, ivPhoto, ivUser;
     RelativeLayout rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload, rlPOSP;
 
     EditText etSubHeading, etMobileNo, etEmailId, etAddress1, etAddress2, etAddress3, etPincode,
@@ -81,7 +85,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     HashMap<String, Integer> body;
     MultipartBody.Part part;
     File file;
-   // private String PROFILE = "1", PHOTO = "2", PAN = "3", CANCEL_CHQ = "4", AADHAR = "5";
+    // private String PROFILE = "1", PHOTO = "2", PAN = "3", CANCEL_CHQ = "4", AADHAR = "5";
 
     private int PROFILE = 1, PHOTO = 2, PAN = 3, CANCEL_CHQ = 4, AADHAR = 5;
 
@@ -89,6 +93,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private String PHOTO_EXT = "FBAPhotograph.jpg", PAN_EXT = "LoanRepPanCard.jpg", CANCEL_CHQ_EXT = "LoanRepCancelChq.jpg", AADHAR_EXT = "OtherAadharCard.jpg";
 
+    Boolean isDataUploaded = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +113,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         initWidgets();
         setListener();
         initLayouts();
+
 
         showDialog("Fetching Detail...");
         new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
@@ -153,7 +159,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         btnSave.setOnClickListener(this);
         txtSaving.setOnClickListener(this);
         txtCurrent.setOnClickListener(this);
-
 
 
         etPincode.addTextChangedListener(pincodeTextWatcher);
@@ -212,7 +217,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         txtSaving = (TextView) findViewById(R.id.txtSaving);
         txtCurrent = (TextView) findViewById(R.id.txtCurrent);
 
-        ivUser  = (ImageView) findViewById(R.id.ivUser);
+        ivUser = (ImageView) findViewById(R.id.ivUser);
         ivPhotoCam = (ImageView) findViewById(R.id.ivPhotoCam);
         ivPhotoGallery = (ImageView) findViewById(R.id.ivPhotoGallery);
         ivPanCam = (ImageView) findViewById(R.id.ivPanCam);
@@ -225,9 +230,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         ivAadhar = (ImageView) findViewById(R.id.ivAadhar);
         ivCancel = (ImageView) findViewById(R.id.ivCancel);
-        ivPan  = (ImageView) findViewById(R.id.ivPan );
+        ivPan = (ImageView) findViewById(R.id.ivPan);
         ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
-
 
 
         btnSave = (Button) findViewById(R.id.btnSave);
@@ -312,7 +316,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 openGallery();
                 break;
 
-            case R.id.ivAadharCam :
+            case R.id.ivAadharCam:
                 type = 5;
                 launchCamera();
                 break;
@@ -335,9 +339,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     llPosp.setVisibility(View.GONE);
                     manageMainLayouts(llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress);
                     manageImages(llPosp, ivPOSP, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile);
+                } else {
+                    showDialog();
+                    saveMain();
                 }
 
-                saveProfile();
                 break;
         }
     }
@@ -355,8 +361,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (s.length() == 6) {
+            if ((s.length() == 6) && (isDataUploaded)) {
                 showDialog("Fetching City...");
+                Toast.makeText(MyAccountActivity.this, "Fetching City...Data", Toast.LENGTH_LONG).show();
                 new RegisterController(MyAccountActivity.this).getCityState(etPincode.getText().toString(), MyAccountActivity.this);
 
             }
@@ -392,9 +399,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         if ((etSubHeading_posp.getText().toString().trim().length() > 0) || (etMobileNo_posp.getText().toString().trim().length() > 0) ||
                 (etEmailId_posp.getText().toString().trim().length() > 0)) {
 
-            registerRequestEntity.setFBA_Designation("" + etSubHeading_posp.getText().toString());
-            registerRequestEntity.setMobile_1("" + etMobileNo_posp.getText().toString());
-            registerRequestEntity.setEmailId("" + etEmailId_posp.getText().toString());
+            registerRequestEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString());
+            registerRequestEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
+            registerRequestEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
             registerRequestEntity.setType("4");
 
             new RegisterController(MyAccountActivity.this).saveAccDtl(registerRequestEntity, MyAccountActivity.this);
@@ -429,10 +436,52 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             registerRequestEntity.setLoan_BankName("" + etBankName.getText().toString());
             registerRequestEntity.setLoan_BankBranch("" + etBankBranch.getText().toString());
             registerRequestEntity.setLoan_BankCity("" + etBankCity.getText().toString());
+            if (ACCOUNT_TYPE.equals("SAVING")) {
+                registerRequestEntity.setLoan_Account_Type("SAVING");
+            } else {
+                registerRequestEntity.setLoan_Account_Type("CURRENT");
+            }
+
             registerRequestEntity.setType("3");
 
             new RegisterController(MyAccountActivity.this).saveAccDtl(registerRequestEntity, MyAccountActivity.this);
         }
+    }
+
+    private void saveMain() {
+        registerRequestEntity.setType("0");
+        registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString());
+        registerRequestEntity.setMobile_1("" + etMobileNo.getText().toString());
+        registerRequestEntity.setEmailId("" + etEmailId.getText().toString());
+
+        registerRequestEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString());
+        registerRequestEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
+        registerRequestEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
+
+        registerRequestEntity.setAddress_1("" + etAddress1.getText().toString());
+        registerRequestEntity.setAddress_2("" + etAddress2.getText().toString());
+        registerRequestEntity.setAddress_3("" + etAddress3.getText().toString());
+        registerRequestEntity.setPinCode("" + etPincode.getText().toString());
+        registerRequestEntity.setCity("" + etCity.getText().toString());
+        registerRequestEntity.setState("" + etState.getText().toString());
+
+
+        registerRequestEntity.setLoan_FirstName("" + etAccountHolderName.getText().toString());
+        registerRequestEntity.setLoan_PAN("" + etPAN.getText().toString());
+        registerRequestEntity.setLoan_Aadhaar("" + etAadhaar.getText().toString());
+        registerRequestEntity.setLoan_BankAcNo("" + etBankAcNo.getText().toString());
+        registerRequestEntity.setLoan_IFSC("" + etIfscCode.getText().toString());
+        registerRequestEntity.setLoan_MICR("" + etMicrCode.getText().toString());
+        registerRequestEntity.setLoan_BankName("" + etBankName.getText().toString());
+        registerRequestEntity.setLoan_BankBranch("" + etBankBranch.getText().toString());
+        registerRequestEntity.setLoan_BankCity("" + etBankCity.getText().toString());
+        if (ACCOUNT_TYPE.equals("SAVING")) {
+            registerRequestEntity.setLoan_Account_Type("SAVING");
+        } else {
+            registerRequestEntity.setLoan_Account_Type("CURRENT");
+        }
+        new RegisterController(MyAccountActivity.this).saveAccDtl(registerRequestEntity, MyAccountActivity.this);
+
     }
 
 
@@ -520,61 +569,66 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etSubHeading.requestFocus();
                 etSubHeading.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSubHeading.setError("Enter First Name");
+                etSubHeading.setError("Enter Sub Heading");
                 return false;
             } else {
                 etSubHeading.requestFocus();
-                etSubHeading.setError("Enter First Name");
+                etSubHeading.setError("Enter Sub Heading");
                 return false;
             }
-        }
-
-
-        if (!isEmpty(etMobileNo)) {
+        } else if (!isEmpty(etMobileNo)) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 etMobileNo.requestFocus();
                 etMobileNo.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etMobileNo.setError("Enter Mobile ");
+                etMobileNo.setError("Enter Mobile Number");
                 return false;
 
             } else {
                 etMobileNo.requestFocus();
-                etMobileNo.setError("Enter Mobile ");
+                etMobileNo.setError("Enter Mobile Number");
                 return false;
 
             }
-        }
-        if (etMobileNo.getText().length() < 9) {
+        } else if (etMobileNo.getText().length() < 9) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 etMobileNo.requestFocus();
                 etMobileNo.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etMobileNo.setError("Enter Mobile ");
+                etMobileNo.setError("Enter Valid Mobile Number");
                 return false;
 
             } else {
                 etMobileNo.requestFocus();
-                etMobileNo.setError("Enter Mobile ");
+                etMobileNo.setError("Enter Valid Mobile Number");
                 return false;
             }
-        }
+        } else if (!isEmpty(etEmailId)) {
 
-
-        if (!isValideEmailID(etEmailId)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etEmailId.requestFocus();
+                etEmailId.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etEmailId.setError("Enter Sub Heading");
+                return false;
+            } else {
+                etEmailId.requestFocus();
+                etEmailId.setError("Enter Email ID");
+                return false;
+            }
+        } else if (!isValideEmailID(etEmailId)) {
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 etEmailId.requestFocus();
                 etEmailId.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etEmailId.setError("Enter Email");
+                etEmailId.setError("Enter Valid Email ID");
                 return false;
 
             } else {
                 etEmailId.requestFocus();
-                etEmailId.setError("Enter Email");
+                etEmailId.setError("Enter Email ID");
                 return false;
 
             }
@@ -589,61 +643,66 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etSubHeading_posp.requestFocus();
                 etSubHeading_posp.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSubHeading_posp.setError("Enter First Name");
+                etSubHeading_posp.setError("Enter Sub Heading");
                 return false;
             } else {
                 etSubHeading_posp.requestFocus();
-                etSubHeading_posp.setError("Enter First Name");
+                etSubHeading_posp.setError("Enter Sub Heading");
                 return false;
             }
-        }
-
-
-        if (!isEmpty(etMobileNo_posp)) {
+        } else if (!isEmpty(etMobileNo_posp)) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 etMobileNo_posp.requestFocus();
                 etMobileNo_posp.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etMobileNo_posp.setError("Enter Mobile ");
+                etMobileNo_posp.setError("Enter Mobile Number");
                 return false;
 
             } else {
                 etMobileNo_posp.requestFocus();
-                etMobileNo_posp.setError("Enter Mobile ");
+                etMobileNo_posp.setError("Enter Mobile Number");
                 return false;
 
             }
-        }
-        if (etMobileNo_posp.getText().length() < 9) {
+        } else if (etMobileNo_posp.getText().length() < 9) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 etMobileNo_posp.requestFocus();
                 etMobileNo_posp.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etMobileNo_posp.setError("Enter Mobile ");
+                etMobileNo_posp.setError("Enter Valid Mobile Number");
                 return false;
 
             } else {
                 etMobileNo_posp.requestFocus();
-                etMobileNo_posp.setError("Enter Mobile ");
+                etMobileNo_posp.setError("Enter Valid Mobile Number");
                 return false;
             }
-        }
+        } else if (!isEmpty(etEmailId)) {
 
-
-        if (!isValideEmailID(etEmailId_posp)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etEmailId_posp.requestFocus();
+                etEmailId_posp.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etEmailId_posp.setError("Enter Sub Heading");
+                return false;
+            } else {
+                etEmailId_posp.requestFocus();
+                etEmailId_posp.setError("Enter Email ID");
+                return false;
+            }
+        } else if (!isValideEmailID(etEmailId_posp)) {
 
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 etEmailId_posp.requestFocus();
                 etEmailId_posp.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etEmailId_posp.setError("Enter Email");
+                etEmailId_posp.setError("Enter Email ID");
                 return false;
 
             } else {
                 etEmailId_posp.requestFocus();
-                etEmailId_posp.setError("Enter Email");
+                etEmailId_posp.setError("Enter Email ID");
                 return false;
 
             }
@@ -687,28 +746,30 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
         } else if (response instanceof MyAccountResponse) {
 
-
+            if(registerRequestEntity.getType().equals("4")) {
+                Snackbar.make(ivMyProfile, response.getMessage(), Snackbar.LENGTH_SHORT).show();
+            }
         }
 
         //DocumentResponse
         else if (response instanceof DocumentResponse) {
             if (response.getStatusNo() == 0) {
 
-               // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
                 setDocumentUpload();
 
             }
-        }
-
-        else if (response instanceof MyAcctDtlResponse) {
+        } else if (response instanceof MyAcctDtlResponse) {
             if (response.getStatusNo() == 0) {
 
 
                 AccountDtlEntity accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);
 
-                 if(accountDtlEntity != null) {
-                     setAcctDtlInfo(accountDtlEntity);
-                 }
+                if (accountDtlEntity != null) {
+                    isDataUploaded = false;
+                    setAcctDtlInfo(accountDtlEntity);
+                    isDataUploaded = true;
+                }
 
 
             }
@@ -716,52 +777,83 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private void setAcctDtlInfo( AccountDtlEntity accountDtlEntity)
-    {
+    private void setAcctDtlInfo(AccountDtlEntity accountDtlEntity) {
 
-        etSubHeading.setText("" +accountDtlEntity.getDesignation() );
-        etMobileNo.setText("" +  accountDtlEntity.getEditMobiNumb());
-        etEmailId.setText("" +  accountDtlEntity.getEditEmailId());
+        etSubHeading.setText("" + accountDtlEntity.getDesignation());
+        etMobileNo.setText("" + accountDtlEntity.getEditMobiNumb());
+        etEmailId.setText("" + accountDtlEntity.getEditEmailId());
 
 
-        etAddress1.setText("" +  accountDtlEntity.getAddress_1());
-        etAddress2.setText("" +  accountDtlEntity.getAddress_2());
-        etAddress3.setText("" +  accountDtlEntity.getAddress_3());
-        etPincode.setText("" +  accountDtlEntity.getPinCode());
-        etCity.setText("" +  accountDtlEntity.getCity());
-        etState.setText("" +  accountDtlEntity.getStateName());
+        etAddress1.setText("" + accountDtlEntity.getAddress_1());
+        etAddress2.setText("" + accountDtlEntity.getAddress_2());
+        etAddress3.setText("" + accountDtlEntity.getAddress_3());
+        etPincode.setText("" + accountDtlEntity.getPinCode());
+        etCity.setText("" + accountDtlEntity.getCity());
+        etState.setText("" + accountDtlEntity.getStateName());
 
-        etAccountHolderName.setText("" + accountDtlEntity.getLoanName() );
-        etPAN.setText("" + accountDtlEntity.getLoan_PAN() );
-        etAadhaar.setText("" + accountDtlEntity.getLoan_Aadhaar() );
-        etBankAcNo.setText("" + accountDtlEntity.getLoan_BankAcNo() );
-        etIfscCode.setText("" + accountDtlEntity.getLoan_IFSC() );
-        etMicrCode.setText("" + accountDtlEntity.getLoan_MICR() );
+        etAccountHolderName.setText("" + accountDtlEntity.getLoanName());
+        etPAN.setText("" + accountDtlEntity.getLoan_PAN());
+        etAadhaar.setText("" + accountDtlEntity.getLoan_Aadhaar());
+        etBankAcNo.setText("" + accountDtlEntity.getLoan_BankAcNo());
+        etIfscCode.setText("" + accountDtlEntity.getLoan_IFSC());
+        etMicrCode.setText("" + accountDtlEntity.getLoan_MICR());
         etBankName.setText("" + accountDtlEntity.getLoan_BankName());
-        etBankBranch.setText("" + accountDtlEntity.getLoan_BankBranch() );
-        etBankCity.setText("" + accountDtlEntity.getLoan_BankCity() );
+        etBankBranch.setText("" + accountDtlEntity.getLoan_BankBranch());
+        etBankCity.setText("" + accountDtlEntity.getLoan_BankCity());
+        if (accountDtlEntity.getLoan_Account_Type().equals("SAVING")) {
+            setSavingAcc();
+        } else if (accountDtlEntity.getLoan_Account_Type().equals("CURRENT")) {
+            setCurrentAcc();
+        }
 
-        etSubHeading_posp.setText("" +accountDtlEntity.getDisplayDesignation() );
-        etMobileNo_posp.setText("" +  accountDtlEntity.getDisplayPhoneNo());
-        etEmailId_posp.setText("" +  accountDtlEntity.getDisplayEmail());
+        etSubHeading_posp.setText("" + accountDtlEntity.getDisplayDesignation());
+        etMobileNo_posp.setText("" + accountDtlEntity.getDisplayPhoneNo());
+        etEmailId_posp.setText("" + accountDtlEntity.getDisplayEmail());
 
+        if (accountDtlEntity.getDoc_available().size() > 0) {
+            List<DocAvailableEntity> docList = accountDtlEntity.getDoc_available();
+
+
+            for (DocAvailableEntity docEntity : docList) {
+                if (!docEntity.getFileName().isEmpty()) {
+
+                    setDocumentUpload(docEntity.getDocType(), docEntity.getFileName());
+                }
+            }
+
+        }
 
 
     }
 
-    private void setDocumentUpload()
-    {
-        if(type == 2)
-        {
+    private void setDocumentUpload(int fileType, String FileNmae) {
+        if (fileType == 1) {
+            //ProfiePics
+            Glide.with(MyAccountActivity.this)
+                    .load(FileNmae)
+                    .placeholder(R.drawable.user_blank) // can also be a drawable
+                    .into(ivUser);
+
+        }
+        if (fileType == 2) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
-        }else if(type == 3)
-        {
+        } else if (fileType == 3) {
             ivPan.setImageResource(R.drawable.doc_uploaded);
-        }else if(type == 4)
-        {
+        } else if (fileType == 4) {
             ivCancel.setImageResource(R.drawable.doc_uploaded);
-        }else if(type == 5)
-        {
+        } else if (fileType == 5) {
+            ivAadhar.setImageResource(R.drawable.doc_uploaded);
+        }
+    }
+
+    private void setDocumentUpload() {
+        if (type == 2) {
+            ivPhoto.setImageResource(R.drawable.doc_uploaded);
+        } else if (type == 3) {
+            ivPan.setImageResource(R.drawable.doc_uploaded);
+        } else if (type == 4) {
+            ivCancel.setImageResource(R.drawable.doc_uploaded);
+        } else if (type == 5) {
             ivAadhar.setImageResource(R.drawable.doc_uploaded);
         }
     }
@@ -777,7 +869,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         if (!hasFocus) {
 
-            if (etIfscCode.getText().length() > 3) {
+            if ((etIfscCode.getText().length() > 3) && (isDataUploaded)) {
 
                 Constants.hideKeyBoard(v, MyAccountActivity.this);
                 showDialog("Fetching Bank Details...");
@@ -847,7 +939,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     ivUser.setImageBitmap(mphoto);
                     file = saveImageToStorage(mphoto, "PROFILE");
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE );
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
 
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
@@ -855,30 +947,30 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     showDialog();
                     file = saveImageToStorage(mphoto, PHOTO_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(),PHOTO);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 3:
 
                     showDialog();
-                    file = saveImageToStorage(mphoto, PAN_File );
+                    file = saveImageToStorage(mphoto, PAN_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this,loginEntity.getFBAId(),PAN);
-                   new RegisterController(this).uploadDocuments(part, body, this);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PAN);
+                    new RegisterController(this).uploadDocuments(part, body, this);
                     break;
 
                 case 4:
                     showDialog();
                     file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this,loginEntity.getFBAId(),CANCEL_CHQ);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 5:
                     showDialog();
                     file = saveImageToStorage(mphoto, AADHAR_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(),AADHAR);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
             }
@@ -897,22 +989,22 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         ivUser.setImageBitmap(mphoto);
                         file = saveImageToStorage(mphoto, "PROFILE");
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE );
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 2:
                         showDialog();
                         file = saveImageToStorage(mphoto, PHOTO_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(),PHOTO);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 3:
 
                         showDialog();
-                        file = saveImageToStorage(mphoto, PAN_File );
+                        file = saveImageToStorage(mphoto, PAN_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this,loginEntity.getFBAId(),PAN);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PAN);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
 
@@ -920,14 +1012,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         showDialog();
                         file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this,loginEntity.getFBAId(),CANCEL_CHQ);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 5:
                         showDialog();
                         file = saveImageToStorage(mphoto, AADHAR_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(),AADHAR);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                 }
@@ -936,11 +1028,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
 
 
-
         }
     }
-
-
 
 
 }
