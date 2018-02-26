@@ -111,7 +111,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         setTextWatcher();
         showDialog("Fetching Posp Details ...");
         new RegisterController(this).getPospDetails(this);
-        setInputParameters();
+        //setInputParameters();
 
     }
 
@@ -220,84 +220,90 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (!registerRequestEntity.getPosp_LastName().equals("") && registerRequestEntity.getPosp_LastName() != null) {
             etLastName.setText("" + registerRequestEntity.getPosp_LastName());
         }*/
-         if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
+        /* if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
             // showDialog();
             new RegisterController(this).getCityState(registerRequestEntity.getPosp_PinCode(), this);
         }
         if (!registerRequestEntity.getPosp_IFSC().equals("") && registerRequestEntity.getPosp_IFSC() != null) {
             //showDialog();
             new RegisterController(this).getIFSC(registerRequestEntity.getPosp_IFSC(), this);
-        }
-        if (!registerRequestEntity.getPosp_DOB().equals("") && registerRequestEntity.getPosp_DOB() != null) {
+        }*/
+        if (registerRequestEntity.getPosp_DOB() != null && !registerRequestEntity.getPosp_DOB().equals("")) {
             etDob.setText("" + registerRequestEntity.getPosp_DOB());
         }
-        if (registerRequestEntity.getPosp_Gender().equals("F")) {
-            tvFemale.performClick();
-        } else {
-            tvMale.performClick();
+        if(registerRequestEntity.getPosp_Gender()!=null){
+            if (registerRequestEntity.getPosp_Gender().equals("F")) {
+                tvFemale.performClick();
+            } else {
+                tvMale.performClick();
+            }
         }
-        if (!registerRequestEntity.getPosp_Mobile1().equals("") && registerRequestEntity.getPosp_Mobile1() != null) {
+
+        if (registerRequestEntity.getPosp_Mobile1() != null &&!registerRequestEntity.getPosp_Mobile1().equals("")  ) {
             etMobileNo1.setText("" + registerRequestEntity.getPosp_Mobile1());
         }
-        if (!registerRequestEntity.getPosp_Mobile2().equals("") && registerRequestEntity.getPosp_Mobile2() != null) {
+        if (registerRequestEntity.getPosp_Mobile2() != null && !registerRequestEntity.getPosp_Mobile2().equals("")) {
             etMobileNo2.setText("" + registerRequestEntity.getPosp_Mobile2());
         }
-        if (!registerRequestEntity.getPosp_Email().equals("") && registerRequestEntity.getPosp_Email() != null) {
+        if ( registerRequestEntity.getPosp_Email() != null && !registerRequestEntity.getPosp_Email().equals("")  ) {
             etEmailId.setText("" + registerRequestEntity.getPosp_Email());
         }
-        if (!registerRequestEntity.getPosp_PAN().equals("") && registerRequestEntity.getPosp_PAN() != null) {
+        if (  registerRequestEntity.getPosp_PAN() != null && !registerRequestEntity.getPosp_PAN().equals("") ) {
             etPan.setText("" + registerRequestEntity.getPosp_PAN());
         }
-        if (!registerRequestEntity.getPosp_Aadhaar().equals("") && registerRequestEntity.getPosp_Aadhaar() != null) {
+        if (registerRequestEntity.getPosp_Aadhaar() != null && !registerRequestEntity.getPosp_Aadhaar().equals("") ) {
             etAadhar.setText("" + registerRequestEntity.getPosp_Aadhaar());
         }
-        if (!registerRequestEntity.getPosp_ServiceTaxNo().equals("") && registerRequestEntity.getPosp_ServiceTaxNo() != null) {
+        if (registerRequestEntity.getPosp_ServiceTaxNo() != null && !registerRequestEntity.getPosp_ServiceTaxNo().equals("")  ) {
             etGST.setText("" + registerRequestEntity.getPosp_ServiceTaxNo());
         }
-        if (!registerRequestEntity.getPosp_ChanPartCode().equals("") && registerRequestEntity.getPosp_ChanPartCode() != null) {
+        if (registerRequestEntity.getPosp_ChanPartCode() != null && !registerRequestEntity.getPosp_ChanPartCode().equals("")  ) {
             etChannelPartner.setText("" + registerRequestEntity.getPosp_ChanPartCode());
         }
 
         //set address details
 
-        if (!registerRequestEntity.getPosp_Address1().equals("") && registerRequestEntity.getPosp_Address1() != null) {
+        if (registerRequestEntity.getPosp_Address1() != null && !registerRequestEntity.getPosp_Address1().equals("") ) {
             etAddress1.setText("" + registerRequestEntity.getPosp_Address1());
         }
-        if (!registerRequestEntity.getPosp_Address2().equals("") && registerRequestEntity.getPosp_Address2() != null) {
+        if (  registerRequestEntity.getPosp_Address2() != null  &&!registerRequestEntity.getPosp_Address2().equals("")) {
             etAddress2.setText("" + registerRequestEntity.getPosp_Address2());
         }
-        if (!registerRequestEntity.getPosp_Address3().equals("") && registerRequestEntity.getPosp_Address3() != null) {
+        if (  registerRequestEntity.getPosp_Address3() != null && !registerRequestEntity.getPosp_Address3().equals("")) {
             etAddress3.setText("" + registerRequestEntity.getPosp_Address3());
         }
-        if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
+        if (  registerRequestEntity.getPosp_PinCode() != null  && !registerRequestEntity.getPosp_PinCode().equals("")) {
             etPincode.setText("" + registerRequestEntity.getPosp_PinCode());
         }
-        if (!registerRequestEntity.getPosp_City().equals("") && registerRequestEntity.getPosp_City() != null) {
+        if (  registerRequestEntity.getPosp_City() != null && !registerRequestEntity.getPosp_City().equals("")) {
             etCity.setText("" + registerRequestEntity.getPosp_City());
         }
-        if (!registerRequestEntity.getPosp_StatID().equals("") && registerRequestEntity.getPosp_StatID() != null) {
+        if ( registerRequestEntity.getPosp_StatID() != null && !registerRequestEntity.getPosp_StatID().equals("")) {
             etState.setText("" + registerRequestEntity.getPosp_StatID());
         }
 
         // set bank details
-        if (!registerRequestEntity.getPosp_BankAcNo().equals("") && registerRequestEntity.getPosp_BankAcNo() != null) {
+        if ( registerRequestEntity.getPosp_BankAcNo() != null &&!registerRequestEntity.getPosp_BankAcNo().equals("")) {
             etBankAcNo.setText("" + registerRequestEntity.getPosp_BankAcNo());
         }
-        if (registerRequestEntity.getPosp_Account_Type().equals("CURRENT")) {
-            setSavingAcc();
-        } else {
-            setSavingAcc();
+        if(registerRequestEntity.getPosp_Account_Type()!=null){
+            if (registerRequestEntity.getPosp_Account_Type().equals("CURRENT")) {
+                setSavingAcc();
+            } else {
+                setSavingAcc();
+            }
         }
-        if (!registerRequestEntity.getPosp_IFSC().equals("") && registerRequestEntity.getPosp_IFSC() != null) {
+
+        if ( registerRequestEntity.getPosp_IFSC() != null && !registerRequestEntity.getPosp_IFSC().equals("")) {
             etIfscCode.setText("" + registerRequestEntity.getPosp_IFSC());
         }
-        if (!registerRequestEntity.getPosp_MICR().equals("") && registerRequestEntity.getPosp_MICR() != null) {
+        if ( registerRequestEntity.getPosp_MICR() != null && !registerRequestEntity.getPosp_MICR().equals("")) {
             erMicrCode.setText("" + registerRequestEntity.getPosp_MICR());
         }
-        if (!registerRequestEntity.getPosp_BankName().equals("") && registerRequestEntity.getPosp_BankName() != null) {
+        if (  registerRequestEntity.getPosp_BankName() != null && !registerRequestEntity.getPosp_BankName().equals("")) {
             etBankName.setText("" + registerRequestEntity.getPosp_BankName());
         }
-        if (!registerRequestEntity.getPosp_BankBranch().equals("") && registerRequestEntity.getPosp_BankBranch() != null) {
+        if ( registerRequestEntity.getPosp_BankBranch() != null && !registerRequestEntity.getPosp_BankBranch().equals("") ) {
             etBankBranch.setText("" + registerRequestEntity.getPosp_BankBranch());
         }
 
@@ -1051,7 +1057,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     if (((PospDetailsResponse) response).getMasterData().size() > 0) {
                         pospDetailsEntity = ((PospDetailsResponse) response).getMasterData().get(0);
                         if (pospDetailsEntity != null) {
-                            if (!pospDetailsEntity.getPOSPNo().equals("") && pospDetailsEntity.getPOSPNo() != null)
+                            if ( pospDetailsEntity.getPOSPNo() != null &&  !pospDetailsEntity.getPOSPNo().equals(""))
                                 registerRequestEntity.setPOSPID(Integer.parseInt(pospDetailsEntity.getPOSPNo()));
                             bindInputFromeServer(pospDetailsEntity);
                         }
