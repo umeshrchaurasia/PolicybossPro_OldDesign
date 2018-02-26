@@ -29,6 +29,9 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.register.RegisterActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.imagecropper.CropHandler;
+import com.datacomp.magicfinmart.utility.imagecropper.CropHelper;
+import com.datacomp.magicfinmart.utility.imagecropper.CropParams;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -60,7 +63,7 @@ import okhttp3.RequestBody;
  * Created by daniyalshaikh on 10/01/18.
  */
 
-public class MyAccountActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
+public class MyAccountActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber, CropHandler {
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
@@ -94,6 +97,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     private String PHOTO_EXT = "FBAPhotograph.jpg", PAN_EXT = "LoanRepPanCard.jpg", CANCEL_CHQ_EXT = "LoanRepCancelChq.jpg", AADHAR_EXT = "OtherAadharCard.jpg";
 
     Boolean isDataUploaded = true;
+    CropParams mCropParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +112,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginEntity.getFBAId());
-
+        mCropParams = new CropParams(this);  // initializing CropParms
 
         initWidgets();
         setListener();
@@ -985,12 +989,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                 switch (type) {
                     case 1:
-                        showDialog();
-                        ivUser.setImageBitmap(mphoto);
-                        file = saveImageToStorage(mphoto, "PROFILE");
-                        part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
-                        new RegisterController(this).uploadDocuments(part, body, this);
+ //                       showDialog();
+//                        ivUser.setImageBitmap(mphoto);
+//                        file = saveImageToStorage(mphoto, "PROFILE");
+//                        part = Utility.getMultipartImage(file);
+//                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
+//                        new RegisterController(this).uploadDocuments(part, body, this);
+
+                       CropHelper.handleResult(this, requestCode, resultCode, data);
                         break;
                     case 2:
                         showDialog();
@@ -1032,4 +1038,33 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void onPhotoCropped(Uri uri) {
+
+    }
+
+    @Override
+    public void onCompressed(Uri uri) {
+
+    }
+
+    @Override
+    public void onCancel() {
+        Toast.makeText(this, "upload cancelled!", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onFailed(String message) {
+        Toast.makeText(this, "upload failed: " + message, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void handleIntent(Intent intent, int requestCode) {
+        startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    public CropParams getCropParams() {
+        return mCropParams;
+    }
 }
