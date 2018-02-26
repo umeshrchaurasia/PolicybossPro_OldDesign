@@ -864,7 +864,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             String title = "";
             String name = "";
             url = url + "buynowTwoWheeler/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
-            title = "Bike Insurance";
+            title = "Two Wheeler";
 
             //convert quote to application server
             new QuoteApplicationController(getActivity()).convertQuoteToApp(

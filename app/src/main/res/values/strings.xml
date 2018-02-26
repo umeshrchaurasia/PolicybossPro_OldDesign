@@ -74,7 +74,7 @@
     <string name="title_activity_lapapply">LOAN AGAINST PROPERTY</string>
     <string name="title_activity_lapapply_web_view">LOAN AGAINST PROPERTY</string>
     <string name="title_activity_two_wheeler_quote_app">Two Wheeler</string>
-    <string name="title_activity_bike_add_quote">Bike Insurance</string>
+    <string name="title_activity_bike_add_quote">Two Wheeler</string>
 
     <!--health-->
     <string-array name="health_sum_assured">

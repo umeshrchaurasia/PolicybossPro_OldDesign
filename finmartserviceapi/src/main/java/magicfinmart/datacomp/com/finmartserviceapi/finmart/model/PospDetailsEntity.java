@@ -72,6 +72,44 @@ public class PospDetailsEntity {
     private String Posp_StatID;
     private String Posp_ChanPartCode;
     private String POSPRegiDate;
+    /**
+     * POSPStat : null
+     * Posp_DOB : null
+     * Posp_Gender : null
+     * Posp_Mobile1 : null
+     * Posp_Mobile2 : null
+     * Posp_Email : null
+     * Posp_Address1 : null
+     * Posp_Address2 : null
+     * Posp_Address3 : null
+     * Posp_PinCode : null
+     * Posp_City : null
+     * Posp_StatID : null
+     * Posp_ChanPartCode : null
+     * POSPRegiDate : null
+     * POSPBankCity : null
+     * DocType : null
+     * TranDate : null
+     * RBId : null
+     * PBId : null
+     * FileName : null
+     * POSPNo : 1518
+     * Link : null
+     * DwtCustId : null
+     * PaymDate : null
+     * PaymStat : null
+     */
+
+    private String DocType;
+    private String TranDate;
+    private String RBId;
+    private String PBId;
+    private String FileName;
+    private String POSPNo;
+    private String Link;
+    private String DwtCustId;
+    private String PaymDate;
+    private String PaymStat;
 
     public int getFBAID() {
         return FBAID;
@@ -343,5 +381,85 @@ public class PospDetailsEntity {
 
     public void setPOSPRegiDate(String POSPRegiDate) {
         this.POSPRegiDate = POSPRegiDate;
+    }
+
+    public String getDocType() {
+        return DocType;
+    }
+
+    public void setDocType(String DocType) {
+        this.DocType = DocType;
+    }
+
+    public String getTranDate() {
+        return TranDate;
+    }
+
+    public void setTranDate(String TranDate) {
+        this.TranDate = TranDate;
+    }
+
+    public String getRBId() {
+        return RBId;
+    }
+
+    public void setRBId(String RBId) {
+        this.RBId = RBId;
+    }
+
+    public String getPBId() {
+        return PBId;
+    }
+
+    public void setPBId(String PBId) {
+        this.PBId = PBId;
+    }
+
+    public String getFileName() {
+        return FileName;
+    }
+
+    public void setFileName(String FileName) {
+        this.FileName = FileName;
+    }
+
+    public String getPOSPNo() {
+        return POSPNo;
+    }
+
+    public void setPOSPNo(String POSPNo) {
+        this.POSPNo = POSPNo;
+    }
+
+    public String getLink() {
+        return Link;
+    }
+
+    public void setLink(String Link) {
+        this.Link = Link;
+    }
+
+    public String getDwtCustId() {
+        return DwtCustId;
+    }
+
+    public void setDwtCustId(String DwtCustId) {
+        this.DwtCustId = DwtCustId;
+    }
+
+    public String getPaymDate() {
+        return PaymDate;
+    }
+
+    public void setPaymDate(String PaymDate) {
+        this.PaymDate = PaymDate;
+    }
+
+    public String getPaymStat() {
+        return PaymStat;
+    }
+
+    public void setPaymStat(String PaymStat) {
+        this.PaymStat = PaymStat;
     }
 }
