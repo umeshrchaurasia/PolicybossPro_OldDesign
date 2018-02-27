@@ -485,7 +485,9 @@
             android:name=".creditcard.RBLCreditApplyActivity"
             android:label="@string/title_activity_rblcredit_apply"
             android:parentActivityName=".creditcard.CreditCardActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.creditcard.CreditCardActivity" />

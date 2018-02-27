@@ -2,6 +2,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcar
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRequestEntity;
 
 /**
  * Created by Nilesh Birhade 09/02/18
@@ -10,5 +11,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 public interface ICreditCard {
 
     void getAllCreditCards(IResponseSubcriber iResponseSubcriber);
+
+    void applyRbl(CCRblRequestEntity rblRequestEntity, IResponseSubcriber iResponseSubcriber);
 
 }

@@ -136,6 +136,16 @@
         <item>Child3</item>
 
     </string-array>
+
+    <string-array name="title">
+        <item>Mr</item>
+        <item>Ms</item>
+        <item>Mrs</item>
+        <item>Dr</item>
+        <item>Other</item>
+
+    </string-array>
+
     <string name="title_activity_health_check_up_plans">HEALTH CHECK UP PLANS</string>
     <string name="title_activity_eula">Agreement</string>
     <string name="title_activity_knowledge_guru">KNOWLEDGE GURU</string>

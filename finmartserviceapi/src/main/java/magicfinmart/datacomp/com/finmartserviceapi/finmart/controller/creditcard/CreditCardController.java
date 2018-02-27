@@ -8,6 +8,8 @@ import java.net.UnknownHostException;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.CreditCardRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreditCardMasterResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,12 +46,47 @@ public class CreditCardController implements ICreditCard {
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
                 }
-                
+
             }
 
             @Override
             public void onFailure(Call<CreditCardMasterResponse> call, Throwable t) {
 
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void applyRbl(CCRblRequestEntity rblRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+
+        creditCardNetworkService.applyRbl(rblRequestEntity).enqueue(new Callback<CCRblResponse>() {
+            @Override
+            public void onResponse(Call<CCRblResponse> call, Response<CCRblResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CCRblResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

@@ -30,6 +30,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreditCardMa
 
 public class CreditCardActivity extends BaseActivity implements IResponseSubcriber {
 
+    public static final String SELECTED_CREDIT_CARD = "credit_card_detail";
+
     List<String> strFilterList;
     List<FilterEntity> listFilterEntity;
     List<CreditCardEntity> listCreditCardEntity;
@@ -161,7 +163,9 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
             // redirect to apply
             // 1- RBL, 2- ICICI
             if (entity.getCreditCardId() == 1) {
-                startActivity(new Intent(this, RBLCreditApplyActivity.class));
+                Intent intent = new Intent(this, RBLCreditApplyActivity.class);
+                intent.putExtra(SELECTED_CREDIT_CARD, entity);
+                startActivity(intent);
             }
         } else {
             Toast.makeText(this, "Select net annual income", Toast.LENGTH_SHORT).show();
