@@ -25,6 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -90,6 +92,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     private String PHOTO_EXT = "FBAPhotograph.jpg", PAN_EXT = "LoanRepPanCard.jpg", CANCEL_CHQ_EXT = "LoanRepCancelChq.jpg", AADHAR_EXT = "OtherAadharCard.jpg";
 
     Boolean isDataUploaded = true;
+    Bitmap bitmapPhoto = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -741,7 +744,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
         } else if (response instanceof MyAccountResponse) {
 
-            if (registerRequestEntity.getType().equals("4")) {
+            if (registerRequestEntity.getType().equals("0")) {
                 Snackbar.make(ivMyProfile, response.getMessage(), Snackbar.LENGTH_SHORT).show();
             }
         }
@@ -821,15 +824,23 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private SimpleTarget target = new SimpleTarget<Bitmap>() {
+        @Override
+        public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
+            // do something with the bitmap
+            // for demonstration purposes, let's just set it to an ImageView
+            ivUser.setImageBitmap(bitmap);
+        }
+    };
     private void setDocumentUpload(int fileType, String FileNmae) {
         if (fileType == 1) {
             //ProfiePics
             Glide.with(MyAccountActivity.this)
                     .load(FileNmae)
-                    .placeholder(R.drawable.user_blank) // can also be a drawable
-                    .into(ivUser);
-
+                    .asBitmap()
+                    .into(target);
         }
+
         if (fileType == 2) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
         } else if (fileType == 3) {
@@ -842,7 +853,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void setDocumentUpload() {
-        if (type == 2) {
+        if(type == 1)
+        {
+            ivUser.setImageBitmap(bitmapPhoto);
+        }
+       else if (type == 2) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
         } else if (type == 3) {
             ivPan.setImageResource(R.drawable.doc_uploaded);
@@ -926,6 +941,15 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
     }
 
+    private void setProfilePhoto( Bitmap mphoto)
+    {
+        bitmapPhoto = mphoto;
+    }
+
+
+
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
@@ -933,7 +957,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             switch (type) {
                 case 1:
                     showDialog();
-                    ivUser.setImageBitmap(mphoto);
+                    setProfilePhoto(mphoto);
                     file = saveImageToStorage(mphoto, "PROFILE");
                     part = Utility.getMultipartImage(file);
                     body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
@@ -984,7 +1008,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 switch (type) {
                     case 1:
                         showDialog();
-                        ivUser.setImageBitmap(mphoto);
+                        setProfilePhoto(mphoto);
                         file = saveImageToStorage(mphoto, "PROFILE");
                         part = Utility.getMultipartImage(file);
                         body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
