@@ -92,6 +92,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     PospEnrollEntity pospEnrollEntity;
     LoginResponseEntity loginResponseEntity;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
