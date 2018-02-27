@@ -2,25 +2,19 @@ package com.datacomp.magicfinmart.notification;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HomeLoanApplyActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Sort;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEntity;
 
 public class NotificationActivity extends AppCompatActivity {

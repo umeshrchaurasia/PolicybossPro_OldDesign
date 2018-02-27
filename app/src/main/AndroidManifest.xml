@@ -216,7 +216,7 @@
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.homeloan.addquote.HomeLoanApplyActivity"
+            android:name=".loan_fm.homeloan.loan_apply.HomeLoanApplyActivity"
             android:label="@string/title_activity_home_loan_apply"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
