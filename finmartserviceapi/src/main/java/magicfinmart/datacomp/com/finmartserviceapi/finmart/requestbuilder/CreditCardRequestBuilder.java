@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AppliedCreditCardResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreditCardMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
@@ -31,6 +32,11 @@ public class CreditCardRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/credit-card-rbl")
         Call<CCRblResponse> applyRbl(@Body CCRblRequestEntity ccRblRequestEntity);
+
+
+        @Headers("token:" + token)
+        @POST("/api/get-saved-creditcard-info")
+        Call<AppliedCreditCardResponse> getAppliedCreditCards(@Body HashMap<String, String> body);
 
 
     }

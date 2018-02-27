@@ -44,8 +44,8 @@
                     android:layout_height="fill_parent">
 
                     <Spinner
-                        style="@style/SpinnerStyle.Underlined"
                         android:id="@+id/spTitle"
+                        style="@style/SpinnerStyle.Underlined"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -165,18 +165,25 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
-                        <RadioButton
-                            android:id="@+id/rbmale"
-                            android:layout_width="wrap_content"
+                        <RadioGroup
+                            android:id="@+id/rgGender"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="Yes" />
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/rbfemale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="No" />
+                            <RadioButton
+                                android:id="@+id/rbmale"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="Male" />
+
+                            <RadioButton
+                                android:id="@+id/rbfemale"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Female" />
+                        </RadioGroup>
                     </LinearLayout>
 
                     <LinearLayout
@@ -184,18 +191,25 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1">
 
-                        <RadioButton
-                            android:id="@+id/rbHadLoan"
-                            android:layout_width="wrap_content"
+                        <RadioGroup
+                            android:id="@+id/rgHadLoan"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:checked="true"
-                            android:text="Yes" />
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/radioNo"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="No" />
+                            <RadioButton
+                                android:id="@+id/rbHadLoan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:checked="true"
+                                android:text="Yes" />
+
+                            <RadioButton
+                                android:id="@+id/radioNo"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="No" />
+                        </RadioGroup>
                     </LinearLayout>
                 </TableRow>
 
@@ -353,8 +367,7 @@
 
                         <EditText
                             android:id="@+id/etpancard"
-                            style="@style/Style.edittext"
-                            android:inputType="number" />
+                            style="@style/Style.edittext" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -393,18 +406,25 @@
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
 
-                            <RadioButton
-                                android:id="@+id/rbSalaried"
-                                android:layout_width="wrap_content"
+                            <RadioGroup
+                                android:id="@+id/rgEmpType"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:checked="true"
-                                android:text="Salaried" />
+                                android:orientation="horizontal">
 
-                            <RadioButton
-                                android:id="@+id/rbSelfEmployed"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Self Employed" />
+                                <RadioButton
+                                    android:id="@+id/rbSalaried"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="Salaried" />
+
+                                <RadioButton
+                                    android:id="@+id/rbSelfEmployed"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Self Employed" />
+                            </RadioGroup>
                         </LinearLayout>
                     </LinearLayout>
 
