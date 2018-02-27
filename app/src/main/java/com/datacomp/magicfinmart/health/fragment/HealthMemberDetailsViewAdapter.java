@@ -82,6 +82,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
         holder.rbMale.setTag(R.id.llMarried, entity);
         holder.rbFemale.setTag(R.id.llMarried, entity);
         holder.swUnMarried.setTag(R.id.swUnMarried, entity);
+        holder.txtMarried.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
 
         holder.swUnMarried.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -90,9 +91,13 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
                 if (b) {
                     //if true maritial status ID =1
                     //false maritial status ID =2
+                    holder.txtMarried.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+                    holder.txtSingle.setTextColor(mContext.getResources().getColor(R.color.description_text));
                     ((HealthMemberDetailsDialogActivity) mContext).updateMemberList(entity, 1, position);
                 } else {
                     ((HealthMemberDetailsDialogActivity) mContext).updateMemberList(entity, 2, position);
+                    holder.txtMarried.setTextColor(mContext.getResources().getColor(R.color.description_text));
+                    holder.txtSingle.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
                 }
             }
         });
@@ -194,6 +199,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
         Switch swUnMarried;
         RadioButton rbMale, rbFemale;
         Spinner spHealthRelation;
+        TextView txtSingle, txtMarried;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -202,6 +208,8 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
             rbMale = (RadioButton) itemView.findViewById(R.id.rbMale);
             rbFemale = (RadioButton) itemView.findViewById(R.id.rbFemale);
             spHealthRelation = (Spinner) itemView.findViewById(R.id.spHealthRelation);
+            txtMarried = (TextView) itemView.findViewById(R.id.txtMarried);
+            txtSingle = (TextView) itemView.findViewById(R.id.txtSingle);
 
         }
 

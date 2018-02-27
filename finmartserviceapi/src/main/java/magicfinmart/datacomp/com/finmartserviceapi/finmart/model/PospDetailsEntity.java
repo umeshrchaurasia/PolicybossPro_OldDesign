@@ -1,45 +1,58 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
+import java.util.List;
+
 public class PospDetailsEntity {
+
     /**
-     * FBAID : 214
-     * POSPName : CHETANA NIMBALKAR
-     * Posp_PAN : AEXPN2503E
-     * Posp_Aadhaar : 238995862576
-     * Posp_BankAcNo : 4609000103879166
-     * Posp_Account_Type : SAVINGS
-     * Posp_BankName : PUNJAB NATIONAL BANK
-     * Posp_BankBranch : MECL, NAGPUR
-     * Posp_IFSC : PUNB0460900
-     * Posp_MICR : 440024017
-     * POSPStat :
-     * OtheName : CHETANANIBALKAR
-     * Other_PAN : AEXPN2503E
-     * Other_Aadhaar : 238995862576
-     * Other_BankAcNo : 916010082748637
-     * Other_Account_Type : SAVINGS
-     * Other_BankName : AXIS BANK
-     * Other_BankBranch : FRIENDS COLONY
-     * Other_IFSC : UTIB0002911
-     * Other_MICR : 440211015
-     * Posp_ServiceTaxNo :
-     * Posp_DOB :
-     * Posp_Gender :
-     * Posp_Mobile1 :
-     * Posp_Mobile2 :
-     * Posp_Email :
-     * Posp_Address1 :
-     * Posp_Address2 :
-     * Posp_Address3 :
-     * Posp_PinCode :
-     * Posp_City :
-     * Posp_StatID :
-     * Posp_ChanPartCode :
+     * FBAID : 35779
+     * Posp_First_Name : gzgsgsgsy
+     * Posp_Last_Name : gzgsgsgsy
+     * Posp_PAN : BJZPR3824B
+     * Posp_Aadhaar : 497378767875
+     * Posp_BankAcNo : 4151627373736
+     * Posp_Account_Type : SAVING
+     * Posp_BankName : STATE BANK OF INDIA
+     * Posp_BankBranch : STATE BANK OF INDIA
+     * Posp_IFSC : SBIN0000141
+     * Posp_MICR : 805002002
+     * POSPStat : 1
+     * OtheName :
+     * Other_PAN :
+     * Other_Aadhaar :
+     * Other_BankAcNo :
+     * Other_Account_Type :
+     * Other_BankName :
+     * Other_BankBranch :
+     * Other_IFSC :
+     * Other_MICR :
+     * Posp_ServiceTaxNo : bshabshs
+     * Posp_DOB : 2000-02-22
+     * Posp_Gender : M
+     * Posp_Mobile1 : 8737447976
+     * Posp_Mobile2 : 9348444873
+     * Posp_Email : sg@gmail.com
+     * Posp_Address1 : add1
+     * Posp_Address2 : add2
+     * Posp_Address3 : add3
+     * Posp_PinCode : 400095
+     * Posp_City : Mumbai
+     * Posp_StatID : 21
+     * Posp_ChanPartCode : sgsgsgsg
      * POSPRegiDate :
+     * POSPBankCity : MUMBAI
+     * POSPNo : 369
+     * Link :
+     * DwtCustId :
+     * PaymDate :
+     * PaymStat :
+     * Posp_Profile_Url : http://api.magicfinmart.com/upload/1519642255780.jpg
+     * doc_available : [{"DocType":2,"FileName":"http://api.magicfinmart.com/upload/1519642123556.jpg","DocName":"Photograph"},{"DocType":3,"FileName":"http://api.magicfinmart.com/upload/1519571004536.jpg","DocName":"PAN"},{"DocType":1,"FileName":"http://api.magicfinmart.com/upload/1519655528457.jpg","DocName":"Profile"},{"DocType":4,"FileName":"http://api.magicfinmart.com/upload/1519655499257.jpg","DocName":"Cancelled Check"},{"DocType":5,"FileName":"","DocName":"Aadhar"},{"DocType":6,"FileName":"","DocName":"PSOP Photograph"},{"DocType":7,"FileName":"","DocName":"POSP Pancard"},{"DocType":8,"FileName":"","DocName":"POSP Adharcard Front"},{"DocType":9,"FileName":"","DocName":"POSP Adharcard Back"},{"DocType":10,"FileName":"","DocName":"POSP Cancelled Cheque"},{"DocType":11,"FileName":"","DocName":"POSP Heighest Education Proof"}]
      */
 
     private int FBAID;
-    private String POSPName;
+    private String Posp_First_Name;
+    private String Posp_Last_Name;
     private String Posp_PAN;
     private String Posp_Aadhaar;
     private String Posp_BankAcNo;
@@ -72,44 +85,14 @@ public class PospDetailsEntity {
     private String Posp_StatID;
     private String Posp_ChanPartCode;
     private String POSPRegiDate;
-    /**
-     * POSPStat : null
-     * Posp_DOB : null
-     * Posp_Gender : null
-     * Posp_Mobile1 : null
-     * Posp_Mobile2 : null
-     * Posp_Email : null
-     * Posp_Address1 : null
-     * Posp_Address2 : null
-     * Posp_Address3 : null
-     * Posp_PinCode : null
-     * Posp_City : null
-     * Posp_StatID : null
-     * Posp_ChanPartCode : null
-     * POSPRegiDate : null
-     * POSPBankCity : null
-     * DocType : null
-     * TranDate : null
-     * RBId : null
-     * PBId : null
-     * FileName : null
-     * POSPNo : 1518
-     * Link : null
-     * DwtCustId : null
-     * PaymDate : null
-     * PaymStat : null
-     */
-
-    private String DocType;
-    private String TranDate;
-    private String RBId;
-    private String PBId;
-    private String FileName;
+    private String POSPBankCity;
     private String POSPNo;
     private String Link;
     private String DwtCustId;
     private String PaymDate;
     private String PaymStat;
+    private String Posp_Profile_Url;
+    private List<DocAvailableEntity> doc_available;
 
     public int getFBAID() {
         return FBAID;
@@ -119,12 +102,20 @@ public class PospDetailsEntity {
         this.FBAID = FBAID;
     }
 
-    public String getPOSPName() {
-        return POSPName;
+    public String getPosp_First_Name() {
+        return Posp_First_Name;
     }
 
-    public void setPOSPName(String POSPName) {
-        this.POSPName = POSPName;
+    public void setPosp_First_Name(String Posp_First_Name) {
+        this.Posp_First_Name = Posp_First_Name;
+    }
+
+    public String getPosp_Last_Name() {
+        return Posp_Last_Name;
+    }
+
+    public void setPosp_Last_Name(String Posp_Last_Name) {
+        this.Posp_Last_Name = Posp_Last_Name;
     }
 
     public String getPosp_PAN() {
@@ -383,44 +374,12 @@ public class PospDetailsEntity {
         this.POSPRegiDate = POSPRegiDate;
     }
 
-    public String getDocType() {
-        return DocType;
+    public String getPOSPBankCity() {
+        return POSPBankCity;
     }
 
-    public void setDocType(String DocType) {
-        this.DocType = DocType;
-    }
-
-    public String getTranDate() {
-        return TranDate;
-    }
-
-    public void setTranDate(String TranDate) {
-        this.TranDate = TranDate;
-    }
-
-    public String getRBId() {
-        return RBId;
-    }
-
-    public void setRBId(String RBId) {
-        this.RBId = RBId;
-    }
-
-    public String getPBId() {
-        return PBId;
-    }
-
-    public void setPBId(String PBId) {
-        this.PBId = PBId;
-    }
-
-    public String getFileName() {
-        return FileName;
-    }
-
-    public void setFileName(String FileName) {
-        this.FileName = FileName;
+    public void setPOSPBankCity(String POSPBankCity) {
+        this.POSPBankCity = POSPBankCity;
     }
 
     public String getPOSPNo() {
@@ -462,4 +421,22 @@ public class PospDetailsEntity {
     public void setPaymStat(String PaymStat) {
         this.PaymStat = PaymStat;
     }
+
+    public String getPosp_Profile_Url() {
+        return Posp_Profile_Url;
+    }
+
+    public void setPosp_Profile_Url(String Posp_Profile_Url) {
+        this.Posp_Profile_Url = Posp_Profile_Url;
+    }
+
+    public List<DocAvailableEntity> getDoc_available() {
+        return doc_available;
+    }
+
+    public void setDoc_available(List<DocAvailableEntity> doc_available) {
+        this.doc_available = doc_available;
+    }
+
+
 }

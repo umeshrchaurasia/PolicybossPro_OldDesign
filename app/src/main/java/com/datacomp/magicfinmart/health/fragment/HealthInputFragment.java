@@ -251,6 +251,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 acCity.setText("");
                 acCity.setError("Invalid city");
                 acCity.setFocusable(true);
+            } else {
+                acCity.setError(null);
             }
         }
     };
@@ -346,6 +348,20 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
                 //region validation
                 memberList.clear();
+
+                if (etAmount.getText().toString().length() == 0) {
+                    etAmount.setError("Select cover required.");
+                    etAmount.setFocusable(true);
+                    return;
+                }
+
+                if (acCity.getText().toString().length() == 0) {
+                    acCity.setError("Select city.");
+                    acCity.setFocusable(true);
+                    return;
+                }
+
+
                 if (etName.getText().toString().length() == 0) {
                     etName.setError("Enter name");
                     etName.setFocusable(true);
@@ -356,11 +372,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     etMobile.setFocusable(true);
                     return;
                 }
-                if (etAmount.getText().toString().length() == 0) {
-                    etAmount.setError("Select cover required.");
-                    etAmount.setFocusable(true);
-                    return;
-                }
+
 
                 //endregion
 
@@ -543,7 +555,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     startActivityForResult(intent, REQUEST_MEMBER);
 
                 } else {
-                    Toast.makeText(getActivity(), "Select number of member", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Please enter member age", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

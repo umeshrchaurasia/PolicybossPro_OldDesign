@@ -43,6 +43,7 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("HEALTH INSURANCE");
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
@@ -77,9 +78,15 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
 //                    loadFragment(testFragment, "TEST");
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
-                    if (tabFragment != null) {
-                        loadFragment(tabFragment, INPUT_FRAGMENT);
 
+                    if (healthQuote != null) {
+                        quoteBundle = new Bundle();
+                        quoteBundle.putParcelable(INPUT_DATA, healthQuote);
+                    }
+
+                    if (tabFragment != null) {
+                        tabFragment.setArguments(quoteBundle);
+                        loadFragment(tabFragment, INPUT_FRAGMENT);
                     } else {
                         HealthInputFragment inputFragment = new HealthInputFragment();
                         inputFragment.setArguments(quoteBundle);
@@ -91,7 +98,13 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
 
+                    if (healthQuote != null) {
+                        quoteBundle = new Bundle();
+                        quoteBundle.putParcelable(QUOTE_DATA, healthQuote);
+                    }
+
                     if (tabFragment != null) {
+                        tabFragment.setArguments(quoteBundle);
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
 
                     } else {
@@ -137,5 +150,9 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         quoteBundle = new Bundle();
         quoteBundle.putParcelable(INPUT_DATA, healthQuote);
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+    }
+
+    public void updateRequestID(int healthRequestID) {
+        healthQuote.setHealthRequestId(healthRequestID);
     }
 }
