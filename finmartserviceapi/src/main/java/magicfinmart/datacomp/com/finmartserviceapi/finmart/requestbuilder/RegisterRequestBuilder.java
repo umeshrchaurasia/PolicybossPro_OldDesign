@@ -81,7 +81,7 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @Multipart
         @POST("/api/upload-doc")
-        Call<DocumentResponse> uploadDocument(@Part() MultipartBody.Part doc,   @PartMap() Map<String, String> partMap);
+        Call<DocumentResponse> uploadDocument(@Part() MultipartBody.Part doc,   @PartMap() Map<String, Integer> partMap);
 
 
 ////////////////////// Notification ////////////////////////////////

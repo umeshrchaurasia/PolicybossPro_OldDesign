@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -38,10 +40,14 @@ import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -51,16 +57,22 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEn
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospDetailsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospEnrollEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
+import okhttp3.MultipartBody;
 
 /**
  * Created by daniyalshaikh on 11/01/18.
  */
 
 public class PospEnrollment extends BaseActivity implements View.OnClickListener, IResponseSubcriber, View.OnFocusChangeListener {
+    private static final int CAMERA_REQUEST = 1889;
+    private static final int SELECT_PICTURE = 1801;
+    int type;
+
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload;
@@ -92,6 +104,16 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     PospEnrollEntity pospEnrollEntity;
     LoginResponseEntity loginResponseEntity;
 
+    ImageView ivPhotoCam, ivPhotoGallery, ivPanCam, ivPanGallery, ivCancelCam, ivCancelGallery, ivAadharCam, ivAadharGallery,
+            ivAadharCamBack, ivAadharGalleryBack, ivEduCam, ivEduGallery,
+            ivAadhar, ivAadharBack, ivCancel, ivPan, ivPhoto, ivEdu;
+
+    HashMap<String, Integer> body;
+    MultipartBody.Part part;
+    File file;
+    private int POSP_PHOTO = 6, POSP_PAN = 7, POSP_AADHAR_FRONT = 8, POSP_AADHAR_BACK = 9, POSP_CANCEL_CHQ = 10, POSP_EDU = 11;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -104,7 +126,6 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
         prefManager = new PrefManager(this);
-
         initWidgets();
         setListener();
         initLayouts();
@@ -214,12 +235,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
 
         //set profile Details
-      /*  if (!registerRequestEntity.getPosp_FirstName().equals("") && registerRequestEntity.getPosp_FirstName() != null) {
-            etFirstName.setText("" + registerRequestEntity.getPosp_FirstName());
+        if (registerRequestEntity.getPosp_First_Name() != null && !registerRequestEntity.getPosp_First_Name().equals("")) {
+            etFirstName.setText("" + registerRequestEntity.getPosp_First_Name());
         }
-        if (!registerRequestEntity.getPosp_LastName().equals("") && registerRequestEntity.getPosp_LastName() != null) {
-            etLastName.setText("" + registerRequestEntity.getPosp_LastName());
-        }*/
+        if (registerRequestEntity.getPosp_Last_Name() != null && !registerRequestEntity.getPosp_Last_Name().equals("")) {
+            etLastName.setText("" + registerRequestEntity.getPosp_Last_Name());
+        }
         /* if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
             // showDialog();
             new RegisterController(this).getCityState(registerRequestEntity.getPosp_PinCode(), this);
@@ -231,7 +252,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (registerRequestEntity.getPosp_DOB() != null && !registerRequestEntity.getPosp_DOB().equals("")) {
             etDob.setText("" + registerRequestEntity.getPosp_DOB());
         }
-        if(registerRequestEntity.getPosp_Gender()!=null){
+        if (registerRequestEntity.getPosp_Gender() != null) {
             if (registerRequestEntity.getPosp_Gender().equals("F")) {
                 tvFemale.performClick();
             } else {
@@ -239,54 +260,54 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             }
         }
 
-        if (registerRequestEntity.getPosp_Mobile1() != null &&!registerRequestEntity.getPosp_Mobile1().equals("")  ) {
+        if (registerRequestEntity.getPosp_Mobile1() != null && !registerRequestEntity.getPosp_Mobile1().equals("")) {
             etMobileNo1.setText("" + registerRequestEntity.getPosp_Mobile1());
         }
         if (registerRequestEntity.getPosp_Mobile2() != null && !registerRequestEntity.getPosp_Mobile2().equals("")) {
             etMobileNo2.setText("" + registerRequestEntity.getPosp_Mobile2());
         }
-        if ( registerRequestEntity.getPosp_Email() != null && !registerRequestEntity.getPosp_Email().equals("")  ) {
+        if (registerRequestEntity.getPosp_Email() != null && !registerRequestEntity.getPosp_Email().equals("")) {
             etEmailId.setText("" + registerRequestEntity.getPosp_Email());
         }
-        if (  registerRequestEntity.getPosp_PAN() != null && !registerRequestEntity.getPosp_PAN().equals("") ) {
+        if (registerRequestEntity.getPosp_PAN() != null && !registerRequestEntity.getPosp_PAN().equals("")) {
             etPan.setText("" + registerRequestEntity.getPosp_PAN());
         }
-        if (registerRequestEntity.getPosp_Aadhaar() != null && !registerRequestEntity.getPosp_Aadhaar().equals("") ) {
+        if (registerRequestEntity.getPosp_Aadhaar() != null && !registerRequestEntity.getPosp_Aadhaar().equals("")) {
             etAadhar.setText("" + registerRequestEntity.getPosp_Aadhaar());
         }
-        if (registerRequestEntity.getPosp_ServiceTaxNo() != null && !registerRequestEntity.getPosp_ServiceTaxNo().equals("")  ) {
+        if (registerRequestEntity.getPosp_ServiceTaxNo() != null && !registerRequestEntity.getPosp_ServiceTaxNo().equals("")) {
             etGST.setText("" + registerRequestEntity.getPosp_ServiceTaxNo());
         }
-        if (registerRequestEntity.getPosp_ChanPartCode() != null && !registerRequestEntity.getPosp_ChanPartCode().equals("")  ) {
+        if (registerRequestEntity.getPosp_ChanPartCode() != null && !registerRequestEntity.getPosp_ChanPartCode().equals("")) {
             etChannelPartner.setText("" + registerRequestEntity.getPosp_ChanPartCode());
         }
 
         //set address details
 
-        if (registerRequestEntity.getPosp_Address1() != null && !registerRequestEntity.getPosp_Address1().equals("") ) {
+        if (registerRequestEntity.getPosp_Address1() != null && !registerRequestEntity.getPosp_Address1().equals("")) {
             etAddress1.setText("" + registerRequestEntity.getPosp_Address1());
         }
-        if (  registerRequestEntity.getPosp_Address2() != null  &&!registerRequestEntity.getPosp_Address2().equals("")) {
+        if (registerRequestEntity.getPosp_Address2() != null && !registerRequestEntity.getPosp_Address2().equals("")) {
             etAddress2.setText("" + registerRequestEntity.getPosp_Address2());
         }
-        if (  registerRequestEntity.getPosp_Address3() != null && !registerRequestEntity.getPosp_Address3().equals("")) {
+        if (registerRequestEntity.getPosp_Address3() != null && !registerRequestEntity.getPosp_Address3().equals("")) {
             etAddress3.setText("" + registerRequestEntity.getPosp_Address3());
         }
-        if (  registerRequestEntity.getPosp_PinCode() != null  && !registerRequestEntity.getPosp_PinCode().equals("")) {
+        if (registerRequestEntity.getPosp_PinCode() != null && !registerRequestEntity.getPosp_PinCode().equals("")) {
             etPincode.setText("" + registerRequestEntity.getPosp_PinCode());
         }
-        if (  registerRequestEntity.getPosp_City() != null && !registerRequestEntity.getPosp_City().equals("")) {
+        if (registerRequestEntity.getPosp_City() != null && !registerRequestEntity.getPosp_City().equals("")) {
             etCity.setText("" + registerRequestEntity.getPosp_City());
         }
-        if ( registerRequestEntity.getPosp_StatID() != null && !registerRequestEntity.getPosp_StatID().equals("")) {
+        if (registerRequestEntity.getPosp_StatID() != null && !registerRequestEntity.getPosp_StatID().equals("")) {
             etState.setText("" + registerRequestEntity.getPosp_StatID());
         }
 
         // set bank details
-        if ( registerRequestEntity.getPosp_BankAcNo() != null &&!registerRequestEntity.getPosp_BankAcNo().equals("")) {
+        if (registerRequestEntity.getPosp_BankAcNo() != null && !registerRequestEntity.getPosp_BankAcNo().equals("")) {
             etBankAcNo.setText("" + registerRequestEntity.getPosp_BankAcNo());
         }
-        if(registerRequestEntity.getPosp_Account_Type()!=null){
+        if (registerRequestEntity.getPosp_Account_Type() != null) {
             if (registerRequestEntity.getPosp_Account_Type().equals("CURRENT")) {
                 setSavingAcc();
             } else {
@@ -294,16 +315,16 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             }
         }
 
-        if ( registerRequestEntity.getPosp_IFSC() != null && !registerRequestEntity.getPosp_IFSC().equals("")) {
+        if (registerRequestEntity.getPosp_IFSC() != null && !registerRequestEntity.getPosp_IFSC().equals("")) {
             etIfscCode.setText("" + registerRequestEntity.getPosp_IFSC());
         }
-        if ( registerRequestEntity.getPosp_MICR() != null && !registerRequestEntity.getPosp_MICR().equals("")) {
+        if (registerRequestEntity.getPosp_MICR() != null && !registerRequestEntity.getPosp_MICR().equals("")) {
             erMicrCode.setText("" + registerRequestEntity.getPosp_MICR());
         }
-        if (  registerRequestEntity.getPosp_BankName() != null && !registerRequestEntity.getPosp_BankName().equals("")) {
+        if (registerRequestEntity.getPosp_BankName() != null && !registerRequestEntity.getPosp_BankName().equals("")) {
             etBankName.setText("" + registerRequestEntity.getPosp_BankName());
         }
-        if ( registerRequestEntity.getPosp_BankBranch() != null && !registerRequestEntity.getPosp_BankBranch().equals("") ) {
+        if (registerRequestEntity.getPosp_BankBranch() != null && !registerRequestEntity.getPosp_BankBranch().equals("")) {
             etBankBranch.setText("" + registerRequestEntity.getPosp_BankBranch());
         }
 
@@ -372,6 +393,22 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         etIfscCode.setOnFocusChangeListener(this);
         etPan.setOnFocusChangeListener(this);
         etPincode.setOnFocusChangeListener(this);
+
+
+        ivPhotoCam.setOnClickListener(this);
+        ivPhotoGallery.setOnClickListener(this);
+        ivPanCam.setOnClickListener(this);
+        ivPanGallery.setOnClickListener(this);
+        ivAadharCam.setOnClickListener(this);
+        ivAadharGallery.setOnClickListener(this);
+        ivAadharCamBack.setOnClickListener(this);
+        ivAadharGalleryBack.setOnClickListener(this);
+        ivEduCam.setOnClickListener(this);
+        ivEduGallery.setOnClickListener(this);
+        ivCancelCam.setOnClickListener(this);
+        ivCancelGallery.setOnClickListener(this);
+
+
     }
 
     private void initWidgets() {
@@ -427,6 +464,30 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         btnSave = (Button) findViewById(R.id.btnSave);
         webView = (WebView) findViewById(R.id.webView);
+
+
+        ivPhotoCam = (ImageView) findViewById(R.id.ivPhotoCam);
+        ivPhotoGallery = (ImageView) findViewById(R.id.ivPhotoGallery);
+        ivPanCam = (ImageView) findViewById(R.id.ivPanCam);
+        ivPanGallery = (ImageView) findViewById(R.id.ivPanGallery);
+
+        ivCancelCam = (ImageView) findViewById(R.id.ivCancelCam);
+        ivCancelGallery = (ImageView) findViewById(R.id.ivCancelGallery);
+        ivAadharCam = (ImageView) findViewById(R.id.ivAadharCam);
+        ivAadharGallery = (ImageView) findViewById(R.id.ivAadharGallery);
+        ivAadharCamBack = (ImageView) findViewById(R.id.ivAadharCamBack);
+        ivAadharGalleryBack = (ImageView) findViewById(R.id.ivAadharGalleryBack);
+        ivEduCam = (ImageView) findViewById(R.id.ivEduCam);
+        ivEduGallery = (ImageView) findViewById(R.id.ivEduGallery);
+
+
+        ivAadhar = (ImageView) findViewById(R.id.ivAadhar);
+        ivCancel = (ImageView) findViewById(R.id.ivCancel);
+        ivPan = (ImageView) findViewById(R.id.ivPan);
+        ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
+        ivEdu = (ImageView) findViewById(R.id.ivEdu);
+        ivAadharBack = (ImageView) findViewById(R.id.ivAadharBack);
+
     }
 
 
@@ -856,6 +917,66 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     }
                 }
                 break;
+
+
+            case R.id.ivPhotoCam:
+                type = 6;
+                launchCamera();
+                break;
+
+            case R.id.ivPhotoGallery:
+                type = 6;
+                openGallery();
+                break;
+
+            case R.id.ivPanCam:
+                type = 7;
+                launchCamera();
+                break;
+
+            case R.id.ivPanGallery:
+                type = 7;
+                openGallery();
+                break;
+
+            case R.id.ivAadharCam:
+                type = 8;
+                launchCamera();
+                break;
+
+            case R.id.ivAadharGallery:
+                type = 8;
+                openGallery();
+                break;
+
+            case R.id.ivAadharCamBack:
+                type = 9;
+                launchCamera();
+                break;
+
+            case R.id.ivAadharGalleryBack:
+                type = 9;
+                openGallery();
+                break;
+            case R.id.ivCancelCam:
+                type = 10;
+                launchCamera();
+                break;
+
+            case R.id.ivCancelGallery:
+                type = 10;
+                openGallery();
+                break;
+
+            case R.id.ivEduCam:
+                type = 11;
+                launchCamera();
+                break;
+
+            case R.id.ivEduGallery:
+                type = 11;
+                openGallery();
+                break;
         }
     }
 
@@ -1057,7 +1178,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     if (((PospDetailsResponse) response).getMasterData().size() > 0) {
                         pospDetailsEntity = ((PospDetailsResponse) response).getMasterData().get(0);
                         if (pospDetailsEntity != null) {
-                            if ( pospDetailsEntity.getPOSPNo() != null &&  !pospDetailsEntity.getPOSPNo().equals(""))
+                            if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals(""))
                                 registerRequestEntity.setPOSPID(Integer.parseInt(pospDetailsEntity.getPOSPNo()));
                             bindInputFromeServer(pospDetailsEntity);
                         }
@@ -1081,6 +1202,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 }
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+        } else if (response instanceof DocumentResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+
+                // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
+                setDocumentUpload();
+
+            }
         }
 
     }
@@ -1214,7 +1343,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             if (html.toLowerCase().contains("not")) {
 
             } else {
-                showPopUp("ERROR MESSAGE", "Pan No. Already Registered in IRDA", "OK", true);
+                showPopUp("ERROR MESSAGE", "Pan No. Already Registered in IRDA", "OK", false);
                 //Toast.makeText(PospEnrollment.this, "Pan Card Already Registered in IRDA", Toast.LENGTH_SHORT).show();
             }
         }
@@ -1252,7 +1381,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 public void onClick(View v) {
                     // Close dialog
                     dialog.cancel();
-                    etPan.setText("");
+                    PospEnrollment.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            etPan.setText("");
+                        }
+                    });
+
                 }
             });
         } catch (Exception e) {
@@ -1266,6 +1400,169 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     .putExtra("URL", url)
                     .putExtra("NAME", "MAGIC FIN-MART")
                     .putExtra("TITLE", "MAGIC FIN-MART"));
+        }
+    }
+
+
+    private void launchCamera() {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+    }
+
+
+    private void openGallery() {
+
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap mphoto = (Bitmap) data.getExtras().get("data");
+            switch (type) {
+
+                case 6:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+                case 7:
+
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_PAN);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+
+                case 8:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+                case 9:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+                case 10:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+                case 11:
+                    showDialog();
+                    file = saveImageToStorage(mphoto, "" + POSP_EDU);
+                    part = Utility.getMultipartImage(file);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU);
+                    new RegisterController(this).uploadDocuments(part, body, this);
+                    break;
+            }
+
+
+        }
+
+        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+            Uri selectedImageUri = data.getData();
+            Bitmap mphoto = null;
+            try {
+                mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                mphoto = getResizedBitmap(mphoto, 400);
+                switch (type) {
+                    case 6:
+                        showDialog();
+                        file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO);
+                        new RegisterController(this).uploadDocuments(part, body, this);
+                        break;
+                    case 7:
+
+                        showDialog();
+                        file = saveImageToStorage(mphoto, "" + POSP_PAN);
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN);
+                        new RegisterController(this).uploadDocuments(part, body, this);
+                        break;
+
+                    case 8:
+                        showDialog();
+                        file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT);
+                        new RegisterController(this).uploadDocuments(part, body, this);
+                        break;
+                    case 9:
+                        showDialog();
+                        file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK);
+                        new RegisterController(this).uploadDocuments(part, body, this);
+                        break;
+                    case 10:
+                        showDialog();
+                        file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ);
+                        new RegisterController(this).uploadDocuments(part, body, this);
+                        break;
+                    case 11:
+                        showDialog();
+                        file = saveImageToStorage(mphoto, "" + POSP_EDU);
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU);
+                        new RegisterController(this).uploadDocuments(part, body, this);
+                        break;
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+    }
+
+
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    private void setDocumentUpload() {
+        if (type == 6) {
+            ivPhoto.setImageResource(R.drawable.doc_uploaded);
+        } else if (type == 7) {
+            ivPan.setImageResource(R.drawable.doc_uploaded);
+        } else if (type == 8) {
+            ivAadhar.setImageResource(R.drawable.doc_uploaded);
+        } else if (type == 9) {
+            ivAadharBack.setImageResource(R.drawable.doc_uploaded);
+        } else if (type == 10) {
+            ivCancel.setImageResource(R.drawable.doc_uploaded);
+        } else if (type == 11) {
+            ivEdu.setImageResource(R.drawable.doc_uploaded);
         }
     }
 }

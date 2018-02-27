@@ -8,15 +8,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import io.realm.Case;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.R;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CompanyEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MasterSalesMaterialPromotionEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
@@ -591,6 +595,7 @@ public class DBPersistanceController {
     public void logout() {
         realm.beginTransaction();
         realm.delete(LoginResponseEntity.class);
+        realm.delete(DocsEntity.class);
         realm.commitTransaction();
     }
 
@@ -603,7 +608,26 @@ public class DBPersistanceController {
     }
 
 
+
     //endregion
+
+
+
+        public void storeDocList( List<DocsEntity> docsEntityList) {
+        realm.beginTransaction();
+        realm.delete(DocsEntity.class);
+        realm.copyToRealm(docsEntityList);
+        realm.commitTransaction();
+    }
+
+    public List<DocsEntity> getDocList(String compId,String lang) {
+        List<DocsEntity> docsEntityList = realm.where(DocsEntity.class).equalTo("company_id", compId).equalTo("language", lang.trim(), Case.INSENSITIVE).findAll();
+        if (docsEntityList != null)
+            return docsEntityList;
+        else
+            return null;
+    }
+
 
     //region insurance image mapping
 

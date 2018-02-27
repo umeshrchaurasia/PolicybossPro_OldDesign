@@ -7,6 +7,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.pendingcases.IPendingCases;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.PendingCasesRequestBuilder;
@@ -26,10 +27,13 @@ public class SalesMaterialController implements ISalesMaterial {
 
     SalesMaterialRequestBuilder.SalesMaterialNetworkService salesMaterialNetworkService;
     Context mContext;
+    DBPersistanceController dbPersistanceController;
+
 
     public SalesMaterialController(Context context) {
         salesMaterialNetworkService = new SalesMaterialRequestBuilder().getService();
         mContext = context;
+        dbPersistanceController = new DBPersistanceController(mContext);
     }
 
 
@@ -83,7 +87,7 @@ public class SalesMaterialController implements ISalesMaterial {
 
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-
+                        dbPersistanceController.storeDocList(response.body().getMasterData().getDocs());
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));

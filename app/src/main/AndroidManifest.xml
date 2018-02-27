@@ -20,6 +20,16 @@
         android:roundIcon="@drawable/finmart_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="${applicationId}.provider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+        <!--</provider>-->
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/provider_paths"/>
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="5822">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
@@ -62,6 +72,7 @@
         <activity
             android:name=".login.LoginActivity"
             android:label="@string/title_activity_login"
+            android:noHistory="true"
             android:parentActivityName=".splashscreen.SplashScreenActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -344,6 +355,7 @@
         <activity
             android:name=".introslider.EulaActivity"
             android:label="@string/title_activity_eula"
+            android:noHistory="true"
             android:parentActivityName=".introslider.WelcomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -391,7 +403,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity" />
         </activity>
-        <activity android:name=".posp.IrdaPanVerifyActivity" />
         <activity
             android:name=".notification.NotificationActivity"
             android:label="@string/title_activity_notification"
@@ -491,6 +502,28 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.creditcard.CreditCardActivity" />
+        </activity>
+        <activity
+            android:name=".salesmaterial.SalesDetailActivity"
+            android:label="@string/title_activity_sales_material"
+            android:parentActivityName=".salesmaterial.SalesMaterialActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity" />
+        </activity>
+        <activity
+            android:name=".salesmaterial.SalesShareActivity"
+            android:label="@string/title_activity_sales_material"
+            android:parentActivityName=".salesmaterial.SalesDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.salesmaterial.SalesDetailActivity" />
         </activity>
     </application>
 

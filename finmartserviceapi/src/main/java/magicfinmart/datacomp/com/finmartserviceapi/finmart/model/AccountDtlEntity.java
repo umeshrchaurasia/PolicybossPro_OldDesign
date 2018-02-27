@@ -1,6 +1,10 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
+import java.util.List;
+
 public class AccountDtlEntity {
+
+
     /**
      * FBAID : 6
      * FBACode : null
@@ -202,6 +206,15 @@ public class AccountDtlEntity {
     private String DisplayEmail;
     private String DisplayPhoneNo;
     private String DisplayDesignation;
+    private List<DocAvailableEntity> doc_available;
+    /**
+     * FBAID : 3
+     * StatDate : 1900-01-01 00:00:00
+     * FBARID : 2
+     * doc_available : [{"DocType":1,"FileName":"1519378976465.png","DocName":"Profile"},{"DocType":2,"FileName":"140","DocName":"Photograph"},{"DocType":3,"FileName":"23","DocName":"PAN"},{"DocType":4,"FileName":"","DocName":"Cancelled Check"},{"DocType":5,"FileName":"","DocName":"Aadhar"}]
+     */
+
+
 
     public String getLoan_BankCity() {
         return Loan_BankCity;
@@ -997,4 +1010,14 @@ public class AccountDtlEntity {
     public void setDisplayDesignation(String DisplayDesignation) {
         this.DisplayDesignation = DisplayDesignation;
     }
+
+    public List<DocAvailableEntity> getDoc_available() {
+        return doc_available;
+    }
+
+    public void setDoc_available(List<DocAvailableEntity> doc_available) {
+        this.doc_available = doc_available;
+    }
+
+
 }

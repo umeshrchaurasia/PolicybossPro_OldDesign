@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -39,7 +40,7 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
     @Override
     public void onBindViewHolder(SalesMaterialItem holder, int position) {
         SalesMaterialItem item = (SalesMaterialItem) holder;
-        SalesProductEntity entity = mlistSalesProduct.get(position);
+        final SalesProductEntity entity = mlistSalesProduct.get(position);
         if (entity.getCount() != 0) {
             item.txtCount.setText(String.valueOf(entity.getCount()));
         } else {
@@ -48,6 +49,15 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
         item.txtProductName.setText(entity.getProduct_Name());
 
         Glide.with(mContex).load(entity.getProduct_image()).into(item.imgProduct);
+
+        holder.lyParent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((SalesMaterialActivity)mContex).redirectToApplyMain(entity.getProduct_Id());
+            }
+
+        });
     }
 
 
@@ -59,12 +69,14 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
     public class SalesMaterialItem extends RecyclerView.ViewHolder {
         ImageView imgProduct;
         TextView txtCount, txtProductName;
+        LinearLayout lyParent;
 
         public SalesMaterialItem(View itemView) {
             super(itemView);
             imgProduct = (ImageView) itemView.findViewById(R.id.imgProduct);
             txtCount = (TextView) itemView.findViewById(R.id.txtCount);
             txtProductName = (TextView) itemView.findViewById(R.id.txtProductName);
+            lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
         }
     }
 
