@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -15,7 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -29,15 +27,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.register.RegisterActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.utility.imagecropper.BitmapUtil;
-import com.datacomp.magicfinmart.utility.imagecropper.CropHandler;
-import com.datacomp.magicfinmart.utility.imagecropper.CropHelper;
-import com.datacomp.magicfinmart.utility.imagecropper.CropParams;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -57,9 +49,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 
 
 /**
@@ -751,7 +741,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
         } else if (response instanceof MyAccountResponse) {
 
-            if(registerRequestEntity.getType().equals("4")) {
+            if (registerRequestEntity.getType().equals("4")) {
                 Snackbar.make(ivMyProfile, response.getMessage(), Snackbar.LENGTH_SHORT).show();
             }
         }
@@ -985,12 +975,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         }
 
-        if (requestCode ==  SELECT_PICTURE && resultCode == RESULT_OK) {
+        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             Bitmap mphoto = null;
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-
+                mphoto = getResizedBitmap(mphoto, 400);
                 switch (type) {
                     case 1:
                         showDialog();
@@ -1040,8 +1030,18 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    public Bitmap getResizedBitmap(Bitmap image, int maxSize) {
+        int width = image.getWidth();
+        int height = image.getHeight();
 
-
-
-
+        float bitmapRatio = (float) width / (float) height;
+        if (bitmapRatio > 1) {
+            width = maxSize;
+            height = (int) (width / bitmapRatio);
+        } else {
+            height = maxSize;
+            width = (int) (height * bitmapRatio);
+        }
+        return Bitmap.createScaledBitmap(image, width, height, true);
+    }
 }
