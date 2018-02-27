@@ -703,9 +703,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivPhoto"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
@@ -720,25 +722,34 @@
                     android:text="POSP PHOTOGRAPH" />
 
                 <ImageView
+                    android:id="@+id/ivPhotoCam"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:padding="2dp"
                     android:src="@drawable/camera_icon" />
 
                 <ImageView
+                    android:id="@+id/ivPhotoGallery"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
                     android:src="@drawable/folder_icon" />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivPan"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
@@ -753,25 +764,34 @@
                     android:text="POSP PAN CARD" />
 
                 <ImageView
+                    android:id="@+id/ivPanCam"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:padding="2dp"
                     android:src="@drawable/camera_icon" />
 
                 <ImageView
+                    android:id="@+id/ivPanGallery"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
                     android:src="@drawable/folder_icon" />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivAadhar"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
@@ -786,25 +806,34 @@
                     android:text="POSP AADHAR CARD FRONT" />
 
                 <ImageView
+                    android:id="@+id/ivAadharCam"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:padding="2dp"
                     android:src="@drawable/camera_icon" />
 
                 <ImageView
+                    android:id="@+id/ivAadharGallery"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
                     android:src="@drawable/folder_icon" />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivAadharBack"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
@@ -819,25 +848,34 @@
                     android:text="POSP AADHAR CARD BACK" />
 
                 <ImageView
+                    android:id="@+id/ivAadharCamBack"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:padding="2dp"
                     android:src="@drawable/camera_icon" />
 
                 <ImageView
+                    android:id="@+id/ivAadharGalleryBack"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
                     android:src="@drawable/folder_icon" />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivCancel"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
@@ -849,28 +887,37 @@
                 <TextView
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
-                    android:text="POSP CANCELLED CHEQUE" />
+                    android:text="POSP CANCELLED CHQ" />
 
                 <ImageView
+                    android:id="@+id/ivCancelCam"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:padding="2dp"
                     android:src="@drawable/camera_icon" />
 
                 <ImageView
+                    android:id="@+id/ivCancelGallery"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
                     android:src="@drawable/folder_icon" />
             </LinearLayout>
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorPrimary" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ImageView
+                    android:id="@+id/ivEdu"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_alignParentRight="true"
@@ -885,19 +932,20 @@
                     android:text="POSP HIGHEST EDU. PROOF" />
 
                 <ImageView
+                    android:id="@+id/ivEduCam"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:padding="2dp"
                     android:src="@drawable/camera_icon" />
 
                 <ImageView
+                    android:id="@+id/ivEduGallery"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
                     android:src="@drawable/folder_icon" />
             </LinearLayout>
-
         </LinearLayout>
         <!--END START-->
         <Button

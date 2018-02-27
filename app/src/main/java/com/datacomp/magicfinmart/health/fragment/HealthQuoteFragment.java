@@ -75,6 +75,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA) != null) {
+                healthQuote = new HealthQuote();
                 healthQuote = getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA);
                 bindHeaders();
                 fetchQuotes();
@@ -117,6 +118,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             ImageView imageview = new ImageView(getActivity());
             LinearLayout.LayoutParams params = new LinearLayout
                     .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+            imageview.setPadding(2, 0, 2, 0);
 
             if (listmember.get(i).getAge() > 18)
                 imageview.setImageResource(R.mipmap.adult);
@@ -166,6 +169,10 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         cancelDialog();
         if (response instanceof HealthQuoteExpResponse) {
             if (((HealthQuoteExpResponse) response).getMasterData().getHealth_quote().getHeader() != null) {
+
+                //update request id
+                ((HealthQuoteBottomTabsActivity) getActivity()).updateRequestID(((HealthQuoteExpResponse) response).getMasterData().getHealthRequestId());
+
                 prepareChild(((HealthQuoteExpResponse) response).getMasterData()
                         .getHealth_quote().getHeader(), ((HealthQuoteExpResponse) response).getMasterData()
                         .getHealth_quote().getChild());
