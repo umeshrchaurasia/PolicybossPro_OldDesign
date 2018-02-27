@@ -12,6 +12,8 @@ import android.util.Log;
 
 import java.io.File;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+
 /**
  * Created by IN-RB on 02-03-2017.
  */
@@ -42,7 +44,7 @@ public class CropHelper {
     public static Uri generateUri() {
 
 
-        File cacheFolder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + CROP_CACHE_FOLDER);
+        File cacheFolder = new File(Environment.getExternalStorageDirectory(), "/FINMART");
         if (!cacheFolder.exists()) {
             try {
                 boolean result = cacheFolder.mkdir();
@@ -54,17 +56,8 @@ public class CropHelper {
         // ("ProfilePic.jpg"
         String name = String.format(ProfilePic);
 
-        //region provider
-//        Uri apkURI = FileProvider.getUriForFile(
-//                mcontext,
-//                mcontext.getApplicationContext()
-//                        .getPackageName() + ".provider", cacheFolder);
-//
-//        return apkURI
-//                .buildUpon()
-//                .appendPath(name)
-//                .build();
-        //endregion
+
+
         return Uri
                 .fromFile(cacheFolder)
                 .buildUpon()

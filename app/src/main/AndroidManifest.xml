@@ -20,6 +20,16 @@
         android:roundIcon="@drawable/finmart_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="${applicationId}.provider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+        <!--</provider>-->
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/provider_paths"/>
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="5822">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />

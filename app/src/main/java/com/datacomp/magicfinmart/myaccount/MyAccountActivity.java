@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
@@ -14,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +31,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.register.RegisterActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.imagecropper.BitmapUtil;
 import com.datacomp.magicfinmart.utility.imagecropper.CropHandler;
 import com.datacomp.magicfinmart.utility.imagecropper.CropHelper;
 import com.datacomp.magicfinmart.utility.imagecropper.CropParams;
@@ -63,7 +66,7 @@ import okhttp3.RequestBody;
  * Created by daniyalshaikh on 10/01/18.
  */
 
-public class MyAccountActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber, CropHandler {
+public class MyAccountActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
@@ -97,7 +100,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     private String PHOTO_EXT = "FBAPhotograph.jpg", PAN_EXT = "LoanRepPanCard.jpg", CANCEL_CHQ_EXT = "LoanRepCancelChq.jpg", AADHAR_EXT = "OtherAadharCard.jpg";
 
     Boolean isDataUploaded = true;
-    CropParams mCropParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +114,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginEntity.getFBAId());
-        mCropParams = new CropParams(this);  // initializing CropParms
 
         initWidgets();
         setListener();
@@ -927,9 +928,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
     private void openGallery() {
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
+
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
     }
 
@@ -981,7 +984,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
         }
-        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+
+        if (requestCode ==  SELECT_PICTURE && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             Bitmap mphoto = null;
             try {
@@ -989,14 +993,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                 switch (type) {
                     case 1:
- //                       showDialog();
-//                        ivUser.setImageBitmap(mphoto);
-//                        file = saveImageToStorage(mphoto, "PROFILE");
-//                        part = Utility.getMultipartImage(file);
-//                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
-//                        new RegisterController(this).uploadDocuments(part, body, this);
+                        showDialog();
+                        ivUser.setImageBitmap(mphoto);
+                        file = saveImageToStorage(mphoto, "PROFILE");
+                        part = Utility.getMultipartImage(file);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
+                        new RegisterController(this).uploadDocuments(part, body, this);
 
-                       CropHelper.handleResult(this, requestCode, resultCode, data);
                         break;
                     case 2:
                         showDialog();
@@ -1038,33 +1041,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
 
-    @Override
-    public void onPhotoCropped(Uri uri) {
 
-    }
 
-    @Override
-    public void onCompressed(Uri uri) {
 
-    }
-
-    @Override
-    public void onCancel() {
-        Toast.makeText(this, "upload cancelled!", Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onFailed(String message) {
-        Toast.makeText(this, "upload failed: " + message, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void handleIntent(Intent intent, int requestCode) {
-        startActivityForResult(intent, requestCode);
-    }
-
-    @Override
-    public CropParams getCropParams() {
-        return mCropParams;
-    }
 }

@@ -162,6 +162,24 @@ public class BaseActivity extends AppCompatActivity {
         return outFile;
     }
 
+    public File saveImageToStorage1(Bitmap bitmap, String name) {
+        FileOutputStream outStream = null;
+
+        File dir = Utility.createDirIfNotExists();
+        String fileName = name + ".jpg";
+        fileName = fileName.replaceAll("\\s+", "");
+        File outFile = new File(dir, fileName);
+        try {
+            outStream = new FileOutputStream(outFile);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 70, outStream);
+            outStream.flush();
+            outStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return outFile;
+    }
+
 
     public Bitmap createBitmap() {
         Bitmap resultBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
