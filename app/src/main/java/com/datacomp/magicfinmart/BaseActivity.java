@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -9,32 +8,22 @@ import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.datacomp.magicfinmart.salesmaterial.SalesShareActivity;
-import com.google.firebase.messaging.RemoteMessage;
-
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -79,6 +68,20 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void showDialog(String msg) {
         dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+    }
+
+    public void sendSms(String mobNumber) {
+        try {
+            mobNumber = mobNumber.replaceAll("\\s", "");
+            mobNumber = mobNumber.replaceAll("\\+", "");
+            mobNumber = mobNumber.replaceAll("-", "");
+            mobNumber = mobNumber.replaceAll(",", "");
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mobNumber, null)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void dialNumber(String mobNumber) {
@@ -143,7 +146,6 @@ public class BaseActivity extends AppCompatActivity {
         return !(aadharNo.isEmpty() || !aadharNo.matches(aadharPattern));
     }
 
-
     public File saveImageToStorage(Bitmap bitmap, String name) {
         FileOutputStream outStream = null;
 
@@ -162,36 +164,37 @@ public class BaseActivity extends AppCompatActivity {
         return outFile;
     }
 
-    public File saveImageToStorage1(Bitmap bitmap, String name) {
-        FileOutputStream outStream = null;
+    public Bitmap createBitmap(Bitmap pospPhoto, String pospName, String pospDesg, String pospMob, String pospEmail) {
+        int textSize = 20;
+        pospPhoto = Bitmap.createScaledBitmap(pospPhoto, 100, 100, false);
 
-        File dir = Utility.createDirIfNotExists();
-        String fileName = name + ".jpg";
-        fileName = fileName.replaceAll("\\s+", "");
-        File outFile = new File(dir, fileName);
-        try {
-            outStream = new FileOutputStream(outFile);
-            bitmap.compress(Bitmap.CompressFormat.PNG, 70, outStream);
-            outStream.flush();
-            outStream.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return outFile;
-    }
-
-
-    public Bitmap createBitmap() {
-        Bitmap resultBitmap = Bitmap.createBitmap(100, 100, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(resultBitmap);
+        Bitmap textBitmap = Bitmap.createBitmap(2000, 150, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(textBitmap);
         canvas.drawColor(Color.WHITE);
         Paint paint = new Paint();
         paint.setColor(Color.RED);
-        canvas.drawText("Name : Rajeev Ranjan", 10, 10, paint);
-        return resultBitmap;
+        paint.setTextSize(15);
+        canvas.drawText("" + pospName, 110, 40, paint);
+        canvas.drawText("" + pospDesg, 110, 40 + textSize + 2, paint);
+        canvas.drawText("" + pospMob, 110, 40 + textSize + textSize + 2, paint);
+        canvas.drawText("" + pospEmail, 110, 40 + textSize + textSize + textSize + 2, paint);
+        //canvas.drawText("" + pospName + "\n" + pospDesg + "\n" + pospMob + "\n" + pospEmail, 10, 10, paint);
+
+
+        Bitmap cs = null;
+
+        cs = Bitmap.createBitmap(2000, 150, Bitmap.Config.ARGB_8888);
+
+        Canvas comboImage = new Canvas(cs);
+
+        comboImage.drawBitmap(textBitmap, 0f, 0f, null);
+        comboImage.drawBitmap(pospPhoto, 0f, 15f, null);
+
+
+        return cs;
     }
 
-    public Bitmap combineImages(Bitmap first, Bitmap second,String pospName,String pospDesg,String pospMob,String pospEmail) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom
+    public Bitmap combineImages(Bitmap first, Bitmap second) { // can add a 3rd parameter 'String loc' if you want to save the new image - left some code to do that at the bottom
         Bitmap cs = null;
 
         int width, height = 0;
@@ -360,204 +363,5 @@ public class BaseActivity extends AppCompatActivity {
         }
 
     }
-
-
-    public class shareImageNormal extends AsyncTask<Void, Void, Bitmap> {
-
-        String subject, body;
-        URL imgUrl;
-
-        public shareImageNormal(String imgUrl, String subject, String body) {
-            this.subject = subject;
-            this.body = body;
-
-            try {
-
-                this.imgUrl = new URL(imgUrl);
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showDialog();
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            Bitmap networkBitmap = null;
-
-            //  URL networkUrl = urls[0]; //Load the first element
-            URL networkUrl = imgUrl;
-            try {
-                networkBitmap = BitmapFactory.decodeStream(
-                        networkUrl.openConnection().getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + imgUrl);
-            }
-
-            return networkBitmap;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-
-            try {
-                cancelDialog();
-                if (result != null) {
-
-                    datashareList(BaseActivity.this, result, subject, body);
-
-                } else {
-                    cancelDialog();
-
-                }
-
-
-            } catch (Exception e) {
-                cancelDialog();
-                e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + e.getMessage());
-
-            }
-        }
-    }
-
-
-    public class shareImage extends AsyncTask<Void, Void, Bitmap> {
-
-        String pospNAme, pospDesg, PospMobNo, pospEmail, subject, body;
-        URL imgUrl, pospPhotoUrl;
-
-        public shareImage(String imgUrl, String pospPhotoUrl, String pospNAme, String pospDesg, String pospMobNo, String pospEmail, String subject, String body) {
-            this.pospNAme = pospNAme;
-            this.pospDesg = pospDesg;
-            PospMobNo = pospMobNo;
-            this.pospEmail = pospEmail;
-            this.subject = subject;
-            this.body = body;
-
-            try {
-                this.pospPhotoUrl = new URL(pospPhotoUrl);
-                this.imgUrl = new URL(imgUrl);
-            } catch (Exception e) {
-                e.printStackTrace();
-
-            }
-        }
-
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            showDialog();
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            Bitmap networkBitmap = null;
-
-            //  URL networkUrl = urls[0]; //Load the first element
-            URL networkUrl = imgUrl;
-            try {
-                networkBitmap = BitmapFactory.decodeStream(
-                        networkUrl.openConnection().getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + imgUrl);
-            }
-
-            return networkBitmap;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-
-            try {
-
-                if (result != null) {
-                    new createBitmapFromURL(result,pospPhotoUrl,pospNAme,pospDesg,PospMobNo,pospEmail,subject,body).execute();
-                    //datashareList(BaseActivity.this, result, Subject, Body);
-
-                } else {
-                    cancelDialog();
-                    // Snackbar.make()
-
-                }
-
-
-            } catch (Exception e) {
-                cancelDialog();
-                e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + e.getMessage());
-
-            }
-        }
-    }
-
-    public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
-        URL  pospPhotoUrl;
-        String pospNAme, pospDesg, PospMobNo, pospEmail, subject, body;
-        Bitmap salesMaterial;
-        public createBitmapFromURL(Bitmap salesMaterial,URL pospPhotoUrl, String pospNAme, String pospDesg,
-                                   String pospMobNo, String pospEmail, String subject, String body) {
-
-            this.salesMaterial=salesMaterial;
-            this.pospNAme = pospNAme;
-            this.pospDesg = pospDesg;
-            PospMobNo = pospMobNo;
-            this.pospEmail = pospEmail;
-            this.subject = subject;
-            this.body = body;
-            this.pospPhotoUrl=pospPhotoUrl;
-        }
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected Bitmap doInBackground(Void... voids) {
-            Bitmap networkBitmap = null;
-
-            //  URL networkUrl = urls[0]; //Load the first element
-            try {
-                networkBitmap = BitmapFactory.decodeStream(
-                        pospPhotoUrl.openConnection().getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + pospPhotoUrl);
-            }
-
-            return networkBitmap;
-        }
-
-        protected void onPostExecute(Bitmap result) {
-
-            try {
-
-                if (result != null) {
-                    //datashareList(BaseActivity.this, result);
-                    Bitmap combined = combineImages(salesMaterial,result,pospNAme,pospDesg,PospMobNo,pospEmail);
-                    datashareList(BaseActivity.this,combined,subject,body);
-                    cancelDialog();
-                } else {
-                    cancelDialog();
-                    // Snackbar.make()
-                }
-
-
-            } catch (Exception e) {
-                cancelDialog();
-                e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + e.getMessage());
-
-            }
-        }
-    }
-
 }
 

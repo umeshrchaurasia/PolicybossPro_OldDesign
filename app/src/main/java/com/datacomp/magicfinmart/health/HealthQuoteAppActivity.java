@@ -77,6 +77,7 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
         cancelDialog();
         if (response instanceof HealthQuoteAppResponse) {
             if (((HealthQuoteAppResponse) response).getMasterData() != null) {
+
                 mAdapter = new HealthActivityTabsPagerAdapter(getSupportFragmentManager(),
                         ((HealthQuoteAppResponse) response));
                 viewPager.setAdapter(mAdapter);

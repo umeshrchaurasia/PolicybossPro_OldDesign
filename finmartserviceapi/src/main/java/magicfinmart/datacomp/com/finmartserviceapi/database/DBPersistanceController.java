@@ -14,7 +14,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.R;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CompanyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
@@ -636,6 +635,7 @@ public class DBPersistanceController {
     }
 
 
+
     //endregion
 
     //region DOC list
@@ -647,7 +647,7 @@ public class DBPersistanceController {
         realm.commitTransaction();
     }
 
-    public List<DocsEntity> getDocList(String compId, String lang) {
+    public List<DocsEntity> getDocList(String compId,String lang) {
         List<DocsEntity> docsEntityList = realm.where(DocsEntity.class).equalTo("company_id", compId).equalTo("language", lang.trim(), Case.INSENSITIVE).findAll();
         if (docsEntityList != null)
             return docsEntityList;

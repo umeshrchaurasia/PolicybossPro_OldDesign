@@ -45,13 +45,16 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
+import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocAvailableEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IfscEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospDetailsEntity;
@@ -112,7 +115,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     MultipartBody.Part part;
     File file;
     private int POSP_PHOTO = 6, POSP_PAN = 7, POSP_AADHAR_FRONT = 8, POSP_AADHAR_BACK = 9, POSP_CANCEL_CHQ = 10, POSP_EDU = 11;
-
+    boolean isAllImageUpload;
+    LinearLayout llMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -124,7 +128,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         registerRequestEntity = new RegisterRequestEntity();
-        registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
+        registerRequestEntity.setFBAID(loginResponseEntity.getFBAId());
+        if (loginResponseEntity.getCustID() != null && !loginResponseEntity.getCustID().equals("")) {
+            registerRequestEntity.setCustID(Integer.parseInt(loginResponseEntity.getCustID()));
+        }
+
         prefManager = new PrefManager(this);
         initWidgets();
         setListener();
@@ -231,6 +239,30 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     }
 
+    private void bindUploadImage() {
+
+        List<DocAvailableEntity> docAvailableEntityList = pospDetailsEntity.getDoc_available();
+        for (DocAvailableEntity docAvailableEntity : docAvailableEntityList) {
+            if (!docAvailableEntity.getFileName().equals("")) {
+                setUploadedDocument(docAvailableEntity.getDocType());
+            }
+        }
+
+    }
+
+    private boolean checkAllImageUpload() {
+        List<DocAvailableEntity> docAvailableEntityList = pospDetailsEntity.getDoc_available();
+        for (DocAvailableEntity docAvailableEntity : docAvailableEntityList) {
+            if (docAvailableEntity.getFileName().equals("")) {
+                int docType = docAvailableEntity.getDocType();
+                if (docType == 6 || docType == 7 || docType == 8 || docType == 9 || docType == 10 || docType == 11) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     private void bindInputFromeServer(PospDetailsEntity registerRequestEntity) {
 
 
@@ -241,14 +273,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (registerRequestEntity.getPosp_Last_Name() != null && !registerRequestEntity.getPosp_Last_Name().equals("")) {
             etLastName.setText("" + registerRequestEntity.getPosp_Last_Name());
         }
-        /* if (!registerRequestEntity.getPosp_PinCode().equals("") && registerRequestEntity.getPosp_PinCode() != null) {
+        if (registerRequestEntity.getPosp_PinCode() != null && !registerRequestEntity.getPosp_PinCode().equals("")) {
             // showDialog();
             new RegisterController(this).getCityState(registerRequestEntity.getPosp_PinCode(), this);
         }
-        if (!registerRequestEntity.getPosp_IFSC().equals("") && registerRequestEntity.getPosp_IFSC() != null) {
+        if (registerRequestEntity.getPosp_IFSC() != null && !registerRequestEntity.getPosp_IFSC().equals("")) {
             //showDialog();
             new RegisterController(this).getIFSC(registerRequestEntity.getPosp_IFSC(), this);
-        }*/
+        }
         if (registerRequestEntity.getPosp_DOB() != null && !registerRequestEntity.getPosp_DOB().equals("")) {
             etDob.setText("" + registerRequestEntity.getPosp_DOB());
         }
@@ -412,7 +444,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     }
 
     private void initWidgets() {
-
+        llMain = (LinearLayout) findViewById(R.id.llMain);
         //region address
         etAddress1 = (EditText) findViewById(R.id.etAddress1);
         etAddress2 = (EditText) findViewById(R.id.etAddress2);
@@ -899,21 +931,31 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setCurrentAcc();
                 break;
             case R.id.btnSave:
-                if (loginResponseEntity.getPaymentUrl() != null) {
-                    openWebView(loginResponseEntity.getPaymentUrl());
-                } else {
-                    if (!isPospInfo)
-                        ivAddress.performClick();
-                    if (!isAddress)
-                        ivBankDetail.performClick();
-                    if (!isBankDetails)
-                        ivDocumentUpload.performClick();
-                    if (isPospInfo && isAddress && isBankDetails) {
-                        registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
-                        showDialog();
-                        new RegisterController(this).enrollPosp(registerRequestEntity, this);
+                if (pospDetailsEntity.getPaymStat() == null) {
+                    if (loginResponseEntity.getPaymentUrl() != null) {
+                        openWebView(loginResponseEntity.getPaymentUrl());
                     } else {
-                        Toast.makeText(this, "Please Fill all details.", Toast.LENGTH_SHORT).show();
+
+                            ivAddress.performClick();
+
+                            ivBankDetail.performClick();
+
+                            ivDocumentUpload.performClick();
+                        if (isPospInfo && isAddress && isBankDetails) {
+                            registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
+                            showDialog();
+                            new RegisterController(this).enrollPosp(registerRequestEntity, this);
+                        } else {
+                            Toast.makeText(this, "Please Fill all details.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                } else {
+                    // payment done
+                    if (checkAllImageUpload()) {
+                        llMain.setVisibility(View.GONE);
+                        showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", false);
+                    } else {
+                        showPopUpNew("SUCCESS ", "Upload Remaining Document !", "OK", true);
                     }
                 }
                 break;
@@ -987,7 +1029,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             registerRequestEntity.setPosp_Address3(etAddress3.getText().toString());
         registerRequestEntity.setPosp_PinCode(etPincode.getText().toString());
         registerRequestEntity.setPosp_City(etCity.getText().toString());
-        //registerRequestEntity.setPosp_StatID(etState.getText().toString());// to be changed to id
+        registerRequestEntity.setPosp_StatID(etState.getText().toString());// to be changed to id
 
 
         //setting nonposp
@@ -997,7 +1039,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             registerRequestEntity.setAddress_3(etAddress3.getText().toString());
         registerRequestEntity.setPinCode(etPincode.getText().toString());
         registerRequestEntity.setCity(etCity.getText().toString());
-        //registerRequestEntity.setPosp_StatID(etState.getText().toString());// to be changed to id
+        registerRequestEntity.setPosp_StatID(etState.getText().toString());// to be changed to id
 
         prefManager.setPospInformation(registerRequestEntity);
     }
@@ -1158,7 +1200,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         if (ifscEntity.getMICRCode() != null)
                             erMicrCode.setText("" + ifscEntity.getMICRCode());
                         etBankName.setText("" + ifscEntity.getBankName());
-                        etBankBranch.setText("" + ifscEntity.getBankName());
+                        etBankBranch.setText("" + ifscEntity.getBankBran());
                         etBankCity.setText("" + ifscEntity.getCityName());
 
                         if (!erMicrCode.getText().toString().isEmpty())
@@ -1178,15 +1220,36 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     if (((PospDetailsResponse) response).getMasterData().size() > 0) {
                         pospDetailsEntity = ((PospDetailsResponse) response).getMasterData().get(0);
                         if (pospDetailsEntity != null) {
-                            if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals(""))
-                                registerRequestEntity.setPOSPID(Integer.parseInt(pospDetailsEntity.getPOSPNo()));
-                            bindInputFromeServer(pospDetailsEntity);
+
+                            if (checkAllImageUpload()) {
+                                // all documents uploaded
+                                if (pospDetailsEntity.getPaymStat() != null) {
+                                    // payment done & documents uploaded
+                                    llMain.setVisibility(View.GONE);
+                                    showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", true);
+                                } else {
+                                    // payment   Not done & documents uploaded
+                                    bindUploadImage();
+                                    if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals("")) {
+                                        registerRequestEntity.setPOSPID(Integer.parseInt(pospDetailsEntity.getPOSPNo()));
+                                        bindInputFromeServer(pospDetailsEntity);
+                                    } else {
+                                        setInputParameters();
+                                    }
+                                }
+                            } else {
+                                // some documents uploaded
+                                bindUploadImage();
+                                if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals("")) {
+                                    registerRequestEntity.setPOSPID(Integer.parseInt(pospDetailsEntity.getPOSPNo()));
+                                    bindInputFromeServer(pospDetailsEntity);
+                                } else {
+                                    setInputParameters();
+                                }
+                            }
                         }
                     }
                 }
-            }
-            if (pospDetailsEntity == null) {
-                setInputParameters();
             }
         } else if (response instanceof EnrollPospResponse) {
             cancelDialog();
@@ -1195,8 +1258,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     if (!((EnrollPospResponse) response).getMasterData().getPaymentURL().equals("")) {
                         pospEnrollEntity = ((EnrollPospResponse) response).getMasterData();
                         //update login response
-                        loginResponseEntity.setPaymentUrl(pospEnrollEntity.getPaymentURL());
-                        dbPersistanceController.storeUserData(loginResponseEntity);
+                        updateLoginResponse(pospEnrollEntity.getPaymentURL());
                         openWebView(pospEnrollEntity.getPaymentURL());
                     }
                 }
@@ -1212,6 +1274,15 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             }
         }
 
+    }
+
+    public void updateLoginResponse(final String paymentUrl) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                loginResponseEntity.setPaymentUrl(paymentUrl);
+            }
+        });
     }
 
     @Override
@@ -1394,6 +1465,45 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         }
     }
 
+    private void showPopUpNew(String title, String message, String buttonName, boolean isCancelable) {
+
+        try {
+            final Dialog dialog;
+            dialog = new Dialog(PospEnrollment.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.layout_pancard_popup);
+
+            TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
+            tvTitle.setText(title);
+            TextView tvOk = (TextView) dialog.findViewById(R.id.tvOk);
+            tvOk.setText(buttonName);
+            TextView txtMessage = (TextView) dialog.findViewById(R.id.txtMessage);
+            txtMessage.setText(message);
+
+
+            dialog.setCancelable(isCancelable);
+            dialog.setCanceledOnTouchOutside(isCancelable);
+
+            Window dialogWindow = dialog.getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = lp.MATCH_PARENT;
+            ; // Width
+            lp.height = lp.WRAP_CONTENT; // Height
+            dialogWindow.setAttributes(lp);
+
+            dialog.show();
+            tvOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    dialog.cancel();
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void openWebView(String url) {
         if (!url.equals("")) {
             startActivity(new Intent(this, CommonWebViewActivity.class)
@@ -1413,7 +1523,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private void openGallery() {
 
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/jpg");
         intent.setAction(Intent.ACTION_GET_CONTENT);
 
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
@@ -1563,6 +1673,29 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             ivCancel.setImageResource(R.drawable.doc_uploaded);
         } else if (type == 11) {
             ivEdu.setImageResource(R.drawable.doc_uploaded);
+        }
+    }
+
+    private void setUploadedDocument(int type) {
+        switch (type) {
+            case 6:
+                ivPhoto.setImageResource(R.drawable.doc_uploaded);
+                break;
+            case 7:
+                ivPan.setImageResource(R.drawable.doc_uploaded);
+                break;
+            case 8:
+                ivAadhar.setImageResource(R.drawable.doc_uploaded);
+                break;
+            case 9:
+                ivAadharBack.setImageResource(R.drawable.doc_uploaded);
+                break;
+            case 10:
+                ivCancel.setImageResource(R.drawable.doc_uploaded);
+                break;
+            case 11:
+                ivEdu.setImageResource(R.drawable.doc_uploaded);
+                break;
         }
     }
 }

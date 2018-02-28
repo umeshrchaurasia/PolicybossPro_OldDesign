@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeApplicationTabFragment;
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicationEntity;
 
 
-public class BikeActivityTabsPagerAdapter extends FragmentPagerAdapter {
+public class BikeActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
@@ -63,4 +64,8 @@ public class BikeActivityTabsPagerAdapter extends FragmentPagerAdapter {
         return 2;
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 }
