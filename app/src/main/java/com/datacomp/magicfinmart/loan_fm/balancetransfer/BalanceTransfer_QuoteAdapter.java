@@ -1,26 +1,40 @@
 package com.datacomp.magicfinmart.loan_fm.balancetransfer;
 
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.quote.BL_QuoteFragment;
+
+import org.w3c.dom.Text;
+
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
 
 /**
  * Created by IN-RB on 26-01-2018.
  */
 
-public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTransfer_QuoteAdapter.QuoteItem> {
+public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTransfer_QuoteAdapter.QuoteItem>  implements View.OnClickListener {
 
-    Context context;
+    Fragment mFrament;
+    List<FmBalanceLoanRequest> mQuoteList;
 
-    public BalanceTransfer_QuoteAdapter(Context context) {
-        this.context = context;
+
+    public BalanceTransfer_QuoteAdapter(Fragment mFrament,List<FmBalanceLoanRequest> mQuoteList) {
+        this.mFrament = mFrament;
+        this.mQuoteList = mQuoteList;
     }
     @Override
     public QuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -31,57 +45,161 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
 
     @Override
     public void onBindViewHolder(QuoteItem holder, int position) {
-//        holder.ivTripleDot.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                openPopUp(view);
-//            }
-//        });
-    }
 
-    private void openPopUp(View v) {
-        final PopupMenu popupMenu = new PopupMenu(context, v);
-        final Menu menu = popupMenu.getMenu();
 
-       // popupMenu.getMenuInflater().inflate(R.menu.recycler_menu, menu);
-        //popupMenu.setOnMenuItemClickListener(onMenuItemClickListener);
+        if (holder instanceof BalanceTransfer_QuoteAdapter.QuoteItem) {
+            final FmBalanceLoanRequest entity = mQuoteList.get(position);
 
-      /*  switch (Settings.Global.listMode) {
-            case Settings.Global.LIST_STYLE_NORMAL: {
-                menu.findItem(R.id.nav_call).setVisible(false);
-                break;
+            try {
+                if (entity.getBLLoanRequest().getApplicantName() != null) {
+                    holder.txtPersonName.setText("" + entity.getBLLoanRequest().getApplicantName());
+                }
+                else
+                {
+                    holder.txtPersonName.setText("");
+                }
+                if (entity.getBLLoanRequest().getRow_createddate() != null) {
+                    holder.txtQuoteDate.setText("" + entity.getBLLoanRequest().getRow_createddate().split("T")[0].toString());
+
+                }
+                else
+                {
+                    holder.txtQuoteDate.setText("");
+                }
+
+
+                if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("12")) {
+                    holder.txttype.setText("HOME");
+                } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("9")) {
+                    holder.txttype.setText("PERSONAL");
+                } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("7")) {
+                    holder.txttype.setText("LAP");
+                }
+                holder.txtloanamount.setText("" + entity.getBLLoanRequest().getLoanamount());
+
+            }catch (Exception ex)
+            {
+                ex.printStackTrace();
             }
-            case Settings.Global.LIST_STYLE_FAVORITE: {
-                menu.findItem(R.id.action_add_to_favorite).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_WATCH_LIST: {
-                menu.findItem(R.id.action_add_to_watch_list).setVisible(false);
-                break;
-            }
-            case Settings.Global.LIST_STYLE_DOWNLOAD: {
-                menu.findItem(R.id.action_download).setVisible(false);
-                break;
-            }
+
+
+            holder.txtPersonName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((BL_QuoteFragment)mFrament).redirectQuoteBL(entity);
+                }
+            });
+            holder.txtQuoteDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((BL_QuoteFragment)mFrament).redirectQuoteBL(entity);
+                }
+            });
+            holder.txtloanamount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((BL_QuoteFragment)mFrament).redirectQuoteBL(entity);
+                }
+            });
+            holder.tvloanamount.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((BL_QuoteFragment)mFrament).redirectQuoteBL(entity);
+                }
+            });
+            holder.tvQuoteDate.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((BL_QuoteFragment)mFrament).redirectQuoteBL(entity);
+                }
+            });
         }
-
-        itemPosition = (int) view.getTag(R.id.tag_item_position);*/
-        popupMenu.show();
     }
-    @Override
-    public int getItemCount() {
-        return 2;
+
+
+    private void openPopUp(View v, final FmBalanceLoanRequest entity) {
+        //creating a popup menu
+        PopupMenu popup = new PopupMenu(mFrament.getActivity(), v);
+        //inflating menu from xml resource
+        popup.inflate(R.menu.recycler_menu_application);
+        //adding click listener
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.menuCall:
+                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.menuSms:
+                        Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        break;
+
+                }
+                return false;
+            }
+        });
+        //displaying the popup
+        popup.show();
+    }
+
+
+    public void refreshAdapter(List<FmBalanceLoanRequest> list) {
+        mQuoteList = list;
     }
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
-        //   public ImageView ivTripleDot;
-        public CheckBox chkAddon;
+        public TextView txtPersonName,  txtOverflowMenu,  txtloanamount , txtQuoteDate,tvQuoteDate,tvloanamount,txttype,tvtype;
 
 
         public QuoteItem(View itemView) {
             super(itemView);
-            //ivTripleDot = (ImageView) itemView.findViewById(R.id.ivTripleDot);
+            txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
+            txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
+            txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
+            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+
+            tvloanamount = (TextView) itemView.findViewById(R.id.tvloanamount);
+            tvQuoteDate = (TextView) itemView.findViewById(R.id.tvQuoteDate);
+            txttype = (TextView)itemView.findViewById(R.id.txttype);
+            tvtype=(TextView)itemView.findViewById(R.id.tvtype);
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mQuoteList.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.txtloanamount:
+                ((BL_QuoteFragment)mFrament).redirectQuoteBL((FmBalanceLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.txtQuoteDate:
+                ((BL_QuoteFragment)mFrament).redirectQuoteBL((FmBalanceLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.tvQuoteDate:
+                ((BL_QuoteFragment)mFrament).redirectQuoteBL((FmBalanceLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.tvloanamount:
+                ((BL_QuoteFragment)mFrament).redirectQuoteBL((FmBalanceLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.txtPersonName:
+                ((BL_QuoteFragment)mFrament).redirectQuoteBL((FmBalanceLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.txttype:
+                ((BL_QuoteFragment)mFrament).redirectQuoteBL((FmBalanceLoanRequest) view.getTag(view.getId()));
+                break;
+            case R.id.tvtype:
+                ((BL_QuoteFragment)mFrament).redirectQuoteBL((FmBalanceLoanRequest) view.getTag(view.getId()));
+                break;
+
+            case R.id.txtOverflowMenu:
+                openPopUp(view, (FmBalanceLoanRequest) view.getTag(view.getId()));
+                break;
+
         }
     }
 }

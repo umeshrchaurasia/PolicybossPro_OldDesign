@@ -20,12 +20,86 @@ public class BLEntity implements Parcelable {
         private int Bank_Id;
         private String Bank_Code;
         private String Bank_Name;
-        private String roi;
-        private String pf;
-        private String pf_type;
-        private String Bank_Logo;
-        private double processingfee;
-        private String roi_type;
+    private String roi;
+    private String pf;
+    private String pf_type;
+    private String Bank_Logo;
+    private double processingfee;
+    private String roi_type;
+
+    public int getBank_Id() {
+        return Bank_Id;
+    }
+
+    public void setBank_Id(int bank_Id) {
+        Bank_Id = bank_Id;
+    }
+
+    public String getBank_Code() {
+        return Bank_Code;
+    }
+
+    public void setBank_Code(String bank_Code) {
+        Bank_Code = bank_Code;
+    }
+
+    public String getBank_Name() {
+        return Bank_Name;
+    }
+
+    public void setBank_Name(String bank_Name) {
+        Bank_Name = bank_Name;
+    }
+
+    public String getRoi() {
+        return roi;
+    }
+
+    public void setRoi(String roi) {
+        this.roi = roi;
+    }
+
+    public String getPf() {
+        return pf;
+    }
+
+    public void setPf(String pf) {
+        this.pf = pf;
+    }
+
+    public String getPf_type() {
+        return pf_type;
+    }
+
+    public void setPf_type(String pf_type) {
+        this.pf_type = pf_type;
+    }
+
+    public String getBank_Logo() {
+        return Bank_Logo;
+    }
+
+    public void setBank_Logo(String bank_Logo) {
+        Bank_Logo = bank_Logo;
+    }
+
+    public double getProcessingfee() {
+        return processingfee;
+    }
+
+    public void setProcessingfee(double processingfee) {
+        this.processingfee = processingfee;
+    }
+
+    public String getRoi_type() {
+        return roi_type;
+    }
+
+    public void setRoi_type(String roi_type) {
+        this.roi_type = roi_type;
+    }
+
+
 
     @Override
     public int describeContents() {

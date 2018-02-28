@@ -166,6 +166,7 @@
             android:name=".loan_fm.laploan.LapLoanDetailActivity"
             android:label="@string/title_activity_lap_loan_detail"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme" />
         <activity
@@ -224,11 +225,27 @@
         <activity
             android:name=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
             android:label="@string/title_activity_balance_transfer_detail"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
         <activity
             android:name=".loan_fm.balancetransfer.addquote.BLMainActivity"
             android:label="@string/title_activity_blmain"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
+
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
+
+        </activity>
         <activity
             android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView"
             android:label="@string/title_activity_personal_loan_apply_web_view"
@@ -244,7 +261,19 @@
         <activity
             android:name=".loan_fm.laploan.addquote.LAPMainActivity"
             android:label="@string/title_activity_lapmain"
-            android:theme="@style/AppTheme" />
+            android:parentActivityName=".loan_fm.laploan.LapLoanDetailActivity"
+
+
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity" />
+
+
+        </activity>
         <activity
             android:name=".loan_fm.laploan.addquote.LAPApplyActivity"
             android:label="@string/title_activity_lapapply"

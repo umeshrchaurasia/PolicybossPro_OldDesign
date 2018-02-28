@@ -82,6 +82,9 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
                         .load(entity.getHomeLoanRequest().getbank_image())
                         .into(holder.imgbankLogo);
                 //change Fresco
+                Glide.with(fragment)
+                        .load(entity.getHomeLoanRequest().getProgress_image())
+                        .into(holder.imgStatus);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -129,7 +132,7 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
-        ImageView imgbankLogo;
+        ImageView imgbankLogo,imgStatus;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -139,6 +142,8 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
             txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
+            imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
+
         }
     }
 }

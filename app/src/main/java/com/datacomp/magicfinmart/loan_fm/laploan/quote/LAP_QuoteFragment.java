@@ -108,7 +108,7 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.hlAddQuote:
+            case R.id.lapAddQuote:
                 startActivity(new Intent(getActivity(), LAPMainActivity.class));
                 break;
             case R.id.tvSearch:

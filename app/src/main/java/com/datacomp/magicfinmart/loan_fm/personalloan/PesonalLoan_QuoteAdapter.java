@@ -110,6 +110,12 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
                     ((PL_QuoteFragment)mFrament).redirectQuotePL(entity);
                 }
             });
+            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openPopUp(view, entity);
+                }
+            });
         }
     }
 
@@ -124,10 +130,10 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mFrament.getActivity(),  entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mFrament.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
 
                 }
@@ -164,9 +170,9 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
             case R.id.txtPersonName:
                 ((PL_QuoteFragment)mFrament).redirectQuotePL((FmPersonalLoanRequest) view.getTag(view.getId()));
                 break;
-            case R.id.txtOverflowMenu:
-                openPopUp(view, (FmPersonalLoanRequest) view.getTag(view.getId()));
-                break;
+//            case R.id.txtOverflowMenu:
+//                openPopUp(view, (FmPersonalLoanRequest) view.getTag(view.getId()));
+//                break;
 
         }
     }

@@ -70,7 +70,7 @@ public class PersonalLoanController  implements IPersonalLoan {
         personalloanNetworkService.getBLDispalyResponseQuotes(blLoanRequest).enqueue(new Callback<GetBLDispalyResponse>() {
             @Override
             public void onResponse(Call<GetBLDispalyResponse> call, Response<GetBLDispalyResponse> response) {
-                if (response.body().getStatus_Id() == 1) {
+                if (response.body().getStatus_Id() == 0) {
                     iResponseSubcriber.OnSuccess(response.body(), "Saved");
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Record Not Found"));
