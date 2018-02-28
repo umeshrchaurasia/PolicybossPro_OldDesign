@@ -141,7 +141,7 @@ public class SalesShareActivity extends BaseActivity {
         }
 
         protected void onPostExecute(Bitmap result) {
-            cancelDialog();
+
             pospPhoto = result;
 
             try {
@@ -156,6 +156,7 @@ public class SalesShareActivity extends BaseActivity {
                             .load(stream.toByteArray())
                             .asBitmap()
                             .into(ivProduct);
+                    cancelDialog();
                 }
             } catch (Exception e) {
                 cancelDialog();
