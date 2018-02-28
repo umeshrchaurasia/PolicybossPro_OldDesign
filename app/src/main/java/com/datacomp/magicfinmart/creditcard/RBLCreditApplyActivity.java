@@ -339,9 +339,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             if (response.getStatusNo() == 0) {
                 if (((CCRblResponse) response).getMasterData().getReferenceCode().length() > 1) {
                     dialogMessage(true, ((CCRblResponse) response).getMasterData().getReferenceCode(), response.getMessage());
-                    //Toast.makeText(this, "Check your mail for document upload.", Toast.LENGTH_LONG).show();
                 } else {
-                    // Toast.makeText(this, "" + ((CCRblResponse) response).getMasterData().getErrorinfo(), Toast.LENGTH_SHORT).show();
                     dialogMessage(false, "", ((CCRblResponse) response).getMessage());
                 }
             }
@@ -364,7 +362,6 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             builder.setTitle("Applied Successfully..!");
             String strMessage = "Application No:" + AppNo + "\n\n";
             String success = displayMessage;
-
             Message.append(strMessage + success);
 
         } else {
