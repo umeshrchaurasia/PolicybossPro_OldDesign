@@ -28,7 +28,7 @@
         </android.support.design.widget.TextInputLayout>
 
 
-        <LinearLayout
+               <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
@@ -40,39 +40,39 @@
                 style="@style/TextViewStyle.Medium"
                 android:text="Gender" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <TextView
+                    android:id="@+id/txtrbimgMale"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="100">
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/customeborder_blue"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Male"
+                    android:textColor="@color/colorPrimary" />
 
-                    <TextView
-                        android:id="@+id/txtrbimgMale"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:layout_weight="50"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Male"
-                        android:textColor="@color/colorPrimary" />
+                <TextView
 
-                    <TextView
-
-                        android:id="@+id/txtrbimgFemale"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
-                        android:layout_weight="50"
-                        android:background="@drawable/customeborder"
-                        android:gravity="center"
-                        android:padding="5dp"
-                        android:text="Female"
-                        android:textColor="@color/description_text" />
+                    android:id="@+id/txtrbimgFemale"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/customeborder"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Female"
+                    android:textColor="@color/description_text" />
 
 
-                </LinearLayout>
+            </LinearLayout>
 
 
         </LinearLayout>

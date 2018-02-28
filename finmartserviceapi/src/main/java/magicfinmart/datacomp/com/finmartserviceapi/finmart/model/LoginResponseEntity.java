@@ -87,6 +87,31 @@ public class LoginResponseEntity extends RealmObject {
     private String SuccessStatus;
     private String POSPInfo;
     private String FSM;
+    /**
+     * RewardPoint : null
+     * FSMFullname : null
+     * FSMEmail : null
+     * FSMMobile : null
+     * FBACode : null
+     * ProfPictName : null
+     * FSMDesig : null
+     * SuppMobiNumb : null
+     * SuppEmailId : null
+     * SuppAgenId : null
+     * EditProfPictName : null
+     * PaymentUrl : null
+     * rm_id : 0
+     * referraid :
+     * POSPNo :
+     * POSPProfileUrl : http://api.magicfinmart.com/uploads/1519725969630.jpg
+     * FBAProfileUrl : http://api.magicfinmart.com/uploads/1519728916249.jpg
+     */
+
+    private int rm_id;
+    private String referraid;
+    private String POSPNo;
+    private String POSPProfileUrl;
+    private String FBAProfileUrl;
 
     public int getFBAId() {
         return FBAId;
@@ -406,5 +431,45 @@ public class LoginResponseEntity extends RealmObject {
 
     public void setFSM(String FSM) {
         this.FSM = FSM;
+    }
+
+    public int getRm_id() {
+        return rm_id;
+    }
+
+    public void setRm_id(int rm_id) {
+        this.rm_id = rm_id;
+    }
+
+    public String getReferraid() {
+        return referraid;
+    }
+
+    public void setReferraid(String referraid) {
+        this.referraid = referraid;
+    }
+
+    public String getPOSPNo() {
+        return POSPNo;
+    }
+
+    public void setPOSPNo(String POSPNo) {
+        this.POSPNo = POSPNo;
+    }
+
+    public String getPOSPProfileUrl() {
+        return POSPProfileUrl;
+    }
+
+    public void setPOSPProfileUrl(String POSPProfileUrl) {
+        this.POSPProfileUrl = POSPProfileUrl;
+    }
+
+    public String getFBAProfileUrl() {
+        return FBAProfileUrl;
+    }
+
+    public void setFBAProfileUrl(String FBAProfileUrl) {
+        this.FBAProfileUrl = FBAProfileUrl;
     }
 }
