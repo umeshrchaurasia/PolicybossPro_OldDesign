@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/FM-ANDROID.iml" filepath="$PROJECT_DIR$/FM-ANDROID.iml" />
+=======
+      <module fileurl="file://$PROJECT_DIR$/MaginFinmart.iml" filepath="$PROJECT_DIR$/MaginFinmart.iml" />
+>>>>>>> c237634371e744a98684e767700fa03471b77ea8
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/finmartserviceapi/finmartserviceapi.iml" filepath="$PROJECT_DIR$/finmartserviceapi/finmartserviceapi.iml" />
     </modules>

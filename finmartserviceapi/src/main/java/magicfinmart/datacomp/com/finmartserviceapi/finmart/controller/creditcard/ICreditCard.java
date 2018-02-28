@@ -14,4 +14,8 @@ public interface ICreditCard {
 
     void applyRbl(CCRblRequestEntity rblRequestEntity, IResponseSubcriber iResponseSubcriber);
 
+    void getAppliedCreditCards(IResponseSubcriber iResponseSubcriber);
+
+    void getRblCityMaster(IResponseSubcriber iResponseSubcriber);
+
 }
