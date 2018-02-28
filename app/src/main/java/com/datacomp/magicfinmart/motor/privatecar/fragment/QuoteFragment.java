@@ -386,7 +386,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             }
         });
 
-        alertDialog.setCancelable(false);
+        alertDialog.setCancelable(true);
         alertDialog.show();
     }
 

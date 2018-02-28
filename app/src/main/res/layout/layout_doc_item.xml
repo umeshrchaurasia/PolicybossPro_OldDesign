@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lyParent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:background="@color/bg_white"
+    android:orientation="horizontal">
+
+    <com.datacomp.magicfinmart.design.CustomImageView
+        android:layout_margin="8dp"
+        android:id="@+id/ivProduct"
+        android:minHeight="200dp"
+        android:scaleType="centerCrop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/credit_card">
+    </com.datacomp.magicfinmart.design.CustomImageView>
+
+
+</LinearLayout>

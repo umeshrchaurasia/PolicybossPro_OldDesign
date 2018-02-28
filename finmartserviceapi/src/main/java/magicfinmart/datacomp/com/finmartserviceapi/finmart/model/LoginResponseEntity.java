@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class LoginResponseEntity extends RealmObject {
     /**
@@ -45,7 +46,7 @@ public class LoginResponseEntity extends RealmObject {
      * POSPInfo : NIDHI SINGH~0909090909~xyz@gmail.com
      * FSM : Jitendra Patel~finmartlive@gmail.com~8286115005~Your FinMart sales manager
      */
-
+    @PrimaryKey
     private int FBAId;
     private String FullName;
     private String UserName;

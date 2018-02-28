@@ -2,10 +2,18 @@ package magicfinmart.datacomp.com.finmartserviceapi;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Environment;
+import android.util.Log;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -35,5 +43,55 @@ public class Utility {
         SimpleDateFormat sdf = new SimpleDateFormat("ddMMyyyy_HHmmss");
         String currentDateandTime = sdf.format(new Date());
         return currentDateandTime;
+    }
+
+    public static MultipartBody.Part getMultipartImage(File file) {
+        RequestBody imgBody = RequestBody.create(MediaType.parse("image/*"), file);
+        MultipartBody.Part imgFile = MultipartBody.Part.createFormData("DocFile", file.getName(), imgBody);
+        return imgFile;
+    }
+
+    public static MultipartBody.Part getMultipartVideo(File file) {
+        RequestBody imgBody = RequestBody.create(MediaType.parse("video/*"), file);
+        MultipartBody.Part imgFile = MultipartBody.Part.createFormData("video", file.getName(), imgBody);
+        return imgFile;
+    }
+
+//    public static HashMap<String, String> getBody(Context context,int FbaID,String DocTyp, String docName, String DocExt) {
+//        HashMap<String, String> body = new HashMap<String, String>();
+//
+//
+//        body.put("FBAID", String.valueOf(FbaID) );
+//        body.put("DocType",DocTyp);
+//        body.put("DocName", docName);
+//        body.put("DocExt",DocExt);
+//
+//        return body;
+//    }
+
+
+    public static HashMap<String, Integer> getBody(Context context,int FbaID,int DocTyp) {
+        HashMap<String, Integer> body = new HashMap<String, Integer>();
+
+
+        body.put("FBAID", FbaID);
+        body.put("DocType",DocTyp);
+
+
+        return body;
+    }
+
+
+    public static File createDirIfNotExists() {
+        boolean ret = true;
+
+        File file = new File(Environment.getExternalStorageDirectory(), "/FINMART");
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                Log.e("TravellerLog :: ", "Problem creating Image folder");
+                ret = false;
+            }
+        }
+        return file;
     }
 }

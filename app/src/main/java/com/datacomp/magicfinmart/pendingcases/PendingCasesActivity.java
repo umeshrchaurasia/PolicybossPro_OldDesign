@@ -16,6 +16,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.pendingcases.PendingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PendingCasesEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCasesResponse;
 
 public class PendingCasesActivity extends BaseActivity implements IResponseSubcriber {
@@ -57,12 +58,11 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
             mPendingList = ((PendingCasesResponse) response).getMasterData();
             mAdapter = new PendingCasesAdapter(this, mPendingList);
             rvPendingCasesList.setAdapter(mAdapter);
+        } else if (response instanceof PendingCaseDeleteResponse) {
+            mPendingList.remove(removePendingCasesEntity);
+            mAdapter.refreshAdapter(mPendingList);
+            mAdapter.notifyDataSetChanged();
         }
-//        else if () {
-//            mPendingList.remove(removePendingCasesEntity);
-//            mAdapter.refreshAdapter(mPendingList);
-//            mAdapter.notifyDataSetChanged();
-//        }
     }
 
     @Override
@@ -74,6 +74,6 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
     public void deletePendingcases(PendingCasesEntity entity) {
         removePendingCasesEntity = entity;
         showDialog("Please wait,Removing case..");
-        new PendingController(this).deletePending(entity.getQatype(), entity.getId(), this);
+        new PendingController(this).deletePending(entity.getQuotetype(), entity.getId(), this);
     }
 }

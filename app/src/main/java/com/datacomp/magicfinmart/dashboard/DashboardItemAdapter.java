@@ -12,6 +12,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
+import com.datacomp.magicfinmart.creditcard.CreditCardActivity;
 import com.datacomp.magicfinmart.creditcard.CreditCardMainActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
@@ -106,7 +108,8 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                             break;
                         case 7:
                             //cc
-                            mContext.startActivity(new Intent(mContext.getActivity(), CreditCardMainActivity.class));
+                            // mContext.startActivity(new Intent(mContext.getActivity(), CreditCardMainActivity.class));
+                            mContext.startActivity(new Intent(mContext.getActivity(), AppliedCreditListActivity.class));
                             break;
                         case 8:
                             //BT

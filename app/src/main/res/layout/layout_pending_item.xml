@@ -38,7 +38,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:lines="2"
-                android:text="Test"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -64,7 +63,6 @@
                 style="@style/TextStyle.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
-                android:text="Health insurance"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
 
@@ -82,7 +80,6 @@
                 style="@style/TextStyle.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Q"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
         </LinearLayout>
@@ -122,7 +119,6 @@
                 style="@style/TextStyle.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Q"
                 android:textAllCaps="true"
                 android:textColor="@color/black" />
         </LinearLayout>

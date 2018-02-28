@@ -46,7 +46,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             ApplicationItem item = (ApplicationItem) holder;
             PendingCasesEntity entity = mAppList.get(position);
 
-            item.txtCustName.setText(entity.getCustomerName() + " nilesh birhade");
+            item.txtCustName.setText(entity.getCustomerName());
             item.txtCategory.setText(entity.getCategory());
             item.txtPendingDays.setText(String.valueOf(entity.getPendingdays()));
             item.txtType.setText(entity.getQatype());
