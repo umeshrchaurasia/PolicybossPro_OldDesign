@@ -20,6 +20,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
@@ -93,6 +94,7 @@ public class HomeActivity extends BaseActivity {
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
                         // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
