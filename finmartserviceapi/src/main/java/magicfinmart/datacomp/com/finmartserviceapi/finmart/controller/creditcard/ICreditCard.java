@@ -16,4 +16,6 @@ public interface ICreditCard {
 
     void getAppliedCreditCards(IResponseSubcriber iResponseSubcriber);
 
+    void getRblCityMaster(IResponseSubcriber iResponseSubcriber);
+
 }

@@ -6,6 +6,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AppliedCreditCardResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreditCardMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RblCityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -37,6 +38,10 @@ public class CreditCardRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/get-saved-creditcard-info")
         Call<AppliedCreditCardResponse> getAppliedCreditCards(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/get-rbl-city")
+        Call<RblCityMasterResponse> getRblCityMaster();
 
 
     }

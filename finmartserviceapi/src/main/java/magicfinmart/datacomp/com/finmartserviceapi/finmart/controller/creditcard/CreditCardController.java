@@ -9,11 +9,13 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.AsyncRblCityMaster;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.CreditCardRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AppliedCreditCardResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreditCardMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RblCityMasterResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -30,6 +32,39 @@ public class CreditCardController implements ICreditCard {
     public CreditCardController(Context context) {
         creditCardNetworkService = new CreditCardRequestBuilder().getService();
         mContext = context;
+    }
+
+    @Override
+    public void getRblCityMaster(final IResponseSubcriber iResponseSubcriber) {
+
+        creditCardNetworkService.getRblCityMaster().enqueue(new Callback<RblCityMasterResponse>() {
+            @Override
+            public void onResponse(Call<RblCityMasterResponse> call, Response<RblCityMasterResponse> response) {
+                if (response.body().getStatusNo() == 0) {
+                    new AsyncRblCityMaster(mContext, response.body().getMasterData()).execute();
+                } else {
+                    if (iResponseSubcriber != null)
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RblCityMasterResponse> call, Throwable t) {
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
+                }
+            }
+        });
     }
 
     @Override

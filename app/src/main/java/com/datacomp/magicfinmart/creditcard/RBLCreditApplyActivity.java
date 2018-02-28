@@ -63,7 +63,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init();
         cityList = new ArrayList<>();
-        cityList = new DBPersistanceController(this).getHealthCity();
+        cityList = new DBPersistanceController(this).getRblCity();
         cityBinding();
 
         //for validating auto complete city
@@ -318,7 +318,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             }
 
             try {
-                rblCCRequest.setResCity(new DBPersistanceController(this).getHealthCityID(
+                rblCCRequest.setResCity(new DBPersistanceController(this).getRblCityCode(
                         acCity.getText().toString()));
             } catch (Exception e) {
 

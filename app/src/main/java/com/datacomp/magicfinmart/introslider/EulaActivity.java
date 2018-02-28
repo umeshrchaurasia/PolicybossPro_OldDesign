@@ -17,6 +17,7 @@ import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcard.CreditCardController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
@@ -46,6 +47,8 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
             new MasterController(this).getRTOMaster(this);
         if (prefManager.IsInsuranceMasterUpdate())
             new MasterController(this).getInsuranceMaster(this);
+        if (prefManager.getIsRblCityMaster())
+            new CreditCardController(this).getRblCityMaster(null);
         settingWebview();
     }
 

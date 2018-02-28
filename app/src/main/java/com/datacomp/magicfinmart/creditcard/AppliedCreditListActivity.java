@@ -23,6 +23,7 @@ import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsAct
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcard.CreditCardController;
@@ -46,6 +47,10 @@ public class AppliedCreditListActivity extends BaseActivity implements View.OnCl
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        if (new PrefManager(this).getIsRblCityMaster()) {
+            new CreditCardController(this).getRblCityMaster(null);
+        }
 
         init();
         setListener();
