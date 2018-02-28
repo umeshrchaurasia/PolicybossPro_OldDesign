@@ -1,11 +1,13 @@
 package com.datacomp.magicfinmart.creditcard;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -335,9 +338,9 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         if (response instanceof CCRblResponse) {
             if (response.getStatusNo() == 0) {
                 if (((CCRblResponse) response).getMasterData().getReferenceCode().length() > 1) {
-                    Toast.makeText(this, "Check your mail for document upload.", Toast.LENGTH_LONG).show();
+                    dialogMessage(true, ((CCRblResponse) response).getMasterData().getReferenceCode(), response.getMessage());
                 } else {
-                    Toast.makeText(this, "" + ((CCRblResponse) response).getMasterData().getErrorinfo(), Toast.LENGTH_SHORT).show();
+                    dialogMessage(false, "", ((CCRblResponse) response).getMessage());
                 }
             }
         }
@@ -346,6 +349,40 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        dialogMessage(false, "", t.getMessage());
+    }
+
+    private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+
+        StringBuilder Message = new StringBuilder();
+        if (isSuccess) {
+            builder.setTitle("Applied Successfully..!");
+            String strMessage = "Application No:" + AppNo + "\n\n";
+            String success = displayMessage;
+            Message.append(strMessage + success);
+
+        } else {
+            builder.setTitle("Failed ");
+            String failure = AppNo;
+            Message.append(failure);
+        }
+        builder.setMessage(Message.toString())
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        if (isSuccess) {
+                            finish();
+                        }
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
+        msgTxt.setTextSize(12.0f);
     }
 }
