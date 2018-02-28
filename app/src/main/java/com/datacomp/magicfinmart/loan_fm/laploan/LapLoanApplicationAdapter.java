@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanApplicationAdapter;
+import com.datacomp.magicfinmart.loan_fm.laploan.application.LAP_ApplicationFragment;
 
 import java.util.List;
 
@@ -102,7 +103,8 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        ((LAP_ApplicationFragment)fragment).callnumber(entity.getHomeLoanRequest().getContact());
+                       // Toast.makeText(fragment.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();

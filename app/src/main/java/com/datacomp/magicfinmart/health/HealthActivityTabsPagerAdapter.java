@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.health.quoappfragment.HealthApplicationFragment;
 import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
@@ -15,7 +16,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicatio
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 
 
-public class HealthActivityTabsPagerAdapter extends FragmentPagerAdapter {
+public class HealthActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     public final static String HEALTH_QUOTE_LIST = "HEALTH_LIST_QUOTE";
     public final static String HEALTH_APPLICATION_LIST = "HEALTH_LIST_APPLICATION";
@@ -63,4 +64,8 @@ public class HealthActivityTabsPagerAdapter extends FragmentPagerAdapter {
         return 2;
     }
 
+    @Override
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 }

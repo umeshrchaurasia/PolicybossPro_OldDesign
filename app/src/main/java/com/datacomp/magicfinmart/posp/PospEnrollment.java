@@ -931,15 +931,15 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setCurrentAcc();
                 break;
             case R.id.btnSave:
-                if (pospDetailsEntity.getPaymStat() != null) {
-                    if (loginResponseEntity.getPaymentUrl() == null) {
+                if (pospDetailsEntity.getPaymStat() == null) {
+                    if (loginResponseEntity.getPaymentUrl() != null) {
                         openWebView(loginResponseEntity.getPaymentUrl());
                     } else {
-                        if (!isPospInfo)
+
                             ivAddress.performClick();
-                        if (!isAddress)
+
                             ivBankDetail.performClick();
-                        if (!isBankDetails)
+
                             ivDocumentUpload.performClick();
                         if (isPospInfo && isAddress && isBankDetails) {
                             registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
@@ -1523,7 +1523,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private void openGallery() {
 
         Intent intent = new Intent();
-        intent.setType("image/*");
+        intent.setType("image/jpg");
         intent.setAction(Intent.ACTION_GET_CONTENT);
 
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);

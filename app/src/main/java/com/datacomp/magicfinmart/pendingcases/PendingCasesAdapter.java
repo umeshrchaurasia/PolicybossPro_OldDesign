@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 
@@ -81,10 +80,12 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(mContex, "WIP ", Toast.LENGTH_SHORT).show();
+                        ((PendingCasesActivity) mContex).dialNumber(entity.getMobile());
+                        //Toast.makeText(mContex, "WIP ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(mContex, "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((PendingCasesActivity) mContex).sendSms(entity.getMobile());
+                        //Toast.makeText(mContex, "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
                         ((PendingCasesActivity) mContex).deletePendingcases(entity);

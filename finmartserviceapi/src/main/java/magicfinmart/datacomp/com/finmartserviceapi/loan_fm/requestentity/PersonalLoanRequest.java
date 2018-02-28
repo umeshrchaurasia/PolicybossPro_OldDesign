@@ -60,6 +60,7 @@ public class PersonalLoanRequest implements Parcelable{
     private String StatusPercent;
     private  String bank_image;
     private  String Contact;
+    private  String progress_image;
 
     public PersonalLoanRequest() {
         this.quote_id=0;
@@ -86,6 +87,7 @@ public class PersonalLoanRequest implements Parcelable{
         this.StatusPercent="";
         this.bank_image="";
         this.Contact="";
+        this.progress_image="";
 
     }
 
@@ -114,6 +116,7 @@ public class PersonalLoanRequest implements Parcelable{
         StatusPercent = in.readString();
         bank_image = in.readString();
         Contact= in.readString();
+        progress_image=  in.readString();
     }
 
     public static final Creator<PersonalLoanRequest> CREATOR = new Creator<PersonalLoanRequest>() {
@@ -320,6 +323,14 @@ public class PersonalLoanRequest implements Parcelable{
         Contact = contact;
     }
 
+    public String getProgress_image() {
+        return progress_image;
+    }
+
+    public void setProgress_image(String progress_image) {
+        this.progress_image = progress_image;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -351,5 +362,6 @@ public class PersonalLoanRequest implements Parcelable{
         dest.writeString(StatusPercent);
         dest.writeString(bank_image);
         dest.writeString(Contact);
+        dest.writeString(progress_image);
     }
 }

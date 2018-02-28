@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar"
         android:layout_gravity="bottom"
-
+        android:layout_marginTop="-20dp"
 
 
         app:itemBackground="@color/colorPrimaryDark"

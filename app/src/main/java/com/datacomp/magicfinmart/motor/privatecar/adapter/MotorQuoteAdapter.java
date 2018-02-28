@@ -108,9 +108,11 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
+                        ((MotorQuoteFragment) mFrament).dialNumber(entity.getMotorRequestEntity().getMobile());
+                        //Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
+                        ((MotorQuoteFragment) mFrament).sendSms(entity.getMotorRequestEntity().getMobile());
                         Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:

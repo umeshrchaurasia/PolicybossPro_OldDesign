@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteTabFragment;
 
 import java.text.SimpleDateFormat;
@@ -108,10 +109,12 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
+                        ((BikeQuoteTabFragment) mFrament).dialNumber(entity.getMotorRequestEntity().getMobile());
+                        //Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((BikeQuoteTabFragment) mFrament).sendSms(entity.getMotorRequestEntity().getMobile());
+                       // Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
                         ((BikeQuoteTabFragment) mFrament).removeQuote(entity);

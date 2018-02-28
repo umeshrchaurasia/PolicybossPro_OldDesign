@@ -14,26 +14,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:padding="4dp"
             android:orientation="horizontal"
             android:weightSum="100">
 
 
+
             <TextView
                 android:id="@+id/txtPersonName"
-                style="@style/TextViewStyle.Large"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_weight="90"
+                android:layout_weight="70"
                 android:gravity="center"
                 android:lines="2"
-                android:text="DataComp"
-                android:padding="4dp"
                 android:textAllCaps="true"
-                android:textColor="@color/header_dark_text"
+                android:textAppearance="@style/TextStyle.Body1"
+                android:textColor="@color/blue"
                 android:textStyle="bold" />
 
 
@@ -42,11 +44,11 @@
                 android:id="@+id/txtOverflowMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="10"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
+                android:layout_weight="30"
+                android:gravity="right"
+                android:paddingRight="@dimen/activity_horizontal_margin"
                 android:text="@string/threedots"
-                android:textAppearance="?android:textAppearanceLarge"
+                android:textAppearance="@style/TextStyle.Title"
                 android:textStyle="bold" />
 
         </LinearLayout>
@@ -59,62 +61,98 @@
             android:paddingTop="4dp" />
 
         <LinearLayout
+            android:padding="8dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:weightSum="100">
+            android:orientation="horizontal">
+
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_weight="1"
                 android:orientation="vertical"
                 android:padding="4dp">
 
+
                 <TextView
+                    android:id="@+id/tvtype"
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="match_parent"
+                    android:gravity="center"
+                    android:padding="4dp"
+                    android:text="Loan Type"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/header_light_text"
+                    android:textSize="9sp"  />
+
+                <TextView
+                    android:id="@+id/txttype"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/header_dark_text" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+
+                <TextView
+                    android:id="@+id/tvloanamount"
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
                     android:gravity="center"
                     android:padding="4dp"
                     android:text="Loan Amount"
                     android:textAllCaps="true"
-                    android:textColor="@color/description_text" />
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/header_light_text"
+                    android:textSize="9sp"  />
 
                 <TextView
                     android:id="@+id/txtloanamount"
-                    style="@style/TextViewStyle.Medium"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="4dp"
                     android:textAllCaps="true"
-                    android:text="6000000"
+                    android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/header_dark_text" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_weight="1"
                 android:orientation="vertical"
                 android:padding="4dp">
 
                 <TextView
-                    style="@style/TextViewStyle.Small"
+                    android:id="@+id/tvQuoteDate"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:text="Quote Date"
                     android:padding="4dp"
-                    android:text="Quote date"
+                    style="@style/TextViewStyle.Small"
                     android:textAllCaps="true"
-                    android:textColor="@color/description_text" />
+                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textColor="@color/header_light_text"
+                    android:textSize="9sp" />
 
                 <TextView
-                    android:id="@+id/txtApplicationDate"
-                    style="@style/TextViewStyle.Medium"
+                    android:id="@+id/txtQuoteDate"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="4dp"
-                    android:text="01/01/2018"
                     android:textAllCaps="true"
+                    android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/header_dark_text" />
             </LinearLayout>
         </LinearLayout>

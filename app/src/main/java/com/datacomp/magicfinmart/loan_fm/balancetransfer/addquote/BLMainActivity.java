@@ -8,21 +8,31 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView;
 
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.quote.BL_QuoteFragment;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
 
 public class BLMainActivity extends BaseActivity {
 
+
+    private static String INPUT_FRAGMENT_BL = "inputbl";
+    private static String QUOTE_FRAGMENT_BL = "quotebl";
+    private static String BUY_FRAGMENT_BL = "buybl";
+
+    public static String BL_INPUT_REQUEST = "input_request_entitybl";
+    public static String BL_QUOTE_REQUEST = "quote_request_entitybl";
+
     BottomNavigationView bottomNavigationView;
-
-    int totCount = 0;
+    Bundle quoteBundle;
     Fragment tabFragment = null;
+    FragmentTransaction transactionSim;
 
+    FmBalanceLoanRequest fmBalanceLoanRequest;
+    boolean isQuoteVisible = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +43,22 @@ public class BLMainActivity extends BaseActivity {
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        if (getIntent().getParcelableExtra(BL_QuoteFragment.FROM_QUOTEBL) != null) {
+            fmBalanceLoanRequest = getIntent().getParcelableExtra(BL_QuoteFragment.FROM_QUOTEBL);
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(BL_QUOTE_REQUEST, fmBalanceLoanRequest);
+            quoteBundle = bundle;
+
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+
+        } else {
+            //first input fragment load
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        }
+
+        quoteBundle = null;
 
 
-        BLInputFragment inputFragment = new BLInputFragment();
-        FragmentTransaction transactionSim = getSupportFragmentManager().beginTransaction();
-        transactionSim.replace(R.id.frame_layout, inputFragment, "INPUT");
-        transactionSim.addToBackStack("INPUT");
-        transactionSim.commitAllowingStateLoss();
     }
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -48,88 +67,48 @@ public class BLMainActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("INPUT");
-                    if (tabFragment != null) {
 
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, tabFragment, "INPUT");
-                        transaction.addToBackStack("INPUT");
-                        transaction.show(tabFragment);
-                        //   transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction.commit();
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT_BL);
 
-
-                    } else {
-                        BLInputFragment inputFragment = new BLInputFragment();
-                        FragmentTransaction transaction_imm = getSupportFragmentManager().beginTransaction();
-                        transaction_imm.replace(R.id.frame_layout, inputFragment, "INPUT");
-                        transaction_imm.addToBackStack("INPUT");
-                        transaction_imm.show(inputFragment);
-                        //   transaction_imm.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction_imm.commit();
+                    if (fmBalanceLoanRequest != null) {
+                        quoteBundle = new Bundle();
+                        quoteBundle.putParcelable(BLMainActivity.BL_INPUT_REQUEST, fmBalanceLoanRequest);
 
                     }
-                    item.setCheckable(true);
-                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
-                    bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+                    if (tabFragment != null) {
+                        tabFragment.setArguments(quoteBundle);
+                        loadFragment(tabFragment, INPUT_FRAGMENT_BL);
+
+                    } else {
+                        InputFragment_bl inputFragment = new InputFragment_bl();
+                        inputFragment.setArguments(quoteBundle);
+                        loadFragment(inputFragment, INPUT_FRAGMENT_BL);
+                    }
+
                     return true;
+
                 case R.id.navigation_quote:
 
-                    tabFragment = getSupportFragmentManager().findFragmentByTag("QUOTE");
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT_BL);
                     if (tabFragment != null) {
-
-                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.frame_layout, tabFragment, "QUOTE");
-                        transaction.addToBackStack("QUOTE");
-                        transaction.show(tabFragment);
-                        // transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction.commitAllowingStateLoss();
+                        loadFragment(tabFragment, QUOTE_FRAGMENT_BL);
 
                     } else {
-                        BLQuoteFragment quoteFragment = new BLQuoteFragment();
-                        FragmentTransaction transaction_quote = getSupportFragmentManager().beginTransaction();
-                        transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-                        transaction_quote.addToBackStack("QUOTE");
-                        transaction_quote.show(quoteFragment);
-                        //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-                        transaction_quote.commitAllowingStateLoss();
+                        if (quoteBundle != null) {
+                            QuoteFragment_bl quoteFragment = new QuoteFragment_bl();
+                            quoteFragment.setArguments(quoteBundle);
+                            loadFragment(quoteFragment, QUOTE_FRAGMENT_BL);
+                        } else {
 
-
+                            Toast.makeText(BLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    item.setCheckable(true);
-                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-                    bottomNavigationView.getMenu().getItem(2).setCheckable(false);
                     return true;
+//
                 case R.id.navigation_buy:
 
-                    //region comment
-//                    tabFragment = getSupportFragmentManager().findFragmentByTag("BUY");
-//                    if (tabFragment != null) {
-//
-//                        FragmentTransaction transaction = getSupportFragmentManager()
-//                                .beginTransaction();
-//                        transaction.show(tabFragment);
-//                        //  transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction.addToBackStack("BUY");
-//                        transaction.commitAllowingStateLoss();
-//
-//                    } else {
-//                        BuyFragment buyFragment = new BuyFragment();
-//                        FragmentTransaction transaction_buy = getSupportFragmentManager().beginTransaction();
-//                        transaction_buy.replace(R.id.frame_layout, buyFragment, "BUY");
-//                        transaction_buy.addToBackStack("BUY");
-//                        transaction_buy.show(buyFragment);
-//                        //   transaction_buy.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                        transaction_buy.commitAllowingStateLoss();
-//
-//
-//                    }
-//                    item.setCheckable(true);
-//                    bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-//                    bottomNavigationView.getMenu().getItem(1).setCheckable(false);
-                    //endregion
 
-                    return true;
+                    return false;
             }
 
             return false;
@@ -142,7 +121,13 @@ public class BLMainActivity extends BaseActivity {
         BLMainActivity.this.finish();
     }
 
-
+    private void loadFragment(Fragment fragment, String TAG) {
+        transactionSim = getSupportFragmentManager().beginTransaction();
+        transactionSim.replace(R.id.frame_layout, fragment, TAG);
+        transactionSim.addToBackStack(TAG);
+        transactionSim.show(fragment);
+        transactionSim.commit();
+    }
     private void CheckAllBottomMenu() {
         int size = bottomNavigationView.getMenu().size();
         for (int i = 0; i < size; i++) {
@@ -150,21 +135,74 @@ public class BLMainActivity extends BaseActivity {
         }
     }
 
-    public void setQuoteCheck()
-    {
-        bottomNavigationView.getMenu().getItem(0).setCheckable(false);
-        bottomNavigationView.getMenu().getItem(1).setCheckable(true);
-        bottomNavigationView.getMenu().getItem(2).setCheckable(false);
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void redirectInput(FmBalanceLoanRequest entity) {
+        if (isQuoteVisible) {
+            fmBalanceLoanRequest = entity;
+            quoteBundle = new Bundle();
+            quoteBundle.putParcelable(BLMainActivity.BL_INPUT_REQUEST, fmBalanceLoanRequest);
+
+            if (fmBalanceLoanRequest == null)
+                Toast.makeText(BLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+            else
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            Toast.makeText(BLMainActivity.this, "Fetching all quotes", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 
-    public void redirectToApplyLoan(BLEntity entity, BLLoanRequest blLoanRequest, int id) {
-        startActivity(new Intent(BLMainActivity.this, BTLoanApplyWebView.class)
-                .putExtra("BL", entity)
-                .putExtra("BL_Req", blLoanRequest)
-                .putExtra("BL_QUOTE_ID", id));
+//    public void redirectToApplyLoan(BLEntity entity, BLLoanRequest blLoanRequest, int id) {
+//        startActivity(new Intent(BLMainActivity.this, BTLoanApplyWebView.class)
+//                .putExtra("BL", entity)
+//                .putExtra("BL_Req", blLoanRequest)
+//                .putExtra("BL_QUOTE_ID", id));
+//    }
+
+    // Implementation the Interface for Communication of Fragment Input and Quote
+
+    public void getQuoteParameterBundle(FmBalanceLoanRequest entity) {
+
+        fmBalanceLoanRequest = entity;
+        quoteBundle = new Bundle();
+        quoteBundle.putParcelable(BLMainActivity.BL_QUOTE_REQUEST, fmBalanceLoanRequest);
+
+        if (fmBalanceLoanRequest == null)
+            Toast.makeText(BLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+        else
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+
+    }
+
+    public void updateRequest(FmBalanceLoanRequest entity, boolean isQuoteVisible) {
+        fmBalanceLoanRequest = entity;
+        this.isQuoteVisible = isQuoteVisible;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (isQuoteVisible) {
+                    finish();
+                    return true;
+                } else {
+                    Toast.makeText(BLMainActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // Implementation the Interface for Communication of Fragment Input and Quote
+
 
 }

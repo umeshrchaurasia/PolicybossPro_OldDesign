@@ -99,4 +99,8 @@ public class PL_ApplicationFragment  extends BaseFragment  implements View.OnCli
                 break;
         }
     }
+    public void callnumber(String mobNumber)
+    {
+        dialNumber(mobNumber);
+    }
 }

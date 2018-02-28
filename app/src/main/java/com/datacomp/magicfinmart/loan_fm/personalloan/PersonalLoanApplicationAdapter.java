@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.application.PL_ApplicationFragment;
 
 import java.util.List;
 
@@ -83,6 +84,10 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
                 Glide.with(fragment)
                         .load(entity.getPersonalLoanRequest().getbank_image())
                         .into(holder.imgbankLogo);
+
+                Glide.with(fragment)
+                        .load(entity.getPersonalLoanRequest().getProgress_image())
+                        .into(holder.imgStatus);
                 //change Fresco
 
             } catch (Exception e) {
@@ -102,10 +107,11 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                            ((PL_ApplicationFragment)fragment).callnumber(entity.getPersonalLoanRequest().getContact());
+                       // Toast.makeText(fragment.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(fragment.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
 
                 }
@@ -131,7 +137,7 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
-        ImageView imgbankLogo;
+        ImageView imgbankLogo,imgStatus;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -141,6 +147,7 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
             txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
+            imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
         }
     }
 }

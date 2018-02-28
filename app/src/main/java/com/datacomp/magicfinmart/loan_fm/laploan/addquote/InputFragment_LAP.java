@@ -114,7 +114,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
     //endregion
 
     //region Co-Applicant Details
-    EditText coApp_etNameOfApplicant, coApp_et_DOB, coApp_etMonthlyInc, coApp_etEMI, coApp_etTurnOver, coApp_etProfitAtTax, coApp_etDepreciation, coApp_etDirecPartRemuntion;
+    EditText coApp_etNameOfApplicant, coApp_et_DOB, coApp_etMonthlyInc, coApp_etEMI, coApp_etTurnOver, coApp_etProfitAtTax, coApp_etDepreciation, coApp_etDirecPartRemuntion,etContact;
     Spinner coApp_sbRelation;
     ArrayAdapter<String> coApp_salaryTypeAdapter, coApp_relationTypeAdapter;
     LinearLayout coApp_llSalaried, coApp_llSelfEmployeed;
@@ -210,6 +210,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             etCostOfProp.setText(homeLoanRequest.getLoanRequired());
             if (homeLoanRequest.getLoanTenure() != null)
                 etTenureInYear.setText(homeLoanRequest.getLoanTenure());
+
+            etContact.setText(homeLoanRequest.getContact());
 
             int tenureInYear = Integer.parseInt(homeLoanRequest.getLoanTenure());
             sbTenure.setProgress(tenureInYear);
@@ -379,6 +381,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 
         etCostOfProp = (EditText) view.findViewById(R.id.etCostOfProp);
+        etContact = (EditText) view.findViewById(R.id.etContact);
 
 
         txtMaxLoanAmntAllow = (EditText) view.findViewById(R.id.txtMaxLoanAmntAllow);
@@ -1112,6 +1115,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
         homeLoanRequest.setPropertyID("" + propTyp);
         homeLoanRequest.setPropertyCost(etCostOfProp.getText().toString());
+
+        homeLoanRequest.setContact(""+etContact.getText().toString());
         homeLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
         homeLoanRequest.setLoanRequired(txtMaxLoanAmntAllow.getText().toString());
         homeLoanRequest.setCity("" + acCity.getText().toString());
