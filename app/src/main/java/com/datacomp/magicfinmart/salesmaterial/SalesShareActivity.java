@@ -2,7 +2,6 @@ package com.datacomp.magicfinmart.salesmaterial;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -94,6 +93,9 @@ public class SalesShareActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_share:
 
                 showShareProduct();
@@ -116,6 +118,7 @@ public class SalesShareActivity extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
+            showDialog();
             super.onPreExecute();
         }
 
@@ -138,6 +141,7 @@ public class SalesShareActivity extends BaseActivity {
         }
 
         protected void onPostExecute(Bitmap result) {
+            cancelDialog();
             pospPhoto = result;
 
             try {
@@ -161,4 +165,5 @@ public class SalesShareActivity extends BaseActivity {
             }
         }
     }
+
 }
