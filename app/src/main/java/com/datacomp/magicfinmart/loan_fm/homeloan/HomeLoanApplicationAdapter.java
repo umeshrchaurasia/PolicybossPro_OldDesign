@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.homeloan.application.HL_ApplicationFragment;
 
 import java.util.List;
 
@@ -82,6 +83,9 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
                         .load(entity.getHomeLoanRequest().getbank_image())
                         .into(holder.imgbankLogo);
                 //change Fresco
+                Glide.with(fragment)
+                        .load(entity.getHomeLoanRequest().getProgress_image())
+                        .into(holder.imgStatus);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -99,7 +103,8 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        ((HL_ApplicationFragment)fragment).callnumber(entity.getHomeLoanRequest().getContact());
+                      //  Toast.makeText(fragment.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
@@ -129,7 +134,7 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
-        ImageView imgbankLogo;
+        ImageView imgbankLogo,imgStatus;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -139,6 +144,8 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
             txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
+            imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
+
         }
     }
 }

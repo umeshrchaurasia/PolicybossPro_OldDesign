@@ -88,7 +88,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
     Button btnGetQuote;
     // region Applicant Details
-    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etTurnOver, etProfitAtTax, etDepreciation, etDirecPartRemuntion;
+    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etTurnOver, etProfitAtTax, etDepreciation, etDirecPartRemuntion,etContact;
 
     ArrayAdapter<String> salaryTypeAdapter;
     LinearLayout llSalaried, llSelfEmployeed, lyParent_CoAppDetail, coApp_llView1MothlyIncome;
@@ -216,6 +216,10 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             if (homeLoanRequest.getLoanTenure() != null)
                 etTenureInYear.setText(homeLoanRequest.getLoanTenure());
 
+
+            etContact.setText(homeLoanRequest.getContact());
+
+
             int tenureInYear = Integer.parseInt(homeLoanRequest.getLoanTenure());
             sbTenure.setProgress(tenureInYear);
             if (homeLoanRequest.getCity() != null) {
@@ -279,9 +283,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
                     coApp_sbRelation.setSelection(getSelectedRelation(homeLoanRequest.getCoApplicantRelationt()));
-
-
-
 
                     if (homeLoanRequest.getCoApplicantGender().matches("M")) {
                         setCo_App_Male_gender();
@@ -384,6 +385,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
         etCostOfProp = (EditText) view.findViewById(R.id.etCostOfProp);
+        etContact = (EditText) view.findViewById(R.id.etContact);
 
 
         txtMaxLoanAmntAllow = (EditText) view.findViewById(R.id.txtMaxLoanAmntAllow);
@@ -885,6 +887,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                 acCity.requestFocus();
                 return;
             }
+
             if (TextUtils.isEmpty(TenureInYear)) {
 
                 etTenureInYear.setError("Please Enter Tenure.");
@@ -1117,6 +1120,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         homeLoanRequest.setPropertyID("" + propTyp);
         homeLoanRequest.setPropertyCost(etCostOfProp.getText().toString());
+
+
+        homeLoanRequest.setContact(""+etContact.getText().toString());
         homeLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
         homeLoanRequest.setLoanRequired(txtMaxLoanAmntAllow.getText().toString());
         homeLoanRequest.setCity("" + acCity.getText().toString());

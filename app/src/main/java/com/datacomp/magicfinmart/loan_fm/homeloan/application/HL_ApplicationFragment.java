@@ -94,4 +94,9 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
                 break;
         }
     }
+
+    public void callnumber(String mobNumber)
+    {
+        dialNumber(mobNumber);
+    }
 }

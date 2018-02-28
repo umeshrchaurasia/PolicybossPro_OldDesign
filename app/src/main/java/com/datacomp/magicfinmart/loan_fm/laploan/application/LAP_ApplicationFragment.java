@@ -94,4 +94,9 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
                 break;
         }
     }
+
+    public void callnumber(String mobNumber)
+    {
+        dialNumber(mobNumber);
+    }
 }
