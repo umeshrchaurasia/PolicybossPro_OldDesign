@@ -95,8 +95,8 @@
                                 <EditText
                                     android:id="@+id/etFirstName"
                                     style="@style/Style.edittext"
-
-                                    />
+                                    android:inputType="text"
+                                    android:maxLines="1" />
 
                             </android.support.design.widget.TextInputLayout>
 
@@ -109,9 +109,10 @@
                                 <EditText
                                     android:id="@+id/etLastName"
                                     style="@style/Style.edittext"
-                                    android:drawableRight="@drawable/vector_person" />
+                                    />
 
                             </android.support.design.widget.TextInputLayout>
+
 
                         </TableRow>
 
@@ -137,6 +138,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:gravity="bottom"
                                 android:hint="Father Name">
 
                                 <EditText
@@ -148,7 +150,8 @@
 
                         <TableRow
                             android:layout_width="fill_parent"
-                            android:layout_height="fill_parent">
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
 
 
                             <LinearLayout
@@ -255,7 +258,8 @@
 
                         <TableRow
                             android:layout_width="fill_parent"
-                            android:layout_height="fill_parent">
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
 
                             <LinearLayout
                                 android:layout_width="0dp"
@@ -263,7 +267,7 @@
 
                                 android:layout_weight="1"
                                 android:orientation="vertical"
-                                android:paddingTop="2dp">
+                                >
 
                                 <TextView
                                     android:id="@+id/textView31"
@@ -348,14 +352,15 @@
 
                         <TableRow
                             android:layout_width="fill_parent"
-                            android:layout_height="fill_parent">
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
 
                             <LinearLayout
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
                                 android:orientation="vertical"
-                                android:paddingTop="2dp">
+                                >
 
                                 <TextView
                                     android:id="@+id/textView32"
@@ -439,17 +444,15 @@
                         </TableRow>
 
                         <TableRow
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-
-                            android:gravity="bottom">
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
 
                             <LinearLayout
 
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:gravity="bottom"
+
                                 android:orientation="horizontal"
                                 android:weightSum="100">
 
@@ -457,7 +460,7 @@
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="match_parent"
-                                    android:layout_weight="50"
+                                    android:layout_weight="60"
                                     android:orientation="vertical"
                                     android:paddingTop="2dp">
 
@@ -469,8 +472,7 @@
                                     <LinearLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
-                                        android:orientation="horizontal"
-                                        android:weightSum="100">
+                                        android:orientation="horizontal">
 
                                         <TextView
                                             android:id="@+id/txtPORT"
@@ -510,12 +512,16 @@
                                     </LinearLayout>
 
 
+
+
                                 </LinearLayout>
+
 
                                 <LinearLayout
                                     android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="50"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="40"
+                                    android:layout_marginTop="10dp"
                                     android:gravity="bottom"
 
                                     android:weightSum="1">
