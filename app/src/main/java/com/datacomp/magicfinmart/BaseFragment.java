@@ -1,19 +1,17 @@
 package com.datacomp.magicfinmart;
 
 import android.app.ProgressDialog;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,6 +49,45 @@ public class BaseFragment extends Fragment {
 
     protected void showDialog(String msg) {
         dialog = ProgressDialog.show(getActivity(), "", msg, true);
+    }
+
+    public void sendSms(String mobNumber) {
+        try {
+            mobNumber = mobNumber.replaceAll("\\s", "");
+            mobNumber = mobNumber.replaceAll("\\+", "");
+            mobNumber = mobNumber.replaceAll("-", "");
+            mobNumber = mobNumber.replaceAll(",", "");
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mobNumber, null)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Invalid Number", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void dialNumber(String mobNumber) {
+        try {
+            mobNumber = mobNumber.replaceAll("\\s", "");
+            mobNumber = mobNumber.replaceAll("\\+", "");
+            mobNumber = mobNumber.replaceAll("-", "");
+            mobNumber = mobNumber.replaceAll(",", "");
+            Intent callIntent = new Intent(Intent.ACTION_CALL);
+            callIntent.setData(Uri.parse("tel:" + mobNumber));
+            if (ActivityCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                // TODO: Consider calling
+                //    ActivityCompat#requestPermissions
+                // here to request the missing permissions, and then overriding
+                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                //                                          int[] grantResults)
+                // to handle the case where the user grants the permission. See the documentation
+                // for ActivityCompat#requestPermissions for more details.
+                return;
+            }
+            startActivity(callIntent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(getActivity(), "Invalid Number", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public static boolean isValidePhoneNumber(EditText editText) {
