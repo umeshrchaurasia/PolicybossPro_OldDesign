@@ -133,6 +133,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
     public void refreshAdapter(List<HealthQuote> list) {
         mQuoteListFiltered = list;
+        notifyDataSetChanged();
     }
 
     @Override

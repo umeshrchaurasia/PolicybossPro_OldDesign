@@ -66,7 +66,10 @@ public class AppliedCreditCardsAdapter extends RecyclerView.Adapter<AppliedCredi
     // total number of cells
     @Override
     public int getItemCount() {
-        return mCreditCardFiltered.size();
+        if (mCreditCardFiltered != null)
+            return mCreditCardFiltered.size();
+        else
+            return 0;
     }
 
     @Override
@@ -78,24 +81,22 @@ public class AppliedCreditCardsAdapter extends RecyclerView.Adapter<AppliedCredi
                 if (charString.isEmpty()) {
                     mCreditCardFiltered = listCreditCards;
                 } else {
-                    List<AppliedCreditCardEntity> filteredList = new ArrayList<>();
+                    List<AppliedCreditCardEntity> filerList = new ArrayList<>();
+
                     for (AppliedCreditCardEntity row : listCreditCards) {
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
                         if (row.getFullName().toLowerCase().contains(charString.toLowerCase())
-                                || row.getEmail().toLowerCase().contains(charString.toLowerCase())
                                 || row.getMobileNo().toLowerCase().contains(charString.toLowerCase())
-                                || row.getCardType().toLowerCase().contains(charString.toLowerCase())
-                                || row.getCreditCardName().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
+                                || row.getEmail().toLowerCase().contains(charSequence.toString())) {
+                            filerList.add(row);
                         }
                     }
 
-                    mCreditCardFiltered = filteredList;
+                    mCreditCardFiltered = filerList;
                 }
 
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mCreditCardFiltered;
+
                 return filterResults;
             }
 
