@@ -8,25 +8,20 @@ import android.content.pm.LabeledIntent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +68,20 @@ public class BaseActivity extends AppCompatActivity {
 
     protected void showDialog(String msg) {
         dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+    }
+
+    public void sendSms(String mobNumber) {
+        try {
+            mobNumber = mobNumber.replaceAll("\\s", "");
+            mobNumber = mobNumber.replaceAll("\\+", "");
+            mobNumber = mobNumber.replaceAll("-", "");
+            mobNumber = mobNumber.replaceAll(",", "");
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.fromParts("sms", mobNumber, null)));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void dialNumber(String mobNumber) {
@@ -137,7 +146,6 @@ public class BaseActivity extends AppCompatActivity {
         return !(aadharNo.isEmpty() || !aadharNo.matches(aadharPattern));
     }
 
-
     public File saveImageToStorage(Bitmap bitmap, String name) {
         FileOutputStream outStream = null;
 
@@ -167,9 +175,9 @@ public class BaseActivity extends AppCompatActivity {
         paint.setColor(Color.RED);
         paint.setTextSize(15);
         canvas.drawText("" + pospName, 110, 40, paint);
-        canvas.drawText("" + pospDesg, 110, 40 + textSize+2, paint);
-        canvas.drawText("" + pospMob, 110, 40 + textSize + textSize+2, paint);
-        canvas.drawText("" + pospEmail, 110, 40 + textSize + textSize + textSize+2, paint);
+        canvas.drawText("" + pospDesg, 110, 40 + textSize + 2, paint);
+        canvas.drawText("" + pospMob, 110, 40 + textSize + textSize + 2, paint);
+        canvas.drawText("" + pospEmail, 110, 40 + textSize + textSize + textSize + 2, paint);
         //canvas.drawText("" + pospName + "\n" + pospDesg + "\n" + pospMob + "\n" + pospEmail, 10, 10, paint);
 
 

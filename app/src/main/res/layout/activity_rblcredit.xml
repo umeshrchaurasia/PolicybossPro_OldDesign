@@ -61,7 +61,9 @@
                         <EditText
                             android:id="@+id/etFirstName"
                             style="@style/Style.edittext"
-                            android:drawableRight="@drawable/vector_person" />
+                            android:drawableRight="@drawable/vector_person"
+                            android:inputType="text"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -82,7 +84,9 @@
                         <EditText
                             android:id="@+id/etLastName"
                             style="@style/Style.edittext"
-                            android:drawableRight="@drawable/vector_person" />
+                            android:drawableRight="@drawable/vector_person"
+                            android:inputType="text"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -95,7 +99,9 @@
                         <EditText
                             android:id="@+id/etFatherName"
                             style="@style/Style.edittext"
-                            android:drawableRight="@drawable/vector_person" />
+                            android:drawableRight="@drawable/vector_person"
+                            android:inputType="text"
+                            android:maxLines="1" />
                     </android.support.design.widget.TextInputLayout>
 
 
@@ -128,7 +134,9 @@
 
                         <AutoCompleteTextView
                             android:id="@+id/acCity"
-                            style="@style/Style.edittext" />
+                            style="@style/Style.edittext"
+                            android:inputType="text"
+                            android:maxLines="1" />
                     </android.support.design.widget.TextInputLayout>
                 </TableRow>
 
@@ -227,7 +235,9 @@
                         <EditText
                             android:id="@+id/etCCApplied"
                             style="@style/Style.edittext"
-                            android:enabled="false" />
+                            android:enabled="false"
+                            android:inputType="text"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -240,7 +250,9 @@
                         <EditText
                             android:id="@+id/etProcessingFees"
                             style="@style/Style.edittext"
-                            android:enabled="false" />
+                            android:enabled="false"
+                            android:inputType="text"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -268,7 +280,9 @@
 
                         <EditText
                             android:id="@+id/etAddress1"
-                            style="@style/Style.edittext" />
+                            style="@style/Style.edittext"
+                            android:inputType="text"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -280,7 +294,9 @@
 
                         <EditText
                             android:id="@+id/etAddress2"
-                            style="@style/Style.edittext" />
+                            style="@style/Style.edittext"
+                            android:inputType="text"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -299,7 +315,9 @@
 
                         <EditText
                             android:id="@+id/etLandMark"
-                            style="@style/Style.edittext" />
+                            style="@style/Style.edittext"
+                            android:inputType="text"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -313,7 +331,8 @@
                             android:id="@+id/etPincode"
                             style="@style/Style.edittext"
                             android:inputType="number"
-                            android:maxLength="6" />
+                            android:maxLength="6"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -334,7 +353,8 @@
                         <EditText
                             android:id="@+id/etMonthlyIncome"
                             style="@style/Style.edittext"
-                            android:inputType="number" />
+                            android:inputType="number"
+                            android:maxLines="1" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -347,7 +367,8 @@
                             android:id="@+id/etMobile"
                             style="@style/Style.edittext"
                             android:inputType="number"
-                            android:maxLength="10" />
+                            android:maxLength="10"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -379,7 +400,8 @@
                         <EditText
                             android:id="@+id/etEmail"
                             style="@style/Style.edittext"
-                            android:inputType="textEmailAddress" />
+                            android:inputType="textEmailAddress"
+                            android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
 

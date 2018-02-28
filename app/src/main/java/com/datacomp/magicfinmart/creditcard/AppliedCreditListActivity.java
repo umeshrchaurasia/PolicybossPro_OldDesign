@@ -54,7 +54,7 @@ public class AppliedCreditListActivity extends BaseActivity implements View.OnCl
 
         init();
         setListener();
-        //setTextWatcher();
+        setTextWatcher();
 
         mCreditCardEntityList = new ArrayList<>();
         fetchCreditCards();
@@ -96,7 +96,7 @@ public class AppliedCreditListActivity extends BaseActivity implements View.OnCl
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // healthQuoteAdapter.getFilter().filter(s);
+                mAdapter.getFilter().filter(s);
             }
 
             @Override
