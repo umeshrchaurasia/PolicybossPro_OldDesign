@@ -61,6 +61,15 @@ public class CCRblRequestEntity {
     private String brokerid;
     private String empid;
     private String source;
+    private int fba_id;
+
+    public int getFba_id() {
+        return fba_id;
+    }
+
+    public void setFba_id(int fba_id) {
+        this.fba_id = fba_id;
+    }
 
     public int getTitle() {
         return Title;

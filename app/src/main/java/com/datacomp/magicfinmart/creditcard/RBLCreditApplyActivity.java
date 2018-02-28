@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -46,7 +47,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
     EditText etAddress1, etAddress2, etLandMark, etPincode, etMonthlyIncome;
     AutoCompleteTextView acCity;
     Button btnSubmit;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MMM-dd");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     ArrayAdapter<String> cityAdapter;
     List<String> cityList;
@@ -62,7 +63,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init();
         cityList = new ArrayList<>();
-        cityList = new DBPersistanceController(this).getHealthCity();
+        cityList = new DBPersistanceController(this).getRblCity();
         cityBinding();
 
         //for validating auto complete city
@@ -254,8 +255,6 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
                 etEmail.setError("Invalid Email ID");
                 etEmail.setFocusable(true);
                 return;
-            } else {
-                etEmail.setError(null);
             }
 
             if (acCity.getText().toString().length() == 0) {
@@ -268,6 +267,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
 
             CCRblRequestEntity rblCCRequest = new CCRblRequestEntity();
 
+            rblCCRequest.setFba_id(new DBPersistanceController(this).getUserData().getFBAId());
             //server hit
             if (spTitle.getSelectedItemPosition() == 0) {
                 rblCCRequest.setTitle(1);
@@ -285,21 +285,21 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             rblCCRequest.setLastName(etLastName.getText().toString());
             rblCCRequest.setFatherName(etFatherName.getText().toString());
             rblCCRequest.setDOB(etDob.getText().toString());
-            rblCCRequest.setCreditCardApplied(etCCApplied.getText().toString());
+            rblCCRequest.setCardType(etCCApplied.getText().toString());
             rblCCRequest.setProcessingFee(Integer.parseInt(etProcessingFees.getText().toString()));
             rblCCRequest.setResAddress1(etAddress1.getText().toString());
             rblCCRequest.setResAddress2(etAddress2.getText().toString());
-            rblCCRequest.setLastName(etLandMark.getText().toString());
+            rblCCRequest.setLandmark(etLandMark.getText().toString());
             rblCCRequest.setResPIN(etPincode.getText().toString());
             rblCCRequest.setNMI(etMonthlyIncome.getText().toString());
             rblCCRequest.setMobile(etMobile.getText().toString());
             rblCCRequest.setPAN(etpancard.getText().toString());
-            rblCCRequest.setMobile(etMobile.getText().toString());
+            rblCCRequest.setEmail(etEmail.getText().toString());
             rblCCRequest.setCreditCardApplied(String.valueOf(mCreditCardEntity.getCreditCardApplied()));
             rblCCRequest.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId());
             rblCCRequest.setSource("");
             rblCCRequest.setVersion("");
-
+            rblCCRequest.setMiddleName("");
             if (rbSalaried.isChecked()) {
                 rblCCRequest.setEmpType(1);
             } else {
@@ -318,27 +318,34 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             }
 
             try {
-                rblCCRequest.setResCity(new DBPersistanceController(this).getHealthCityID(
+                rblCCRequest.setResCity(new DBPersistanceController(this).getRblCityCode(
                         acCity.getText().toString()));
             } catch (Exception e) {
 
             }
 
+            showDialog();
             new CreditCardController(this).applyRbl(rblCCRequest, this);
         }
     }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
         if (response instanceof CCRblResponse) {
             if (response.getStatusNo() == 0) {
-
+                if (((CCRblResponse) response).getMasterData().getReferenceCode().length() > 1) {
+                    Toast.makeText(this, "Check your mail for document upload.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(this, "" + ((CCRblResponse) response).getMasterData().getErrorinfo(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }
 
     @Override
     public void OnFailure(Throwable t) {
-
+        cancelDialog();
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

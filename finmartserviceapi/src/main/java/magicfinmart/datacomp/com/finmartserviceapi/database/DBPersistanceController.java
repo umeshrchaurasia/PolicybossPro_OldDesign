@@ -21,6 +21,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.Healthinsurance
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MasterSalesMaterialPromotionEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
@@ -46,6 +47,33 @@ public class DBPersistanceController {
         this.mContext = mContext;
         realm = Realm.getDefaultInstance();
     }
+
+
+    //region Rbl City Master
+
+    public List<String> getRblCity() {
+        List<String> listCity = new ArrayList<>();
+        // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();
+        List<RblCityEntity> list = realm.where(RblCityEntity.class).findAll();
+
+        for (int i = 0; i < list.size(); i++) {
+            RblCityEntity entity = list.get(i);
+            String cityName = entity.getCityName();
+            listCity.add(cityName);
+        }
+
+        return listCity;
+    }
+
+
+    public int getRblCityCode(String RblCityName) {
+        RblCityEntity entity = realm.where(RblCityEntity.class).equalTo("CityName", RblCityName).findFirst();
+        if (entity != null) {
+            return entity.getCityCode();
+        }
+        return 0;
+    }
+    //endregion
 
 
     //region RTO
@@ -608,26 +636,25 @@ public class DBPersistanceController {
     }
 
 
-
     //endregion
 
+    //region DOC list
 
-
-        public void storeDocList( List<DocsEntity> docsEntityList) {
+    public void storeDocList(List<DocsEntity> docsEntityList) {
         realm.beginTransaction();
         realm.delete(DocsEntity.class);
         realm.copyToRealm(docsEntityList);
         realm.commitTransaction();
     }
 
-    public List<DocsEntity> getDocList(String compId,String lang) {
+    public List<DocsEntity> getDocList(String compId, String lang) {
         List<DocsEntity> docsEntityList = realm.where(DocsEntity.class).equalTo("company_id", compId).equalTo("language", lang.trim(), Case.INSENSITIVE).findAll();
         if (docsEntityList != null)
             return docsEntityList;
         else
             return null;
     }
-
+    //endregion
 
     //region insurance image mapping
 
