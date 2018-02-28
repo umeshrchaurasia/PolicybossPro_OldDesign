@@ -113,6 +113,25 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
                     ((BL_QuoteFragment)mFrament).redirectQuoteBL(entity);
                 }
             });
+            holder.txttype.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((BL_QuoteFragment)mFrament).redirectQuoteBL(entity);
+                }
+            });
+            holder.tvtype.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ((BL_QuoteFragment)mFrament).redirectQuoteBL(entity);
+                }
+            });
+
+            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openPopUp(view, entity);
+                }
+            });
         }
     }
 
@@ -128,7 +147,9 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+
+                                ((BL_QuoteFragment)mFrament).callnumber(entity.getBLLoanRequest().getContact());
+                       // Toast.makeText(mFrament.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();

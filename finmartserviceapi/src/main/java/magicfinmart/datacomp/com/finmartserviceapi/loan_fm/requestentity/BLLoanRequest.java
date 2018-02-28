@@ -38,7 +38,7 @@ public class BLLoanRequest implements Parcelable {
      */
 
     private int BalanceTransferId;
-    private String ApplicantName;
+    private String applicantname;
     private int loanamount;
     private double loaninterest;
     private int loanterm;
@@ -68,7 +68,7 @@ public class BLLoanRequest implements Parcelable {
 
     public BLLoanRequest() {
         BalanceTransferId = 0;
-        ApplicantName = "";
+        applicantname = "";
         this.loanamount = 0;
         this.loaninterest = 0;
         this.loanterm = 0;
@@ -105,11 +105,11 @@ public class BLLoanRequest implements Parcelable {
     }
 
     public String getApplicantName() {
-        return ApplicantName;
+        return applicantname;
     }
 
     public void setApplicantName(String ApplicantName) {
-        this.ApplicantName = ApplicantName;
+        this.applicantname = ApplicantName;
     }
 
     public int getLoanamount() {
@@ -319,7 +319,7 @@ public class BLLoanRequest implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.BalanceTransferId);
-        dest.writeString(this.ApplicantName);
+        dest.writeString(this.applicantname);
         dest.writeInt(this.loanamount);
         dest.writeDouble(this.loaninterest);
         dest.writeInt(this.loanterm);
@@ -351,7 +351,7 @@ public class BLLoanRequest implements Parcelable {
 
     protected BLLoanRequest(Parcel in) {
         this.BalanceTransferId = in.readInt();
-        this.ApplicantName = in.readString();
+        this.applicantname = in.readString();
         this.loanamount = in.readInt();
         this.loaninterest = in.readDouble();
         this.loanterm = in.readInt();

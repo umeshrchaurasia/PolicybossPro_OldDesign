@@ -11,6 +11,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
 
@@ -26,7 +27,7 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 
     Fragment mFrament;
     List<FmHomeLoanRequest> mQuoteList;
-
+    BaseActivity baseActivity;
     public HomeLoan_QuoteAdapter(Fragment mFrament, List<FmHomeLoanRequest> mQuoteList) {
         this.mFrament = mFrament;
         this.mQuoteList = mQuoteList;
@@ -48,6 +49,7 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
             tvQuoteDate = (TextView) itemView.findViewById(R.id.tvQuoteDate);
 
             txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+
         }
     }
     @Override
@@ -111,7 +113,12 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
             });
 
 
-
+            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openPopUp(view, entity);
+                }
+            });
 
         }
     }
@@ -128,7 +135,8 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        ((HL_QuoteFragment)mFrament).callnumber(entity.getHomeLoanRequest().getContact());
+                      //  Toast.makeText(mFrament.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();

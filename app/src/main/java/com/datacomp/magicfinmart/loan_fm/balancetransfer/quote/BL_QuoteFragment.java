@@ -130,4 +130,9 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
+
+    public void callnumber(String mobNumber)
+    {
+        dialNumber(mobNumber);
+    }
 }

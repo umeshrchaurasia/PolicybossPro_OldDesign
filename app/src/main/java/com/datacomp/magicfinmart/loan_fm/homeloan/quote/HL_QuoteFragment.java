@@ -125,4 +125,8 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
+    public void callnumber(String mobNumber)
+    {
+        dialNumber(mobNumber);
+    }
 }

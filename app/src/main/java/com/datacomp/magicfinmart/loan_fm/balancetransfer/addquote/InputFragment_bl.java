@@ -132,6 +132,7 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
             blLoanRequest.setProduct_id(7);//lap
         }
         blLoanRequest.setbrokerid(Integer.parseInt(loginEntity.getLoanId()));
+        blLoanRequest.setLoanID(Integer.parseInt(loginEntity.getLoanId()));
 
         blLoanRequest.setSource("Demo APP");
         blLoanRequest.setEmail("");

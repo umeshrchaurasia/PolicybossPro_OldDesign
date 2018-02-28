@@ -125,4 +125,8 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
                 break;
         }
     }
+    public void callnumber(String mobNumber)
+    {
+        dialNumber(mobNumber);
+    }
 }

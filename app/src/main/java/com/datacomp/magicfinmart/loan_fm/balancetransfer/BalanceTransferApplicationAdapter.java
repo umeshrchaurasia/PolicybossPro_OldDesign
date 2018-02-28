@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.application.BL_ApplicationFragment;
 
 import java.util.List;
 
@@ -104,7 +105,8 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        ((BL_ApplicationFragment)fragment).callnumber(entity.getBLLoanRequest().getContact());
+                    //    Toast.makeText(fragment.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();

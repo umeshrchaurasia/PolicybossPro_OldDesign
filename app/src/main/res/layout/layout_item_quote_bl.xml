@@ -35,7 +35,7 @@
                 android:lines="2"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextStyle.Body1"
-                android:textColor="@color/header_dark_text"
+                android:textColor="@color/blue"
                 android:textStyle="bold" />
 
 
@@ -139,6 +139,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Quote Date"
+                    android:padding="4dp"
+                    style="@style/TextViewStyle.Small"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/header_light_text"

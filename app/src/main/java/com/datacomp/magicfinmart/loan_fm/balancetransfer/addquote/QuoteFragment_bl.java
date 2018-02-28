@@ -123,7 +123,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                 try {
                     txtAppName.setText(""+blLoanRequest.getApplicantName().toUpperCase() );
                     txtLoanAmnt.setText(""+blLoanRequest.getLoanamount() );
-                    txtLoanTenure.setText(""+blLoanRequest.getLoanterm() );
+                    txtLoanTenure.setText(""+blLoanRequest.getLoanterm() + " Years" );
 
                     if (Integer.toString(blLoanRequest.getProduct_id()).matches("12")) {
                         txtType.setText("HOME LOAN");

@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.application.PL_ApplicationFragment;
 
 import java.util.List;
 
@@ -106,7 +107,8 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                            ((PL_ApplicationFragment)fragment).callnumber(entity.getPersonalLoanRequest().getContact());
+                       // Toast.makeText(fragment.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(fragment.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
