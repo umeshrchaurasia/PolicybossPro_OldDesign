@@ -17,7 +17,7 @@ public class HomeLoanApplyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_loan_apply);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
