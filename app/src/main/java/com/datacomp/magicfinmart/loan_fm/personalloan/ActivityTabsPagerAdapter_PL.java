@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.loan_fm.personalloan.application.PL_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.personalloan.quote.PL_QuoteFragment;
@@ -17,7 +18,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalMainEnt
  * Created by IN-RB on 12-01-2018.
  */
 
-public class ActivityTabsPagerAdapter_PL extends FragmentPagerAdapter {
+public class ActivityTabsPagerAdapter_PL extends FragmentStatePagerAdapter {
     private static final int TOTAL = 2;
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
