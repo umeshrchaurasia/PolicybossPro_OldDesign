@@ -21,15 +21,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--<provider-->
-            <!--android:name="android.support.v4.content.FileProvider"-->
-            <!--android:authorities="${applicationId}.provider"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true">-->
-        <!--</provider>-->
+        <!-- <provider -->
+        <!-- android:name="android.support.v4.content.FileProvider" -->
+        <!-- android:authorities="${applicationId}.provider" -->
+        <!-- android:exported="false" -->
+        <!-- android:grantUriPermissions="true"> -->
+        <!-- </provider> -->
         <meta-data
             android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/provider_paths"/>
+            android:resource="@xml/provider_paths" />
+
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="5822">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
@@ -214,7 +215,7 @@
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".loan_fm.homeloan.addquote.HomeLoanApplyActivity"
+            android:name=".loan_fm.homeloan.loan_apply.HomeLoanApplyActivity"
             android:label="@string/title_activity_home_loan_apply"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
@@ -356,7 +357,9 @@
             android:label="@string/title_activity_eula"
             android:noHistory="true"
             android:parentActivityName=".introslider.WelcomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.introslider.WelcomeActivity" />
@@ -365,7 +368,9 @@
             android:name=".knowledgeguru.KnowledgeGuruActivity"
             android:label="@string/title_activity_knowledge_guru"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -373,12 +378,16 @@
         <activity
             android:name=".loan_fm.homeloan.application.HomeLoanApplicationActivity"
             android:label="@string/title_activity_home_loan_application"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".creditcard.CreditCardMainActivity"
             android:label="@string/title_activity_credit_card_main"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -387,7 +396,9 @@
             android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
             android:label="@string/title_activity_knowledge_guru_webview"
             android:parentActivityName=".knowledgeguru.KnowledgeGuruActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity" />
@@ -452,7 +463,9 @@
             android:name=".pendingcases.PendingCasesActivity"
             android:label="Pending cases"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -461,10 +474,34 @@
             android:name=".salesmaterial.SalesMaterialActivity"
             android:label="@string/title_activity_sales_material"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".creditcard.CreditCardActivity"
+            android:label="@string/title_activity_credit_card"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".creditcard.RBLCreditApplyActivity"
+            android:label="@string/title_activity_rblcredit_apply"
+            android:parentActivityName=".creditcard.CreditCardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.creditcard.CreditCardActivity" />
         </activity>
         <activity
             android:name=".salesmaterial.SalesDetailActivity"
@@ -487,6 +524,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.salesmaterial.SalesDetailActivity" />
+        </activity>
+        <activity
+            android:name=".creditcard.AppliedCreditListActivity"
+            android:label="@string/title_activity_applied_credit_list"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
     </application>
 
