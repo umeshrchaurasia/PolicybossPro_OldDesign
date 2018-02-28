@@ -52,7 +52,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     Button btnGetQuote;
-    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp;
+    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp,etcontact;
 
     LinearLayout llSalaried, llSelfEmployeed;
 
@@ -105,7 +105,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
         txtDispalayMaxTenureYear = (TextView) view.findViewById(R.id.txtDispalayMaxTenureYear);
         etTenureInYear = (TextView) view.findViewById(R.id.etTenureInYear);
-
+        etcontact= (EditText) view.findViewById(R.id.etcontact);
 
         sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
         sbTenure.setMax(4);
@@ -157,6 +157,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         personalLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
         personalLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString());
 
+        personalLoanRequest.setContact(etcontact.getText().toString());
         // region Default Salaried
         personalLoanRequest.setApplicantSource("1");
         personalLoanRequest.setApplicantIncome(etMonthlyInc.getText().toString());
@@ -213,6 +214,9 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             et_DOB.setText(personalLoanRequest.getApplicantDOB());
         if (personalLoanRequest.getApplicantIncome() != null)
             etMonthlyInc.setText("" + personalLoanRequest.getApplicantIncome());
+
+            if (personalLoanRequest.getContact() != null)
+            etMonthlyInc.setText("" + personalLoanRequest.getContact());
 
         } catch (Exception e) {
             e.printStackTrace();

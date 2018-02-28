@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicationEntity;
 
 
-public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
+public class ActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     private static final int TOTAL = 2;
     public final static String QUOTE_LIST = "LIST_QUOTE";
@@ -66,5 +67,6 @@ public class ActivityTabsPagerAdapter extends FragmentPagerAdapter {
     public int getCount() {
         return TOTAL;
     }
+
 
 }

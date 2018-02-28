@@ -85,6 +85,12 @@ public class LapLoan_QuoteAdapter extends RecyclerView.Adapter<LapLoan_QuoteAdap
                     ((LAP_QuoteFragment)mFrament).redirectQuoteHL(entity);
                 }
             });
+            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    openPopUp(view, entity);
+                }
+            });
 
         }
     }
@@ -100,7 +106,8 @@ public class LapLoan_QuoteAdapter extends RecyclerView.Adapter<LapLoan_QuoteAdap
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(mFrament.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        ((LAP_QuoteFragment)mFrament).callnumber(entity.getHomeLoanRequest().getContact());
+                      //  Toast.makeText(mFrament.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
