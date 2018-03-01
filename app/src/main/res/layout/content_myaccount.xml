@@ -359,7 +359,7 @@
                             <EditText
                                 android:id="@+id/etPAN"
                                 style="@style/Style.edittext"
-                                android:digits="0123456789"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
                                 android:ems="10"
                                 android:inputType="phone"
                                 android:maxLength="10" />

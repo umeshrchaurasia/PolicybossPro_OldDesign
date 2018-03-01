@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -231,14 +232,17 @@ public class BaseActivity extends AppCompatActivity {
         try {
 
 
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Finmart_product.png");
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Finmart_product.jpg");
 
             file.getParentFile().mkdirs();
             FileOutputStream out = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.close();
 
-            Uri screenshotUri = Uri.fromFile(file);
+          //  Uri screenshotUri = Uri.fromFile(file);
+            Uri screenshotUri = FileProvider.getUriForFile(BaseActivity.this,
+                    getString(R.string.file_provider_authority),
+                    file);
 
             Intent shareIntent = new Intent();
             shareIntent.setAction(Intent.ACTION_SEND);

@@ -2,7 +2,6 @@ package com.datacomp.magicfinmart.salesmaterial;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -94,6 +93,9 @@ public class SalesShareActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
             case R.id.action_share:
 
                 showShareProduct();
@@ -104,8 +106,8 @@ public class SalesShareActivity extends BaseActivity {
 
     public void showShareProduct() {
         if (combinedImage != null)
-            datashareList(SalesShareActivity.this, combinedImage, "Finmart", "Look what I found on Finmart!");
-        //new shareImageNormal(docsEntity.getImage_path(), "Finmart", "Look what I found on Finmart!").execute();
+            datashareList(SalesShareActivity.this, combinedImage, "Finmart", "");
+//        //new shareImageNormal(docsEntity.getImage_path(), "Finmart", "Look what I found on Finmart!").execute();
 
 
     }
@@ -116,6 +118,7 @@ public class SalesShareActivity extends BaseActivity {
 
         @Override
         protected void onPreExecute() {
+            showDialog();
             super.onPreExecute();
         }
 
@@ -138,6 +141,7 @@ public class SalesShareActivity extends BaseActivity {
         }
 
         protected void onPostExecute(Bitmap result) {
+
             pospPhoto = result;
 
             try {
@@ -152,6 +156,7 @@ public class SalesShareActivity extends BaseActivity {
                             .load(stream.toByteArray())
                             .asBitmap()
                             .into(ivProduct);
+                    cancelDialog();
                 }
             } catch (Exception e) {
                 cancelDialog();
@@ -161,4 +166,5 @@ public class SalesShareActivity extends BaseActivity {
             }
         }
     }
+
 }
