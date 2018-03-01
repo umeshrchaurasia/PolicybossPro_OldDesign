@@ -7,21 +7,33 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 
-public class NotificationActivity extends AppCompatActivity {
+public class NotificationActivity extends BaseActivity implements IResponseSubcriber {
 
     RecyclerView rvNotify;
     List<NotificationEntity>  NotificationLst;
     NotificationAdapter mAdapter;
+    DBPersistanceController dbPersistanceController;
+    LoginResponseEntity loginEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +45,16 @@ public class NotificationActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        dbPersistanceController = new DBPersistanceController(this);
+        loginEntity = dbPersistanceController.getUserData();
+
         initialize();
+
+       // getNotificationData
+        showDialog("Fetching Data...");
+        new RegisterController(NotificationActivity.this).getNotificationData(String.valueOf(loginEntity.getFBAId()), NotificationActivity.this);
+
+
     }
 
     private void initialize() {
@@ -47,19 +68,10 @@ public class NotificationActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NotificationActivity.this);
         rvNotify.setLayoutManager(layoutManager);
 
-        NotificationLst = getNotifyLst();
+       // NotificationLst = getNotifyLst();
 
        // Log.d("NOTIFYLST",NotificationLst.toString());
 
-        if(NotificationLst.size() >0)
-        {
-            mAdapter = new NotificationAdapter(NotificationActivity.this, NotificationLst);
-            rvNotify.setAdapter(mAdapter);
-        }
-        else{
-            rvNotify.setAdapter(null);
-            Snackbar.make(rvNotify, "No Data Available", Snackbar.LENGTH_SHORT).show();
-        }
 
     }
 
@@ -74,7 +86,7 @@ public class NotificationActivity extends AppCompatActivity {
         notifyEntity1.setImg_url("http://i.stack.imgur.com/CE5lz.png");
         notifyEntity1.setDate("12-Feb-2018");
         notifyEntity1.setAction("PL");
-        notifyEntity1.setIs_read(1);
+        notifyEntity1.setIs_read("1");
         NotificationLst.add(notifyEntity1);
 
         for(int i=0; i <= 10 ; i++)
@@ -85,7 +97,7 @@ public class NotificationActivity extends AppCompatActivity {
             notifyEntity.setImg_url("http://i.stack.imgur.com/CE5lz.png");
             notifyEntity.setDate("12-Feb-2018");
             notifyEntity.setAction("HL");
-            notifyEntity.setIs_read(0);
+            notifyEntity.setIs_read("0");
             NotificationLst.add(notifyEntity);
         }
 
@@ -107,5 +119,33 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof NotificationResponse) {
 
+            if (response.getStatusNo() == 0) {
+                if (NotificationLst.size() > 0) {
+
+                    NotificationLst = ((NotificationResponse) response).getMasterData();
+
+                    mAdapter = new NotificationAdapter(NotificationActivity.this, NotificationLst);
+                    rvNotify.setAdapter(mAdapter);
+                } else {
+                    rvNotify.setAdapter(null);
+                    Snackbar.make(rvNotify, "No Notification  Data Available", Snackbar.LENGTH_SHORT).show();
+                }
+            }else {
+                rvNotify.setAdapter(null);
+                Snackbar.make(rvNotify, "No Notification  Data Available", Snackbar.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 }

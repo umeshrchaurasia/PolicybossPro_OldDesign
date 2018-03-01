@@ -30,12 +30,12 @@
                 android:orientation="vertical">
 
                 <RelativeLayout
-                    android:id="@+id/rlMyProfile"
+                    android:id="@+id/rlPLInfo"
                     style="@style/HeaderLayout"
                     android:padding="15dp">
 
                     <ImageView
-                        android:id="@+id/ivMyProfile"
+                        android:id="@+id/ivPLInfo"
                         android:layout_width="25dp"
                         android:layout_height="25dp"
                         android:layout_alignParentRight="true"
@@ -64,7 +64,7 @@
                     android:background="@color/white" />
 
                 <LinearLayout
-                    android:id="@+id/llMyProfile"
+                    android:id="@+id/llPlInfo"
                     style="@style/LinearLayoutStyle"
                     android:animateLayoutChanges="true"
                     android:visibility="visible">
@@ -162,12 +162,14 @@
                                 android:weightSum="1">
 
                                 <ImageView
+                                    android:id="@+id/ivMale"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight=".5"
                                     android:src="@drawable/male_selected" />
 
                                 <ImageView
+                                    android:id="@+id/ivFemale"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight=".5"
@@ -194,7 +196,7 @@
                                     android:weightSum="100">
 
                                     <TextView
-                                        android:id="@+id/txtrbimgMale"
+                                        android:id="@+id/txtMarried"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginRight="5dp"
@@ -207,7 +209,7 @@
 
                                     <TextView
 
-                                        android:id="@+id/txtrbimgFemale"
+                                        android:id="@+id/txtSingle"
                                         android:layout_width="0dp"
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="5dp"
@@ -535,6 +537,128 @@
 
                                 </LinearLayout>
                             </LinearLayout>
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/textView23"
+                                    style="@style/TextViewStyle.Medium"
+                                    android:text="Education" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="horizontal"
+                                    android:weightSum="100">
+
+                                    <TextView
+                                        android:id="@+id/txtMATR"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_weight="20"
+                                        android:background="@drawable/customeborder_blue"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:text="MATR"
+                                        android:textColor="@color/colorPrimary" />
+
+                                    <TextView
+
+                                        android:id="@+id/txtUGRAD"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_weight="20"
+                                        android:background="@drawable/customeborder"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:text="U-GRAD"
+                                        android:textColor="@color/description_text" />
+
+                                    <TextView
+                                        android:id="@+id/txtGRAD"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_weight="20"
+                                        android:background="@drawable/customeborder"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:text="GRAD"
+                                        android:textColor="@color/description_text" />
+
+                                    <TextView
+
+                                        android:id="@+id/txtPGRAD"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_weight="20"
+                                        android:background="@drawable/customeborder"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:text="P-GRAD"
+                                        android:textColor="@color/description_text" />
+
+                                    <TextView
+
+                                        android:id="@+id/txteducatOTH"
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginRight="5dp"
+                                        android:layout_weight="20"
+                                        android:background="@drawable/customeborder"
+                                        android:gravity="center"
+                                        android:padding="5dp"
+                                        android:text="OTH"
+                                        android:textColor="@color/description_text" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Institute / University">
+
+                                <EditText
+                                    android:id="@+id/etUniversity"
+                                    style="@style/Style.edittext" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Mother's Maiden Name">
+
+                                <EditText
+                                    android:id="@+id/etMoMaidenName"
+                                    style="@style/Style.edittext"
+                                    android:text="INDIAN" />
+                            </android.support.design.widget.TextInputLayout>
+
                         </TableRow>
 
                     </TableLayout>
