@@ -212,7 +212,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
 //            if (homeLoanRequest.getLoanRequired() != null)
-            etCostOfProp.setText(homeLoanRequest.getLoanRequired());
+            etCostOfProp.setText(homeLoanRequest.getPropertyCost());
             if (homeLoanRequest.getLoanTenure() != null)
                 etTenureInYear.setText(homeLoanRequest.getLoanTenure());
 
@@ -389,7 +389,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
         txtMaxLoanAmntAllow = (EditText) view.findViewById(R.id.txtMaxLoanAmntAllow);
-        txtMaxLoanAmntAllow.setKeyListener(null);
+
 
         txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
         txtDispalayMaxTenureYear = (TextView) view.findViewById(R.id.txtDispalayMaxTenureYear);
@@ -595,93 +595,21 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             isPropertyInfoVisible = false;
         }
         if (visibility == View.GONE) {
-            txtPropertyInfo.setText(" Property Information");
-            txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
+          //  txtPropertyInfo.setText(" Property Information");
+           // txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
+           // txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
             llPropertyInfo.setVisibility(visibility);
             //isPropertyInfoVisible = false;
         } else {
-            txtPropertyInfo.setText(" Property Information");
-            txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
+           // txtPropertyInfo.setText(" Property Information");
+           // txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
+            //txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
             llPropertyInfo.setVisibility(visibility);
             //isPropertyInfoVisible = true;
         }
     }
 
-    private void visibleApplicant(int visibility) {
-        if (visibility == View.VISIBLE) {
-            isApplicantVisible = true;
-        } else {
-            isApplicantVisible = false;
-        }
-        if (visibility == View.GONE) {
-            txtApplicantDetail.setText(" Application Details");
-            txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtApplicantDetail.setBackgroundResource(R.color.lightGrey);//umesh
-            llApplicantDetail.setVisibility(visibility);
-            //isApplicantVisible = false;
-        } else {
-            txtApplicantDetail.setText(" Application Details");
-            txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llApplicantDetail.setVisibility(visibility);
-            //isApplicantVisible = true;
-        }
-    }
 
-    private void visibleCoApplicant(int visibility) {
-        if (visibility == View.VISIBLE) {
-            isCoApplicantVisible = true;
-        } else {
-            isCoApplicantVisible = false;
-        }
-        if (visibility == View.GONE) {
-            txtCoApplicantDetail.setText(" Co-Application Details");
-            txtCoApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtCoApplicantDetail.setBackgroundResource(R.color.lightGrey);//umesh
-            llCoApplicantDetail.setVisibility(visibility);
-            //isCoApplicantVisible = false;
-        } else {
-            txtCoApplicantDetail.setText(" Co-Application Details");
-            txtCoApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llCoApplicantDetail.setVisibility(visibility);
-            //isCoApplicantVisible = true;
-        }
-    }
-
-    private void altervisiblePropertyInfo() {
-        if (isPropertyInfoVisible) {
-            txtPropertyInfo.setText(" Property Information");
-            txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llPropertyInfo.setVisibility(View.GONE);
-            isPropertyInfoVisible = false;
-        } else {
-            txtPropertyInfo.setText(" Property Information");
-            txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llPropertyInfo.setVisibility(View.VISIBLE);
-            isPropertyInfoVisible = true;
-        }
-    }
-
-    private void altervisibleApplicant() {
-        if (isApplicantVisible) {
-            txtApplicantDetail.setText(" Application Details");
-            txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtApplicantDetail.setBackgroundResource(R.color.lightGrey);//umesh
-            llApplicantDetail.setVisibility(View.GONE);
-            isApplicantVisible = false;
-        } else {
-            txtApplicantDetail.setText(" Application Details");
-            txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llApplicantDetail.setVisibility(View.VISIBLE);
-            isApplicantVisible = true;
-        }
-    }
 
     private void setSalaried(String edit) {
         ApplicantSource = "1";
@@ -866,6 +794,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             //region Property Validation
             String CostOfProp = etCostOfProp.getText().toString();
             String TenureInYear = etTenureInYear.getText().toString();
+            String MaxLoanAmntAllow = txtMaxLoanAmntAllow.getText().toString();
 
 
             if (TextUtils.isEmpty(CostOfProp)) {
@@ -882,6 +811,22 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                 return;
 
             }
+            if (TextUtils.isEmpty(MaxLoanAmntAllow)) {
+
+                txtMaxLoanAmntAllow.setError("Please Enter  Required Loan.");
+                txtMaxLoanAmntAllow.requestFocus();
+                return;
+
+            }
+
+            if (Integer.parseInt(MaxLoanAmntAllow) > Integer.parseInt(CostOfProp) ) {
+
+                txtMaxLoanAmntAllow.setError("Required Loan should not be greater than Cost Of Property.");
+                txtMaxLoanAmntAllow.requestFocus();
+                return;
+
+            }
+
             if (acCity.getText().toString().equals("") || acCity.getText().toString().length() == 0) {
                 acCity.setError("Please Enter city.");
                 acCity.requestFocus();

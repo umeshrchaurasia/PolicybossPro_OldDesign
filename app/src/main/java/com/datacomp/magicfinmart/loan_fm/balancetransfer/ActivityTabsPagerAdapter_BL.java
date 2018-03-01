@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.application.BL_ApplicationFragment;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.quote.BL_QuoteFragment;
@@ -17,7 +18,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLNodeMainEntit
  * Created by IN-RB on 26-01-2018.
  */
 
-public class ActivityTabsPagerAdapter_BL extends FragmentPagerAdapter {
+public class ActivityTabsPagerAdapter_BL extends FragmentStatePagerAdapter {
 
     private static final int TOTAL = 2;
     public final static String QUOTE_LIST = "LIST_QUOTE";
