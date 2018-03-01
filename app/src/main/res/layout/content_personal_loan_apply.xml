@@ -66,7 +66,7 @@
                     android:id="@+id/llMyProfile"
                     style="@style/LinearLayoutStyle"
                     android:animateLayoutChanges="true"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="fill_parent"
@@ -108,8 +108,7 @@
 
                                 <EditText
                                     android:id="@+id/etLastName"
-                                    style="@style/Style.edittext"
-                                    />
+                                    style="@style/Style.edittext" />
 
                             </android.support.design.widget.TextInputLayout>
 
@@ -165,7 +164,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_weight=".5"
-                                    android:src="@drawable/male" />
+                                    android:src="@drawable/male_selected" />
 
                                 <ImageView
                                     android:layout_width="wrap_content"
@@ -266,8 +265,7 @@
                                 android:layout_height="match_parent"
 
                                 android:layout_weight="1"
-                                android:orientation="vertical"
-                                >
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:id="@+id/textView31"
@@ -359,8 +357,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
                                 android:layout_weight="1"
-                                android:orientation="vertical"
-                                >
+                                android:orientation="vertical">
 
                                 <TextView
                                     android:id="@+id/textView32"
@@ -512,16 +509,14 @@
                                     </LinearLayout>
 
 
-
-
                                 </LinearLayout>
 
 
                                 <LinearLayout
                                     android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_weight="40"
                                     android:layout_marginTop="10dp"
+                                    android:layout_weight="40"
                                     android:gravity="bottom"
 
                                     android:weightSum="1">
@@ -847,18 +842,18 @@
                                         android:layout_height="wrap_content"
                                         android:orientation="horizontal">
 
-                                    <android.support.design.widget.TextInputLayout
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:hint="Designation">
+                                        <android.support.design.widget.TextInputLayout
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:hint="Designation">
 
-                                        <EditText
-                                            android:id="@+id/etDesig"
-                                            style="@style/Style.edittext"
+                                            <EditText
+                                                android:id="@+id/etDesig"
+                                                style="@style/Style.edittext"
 
-                                            android:focusable="false" />
-                                    </android.support.design.widget.TextInputLayout>
+                                                android:focusable="false" />
+                                        </android.support.design.widget.TextInputLayout>
 
                                     </LinearLayout>
                                 </LinearLayout>
@@ -997,31 +992,9 @@
                                 android:hint="Address 1">
 
                                 <EditText
-                                    android:id="@+id/etAddOne"
+                                    android:id="@+id/etAddress1"
                                     style="@style/Style.edittext"
-
-                                    android:focusable="false" />
-                            </android.support.design.widget.TextInputLayout>
-
-
-
-                        </TableRow>
-                        <TableRow
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent"
-                            android:layout_marginTop="4dp">
-
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:hint="Address 1">
-
-                                <EditText
-                                    android:id="@+id/etAddOne"
-                                    style="@style/Style.edittext"
-
-                                    android:focusable="false" />
+                                    />
                             </android.support.design.widget.TextInputLayout>
 
 
@@ -1039,7 +1012,27 @@
                                 android:hint="Address 2">
 
                                 <EditText
-                                    android:id="@+id/etAddTwo"
+                                    android:id="@+id/etAddress2"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Address 3">
+
+                                <EditText
+                                    android:id="@+id/etAddress3"
                                     style="@style/Style.edittext"
 
                                     android:focusable="false" />
@@ -1062,8 +1055,7 @@
                                 <EditText
                                     android:id="@+id/etLandmak"
                                     style="@style/Style.edittext"
-
-                                    android:focusable="false" />
+                                    />
                             </android.support.design.widget.TextInputLayout>
 
 
@@ -1081,7 +1073,7 @@
                                 android:hint="Pincode">
 
                                 <EditText
-                                    android:id="@+id/etPincodePl"
+                                    android:id="@+id/etPincodeED"
                                     style="@style/Style.edittext"
 
                                     android:focusable="false" />
@@ -1095,8 +1087,9 @@
                                 android:hint="City">
 
                                 <EditText
-                                    android:id="@+id/etCityPl"
-                                    style="@style/Style.edittext" />
+                                    android:id="@+id/etCityED"
+                                    style="@style/Style.edittext"
+                                    android:focusable="false"/>
                             </android.support.design.widget.TextInputLayout>
 
                         </TableRow>
@@ -1104,130 +1097,55 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <LinearLayout
 
+                            <android.support.design.widget.TextInputLayout
                                 android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:hint="State">
 
-                                android:orientation="horizontal"
-                                android:weightSum="100">
+                                <EditText
+                                    android:id="@+id/etStateED"
+                                    style="@style/Style.edittext"
+                                    android:focusable="false"
+                                    android:text=""/>
+                            </android.support.design.widget.TextInputLayout>
 
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Country"
+                                >
 
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="50"
-                                    android:orientation="vertical"
-                                    android:paddingTop="2dp">
-
-                                    <TextView
-                                        android:id="@+id/txtStatePl"
-                                        style="@style/TextViewStyle.Medium"
-                                        android:text="State" />
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
-
-                                        <Spinner
-                                            android:id="@+id/spStatePl"
-                                            style="@style/SpinnerStyle.Underlined"
-                                            android:layout_width="0dp"
-                                            android:layout_height="match_parent"
-                                            android:layout_weight="20"
-                                            android:entries="@array/title"
-                                            android:gravity="center" />
+                                <EditText
+                                    android:id="@+id/etCountryPl"
+                                    style="@style/Style.edittext"
+                                    android:focusable="false"
+                                    android:text="India"/>
+                            </android.support.design.widget.TextInputLayout>
 
 
 
-
-                                    </LinearLayout>
-
-
-
-
-                                </LinearLayout>
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="50"
-                                    android:orientation="vertical"
-                                    android:paddingTop="2dp">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
-
-                                        <android.support.design.widget.TextInputLayout
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1"
-                                            android:hint="Country"
-                                           >
-
-                                            <EditText
-                                                android:id="@+id/etCountryPl"
-                                                style="@style/Style.edittext"
-                                                android:focusable="false"
-                                                android:text="India"/>
-                                        </android.support.design.widget.TextInputLayout>
-
-                                    </LinearLayout>
-                                </LinearLayout>
-
-                            </LinearLayout>
                         </TableRow>
 
                         <TableRow
                             android:layout_width="match_parent"
                             android:layout_height="match_parent">
 
-                            <LinearLayout
-
+                            <android.support.design.widget.TextInputLayout
                                 android:layout_width="0dp"
-                                android:layout_height="match_parent"
+                                android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:hint="Landline No (Std Phone No)"
+                                >
 
-                                android:orientation="horizontal"
-                                android:weightSum="100">
+                                <EditText
+                                    android:id="@+id/etLandlineNoPl"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
 
-
-
-
-                                <LinearLayout
-                                    android:layout_width="0dp"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="100"
-                                    android:orientation="vertical"
-                                    android:paddingTop="2dp">
-
-                                    <LinearLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:orientation="horizontal">
-
-                                        <android.support.design.widget.TextInputLayout
-                                            android:layout_width="0dp"
-                                            android:layout_height="wrap_content"
-                                            android:layout_weight="1"
-                                            android:hint="Landline No (Std Phone No)"
-                                            >
-
-                                            <EditText
-                                                android:id="@+id/etLandlineNoPl"
-                                                style="@style/Style.edittext"
-                                                android:focusable="false"
-                                               />
-                                        </android.support.design.widget.TextInputLayout>
-
-                                    </LinearLayout>
-                                </LinearLayout>
-
-                            </LinearLayout>
                         </TableRow>
                     </TableLayout>
                 </LinearLayout>
@@ -1274,6 +1192,7 @@
                     style="@style/LinearLayoutStyle"
                     android:animateLayoutChanges="true"
                     android:visibility="visible">
+
                     <TextView
                         style="@style/TextViewStyle.Large"
                         android:layout_width="match_parent"
@@ -1281,35 +1200,19 @@
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="15dp"
                         android:text="Income details"
+                        android:textAlignment="center"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
-                        android:textStyle="normal"
-                        android:textAlignment="center"/>
+                        android:textStyle="normal" />
+
                     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent">
-                      <!--  <TableRow
-                            android:layout_width="fill_parent"
-                            android:layout_height="fill_parent">
 
-                            <TextView
-                                style="@style/TextViewStyle.Large"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_centerVertical="true"
-                                android:layout_marginLeft="15dp"
-                                android:text="Income details"
-                                android:textAllCaps="true"
-                                android:textColor="@color/black"
-                                android:textStyle="normal" />
-
-
-                        </TableRow>-->
                         <TableRow
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:weightSum="100">
-
 
 
                             <android.support.design.widget.TextInputLayout
@@ -1339,11 +1242,11 @@
                             </android.support.design.widget.TextInputLayout>
 
                         </TableRow>
+
                         <TableRow
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
                             android:weightSum="100">
-
 
 
                             <android.support.design.widget.TextInputLayout
@@ -1364,9 +1267,8 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="50"
-                                android:hint="Total Income"
                                 android:background="@color/lightGrey"
-                               >
+                                android:hint="Total Income">
 
                                 <EditText
                                     android:id="@+id/etTotalIncome"

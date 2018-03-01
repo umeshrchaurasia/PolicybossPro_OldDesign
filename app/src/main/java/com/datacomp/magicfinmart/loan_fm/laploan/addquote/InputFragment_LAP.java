@@ -207,7 +207,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 
 //            if (homeLoanRequest.getLoanRequired() != null)
-            etCostOfProp.setText(homeLoanRequest.getLoanRequired());
+            etCostOfProp.setText(homeLoanRequest.getPropertyCost());
             if (homeLoanRequest.getLoanTenure() != null)
                 etTenureInYear.setText(homeLoanRequest.getLoanTenure());
 
@@ -591,93 +591,20 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             isPropertyInfoVisible = false;
         }
         if (visibility == View.GONE) {
-            txtPropertyInfo.setText(" Property Information");
-            txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
+           // txtPropertyInfo.setText(" Property Information");
+           // txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
+           // txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
             llPropertyInfo.setVisibility(visibility);
             //isPropertyInfoVisible = false;
         } else {
-            txtPropertyInfo.setText(" Property Information");
-            txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
+          //  txtPropertyInfo.setText(" Property Information");
+           // txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
+           // txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
             llPropertyInfo.setVisibility(visibility);
             //isPropertyInfoVisible = true;
         }
     }
 
-    private void visibleApplicant(int visibility) {
-        if (visibility == View.VISIBLE) {
-            isApplicantVisible = true;
-        } else {
-            isApplicantVisible = false;
-        }
-        if (visibility == View.GONE) {
-            txtApplicantDetail.setText(" Application Details");
-            txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtApplicantDetail.setBackgroundResource(R.color.lightGrey);//umesh
-            llApplicantDetail.setVisibility(visibility);
-            //isApplicantVisible = false;
-        } else {
-            txtApplicantDetail.setText(" Application Details");
-            txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llApplicantDetail.setVisibility(visibility);
-            //isApplicantVisible = true;
-        }
-    }
-
-    private void visibleCoApplicant(int visibility) {
-        if (visibility == View.VISIBLE) {
-            isCoApplicantVisible = true;
-        } else {
-            isCoApplicantVisible = false;
-        }
-        if (visibility == View.GONE) {
-            txtCoApplicantDetail.setText(" Co-Application Details");
-            txtCoApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtCoApplicantDetail.setBackgroundResource(R.color.lightGrey);//umesh
-            llCoApplicantDetail.setVisibility(visibility);
-            //isCoApplicantVisible = false;
-        } else {
-            txtCoApplicantDetail.setText(" Co-Application Details");
-            txtCoApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llCoApplicantDetail.setVisibility(visibility);
-            //isCoApplicantVisible = true;
-        }
-    }
-
-    private void altervisiblePropertyInfo() {
-        if (isPropertyInfoVisible) {
-            txtPropertyInfo.setText(" Property Information");
-            txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llPropertyInfo.setVisibility(View.GONE);
-            isPropertyInfoVisible = false;
-        } else {
-            txtPropertyInfo.setText(" Property Information");
-            txtPropertyInfo.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llPropertyInfo.setVisibility(View.VISIBLE);
-            isPropertyInfoVisible = true;
-        }
-    }
-
-    private void altervisibleApplicant() {
-        if (isApplicantVisible) {
-            txtApplicantDetail.setText(" Application Details");
-            txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.down_arrow_bas_screen, 0);
-            txtApplicantDetail.setBackgroundResource(R.color.lightGrey);//umesh
-            llApplicantDetail.setVisibility(View.GONE);
-            isApplicantVisible = false;
-        } else {
-            txtApplicantDetail.setText(" Application Details");
-            txtApplicantDetail.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.right_arrow_bas_screen, 0);
-            txtPropertyInfo.setBackgroundResource(R.color.lightGrey);//umesh
-            llApplicantDetail.setVisibility(View.VISIBLE);
-            isApplicantVisible = true;
-        }
-    }
 
     private void setSalaried(String edit) {
         ApplicantSource = "1";

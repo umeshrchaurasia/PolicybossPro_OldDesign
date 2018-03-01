@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -233,6 +234,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
         btnSave = (Button) findViewById(R.id.btnSave);
+
+        etPAN.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
 
     }

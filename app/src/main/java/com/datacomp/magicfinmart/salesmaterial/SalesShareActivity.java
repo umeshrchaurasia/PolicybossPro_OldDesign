@@ -106,8 +106,8 @@ public class SalesShareActivity extends BaseActivity {
 
     public void showShareProduct() {
         if (combinedImage != null)
-            datashareList(SalesShareActivity.this, combinedImage, "Finmart", "Look what I found on Finmart!");
-        //new shareImageNormal(docsEntity.getImage_path(), "Finmart", "Look what I found on Finmart!").execute();
+            datashareList(SalesShareActivity.this, combinedImage, "Finmart", "");
+//        //new shareImageNormal(docsEntity.getImage_path(), "Finmart", "Look what I found on Finmart!").execute();
 
 
     }

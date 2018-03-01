@@ -18,7 +18,7 @@
             android:layout_width="0dp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:hint="Name Of Applicant">
+            android:hint="Applicant Name">
 
             <EditText
                 android:id="@+id/etNameOfApplicant"
@@ -37,6 +37,7 @@
             <TextView
                 android:id="@+id/textView3"
                 style="@style/TextViewStyle.Medium"
+                android:gravity="center"
                 android:text="Gender" />
 
             <LinearLayout
@@ -98,23 +99,46 @@
                 android:focusable="false" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-            style="@style/TextAppearence.App.TextInputLayout"
+        <LinearLayout
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:layout_gravity="bottom"
-            android:hint="Occupation">
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/etMfgDate"
-                style="@style/Style.edittext"
+            <TextView
+                android:id="@+id/textView39"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                style="@style/TextViewStyle.Medium"
+                android:text="Occupation" />
 
-                android:enabled="false"
-                android:text="SALARIED"
-                android:textColor="@color/blue"
-                android:textStyle="bold" />
-        </android.support.design.widget.TextInputLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="100">
+
+                <TextView
+                    android:id="@+id/txtSalaried"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="50"
+                    android:background="@drawable/customeborder_blue"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="SALARIED"
+                    android:textColor="@color/colorPrimary" />
+
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
 
     </LinearLayout>
 
@@ -178,6 +202,7 @@
 
             <EditText
                 android:id="@+id/etPAN"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
                 style="@style/Style.edittext"
                 android:text=""
                 android:maxLength="10" />
@@ -211,7 +236,7 @@
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:hint="Required Loan Amt">
+            android:hint="Required Loan Amount">
 
             <EditText
                 android:id="@+id/etCostOfProp"
