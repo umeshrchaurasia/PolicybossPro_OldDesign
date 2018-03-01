@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.InputFilter;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -38,7 +39,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
 
 
 /**
- * Created by Rajeev Ranjan on 24/01/2018.
+ * Created by Rahul on 24/01/2018.
  */
 
 public class InputFragment_pl extends BaseFragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
@@ -111,6 +112,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         sbTenure.setMax(4);
         sbTenure.setProgress(0);
         etTenureInYear.setText("1");
+        etPAN.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         //endregion
 
         //region Applicant Initialize

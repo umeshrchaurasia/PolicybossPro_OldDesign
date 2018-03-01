@@ -178,6 +178,7 @@
 
             <EditText
                 android:id="@+id/etPAN"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
                 style="@style/Style.edittext"
                 android:text=""
                 android:maxLength="10" />
