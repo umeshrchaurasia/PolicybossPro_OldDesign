@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -57,6 +58,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
 
     Spinner spTitle;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +98,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         etProcessingFees = (EditText) findViewById(R.id.etProcessingFees);
         etMobile = (EditText) findViewById(R.id.etMobile);
         etpancard = (EditText) findViewById(R.id.etpancard);
+        etpancard.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         etAddress1 = (EditText) findViewById(R.id.etAddress1);
         etAddress2 = (EditText) findViewById(R.id.etAddress2);
         etLandMark = (EditText) findViewById(R.id.etLandMark);

@@ -21,21 +21,31 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.design.widget.TextInputLayout
-        style="@style/TextInputLayoutStyle"
+    <android.support.v7.widget.CardView
+        style="@style/CardStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:hint="Income">
+        android:layout_margin="4dp"
+        android:padding="4dp"
+        app:cardElevation="2dp">
 
-        <Spinner
-            android:id="@+id/spIncome"
-            style="@style/SpinnerStyle.Underlined"
+        <android.support.design.widget.TextInputLayout
+            style="@style/TextInputLayoutStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </android.support.design.widget.TextInputLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:hint="Income">
+
+            <Spinner
+                android:id="@+id/spIncome"
+                style="@style/SpinnerStyle.Underlined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.design.widget.TextInputLayout>
+
+    </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvCreditCards"

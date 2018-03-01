@@ -30,6 +30,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
         app:cardElevation="2dp"
+        android:visibility="gone"
         >
 
 
@@ -64,7 +65,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="Property Type"
+                            android:text="PROPERTY TYPE"
                             />
 
                         <TextView
@@ -86,7 +87,7 @@
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
                             android:layout_height="wrap_content"
-                            android:text="REQ. LOAN AMOUNT" />
+                            android:text="COST OF PROPERTY" />
                         <TextView
                             android:id="@+id/txtCostOfProp"
                             style="@style/TextViewStyle.Small"

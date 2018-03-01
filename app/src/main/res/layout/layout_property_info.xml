@@ -134,9 +134,11 @@
             <EditText
                 android:id="@+id/txtMaxLoanAmntAllow"
                 style="@style/Style.edittext"
-                android:maxLength="10"
+                android:digits="0123456789"
                 android:ems="10"
-                android:inputType="none" />
+                android:inputType="phone"
+                android:maxLength="10"
+                />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -170,7 +172,7 @@
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:hint="Contact">
+            android:hint="Mobile Number">
 
             <EditText
                 android:id="@+id/etContact"

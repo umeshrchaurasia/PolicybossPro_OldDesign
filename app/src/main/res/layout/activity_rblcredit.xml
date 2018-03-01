@@ -388,7 +388,8 @@
 
                         <EditText
                             android:id="@+id/etpancard"
-                            style="@style/Style.edittext" />
+                            style="@style/Style.edittext"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout

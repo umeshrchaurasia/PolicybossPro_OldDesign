@@ -20,7 +20,6 @@
         android:roundIcon="@drawable/finmart_logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="@string/file_provider_authority"
@@ -30,6 +29,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <meta-data
             android:name="android.support.FILE_PROVIDER_PATHS"
             android:resource="@xml/provider_paths" />
@@ -198,11 +198,10 @@
         <activity
             android:name=".loan_fm.laploan.LapLoanDetailActivity"
             android:label="@string/title_activity_lap_loan_detail"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:parentActivityName=".home.HomeActivity"
-
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".loan_fm.laploan.addquote.LapLoanQuoteActivity"
             android:label="@string/title_activity_lap_loan_quote"
@@ -258,10 +257,10 @@
         <activity
             android:name=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
             android:label="@string/title_activity_balance_transfer_detail"
-            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
-            android:theme="@style/AppTheme" >
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -270,14 +269,12 @@
             android:name=".loan_fm.balancetransfer.addquote.BLMainActivity"
             android:label="@string/title_activity_blmain"
             android:parentActivityName=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
-
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
-
         </activity>
         <activity
             android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView"
@@ -295,17 +292,12 @@
             android:name=".loan_fm.laploan.addquote.LAPMainActivity"
             android:label="@string/title_activity_lapmain"
             android:parentActivityName=".loan_fm.laploan.LapLoanDetailActivity"
-
-
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
-
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity" />
-
-
         </activity>
         <activity
             android:name=".loan_fm.laploan.addquote.LAPApplyActivity"
@@ -568,6 +560,17 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".creditcard.ICICICreditApplyActivity"
+            android:label="@string/title_activity_main"
+            android:parentActivityName=".creditcard.AppliedCreditListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity" />
         </activity>
     </application>
 
