@@ -114,7 +114,7 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
                         break;
                     case R.id.menuSms:
                         ((BikeQuoteTabFragment) mFrament).sendSms(entity.getMotorRequestEntity().getMobile());
-                       // Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
                         ((BikeQuoteTabFragment) mFrament).removeQuote(entity);
@@ -129,7 +129,10 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
 
     @Override
     public int getItemCount() {
-        return mQuoteListFiltered.size();
+        if (mQuoteListFiltered != null)
+            return mQuoteListFiltered.size();
+        else
+            return 0;
     }
 
     @Override
