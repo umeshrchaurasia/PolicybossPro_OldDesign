@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -79,9 +80,11 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuCall:
+                        //((HealthQuoteListFragment) mFrament).dialNumber(entity.get());
                         Toast.makeText(mFrament.getActivity(), "" + entity.getHealthRequest().getContactMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
+                       // ((HealthQuoteListFragment) mFrament).dialNumber(entity.getMobile());
                         Toast.makeText(mFrament.getActivity(), "SMS", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:

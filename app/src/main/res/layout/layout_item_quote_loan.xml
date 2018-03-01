@@ -35,7 +35,7 @@
                 android:lines="2"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextStyle.Body1"
-                android:textColor="@color/header_dark_text"
+                android:textColor="@color/blue"
                 android:textStyle="bold" />
 
 
@@ -107,12 +107,15 @@
                     android:id="@+id/tvQuoteDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    style="@style/TextViewStyle.Small"
                     android:gravity="center"
+                    android:padding="4dp"
                     android:text="Quote Date"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.Body1"
                     android:textColor="@color/header_light_text"
                     android:textSize="9sp" />
+
 
                 <TextView
                     android:id="@+id/txtQuoteDate"

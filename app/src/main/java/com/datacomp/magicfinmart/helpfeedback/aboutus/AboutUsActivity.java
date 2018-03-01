@@ -7,13 +7,17 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 
 public class AboutUsActivity extends BaseActivity implements IResponseSubcriber {
 
     TextView tvAppVersion, tvNAme, tvFbaCode, tvPospNo, tvLoginId, tvPospStatus, tvManagerMobile,
             tvManagerEmail, tvSupportNo, tvSupportEmail;
+    LoginResponseEntity loginResponseEntity;
+    DBPersistanceController dbPersistanceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +26,19 @@ public class AboutUsActivity extends BaseActivity implements IResponseSubcriber 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dbPersistanceController = new DBPersistanceController(this);
+        loginResponseEntity = dbPersistanceController.getUserData();
         init_widgets();
+
+        bindData();
+    }
+
+    private void bindData() {
+        tvNAme.setText(loginResponseEntity.getFullName());
+        if(loginResponseEntity.getPOSPNo()!=null){
+            tvPospNo.setText(""+loginResponseEntity.getPOSPNo());
+        }
+
     }
 
     private void init_widgets() {

@@ -143,13 +143,14 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
                     try {
                     txtAppName.setText(""+personalLoanRequest.getApplicantNme().toUpperCase() );
                     txtCostOfProp.setText(""+personalLoanRequest.getLoanRequired() );
-                    txtLoanTenure.setText(""+personalLoanRequest.getLoanTenure() );
+                    txtLoanTenure.setText(""+personalLoanRequest.getLoanTenure() + " Years");
 
 
                     txtOccupation.setText("SALARIED" );
 
                     txtMonthlyIncome.setText(""+personalLoanRequest.getApplicantIncome() );
                     txtExistEmi.setText(""+personalLoanRequest.getApplicantObligations() );
+
                     }
                     catch (Exception e)
                     {

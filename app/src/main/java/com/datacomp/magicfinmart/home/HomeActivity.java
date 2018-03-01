@@ -28,7 +28,6 @@ import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
-import java.util.Date;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -61,7 +60,6 @@ public class HomeActivity extends BaseActivity {
         db = new DBPersistanceController(this);
         List<String> rtoDesc = db.getRTOListNames();
 
-
         // set first fragement selected.
         navigationView.getMenu().getItem(0).setChecked(true);
 
@@ -93,8 +91,9 @@ public class HomeActivity extends BaseActivity {
                         break;
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
-                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                        // startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+          //              startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+
+                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
                         // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
@@ -229,6 +228,7 @@ public class HomeActivity extends BaseActivity {
         return true;
 
     }
+
 
 
     @Override

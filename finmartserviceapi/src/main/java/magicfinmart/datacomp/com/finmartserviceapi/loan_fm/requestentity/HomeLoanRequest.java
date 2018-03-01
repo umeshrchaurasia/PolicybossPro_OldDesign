@@ -121,6 +121,7 @@ public class HomeLoanRequest implements Parcelable {
     private String CoApplicantName;
     private String CoApplicantRelation;
     private  String bank_image;
+    private  String progress_image;
 
     public HomeLoanRequest() {
         this.loan_requestID = 0;
@@ -176,6 +177,7 @@ public class HomeLoanRequest implements Parcelable {
         this.CoApplicantName="";
         this.CoApplicantRelation="";
         this.bank_image="";
+        this.progress_image="";
     }
 
 
@@ -233,6 +235,7 @@ public class HomeLoanRequest implements Parcelable {
         CoApplicantName = in.readString();
         CoApplicantRelation = in.readString();
         bank_image = in.readString();
+        progress_image=  in.readString();
     }
 
     public static final Creator<HomeLoanRequest> CREATOR = new Creator<HomeLoanRequest>() {
@@ -665,6 +668,13 @@ public class HomeLoanRequest implements Parcelable {
         bank_image = bank_image;
     }
 
+    public String getProgress_image() {
+        return progress_image;
+    }
+
+    public void setProgress_image(String progress_image) {
+        this.progress_image = progress_image;
+    }
 
     @Override
     public int describeContents() {
@@ -726,5 +736,6 @@ public class HomeLoanRequest implements Parcelable {
         dest.writeString(CoApplicantName);
         dest.writeString(CoApplicantRelation);
         dest.writeString(bank_image);
+        dest.writeString(progress_image);
     }
 }

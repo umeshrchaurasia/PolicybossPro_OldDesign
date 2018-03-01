@@ -58,6 +58,7 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
     @Override
     protected void onResume() {
         super.onResume();
+        viewPager.setAdapter(null);
         fetchQuoteApplication();
 
     }

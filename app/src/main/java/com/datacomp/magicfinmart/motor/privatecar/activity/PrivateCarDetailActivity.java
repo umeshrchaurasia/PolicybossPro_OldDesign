@@ -36,7 +36,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
         tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        fetchQuoteApplication();
+        //fetchQuoteApplication();
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -60,13 +60,13 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
 
     }
 
-    /*@Override
+    @Override
     protected void onResume() {
         super.onResume();
         viewPager.setAdapter(null);
         fetchQuoteApplication();
 
-    }*/
+    }
 
     private void fetchQuoteApplication() {
 

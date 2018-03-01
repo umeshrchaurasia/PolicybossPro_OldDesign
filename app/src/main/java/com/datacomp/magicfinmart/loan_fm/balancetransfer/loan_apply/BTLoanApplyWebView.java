@@ -90,19 +90,19 @@ public class BTLoanApplyWebView extends AppCompatActivity {
         // processingfee=100000&empcode=&refapp=0&source=&coapp=0&pan=&CampaignName=Rupeeboss%20Online
 
         url = url + "?qoutid=" + quoteId
-                + "&fname=" + blLoanRequest.getApplicantName()
-                + "&brokerid=" + loginEntity.getLoanId()
-                + "&productid=" + blLoanRequest.getProduct_id()
-                +"&bankid=" + entity.getBank_Id()
-                + "&refapp=0"
-                + "&coapp=0"
-                + "&empcode=" + ""
-                + "&loanamout=" + blLoanRequest.getLoanamount()
-                + "&idtype=" + entity.getRoi_type()
-                + "&processingfee=" + entity.getProcessingfee()
-                + "&loaninterest=" + entity.getRoi()
-                + "&loanterm=" + (blLoanRequest.getLoanterm()* 12)
-                + "&fba_id="+ loginEntity.getFBAId()
+//                + "&fname=" + blLoanRequest.getApplicantName()
+//                + "&brokerid=" + loginEntity.getLoanId()
+//                + "&productid=" + blLoanRequest.getProduct_id()
+//                +"&bankid=" + entity.getBank_Id()
+//                + "&refapp=0"
+//                + "&coapp=0"
+//                + "&empcode=" + ""
+//                + "&loanamout=" + blLoanRequest.getLoanamount()
+//                + "&idtype=" + entity.getRoi_type()
+//                + "&processingfee=" + entity.getProcessingfee()
+//                + "&loaninterest=" + entity.getRoi()
+//                + "&loanterm=" + (blLoanRequest.getLoanterm()* 12)
+//                + "&fba_id="+ loginEntity.getFBAId()
                 + "&Lead_Source="+"DC";
 
         Log.d("PERSONAL_LOAN_URL", url);

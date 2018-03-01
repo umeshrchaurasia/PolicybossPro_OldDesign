@@ -7,7 +7,7 @@
     <string name="login">Already have an account? Login</string>
     <string name="action_settings">Settings</string>
     <string name="threedots">&#8942;</string>
-
+    <string name="file_provider_authority" translatable="false">com.datacomp.magicfinmart.fileprovider</string>
 
     <string-array name="ncb_percent">
         <item>0</item>
