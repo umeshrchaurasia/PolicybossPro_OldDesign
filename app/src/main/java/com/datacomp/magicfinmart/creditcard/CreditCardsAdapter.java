@@ -1,12 +1,15 @@
 package com.datacomp.magicfinmart.creditcard;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -64,13 +67,20 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
         }
 
         String desc[] = entity.getDescription().split("\\|");
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         for (String s : desc) {
             sb.append("*  " + s.trim() + "\n");
         }
         hold.txtCCDesc.setText("" + sb.toString());
 
-        hold.cvCCItem.setOnClickListener(new View.OnClickListener() {
+        hold.btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogMessage(sb.toString());
+            }
+        });
+
+        hold.btnApply.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ((CreditCardActivity) mContext).redirectToApply(entity);
@@ -90,6 +100,7 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
         TextView txtCCDesc, txtCardType, txtCardbankName;
         ImageView imgCard;
         CardView cvCCItem;
+        Button btnApply, btnInfo;
 
         ViewHolder(View v) {
             super(v);
@@ -98,6 +109,8 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
             txtCardbankName = (TextView) v.findViewById(R.id.txtCardbankName);
             imgCard = (ImageView) v.findViewById(R.id.imgCard);
             cvCCItem = (CardView) v.findViewById(R.id.cvCCItem);
+            btnInfo = (Button) v.findViewById(R.id.btnInfo);
+            btnApply = (Button) v.findViewById(R.id.btnApply);
 
         }
     }
@@ -107,4 +120,23 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
         notifyDataSetChanged();
     }
 
+    private void dialogMessage(String displayMessage) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setCancelable(true);
+        builder.setTitle("Info");
+
+        builder.setMessage(displayMessage)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
+        msgTxt.setTextSize(12.0f);
+    }
 }

@@ -18,6 +18,8 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+
 }
 
 dependencies {
@@ -45,8 +47,6 @@ dependencies {
 }
 
 apply plugin: 'com.google.gms.google-services'
-
-
 
 
 

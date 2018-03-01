@@ -31,7 +31,6 @@ import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
 public class HomeActivity extends BaseActivity {
@@ -93,18 +92,12 @@ public class HomeActivity extends BaseActivity {
                         break;
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
-                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                     //   startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
-                        // fragment = new BasFragment();
-                        // getSupportActionBar().setTitle("BAS 2016-17");
-                        // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
+                        //startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
                     }
                     case R.id.nav_pospenrollment: {
                         startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
-                        // fragment = new BasFragment();
-                        // getSupportActionBar().setTitle("BAS 2016-17");
-                        // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
                         break;
                     }
                     case R.id.nav_homeloanApplication:
@@ -229,7 +222,6 @@ public class HomeActivity extends BaseActivity {
         return true;
 
     }
-
 
 
     @Override

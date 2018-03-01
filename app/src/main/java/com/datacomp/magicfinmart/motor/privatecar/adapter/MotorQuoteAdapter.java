@@ -128,7 +128,10 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     @Override
     public int getItemCount() {
-        return mQuoteListFiltered.size();
+        if (mQuoteListFiltered != null)
+            return mQuoteListFiltered.size();
+        else
+            return 0;
     }
 
     @Override

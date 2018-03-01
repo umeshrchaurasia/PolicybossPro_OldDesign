@@ -166,6 +166,10 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
                 Intent intent = new Intent(this, RBLCreditApplyActivity.class);
                 intent.putExtra(SELECTED_CREDIT_CARD, entity);
                 startActivity(intent);
+            } else if (entity.getCreditCardId() == 2) {
+                Intent intent = new Intent(this, ICICICreditApplyActivity.class);
+                intent.putExtra(SELECTED_CREDIT_CARD, entity);
+                startActivity(intent);
             }
         } else {
             Toast.makeText(this, "Select net annual income", Toast.LENGTH_SHORT).show();

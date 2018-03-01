@@ -562,6 +562,17 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
         <activity
+            android:name=".creditcard.ICICICreditApplyActivity"
+            android:label="@string/title_activity_main"
+            android:parentActivityName=".creditcard.AppliedCreditListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity" />
+        </activity>
+        <activity
             android:name=".helpfeedback.raiseticket.RaiseTicketActivity"
             android:label="@string/title_activity_raise_ticket"
             android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
