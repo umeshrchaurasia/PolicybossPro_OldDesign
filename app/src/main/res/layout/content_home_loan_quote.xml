@@ -61,7 +61,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="Property Type"
+                            android:text="PROPERTY TYPE"
                             />
 
                         <TextView
@@ -83,7 +83,7 @@
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
                             android:layout_height="wrap_content"
-                            android:text="REQ. LOAN AMOUNT" />
+                            android:text="COST OF PROPERTY" />
                         <TextView
                             android:id="@+id/txtCostOfProp"
                             style="@style/TextViewStyle.Small"

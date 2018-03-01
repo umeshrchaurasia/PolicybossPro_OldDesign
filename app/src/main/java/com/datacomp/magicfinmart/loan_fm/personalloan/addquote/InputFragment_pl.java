@@ -212,11 +212,14 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
         if (personalLoanRequest.getApplicantDOB() != null)
             et_DOB.setText(personalLoanRequest.getApplicantDOB());
+
         if (personalLoanRequest.getApplicantIncome() != null)
             etMonthlyInc.setText("" + personalLoanRequest.getApplicantIncome());
 
             if (personalLoanRequest.getContact() != null)
-            etMonthlyInc.setText("" + personalLoanRequest.getContact());
+            etcontact.setText("" + personalLoanRequest.getContact());
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
