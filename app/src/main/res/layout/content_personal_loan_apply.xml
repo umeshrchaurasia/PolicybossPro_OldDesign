@@ -770,7 +770,7 @@
                                 android:hint="City">
 
                                 <EditText
-                                    android:id="@+id/etCityContInfo"
+                                    android:id="@+id/etCityContInfoRAP"
                                     style="@style/Style.edittext"
                                     android:focusable="false"/>
                             </android.support.design.widget.TextInputLayout>
@@ -802,7 +802,7 @@
                                 >
 
                                 <EditText
-                                    android:id="@+id/etCountryPl"
+                                    android:id="@+id/etCountryPlRAP"
                                     style="@style/Style.edittext"
                                     android:focusable="false"
                                     android:text="India"/>
