@@ -63,7 +63,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="Application Name"
+                            android:text="Applicant Name"
                             />
 
                         <TextView

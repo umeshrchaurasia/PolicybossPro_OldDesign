@@ -21,7 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:layout_marginTop="8dp"
             android:weightSum="100">
 
             <ImageView
@@ -58,17 +60,54 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1.2dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:background="@color/divider" />
+            android:layout_marginBottom="0dp"
+            android:layout_marginTop="0dp"
+            android:background="@color/divider"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/txtCCDesc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:textSize="11sp" />
+            android:textSize="11sp"
+            android:visibility="gone" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <Button
+                style="@style/ButtonStyle.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="50"
+                android:text="Know More"
+                android:textAllCaps="true"
+                android:visibility="invisible" />
+
+            <Button
+                android:id="@+id/btnInfo"
+                style="@style/ButtonStyle.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:text="Info"
+                android:textAllCaps="true"
+                android:textColor="@color/description_text" />
+
+            <Button
+                android:id="@+id/btnApply"
+                style="@style/ButtonStyle.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="25"
+                android:text="Apply"
+                android:textAllCaps="true"
+                android:textColor="@color/tab_color" />
+        </LinearLayout>
 
     </LinearLayout>
 

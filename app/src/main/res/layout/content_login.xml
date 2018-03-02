@@ -50,7 +50,7 @@
                     style="@style/Style.edittext"
                     android:drawableRight="@drawable/vector_email"
                     android:inputType="textEmailAddress"
-                    android:text="rajeev@gmail.com" />
+                    android:text="" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -65,7 +65,7 @@
                     style="@style/Style.edittext"
                     android:drawableRight="@drawable/vector_password"
                     android:inputType="textPassword"
-                    android:text="25012000" />
+                    android:text="" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
@@ -93,7 +93,6 @@
                 android:textAppearance="@style/TextStyle.Body1" />
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/tvdsfs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -101,7 +100,8 @@
                 android:drawableBottom="@drawable/google_sign_icon"
                 android:gravity="center"
                 android:text="Sign in with"
-                android:textAppearance="@style/TextStyle.Body1" />
+                android:textAppearance="@style/TextStyle.Body1"
+                android:visibility="gone" />
 
             <View
                 android:layout_width="match_parent"

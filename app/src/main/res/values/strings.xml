@@ -137,6 +137,30 @@
 
     </string-array>
 
+    <string-array name="Supplimentary_card">
+        <item>I want to apply for supplimentary card</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="Mailing_Address">
+        <item>Preferred mailing address</item>
+        <item>Office</item>
+        <item>Residence</item>
+    </string-array>
+
+    <string-array name="NoOfDependents">
+        <item>No of Dependents</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>5+</item>
+
+    </string-array>
+
     <string-array name="title">
         <item>Mr</item>
         <item>Ms</item>
@@ -164,6 +188,7 @@
     <string name="title_activity_credit_card">"Credit Card "</string>
     <string name="title_activity_rblcredit_apply">Credit card</string>
     <string name="title_activity_applied_credit_list">Credit Card</string>
+    <string name="title_activity_main">ICICICreditApplyActivity</string>
 
 
 </resources>

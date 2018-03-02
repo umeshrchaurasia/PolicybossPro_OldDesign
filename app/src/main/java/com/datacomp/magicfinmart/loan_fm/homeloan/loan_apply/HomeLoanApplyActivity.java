@@ -159,30 +159,6 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     }
 
-    private void hideAllLayouts(LinearLayout linearLayout, ImageView imageView) {
-
-        if (linearLayout.getVisibility() == View.GONE) {
-
-            //region hideall layout
-            ivPLInfo.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            llPlInfo.setVisibility(View.GONE);
-
-            ivAddress.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            llAddress.setVisibility(View.GONE);
-
-            ivEmploy.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            llEmployment.setVisibility(View.GONE);
-            //endregion
-
-            llFinancial.setVisibility(View.GONE);
-            ivFinancial.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-
-        } else {
-            linearLayout.setVisibility(View.GONE);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-        }
-    }
-
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {

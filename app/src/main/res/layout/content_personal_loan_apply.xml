@@ -66,7 +66,7 @@
                     android:id="@+id/llMyProfile"
                     style="@style/LinearLayoutStyle"
                     android:animateLayoutChanges="true"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="fill_parent"
@@ -584,49 +584,482 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent">
 
+
+
+                            <TableRow
+                                android:layout_width="fill_parent"
+                                android:layout_height="fill_parent"
+                                android:layout_marginTop="4dp">
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:hint="E-mail (Personal)">
+
+                                    <EditText
+                                        android:id="@+id/etEmailPersContInfo"
+                                        style="@style/Style.edittext"
+
+                                        android:focusable="false" />
+                                </android.support.design.widget.TextInputLayout>
+
+                                <android.support.design.widget.TextInputLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:gravity="bottom"
+                                    android:hint="E-mail (Official)">
+
+                                    <EditText
+                                        android:id="@+id/etEmailOffContInfo"
+                                        style="@style/Style.edittext" />
+                                </android.support.design.widget.TextInputLayout>
+
+                            </TableRow>
+
                         <TableRow
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
-                            android:weightSum="100">
-
-                            <Spinner
-                                android:id="@+id/spTitle1"
-                                style="@style/SpinnerStyle.Underlined"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="20"
-                                android:entries="@array/title"
-                                android:gravity="center" />
+                            android:layout_marginTop="4dp">
 
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="40"
-                                android:hint="First Name">
+                                android:layout_weight="1"
+                                android:hint="Mobile No. 1">
 
                                 <EditText
-                                    android:id="@+id/etFirstName1"
+                                    android:id="@+id/etMobNo1ContInfo"
                                     style="@style/Style.edittext"
 
-                                    />
-
+                                    android:layout_width="match_parent"
+                                    android:layout_height="36dp"
+                                    android:focusable="false" />
                             </android.support.design.widget.TextInputLayout>
 
                             <android.support.design.widget.TextInputLayout
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="40"
-                                android:hint="Last Name">
+                                android:layout_weight="1"
+                                android:gravity="bottom"
+                                android:hint="Mobile No. 2">
 
                                 <EditText
-                                    android:id="@+id/etLastName1"
-                                    style="@style/Style.edittext"
-                                    android:drawableRight="@drawable/vector_person" />
+                                    android:id="@+id/etMobNo2ContInfo"
+                                    style="@style/Style.edittext" />
+                            </android.support.design.widget.TextInputLayout>
 
+                        </TableRow>
+                        <TextView
+                            style="@style/TextViewStyle.Large"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:text="RESIDENCE ADDRESS PRESENT"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/black"
+                            android:textStyle="normal" />
+
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Address 1">
+
+                                <EditText
+                                    android:id="@+id/etAddress1ContInfoRAP"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Address 2">
+
+                                <EditText
+                                    android:id="@+id/etAddress2ContInfoRAP"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Address 3">
+
+                                <EditText
+                                    android:id="@+id/etAddress3ContInfoRAP"
+                                    style="@style/Style.edittext"
+
+                                    android:focusable="false" />
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Landmark">
+
+                                <EditText
+                                    android:id="@+id/etLandmakContInfoRAP"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Pincode">
+
+                                <EditText
+                                    android:id="@+id/etPincodeContInfoRAP"
+                                    style="@style/Style.edittext"
+
+                                    android:focusable="false" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="bottom"
+                                android:hint="City">
+
+                                <EditText
+                                    android:id="@+id/etCityContInfoRAP"
+                                    style="@style/Style.edittext"
+                                    android:focusable="false"/>
+                            </android.support.design.widget.TextInputLayout>
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="State">
+
+                                <EditText
+                                    android:id="@+id/etStateContInfoRAP"
+                                    style="@style/Style.edittext"
+                                    android:focusable="false"
+                                    android:text=""/>
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Country"
+                                >
+
+                                <EditText
+                                    android:id="@+id/etCountryPlRAP"
+                                    style="@style/Style.edittext"
+                                    android:focusable="false"
+                                    android:text="India"/>
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Landline No (Std Phone No)"
+                                >
+
+                                <EditText
+                                    android:id="@+id/etLandlineNoContInfoRAP"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="No of Years At This Address"
+                                >
+
+                                <EditText
+                                    android:id="@+id/etNoOfYrsAtOffContInfoRAP"
+                                    style="@style/Style.edittext"
+                                    />
                             </android.support.design.widget.TextInputLayout>
 
                         </TableRow>
 
+                        <TextView
+                            style="@style/TextViewStyle.Large"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="15dp"
+                            android:text="PERMANENT ADDRESS"
+                            android:textAlignment="center"
+                            android:textAllCaps="true"
+                            android:textColor="@color/black"
+                            android:textStyle="normal" />
+
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                          <CheckBox
+                              android:id="@+id/chkPresent"
+                              android:layout_width="0dp"
+                              android:layout_weight="1"
+                              android:layout_height="wrap_content"
+                              android:text="Same As Present"
+                              />
+
+                            <Spinner
+                                android:id="@+id/spResidence"
+                                style="@style/SpinnerStyle.Underlined"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:entries="@array/title"
+                                android:gravity="center" />
+
+
+                        </TableRow>
+
+
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Address 1">
+
+                                <EditText
+                                    android:id="@+id/etAddress1ContInfoPA"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Address 2">
+
+                                <EditText
+                                    android:id="@+id/etAddress2ContInfoPA"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Address 3">
+
+                                <EditText
+                                    android:id="@+id/etAddress3ContInfoPA"
+                                    style="@style/Style.edittext"
+
+                                    android:focusable="false" />
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Landmark">
+
+                                <EditText
+                                    android:id="@+id/etLandmakContInfoPA"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="4dp">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Pincode">
+
+                                <EditText
+                                    android:id="@+id/etPincodeContInfoPA"
+                                    style="@style/Style.edittext"
+
+                                    android:focusable="false" />
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:gravity="bottom"
+                                android:hint="City">
+
+                                <EditText
+                                    android:id="@+id/etCityContInfo"
+                                    style="@style/Style.edittext"
+                                    android:focusable="false"/>
+                            </android.support.design.widget.TextInputLayout>
+
+                        </TableRow>
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="State">
+
+                                <EditText
+                                    android:id="@+id/etStateContInfoPA"
+                                    style="@style/Style.edittext"
+                                    android:focusable="false"
+                                    android:text=""/>
+                            </android.support.design.widget.TextInputLayout>
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Country"
+                                >
+
+                                <EditText
+                                    android:id="@+id/etCountryPA"
+                                    style="@style/Style.edittext"
+                                    android:focusable="false"
+                                    android:text="India"/>
+                            </android.support.design.widget.TextInputLayout>
+
+
+
+                        </TableRow>
+
+                        <TableRow
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="Landline No (Std Phone No)"
+                                >
+
+                                <EditText
+                                    android:id="@+id/etLandlineNoContInfoPA"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="No of Years At This Address"
+                                >
+
+                                <EditText
+                                    android:id="@+id/etNoOfYrsAtOffContInfoPA"
+                                    style="@style/Style.edittext"
+                                    />
+                            </android.support.design.widget.TextInputLayout>
+
+                        </TableRow>
 
                     </TableLayout>
                 </LinearLayout>
@@ -992,7 +1425,7 @@
                                 android:hint="Address 1">
 
                                 <EditText
-                                    android:id="@+id/etAddress1"
+                                    android:id="@+id/etAddress1ED"
                                     style="@style/Style.edittext"
                                     />
                             </android.support.design.widget.TextInputLayout>
