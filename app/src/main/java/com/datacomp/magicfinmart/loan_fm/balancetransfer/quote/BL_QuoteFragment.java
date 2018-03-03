@@ -7,6 +7,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,14 +28,18 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteBLResponse;
 
 
-public class BL_QuoteFragment extends BaseFragment implements View.OnClickListener{
+public class BL_QuoteFragment extends BaseFragment implements View.OnClickListener,IResponseSubcriberFM {
     public static final String FROM_QUOTEBL = "bl_from_quote";
     FloatingActionButton blAddQuote;
 
-    RecyclerView rvQuoteList;
+    RecyclerView rvBTQuoteList;
     BalanceTransfer_QuoteAdapter balanceTransfer_QuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -56,6 +62,7 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.fragment_bl__quote, container, false);
         initView(view);
         setListener();
+        setTextWatcher();
         mQuoteList = new ArrayList<>();
         if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_BL.QUOTE_LIST) != null)
         {
@@ -63,7 +70,7 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
         }
         balanceTransfer_QuoteAdapter = new BalanceTransfer_QuoteAdapter(BL_QuoteFragment.this,mQuoteList);
-        rvQuoteList.setAdapter(balanceTransfer_QuoteAdapter);
+        rvBTQuoteList.setAdapter(balanceTransfer_QuoteAdapter);
         return view;
     }
 
@@ -79,10 +86,10 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
 
 
-        rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
-        rvQuoteList.setHasFixedSize(true);
+        rvBTQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
+        rvBTQuoteList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        rvQuoteList.setLayoutManager(layoutManager);
+        rvBTQuoteList.setLayoutManager(layoutManager);
 
 
         blAddQuote.setOnClickListener(this);
@@ -106,7 +113,7 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
         removeQuoteEntity = entity;
         showDialog("Please wait,Removing quote..");
-        //  new QuoteApplicationController(getContext()).deleteQuote("" + entity.getVehicleRequestID(),this);
+        new MainLoanController(getContext()).getdelete_balancerequest("" + entity.getBalanceTransferId(),this);
 
     }
 
@@ -134,5 +141,40 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void callnumber(String mobNumber)
     {
         dialNumber(mobNumber);
+    }
+
+    private void setTextWatcher() {
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                balanceTransfer_QuoteAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+
+        cancelDialog();
+        if (response instanceof FmSaveQuoteBLResponse) {
+            if (response.getStatusNo() == 0) {
+                mQuoteList.remove(removeQuoteEntity);
+                balanceTransfer_QuoteAdapter.refreshAdapter(mQuoteList);
+                balanceTransfer_QuoteAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
     }
 }
