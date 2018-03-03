@@ -709,63 +709,6 @@
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent">
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:weightSum="100">
-
-                        <Spinner
-                            android:id="@+id/spTitle1"
-                            style="@style/SpinnerStyle.Underlined"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="20"
-                            android:entries="@array/title"
-                            android:gravity="center" />
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="40"
-                            android:hint="First Name">
-
-                            <EditText
-                                android:id="@+id/etFirstName1"
-                                style="@style/Style.edittext"
-
-                                />
-
-                        </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="40"
-                            android:hint="Last Name">
-
-                            <EditText
-                                android:id="@+id/etLastName1"
-                                style="@style/Style.edittext"
-                                android:drawableRight="@drawable/vector_person" />
-
-                        </android.support.design.widget.TextInputLayout>
-
-                    </TableRow>
-
-
-                </TableLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llAddress"
-                style="@style/LinearLayoutStyle"
-                android:animateLayoutChanges="true"
-                android:visibility="visible">
-
-                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent">
-
 
                     <TableRow
                         android:layout_width="fill_parent"
@@ -838,9 +781,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
+                       android:gravity="center"
+                        android:padding="10dp"
                         android:text="RESIDENCE ADDRESS PRESENT"
-                        android:textAlignment="center"
+                        android:background="@color/seperator"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
                         android:textStyle="normal" />
@@ -1023,12 +967,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginLeft="15dp"
+                        android:gravity="center"
+                        android:padding="10dp"
                         android:text="PERMANENT ADDRESS"
-                        android:textAlignment="center"
+                        android:background="@color/seperator"
                         android:textAllCaps="true"
                         android:textColor="@color/black"
-                        android:textStyle="normal" />
+                        android:textStyle="normal"/>
 
                     <TableRow
                         android:layout_width="fill_parent"
