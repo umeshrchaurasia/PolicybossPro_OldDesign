@@ -25,7 +25,7 @@
     <string name="title_activity_register">Register</string>
     <string name="title_activity_add_quote">Add Quote</string>
     <string name="title_myaccount">MY ACCOUNT</string>
-    <string name="title_pospenrollment">POSP ENROLLMENT</string>
+    <string name="title_pospenrollment">ENROLL FOR IRDA POSP</string>
     <string name="title_activity_add_quote_bottom">Add Quote</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -188,6 +188,8 @@
     <string name="title_activity_credit_card">"Credit Card "</string>
     <string name="title_activity_rblcredit_apply">Credit card</string>
     <string name="title_activity_applied_credit_list">Credit Card</string>
+    <string name="title_activity_raise_ticket">RAISE A TICKET</string>
+    <string name="title_activity_add_ticket">RAISE A TICKET</string>
     <string name="title_activity_main">ICICICreditApplyActivity</string>
 
 

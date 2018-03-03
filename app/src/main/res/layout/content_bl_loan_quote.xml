@@ -1,224 +1,445 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-android:fillViewport="true"
-android:background="@color/white"
-android:orientation="vertical">
-
-
-<TextView
-    android:id="@+id/txtInputSummry"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/white"
-    android:text="INPUT SUMMARY"
-    android:layout_marginTop="10dp"
-    android:layout_marginBottom="6dp"
-    android:textColor="@color/black"
-    android:gravity="center_horizontal"
-    android:textStyle="bold"
-    android:visibility="gone"
-    style="@style/TextViewStyle.Large" />
+    android:fillViewport="true"
+    android:orientation="vertical">
 
-<android.support.v7.widget.CardView
-    android:id="@+id/cvInputSummary"
-    style="@style/CardViewStyle"
-    android:layout_alignParentTop="true"
-    android:layout_marginBottom="8dp"
-    android:layout_marginTop="8dp"
-    app:cardElevation="2dp"
-    android:visibility="gone">
 
-    <LinearLayout
-        android:id="@+id/lyInputSumary"
+    <TextView
+        android:id="@+id/txtInputSummry"
+        style="@style/TextViewStyle.Large"
+        android:layout_marginBottom="6dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:gravity="center_horizontal"
+        android:text="INPUT SUMMARY"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <android.support.v7.widget.CardView
+        android:id="@+id/cvInputSummary"
+        style="@style/CardViewStyle"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:visibility="visible"
+        app:cardElevation="2dp">
+
+        <LinearLayout
+            android:id="@+id/lyInputSumary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="94"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="100">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_weight="35"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="Applicant Name" />
+
+                        <TextView
+                            android:id="@+id/txtAppName"
+                            style="@style/TextViewStyle.Small"
+                            android:text=""
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="35"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:layout_height="wrap_content"
+                            android:text="REQ. LOAN AMOUNT" />
+
+                        <TextView
+                            android:id="@+id/txtLoanAmnt"
+                            style="@style/TextViewStyle.Small"
+                            android:text=""
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="30"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="LOAN TENURE" />
+
+                        <TextView
+                            android:id="@+id/txtLoanTenure"
+                            style="@style/TextViewStyle.Small"
+                            android:text=""
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="100">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_weight="35"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="BT Type" />
+
+                        <TextView
+                            android:id="@+id/txtType"
+                            style="@style/TextViewStyle.Small"
+                            android:text=""
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="35"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextViewStyle.VerySmall"
+                            android:text="Contact" />
+
+                        <TextView
+                            android:id="@+id/txtcontact"
+                            style="@style/TextViewStyle.Small"
+                            android:text=""
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="left"
+                        android:layout_marginLeft="2dp"
+                        android:layout_weight="30"
+                        android:orientation="vertical">
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ivllEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="4dp"
+                android:layout_weight="6"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/ivEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical|left"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/edit_ic" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="2dp"
-        android:layout_marginTop="2dp"
-        android:weightSum="100">
-
+        >
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="94"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:weightSum="100">
+            <android.support.v7.widget.CardView
+                android:id="@+id/cvISaving"
+                style="@style/CardViewStyle"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="8dp"
+                android:visibility="visible"
+                app:cardElevation="2dp">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="35"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginTop="2dp"
                     android:orientation="vertical"
-                    android:layout_gravity="left">
+                    android:weightSum="100">
 
                     <TextView
-                        style="@style/TextViewStyle.VerySmall"
-                        android:text="Applicant Name"
-                        />
-
-                    <TextView
-                        android:id="@+id/txtAppName"
-                        style="@style/TextViewStyle.Small"
-                        android:text=""
+                        style="@style/TextViewStyle.Large"
+                        android:layout_marginBottom="5dp"
+                        android:gravity="center"
+                        android:text="MY SAVING"
                         android:textColor="@color/black" />
 
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="35"
-                    android:layout_marginLeft="2dp"
-                    android:orientation="vertical"
-                    android:layout_gravity="left">
-
-                    <TextView
-                        style="@style/TextViewStyle.VerySmall"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="REQ. LOAN AMOUNT" />
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:width="0dp"
+                            android:gravity="left"
+                            android:text="CURRENT LOAN EMI" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:weightSum="100">
+
+                            <TextView
+                                style="@style/TextViewStyle.Medium"
+                                android:layout_width="0dp"
+                                android:layout_weight="70"
+                                android:background="@drawable/progressblue"
+                                android:gravity="right"
+                                android:text="19001" />
+
+                            <TextView
+                                style="@style/TextViewStyle.Medium"
+                                android:layout_width="0dp"
+                                android:layout_weight="30"
+                                android:background="@drawable/progressgrey"
+                                android:gravity="right"
+                                android:text="" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:width="0dp"
+                            android:gravity="left"
+                            android:text="DROP IN EMI" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:weightSum="100">
+
+                            <TextView
+                                style="@style/TextViewStyle.Medium"
+                                android:layout_width="0dp"
+                                android:layout_weight="40"
+                                android:background="@drawable/progressblue"
+                                android:gravity="right"
+                                android:text="564" />
+
+                            <TextView
+                                style="@style/TextViewStyle.Medium"
+                                android:layout_width="0dp"
+                                android:layout_weight="60"
+                                android:background="@drawable/progressgrey"
+                                android:gravity="right"
+                                android:text="" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:width="0dp"
+                            android:gravity="left"
+                            android:text="NEW LOAN EMI" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:weightSum="100">
+
+                            <TextView
+                                style="@style/TextViewStyle.Medium"
+                                android:layout_width="0dp"
+                                android:layout_weight="100"
+                                android:background="@drawable/progressblue"
+                                android:gravity="right"
+                                android:text="19001" />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="1"
+                            android:width="0dp"
+                            android:gravity="left"
+                            android:text="DROP-IN INTREST RATE" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:weightSum="100">
+
+                            <TextView
+                                style="@style/TextViewStyle.Medium"
+                                android:layout_width="0dp"
+                                android:layout_weight="90"
+                                android:background="@drawable/progressblue"
+                                android:gravity="right"
+                                android:text="1%" />
+
+                            <TextView
+                                style="@style/TextViewStyle.Medium"
+                                android:layout_width="0dp"
+                                android:layout_weight="10"
+                                android:background="@drawable/progressgrey"
+                                android:gravity="right"
+                                android:text="" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
                     <TextView
-                        android:id="@+id/txtLoanAmnt"
-                        style="@style/TextViewStyle.Small"
-                        android:text=""
+                        style="@style/TextViewStyle.Medium"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center"
+                        android:text="YOUR SAVINGS THROUGH REDUCED INTREST" />
+
+                    <TextView
+                        style="@style/TextViewStyle.Large"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:gravity="center"
+                        android:text="64893"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
 
 
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="30"
-                    android:layout_marginLeft="2dp"
-                    android:orientation="vertical"
-                    android:layout_gravity="left">
 
-                    <TextView
-                        style="@style/TextViewStyle.VerySmall"
-                        android:text="LOAN TENURE"
-                        />
-                    <TextView
-                        android:id="@+id/txtLoanTenure"
-                        style="@style/TextViewStyle.Small"
-                        android:text=""
-                        android:textColor="@color/black"
-                        />
+            </android.support.v7.widget.CardView>
 
+            <TextView
+                android:id="@+id/txtCount"
+                style="@style/TextViewStyle.Large"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="12dp"
+                android:gravity="left"
+                android:textColor="@color/colorAccent"
+                android:textStyle="normal" />
 
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <LinearLayout
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvbLQuotes"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="5dp"
-                android:weightSum="100">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="35"
-                    android:orientation="vertical"
-                    android:layout_gravity="left">
-
-                    <TextView
-                        style="@style/TextViewStyle.VerySmall"
-                        android:text="BT Type"
-                        />
-                    <TextView
-                        android:id="@+id/txtType"
-                        style="@style/TextViewStyle.Small"
-                        android:text=""
-                        android:textColor="@color/black"
-                        />
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="35"
-                    android:layout_marginLeft="2dp"
-                    android:orientation="vertical"
-                    android:layout_gravity="left">
-
-                    <TextView
-                        style="@style/TextViewStyle.VerySmall"
-                        android:text="Contact"
-                        />
-                    <TextView
-                        android:id="@+id/txtcontact"
-                        style="@style/TextViewStyle.Small"
-                        android:text=""
-                        android:textColor="@color/black"
-                        />
-
-
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="30"
-                    android:layout_marginLeft="2dp"
-                    android:orientation="vertical"
-                    android:layout_gravity="left">
-
-
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-
+                android:layout_height="wrap_content" />
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/ivllEdit"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="6"
-            android:layout_marginRight="4dp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/ivEdit"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_vertical|left"
-                android:scaleType="centerInside"
-                android:src="@drawable/edit_ic" />
-        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 
-    </LinearLayout>
-
-</android.support.v7.widget.CardView>
-
-<TextView
-    android:id="@+id/txtCount"
-    style="@style/TextViewStyle.Large"
-    android:layout_marginTop="12dp"
-    android:layout_marginBottom="8dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:textColor="@color/colorAccent"
-    android:gravity="left"
-    android:textStyle="normal" />
-
-<android.support.v7.widget.RecyclerView
-    android:id="@+id/rvbLQuotes"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-  />
 </LinearLayout>

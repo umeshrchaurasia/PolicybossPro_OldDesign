@@ -19,8 +19,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.Generalinsuranc
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MasterSalesMaterialPromotionEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoCategoryEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificationEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoTicketCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
@@ -635,7 +638,6 @@ public class DBPersistanceController {
     }
 
 
-
     //endregion
 
     //region DOC list
@@ -647,7 +649,7 @@ public class DBPersistanceController {
         realm.commitTransaction();
     }
 
-    public List<DocsEntity> getDocList(String compId,String lang) {
+    public List<DocsEntity> getDocList(String compId, String lang) {
         List<DocsEntity> docsEntityList = realm.where(DocsEntity.class).equalTo("company_id", compId).equalTo("language", lang.trim(), Case.INSENSITIVE).findAll();
         if (docsEntityList != null)
             return docsEntityList;
@@ -1475,5 +1477,104 @@ public class DBPersistanceController {
     }
 
 
+    //endregion
+
+    //region Zoho masters
+    public ZohoTicketCategoryEntity getZohoCategoryList() {
+        ZohoTicketCategoryEntity entity = realm.where(ZohoTicketCategoryEntity.class).findFirst();
+        if (entity != null)
+            return entity;
+        else
+            return null;
+    }
+
+    public List<String> getCategoryList(ZohoTicketCategoryEntity zohoTicketCategoryEntity) {
+        List<String> list = new ArrayList<>();
+        list.add("Select Category");
+        if (zohoTicketCategoryEntity != null) {
+            List<ZohoCategoryEntity> zohoCategoryEntities = zohoTicketCategoryEntity.getCategory();
+            if (zohoCategoryEntities != null) {
+                for (ZohoCategoryEntity zohoSubcategoryEntity : zohoCategoryEntities) {
+                    list.add(zohoSubcategoryEntity.getCateName());
+                }
+            }
+        }
+        return list;
+    }
+
+    public String getCategoryId(ZohoTicketCategoryEntity zohoTicketCategoryEntity, String categoryNAme) {
+        String id = "";
+        List<ZohoCategoryEntity> zohoCategoryEntities = zohoTicketCategoryEntity.getCategory();
+        if (zohoCategoryEntities != null) {
+            for (ZohoCategoryEntity zohoSubcategoryEntity : zohoCategoryEntities) {
+                if (zohoSubcategoryEntity.getCateName().equals(categoryNAme)) {
+                    return zohoSubcategoryEntity.getCateCode();
+                }
+            }
+        }
+        return id;
+    }
+
+    public List<String> getSubCategoryList(ZohoTicketCategoryEntity zohoTicketCategoryEntity, String CateCode) {
+        List<String> list = new ArrayList<>();
+        list.add("Select Sub Category");
+        if (zohoTicketCategoryEntity != null) {
+            List<ZohoSubcategoryEntity> zohoSubcategoryEntities = zohoTicketCategoryEntity.getSubcategory();
+            if (zohoSubcategoryEntities != null) {
+                for (ZohoSubcategoryEntity zohoSubcategoryEntity : zohoSubcategoryEntities) {
+                    if (zohoSubcategoryEntity.getCateCode().equals(CateCode)) {
+                        list.add(zohoSubcategoryEntity.getQuerType());
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public int getSubCategoryId(ZohoTicketCategoryEntity zohoTicketCategoryEntity, String subCategoryNAme) {
+        int subCatId = 0;
+        if (zohoTicketCategoryEntity != null) {
+            List<ZohoSubcategoryEntity> zohoSubcategoryEntities = zohoTicketCategoryEntity.getSubcategory();
+            if (zohoSubcategoryEntities != null) {
+                for (ZohoSubcategoryEntity zohoSubcategoryEntity : zohoSubcategoryEntities) {
+                    if (zohoSubcategoryEntity.getQuerType().equals(subCategoryNAme)) {
+                        return zohoSubcategoryEntity.getQuerID();
+                    }
+                }
+            }
+        }
+        return subCatId;
+    }
+
+    public List<String> getClassificationList(ZohoTicketCategoryEntity zohoTicketCategoryEntity, int QuerID) {
+        List<String> list = new ArrayList<>();
+        list.add("Select Classifications");
+        if (zohoTicketCategoryEntity != null) {
+            List<ZohoClassificationEntity> zohoClassificationEntities = zohoTicketCategoryEntity.getClassification();
+            if (zohoClassificationEntities != null) {
+                for (ZohoClassificationEntity zohoClassificationEntity : zohoClassificationEntities) {
+                    if (zohoClassificationEntity.getID() == QuerID) {
+                        list.add(zohoClassificationEntity.getDescription());
+                    }
+                }
+            }
+        }
+        return list;
+    }
+
+    public int getClassificationId(ZohoTicketCategoryEntity zohoTicketCategoryEntity, String className) {
+        int clasId = 0;
+        if (zohoTicketCategoryEntity != null) {
+            List<ZohoClassificationEntity> zohoClassificationEntities = zohoTicketCategoryEntity.getClassification();
+            if (zohoClassificationEntities != null) {
+                for (ZohoClassificationEntity zohoClassificationEntity : zohoClassificationEntities) {
+                    if (zohoClassificationEntity.getDescription().equals(className)) {
+                        return zohoClassificationEntity.getQuerID();
+                    }
+                }
+            }
+        }
+        return clasId;
+    }
     //endregion
 }

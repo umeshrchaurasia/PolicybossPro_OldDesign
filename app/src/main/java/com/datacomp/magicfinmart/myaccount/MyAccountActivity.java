@@ -17,6 +17,7 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -330,17 +331,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.btnSave:
 
-                if (!validateProfile()) {
-                    llMyProfile.setVisibility(View.GONE);
-                    manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp);
-                    manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP);
+                if (validateProfile()== false) {
+                   // llMyProfile.setVisibility(View.GONE);
+                    if(llMyProfile.getVisibility() == View.GONE) {
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP);
+                    }
                 }
-                //validatePosp()
-                if (!validatePosp()) {
-                    llPosp.setVisibility(View.GONE);
-                    manageMainLayouts(llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress);
-                    manageImages(llPosp, ivPOSP, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile);
-                } else {
+                 else {
                     showDialog();
                     saveMain();
                 }
@@ -610,7 +608,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etEmailId.requestFocus();
                 etEmailId.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etEmailId.setError("Enter Sub Heading");
+                etEmailId.setError("Enter Email ID");
                 return false;
             } else {
                 etEmailId.requestFocus();
@@ -629,7 +627,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             } else {
                 etEmailId.requestFocus();
-                etEmailId.setError("Enter Email ID");
+                etEmailId.setError("Enter Valid Email ID");
                 return false;
 
             }

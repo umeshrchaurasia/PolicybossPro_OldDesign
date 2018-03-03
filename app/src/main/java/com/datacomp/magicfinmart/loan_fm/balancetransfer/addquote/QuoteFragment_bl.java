@@ -85,7 +85,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         ivllEdit.setOnClickListener(this);
         rvBLQuotes = (RecyclerView) view.findViewById(R.id.rvbLQuotes);
         rvBLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
-
+        rvBLQuotes.setNestedScrollingEnabled(false);
 
     }
     public void quoteToApp() {
