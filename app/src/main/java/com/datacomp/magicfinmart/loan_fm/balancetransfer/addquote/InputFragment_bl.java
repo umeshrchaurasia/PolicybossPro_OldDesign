@@ -117,10 +117,11 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
         // region  HomeLoanRequest Binding
 
         blLoanRequest = fmBalanceLoanRequest.getBLLoanRequest();
-        blLoanRequest.setLoanamount( Integer.parseInt(etOutstanding.getText().toString()));
-        blLoanRequest.setLoanterm(Integer.parseInt(ettenureyrs.getText().toString()));
+        blLoanRequest.setLoanamount( Double.parseDouble(etOutstanding.getText().toString()));
+        blLoanRequest.setLoanterm(Double.parseDouble(ettenureyrs.getText().toString()));
         blLoanRequest.setLoaninterest(Double.parseDouble(etCurrInc.getText().toString()));
         blLoanRequest.setApplicantName(etNameOfApplicant.getText().toString());
+
         blLoanRequest.setContact(etcontact.getText().toString());
 
 
@@ -197,18 +198,20 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
             }
             if (TextUtils.isEmpty(Contact)) {
 
-                etcontact.setError("Please Enter 10 digit Mobile Number.");
-                etcontact.requestFocus();
-                return;
 
             }
-            if (Contact.length()<10) {
+            else {
+                if (Contact.length()<10) {
 
-                etcontact.setError("Please Enter 10 digit Mobile Number.");
-                etcontact.requestFocus();
-                return;
+                    etcontact.setError("Please Enter 10 digit Mobile Number.");
+                    etcontact.requestFocus();
+                    return;
+
+                }
 
             }
+
+
             if (TextUtils.isEmpty(Outstanding)) {
 
                 etOutstanding.setError("Please Enter Outstanding Amount.");
@@ -223,6 +226,13 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
                 return;
 
             }
+            if (Double.parseDouble(CurrInc) > 100) {
+
+                etCurrInc.setError("Please Check  Curr Int Rate.");
+                etCurrInc.requestFocus();
+                return;
+
+            }
             if (TextUtils.isEmpty(TenureInYear)) {
 
                 ettenureyrs.setError("Please Enter Tenure (yrs).");
@@ -230,6 +240,14 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
                 return;
 
             }
+            if (Double.parseDouble(TenureInYear) > 100) {
+
+                ettenureyrs.setError("Please Check Loan Tenure Year.");
+                ettenureyrs.requestFocus();
+                return;
+
+            }
+
             //endregion
 
 

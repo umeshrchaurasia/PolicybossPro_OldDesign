@@ -38,6 +38,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispaly
 public class QuoteFragment_bl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM {
 
     TextView txtAppName, txtLoanAmnt, txtLoanTenure, txtInputSummry, txtCount,txtType,txtcontact;
+    TextView txtcurrloanemi,txtdropemi,txtnewemi,txtdropinterestrate,txtreducedintrest;
     BLQuoteAdapter mAdapter;
     List<BLEntity> BlListdata;
     List<BLSavingEntity> BlsavingEntity;
@@ -80,6 +81,13 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         txtCount = (TextView) view.findViewById(R.id.txtCount);
         txtType = (TextView) view.findViewById(R.id.txtType);
         txtcontact = (TextView) view.findViewById(R.id.txtcontact);
+
+        txtcurrloanemi = (TextView) view.findViewById(R.id.txtcurrloanemi);
+        txtdropemi = (TextView) view.findViewById(R.id.txtdropemi);
+        txtnewemi = (TextView) view.findViewById(R.id.txtnewemi);
+        txtdropinterestrate = (TextView) view.findViewById(R.id.txtdropinterestrate);
+        txtreducedintrest = (TextView) view.findViewById(R.id.txtreducedintrest);
+
 
         ivllEdit = (LinearLayout) view.findViewById(R.id.ivllEdit);
         ivllEdit.setOnClickListener(this);
@@ -134,6 +142,13 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                     }
 
                     txtcontact.setText(""+blLoanRequest.getContact() );
+
+
+//                    txtcurrloanemi.setText(""+blLoanRequest.get() );
+//                    txtdropemi.setText(""+blLoanRequest.getContact() );
+//                    txtnewemi.setText(""+blLoanRequest.getContact() );
+//                    txtdropinterestrate.setText(""+blLoanRequest.getContact() );
+//                    txtreducedintrest.setText(""+blLoanRequest.getContact() );
 
                 }
                 catch (Exception e)

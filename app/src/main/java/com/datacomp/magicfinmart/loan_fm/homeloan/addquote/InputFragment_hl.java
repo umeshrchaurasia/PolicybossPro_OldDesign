@@ -134,7 +134,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     //endregion
     Context mContext;
     int LoanRequireID = 0,int_etTurnOver=0,int_etProfitAtTax=0,int_etDirecPartRemuntion=0,int_etDepreciation=0,int_etMonthlyInc=0,totalmonthlucalc_app;
-    int int_coApp_etTurnOver=0,int_coApp_etProfitAtTax=0,int_coApp_etDirecPartRemuntion=0,int_coApp_etDepreciation=0,int_coApp_etMonthlyInc=0,totalmonthlucalc_coapp;
+    long int_coApp_etTurnOver=0,int_coApp_etProfitAtTax=0,int_coApp_etDirecPartRemuntion=0,int_coApp_etDepreciation=0,int_coApp_etMonthlyInc=0,totalmonthlucalc_coapp;
 
     public InputFragment_hl() {
         // Required empty public constructor
@@ -1251,19 +1251,19 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 // monthly income calc in Co Applicant
         }  else if (coApp_etProfitAtTax.getText().hashCode() == s.hashCode()) {
             if (!coApp_etProfitAtTax.getText().toString().equals("") && !coApp_etProfitAtTax.getText().toString().equals(null)) {
-                int_coApp_etProfitAtTax = Integer.parseInt(coApp_etProfitAtTax.getText().toString());
+                int_coApp_etProfitAtTax = Long.valueOf(coApp_etProfitAtTax.getText().toString());
                 monthlycalc_coapplicant(int_coApp_etDepreciation,int_coApp_etProfitAtTax,int_coApp_etDirecPartRemuntion);
             }
 
         } else if (coApp_etDepreciation.getText().hashCode() == s.hashCode()) {
             if (!coApp_etDepreciation.getText().toString().equals("") && !coApp_etDepreciation.getText().toString().equals(null)) {
-                int_coApp_etDepreciation = Integer.parseInt(coApp_etDepreciation.getText().toString());
+                int_coApp_etDepreciation = Long.valueOf(coApp_etDepreciation.getText().toString());
                 monthlycalc_coapplicant(int_coApp_etDepreciation,int_coApp_etProfitAtTax,int_coApp_etDirecPartRemuntion);
             }
 
         } else if (coApp_etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
             if (!coApp_etDirecPartRemuntion.getText().toString().equals("") && !coApp_etDirecPartRemuntion.getText().toString().equals(null)) {
-                int_coApp_etDirecPartRemuntion = Integer.parseInt(coApp_etDirecPartRemuntion.getText().toString());
+                int_coApp_etDirecPartRemuntion = Long.valueOf(coApp_etDirecPartRemuntion.getText().toString());
                 monthlycalc_coapplicant(int_coApp_etDepreciation,int_coApp_etProfitAtTax,int_coApp_etDirecPartRemuntion);
             }
 
@@ -1279,7 +1279,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         }
     }
 
-    public void monthlycalc_coapplicant(int int_coApp_etDepreciation,int int_coApp_etProfitAtTax,int int_coApp_etDirecPartRemuntion)
+    public void monthlycalc_coapplicant(long int_coApp_etDepreciation,long int_coApp_etProfitAtTax,long int_coApp_etDirecPartRemuntion)
     {
 
         float totalcoapp = int_coApp_etDepreciation+int_coApp_etProfitAtTax+int_coApp_etDirecPartRemuntion;

@@ -39,9 +39,9 @@ public class BLLoanRequest implements Parcelable {
 
     private int BalanceTransferId;
     private String applicantname;
-    private int loanamount;
+    private double loanamount;
     private double loaninterest;
-    private int loanterm;
+    private double loanterm;
     private String LoanType;
     private int product_id;
     private String fbaid;
@@ -112,11 +112,11 @@ public class BLLoanRequest implements Parcelable {
         this.applicantname = ApplicantName;
     }
 
-    public int getLoanamount() {
+    public double getLoanamount() {
         return loanamount;
     }
 
-    public void setLoanamount(int loanamount) {
+    public void setLoanamount(double loanamount) {
         this.loanamount = loanamount;
     }
 
@@ -128,11 +128,11 @@ public class BLLoanRequest implements Parcelable {
         this.loaninterest = loaninterest;
     }
 
-    public int getLoanterm() {
+    public double getLoanterm() {
         return loanterm;
     }
 
-    public void setLoanterm(int loanterm) {
+    public void setLoanterm(double loanterm) {
         this.loanterm = loanterm;
     }
 
@@ -320,9 +320,9 @@ public class BLLoanRequest implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.BalanceTransferId);
         dest.writeString(this.applicantname);
-        dest.writeInt(this.loanamount);
+        dest.writeDouble(this.loanamount);
         dest.writeDouble(this.loaninterest);
-        dest.writeInt(this.loanterm);
+        dest.writeDouble(this.loanterm);
         dest.writeString(this.LoanType);
         dest.writeInt(this.product_id);
         dest.writeString(this.fbaid);
@@ -352,9 +352,9 @@ public class BLLoanRequest implements Parcelable {
     protected BLLoanRequest(Parcel in) {
         this.BalanceTransferId = in.readInt();
         this.applicantname = in.readString();
-        this.loanamount = in.readInt();
+        this.loanamount = in.readDouble();
         this.loaninterest = in.readDouble();
-        this.loanterm = in.readInt();
+        this.loanterm = in.readDouble();
         this.LoanType = in.readString();
         this.product_id = in.readInt();
         this.fbaid = in.readString();
