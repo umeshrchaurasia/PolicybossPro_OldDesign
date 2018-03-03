@@ -936,11 +936,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         openWebView(loginResponseEntity.getPaymentUrl());
                     } else {
 
-                            ivAddress.performClick();
+                        ivAddress.performClick();
 
-                            ivBankDetail.performClick();
+                        ivBankDetail.performClick();
 
-                            ivDocumentUpload.performClick();
+                        ivDocumentUpload.performClick();
                         if (isPospInfo && isAddress && isBankDetails) {
                             registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
                             showDialog();
@@ -1137,15 +1137,15 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3) {
 
         if (clickedLayout.getVisibility() == View.GONE) {
-            downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-        } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
+            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+        } else {
+            downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
+            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
         }
 
     }
@@ -1521,9 +1521,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
 
     private void openGallery() {
-
+        String[] mimeTypes = {"image/jpeg", "image/png", "image/jpg"};
         Intent intent = new Intent();
-        intent.setType("image/jpg");
+        intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_MIME_TYPES, mimeTypes);
         intent.setAction(Intent.ACTION_GET_CONTENT);
 
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);

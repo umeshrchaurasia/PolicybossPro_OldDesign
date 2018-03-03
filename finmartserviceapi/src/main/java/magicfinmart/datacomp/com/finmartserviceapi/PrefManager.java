@@ -26,7 +26,7 @@ public class PrefManager {
     private static final String IS_DEVICE_TOKEN = "devicetoken";
     private static final String IS_RBL_CITY_MASTER = "isRblCityMaster";
 
-    private static final String IS_ZOHO_MASTER="iszohomaster";
+    private static final String IS_ZOHO_MASTER = "iszohomaster";
     private static final String POSP_INFO = "pospinfo";
 
     public PrefManager(Context context) {
@@ -126,6 +126,10 @@ public class PrefManager {
         else
             return null;
     }
+
+    public void deletePospInfo(){
+        pref.edit().remove(POSP_INFO).commit();
+    };
 
 
 }
