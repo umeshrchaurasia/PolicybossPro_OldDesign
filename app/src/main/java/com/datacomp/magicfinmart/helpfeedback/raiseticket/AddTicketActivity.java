@@ -323,9 +323,10 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
-                init_adapters();
+               /* init_adapters();
                 etMessage.setText("");
-                etFileNAme.setText("No files attached");
+                etFileNAme.setText("No files attached");*/
+                finish();
             }
         }
     }

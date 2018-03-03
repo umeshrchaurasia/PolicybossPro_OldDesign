@@ -22,6 +22,7 @@ import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;

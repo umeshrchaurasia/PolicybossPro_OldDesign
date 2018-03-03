@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan.quote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -8,9 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
@@ -18,7 +19,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.ActivityTabsPagerAdapter_HL;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeL
  * Created by IN-RB on 19-01-2018.
  */
 
-public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener{
+public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener {
 
     public static final String FROM_QUOTE = "hl_from_quote";
     FloatingActionButton hlAddQuote;
@@ -37,7 +37,7 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     HomeLoan_QuoteAdapter homeLoan_QuoteAdapter;
     List<FmHomeLoanRequest> mQuoteList;
 
-    FmHomeLoanRequest  removeQuoteEntity;
+    FmHomeLoanRequest removeQuoteEntity;
 
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
@@ -54,12 +54,11 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         initView(view);
         setListener();
         mQuoteList = new ArrayList<>();
-        if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST) != null)
-        {
+        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST) != null) {
             mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST);
 
         }
-        homeLoan_QuoteAdapter = new HomeLoan_QuoteAdapter(HL_QuoteFragment.this,mQuoteList);
+        homeLoan_QuoteAdapter = new HomeLoan_QuoteAdapter(HL_QuoteFragment.this, mQuoteList);
         rvQuoteList.setAdapter(homeLoan_QuoteAdapter);
         return view;
     }
@@ -91,17 +90,18 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         tvSearch.setOnClickListener(this);
     }
 
-    public void redirectQuoteHL(FmHomeLoanRequest request){
-        Intent intent=new Intent(getActivity(), HLMainActivity.class);
-        intent.putExtra( FROM_QUOTE,request);
+    public void redirectQuoteHL(FmHomeLoanRequest request) {
+        Intent intent = new Intent(getActivity(), HLMainActivity.class);
+        intent.putExtra(FROM_QUOTE, request);
         startActivity(intent);
 
     }
+
     public void removeQuoteHL(FmHomeLoanRequest entity) {
 
         removeQuoteEntity = entity;
         showDialog("Please wait,Removing quote..");
-      //  new QuoteApplicationController(getContext()).deleteQuote("" + entity.getVehicleRequestID(),this);
+        //  new QuoteApplicationController(getContext()).deleteQuote("" + entity.getVehicleRequestID(),this);
 
     }
 
@@ -113,6 +113,11 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
+                InputMethodManager inputMethodManager =
+                        (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInputFromWindow(
+                        etSearch.getApplicationWindowToken(),
+                        InputMethodManager.SHOW_FORCED, 0);
                 if (etSearch.getVisibility() == View.INVISIBLE) {
                     etSearch.setVisibility(View.VISIBLE);
                     etSearch.requestFocus();
@@ -125,8 +130,8 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
-    public void callnumber(String mobNumber)
-    {
+
+    public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
     }
 }

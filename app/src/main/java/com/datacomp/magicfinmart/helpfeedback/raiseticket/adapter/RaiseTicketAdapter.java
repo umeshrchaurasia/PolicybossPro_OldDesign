@@ -1,42 +1,35 @@
 package com.datacomp.magicfinmart.helpfeedback.raiseticket.adapter;
 
-import android.support.v4.app.Fragment;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TicketEntity;
 
 /**
  * Created by Rajeev Ranjan on 11/01/2018.
  */
 
 public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.RaiseTicketItem> implements View.OnClickListener, Filterable {
-    Fragment mFrament;
-    List<QuoteListEntity> mQuoteList;
-    List<QuoteListEntity> mQuoteListFiltered;
+    Context context;
+    List<TicketEntity> mQuoteList;
+    List<TicketEntity> mQuoteListFiltered;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public RaiseTicketAdapter(Fragment context, List<QuoteListEntity> list) {
-        this.mFrament = context;
+    public RaiseTicketAdapter(Context context, List<TicketEntity> list) {
+        this.context = context;
         mQuoteList = list;
         mQuoteListFiltered = list;
 
@@ -56,33 +49,17 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
     public void onBindViewHolder(RaiseTicketItem holder, int position) {
 
         if (holder instanceof RaiseTicketItem) {
-            final QuoteListEntity entity = mQuoteListFiltered.get(position);
-
-            holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
-                    + " " + entity.getMotorRequestEntity().getLast_name());
-            try {
-                CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity())
-                        .getVarientDetails(
-                                "" + entity.getMotorRequestEntity().getVehicle_id());
-                holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            holder.txtQuoteDate.setText(entity.getMotorRequestEntity().getCreated_date());
-            holder.txtCrnNo.setText("" + entity.getMotorRequestEntity().getCrn());
-
-//            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    openPopUp(view, entity);
-//                }
-//            });
+            final TicketEntity entity = mQuoteListFiltered.get(position);
 
 
-            //set tag for sharing entity
+            holder.txtTicketId.setText("" + entity.getTicketRequestId());
+            holder.txtTicketStatus.setText("" + entity.getStatus());
+            holder.txtTicketCategory.setText(entity.getDescription());
+            holder.txtTicketDesc.setText("" + entity.getMessage());
 
-            holder.txtCrnNo.setTag(R.id.txtCrnNo, entity);
+
+
+           /* holder.txtCrnNo.setTag(R.id.txtCrnNo, entity);
             holder.txtQuoteDate.setTag(R.id.txtQuoteDate, entity);
             holder.txtVehicleName.setTag(R.id.txtVehicleName, entity);
             holder.txtPersonName.setTag(R.id.txtPersonName, entity);
@@ -93,13 +70,13 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
             holder.txtQuoteDate.setOnClickListener(this);
             holder.txtVehicleName.setOnClickListener(this);
             holder.txtPersonName.setOnClickListener(this);
-            holder.txtOverflowMenu.setOnClickListener(this);
+            holder.txtOverflowMenu.setOnClickListener(this);*/
 
         }
     }
 
-    private void openPopUp(View v, final QuoteListEntity entity) {
-        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
+    /*private void openPopUp(View v, final QuoteListEntity entity) {
+        final PopupMenu popupMenu = new PopupMenu(context, v);
         final Menu menu = popupMenu.getMenu();
 
         popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
@@ -108,15 +85,15 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuCall:
-                        ((MotorQuoteFragment) mFrament).dialNumber(entity.getMotorRequestEntity().getMobile());
+                        ((MotorQuoteFragment) context).dialNumber(entity.getMotorRequestEntity().getMobile());
                         //Toast.makeText(mFrament.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        ((MotorQuoteFragment) mFrament).sendSms(entity.getMotorRequestEntity().getMobile());
-                        Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((MotorQuoteFragment) context).sendSms(entity.getMotorRequestEntity().getMobile());
+                        Toast.makeText(context.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
-                        ((MotorQuoteFragment) mFrament).removeQuote(entity);
+                        ((MotorQuoteFragment) context).removeQuote(entity);
                         break;
                 }
                 return false;
@@ -124,7 +101,7 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
         });
 
         popupMenu.show();
-    }
+    }*/
 
     @Override
     public int getItemCount() {
@@ -137,38 +114,36 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.txtCrnNo:
+           /* case R.id.txtCrnNo:
             case R.id.txtQuoteDate:
             case R.id.txtVehicleName:
             case R.id.llDetails:
             case R.id.txtPersonName:
-                ((MotorQuoteFragment) mFrament).redirectToInputQuote((QuoteListEntity) view.getTag(view.getId()));
+                ((MotorQuoteFragment) context).redirectToInputQuote((QuoteListEntity) view.getTag(view.getId()));
                 break;
             case R.id.txtOverflowMenu:
                 openPopUp(view, (QuoteListEntity) view.getTag(view.getId()));
                 break;
-
+*/
         }
     }
 
     public class RaiseTicketItem extends RecyclerView.ViewHolder {
 
-        //  public ImageView ivTripleDot;
-        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtOverflowMenu, txtCrnNo;
-        LinearLayout llDetails;
+        public ImageView ticketPhoto;
+        public TextView txtTicketId, txtTicketStatus, txtTicketCategory, txtTicketDesc;
 
         public RaiseTicketItem(View itemView) {
             super(itemView);
-            txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
-            txtVehicleName = (TextView) itemView.findViewById(R.id.txtVehicleName);
-            txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
-            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
-            txtCrnNo = (TextView) itemView.findViewById(R.id.txtCrnNo);
-            llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
+            txtTicketId = (TextView) itemView.findViewById(R.id.txtTicketId);
+            txtTicketStatus = (TextView) itemView.findViewById(R.id.txtTicketStatus);
+            txtTicketCategory = (TextView) itemView.findViewById(R.id.txtTicketCategory);
+            txtTicketDesc = (TextView) itemView.findViewById(R.id.txtTicketDesc);
+            ticketPhoto = (ImageView) itemView.findViewById(R.id.ticketPhoto);
         }
     }
 
-    public void refreshAdapter(List<QuoteListEntity> list) {
+    public void refreshAdapter(List<TicketEntity> list) {
         mQuoteListFiltered = list;
     }
 
@@ -181,25 +156,17 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
                 if (charString.isEmpty()) {
                     mQuoteListFiltered = mQuoteList;
                 } else {
-                    List<QuoteListEntity> filteredList = new ArrayList<>();
-                    for (QuoteListEntity row : mQuoteList) {
-                        CarMasterEntity carMasterEntity = new CarMasterEntity();
-                        try {
+                    List<TicketEntity> filteredList = new ArrayList<>();
+                    for (TicketEntity row : mQuoteList) {
 
-                            carMasterEntity = new DBPersistanceController(mFrament.getActivity())
-                                    .getVarientDetails(
-                                            "" + row.getMotorRequestEntity().getVehicle_id());
-
-                        } catch (Exception e) {
-
-                        }
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (row.getMotorRequestEntity().getFirst_name().toLowerCase().contains(charString.toLowerCase())
-                                || row.getMotorRequestEntity().getLast_name().toLowerCase().contains(charString.toLowerCase())
-                                || carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
-                                || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())
-                                || String.valueOf(row.getMotorRequestEntity().getCrn()).contains(charString.toLowerCase())) {
+                        if (row.getStatus().toLowerCase().contains(charString.toLowerCase())
+                                || String.valueOf(row.getTicketRequestId()).toLowerCase().contains(charString.toLowerCase())
+                                || row.getCateName().toLowerCase().contains(charString.toLowerCase())
+                                || row.getQuerType().toLowerCase().contains(charString.toLowerCase())
+                                || row.getDescription().toLowerCase().contains(charString.toLowerCase())
+                                || row.getMessage().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
@@ -214,7 +181,7 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mQuoteListFiltered = (ArrayList<QuoteListEntity>) filterResults.values;
+                mQuoteListFiltered = (ArrayList<TicketEntity>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
