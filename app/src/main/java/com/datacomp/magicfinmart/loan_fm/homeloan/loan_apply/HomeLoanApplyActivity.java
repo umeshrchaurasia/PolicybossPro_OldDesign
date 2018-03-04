@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,7 +28,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
 
-    Spinner spTitle;
+    Spinner spTitle, spNatureOfOrg, spNatureOfBus, spResidence;
+
 
     RelativeLayout rlPLInfo, rlAddress, rlEmployment, rlFinancial;
 
@@ -35,27 +37,29 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     ImageView ivMale, ivFemale, ivPLInfo, ivAddress, ivEmploy, ivFinancial;
 
-    EditText etFirstName , etLastName , etDob , etFatherName ,etPan , etNationality, etUniversity, etMoMaidenName ;
+    CheckBox chkPresent;
 
-    EditText etEmailPersContInfo, etEmailOffContInfo , etMobNo1ContInfo ,etMobNo2ContInfo,
-            etAddress1ContInfoRAP, etAddress2ContInfoRAP,etAddress3ContInfoRAP,
-            etLandmakContInfoRAP, etPincodeContInfoRAP,etCityContInfoRAP,
-            etStateContInfoRAP,etCountryPlRAP, etAddress1ContInfoPA,etAddress2ContInfoPA,etAddress3ContInfoPA,etLandmakContInfoPA;
+    EditText etFirstName, etLastName, etDob, etFatherName, etPan, etNationality, etUniversity, etMoMaidenName, etSpouceName, etNoOfDepen,
+    // Address
+    etEmailPersContInfo, etEmailOffContInfo, etMobNo1ContInfo, etMobNo2ContInfo,
+            etAddress1ContInfoRAP, etAddress2ContInfoRAP, etAddress3ContInfoRAP,
+            etLandmakContInfoRAP, etPincodeContInfoRAP, etCityContInfoRAP,
+            etStateContInfoRAP, etCountryPlRAP, etAddress1ContInfoPA, etAddress2ContInfoPA, etAddress3ContInfoPA, etLandmakContInfoPA,
+            etPincodeContInfoPA, etCityContInfo, etStateContInfoPA, etCountryPA,
+            etLandlineNoContInfoPA, etNoOfYrsAtOffContInfoPA,
 
-    EditText etPincodeContInfoPA,etCityContInfo,etStateContInfoPA,etCountryPA,
-            etLandlineNoContInfoPA,etNoOfYrsAtOffContInfoPA;
+    // Employment
+    etDesig, etCurrJob, etTotalExp, etNameOfOrg, etTurnOver, etDeprec, etDirRem, etProfAftTax,
+            etAddress1ED, etAddress2, etAddress3, etLandmak, etPincodeED, etCityED, etStateED, etCountryPl, etLandlineNoPl,
 
-    EditText etDesig,etCurrJob,etTotalExp,etNameOfOrg,etTurnOver,etDeprec,etDirRem,etProfAftTax,
-    etAddress1ED,etAddress2,etAddress3,etLandmak,etPincodeED,etCityED,etStateED,etCountryPl, etLandlineNoPl;
-
-    EditText
-            etGrossIncome,etNetIncome,etOtherIncome,etTotalIncome;
+    // Finacial
+    etGrossIncome, etNetIncome, etOtherIncome, etTotalIncome;
 
 
-    TextView txtMarried, txtSingle, txtRES, txtNRI, txtPIO, txtOCR, txtFOR;
-    TextView txtGEN, txtSC, txtST, txtOBC, txtOTH;
-    TextView txtPORT, txtVOTER, txtDRV;
-    TextView txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH;
+    TextView txtMarried, txtSingle, txtRES, txtNRI, txtPIO, txtOCR, txtFOR,
+            txtGEN, txtSC, txtST, txtOBC, txtOTH,
+            txtPORT, txtVOTER, txtDRV,
+            txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,13 +125,18 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         etDob = (EditText) findViewById(R.id.etDob);
         etPan = (EditText) findViewById(R.id.etPan);
         etFatherName = (EditText) findViewById(R.id.etFatherName);
+
         etNationality = (EditText) findViewById(R.id.etNationality);
         etUniversity = (EditText) findViewById(R.id.etUniversity);
         etMoMaidenName = (EditText) findViewById(R.id.etMoMaidenName);
+        etSpouceName = (EditText) findViewById(R.id.etSpouceName);
+        etNoOfDepen = (EditText) findViewById(R.id.etNoOfDepen);
 
         // endregion
 
         // region Address
+        chkPresent = (CheckBox) findViewById(R.id.chkPresent);
+
         etEmailPersContInfo = (EditText) findViewById(R.id.etEmailPersContInfo);
         etEmailOffContInfo = (EditText) findViewById(R.id.etEmailOffContInfo);
         etMobNo1ContInfo = (EditText) findViewById(R.id.etMobNo1ContInfo);
@@ -155,6 +164,34 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         etLandlineNoContInfoPA = (EditText) findViewById(R.id.etLandlineNoContInfoPA);
         etNoOfYrsAtOffContInfoPA = (EditText) findViewById(R.id.etNoOfYrsAtOffContInfoPA);
+
+        txtMarried = (TextView) findViewById(R.id.txtMarried);
+        txtSingle = (TextView) findViewById(R.id.txtSingle);
+        txtRES = (TextView) findViewById(R.id.txtRES);
+        txtNRI = (TextView) findViewById(R.id.txtNRI);
+        txtPIO = (TextView) findViewById(R.id.txtPIO);
+        txtOCR = (TextView) findViewById(R.id.txtOCR);
+        txtFOR = (TextView) findViewById(R.id.txtFOR);
+
+        txtGEN = (TextView) findViewById(R.id.txtGEN);
+        txtSC = (TextView) findViewById(R.id.txtSC);
+        txtST = (TextView) findViewById(R.id.txtST);
+        txtOBC = (TextView) findViewById(R.id.txtOBC);
+        txtOTH = (TextView) findViewById(R.id.txtOTH);
+
+        txtPORT = (TextView) findViewById(R.id.txtPORT);
+        txtVOTER = (TextView) findViewById(R.id.txtVOTER);
+        txtDRV = (TextView) findViewById(R.id.txtDRV);
+
+        txtMATR = (TextView) findViewById(R.id.txtMATR);
+        txtUGRAD = (TextView) findViewById(R.id.txtUGRAD);
+        txtGRAD = (TextView) findViewById(R.id.txtGRAD);
+        txtPGRAD = (TextView) findViewById(R.id.txtPGRAD);
+        txteducatOTH = (TextView) findViewById(R.id.txteducatOTH);
+
+
+        ivMale = (ImageView) findViewById(R.id.ivMale);
+        ivFemale = (ImageView) findViewById(R.id.ivFemale);
 
         //endregion
 
@@ -192,7 +229,6 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     }
 
 
-
     private void setListener() {
 
         ivPLInfo.setOnClickListener(this);
@@ -222,26 +258,26 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             case R.id.ivPLInfo:
             case R.id.rlPLInfo:
                 manageMainLayouts(llPlInfo, llAddress, llEmployment, llFinancial);
-                manageImages(llPlInfo,ivPLInfo, ivEmploy,  ivAddress, ivFinancial);//
+                manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
                 break;
 
             case R.id.ivAddress:
             case R.id.rlAddress:
-                manageMainLayouts(llAddress,llPlInfo,  llEmployment, llFinancial);
-                manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo,ivFinancial);
+                manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
+                manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo, ivFinancial);
 
                 break;
 
             case R.id.ivEmploy:
             case R.id.rlEmployment:
-                manageMainLayouts(llEmployment,llPlInfo, llAddress,  llFinancial);
+                manageMainLayouts(llEmployment, llPlInfo, llAddress, llFinancial);
                 manageImages(llEmployment, ivEmploy, ivPLInfo, ivAddress, ivFinancial);
                 break;
 
             case R.id.ivFinancial:
             case R.id.rlFinancial:
-                manageMainLayouts(llFinancial,llPlInfo, llAddress, llEmployment);
-                manageImages(llFinancial , ivFinancial , ivPLInfo, ivAddress, ivEmploy);
+                manageMainLayouts(llFinancial, llPlInfo, llAddress, llEmployment);
+                manageImages(llFinancial, ivFinancial, ivPLInfo, ivAddress, ivEmploy);
                 break;
         }
     }
