@@ -30,7 +30,7 @@ public class FmSaveQuotePersonalLoanResponse extends APIResponseFM {
         private int SavedStatus;
 
         private String Message;
-        private int LoanRequestID;
+        private int loan_requestID;
 
         public int getSavedStatus() {
             return SavedStatus;
@@ -49,11 +49,11 @@ public class FmSaveQuotePersonalLoanResponse extends APIResponseFM {
         }
 
         public int getLoanRequestID() {
-            return LoanRequestID;
+            return loan_requestID;
         }
 
-        public void setLoanRequestID(int LoanRequestID) {
-            this.LoanRequestID = LoanRequestID;
+        public void setLoanRequestID(int loan_requestID) {
+            this.loan_requestID = loan_requestID;
         }
     }
 }

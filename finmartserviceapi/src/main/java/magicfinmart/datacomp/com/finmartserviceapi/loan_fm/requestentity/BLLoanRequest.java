@@ -42,7 +42,7 @@ public class BLLoanRequest implements Parcelable {
     private double loanamount;
     private double loaninterest;
     private double loanterm;
-    private String LoanType;
+    private String Type;
     private int product_id;
     private String fbaid;
     private int LoanID;
@@ -72,7 +72,7 @@ public class BLLoanRequest implements Parcelable {
         this.loanamount = 0;
         this.loaninterest = 0;
         this.loanterm = 0;
-        LoanType = "";
+        Type = "";
         this.product_id = 0;
         this.fbaid = "";
         LoanID = 0;
@@ -136,12 +136,12 @@ public class BLLoanRequest implements Parcelable {
         this.loanterm = loanterm;
     }
 
-    public String getLoanType() {
-        return LoanType;
+    public String getType() {
+        return Type;
     }
 
-    public void setLoanType(String LoanType) {
-        this.LoanType = LoanType;
+    public void setType(String Type) {
+        this.Type = Type;
     }
 
     public int getProduct_id() {
@@ -323,7 +323,7 @@ public class BLLoanRequest implements Parcelable {
         dest.writeDouble(this.loanamount);
         dest.writeDouble(this.loaninterest);
         dest.writeDouble(this.loanterm);
-        dest.writeString(this.LoanType);
+        dest.writeString(this.Type);
         dest.writeInt(this.product_id);
         dest.writeString(this.fbaid);
         dest.writeInt(this.LoanID);
@@ -355,7 +355,7 @@ public class BLLoanRequest implements Parcelable {
         this.loanamount = in.readDouble();
         this.loaninterest = in.readDouble();
         this.loanterm = in.readDouble();
-        this.LoanType = in.readString();
+        this.Type = in.readString();
         this.product_id = in.readInt();
         this.fbaid = in.readString();
         this.LoanID = in.readInt();

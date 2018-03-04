@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-        android:visibility="gone"
+
         app:cardElevation="2dp">
         <LinearLayout
             android:padding="5dp"
@@ -156,10 +156,10 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="Contact" />
+                            android:text="Curr Int Rate" />
 
                         <TextView
-                            android:id="@+id/txtcontact"
+                            android:id="@+id/txtblcurrRate"
                             style="@style/TextViewStyle.Small"
                             android:text=""
                             android:textColor="@color/black" />
@@ -211,6 +211,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/llgraph"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView

@@ -127,16 +127,20 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
         if (rbimghl.isChecked()) {
             blLoanRequest.setProduct_id(12);//hl
+            blLoanRequest.setType("BLHL");
         } else if (rbimgpl.isChecked()) {
             blLoanRequest.setProduct_id(9);//pl
+            blLoanRequest.setType("BLPL");
         }else if (rbimglap.isChecked()) {
             blLoanRequest.setProduct_id(7);//lap
+            blLoanRequest.setType("BLLAP");
         }
         blLoanRequest.setbrokerid(Integer.parseInt(loginEntity.getLoanId()));
         blLoanRequest.setLoanID(Integer.parseInt(loginEntity.getLoanId()));
 
         blLoanRequest.setSource("Demo APP");
         blLoanRequest.setEmail("");
+
         //endregion
     }
 
