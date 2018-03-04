@@ -73,6 +73,19 @@ public class LoanMainRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:1234567890")
         @POST("/api/ManageBalanceTransfer")
         Call<FmSaveQuoteBLResponse> saveBLQuote(@Body FmBalanceLoanRequest fmBalanceLoanRequest);
+        //delete
+        @Headers("token:1234567890")
+        @POST("/api/delete-loan-request-loan")
+        Call<FmSaveQuoteHomeLoanResponse> getdelete_loanrequest(@Body HashMap<String, String> body);
+
+        @Headers("token:1234567890")
+        @POST("/api/delete-personal-loan-request")
+        Call<FmSaveQuotePersonalLoanResponse> getdelete_personalrequest(@Body HashMap<String, String> body);
+
+        @Headers("token:1234567890")
+        @POST("/api/delete-balance-transfer")
+        Call<FmSaveQuoteBLResponse> getdelete_balancerequest(@Body HashMap<String, String> body);
+
     }
 
 }

@@ -9,32 +9,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.quote.BL_QuoteFragment;
-
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
 
 /**
  * Created by IN-RB on 26-01-2018.
  */
 
-public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTransfer_QuoteAdapter.QuoteItem>  implements View.OnClickListener {
+public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTransfer_QuoteAdapter.QuoteItem>  implements View.OnClickListener ,Filterable {
 
     Fragment mFrament;
     List<FmBalanceLoanRequest> mQuoteList;
+    List<FmBalanceLoanRequest> mQuoteListFiltered;
 
 
-    public BalanceTransfer_QuoteAdapter(Fragment mFrament,List<FmBalanceLoanRequest> mQuoteList) {
+    public BalanceTransfer_QuoteAdapter(Fragment mFrament,List<FmBalanceLoanRequest> list) {
         this.mFrament = mFrament;
-        this.mQuoteList = mQuoteList;
+        this.mQuoteList = list;
+        mQuoteListFiltered = list;
     }
     @Override
     public QuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -48,7 +51,7 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
 
 
         if (holder instanceof BalanceTransfer_QuoteAdapter.QuoteItem) {
-            final FmBalanceLoanRequest entity = mQuoteList.get(position);
+            final FmBalanceLoanRequest entity = mQuoteListFiltered.get(position);
 
             try {
                 if (entity.getBLLoanRequest().getApplicantName() != null) {
@@ -138,34 +141,38 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
 
     private void openPopUp(View v, final FmBalanceLoanRequest entity) {
         //creating a popup menu
-        PopupMenu popup = new PopupMenu(mFrament.getActivity(), v);
+        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
+        final Menu menu = popupMenu.getMenu();
         //inflating menu from xml resource
-        popup.inflate(R.menu.recycler_menu_application);
+        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
         //adding click listener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-
-                                ((BL_QuoteFragment)mFrament).callnumber(entity.getBLLoanRequest().getContact());
+                       ((BL_QuoteFragment)mFrament).callnumber(entity.getBLLoanRequest().getContact());
                        // Toast.makeText(mFrament.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
-
+                    case R.id.menuDelete:
+                        ((BL_QuoteFragment)mFrament).removeQuoteBL(entity);
+                        // Toast.makeText(mFrament.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        break;
                 }
                 return false;
             }
         });
         //displaying the popup
-        popup.show();
+        popupMenu.show();
     }
 
 
     public void refreshAdapter(List<FmBalanceLoanRequest> list) {
-        mQuoteList = list;
+        mQuoteListFiltered = list;
+        notifyDataSetChanged();
     }
 
     public class QuoteItem extends RecyclerView.ViewHolder {
@@ -189,7 +196,7 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
 
     @Override
     public int getItemCount() {
-        return mQuoteList.size();
+        return mQuoteListFiltered.size();
     }
 
     @Override
@@ -222,5 +229,40 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
                 break;
 
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mQuoteListFiltered = mQuoteList;
+                } else {
+                    List<FmBalanceLoanRequest> filteredList = new ArrayList<>();
+                    for (FmBalanceLoanRequest row : mQuoteList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getBLLoanRequest().getApplicantName().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    mQuoteListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mQuoteListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mQuoteListFiltered = (ArrayList<FmBalanceLoanRequest>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

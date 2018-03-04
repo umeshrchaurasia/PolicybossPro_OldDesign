@@ -37,20 +37,20 @@ public class TicketEntity {
         this.TicketRequestId = TicketRequestId;
     }
 
-    public String getMessageX() {
+    public String getMessage() {
         return Message;
     }
 
-    public void setMessageX(String MessageX) {
-        this.Message = MessageX;
+    public void setMessage(String Message) {
+        this.Message = Message;
     }
 
-    public String getStatusX() {
+    public String getStatus() {
         return Status;
     }
 
-    public void setStatusX(String StatusX) {
-        this.Status = StatusX;
+    public void setStatus(String Status) {
+        this.Status = Status;
     }
 
     public int getFBAID() {

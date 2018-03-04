@@ -8,30 +8,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.PopupMenu;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.quote.PL_QuoteFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
+
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 
 /**
  * Created by IN-RB on 12-01-2018.
  */
 
-public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_QuoteAdapter.QuoteItem> implements View.OnClickListener{
+public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_QuoteAdapter.QuoteItem> implements View.OnClickListener,Filterable {
     Fragment mFrament;
     List<FmPersonalLoanRequest> mQuoteList;
+    List<FmPersonalLoanRequest> mQuoteListFiltered;
 
-    public PesonalLoan_QuoteAdapter(Fragment mFrament,List<FmPersonalLoanRequest> mQuoteList) {
+    public PesonalLoan_QuoteAdapter(Fragment mFrament,List<FmPersonalLoanRequest> list) {
         this.mFrament = mFrament;
-        this.mQuoteList = mQuoteList;
+        this.mQuoteList = list;
+        mQuoteListFiltered = list;
     }
 
     public class QuoteItem extends RecyclerView.ViewHolder {
@@ -63,7 +68,7 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
 
 
         if (holder instanceof PesonalLoan_QuoteAdapter.QuoteItem) {
-            final FmPersonalLoanRequest entity = mQuoteList.get(position);
+            final FmPersonalLoanRequest entity = mQuoteListFiltered.get(position);
 
             holder.txtPersonName.setText("" + entity.getPersonalLoanRequest().getApplicantNme());
             holder.txtQuoteDate.setText("" + entity.getPersonalLoanRequest().getRow_created_date().split("T")[0].toString());
@@ -121,11 +126,12 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
 
     private void openPopUp(View v, final FmPersonalLoanRequest entity) {
         //creating a popup menu
-        PopupMenu popup = new PopupMenu(mFrament.getActivity(), v);
+        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
+        final Menu menu = popupMenu.getMenu();
         //inflating menu from xml resource
-        popup.inflate(R.menu.recycler_menu_application);
+        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
         //adding click listener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
@@ -136,21 +142,24 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
                     case R.id.menuSms:
                         Toast.makeText(mFrament.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
-
+                    case R.id.menuDelete:
+                        ((PL_QuoteFragment)mFrament).removeQuotePL(entity);
+                        break;
                 }
                 return false;
             }
         });
         //displaying the popup
-        popup.show();
+        popupMenu.show();
     }
     public void refreshAdapter(List<FmPersonalLoanRequest> list) {
-        mQuoteList = list;
+        mQuoteListFiltered = list;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mQuoteList.size();
+        return mQuoteListFiltered.size();
     }
 
     @Override
@@ -177,4 +186,40 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
 
         }
     }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mQuoteListFiltered = mQuoteList;
+                } else {
+                    List<FmPersonalLoanRequest> filteredList = new ArrayList<>();
+                    for (FmPersonalLoanRequest row : mQuoteList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getPersonalLoanRequest().getApplicantNme().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    mQuoteListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mQuoteListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mQuoteListFiltered = (ArrayList<FmPersonalLoanRequest>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 }

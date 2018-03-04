@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +17,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
@@ -23,16 +26,17 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeL
  * Created by IN-RB on 19-01-2018.
  */
 
-public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAdapter.QuoteItem>  implements View.OnClickListener {
+public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAdapter.QuoteItem>  implements View.OnClickListener,Filterable {
 
     Fragment mFrament;
     List<FmHomeLoanRequest> mQuoteList;
-    BaseActivity baseActivity;
-    public HomeLoan_QuoteAdapter(Fragment mFrament, List<FmHomeLoanRequest> mQuoteList) {
-        this.mFrament = mFrament;
-        this.mQuoteList = mQuoteList;
-    }
+    List<FmHomeLoanRequest> mQuoteListFiltered;
 
+    public HomeLoan_QuoteAdapter(Fragment mFrament, List<FmHomeLoanRequest> list) {
+        this.mFrament = mFrament;
+        this.mQuoteList = list;
+        mQuoteListFiltered = list;
+    }
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
@@ -64,7 +68,7 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 
 
         if (holder instanceof HomeLoan_QuoteAdapter.QuoteItem) {
-            final FmHomeLoanRequest entity = mQuoteList.get(position);
+            final FmHomeLoanRequest entity = mQuoteListFiltered.get(position);
 
             holder.txtPersonName.setText(""+ entity.getHomeLoanRequest().getApplicantNme());
             holder.txtQuoteDate.setText("" + entity.getHomeLoanRequest().getRow_created_date().split("T")[0].toString());
@@ -126,11 +130,12 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 
     private void openPopUp(View v, final FmHomeLoanRequest entity) {
         //creating a popup menu
-        PopupMenu popup = new PopupMenu(mFrament.getActivity(), v);
+        final PopupMenu popupMenu = new PopupMenu(mFrament.getActivity(), v);
+        final Menu menu = popupMenu.getMenu();
         //inflating menu from xml resource
-        popup.inflate(R.menu.recycler_menu_application);
+        popupMenu.getMenuInflater().inflate(R.menu.recycler_menu_quote, menu);
         //adding click listener
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
@@ -141,23 +146,28 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
                     case R.id.menuSms:
                         Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
+                    case R.id.menuDelete:
+                        ((HL_QuoteFragment)mFrament).removeQuoteHL(entity);
+                        break;
+
 
                 }
                 return false;
             }
         });
         //displaying the popup
-        popup.show();
+        popupMenu.show();
     }
 
 
     public void refreshAdapter(List<FmHomeLoanRequest> list) {
-        mQuoteList = list;
+        mQuoteListFiltered = list;
+        notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return mQuoteList.size();
+        return mQuoteListFiltered.size();
     }
 
     @Override
@@ -184,5 +194,42 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 
         }
     }
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mQuoteListFiltered = mQuoteList;
+                } else {
+                    List<FmHomeLoanRequest> filteredList = new ArrayList<>();
+                    for (FmHomeLoanRequest row : mQuoteList) {
+
+                        // name match condition. this might differ depending on your requirement
+                        // here we are looking for name or phone number match
+                        if (row.getHomeLoanRequest().getApplicantNme().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+                    }
+
+                    mQuoteListFiltered = filteredList;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mQuoteListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mQuoteListFiltered = (ArrayList<FmHomeLoanRequest>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 
 }

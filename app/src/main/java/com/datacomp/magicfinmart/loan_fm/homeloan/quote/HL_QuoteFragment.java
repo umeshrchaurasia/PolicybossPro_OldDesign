@@ -1,16 +1,19 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan.quote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
@@ -19,21 +22,25 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.ActivityTabsPagerAdapter_HL;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
+
 
 /**
  * Created by IN-RB on 19-01-2018.
  */
 
-public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener{
+public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener,IResponseSubcriberFM{
 
     public static final String FROM_QUOTE = "hl_from_quote";
     FloatingActionButton hlAddQuote;
-    RecyclerView rvQuoteList;
+    RecyclerView rvhlQuoteList;
     HomeLoan_QuoteAdapter homeLoan_QuoteAdapter;
     List<FmHomeLoanRequest> mQuoteList;
 
@@ -53,6 +60,7 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.fragment_hl_quote, container, false);
         initView(view);
         setListener();
+        setTextWatcher();
         mQuoteList = new ArrayList<>();
         if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST) != null)
         {
@@ -60,7 +68,7 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
         }
         homeLoan_QuoteAdapter = new HomeLoan_QuoteAdapter(HL_QuoteFragment.this,mQuoteList);
-        rvQuoteList.setAdapter(homeLoan_QuoteAdapter);
+        rvhlQuoteList.setAdapter(homeLoan_QuoteAdapter);
         return view;
     }
 
@@ -75,10 +83,10 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
         hlAddQuote = (FloatingActionButton) view.findViewById(R.id.hlAddQuote);
 
-        rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
-        rvQuoteList.setHasFixedSize(true);
+        rvhlQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
+        rvhlQuoteList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        rvQuoteList.setLayoutManager(layoutManager);
+        rvhlQuoteList.setLayoutManager(layoutManager);
 
 
         hlAddQuote.setOnClickListener(this);
@@ -101,7 +109,7 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
         removeQuoteEntity = entity;
         showDialog("Please wait,Removing quote..");
-      //  new QuoteApplicationController(getContext()).deleteQuote("" + entity.getVehicleRequestID(),this);
+        new MainLoanController(getContext()).getdelete_loanrequest("" + entity.getLoan_requestID(),this);
 
     }
 
@@ -113,6 +121,11 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
+                InputMethodManager inputMethodManager =
+                        (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInputFromWindow(
+                        etSearch.getApplicationWindowToken(),
+                        InputMethodManager.SHOW_FORCED, 0);
                 if (etSearch.getVisibility() == View.INVISIBLE) {
                     etSearch.setVisibility(View.VISIBLE);
                     etSearch.requestFocus();
@@ -128,5 +141,40 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void callnumber(String mobNumber)
     {
         dialNumber(mobNumber);
+    }
+
+    private void setTextWatcher() {
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                homeLoan_QuoteAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+
+        cancelDialog();
+        if (response instanceof FmSaveQuoteHomeLoanResponse) {
+            if (response.getStatusNo() == 0) {
+                mQuoteList.remove(removeQuoteEntity);
+                homeLoan_QuoteAdapter.refreshAdapter(mQuoteList);
+                homeLoan_QuoteAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
     }
 }
