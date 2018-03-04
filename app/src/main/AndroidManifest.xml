@@ -590,6 +590,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity" />
         </activity>
+        <activity
+            android:name=".webviews.ShareQuoteACtivity"
+            android:label="@string/title_activity_share_quote_activity"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>
