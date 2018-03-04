@@ -5,9 +5,9 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Picture;
 import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,6 +21,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -48,6 +49,9 @@ public class ShareQuoteACtivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            WebView.enableSlowWholeDocumentDraw();
+        }
         setContentView(R.layout.activity_share_quote_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -82,7 +86,7 @@ public class ShareQuoteACtivity extends BaseActivity {
         dm.enqueue(r);
     }
 
-    private void createWebPrintJob(WebView webView) {
+   /* private void createWebPrintJob(WebView webView) {
 
         PrintManager printManager = (PrintManager) this
                 .getSystemService(Context.PRINT_SERVICE);
@@ -100,7 +104,7 @@ public class ShareQuoteACtivity extends BaseActivity {
                         new PrintAttributes.Builder().build());
             }
         }
-    }
+    }*/
 
     private void settingWebview() {
         WebSettings settings = webView.getSettings();
@@ -118,7 +122,7 @@ public class ShareQuoteACtivity extends BaseActivity {
         settings.setJavaScriptEnabled(true);
 
 
-        MyWebViewClient webViewClient = new MyWebViewClient(this);
+        final MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
         webView.setWebViewClient(new WebViewClient() {
             @Override
@@ -141,7 +145,7 @@ public class ShareQuoteACtivity extends BaseActivity {
                         webView.getMeasuredHeight());
                 webView.setDrawingCacheEnabled(true);
                 webView.buildDrawingCache();
-                 bmp = Bitmap.createBitmap(webView.getMeasuredWidth(),
+                bmp = Bitmap.createBitmap(webView.getMeasuredWidth(),
                         webView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
 
                 Canvas bigcanvas = new Canvas(bmp);
@@ -158,6 +162,30 @@ public class ShareQuoteACtivity extends BaseActivity {
                 String response = "";
 
                 webView.loadUrl("javascript:init('" + "rajeev ranjan" + "')");
+
+                //createWebPrintJob(webView);
+
+                /*Picture picture = view.capturePicture();
+                Bitmap b = Bitmap.createBitmap(picture.getWidth(),
+                        picture.getHeight(), Bitmap.Config.ARGB_8888);
+                Canvas c = new Canvas(b);
+
+                picture.draw(c);
+                FileOutputStream fos = null;
+                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "quote.jpg");
+
+                file.getParentFile().mkdirs();
+                try {
+
+                    fos = new FileOutputStream(file);
+                    if (fos != null) {
+                        b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+                        fos.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }*/
             }
 
             @Override
@@ -226,9 +254,10 @@ public class ShareQuoteACtivity extends BaseActivity {
 
     public void SimplePDFTable(Bitmap bmp) throws Exception {
 
+
         showDialog("Creating pdf..");
         File direct = new File(Environment.getExternalStoragePublicDirectory
-                (Environment.DIRECTORY_DOWNLOADS),"quote.pdf");
+                (Environment.DIRECTORY_DOWNLOADS), "quote.pdf");
         if (!direct.exists()) {
             if (direct.mkdir()) {
                 Toast.makeText(ShareQuoteACtivity.this,
@@ -249,11 +278,13 @@ public class ShareQuoteACtivity extends BaseActivity {
         Image image = Image.getInstance(byteArray);
 
 
-        image.scaleToFit(PageSize.A4.getHeight(), PageSize.A4.getWidth());
+        // image.scaleToFit(PageSize.A4.getHeight(), PageSize.A4.getWidth());
+        image.scaleToFit(bmp.getHeight(), bmp.getWidth());
         document.add(image);
 
         document.close();
         cancelDialog();
         sharePdfTowhatsApp("quote");
     }
+
 }
