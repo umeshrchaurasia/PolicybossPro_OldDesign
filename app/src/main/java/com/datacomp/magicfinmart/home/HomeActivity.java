@@ -27,6 +27,7 @@ import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.util.List;
@@ -119,7 +120,7 @@ public class HomeActivity extends BaseActivity {
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_myBusiness:
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        startActivity(new Intent(HomeActivity.this, ShareQuoteACtivity.class));
                         break;
                     case R.id.nav_referFriend:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
