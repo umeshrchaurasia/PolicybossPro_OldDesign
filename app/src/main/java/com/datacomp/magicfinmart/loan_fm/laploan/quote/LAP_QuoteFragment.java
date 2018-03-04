@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.loan_fm.laploan.quote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -10,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -120,6 +122,11 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
+                InputMethodManager inputMethodManager =
+                        (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInputFromWindow(
+                        etSearch.getApplicationWindowToken(),
+                        InputMethodManager.SHOW_FORCED, 0);
                 if (etSearch.getVisibility() == View.INVISIBLE) {
                     etSearch.setVisibility(View.VISIBLE);
                     etSearch.requestFocus();

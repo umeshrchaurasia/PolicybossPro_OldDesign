@@ -45,7 +45,6 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
     private static String INPUT_FRAGMENT = "input";
 
-
     GetQuoteResponse getQuoteResponse;
 
     HomeLoanRequest homeLoanRequest;

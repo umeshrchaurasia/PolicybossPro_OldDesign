@@ -31,13 +31,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLSavingEntity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BankForNodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteBLResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
 
 public class QuoteFragment_bl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM {
 
-    TextView txtAppName, txtLoanAmnt, txtLoanTenure, txtInputSummry, txtCount,txtType,txtcontact;
+    TextView txtAppName, txtLoanAmnt, txtLoanTenure, txtInputSummry, txtCount,txtType,txtcurrRate;
+    TextView txtcurrloanemi,txtdropemi,txtnewemi,txtdropinterestrate,txtreducedintrest;
     BLQuoteAdapter mAdapter;
     List<BLEntity> BlListdata;
     List<BLSavingEntity> BlsavingEntity;
@@ -46,11 +49,12 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     RecyclerView rvBLQuotes;
     int LoanRequireID = 0;
     int BalanceTransferId = 0;
+    BankSaveRequest bankSaveRequest;
 
     GetBLDispalyResponse getblDispalyResponse ;
     BLLoanRequest blLoanRequest;
     FmBalanceLoanRequest fmBalanceLoanRequest;
-    LinearLayout ivllEdit;
+    LinearLayout ivllEdit,llgraph;
     public QuoteFragment_bl() {
     }
 
@@ -69,9 +73,13 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         return view;
     }
 
+    public void redirectToApplyBank(BLEntity entity) {
+        setFmBankRequest(entity);
+    }
     private void initialise_widget(View view) {
 
         cvInputSummary = (CardView) view.findViewById(R.id.cvInputSummary);
+        llgraph = (LinearLayout) view.findViewById(R.id.llgraph);
 
         txtInputSummry = (TextView) view.findViewById(R.id.txtInputSummry);
         txtAppName = (TextView) view.findViewById(R.id.txtAppName);
@@ -79,7 +87,14 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         txtLoanTenure = (TextView) view.findViewById(R.id.txtLoanTenure);
         txtCount = (TextView) view.findViewById(R.id.txtCount);
         txtType = (TextView) view.findViewById(R.id.txtType);
-        txtcontact = (TextView) view.findViewById(R.id.txtcontact);
+        txtcurrRate = (TextView) view.findViewById(R.id.txtblcurrRate);
+
+        txtcurrloanemi = (TextView) view.findViewById(R.id.txtcurrloanemi);
+        txtdropemi = (TextView) view.findViewById(R.id.txtdropemi);
+        txtnewemi = (TextView) view.findViewById(R.id.txtnewemi);
+        txtdropinterestrate = (TextView) view.findViewById(R.id.txtdropinterestrate);
+        txtreducedintrest = (TextView) view.findViewById(R.id.txtreducedintrest);
+
 
         ivllEdit = (LinearLayout) view.findViewById(R.id.ivllEdit);
         ivllEdit.setOnClickListener(this);
@@ -105,6 +120,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         if (getblDispalyResponse != null) {
             txtInputSummry.setVisibility(View.VISIBLE);
             cvInputSummary.setVisibility(View.VISIBLE);
+            llgraph.setVisibility(View.VISIBLE);
 
             mAdapter = new BLQuoteAdapter(this, getblDispalyResponse.getData(),getblDispalyResponse,blLoanRequest.getLoanamount());
             rvBLQuotes.setAdapter(mAdapter);
@@ -133,7 +149,14 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                         txtType.setText("LAP");
                     }
 
-                    txtcontact.setText(""+blLoanRequest.getContact() );
+                    txtcurrRate.setText(""+blLoanRequest.getLoaninterest() );
+
+
+//                    txtcurrloanemi.setText(""+blLoanRequest.get() );
+//                    txtdropemi.setText(""+blLoanRequest.getContact() );
+//                    txtnewemi.setText(""+blLoanRequest.getContact() );
+//                    txtdropinterestrate.setText(""+blLoanRequest.getContact() );
+//                    txtreducedintrest.setText(""+blLoanRequest.getContact() );
 
                 }
                 catch (Exception e)
@@ -155,6 +178,22 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
     }
 
+    private void setFmBankRequest(BLEntity entity) {
+
+
+        try{
+            bankSaveRequest = new BankSaveRequest();
+            bankSaveRequest.setLoan_requestID(fmBalanceLoanRequest.getBalanceTransferId());
+            bankSaveRequest.setBank_id((entity.getBank_Id()));
+            bankSaveRequest.setType("BT");
+            new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+    }
     @Override
     public void OnSuccessFM(APIResponseFM response, String message) {
         cancelDialog();
@@ -164,6 +203,11 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                 fmBalanceLoanRequest.setBalanceTransferId(LoanRequireID);
                 ((BLMainActivity) getActivity()).updateRequest(fmBalanceLoanRequest, true);
 
+            }
+        }else if(response instanceof BankForNodeResponse)
+        {
+            if (response.getStatusNo() == 0) {
+                ((BLMainActivity) getActivity()).redirectInput(fmBalanceLoanRequest);
             }
         }
     }

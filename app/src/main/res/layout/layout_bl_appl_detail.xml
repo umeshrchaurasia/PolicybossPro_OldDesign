@@ -104,6 +104,8 @@
             <EditText
                 android:id="@+id/etNameOfApplicant"
                 android:text=""
+                android:inputType="text"
+                android:maxLines="1"
                 style="@style/Style.edittext" />
         </android.support.design.widget.TextInputLayout>
 
@@ -121,7 +123,7 @@
                 android:digits="0123456789"
                 android:maxLength="10"
                 android:ems="10"
-                android:inputType="phone" />
+                android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
@@ -148,8 +150,8 @@
                 android:digits="0123456789"
                 android:ems="10"
 
-                android:inputType="phone"
-                android:maxLength="15" />
+                android:inputType="number"
+                android:maxLength="10" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -188,13 +190,15 @@
             android:layout_weight="60"
             android:hint="REM. LOAN TENURE (YRS)">
 
+
             <EditText
                 android:id="@+id/ettenureyrs"
                 style="@style/Style.edittext"
-                android:digits="0123456789"
-                android:inputType="phone"
+                android:ems="10"
 
-                android:maxLength="2" />
+                android:maxLength="5"
+                android:digits="0123456789.+-"
+                android:inputType="numberDecimal|numberSigned"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 

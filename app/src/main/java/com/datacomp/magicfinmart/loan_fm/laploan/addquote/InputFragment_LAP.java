@@ -68,7 +68,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
     LoginResponseEntity loginEntity;
     GetQuoteResponse getQuoteResponse;
 
-
     ScrollView scroll;
     TextView txtPropertyInfo, txtCoApplicantDetail, txtApplicantDetail;
     LinearLayout llPropertyInfo, llApplicantDetail, llCoApplicantDetail;
@@ -82,7 +81,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
     Button btnGetQuote;
     // region Applicant Details
-    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etTurnOver, etProfitAtTax, etDepreciation, etDirecPartRemuntion;
+    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etTurnOver, etProfitAtTax, etDepreciation, etDirecPartRemuntion,etContact;
 
     ArrayAdapter<String> salaryTypeAdapter;
     LinearLayout llSalaried, llSelfEmployeed, lyParent_CoAppDetail, coApp_llView1MothlyIncome;
@@ -114,13 +113,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
     //endregion
 
     //region Co-Applicant Details
-    EditText coApp_etNameOfApplicant, coApp_et_DOB, coApp_etMonthlyInc, coApp_etEMI, coApp_etTurnOver, coApp_etProfitAtTax, coApp_etDepreciation, coApp_etDirecPartRemuntion,etContact;
+    EditText coApp_etNameOfApplicant, coApp_et_DOB, coApp_etMonthlyInc, coApp_etEMI, coApp_etTurnOver, coApp_etProfitAtTax, coApp_etDepreciation, coApp_etDirecPartRemuntion;
     Spinner coApp_sbRelation;
     ArrayAdapter<String> coApp_salaryTypeAdapter, coApp_relationTypeAdapter;
     LinearLayout coApp_llSalaried, coApp_llSelfEmployeed;
 
-    RadioGroup coApp_rgGender;
-    RadioButton coApp_rbimgMale, coApp_rbimgFemale;
+
     private RadioGroup rgProperty1;
     private RadioGroup rgProperty2;
     AutoCompleteTextView acCity;
@@ -128,8 +126,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
     List<String> cityList;
     //endregion
     Context mContext;
-    int LoanRequireID = 0,int_etTurnOver=0,int_etProfitAtTax=0,int_etDirecPartRemuntion=0,int_etDepreciation=0,int_etMonthlyInc=0,totalmonthlucalc_app;
-    int int_coApp_etTurnOver=0,int_coApp_etProfitAtTax=0,int_coApp_etDirecPartRemuntion=0,int_coApp_etDepreciation=0,int_coApp_etMonthlyInc=0,totalmonthlucalc_coapp;
+    int LoanRequireID = 0;
+    long  int_etTurnOver=0,int_etProfitAtTax=0,int_etDirecPartRemuntion=0,int_etDepreciation=0,int_etMonthlyInc=0,totalmonthlucalc_app;
+    long int_coApp_etTurnOver=0,int_coApp_etProfitAtTax=0,int_coApp_etDirecPartRemuntion=0,int_coApp_etDepreciation=0,int_coApp_etMonthlyInc=0,totalmonthlucalc_coapp;
 
     public InputFragment_LAP() {
         // Required empty public constructor
@@ -211,7 +210,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             if (homeLoanRequest.getLoanTenure() != null)
                 etTenureInYear.setText(homeLoanRequest.getLoanTenure());
 
+
             etContact.setText(homeLoanRequest.getContact());
+
 
             int tenureInYear = Integer.parseInt(homeLoanRequest.getLoanTenure());
             sbTenure.setProgress(tenureInYear);
@@ -276,9 +277,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 
                     coApp_sbRelation.setSelection(getSelectedRelation(homeLoanRequest.getCoApplicantRelationt()));
-
-
-
 
                     if (homeLoanRequest.getCoApplicantGender().matches("M")) {
                         setCo_App_Male_gender();
@@ -385,7 +383,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 
         txtMaxLoanAmntAllow = (EditText) view.findViewById(R.id.txtMaxLoanAmntAllow);
-        txtMaxLoanAmntAllow.setKeyListener(null);
+
 
         txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
         txtDispalayMaxTenureYear = (TextView) view.findViewById(R.id.txtDispalayMaxTenureYear);
@@ -511,8 +509,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         txtrbimgFemale.setOnClickListener(this);
         txtco_app_rbimgFemale.setOnClickListener(this);
         txtco_app_rbimgMale.setOnClickListener(this);
-
-
 
         btnGetQuote.setOnClickListener(this);
         et_DOB.setOnClickListener(datePickerDialogApplicant);
@@ -694,7 +690,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             coApp_etTurnOver.setText("");
         }
     }
-
     //radio gender
     //   txtco_app_rbimgMale,txtco_app_rbimgFemale,txtrbimgMale,txtrbimgFemale
     private void setApp_Male_gender() {
@@ -740,7 +735,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 
     }
-
 
     @Override
     public void onClick(View v) {
@@ -789,7 +783,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             //region Property Validation
             String CostOfProp = etCostOfProp.getText().toString();
             String TenureInYear = etTenureInYear.getText().toString();
-
+            String MaxLoanAmntAllow = txtMaxLoanAmntAllow.getText().toString();
+            String Contact  = etContact.getText().toString();
 
             if (TextUtils.isEmpty(CostOfProp)) {
 
@@ -805,10 +800,41 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
                 return;
 
             }
+            if (TextUtils.isEmpty(MaxLoanAmntAllow)) {
+
+                txtMaxLoanAmntAllow.setError("Please Enter  Required Loan.");
+                txtMaxLoanAmntAllow.requestFocus();
+                return;
+
+            }
+
+            if (Long.valueOf(MaxLoanAmntAllow) > Long.valueOf(CostOfProp) ) {
+
+                txtMaxLoanAmntAllow.setError("Required Loan should not be greater than Cost Of Property.");
+                txtMaxLoanAmntAllow.requestFocus();
+                return;
+
+            }
+
             if (acCity.getText().toString().equals("") || acCity.getText().toString().length() == 0) {
                 acCity.setError("Please Enter city.");
                 acCity.requestFocus();
                 return;
+            }
+
+            if (TextUtils.isEmpty(Contact)) {
+
+
+            }
+            else {
+                if (Contact.length()<10) {
+
+                    etContact.setError("Please Enter 10 digit Mobile Number.");
+                    etContact.requestFocus();
+                    return;
+
+                }
+
             }
             if (TextUtils.isEmpty(TenureInYear)) {
 
@@ -889,7 +915,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             if (etMonthlyInc.getText() != null && !etMonthlyInc.getText().toString().equals("")) {
                 if (etEMI.getText() != null && !etEMI.getText().toString().equals("")) {
                     {
-                        if (Integer.parseInt(etEMI.getText().toString()) > Integer.parseInt(etMonthlyInc.getText().toString())) {
+                        if (Long.valueOf(etEMI.getText().toString()) > Long.valueOf(etMonthlyInc.getText().toString())) {
 
                             etEMI.setError("EMI should be less than monthly income.");
                             etEMI.requestFocus();
@@ -975,7 +1001,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
                 if (etMonthlyInc.getText() != null && !etMonthlyInc.getText().toString().equals("")) {
                     if (etEMI.getText() != null && !etEMI.getText().toString().equals("")) {
-                        if (Integer.parseInt(coApp_etEMI.getText().toString()) > Integer.parseInt(coApp_etMonthlyInc.getText().toString())) {
+                        if (Long.valueOf(coApp_etEMI.getText().toString()) > Long.valueOf(coApp_etMonthlyInc.getText().toString())) {
 
                             coApp_etEMI.setError("EMI should be less than monthly income.");
                             coApp_etEMI.requestFocus();
@@ -993,11 +1019,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             setApplicantDetails();
 
             ((LAPMainActivity) getActivity()).getQuoteParameterBundle(fmHomeLoanRequest);
-
         }
 
 
     }
+
 
     private void loadSpinner() {
 
@@ -1048,6 +1074,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         homeLoanRequest.setLoanRequired(txtMaxLoanAmntAllow.getText().toString());
         homeLoanRequest.setCity("" + acCity.getText().toString());
         homeLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString());
+
+        homeLoanRequest.setApplicantGender(GenderApplicantSource);
         if (homeLoanRequest.getApplicantGender()=="M") {
             homeLoanRequest.setApplicantGender("M");
         } else  if (homeLoanRequest.getApplicantGender()=="F") {
@@ -1082,6 +1110,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             homeLoanRequest.setCoApplicantYes("Y");
 
             homeLoanRequest.setCoApplicantName(coApp_etNameOfApplicant.getText().toString());
+
+            homeLoanRequest.setCoApplicantGender(GenderCoApplicantSource);
 
             if (homeLoanRequest.getCoApplicantGender()=="M") {
                 homeLoanRequest.setCoApplicantGender("M");
@@ -1138,6 +1168,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
     //region SeekBar ChangeListener
     @Override
+
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         switch (seekBar.getId()) {
 
@@ -1187,7 +1218,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
     private BigDecimal getMaxLoanAmount(String value) {
         double loanAmount = Double.parseDouble(value);
-        return BigDecimal.valueOf(Math.ceil(loanAmount * .8)).setScale(0, BigDecimal.ROUND_HALF_UP);
+        return BigDecimal.valueOf(Math.ceil(loanAmount * .6)).setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
     @Override
@@ -1197,8 +1228,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
             if (!etCostOfProp.getText().toString().equals("") && !etCostOfProp.getText().toString().equals(null)) {
 
-                int costOfProperty = Integer.parseInt(etCostOfProp.getText().toString());
-                int sactionAmount = getMaxLoanAmount("" + costOfProperty).intValueExact();
+                long costOfProperty = Long.valueOf(etCostOfProp.getText().toString());
+                long sactionAmount = getMaxLoanAmount("" + costOfProperty).intValueExact();
                 txtMaxLoanAmntAllow.setText("" + sactionAmount);
             } else {
                 txtMaxLoanAmntAllow.setText("");
@@ -1207,19 +1238,19 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         }  else if ( etProfitAtTax.getText().hashCode() == s.hashCode()) {
 
             if (!etProfitAtTax.getText().toString().equals("") && !etProfitAtTax.getText().toString().equals(null)) {
-                int_etProfitAtTax = Integer.parseInt(etProfitAtTax.getText().toString());
+                int_etProfitAtTax =  Long.valueOf(etProfitAtTax.getText().toString());
 
                 monthlycalc_applicant(int_etProfitAtTax,int_etDirecPartRemuntion,int_etDepreciation);
             }
 
         } else if (etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
             if (!etDirecPartRemuntion.getText().toString().equals("") && !etDirecPartRemuntion.getText().toString().equals(null)) {
-                int_etDirecPartRemuntion = Integer.parseInt(etDirecPartRemuntion.getText().toString());
+                int_etDirecPartRemuntion =  Long.valueOf(etDirecPartRemuntion.getText().toString());
                 monthlycalc_applicant(int_etProfitAtTax,int_etDirecPartRemuntion,int_etDepreciation);
             }
         }else if (etDepreciation.getText().hashCode() == s.hashCode()) {
             if (!etDepreciation.getText().toString().equals("") && !etDepreciation.getText().toString().equals(null)) {
-                int_etDepreciation = Integer.parseInt(etDepreciation.getText().toString());
+                int_etDepreciation =  Long.valueOf(etDepreciation.getText().toString());
                 monthlycalc_applicant(int_etProfitAtTax,int_etDirecPartRemuntion,int_etDepreciation);
             }
 
@@ -1227,26 +1258,26 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 // monthly income calc in Co Applicant
         }  else if (coApp_etProfitAtTax.getText().hashCode() == s.hashCode()) {
             if (!coApp_etProfitAtTax.getText().toString().equals("") && !coApp_etProfitAtTax.getText().toString().equals(null)) {
-                int_coApp_etProfitAtTax = Integer.parseInt(coApp_etProfitAtTax.getText().toString());
+                int_coApp_etProfitAtTax = Long.valueOf(coApp_etProfitAtTax.getText().toString());
                 monthlycalc_coapplicant(int_coApp_etDepreciation,int_coApp_etProfitAtTax,int_coApp_etDirecPartRemuntion);
             }
 
         } else if (coApp_etDepreciation.getText().hashCode() == s.hashCode()) {
             if (!coApp_etDepreciation.getText().toString().equals("") && !coApp_etDepreciation.getText().toString().equals(null)) {
-                int_coApp_etDepreciation = Integer.parseInt(coApp_etDepreciation.getText().toString());
+                int_coApp_etDepreciation = Long.valueOf(coApp_etDepreciation.getText().toString());
                 monthlycalc_coapplicant(int_coApp_etDepreciation,int_coApp_etProfitAtTax,int_coApp_etDirecPartRemuntion);
             }
 
         } else if (coApp_etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
             if (!coApp_etDirecPartRemuntion.getText().toString().equals("") && !coApp_etDirecPartRemuntion.getText().toString().equals(null)) {
-                int_coApp_etDirecPartRemuntion = Integer.parseInt(coApp_etDirecPartRemuntion.getText().toString());
+                int_coApp_etDirecPartRemuntion = Long.valueOf(coApp_etDirecPartRemuntion.getText().toString());
                 monthlycalc_coapplicant(int_coApp_etDepreciation,int_coApp_etProfitAtTax,int_coApp_etDirecPartRemuntion);
             }
 
         }
     }
 
-    public void monthlycalc_applicant(int int_etProfitAtTax,int int_etDirecPartRemuntion,int int_etDepreciation)
+    public void monthlycalc_applicant(long int_etProfitAtTax,long int_etDirecPartRemuntion,long int_etDepreciation)
     {
         float total = int_etProfitAtTax+int_etDirecPartRemuntion+int_etDepreciation;
         if (total > 0) {
@@ -1255,7 +1286,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         }
     }
 
-    public void monthlycalc_coapplicant(int int_coApp_etDepreciation,int int_coApp_etProfitAtTax,int int_coApp_etDirecPartRemuntion)
+    public void monthlycalc_coapplicant(long int_coApp_etDepreciation,long int_coApp_etProfitAtTax,long int_coApp_etDirecPartRemuntion)
     {
 
         float totalcoapp = int_coApp_etDepreciation+int_coApp_etProfitAtTax+int_coApp_etDirecPartRemuntion;

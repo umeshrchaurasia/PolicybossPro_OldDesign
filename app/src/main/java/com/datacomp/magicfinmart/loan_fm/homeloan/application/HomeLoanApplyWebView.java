@@ -70,7 +70,7 @@ public class HomeLoanApplyWebView extends AppCompatActivity {
                 + "&loanamout=" + quoteEntity.getLoan_eligible()
                 + "&idtype=" + quoteEntity.getRoi_type()
                 + "&processingfee=" + quoteEntity.getProcessingfee()
-               // +"&fbaid"+loginEntity.getFBAId()//future
+                +"&fbaid"+loginEntity.getFBAId()//future
                 + "&Lead_Source="+"DC";
         Log.d("HOME_LOAN_URL", url);
         webView.loadUrl(url);
