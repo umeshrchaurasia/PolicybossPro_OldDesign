@@ -31,14 +31,16 @@ body {font-size:12px;}
 .glyphicon {    font-weight: normal;font-size: 10px; color:#666;margin-right:4px;}
 ul li {margin:2px; padding:4px !important;}
 
+
     </style>
 </head>
+
 
 <body>
 <div class="container">
     <div class="col-md-12">
         <h3 class="blu-heading text-center">Quotation for Insurance of your Vehicle</h3>
-        <p>Dear <b class="red-txt">Joel Jangam</b></p>
+        <p id="C_Name">Dear <b class="red-txt" >Joel Jangam</b></p>
         <p>Please find below our best quotations for renewal of insurance of your vehicle</p>
     </div>
 
@@ -132,7 +134,7 @@ ul li {margin:2px; padding:4px !important;}
                 <tbody>
                 <tr>
                     <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src="img/reliance_logo.png" class="img-responsive center"/></td>
+                            src="http://www.policyboss.com/Images/insurer_logo/hdfc.png" class="img-responsive center"/></td>
                     <td>IDV</td>
                     <td>PREMIIUM</td>
                 </tr>
@@ -369,5 +371,13 @@ ul li {margin:2px; padding:4px !important;}
 
 </div>
 </body>
+<script type="text/javascript">
 
+    function init(val){
+            // Do whatever you want with your parameter val
+            document.getElementById("C_Name").innerHTML=val;
+
+    }
+
+</script>
 </html>

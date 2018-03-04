@@ -27,6 +27,7 @@ import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.util.List;
@@ -97,8 +98,8 @@ public class HomeActivity extends BaseActivity {
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
 
-                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                      //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+                      //  startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                       startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
                         // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
@@ -119,7 +120,7 @@ public class HomeActivity extends BaseActivity {
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_myBusiness:
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        startActivity(new Intent(HomeActivity.this, ShareQuoteACtivity.class));
                         break;
                     case R.id.nav_referFriend:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));

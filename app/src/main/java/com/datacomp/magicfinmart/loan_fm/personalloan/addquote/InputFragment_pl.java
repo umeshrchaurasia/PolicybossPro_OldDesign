@@ -112,7 +112,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         sbTenure.setMax(4);
         sbTenure.setProgress(0);
         etTenureInYear.setText("1");
-        etPAN.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+
         //endregion
 
         //region Applicant Initialize

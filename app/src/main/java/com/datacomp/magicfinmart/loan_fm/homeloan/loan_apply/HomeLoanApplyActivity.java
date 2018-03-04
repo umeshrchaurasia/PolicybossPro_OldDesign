@@ -1,21 +1,34 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply;
 
+import android.app.DatePickerDialog;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.DateTimePicker;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -27,35 +40,45 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
 
-    Spinner spTitle;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+    Spinner spTitle, spNatureOfOrg, spNatureOfBus, spResidence;
     RelativeLayout rlPLInfo, rlAddress, rlEmployment, rlFinancial;
 
     LinearLayout llPlInfo, llAddress, llEmployment, llFinancial;
 
-    ImageView ivMale, ivFemale, ivPLInfo, ivAddress, ivEmploy, ivFinancial;
+    ImageView ivMale, ivFemale, ivPLInfo, ivAddress, ivEmploy, ivFinancial,
+            ivFinancialPending, ivFinancialDone, ivEmployDone, ivEmployPending, ivAddressDone, ivAddressPending, ivPLInfoDone, ivPLInfoPending;
+    ;
 
-    EditText etFirstName , etLastName , etDob , etFatherName ,etPan , etNationality, etUniversity, etMoMaidenName ;
+    CheckBox chkPresent;
+    Button btnSubmit;
 
-    EditText etEmailPersContInfo, etEmailOffContInfo , etMobNo1ContInfo ,etMobNo2ContInfo,
-            etAddress1ContInfoRAP, etAddress2ContInfoRAP,etAddress3ContInfoRAP,
-            etLandmakContInfoRAP, etPincodeContInfoRAP,etCityContInfoRAP,
-            etStateContInfoRAP,etCountryPlRAP, etAddress1ContInfoPA,etAddress2ContInfoPA,etAddress3ContInfoPA,etLandmakContInfoPA;
+    EditText etFirstName, etLastName, etDob, etFatherName, etPan, etNationality, etUniversity, etMoMaidenName, etSpouceName, etNoOfDepen,
+    // Address
+    etEmailPersContInfo, etEmailOffContInfo, etMobNo1ContInfo, etMobNo2ContInfo,
+            etAddress1ContInfoRAP, etAddress2ContInfoRAP, etAddress3ContInfoRAP,
+            etLandmakContInfoRAP, etPincodeContInfoRAP, etCityContInfoRAP,
+            etStateContInfoRAP, etCountryPlRAP, etAddress1ContInfoPA, etAddress2ContInfoPA, etAddress3ContInfoPA, etLandmakContInfoPA,
+            etPincodeContInfoPA, etCityContInfo, etStateContInfoPA, etCountryPA,
+            etLandlineNoContInfoPA, etNoOfYrsAtOffContInfoPA,
 
-    EditText etPincodeContInfoPA,etCityContInfo,etStateContInfoPA,etCountryPA,
-            etLandlineNoContInfoPA,etNoOfYrsAtOffContInfoPA;
+    // Employment
+    etDesig, etCurrJob, etTotalExp, etNameOfOrg, etTurnOver, etDeprec, etDirRem, etProfAftTax,
+            etAddress1ED, etAddress2, etAddress3, etLandmak, etPincodeED, etCityED, etStateED, etCountryPl, etLandlineNoPl,
 
-    EditText etDesig,etCurrJob,etTotalExp,etNameOfOrg,etTurnOver,etDeprec,etDirRem,etProfAftTax,
-    etAddress1ED,etAddress2,etAddress3,etLandmak,etPincodeED,etCityED,etStateED,etCountryPl, etLandlineNoPl;
-
-    EditText
-            etGrossIncome,etNetIncome,etOtherIncome,etTotalIncome;
+    // Finacial
+    etGrossIncome, etNetIncome, etOtherIncome, etTotalIncome;
 
 
-    TextView txtMarried, txtSingle, txtRES, txtNRI, txtPIO, txtOCR, txtFOR;
-    TextView txtGEN, txtSC, txtST, txtOBC, txtOTH;
-    TextView txtPORT, txtVOTER, txtDRV;
-    TextView txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH;
+    TextView txtMarried, txtSingle, txtIdType, txtRES, txtNRI, txtPIO, txtOCR, txtFOR,
+            txtGEN, txtSC, txtST, txtOBC, txtOTH,
+            txtPORT, txtVOTER, txtDRV,
+            txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH;
+
+    String Gender = "M";
+    String PL_STATUS = "RES", PL_CATEGORY = "GEN", PL_IDTYPE = "", PL_EDUCATION = "GRAD";
+    int StatusType = 1, CategoryType = 2, IdType = 3, EducationType = 4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +93,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         initialize();
         setListener();
         initLayouts();
+        setDefaultCheckList();
     }
 
     private void initialize() {
@@ -94,6 +118,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         // region Persoal Info
         txtMarried = (TextView) findViewById(R.id.txtMarried);
         txtSingle = (TextView) findViewById(R.id.txtSingle);
+        txtIdType = (TextView) findViewById(R.id.txtIdType);
+
         txtRES = (TextView) findViewById(R.id.txtRES);
         txtNRI = (TextView) findViewById(R.id.txtNRI);
         txtPIO = (TextView) findViewById(R.id.txtPIO);
@@ -121,13 +147,19 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         etDob = (EditText) findViewById(R.id.etDob);
         etPan = (EditText) findViewById(R.id.etPan);
         etFatherName = (EditText) findViewById(R.id.etFatherName);
+
         etNationality = (EditText) findViewById(R.id.etNationality);
         etUniversity = (EditText) findViewById(R.id.etUniversity);
         etMoMaidenName = (EditText) findViewById(R.id.etMoMaidenName);
+        etSpouceName = (EditText) findViewById(R.id.etSpouceName);
+        etNoOfDepen = (EditText) findViewById(R.id.etNoOfDepen);
 
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
         // endregion
 
         // region Address
+        chkPresent = (CheckBox) findViewById(R.id.chkPresent);
+
         etEmailPersContInfo = (EditText) findViewById(R.id.etEmailPersContInfo);
         etEmailOffContInfo = (EditText) findViewById(R.id.etEmailOffContInfo);
         etMobNo1ContInfo = (EditText) findViewById(R.id.etMobNo1ContInfo);
@@ -155,6 +187,44 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         etLandlineNoContInfoPA = (EditText) findViewById(R.id.etLandlineNoContInfoPA);
         etNoOfYrsAtOffContInfoPA = (EditText) findViewById(R.id.etNoOfYrsAtOffContInfoPA);
+
+        txtMarried = (TextView) findViewById(R.id.txtMarried);
+        txtSingle = (TextView) findViewById(R.id.txtSingle);
+        txtRES = (TextView) findViewById(R.id.txtRES);
+        txtNRI = (TextView) findViewById(R.id.txtNRI);
+        txtPIO = (TextView) findViewById(R.id.txtPIO);
+        txtOCR = (TextView) findViewById(R.id.txtOCR);
+        txtFOR = (TextView) findViewById(R.id.txtFOR);
+
+        txtGEN = (TextView) findViewById(R.id.txtGEN);
+        txtSC = (TextView) findViewById(R.id.txtSC);
+        txtST = (TextView) findViewById(R.id.txtST);
+        txtOBC = (TextView) findViewById(R.id.txtOBC);
+        txtOTH = (TextView) findViewById(R.id.txtOTH);
+
+        txtPORT = (TextView) findViewById(R.id.txtPORT);
+        txtVOTER = (TextView) findViewById(R.id.txtVOTER);
+        txtDRV = (TextView) findViewById(R.id.txtDRV);
+
+        txtMATR = (TextView) findViewById(R.id.txtMATR);
+        txtUGRAD = (TextView) findViewById(R.id.txtUGRAD);
+        txtGRAD = (TextView) findViewById(R.id.txtGRAD);
+        txtPGRAD = (TextView) findViewById(R.id.txtPGRAD);
+        txteducatOTH = (TextView) findViewById(R.id.txteducatOTH);
+
+
+        ivMale = (ImageView) findViewById(R.id.ivMale);
+        ivFemale = (ImageView) findViewById(R.id.ivFemale);
+
+        ivFinancialPending = (ImageView) findViewById(R.id.ivFinancialPending);
+        ivFinancialDone = (ImageView) findViewById(R.id.ivFinancialDone);
+        ivEmployDone = (ImageView) findViewById(R.id.ivEmployDone);
+        ivEmployPending = (ImageView) findViewById(R.id.ivEmployPending);
+
+        ivAddressDone = (ImageView) findViewById(R.id.ivAddressDone);
+        ivAddressPending = (ImageView) findViewById(R.id.ivAddressPending);
+        ivPLInfoDone = (ImageView) findViewById(R.id.ivPLInfoDone);
+        ivPLInfoPending = (ImageView) findViewById(R.id.ivPLInfoPending);
 
         //endregion
 
@@ -192,8 +262,12 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     }
 
 
-
     private void setListener() {
+
+        etDob.setOnClickListener(datePickerDialogApplicant);
+        btnSubmit.setOnClickListener(this);
+        ivMale.setOnClickListener(this);
+        ivFemale.setOnClickListener(this);
 
         ivPLInfo.setOnClickListener(this);
         ivAddress.setOnClickListener(this);
@@ -205,6 +279,32 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         rlEmployment.setOnClickListener(this);
         rlFinancial.setOnClickListener(this);
 
+        txtMarried.setOnClickListener(this);
+        txtSingle.setOnClickListener(this);
+
+        txtRES.setOnClickListener(this);
+        txtNRI.setOnClickListener(this);
+        txtPIO.setOnClickListener(this);
+        txtOCR.setOnClickListener(this);
+        txtFOR.setOnClickListener(this);
+
+        txtGEN.setOnClickListener(this);
+        txtSC.setOnClickListener(this);
+        txtST.setOnClickListener(this);
+        txtOBC.setOnClickListener(this);
+        txtOTH.setOnClickListener(this);
+
+        txtPORT.setOnClickListener(this);
+        txtVOTER.setOnClickListener(this);
+        txtDRV.setOnClickListener(this);
+
+        txtMATR.setOnClickListener(this);
+        txtUGRAD.setOnClickListener(this);
+        txtGRAD.setOnClickListener(this);
+        txtPGRAD.setOnClickListener(this);
+        txteducatOTH.setOnClickListener(this);
+
+
     }
 
     private void initLayouts() {
@@ -215,6 +315,104 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     }
 
+    private void setDefaultCheckList() {
+        ivFinancialPending.setVisibility(View.VISIBLE);
+        ivEmployPending.setVisibility(View.VISIBLE);
+        ivAddressPending.setVisibility(View.VISIBLE);
+        ivPLInfoPending.setVisibility(View.VISIBLE);
+
+        ivFinancialDone.setVisibility(View.INVISIBLE);
+        ivEmployDone.setVisibility(View.INVISIBLE);
+        ivAddressDone.setVisibility(View.INVISIBLE);
+        ivPLInfoDone.setVisibility(View.INVISIBLE);
+
+        setMale_gender();
+    }
+
+    private void setMale_gender() {
+        Gender = "M";
+        ivMale.setImageResource(R.drawable.male_selected);
+        ivFemale.setImageResource(R.drawable.female);
+
+    }
+
+    private void setFeMale_gender() {
+        Gender = "F";
+        ivFemale.setImageResource(R.drawable.female_selected);
+        ivMale.setImageResource(R.drawable.male);
+
+
+    }
+
+
+    private void managePL_Common(int Type, String Value, TextView clickedText, TextView textView1, TextView textView2, TextView textView3, TextView textView4) {
+
+
+        if (Type == 1) {
+            PL_STATUS = Value;
+        } else if (Type == 2) {
+            PL_CATEGORY = Value;
+        }
+        if (Type == 3) {
+            PL_IDTYPE = Value;
+        }
+        if (Type == 4) {
+            PL_EDUCATION = Value;
+        }
+        clickedText.setBackgroundResource(R.drawable.customeborder_blue);
+        clickedText.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.colorPrimary));
+
+        textView1.setBackgroundResource(R.drawable.customeborder);
+        textView1.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
+
+        textView2.setBackgroundResource(R.drawable.customeborder);
+        textView2.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
+
+        textView3.setBackgroundResource(R.drawable.customeborder);
+        textView3.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
+
+        textView4.setBackgroundResource(R.drawable.customeborder);
+        textView4.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
+
+
+    }
+
+    private void managePL_IDTYPE(String Value, TextView clickedText, TextView textView1, TextView textView2) {
+
+        PL_IDTYPE = Value;
+        txtIdType.setVisibility(View.GONE);
+        clickedText.setBackgroundResource(R.drawable.customeborder_blue);
+        clickedText.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.colorPrimary));
+
+        textView1.setBackgroundResource(R.drawable.customeborder);
+        textView1.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
+
+        textView2.setBackgroundResource(R.drawable.customeborder);
+        textView2.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
+
+    }
+
+    //region datePickerDialog Applicant
+    protected View.OnClickListener datePickerDialogApplicant = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Constants.hideKeyBoard(view, HomeLoanApplyActivity.this);
+            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(year, monthOfYear, dayOfMonth);
+                    String currentDay = simpleDateFormat.format(calendar.getTime());
+                    etDob.setText(currentDay);
+                    //etDate.setTag(R.id.et_date, calendar.getTime());
+                }
+            });
+        }
+    };
+    //endregion
+
+
     @Override
     public void onClick(View view) {
         Constants.hideKeyBoard(view, this);
@@ -222,30 +420,212 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             case R.id.ivPLInfo:
             case R.id.rlPLInfo:
                 manageMainLayouts(llPlInfo, llAddress, llEmployment, llFinancial);
-                manageImages(llPlInfo,ivPLInfo, ivEmploy,  ivAddress, ivFinancial);//
+                manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
                 break;
 
             case R.id.ivAddress:
             case R.id.rlAddress:
-                manageMainLayouts(llAddress,llPlInfo,  llEmployment, llFinancial);
-                manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo,ivFinancial);
+                manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
+                manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo, ivFinancial);
 
                 break;
 
             case R.id.ivEmploy:
             case R.id.rlEmployment:
-                manageMainLayouts(llEmployment,llPlInfo, llAddress,  llFinancial);
+                manageMainLayouts(llEmployment, llPlInfo, llAddress, llFinancial);
                 manageImages(llEmployment, ivEmploy, ivPLInfo, ivAddress, ivFinancial);
                 break;
 
             case R.id.ivFinancial:
             case R.id.rlFinancial:
-                manageMainLayouts(llFinancial,llPlInfo, llAddress, llEmployment);
-                manageImages(llFinancial , ivFinancial , ivPLInfo, ivAddress, ivEmploy);
+                manageMainLayouts(llFinancial, llPlInfo, llAddress, llEmployment);
+                manageImages(llFinancial, ivFinancial, ivPLInfo, ivAddress, ivEmploy);
+                break;
+
+            case R.id.ivMale:
+                setMale_gender();
+                break;
+
+            case R.id.ivFemale:
+                setFeMale_gender();
+                break;
+
+            //region PL INFO Status
+            case R.id.txtRES:
+                managePL_Common(StatusType, "RES", txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
+                break;
+            case R.id.txtNRI:
+                managePL_Common(StatusType, "NRI", txtNRI, txtRES, txtPIO, txtOCR, txtFOR);
+                break;
+            case R.id.txtPIO:
+                managePL_Common(StatusType,"PIO", txtPIO, txtRES, txtNRI, txtOCR, txtFOR);
+                break;
+            case R.id.txtOCR:
+                managePL_Common(StatusType,"OCR", txtOCR, txtRES, txtNRI, txtPIO, txtFOR);
+                break;
+            case R.id.txtFOR:
+                managePL_Common(StatusType,"FOR", txtFOR, txtRES, txtNRI, txtPIO, txtOCR);
+                break;
+            //endregion
+
+            //region PL INFO Category
+            case R.id.txtGEN:
+                managePL_Common(CategoryType,"GEN", txtGEN, txtSC, txtST, txtOBC, txtOTH);
+                break;
+            case R.id.txtSC:
+                managePL_Common(CategoryType,"SC", txtSC, txtGEN, txtST, txtOBC, txtOTH);
+                break;
+            case R.id.txtST:
+                managePL_Common(CategoryType,"ST", txtST, txtGEN, txtSC, txtOBC, txtOTH);
+                break;
+            case R.id.txtOBC:
+                managePL_Common(CategoryType,"OBC", txtOBC, txtGEN, txtSC, txtST, txtOTH);
+                break;
+            case R.id.txtOTH:
+                managePL_Common(CategoryType,"OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
+                //endregion
+
+                // region PL INFO IDType
+            case R.id.txtPORT:
+                managePL_IDTYPE("PORT", txtPORT, txtVOTER, txtDRV);
+                break;
+            case R.id.txtVOTER:
+                managePL_IDTYPE("VOTER", txtVOTER, txtPORT, txtDRV);
+                break;
+            case R.id.txtDRV:
+                managePL_IDTYPE("DRV", txtDRV, txtPORT, txtVOTER);
+                break;
+            //endregion
+
+            // region PL INFO Education
+            case R.id.txtMATR:
+                managePL_Common( EducationType,"MATR", txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
+                break;
+            case R.id.txtUGRAD:
+                managePL_Common(EducationType,"UGRAD", txtUGRAD, txtMATR, txtGRAD, txtPGRAD, txteducatOTH);
+                break;
+            case R.id.txtGRAD:
+                managePL_Common(EducationType,"GRAD", txtGRAD, txtMATR, txtUGRAD, txtPGRAD, txteducatOTH);
+                break;
+            case R.id.txtPGRAD:
+                managePL_Common(EducationType,"PGRAD", txtPGRAD, txtMATR, txtUGRAD, txtGRAD, txteducatOTH);
+                break;
+            case R.id.txteducatOTH:
+                managePL_Common(EducationType,"PGRAD", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
+
+                //endregion
+
+
+            case R.id.btnSubmit:
+
+                if (validatePL_Info() == false) {
+                    if (llPlInfo.getVisibility() == View.GONE) {
+
+                        manageMainLayouts(llPlInfo, llAddress, llEmployment, llFinancial);
+                        manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
+                    }
+                }
+                validatePL_Info();
                 break;
         }
     }
 
+
+    private boolean validatePL_Info() {
+
+        if (!isEmpty(etFirstName)) {
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etFirstName.requestFocus();
+                etFirstName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etFirstName.setError("Enter First Name");
+                return false;
+            } else {
+                etFirstName.requestFocus();
+                etFirstName.setError("Enter First Name");
+                return false;
+            }
+        }
+
+        if (!isEmpty(etLastName)) {
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etLastName.requestFocus();
+                etLastName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etLastName.setError("Enter Last Name");
+                return false;
+            } else {
+                etLastName.requestFocus();
+                etLastName.setError("Enter Last Name");
+                return false;
+            }
+        }
+
+
+        if (!isEmpty(etSpouceName)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etSpouceName.requestFocus();
+                etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etSpouceName.setError("Enter Last Name");
+                return false;
+            } else {
+                etSpouceName.requestFocus();
+                etSpouceName.setError("Enter Spouce Name");
+                return false;
+            }
+        }
+
+        if (!isEmpty(etPan)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etPan.requestFocus();
+                etPan.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etPan.setError("Enter PAN");
+                return false;
+            } else {
+                etPan.requestFocus();
+                etPan.setError("Enter PAN");
+                return false;
+            }
+        }
+
+        if (!isValidPan(etPan)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etPan.requestFocus();
+                etPan.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etPan.setError("Enter Valid PAN");
+                return false;
+            } else {
+                etPan.requestFocus();
+                etPan.setError("Enter Valid PAN");
+                return false;
+            }
+        }
+
+        if (PL_IDTYPE.equals("")) {
+            txtIdType.setVisibility(View.VISIBLE);
+            return false;
+        }
+
+        if (!isEmpty(etMoMaidenName)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etMoMaidenName.requestFocus();
+                etMoMaidenName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etMoMaidenName.setError("Enter Mother's Maiden Name");
+                return false;
+            } else {
+                etMoMaidenName.requestFocus();
+                etMoMaidenName.setError("Enter Mother's Maiden Name");
+                return false;
+            }
+        }
+        return true;
+    }
 
     private void manageMainLayouts(LinearLayout visibleLayout, LinearLayout hideLayout1, LinearLayout hideLayout2, LinearLayout hideLayout3) {
 

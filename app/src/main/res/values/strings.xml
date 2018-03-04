@@ -170,6 +170,43 @@
 
     </string-array>
 
+    <string-array name="title_loan">
+        <item>MR.</item>
+        <item>MRS.</item>
+        <item>MS.</item>
+
+    </string-array>
+
+    <string-array name="ownership">
+        <item>SELECT</item>
+        <item>RENT HOUSE</item>
+        <item>SELF OWNED</item>
+        <item>PARENTAL</item>
+        <item>CO-PROVIDED</item>
+
+    </string-array>
+
+    <string-array name="organization">
+        <item>SELECT</item>
+        <item>MULTINATIONAL</item>
+        <item>PUBLIC LTD.</item>
+        <item>GOVT/SEMI GOVT.ENT.</item>
+        <item>PVT LTD.</item>
+        <item>PARTNERSHIP</item>
+        <item>PROPRIETORSHIP</item>
+        <item>OTHERS</item>
+
+    </string-array>
+
+
+    <string-array name="business">
+        <item>SELECT</item>
+        <item>SERVICES</item>
+        <item>TRADING</item>
+        <item>MANUFACTURING</item>
+        <item>OTHERS</item>
+
+    </string-array>
     <string name="title_activity_health_check_up_plans">HEALTH CHECK UP PLANS</string>
     <string name="title_activity_eula">Agreement</string>
     <string name="title_activity_knowledge_guru">KNOWLEDGE GURU</string>
@@ -191,6 +228,7 @@
     <string name="title_activity_raise_ticket">RAISE A TICKET</string>
     <string name="title_activity_add_ticket">RAISE A TICKET</string>
     <string name="title_activity_main">ICICICreditApplyActivity</string>
+    <string name="title_activity_share_quote_activity">Share</string>
 
 
 </resources>

@@ -236,7 +236,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         btnSave = (Button) findViewById(R.id.btnSave);
 
-        etPAN.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
 
     }
