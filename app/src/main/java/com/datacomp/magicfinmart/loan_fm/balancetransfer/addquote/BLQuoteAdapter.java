@@ -29,9 +29,9 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
     List<BLEntity> quoteEntities;
 
     GetBLDispalyResponse getblDispalyResponse ;
-    Integer LoanAmount=0;
+    Double LoanAmount=0.0;
 
-    public BLQuoteAdapter(Fragment context, List<BLEntity> quoteEntities,GetBLDispalyResponse tmpgetgetblDispalyResponse,Integer loanAmount ) {
+    public BLQuoteAdapter(Fragment context, List<BLEntity> quoteEntities,GetBLDispalyResponse tmpgetgetblDispalyResponse,Double loanAmount ) {
         mContext = context;
         this.quoteEntities = quoteEntities;
         getblDispalyResponse = tmpgetgetblDispalyResponse;
@@ -98,7 +98,7 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
             @Override
             public void onClick(View v) {
 
-               // ((QuoteFragment_bl) mContext).redirectToApplyBank(quoteEntity);
+                ((QuoteFragment_bl) mContext).redirectToApplyBank(quoteEntity);
                 //quote to app conversion
                 ((QuoteFragment_bl) mContext).quoteToApp();
                 ((QuoteFragment_bl) mContext).redirectToApplyLoan(quoteEntity,getblDispalyResponse.getUrl(), getblDispalyResponse.getQuote_id());

@@ -100,9 +100,7 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
         double loanr = quoteEntity.getLoan_eligible();
         double emiperlac = (quoteEntity.getEmi() / loanr) * 100000;
 
-
         holder.tvEmiperlac.setText("" + "\u20B9" + " " +Math.round(emiperlac));
-
         Glide.with(mContext)
                 .load(quoteEntity.getBank_Logo())
                 .into(holder.ivBankLogo);

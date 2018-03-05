@@ -73,7 +73,7 @@ public class PersonalLoanApplyWebView extends AppCompatActivity {
                 + "&loanamout=" + entity.getLoan_eligible()
                 + "&idtype=" + entity.getRoi_type()
                 + "&processingfee=" + entity.getProcessingfee()
-                // +"&fbaid"+loginEntity.getFBAId()//future
+                +"&fbaid"+loginEntity.getFBAId()//fu
                 + "&Lead_Source="+"DC";
 
         Log.d("PERSONAL_LOAN_URL", url);
