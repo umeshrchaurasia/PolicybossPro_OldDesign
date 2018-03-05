@@ -518,14 +518,22 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
             case R.id.btnSubmit:
 
-                if (validatePL_Info() == false) {
+//                if (validatePL_Info() == false) {
+//                    if (llPlInfo.getVisibility() == View.GONE) {
+//
+//                        manageMainLayouts(llPlInfo, llAddress, llEmployment, llFinancial);
+//                        manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
+//                    }
+//                }
+
+                    if (validateAddress_Info() == false) {
                     if (llPlInfo.getVisibility() == View.GONE) {
 
-                        manageMainLayouts(llPlInfo, llAddress, llEmployment, llFinancial);
-                        manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
+                        manageMainLayouts(llAddress,llPlInfo,  llEmployment, llFinancial);
+                        manageImages(llAddress, ivAddress,ivPLInfo, ivEmploy,  ivFinancial);//
                     }
                 }
-                validatePL_Info();
+
                 break;
         }
     }
@@ -621,6 +629,111 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             } else {
                 etMoMaidenName.requestFocus();
                 etMoMaidenName.setError("Enter Mother's Maiden Name");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean validateAddress_Info() {
+
+        if (!isEmpty(etEmailPersContInfo)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etEmailPersContInfo.requestFocus();
+                etEmailPersContInfo.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etEmailPersContInfo.setError("Enter Email ID");
+                return false;
+            } else {
+                etEmailPersContInfo.requestFocus();
+                etEmailPersContInfo.setError("Enter Email ID");
+                return false;
+            }
+        } else if (!isValideEmailID(etEmailPersContInfo)) {
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etEmailPersContInfo.requestFocus();
+                etEmailPersContInfo.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etEmailPersContInfo.setError("Enter Valid Email ID");
+                return false;
+
+            } else {
+                etEmailPersContInfo.requestFocus();
+                etEmailPersContInfo.setError("Enter Valid Email ID");
+                return false;
+
+            }
+        } else if (!isEmpty(etMobNo1ContInfo)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etMobNo1ContInfo.requestFocus();
+                etMobNo1ContInfo.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etMobNo1ContInfo.setError("Enter Mobile Number");
+                return false;
+
+            } else {
+                etMobNo1ContInfo.requestFocus();
+                etMobNo1ContInfo.setError("Enter Mobile Number");
+                return false;
+
+            }
+        } else if (etMobNo1ContInfo.getText().length() < 10) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etMobNo1ContInfo.requestFocus();
+                etMobNo1ContInfo.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etMobNo1ContInfo.setError("Enter Valid Mobile Number");
+                return false;
+
+            } else {
+                etMobNo1ContInfo.requestFocus();
+                etMobNo1ContInfo.setError("Enter Valid Mobile Number");
+                return false;
+            }
+        }else if (!isEmpty(etAddress1ContInfoRAP)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etAddress1ContInfoRAP.requestFocus();
+                etAddress1ContInfoRAP.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etAddress1ContInfoRAP.setError("Enter Address");
+                return false;
+
+            } else {
+                etAddress1ContInfoRAP.requestFocus();
+                etAddress1ContInfoRAP.setError("Enter Address");
+                return false;
+
+            }
+        }else if (!isEmpty(etPincodeContInfoRAP)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etPincodeContInfoRAP.requestFocus();
+                etPincodeContInfoRAP.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etPincodeContInfoRAP.setError("Enter Pincode");
+                return false;
+
+            } else {
+                etPincodeContInfoRAP.requestFocus();
+                etPincodeContInfoRAP.setError("Enter Pincode");
+                return false;
+
+            }
+        }else if (etPincodeContInfoRAP.getText().length() <6 ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etPincodeContInfoRAP.requestFocus();
+                etPincodeContInfoRAP.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etPincodeContInfoRAP.setError("Enter Valid Pincode");
+                return false;
+
+            } else {
+                etPincodeContInfoRAP.requestFocus();
+                etPincodeContInfoRAP.setError("Enter Valid Pincode");
                 return false;
             }
         }
