@@ -5,9 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -21,7 +19,6 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
-import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -30,14 +27,17 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
-import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+
+import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 
 public class ShareQuoteACtivity extends BaseActivity {
     WebView webView;
@@ -45,6 +45,9 @@ public class ShareQuoteACtivity extends BaseActivity {
     String name;
     String title;
     Bitmap bmp;
+    int count = 0;
+    BikePremiumResponse bikePremiumResponse;
+    String jsonResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,11 @@ public class ShareQuoteACtivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         webView = (WebView) findViewById(R.id.webView);
+        if (getIntent().hasExtra("RESPONSE")) {
+            bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
+            jsonResponse = getJsonFromClass(bikePremiumResponse);
+        }
+
         url = getIntent().getStringExtra("URL");
         url = "file:///android_asset/VechicleInsurance.html";
         name = getIntent().getStringExtra("NAME");
@@ -70,10 +78,27 @@ public class ShareQuoteACtivity extends BaseActivity {
             public void onClick(View view) {
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                downloadPdf(url, name);
+                //downloadPdf(url, name);
+                shareQuote();
             }
         });
         settingWebview();
+    }
+
+    private String getJsonFromClass(BikePremiumResponse bikePremiumResponse) {
+        Gson gson = new Gson();
+        return gson.toJson(bikePremiumResponse);
+    }
+
+    private void shareQuote() {
+        bmp = getBitmapFromWebView(webView);
+
+        try {
+            SimplePDFTable(bmp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void downloadPdf(String url, String name) {
@@ -86,7 +111,7 @@ public class ShareQuoteACtivity extends BaseActivity {
         dm.enqueue(r);
     }
 
-   /* private void createWebPrintJob(WebView webView) {
+    private void createWebPrintJob(WebView webView) {
 
         PrintManager printManager = (PrintManager) this
                 .getSystemService(Context.PRINT_SERVICE);
@@ -104,7 +129,7 @@ public class ShareQuoteACtivity extends BaseActivity {
                         new PrintAttributes.Builder().build());
             }
         }
-    }*/
+    }
 
     private void settingWebview() {
         WebSettings settings = webView.getSettings();
@@ -137,55 +162,8 @@ public class ShareQuoteACtivity extends BaseActivity {
                 // TODO hide your progress image
                 cancelDialog();
                 super.onPageFinished(view, url);
+                webView.loadUrl("javascript:init('" + jsonResponse + "')");
 
-                webView.measure(View.MeasureSpec.makeMeasureSpec(
-                        View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
-                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-                webView.layout(0, 0, webView.getMeasuredWidth(),
-                        webView.getMeasuredHeight());
-                webView.setDrawingCacheEnabled(true);
-                webView.buildDrawingCache();
-                bmp = Bitmap.createBitmap(webView.getMeasuredWidth(),
-                        webView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-
-                Canvas bigcanvas = new Canvas(bmp);
-                Paint paint = new Paint();
-                int iHeight = bmp.getHeight();
-                bigcanvas.drawBitmap(bmp, 0, iHeight, paint);
-                webView.draw(bigcanvas);
-                try {
-                    SimplePDFTable(bmp);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                //createWebPrintJob(view);
-                String response = "";
-
-                webView.loadUrl("javascript:init('" + "rajeev ranjan" + "')");
-
-                //createWebPrintJob(webView);
-
-                /*Picture picture = view.capturePicture();
-                Bitmap b = Bitmap.createBitmap(picture.getWidth(),
-                        picture.getHeight(), Bitmap.Config.ARGB_8888);
-                Canvas c = new Canvas(b);
-
-                picture.draw(c);
-                FileOutputStream fos = null;
-                File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "quote.jpg");
-
-                file.getParentFile().mkdirs();
-                try {
-
-                    fos = new FileOutputStream(file);
-                    if (fos != null) {
-                        b.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-                        fos.close();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
             }
 
             @Override
@@ -193,21 +171,6 @@ public class ShareQuoteACtivity extends BaseActivity {
                 return false;
             }
         });
-        /*webView.setPictureListener(new WebView.PictureListener() {
-
-            public void onNewPicture(WebView view, Picture picture) {
-                if (picture != null) {
-                    try {
-                        bmp =Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
-                        bmp = pictureDrawable2Bitmap(new PictureDrawable(
-                                picture));
-                        SimplePDFTable(bmp);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });*/
         webView.getSettings().setBuiltInZoomControls(true);
         Log.d("URL", url);
         //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
@@ -243,21 +206,31 @@ public class ShareQuoteACtivity extends BaseActivity {
 
     }
 
-    private static Bitmap pictureDrawable2Bitmap(PictureDrawable pictureDrawable) {
-        Bitmap bitmap = Bitmap.createBitmap(
-                pictureDrawable.getIntrinsicWidth(),
-                pictureDrawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        canvas.drawPicture(pictureDrawable.getPicture());
-        return bitmap;
+
+    public Bitmap getBitmapFromWebView(WebView webView) {
+        Bitmap bmp;
+        webView.measure(View.MeasureSpec.makeMeasureSpec(
+                View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        webView.layout(0, 0, webView.getMeasuredWidth(),
+                webView.getMeasuredHeight());
+        webView.setDrawingCacheEnabled(true);
+        webView.buildDrawingCache();
+        bmp = Bitmap.createBitmap(webView.getMeasuredWidth(),
+                webView.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas bigcanvas = new Canvas(bmp);
+        Paint paint = new Paint();
+        int iHeight = bmp.getHeight();
+        bigcanvas.drawBitmap(bmp, 0, iHeight, paint);
+        webView.draw(bigcanvas);
+        return bmp;
     }
 
     public void SimplePDFTable(Bitmap bmp) throws Exception {
 
-
-        showDialog("Creating pdf..");
         File direct = new File(Environment.getExternalStoragePublicDirectory
-                (Environment.DIRECTORY_DOWNLOADS), "quote.pdf");
+                (Environment.DIRECTORY_DOWNLOADS), "quote");
         if (!direct.exists()) {
             if (direct.mkdir()) {
                 Toast.makeText(ShareQuoteACtivity.this,
@@ -266,7 +239,10 @@ public class ShareQuoteACtivity extends BaseActivity {
             }
         }
         String test = direct.getAbsolutePath();
-        Document document = new Document();
+
+        Rectangle pagesize = new Rectangle(bmp.getWidth() + 36, bmp.getHeight() + 36);
+
+        Document document = new Document(pagesize, 36f, 36f, 36f, 36f);
 
         PdfWriter.getInstance(document, new FileOutputStream(test
                 + "/quote.pdf"));
@@ -278,12 +254,12 @@ public class ShareQuoteACtivity extends BaseActivity {
         Image image = Image.getInstance(byteArray);
 
 
-        // image.scaleToFit(PageSize.A4.getHeight(), PageSize.A4.getWidth());
-        image.scaleToFit(bmp.getHeight(), bmp.getWidth());
+        //image.scaleToFit(PageSize.A4.getHeight(), PageSize.A4.getWidth());
+        image.scaleToFit(pagesize);
+        //image.scaleToFit(rectangle);
         document.add(image);
 
         document.close();
-        cancelDialog();
         sharePdfTowhatsApp("quote");
     }
 

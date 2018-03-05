@@ -1,6 +1,8 @@
 package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model;
 
-public class CityEntity {
+import io.realm.RealmObject;
+
+public class CityEntity extends RealmObject {
     /**
      * City_Id : 1
      * City_Name : AHMEDABAD
