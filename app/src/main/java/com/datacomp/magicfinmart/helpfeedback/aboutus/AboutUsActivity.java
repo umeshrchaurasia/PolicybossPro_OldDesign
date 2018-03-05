@@ -35,9 +35,11 @@ public class AboutUsActivity extends BaseActivity implements IResponseSubcriber 
 
     private void bindData() {
         tvNAme.setText(loginResponseEntity.getFullName());
-        if(loginResponseEntity.getPOSPNo()!=null){
-            tvPospNo.setText(""+loginResponseEntity.getPOSPNo());
+        tvFbaCode.setText("" + loginResponseEntity.getFBAId());
+        if (loginResponseEntity.getPOSPNo() != null) {
+            tvPospNo.setText("" + loginResponseEntity.getPOSPNo());
         }
+        tvLoginId.setText("" + loginResponseEntity.getUserName());
 
     }
 

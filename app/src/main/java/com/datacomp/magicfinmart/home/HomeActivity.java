@@ -26,12 +26,15 @@ import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
-import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 
 public class HomeActivity extends BaseActivity {
 
@@ -39,8 +42,8 @@ public class HomeActivity extends BaseActivity {
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount;
-
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtFbaCode;
+    LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
 
     @Override
@@ -59,6 +62,8 @@ public class HomeActivity extends BaseActivity {
         toolbar.setTitle("MAGIC FIN-MART");
 
         db = new DBPersistanceController(this);
+        loginResponseEntity = db.getUserData();
+        init_headers();
         List<String> rtoDesc = db.getRTOListNames();
 
         // set first fragement selected.
@@ -92,8 +97,16 @@ public class HomeActivity extends BaseActivity {
                         break;
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
+
+                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                       //startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+                        // fragment = new BasFragment();
+                        // getSupportActionBar().setTitle("BAS 2016-17");
+                        // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
+
                         //startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+
+
                         break;
                     }
                     case R.id.nav_pospenrollment: {
@@ -125,6 +138,7 @@ public class HomeActivity extends BaseActivity {
 
                     case R.id.nav_logout:
                         new DBPersistanceController(HomeActivity.this).logout();
+                        new PrefManager(HomeActivity.this).deletePospInfo();
                         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -168,6 +182,18 @@ public class HomeActivity extends BaseActivity {
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
+
+    private void init_headers() {
+        View headerView = navigationView.getHeaderView(0);
+        txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
+        txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
+        txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
+
+        txtEntityName.setText("Magic Finmart v1.0");
+        txtDetails.setText("" + loginResponseEntity.getFullName());
+        txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
+
     }
 
     @Override

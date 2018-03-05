@@ -10,4 +10,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoa
 public interface IHomeLoan {
 
     void getHomeLoan(HomeLoanRequest homeLoanRequest, IResponseSubcriber iResponseSubcriber);
+
+    void getRBCustomerData(String QuoteID, IResponseSubcriber iResponseSubcriber);
 }

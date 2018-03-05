@@ -11,6 +11,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".MyApplication"
@@ -571,6 +572,33 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity" />
+        </activity>
+        <activity
+            android:name=".helpfeedback.raiseticket.RaiseTicketActivity"
+            android:label="@string/title_activity_raise_ticket"
+            android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
+        </activity>
+        <activity
+            android:name=".helpfeedback.raiseticket.AddTicketActivity"
+            android:label="@string/title_activity_add_ticket"
+            android:parentActivityName=".helpfeedback.raiseticket.RaiseTicketActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity" />
+        </activity>
+        <activity
+            android:name=".webviews.ShareQuoteACtivity"
+            android:label="@string/title_activity_share_quote_activity"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
     </application>
 

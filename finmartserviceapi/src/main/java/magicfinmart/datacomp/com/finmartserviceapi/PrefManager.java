@@ -26,12 +26,22 @@ public class PrefManager {
     private static final String IS_DEVICE_TOKEN = "devicetoken";
     private static final String IS_RBL_CITY_MASTER = "isRblCityMaster";
 
+    private static final String IS_ZOHO_MASTER = "iszohomaster";
     private static final String POSP_INFO = "pospinfo";
 
     public PrefManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+    }
+
+    public void setIsZohoMaster(boolean isFirstTime) {
+        editor.putBoolean(IS_ZOHO_MASTER, isFirstTime);
+        editor.commit();
+    }
+
+    public boolean getIsZohoMaster() {
+        return pref.getBoolean(IS_ZOHO_MASTER, true);
     }
 
     public void setIsRblCityMaster(boolean isFirstTime) {
@@ -116,6 +126,10 @@ public class PrefManager {
         else
             return null;
     }
+
+    public void deletePospInfo(){
+        pref.edit().remove(POSP_INFO).commit();
+    };
 
 
 }

@@ -239,7 +239,7 @@ public class BaseActivity extends AppCompatActivity {
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
             out.close();
 
-          //  Uri screenshotUri = Uri.fromFile(file);
+            //  Uri screenshotUri = Uri.fromFile(file);
             Uri screenshotUri = FileProvider.getUriForFile(BaseActivity.this,
                     getString(R.string.file_provider_authority),
                     file);
@@ -366,6 +366,27 @@ public class BaseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
+    }
+
+    public void sharePdfTowhatsApp(String pdfFileName) {
+        try {
+            File outputFile = new File(Environment.getExternalStoragePublicDirectory
+                    (Environment.DIRECTORY_DOWNLOADS), "quote/"+pdfFileName + ".pdf");
+
+            Uri uri = FileProvider.getUriForFile(BaseActivity.this,
+                    getString(R.string.file_provider_authority),
+                    outputFile);
+            //Uri uri = Uri.fromFile(outputFile);
+
+            Intent share = new Intent();
+            share.setAction(Intent.ACTION_SEND);
+            share.setType("application/pdf");
+            share.putExtra(Intent.EXTRA_STREAM, uri);
+            share.setPackage("com.whatsapp");
+            startActivity(share);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 

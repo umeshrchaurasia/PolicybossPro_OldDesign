@@ -166,7 +166,7 @@
                 android:ems="10"
                 android:text=""
                 android:inputType="phone"
-                android:maxLength="7" />
+                android:maxLength="9" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -181,7 +181,7 @@
                 android:id="@+id/etEMI"
                 style="@style/Style.edittext"
                 android:digits="0123456789"
-
+                android:maxLength="9"
                 android:ems="10"
                 android:inputType="phone" />
         </android.support.design.widget.TextInputLayout>
@@ -202,8 +202,9 @@
 
             <EditText
                 android:id="@+id/etPAN"
-                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
                 style="@style/Style.edittext"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+                android:inputType="textCapCharacters"
                 android:text=""
                 android:maxLength="10" />
         </android.support.design.widget.TextInputLayout>
@@ -221,7 +222,7 @@
                 android:digits="0123456789"
                 android:maxLength="10"
                 android:ems="10"
-                android:inputType="phone" />
+                android:inputType="number" />
         </android.support.design.widget.TextInputLayout>
 
     </LinearLayout>
@@ -242,7 +243,7 @@
                 android:id="@+id/etCostOfProp"
                 style="@style/Style.edittext"
                 android:digits="0123456789"
-                android:inputType="phone"
+                android:inputType="number"
                 android:text=""
                 android:maxLength="10" />
         </android.support.design.widget.TextInputLayout>

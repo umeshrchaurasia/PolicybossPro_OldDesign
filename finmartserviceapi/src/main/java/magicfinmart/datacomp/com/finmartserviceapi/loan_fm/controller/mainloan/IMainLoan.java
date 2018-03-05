@@ -25,4 +25,10 @@ public interface IMainLoan {
     void saveBLQuoteData(FmBalanceLoanRequest fmBalanceLoanRequest, IResponseSubcriberFM iResponseSubcriber);
 
     void getBLQuoteApplication(String fbaid, IResponseSubcriberFM iResponseSubcriber);
+
+    void getdelete_loanrequest(String loan_requestID, IResponseSubcriberFM iResponseSubcriber);
+
+    void getdelete_personalrequest(String loan_requestID, IResponseSubcriberFM iResponseSubcriber);
+
+    void getdelete_balancerequest(String BalanceTransferId, IResponseSubcriberFM iResponseSubcriber);
 }

@@ -9,13 +9,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
  */
 
 public class FmSaveQuoteBLResponse  extends APIResponseFM {
-    private List<FmSaveQuotePersonalLoanResponse.MasterData> MasterData;
+    private List<FmSaveQuoteBLResponse.MasterData> MasterData;
 
-    public List<FmSaveQuotePersonalLoanResponse.MasterData> getMasterData() {
+    public List<FmSaveQuoteBLResponse.MasterData> getMasterData() {
         return MasterData;
     }
 
-    public void setMasterData(List<FmSaveQuotePersonalLoanResponse.MasterData> MasterData) {
+    public void setMasterData(List<FmSaveQuoteBLResponse.MasterData> MasterData) {
         this.MasterData = MasterData;
     }
 

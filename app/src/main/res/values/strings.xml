@@ -25,7 +25,7 @@
     <string name="title_activity_register">Register</string>
     <string name="title_activity_add_quote">Add Quote</string>
     <string name="title_myaccount">MY ACCOUNT</string>
-    <string name="title_pospenrollment">POSP ENROLLMENT</string>
+    <string name="title_pospenrollment">ENROLL FOR IRDA POSP</string>
     <string name="title_activity_add_quote_bottom">Add Quote</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -216,6 +216,43 @@
 
     </string-array>
 
+    <string-array name="title_loan">
+        <item>MR.</item>
+        <item>MRS.</item>
+        <item>MS.</item>
+
+    </string-array>
+
+    <string-array name="ownership">
+        <item>SELECT</item>
+        <item>RENT HOUSE</item>
+        <item>SELF OWNED</item>
+        <item>PARENTAL</item>
+        <item>CO-PROVIDED</item>
+
+    </string-array>
+
+    <string-array name="organization">
+        <item>SELECT</item>
+        <item>MULTINATIONAL</item>
+        <item>PUBLIC LTD.</item>
+        <item>GOVT/SEMI GOVT.ENT.</item>
+        <item>PVT LTD.</item>
+        <item>PARTNERSHIP</item>
+        <item>PROPRIETORSHIP</item>
+        <item>OTHERS</item>
+
+    </string-array>
+
+
+    <string-array name="business">
+        <item>SELECT</item>
+        <item>SERVICES</item>
+        <item>TRADING</item>
+        <item>MANUFACTURING</item>
+        <item>OTHERS</item>
+
+    </string-array>
     <string name="title_activity_health_check_up_plans">HEALTH CHECK UP PLANS</string>
     <string name="title_activity_eula">Agreement</string>
     <string name="title_activity_knowledge_guru">KNOWLEDGE GURU</string>
@@ -234,7 +271,10 @@
     <string name="title_activity_credit_card">"Credit Card "</string>
     <string name="title_activity_rblcredit_apply">Credit card</string>
     <string name="title_activity_applied_credit_list">Credit Card</string>
+    <string name="title_activity_raise_ticket">RAISE A TICKET</string>
+    <string name="title_activity_add_ticket">RAISE A TICKET</string>
     <string name="title_activity_main">ICICICreditApplyActivity</string>
+    <string name="title_activity_share_quote_activity">Share</string>
 
 
     <string name="icici_terms_con">I hereby confirm that I have read and understood the Rupeeboss Terms and Conditions applicable to this service and that all the details furnished by me above are true and correct. I further provide consent to Rupeeboss and its affiliates to contact me with reference to financial products and this consent shall override any registration with DNC/NDNC.</string>

@@ -304,6 +304,119 @@ public class MainLoanController implements IMainLoan {
         });
     }
 
+    //delete
+
+    @Override
+    public void getdelete_loanrequest(String loan_requestID, final IResponseSubcriberFM iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("loan_requestID", loan_requestID);
+
+        loanMainNetworkService.getdelete_loanrequest(body).enqueue(new Callback<FmSaveQuoteHomeLoanResponse>() {
+            @Override
+            public void onResponse(Call<FmSaveQuoteHomeLoanResponse> call, Response<FmSaveQuoteHomeLoanResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccessFM(response.body(), "");
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FmSaveQuoteHomeLoanResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getdelete_personalrequest(String loan_requestID, final IResponseSubcriberFM iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("loan_requestID", loan_requestID);
+
+        loanMainNetworkService.getdelete_personalrequest(body).enqueue(new Callback<FmSaveQuotePersonalLoanResponse>() {
+            @Override
+            public void onResponse(Call<FmSaveQuotePersonalLoanResponse> call, Response<FmSaveQuotePersonalLoanResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccessFM(response.body(), "");
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FmSaveQuotePersonalLoanResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getdelete_balancerequest(String BalanceTransferId, final IResponseSubcriberFM iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("BalanceTransferId", BalanceTransferId);
+
+        loanMainNetworkService.getdelete_balancerequest(body).enqueue(new Callback<FmSaveQuoteBLResponse>() {
+            @Override
+            public void onResponse(Call<FmSaveQuoteBLResponse> call, Response<FmSaveQuoteBLResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccessFM(response.body(), "");
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FmSaveQuoteBLResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
     //endregion
 }
 

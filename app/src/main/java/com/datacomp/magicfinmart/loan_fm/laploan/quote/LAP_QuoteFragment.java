@@ -1,13 +1,17 @@
 package com.datacomp.magicfinmart.loan_fm.laploan.quote;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,17 +27,21 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
 
 /**
  * Created by IN-RB on 22-01-2018.
  */
 
-public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickListener{
+public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickListener,IResponseSubcriberFM {
     public static final String FROM_QUOTE = "hl_from_quote";
     FloatingActionButton lapAddQuote;
 
-    RecyclerView rvQuoteList;
+    RecyclerView rvlapQuoteList;
     LapLoan_QuoteAdapter lapLoan_QuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     List<FmHomeLoanRequest> mQuoteList;
@@ -52,6 +60,7 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
         View view = inflater.inflate(R.layout.fragment_lap_quote, container, false);
         initView(view);
         setListener();
+        setTextWatcher();
         mQuoteList = new ArrayList<>();
         if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_LAP.QUOTE_LIST) != null)
         {
@@ -60,7 +69,7 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
         }
 
         lapLoan_QuoteAdapter = new LapLoan_QuoteAdapter(LAP_QuoteFragment.this,mQuoteList);
-        rvQuoteList.setAdapter(lapLoan_QuoteAdapter);
+        rvlapQuoteList.setAdapter(lapLoan_QuoteAdapter);
         return view;
     }
 
@@ -75,10 +84,10 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
 
         lapAddQuote = (FloatingActionButton) view.findViewById(R.id.lapAddQuote);
 
-        rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
-        rvQuoteList.setHasFixedSize(true);
+        rvlapQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
+        rvlapQuoteList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        rvQuoteList.setLayoutManager(layoutManager);
+        rvlapQuoteList.setLayoutManager(layoutManager);
 
 
         lapAddQuote.setOnClickListener(this);
@@ -91,18 +100,18 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
         tvSearch.setOnClickListener(this);
     }
 
-    public void redirectQuoteHL(FmHomeLoanRequest request){
+    public void redirectQuoteLAP(FmHomeLoanRequest request){
         Intent intent=new Intent(getActivity(), LAPMainActivity.class);
         intent.putExtra( FROM_QUOTE,request);
         startActivity(intent);
 
     }
 
-    public void removeQuote(FmHomeLoanRequest entity) {
+    public void removeQuoteLAP(FmHomeLoanRequest entity) {
 
         removeQuoteEntity = entity;
         showDialog("Please wait,Removing quote..");
-        //  new QuoteApplicationController(getContext()).deleteQuote("" + entity.getVehicleRequestID(),this);
+          new MainLoanController(getContext()).getdelete_loanrequest("" + entity.getLoan_requestID(),this);
 
     }
     @Override
@@ -113,6 +122,11 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
+                InputMethodManager inputMethodManager =
+                        (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInputFromWindow(
+                        etSearch.getApplicationWindowToken(),
+                        InputMethodManager.SHOW_FORCED, 0);
                 if (etSearch.getVisibility() == View.INVISIBLE) {
                     etSearch.setVisibility(View.VISIBLE);
                     etSearch.requestFocus();
@@ -128,5 +142,41 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
     public void callnumber(String mobNumber)
     {
         dialNumber(mobNumber);
+    }
+
+
+    private void setTextWatcher() {
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                lapLoan_QuoteAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
+
+
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+        cancelDialog();
+        if (response instanceof FmSaveQuotePersonalLoanResponse) {
+            if (response.getStatusNo() == 0) {
+                mQuoteList.remove(removeQuoteEntity);
+                lapLoan_QuoteAdapter.refreshAdapter(mQuoteList);
+                lapLoan_QuoteAdapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
     }
 }

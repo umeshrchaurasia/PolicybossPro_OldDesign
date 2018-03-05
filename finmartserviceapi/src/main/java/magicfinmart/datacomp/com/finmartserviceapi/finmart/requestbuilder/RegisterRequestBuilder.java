@@ -87,9 +87,8 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
 ////////////////////// Notification ////////////////////////////////
 
         @Headers("token:" + token)
-        @POST("/api/get-my-account")
+        @POST("/api/get-notification-data")
         Call<NotificationResponse> getNotificationData(@Body HashMap<String, String> body);
-
 
 
 

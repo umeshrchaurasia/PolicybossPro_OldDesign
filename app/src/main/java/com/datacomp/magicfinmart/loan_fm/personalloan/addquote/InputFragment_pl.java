@@ -112,7 +112,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         sbTenure.setMax(4);
         sbTenure.setProgress(0);
         etTenureInYear.setText("1");
-        etPAN.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+
         //endregion
 
         //region Applicant Initialize
@@ -165,7 +165,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         personalLoanRequest.setApplicantIncome(etMonthlyInc.getText().toString());
 
         //endregion
-
+        personalLoanRequest.setApplicantGender(GenderApplicantSource);
         if (personalLoanRequest.getApplicantGender()=="M") {
             personalLoanRequest.setApplicantGender("M");
         } else  if (personalLoanRequest.getApplicantGender()=="F") {
@@ -182,11 +182,13 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
         personalLoanRequest.setBrokerId("" + loginEntity.getLoanId());
        // personalLoanRequest.setLoaniD(Integer.parseInt(loginEntity.getLoanId()));
+        personalLoanRequest.setpanno(etPAN.getText().toString());
 
         personalLoanRequest.setEmpcode("");
         personalLoanRequest.setType("PSL");
         personalLoanRequest.setApi_source("Finmart");
         personalLoanRequest.setQuote_id(fmPersonalLoanRequest.getPersonalLoanRequest().getQuote_id());
+
     }
 
 
@@ -205,6 +207,8 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         if (personalLoanRequest.getApplicantNme() != null)
             etNameOfApplicant.setText(personalLoanRequest.getApplicantNme());
 
+            int tenureInYear = Integer.parseInt(personalLoanRequest.getLoanTenure());
+            sbTenure.setProgress(tenureInYear);
 
             if (personalLoanRequest.getApplicantGender().matches("M")) {
                 setApp_Male_gender();
@@ -221,6 +225,8 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             if (personalLoanRequest.getContact() != null)
             etcontact.setText("" + personalLoanRequest.getContact());
 
+            if (personalLoanRequest.getpanno() != null)
+                etPAN.setText("" + personalLoanRequest.getpanno());
 
 
         } catch (Exception e) {

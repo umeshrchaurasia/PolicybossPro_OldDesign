@@ -2,25 +2,26 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 public class NotificationEntity {
     /**
-     * title : Finmart Offer
-     * body : Notofication test
-     * img_url : http://i.stack.imgur.com/CE5lz.png
-     * action : HL
-     * web_url : http://i.stack.imgur.com/CE5lz.png
-     * web_title : Demo
+     * title : dfgsdfg
+     * body : dfghb
+     * img_url : null
+     * action : WB
+     * web_url : wedfg
+     * web_title : sdfg
      * is_read : 0
+     * date : 01/03/2018
+     * message_id : 212
      */
 
     private String title;
     private String body;
-    private String img_url;
+    private Object img_url;
     private String action;
     private String web_url;
     private String web_title;
-
-
+    private String is_read;
     private String date;
-    private int is_read;
+    private Double message_id;
 
     public NotificationEntity() {
         this.title = "";
@@ -29,8 +30,9 @@ public class NotificationEntity {
         this.action = "";
         this.web_url = "";
         this.web_title = "";
-        this.is_read = 0;
+        this.is_read = "0";
         this.date = "";
+        this.message_id = 0.0;
 
     }
 
@@ -50,11 +52,11 @@ public class NotificationEntity {
         this.body = body;
     }
 
-    public String getImg_url() {
+    public Object getImg_url() {
         return img_url;
     }
 
-    public void setImg_url(String img_url) {
+    public void setImg_url(Object img_url) {
         this.img_url = img_url;
     }
 
@@ -82,11 +84,11 @@ public class NotificationEntity {
         this.web_title = web_title;
     }
 
-    public int getIs_read() {
+    public String getIs_read() {
         return is_read;
     }
 
-    public void setIs_read(int is_read) {
+    public void setIs_read(String is_read) {
         this.is_read = is_read;
     }
 
@@ -97,5 +99,35 @@ public class NotificationEntity {
     public void setDate(String date) {
         this.date = date;
     }
+
+    public Double getMessage_id() {
+        return message_id;
+    }
+
+    public void setMessage_id(Double message_id) {
+        this.message_id = message_id;
+    }
+    /**
+     * title : Finmart Offer
+     * body : Notofication test
+     * img_url : http://i.stack.imgur.com/CE5lz.png
+     * action : HL
+     * web_url : http://i.stack.imgur.com/CE5lz.png
+     * web_title : Demo
+     * is_read : 0
+     */
+
+//    private String title;
+//    private String body;
+//    private String img_url;
+//    private String action;
+//    private String web_url;
+//    private String web_title;
+//
+//
+//    private String date;
+//    private Double is_read;
+//
+
 
 }

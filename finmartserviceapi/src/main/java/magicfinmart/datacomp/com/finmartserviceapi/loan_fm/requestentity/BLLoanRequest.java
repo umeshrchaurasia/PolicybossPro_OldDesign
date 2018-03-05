@@ -39,10 +39,10 @@ public class BLLoanRequest implements Parcelable {
 
     private int BalanceTransferId;
     private String applicantname;
-    private int loanamount;
+    private double loanamount;
     private double loaninterest;
-    private int loanterm;
-    private String LoanType;
+    private double loanterm;
+    private String Type;
     private int product_id;
     private String fbaid;
     private int LoanID;
@@ -72,7 +72,7 @@ public class BLLoanRequest implements Parcelable {
         this.loanamount = 0;
         this.loaninterest = 0;
         this.loanterm = 0;
-        LoanType = "";
+        Type = "";
         this.product_id = 0;
         this.fbaid = "";
         LoanID = 0;
@@ -112,11 +112,11 @@ public class BLLoanRequest implements Parcelable {
         this.applicantname = ApplicantName;
     }
 
-    public int getLoanamount() {
+    public double getLoanamount() {
         return loanamount;
     }
 
-    public void setLoanamount(int loanamount) {
+    public void setLoanamount(double loanamount) {
         this.loanamount = loanamount;
     }
 
@@ -128,20 +128,20 @@ public class BLLoanRequest implements Parcelable {
         this.loaninterest = loaninterest;
     }
 
-    public int getLoanterm() {
+    public double getLoanterm() {
         return loanterm;
     }
 
-    public void setLoanterm(int loanterm) {
+    public void setLoanterm(double loanterm) {
         this.loanterm = loanterm;
     }
 
-    public String getLoanType() {
-        return LoanType;
+    public String getType() {
+        return Type;
     }
 
-    public void setLoanType(String LoanType) {
-        this.LoanType = LoanType;
+    public void setType(String Type) {
+        this.Type = Type;
     }
 
     public int getProduct_id() {
@@ -320,10 +320,10 @@ public class BLLoanRequest implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.BalanceTransferId);
         dest.writeString(this.applicantname);
-        dest.writeInt(this.loanamount);
+        dest.writeDouble(this.loanamount);
         dest.writeDouble(this.loaninterest);
-        dest.writeInt(this.loanterm);
-        dest.writeString(this.LoanType);
+        dest.writeDouble(this.loanterm);
+        dest.writeString(this.Type);
         dest.writeInt(this.product_id);
         dest.writeString(this.fbaid);
         dest.writeInt(this.LoanID);
@@ -352,10 +352,10 @@ public class BLLoanRequest implements Parcelable {
     protected BLLoanRequest(Parcel in) {
         this.BalanceTransferId = in.readInt();
         this.applicantname = in.readString();
-        this.loanamount = in.readInt();
+        this.loanamount = in.readDouble();
         this.loaninterest = in.readDouble();
-        this.loanterm = in.readInt();
-        this.LoanType = in.readString();
+        this.loanterm = in.readDouble();
+        this.Type = in.readString();
         this.product_id = in.readInt();
         this.fbaid = in.readString();
         this.LoanID = in.readInt();

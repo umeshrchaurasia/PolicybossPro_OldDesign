@@ -10,16 +10,20 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeActivityTabsPagerAdapter;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 
 public class TwoWheelerQuoteAppActivity extends BaseActivity implements IResponseSubcriber {
     Toolbar toolbar;
     ViewPager viewPager;
     BikeActivityTabsPagerAdapter mAdapter;
+    PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +57,9 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
 
             }
         });
+        prefManager = new PrefManager(this);
+        if (prefManager.IsBikeMasterUpdate())
+            new MasterController(this).getBikeMaster(this);
     }
 
     @Override
@@ -83,6 +90,7 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
                 viewPager.setAdapter(mAdapter);
             }
 
+        } else if (response instanceof BikeMasterResponse) {
         }
 
     }

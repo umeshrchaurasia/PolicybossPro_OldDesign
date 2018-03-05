@@ -73,11 +73,11 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                         //TODO Redirect to homeactivity
                         startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
                     } else {
-                        if (checkAllMastersIsUpdate()) {
+                       /* if (checkAllMastersIsUpdate()) {
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         } else {
                             Toast.makeText(SplashScreenActivity.this, "Server Down Try After Some time.", Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
                     }
                 }
             }, SPLASH_DISPLAY_LENGTH);
@@ -89,19 +89,19 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof BikeMasterResponse) {
             if (checkAllMastersIsUpdate()) {
-                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
             }
         } else if (response instanceof CarMasterResponse) {
             if (checkAllMastersIsUpdate()) {
-                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
             }
         } else if (response instanceof CityMasterResponse) {
             if (checkAllMastersIsUpdate()) {
-                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
             }
         } else if (response instanceof InsuranceMasterResponse) {
             if (checkAllMastersIsUpdate()) {
-                startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
+                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
             }
         }
     }

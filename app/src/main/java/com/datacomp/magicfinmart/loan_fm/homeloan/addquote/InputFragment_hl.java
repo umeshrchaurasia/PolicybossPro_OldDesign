@@ -74,7 +74,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     LoginResponseEntity loginEntity;
     GetQuoteResponse getQuoteResponse;
 
-
     ScrollView scroll;
     TextView txtPropertyInfo, txtCoApplicantDetail, txtApplicantDetail;
     LinearLayout llPropertyInfo, llApplicantDetail, llCoApplicantDetail;
@@ -133,8 +132,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     List<String> cityList;
     //endregion
     Context mContext;
-    int LoanRequireID = 0,int_etTurnOver=0,int_etProfitAtTax=0,int_etDirecPartRemuntion=0,int_etDepreciation=0,int_etMonthlyInc=0,totalmonthlucalc_app;
-    int int_coApp_etTurnOver=0,int_coApp_etProfitAtTax=0,int_coApp_etDirecPartRemuntion=0,int_coApp_etDepreciation=0,int_coApp_etMonthlyInc=0,totalmonthlucalc_coapp;
+    int LoanRequireID = 0;
+    long  int_etTurnOver=0,int_etProfitAtTax=0,int_etDirecPartRemuntion=0,int_etDepreciation=0,int_etMonthlyInc=0,totalmonthlucalc_app;
+    long int_coApp_etTurnOver=0,int_coApp_etProfitAtTax=0,int_coApp_etDirecPartRemuntion=0,int_coApp_etDepreciation=0,int_coApp_etMonthlyInc=0,totalmonthlucalc_coapp;
 
     public InputFragment_hl() {
         // Required empty public constructor
@@ -517,7 +517,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         txtco_app_rbimgMale.setOnClickListener(this);
 
 
-
         btnGetQuote.setOnClickListener(this);
         et_DOB.setOnClickListener(datePickerDialogApplicant);
         coApp_et_DOB.setOnClickListener(datePickerDialogCoApplicant);
@@ -795,7 +794,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             String CostOfProp = etCostOfProp.getText().toString();
             String TenureInYear = etTenureInYear.getText().toString();
             String MaxLoanAmntAllow = txtMaxLoanAmntAllow.getText().toString();
-
+            String Contact  = etContact.getText().toString();
 
             if (TextUtils.isEmpty(CostOfProp)) {
 
@@ -819,7 +818,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             }
 
-            if (Integer.parseInt(MaxLoanAmntAllow) > Integer.parseInt(CostOfProp) ) {
+            if (Long.valueOf(MaxLoanAmntAllow) > Long.valueOf(CostOfProp) ) {
 
                 txtMaxLoanAmntAllow.setError("Required Loan should not be greater than Cost Of Property.");
                 txtMaxLoanAmntAllow.requestFocus();
@@ -833,6 +832,20 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                 return;
             }
 
+            if (TextUtils.isEmpty(Contact)) {
+
+
+            }
+            else {
+                if (Contact.length()<10) {
+
+                    etContact.setError("Please Enter 10 digit Mobile Number.");
+                    etContact.requestFocus();
+                    return;
+
+                }
+
+            }
             if (TextUtils.isEmpty(TenureInYear)) {
 
                 etTenureInYear.setError("Please Enter Tenure.");
@@ -912,7 +925,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             if (etMonthlyInc.getText() != null && !etMonthlyInc.getText().toString().equals("")) {
                 if (etEMI.getText() != null && !etEMI.getText().toString().equals("")) {
                     {
-                        if (Integer.parseInt(etEMI.getText().toString()) > Integer.parseInt(etMonthlyInc.getText().toString())) {
+                        if (Long.valueOf(etEMI.getText().toString()) > Long.valueOf(etMonthlyInc.getText().toString())) {
 
                             etEMI.setError("EMI should be less than monthly income.");
                             etEMI.requestFocus();
@@ -998,7 +1011,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
                 if (etMonthlyInc.getText() != null && !etMonthlyInc.getText().toString().equals("")) {
                     if (etEMI.getText() != null && !etEMI.getText().toString().equals("")) {
-                        if (Integer.parseInt(coApp_etEMI.getText().toString()) > Integer.parseInt(coApp_etMonthlyInc.getText().toString())) {
+                        if (Long.valueOf(coApp_etEMI.getText().toString()) > Long.valueOf(coApp_etMonthlyInc.getText().toString())) {
 
                             coApp_etEMI.setError("EMI should be less than monthly income.");
                             coApp_etEMI.requestFocus();
@@ -1072,6 +1085,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         homeLoanRequest.setLoanRequired(txtMaxLoanAmntAllow.getText().toString());
         homeLoanRequest.setCity("" + acCity.getText().toString());
         homeLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString());
+
+        homeLoanRequest.setApplicantGender(GenderApplicantSource);
         if (homeLoanRequest.getApplicantGender()=="M") {
             homeLoanRequest.setApplicantGender("M");
         } else  if (homeLoanRequest.getApplicantGender()=="F") {
@@ -1106,6 +1121,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             homeLoanRequest.setCoApplicantYes("Y");
 
             homeLoanRequest.setCoApplicantName(coApp_etNameOfApplicant.getText().toString());
+
+            homeLoanRequest.setCoApplicantGender(GenderCoApplicantSource);
 
             if (homeLoanRequest.getCoApplicantGender()=="M") {
                 homeLoanRequest.setCoApplicantGender("M");
@@ -1221,8 +1238,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             if (!etCostOfProp.getText().toString().equals("") && !etCostOfProp.getText().toString().equals(null)) {
 
-                int costOfProperty = Integer.parseInt(etCostOfProp.getText().toString());
-                int sactionAmount = getMaxLoanAmount("" + costOfProperty).intValueExact();
+                long costOfProperty = Long.valueOf(etCostOfProp.getText().toString());
+                long sactionAmount = getMaxLoanAmount("" + costOfProperty).intValueExact();
                 txtMaxLoanAmntAllow.setText("" + sactionAmount);
             } else {
                 txtMaxLoanAmntAllow.setText("");
@@ -1231,19 +1248,19 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         }  else if ( etProfitAtTax.getText().hashCode() == s.hashCode()) {
 
             if (!etProfitAtTax.getText().toString().equals("") && !etProfitAtTax.getText().toString().equals(null)) {
-                int_etProfitAtTax = Integer.parseInt(etProfitAtTax.getText().toString());
+                int_etProfitAtTax =  Long.valueOf(etProfitAtTax.getText().toString());
 
                 monthlycalc_applicant(int_etProfitAtTax,int_etDirecPartRemuntion,int_etDepreciation);
             }
 
         } else if (etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
             if (!etDirecPartRemuntion.getText().toString().equals("") && !etDirecPartRemuntion.getText().toString().equals(null)) {
-                int_etDirecPartRemuntion = Integer.parseInt(etDirecPartRemuntion.getText().toString());
+                int_etDirecPartRemuntion =  Long.valueOf(etDirecPartRemuntion.getText().toString());
                 monthlycalc_applicant(int_etProfitAtTax,int_etDirecPartRemuntion,int_etDepreciation);
             }
         }else if (etDepreciation.getText().hashCode() == s.hashCode()) {
             if (!etDepreciation.getText().toString().equals("") && !etDepreciation.getText().toString().equals(null)) {
-                int_etDepreciation = Integer.parseInt(etDepreciation.getText().toString());
+                int_etDepreciation =  Long.valueOf(etDepreciation.getText().toString());
                 monthlycalc_applicant(int_etProfitAtTax,int_etDirecPartRemuntion,int_etDepreciation);
             }
 
@@ -1251,26 +1268,26 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 // monthly income calc in Co Applicant
         }  else if (coApp_etProfitAtTax.getText().hashCode() == s.hashCode()) {
             if (!coApp_etProfitAtTax.getText().toString().equals("") && !coApp_etProfitAtTax.getText().toString().equals(null)) {
-                int_coApp_etProfitAtTax = Integer.parseInt(coApp_etProfitAtTax.getText().toString());
+                int_coApp_etProfitAtTax = Long.valueOf(coApp_etProfitAtTax.getText().toString());
                 monthlycalc_coapplicant(int_coApp_etDepreciation,int_coApp_etProfitAtTax,int_coApp_etDirecPartRemuntion);
             }
 
         } else if (coApp_etDepreciation.getText().hashCode() == s.hashCode()) {
             if (!coApp_etDepreciation.getText().toString().equals("") && !coApp_etDepreciation.getText().toString().equals(null)) {
-                int_coApp_etDepreciation = Integer.parseInt(coApp_etDepreciation.getText().toString());
+                int_coApp_etDepreciation = Long.valueOf(coApp_etDepreciation.getText().toString());
                 monthlycalc_coapplicant(int_coApp_etDepreciation,int_coApp_etProfitAtTax,int_coApp_etDirecPartRemuntion);
             }
 
         } else if (coApp_etDirecPartRemuntion.getText().hashCode() == s.hashCode()) {
             if (!coApp_etDirecPartRemuntion.getText().toString().equals("") && !coApp_etDirecPartRemuntion.getText().toString().equals(null)) {
-                int_coApp_etDirecPartRemuntion = Integer.parseInt(coApp_etDirecPartRemuntion.getText().toString());
+                int_coApp_etDirecPartRemuntion = Long.valueOf(coApp_etDirecPartRemuntion.getText().toString());
                 monthlycalc_coapplicant(int_coApp_etDepreciation,int_coApp_etProfitAtTax,int_coApp_etDirecPartRemuntion);
             }
 
         }
     }
 
-    public void monthlycalc_applicant(int int_etProfitAtTax,int int_etDirecPartRemuntion,int int_etDepreciation)
+    public void monthlycalc_applicant(long int_etProfitAtTax,long int_etDirecPartRemuntion,long int_etDepreciation)
     {
         float total = int_etProfitAtTax+int_etDirecPartRemuntion+int_etDepreciation;
         if (total > 0) {
@@ -1279,7 +1296,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         }
     }
 
-    public void monthlycalc_coapplicant(int int_coApp_etDepreciation,int int_coApp_etProfitAtTax,int int_coApp_etDirecPartRemuntion)
+    public void monthlycalc_coapplicant(long int_coApp_etDepreciation,long int_coApp_etProfitAtTax,long int_coApp_etDirecPartRemuntion)
     {
 
         float totalcoapp = int_coApp_etDepreciation+int_coApp_etProfitAtTax+int_coApp_etDirecPartRemuntion;
