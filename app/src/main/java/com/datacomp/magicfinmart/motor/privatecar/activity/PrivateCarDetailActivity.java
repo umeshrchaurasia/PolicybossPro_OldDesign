@@ -10,16 +10,20 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 
 public class PrivateCarDetailActivity extends BaseActivity implements IResponseSubcriber {
     Toolbar toolbar;
     ViewPager viewPager;
     ActivityTabsPagerAdapter mAdapter;
+    PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,10 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
 
             }
         });
-
+        prefManager = new PrefManager(this);
+        if (prefManager.IsCarMasterUpdate()) {
+            new MasterController(this).getCarMaster(this);
+        }
 
     }
 
@@ -89,6 +96,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
                 viewPager.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
             }
+        } else if (response instanceof CarMasterResponse) {
         }
 
     }
