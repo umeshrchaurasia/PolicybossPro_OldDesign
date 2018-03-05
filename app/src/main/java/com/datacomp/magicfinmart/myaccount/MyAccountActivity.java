@@ -521,17 +521,17 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3, ImageView upImage4) {
 
         if (clickedLayout.getVisibility() == View.GONE) {
-            downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage4.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-        } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage4.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
+            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage4.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+        } else {
+            downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
+            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage4.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
         }
 
     }

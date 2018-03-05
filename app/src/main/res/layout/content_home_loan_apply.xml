@@ -113,7 +113,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="35"
-                            android:hint="*First Name">
+                            android:hint="First Name">
 
                             <EditText
                                 android:id="@+id/etFirstName"
@@ -129,7 +129,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="35"
-                            android:hint="*Last Name">
+                            android:hint="Last Name">
 
                             <EditText
                                 android:id="@+id/etLastName"
@@ -152,7 +152,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Date of Birth">
+                            android:hint="Date of Birth">
 
                             <EditText
                                 android:id="@+id/etDob"
@@ -269,7 +269,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Spouce Name">
+                            android:hint="Spouce Name">
 
                             <EditText
                                 android:id="@+id/etSpouceName"
@@ -305,7 +305,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*PAN">
+                            android:hint="PAN">
 
                             <EditText
                                 android:id="@+id/etPan"
@@ -540,7 +540,7 @@
                                 <TextView
                                     android:id="@+id/textIdType"
                                     style="@style/TextViewStyle.Medium"
-                                    android:text="*Id Type" />
+                                    android:text="Id Type" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -742,7 +742,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Mother's Maiden Name">
+                            android:hint="Mother's Maiden Name">
 
                             <EditText
                                 android:id="@+id/etMoMaidenName"
@@ -830,7 +830,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*E-mail (Personal)">
+                            android:hint="E-mail (Personal)">
 
                             <EditText
                                 android:id="@+id/etEmailPersContInfo"
@@ -864,7 +864,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Mobile No. 1">
+                            android:hint="Mobile No. 1">
 
                             <EditText
                                 android:id="@+id/etMobNo1ContInfo"
@@ -914,7 +914,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Address 1">
+                            android:hint="Address 1">
 
                             <EditText
                                 android:id="@+id/etAddress1ContInfoRAP"
@@ -998,7 +998,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Pincode">
+                            android:hint="Pincode">
 
                             <EditText
                                 android:id="@+id/etPincodeContInfoRAP"
@@ -1013,7 +1013,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="bottom"
-                            android:hint="*City">
+                            android:hint="City">
 
                             <EditText
                                 android:id="@+id/etCityContInfoRAP"
@@ -1033,7 +1033,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*State">
+                            android:hint="State">
 
                             <EditText
                                 android:id="@+id/etStateContInfoRAP"
@@ -1081,7 +1081,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*No of Years At This Address">
+                            android:hint="No. of Years At This Address">
 
                             <EditText
                                 android:id="@+id/etNoOfYrsAtOffContInfoRAP"
@@ -1341,7 +1341,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="No of Years At This Address">
+                            android:hint="No. of Years At This Address">
 
                             <EditText
                                 android:id="@+id/etNoOfYrsAtOffContInfoPA"
@@ -1585,7 +1585,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="2dp"
                                         android:layout_weight="1"
-                                        android:hint="*Designation">
+                                        android:hint="Designation">
 
                                         <EditText
                                             android:id="@+id/etDesig"
@@ -1610,7 +1610,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Current Job(YRS)">
+                            android:hint="Current Job(YRS)">
 
                             <EditText
                                 android:id="@+id/etCurrJob"
@@ -1625,7 +1625,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="bottom"
-                            android:hint="*Total Exp(YRS)">
+                            android:hint="Total Exp(YRS)">
 
                             <EditText
                                 android:id="@+id/etTotalExp"
@@ -1646,7 +1646,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Name Of Organisation">
+                            android:hint="Name Of Organisation">
 
                             <EditText
                                 android:id="@+id/etNameOfOrg"
@@ -1668,7 +1668,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
 
-                            android:hint="*Turn Over">
+                            android:hint="Turn Over">
 
                             <EditText
                                 android:id="@+id/etTurnOver"
@@ -1683,7 +1683,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="bottom"
-                            android:hint="*Depreciation">
+                            android:hint="Depreciation">
 
                             <EditText
                                 android:id="@+id/etDeprec"
@@ -1704,7 +1704,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Directors Remuneration">
+                            android:hint="Directors Remuneration">
 
                             <EditText
                                 android:id="@+id/etDirRem"
@@ -1719,7 +1719,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="bottom"
-                            android:hint="*Profit After Tax">
+                            android:hint="Profit After Tax">
 
                             <EditText
                                 android:id="@+id/etProfAftTax"
@@ -1740,7 +1740,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Address 1">
+                            android:hint="Address 1">
 
                             <EditText
                                 android:id="@+id/etAddress1"
@@ -1824,7 +1824,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Pincode">
+                            android:hint="Pincode">
 
                             <EditText
                                 android:id="@+id/etPincodeED"
@@ -1839,7 +1839,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:gravity="bottom"
-                            android:hint="*City">
+                            android:hint="City">
 
                             <EditText
                                 android:id="@+id/etCityED"
@@ -1859,7 +1859,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*State">
+                            android:hint="State">
 
                             <EditText
                                 android:id="@+id/etStateED"
@@ -1999,7 +1999,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
-                            android:hint="*Gross Income">
+                            android:hint="Gross Income">
 
                             <EditText
                                 android:id="@+id/etGrossIncome"
@@ -2014,7 +2014,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
-                            android:hint="*Net Income">
+                            android:hint="Net Income">
 
                             <EditText
                                 android:id="@+id/etNetIncome"
