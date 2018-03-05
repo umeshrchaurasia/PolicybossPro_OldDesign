@@ -31,15 +31,23 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
+import  magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
+import  magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.RBCustomerEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.RBCustomerResponse;
+
 
 public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
 
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
+    RBCustomerEntity rbCustomerEntity;
 
+    // region Control Declaration
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     Spinner spTitle, spNatureOfOrg, spNatureOfBus, spResidence;
@@ -49,7 +57,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     ImageView ivMale, ivFemale, ivPLInfo, ivAddress, ivEmploy, ivFinancial,
             ivFinancialPending, ivFinancialDone, ivEmployDone, ivEmployPending, ivAddressDone, ivAddressPending, ivPLInfoDone, ivPLInfoPending;
-    ;
+
 
     CheckBox chkPresent;
     Button btnSubmit;
@@ -58,7 +66,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     // Address
     etEmailPersContInfo, etEmailOffContInfo, etMobNo1ContInfo, etMobNo2ContInfo,
             etAddress1ContInfoRAP, etAddress2ContInfoRAP, etAddress3ContInfoRAP,
-            etLandmakContInfoRAP, etPincodeContInfoRAP, etCityContInfoRAP,
+            etLandmakContInfoRAP, etPincodeContInfoRAP, etCityContInfoRAP,etNoOfYrsAtOffContInfoRAP,
             etStateContInfoRAP, etCountryPlRAP, etAddress1ContInfoPA, etAddress2ContInfoPA, etAddress3ContInfoPA, etLandmakContInfoPA,
             etPincodeContInfoPA, etCityContInfo, etStateContInfoPA, etCountryPA,
             etLandlineNoContInfoPA, etNoOfYrsAtOffContInfoPA,
@@ -75,6 +83,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             txtGEN, txtSC, txtST, txtOBC, txtOTH,
             txtPORT, txtVOTER, txtDRV,
             txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH;
+
+    //endregion
 
     String Gender = "M";
     String PL_STATUS = "RES", PL_CATEGORY = "GEN", PL_IDTYPE = "", PL_EDUCATION = "GRAD";
@@ -94,9 +104,14 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         setListener();
         initLayouts();
         setDefaultCheckList();
+
+        showDialog("Please Wait...");
+        new HomeLoanController(this).getRBCustomerData("18711",HomeLoanApplyActivity.this);
     }
 
     private void initialize() {
+
+        rbCustomerEntity = new RBCustomerEntity();
 
         // region MasterLayout
         ivPLInfo = (ImageView) findViewById(R.id.ivPLInfo);
@@ -174,6 +189,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         etCityContInfoRAP = (EditText) findViewById(R.id.etCityContInfoRAP);
         etStateContInfoRAP = (EditText) findViewById(R.id.etStateContInfoRAP);
         etCountryPlRAP = (EditText) findViewById(R.id.etCountryPlRAP);
+        etNoOfYrsAtOffContInfoRAP = (EditText) findViewById(R.id.etNoOfYrsAtOffContInfoRAP);
 
         etAddress1ContInfoPA = (EditText) findViewById(R.id.etAddress1ContInfoPA);
         etAddress2ContInfoPA = (EditText) findViewById(R.id.etAddress2ContInfoPA);
@@ -458,31 +474,31 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 managePL_Common(StatusType, "NRI", txtNRI, txtRES, txtPIO, txtOCR, txtFOR);
                 break;
             case R.id.txtPIO:
-                managePL_Common(StatusType,"PIO", txtPIO, txtRES, txtNRI, txtOCR, txtFOR);
+                managePL_Common(StatusType, "PIO", txtPIO, txtRES, txtNRI, txtOCR, txtFOR);
                 break;
             case R.id.txtOCR:
-                managePL_Common(StatusType,"OCR", txtOCR, txtRES, txtNRI, txtPIO, txtFOR);
+                managePL_Common(StatusType, "OCR", txtOCR, txtRES, txtNRI, txtPIO, txtFOR);
                 break;
             case R.id.txtFOR:
-                managePL_Common(StatusType,"FOR", txtFOR, txtRES, txtNRI, txtPIO, txtOCR);
+                managePL_Common(StatusType, "FOR", txtFOR, txtRES, txtNRI, txtPIO, txtOCR);
                 break;
             //endregion
 
             //region PL INFO Category
             case R.id.txtGEN:
-                managePL_Common(CategoryType,"GEN", txtGEN, txtSC, txtST, txtOBC, txtOTH);
+                managePL_Common(CategoryType, "GEN", txtGEN, txtSC, txtST, txtOBC, txtOTH);
                 break;
             case R.id.txtSC:
-                managePL_Common(CategoryType,"SC", txtSC, txtGEN, txtST, txtOBC, txtOTH);
+                managePL_Common(CategoryType, "SC", txtSC, txtGEN, txtST, txtOBC, txtOTH);
                 break;
             case R.id.txtST:
-                managePL_Common(CategoryType,"ST", txtST, txtGEN, txtSC, txtOBC, txtOTH);
+                managePL_Common(CategoryType, "ST", txtST, txtGEN, txtSC, txtOBC, txtOTH);
                 break;
             case R.id.txtOBC:
-                managePL_Common(CategoryType,"OBC", txtOBC, txtGEN, txtSC, txtST, txtOTH);
+                managePL_Common(CategoryType, "OBC", txtOBC, txtGEN, txtSC, txtST, txtOTH);
                 break;
             case R.id.txtOTH:
-                managePL_Common(CategoryType,"OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
+                managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
                 //endregion
 
                 // region PL INFO IDType
@@ -499,19 +515,19 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
             // region PL INFO Education
             case R.id.txtMATR:
-                managePL_Common( EducationType,"MATR", txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
+                managePL_Common(EducationType, "MATR", txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
                 break;
             case R.id.txtUGRAD:
-                managePL_Common(EducationType,"UGRAD", txtUGRAD, txtMATR, txtGRAD, txtPGRAD, txteducatOTH);
+                managePL_Common(EducationType, "UGRAD", txtUGRAD, txtMATR, txtGRAD, txtPGRAD, txteducatOTH);
                 break;
             case R.id.txtGRAD:
-                managePL_Common(EducationType,"GRAD", txtGRAD, txtMATR, txtUGRAD, txtPGRAD, txteducatOTH);
+                managePL_Common(EducationType, "GRAD", txtGRAD, txtMATR, txtUGRAD, txtPGRAD, txteducatOTH);
                 break;
             case R.id.txtPGRAD:
-                managePL_Common(EducationType,"PGRAD", txtPGRAD, txtMATR, txtUGRAD, txtGRAD, txteducatOTH);
+                managePL_Common(EducationType, "PGRAD", txtPGRAD, txtMATR, txtUGRAD, txtGRAD, txteducatOTH);
                 break;
             case R.id.txteducatOTH:
-                managePL_Common(EducationType,"PGRAD", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
+                managePL_Common(EducationType, "PGRAD", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
 
                 //endregion
 
@@ -526,11 +542,11 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 //                    }
 //                }
 
-                    if (validateAddress_Info() == false) {
-                    if (llPlInfo.getVisibility() == View.GONE) {
+                if (validateAddress_Info() == false) {
+                    if (llAddress.getVisibility() == View.GONE) {
 
-                        manageMainLayouts(llAddress,llPlInfo,  llEmployment, llFinancial);
-                        manageImages(llAddress, ivAddress,ivPLInfo, ivEmploy,  ivFinancial);//
+                        manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
+                        manageImages(llAddress, ivAddress, ivPLInfo, ivEmploy, ivFinancial);//
                     }
                 }
 
@@ -693,7 +709,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 etMobNo1ContInfo.setError("Enter Valid Mobile Number");
                 return false;
             }
-        }else if (!isEmpty(etAddress1ContInfoRAP)) {
+        } else if (!isEmpty(etAddress1ContInfoRAP)) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -708,7 +724,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 return false;
 
             }
-        }else if (!isEmpty(etPincodeContInfoRAP)) {
+        } else if (!isEmpty(etPincodeContInfoRAP)) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -723,7 +739,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 return false;
 
             }
-        }else if (etPincodeContInfoRAP.getText().length() <6 ) {
+        } else if (etPincodeContInfoRAP.getText().length() < 6) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
                 etPincodeContInfoRAP.requestFocus();
@@ -735,6 +751,51 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 etPincodeContInfoRAP.requestFocus();
                 etPincodeContInfoRAP.setError("Enter Valid Pincode");
                 return false;
+            }
+        }else if (!isEmpty(etCityContInfoRAP)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etCityContInfoRAP.requestFocus();
+                etCityContInfoRAP.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etCityContInfoRAP.setError("Enter City");
+                return false;
+
+            } else {
+                etCityContInfoRAP.requestFocus();
+                etCityContInfoRAP.setError("Enter City");
+                return false;
+
+            }
+        }else if (!isEmpty(etStateContInfoRAP)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etStateContInfoRAP.requestFocus();
+                etStateContInfoRAP.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etStateContInfoRAP.setError("Enter State");
+                return false;
+
+            } else {
+                etStateContInfoRAP.requestFocus();
+                etStateContInfoRAP.setError("Enter State");
+                return false;
+
+            }
+        }else if (!isEmpty(etNoOfYrsAtOffContInfoRAP)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etNoOfYrsAtOffContInfoRAP.requestFocus();
+                etNoOfYrsAtOffContInfoRAP.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etNoOfYrsAtOffContInfoRAP.setError("Enter No. of Years At This Address");
+                return false;
+
+            } else {
+                etNoOfYrsAtOffContInfoRAP.requestFocus();
+                etNoOfYrsAtOffContInfoRAP.setError("Enter No. of Years At This Address");
+                return false;
+
             }
         }
         return true;
@@ -777,13 +838,29 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     }
 
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
 
+        if (response instanceof RBCustomerResponse) {
+            if (response.getStatus_Id() == 0) {
+
+                rbCustomerEntity = ((RBCustomerResponse) response).getData();
+                setRBCustomerData();
+
+            }
+        }
     }
 
     @Override
     public void OnFailure(Throwable t) {
+        cancelDialog();
+
+    }
+
+    private void setRBCustomerData()
+    {
 
     }
 }

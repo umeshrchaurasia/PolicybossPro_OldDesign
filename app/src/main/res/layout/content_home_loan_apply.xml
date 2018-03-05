@@ -1081,7 +1081,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="No of Years At This Address">
+                            android:hint="No. of Years At This Address">
 
                             <EditText
                                 android:id="@+id/etNoOfYrsAtOffContInfoRAP"
@@ -1341,7 +1341,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="No of Years At This Address">
+                            android:hint="No. of Years At This Address">
 
                             <EditText
                                 android:id="@+id/etNoOfYrsAtOffContInfoPA"
