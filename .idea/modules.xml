@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FM-ANDROID.iml" filepath="$PROJECT_DIR$/FM-ANDROID.iml" />
       <module fileurl="file://D:\MaginFinmart\FM-ANDROID.iml" filepath="D:\MaginFinmart\FM-ANDROID.iml" />
+      <module fileurl="file://D:\Android\AndroidProjects\FM-ANDROIDNew\FM-ANDROID.iml" filepath="D:\Android\AndroidProjects\FM-ANDROIDNew\FM-ANDROID.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FM-ANDROIDNew.iml" filepath="$PROJECT_DIR$/FM-ANDROIDNew.iml" />
       <module fileurl="file://C:\Umesh\FM-ANDROID\MaginFinmart.iml" filepath="C:\Umesh\FM-ANDROID\MaginFinmart.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/finmartserviceapi/finmartserviceapi.iml" filepath="$PROJECT_DIR$/finmartserviceapi/finmartserviceapi.iml" />
