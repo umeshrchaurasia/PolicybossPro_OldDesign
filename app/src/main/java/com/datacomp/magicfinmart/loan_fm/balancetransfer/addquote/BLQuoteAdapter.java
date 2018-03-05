@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
@@ -77,7 +78,7 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
 
         final BLEntity quoteEntity = quoteEntities.get(position);
         try {
-        holder.tvLoanAmt.setText("" + "\u20B9" + " "+ LoanAmount);
+        holder.tvLoanAmt.setText("" + "\u20B9" + " "+  BigDecimal.valueOf(Math.ceil(LoanAmount)).setScale(0, BigDecimal.ROUND_HALF_UP) );
 
        // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
         holder.tvBestRate.setText(""+ "\u20B9"+ " " + quoteEntity.getRoi() +" %");
