@@ -371,14 +371,18 @@ public class BaseActivity extends AppCompatActivity {
     public void sharePdfTowhatsApp(String pdfFileName) {
         try {
             File outputFile = new File(Environment.getExternalStoragePublicDirectory
-                    (Environment.DIRECTORY_DOWNLOADS), pdfFileName + ".pdf");
-            Uri uri = Uri.fromFile(outputFile);
+                    (Environment.DIRECTORY_DOWNLOADS), "quote/"+pdfFileName + ".pdf");
+
+            Uri uri = FileProvider.getUriForFile(BaseActivity.this,
+                    getString(R.string.file_provider_authority),
+                    outputFile);
+            //Uri uri = Uri.fromFile(outputFile);
 
             Intent share = new Intent();
             share.setAction(Intent.ACTION_SEND);
             share.setType("application/pdf");
             share.putExtra(Intent.EXTRA_STREAM, uri);
-            share.setPackage("android.email");
+            share.setPackage("com.whatsapp");
             startActivity(share);
         } catch (Exception e) {
             e.printStackTrace();

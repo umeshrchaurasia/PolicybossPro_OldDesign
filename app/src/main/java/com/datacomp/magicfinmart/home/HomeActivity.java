@@ -120,7 +120,7 @@ public class HomeActivity extends BaseActivity {
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_myBusiness:
-                        startActivity(new Intent(HomeActivity.this, ShareQuoteACtivity.class));
+                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_referFriend:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));

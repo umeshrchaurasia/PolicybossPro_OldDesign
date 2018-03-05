@@ -38,12 +38,15 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
@@ -69,6 +72,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     SimpleDateFormat passdateFormat = new SimpleDateFormat("ddMMyyyy");
     boolean isMale = false, isFemale = false;
     String pass;
+    PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +81,21 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         dbPersistanceController = new DBPersistanceController(this);
         registerRequestEntity = new RegisterRequestEntity();
         initWidgets();
         setListener();
         initLayouts();
-        healthList = dbPersistanceController.getHealthListNames();
-        generalList = dbPersistanceController.getGeneralListNames();
-        lifeList = dbPersistanceController.getLifeListNames();
-        initMultiSelect();
-
+        prefManager = new PrefManager(this);
+        if (prefManager.IsInsuranceMasterUpdate()) {
+            new MasterController(this).getInsuranceMaster(this);
+        } else {
+            healthList = dbPersistanceController.getHealthListNames();
+            generalList = dbPersistanceController.getGeneralListNames();
+            lifeList = dbPersistanceController.getLifeListNames();
+            initMultiSelect();
+        }
     }
 
     private void initMultiSelect() {
@@ -438,6 +447,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             if (response.getStatusNo() == 0)
                 finish();
 
+        }
+        if (response instanceof InsuranceMasterResponse) {
+            healthList = dbPersistanceController.getHealthListNames();
+            generalList = dbPersistanceController.getGeneralListNames();
+            lifeList = dbPersistanceController.getLifeListNames();
+            initMultiSelect();
         }
     }
 
