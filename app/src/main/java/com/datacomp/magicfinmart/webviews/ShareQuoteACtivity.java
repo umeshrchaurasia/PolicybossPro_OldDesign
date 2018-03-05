@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.PictureDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,13 +27,17 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+
+import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 
 public class ShareQuoteACtivity extends BaseActivity {
     WebView webView;
@@ -43,6 +46,8 @@ public class ShareQuoteACtivity extends BaseActivity {
     String title;
     Bitmap bmp;
     int count = 0;
+    BikePremiumResponse bikePremiumResponse;
+    String jsonResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +60,11 @@ public class ShareQuoteACtivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         webView = (WebView) findViewById(R.id.webView);
+        if (getIntent().hasExtra("RESPONSE")) {
+            bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
+            jsonResponse = getJsonFromClass(bikePremiumResponse);
+        }
+
         url = getIntent().getStringExtra("URL");
         url = "file:///android_asset/VechicleInsurance.html";
         name = getIntent().getStringExtra("NAME");
@@ -68,10 +78,27 @@ public class ShareQuoteACtivity extends BaseActivity {
             public void onClick(View view) {
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
-                downloadPdf(url, name);
+                //downloadPdf(url, name);
+                shareQuote();
             }
         });
         settingWebview();
+    }
+
+    private String getJsonFromClass(BikePremiumResponse bikePremiumResponse) {
+        Gson gson = new Gson();
+        return gson.toJson(bikePremiumResponse);
+    }
+
+    private void shareQuote() {
+        bmp = getBitmapFromWebView(webView);
+
+        try {
+            SimplePDFTable(bmp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void downloadPdf(String url, String name) {
@@ -135,18 +162,8 @@ public class ShareQuoteACtivity extends BaseActivity {
                 // TODO hide your progress image
                 cancelDialog();
                 super.onPageFinished(view, url);
-                if (count == 0) {
-                    count++;
-                    webView.loadUrl("javascript:init('" + "rajeev ranjan" + "')");
-                } else {
-                    bmp = getBitmapFromWebView(view);
+                webView.loadUrl("javascript:init('" + jsonResponse + "')");
 
-                    try {
-                        SimplePDFTable(bmp);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
             }
 
             @Override
@@ -212,10 +229,8 @@ public class ShareQuoteACtivity extends BaseActivity {
 
     public void SimplePDFTable(Bitmap bmp) throws Exception {
 
-
-        showDialog("Creating pdf..");
         File direct = new File(Environment.getExternalStoragePublicDirectory
-                (Environment.DIRECTORY_DOWNLOADS), "quote.pdf");
+                (Environment.DIRECTORY_DOWNLOADS), "quote");
         if (!direct.exists()) {
             if (direct.mkdir()) {
                 Toast.makeText(ShareQuoteACtivity.this,
@@ -224,7 +239,10 @@ public class ShareQuoteACtivity extends BaseActivity {
             }
         }
         String test = direct.getAbsolutePath();
-        Document document = new Document();
+
+        Rectangle pagesize = new Rectangle(bmp.getWidth() + 36, bmp.getHeight() + 36);
+
+        Document document = new Document(pagesize, 36f, 36f, 36f, 36f);
 
         PdfWriter.getInstance(document, new FileOutputStream(test
                 + "/quote.pdf"));
@@ -236,12 +254,12 @@ public class ShareQuoteACtivity extends BaseActivity {
         Image image = Image.getInstance(byteArray);
 
 
-        // image.scaleToFit(PageSize.A4.getHeight(), PageSize.A4.getWidth());
-        image.scaleToFit(bmp.getHeight(), bmp.getWidth());
+        //image.scaleToFit(PageSize.A4.getHeight(), PageSize.A4.getWidth());
+        image.scaleToFit(pagesize);
+        //image.scaleToFit(rectangle);
         document.add(image);
 
         document.close();
-        cancelDialog();
         sharePdfTowhatsApp("quote");
     }
 

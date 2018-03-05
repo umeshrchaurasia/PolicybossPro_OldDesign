@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapter;
@@ -115,7 +116,11 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         btnBuy = (Button) findViewById(R.id.btnBuy);
         btnBackToQuote = (Button) findViewById(R.id.btnBackToQuote);
         cvAddon = (CardView) findViewById(R.id.cvAddon);
-        ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
+        //ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
+        Glide.with(this)
+                //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
+                .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name())
+                .into(ivCross);
     }
 
 
