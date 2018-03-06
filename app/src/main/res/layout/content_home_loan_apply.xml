@@ -1748,7 +1748,7 @@
                             android:hint="Address 1">
 
                             <EditText
-                                android:id="@+id/etAddress1"
+                                android:id="@+id/etAddress1ED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLines="2" />
@@ -1769,7 +1769,7 @@
                             android:hint="Address 2">
 
                             <EditText
-                                android:id="@+id/etAddress2"
+                                android:id="@+id/etAddress2ED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLines="2" />
@@ -1790,7 +1790,7 @@
                             android:hint="Address 3">
 
                             <EditText
-                                android:id="@+id/etAddress3"
+                                android:id="@+id/etAddress3ED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLines="2" />
@@ -1811,7 +1811,7 @@
                             android:hint="Landmark">
 
                             <EditText
-                                android:id="@+id/etLandmak"
+                                android:id="@+id/etLandmakED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLines="1" />
@@ -1880,7 +1880,7 @@
                             android:hint="Country">
 
                             <EditText
-                                android:id="@+id/etCountryPl"
+                                android:id="@+id/etCountryED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLines="1"
@@ -1902,7 +1902,7 @@
                             android:hint="Landline No (Std Phone No)">
 
                             <EditText
-                                android:id="@+id/etLandlineNoPl"
+                                android:id="@+id/etLandlineNoED"
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
                                 android:inputType="phone"

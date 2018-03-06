@@ -223,36 +223,39 @@
 
     </string-array>
 
+
     <string-array name="ownership">
-        <item>SELECT</item>
-        <item>RENT HOUSE</item>
-        <item>SELF OWNED</item>
-        <item>PARENTAL</item>
-        <item>CO-PROVIDED</item>
+        <item>Select</item>
+        <item>Rent House</item>
+        <item>Self Owned</item>
+        <item>Parental</item>
+        <item>Co-Provided</item>
 
     </string-array>
 
+
     <string-array name="organization">
-        <item>SELECT</item>
-        <item>MULTINATIONAL</item>
-        <item>PUBLIC LTD.</item>
-        <item>GOVT/SEMI GOVT.ENT.</item>
-        <item>PVT LTD.</item>
-        <item>PARTNERSHIP</item>
-        <item>PROPRIETORSHIP</item>
-        <item>OTHERS</item>
+        <item>Select</item>
+        <item>Multinational</item>
+        <item>Public Ltd.</item>
+        <item>Govt/Semi Govt.Ent.</item>
+        <item>Pvt Ltd.</item>
+        <item>Partnership</item>
+        <item>Proprietorship</item>
+        <item>Others</item>
 
     </string-array>
 
 
     <string-array name="business">
-        <item>SELECT</item>
-        <item>SERVICES</item>
-        <item>TRADING</item>
-        <item>MANUFACTURING</item>
-        <item>OTHERS</item>
+        <item>Select</item>
+        <item>Services</item>
+        <item>Trading</item>
+        <item>Manufacturing</item>
+        <item>Others</item>
 
     </string-array>
+
     <string name="title_activity_health_check_up_plans">HEALTH CHECK UP PLANS</string>
     <string name="title_activity_eula">Agreement</string>
     <string name="title_activity_knowledge_guru">KNOWLEDGE GURU</string>
