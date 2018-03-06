@@ -31,6 +31,7 @@ import com.datacomp.magicfinmart.motor.privatecar.adapter.CarQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -272,6 +273,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 webViewLoader.setVisibility(View.GONE);
                 updateCrn();
                 new AsyncAddon().execute();
+
 
                 if (((BikePremiumResponse) response).getResponse().size() != 0)
                     menuAddon.findItem(R.id.add_on).setVisible(true);
@@ -858,7 +860,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         updateAddonToserver(mobileAddOnAll);
     }
 
-
     public void redirectToBuy(ResponseEntity entity) {
 
         if (webViewLoader.getVisibility() == View.GONE) {
@@ -904,9 +905,15 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             case R.id.tvCount:
                 break;
             case R.id.ivShare:
-                Toast.makeText(getActivity(), "WIP..", Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(getActivity(), ShareQuoteACtivity.class)
-                        .putExtra("RESPONSE", bikePremiumResponse));
+
+                if (webViewLoader.getVisibility() != View.VISIBLE) {
+                    Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                    intent.putExtra("RESPONSE", bikePremiumResponse);
+                    intent.putExtra("CARNAME", carMasterEntity);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

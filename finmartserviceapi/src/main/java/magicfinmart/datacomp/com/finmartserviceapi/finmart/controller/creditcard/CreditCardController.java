@@ -82,7 +82,7 @@ public class CreditCardController implements ICreditCard {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                     }
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                    iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                 }
             }
 
