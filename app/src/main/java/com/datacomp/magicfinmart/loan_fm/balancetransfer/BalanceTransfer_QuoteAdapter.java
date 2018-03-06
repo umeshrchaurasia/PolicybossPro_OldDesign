@@ -19,6 +19,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.quote.BL_QuoteFragment;
 import org.w3c.dom.Text;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
@@ -78,7 +79,7 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
                 } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("7")) {
                     holder.txttype.setText("LAP");
                 }
-                holder.txtloanamount.setText("" + entity.getBLLoanRequest().getLoanamount());
+                holder.txtloanamount.setText("" +  BigDecimal.valueOf(Math.ceil(entity.getBLLoanRequest().getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
 
             }catch (Exception ex)
             {

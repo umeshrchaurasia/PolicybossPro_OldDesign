@@ -17,22 +17,21 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/btnSubmit">
 
-        <!--<android.support.v7.widget.CardView-->
-        <!--style="@style/CardStyle.Home"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:cardElevation="2dp">-->
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/customeborder_blue_thin"
+
+            android:padding="5dp"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:id="@+id/rlPLInfo"
                 style="@style/HeaderLayout"
-                android:padding="15dp">
+                android:paddingLeft="5dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
                 <ImageView
                     android:id="@+id/ivPLInfo"
@@ -760,9 +759,13 @@
             <RelativeLayout
                 android:id="@+id/rlAddress"
                 style="@style/HeaderLayout"
-                android:padding="15dp">
+                android:paddingLeft="5dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
-                <ImageView
+
+            <ImageView
                     android:id="@+id/ivAddress"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -1018,7 +1021,7 @@
                             <EditText
                                 android:id="@+id/etCityContInfoRAP"
                                 style="@style/Style.edittext"
-                                android:focusable="false" />
+                               />
                         </android.support.design.widget.TextInputLayout>
 
                     </TableRow>
@@ -1038,7 +1041,6 @@
                             <EditText
                                 android:id="@+id/etStateContInfoRAP"
                                 style="@style/Style.edittext"
-                                android:focusable="false"
                                 android:text="" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1051,7 +1053,6 @@
                             <EditText
                                 android:id="@+id/etCountryPlRAP"
                                 style="@style/Style.edittext"
-                                android:focusable="false"
                                 android:text="India" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1278,7 +1279,7 @@
                             android:hint="City">
 
                             <EditText
-                                android:id="@+id/etCityContInfo"
+                                android:id="@+id/etCityContInfoPA"
                                 style="@style/Style.edittext"
                                 android:focusable="false" />
                         </android.support.design.widget.TextInputLayout>
@@ -1359,9 +1360,13 @@
             <RelativeLayout
                 android:id="@+id/rlEmployment"
                 style="@style/HeaderLayout"
-                android:padding="15dp">
+                android:paddingLeft="5dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
-                <ImageView
+
+            <ImageView
                     android:id="@+id/ivEmploy"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
@@ -1675,7 +1680,7 @@
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
                                 android:inputType="number"
-                                android:maxLength="12" />
+                                android:maxLength="10" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -1690,7 +1695,7 @@
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
                                 android:inputType="number"
-                                android:maxLength="12" />
+                                android:maxLength="10" />
                         </android.support.design.widget.TextInputLayout>
 
                     </TableRow>
@@ -1711,7 +1716,7 @@
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
                                 android:inputType="number"
-                                android:maxLength="12" />
+                                android:maxLength="10" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -1726,7 +1731,7 @@
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
                                 android:inputType="number"
-                                android:maxLength="12" />
+                                android:maxLength="10" />
                         </android.support.design.widget.TextInputLayout>
 
                     </TableRow>
@@ -1914,9 +1919,13 @@
             <RelativeLayout
                 android:id="@+id/rlFinancial"
                 style="@style/HeaderLayout"
-                android:padding="15dp">
+                android:paddingLeft="5dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp">
 
-                <ImageView
+
+            <ImageView
                     android:id="@+id/ivFinancial"
                     android:layout_width="25dp"
                     android:layout_height="25dp"

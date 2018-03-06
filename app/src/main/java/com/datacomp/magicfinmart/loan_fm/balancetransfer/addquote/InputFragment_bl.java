@@ -3,7 +3,9 @@ package com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -66,7 +69,6 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.content_add_blquote, container, false);
 
         init_widgets(view);
-
         databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
         setListener();
@@ -150,7 +152,8 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
         try {
 
-            etOutstanding.setText("" + blLoanRequest.getLoanamount());
+
+            etOutstanding.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
 
             ettenureyrs.setText("" + blLoanRequest.getLoanterm());
 
@@ -267,6 +270,36 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
 
 
+    private void setCurrIncTextWatcher() {
+        etCurrInc.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //healthApplicationAdapter.getFilter().filter(s);
+                if (!etCurrInc.getText().toString().equalsIgnoreCase("")) {
+
+                    int editTextLength = etCurrInc.getText().toString().indexOf(".");
+
+                    if (editTextLength > 1) {
+
+                        String str = etCurrInc.getText().toString().substring(0,etCurrInc.getText().toString().length()-2);
+
+                        etCurrInc.setText(str);
+                        return;
+
+                    }
+
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
 
     //endegion
 

@@ -10,9 +10,12 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +27,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -31,17 +35,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
-import  magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
-import  magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.RBCustomerEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.RBCustomerResponse;
 
 
-public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
+public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, CompoundButton.OnCheckedChangeListener, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
@@ -66,9 +71,9 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     // Address
     etEmailPersContInfo, etEmailOffContInfo, etMobNo1ContInfo, etMobNo2ContInfo,
             etAddress1ContInfoRAP, etAddress2ContInfoRAP, etAddress3ContInfoRAP,
-            etLandmakContInfoRAP, etPincodeContInfoRAP, etCityContInfoRAP,etNoOfYrsAtOffContInfoRAP,
-            etStateContInfoRAP, etCountryPlRAP, etAddress1ContInfoPA, etAddress2ContInfoPA, etAddress3ContInfoPA, etLandmakContInfoPA,
-            etPincodeContInfoPA, etCityContInfo, etStateContInfoPA, etCountryPA,
+            etLandmakContInfoRAP, etPincodeContInfoRAP, etCityContInfoRAP, etNoOfYrsAtOffContInfoRAP,
+            etStateContInfoRAP, etCountryPlRAP, etLandlineNoContInfoRAP, etAddress1ContInfoPA, etAddress2ContInfoPA, etAddress3ContInfoPA, etLandmakContInfoPA,
+            etPincodeContInfoPA, etCityContInfoPA, etStateContInfoPA, etCountryPA,
             etLandlineNoContInfoPA, etNoOfYrsAtOffContInfoPA,
 
     // Employment
@@ -82,13 +87,18 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     TextView txtMarried, txtSingle, txtIdType, txtRES, txtNRI, txtPIO, txtOCR, txtFOR,
             txtGEN, txtSC, txtST, txtOBC, txtOTH,
             txtPORT, txtVOTER, txtDRV,
-            txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH;
+            txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH,
+            txtEmpNatureSalaried, txtEmpNatureSelfEmp;
 
     //endregion
 
-    String Gender = "M";
+    String Gender = "Male";
+    String EmpNature = "";
+    String MaritalStatus = "";
     String PL_STATUS = "RES", PL_CATEGORY = "GEN", PL_IDTYPE = "", PL_EDUCATION = "GRAD";
     int StatusType = 1, CategoryType = 2, IdType = 3, EducationType = 4;
+    Boolean isDataUploaded = true;
+    Boolean isPAN_RES = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +116,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         setDefaultCheckList();
 
         showDialog("Please Wait...");
-        new HomeLoanController(this).getRBCustomerData("18711",HomeLoanApplyActivity.this);
+        new HomeLoanController(this).getRBCustomerData("18711", HomeLoanApplyActivity.this);
     }
 
     private void initialize() {
@@ -184,6 +194,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         etAddress2ContInfoRAP = (EditText) findViewById(R.id.etAddress2ContInfoRAP);
         etAddress3ContInfoRAP = (EditText) findViewById(R.id.etAddress3ContInfoRAP);
         etLandmakContInfoRAP = (EditText) findViewById(R.id.etLandmakContInfoRAP);
+        etLandlineNoContInfoRAP = (EditText) findViewById(R.id.etLandlineNoContInfoRAP);
 
         etPincodeContInfoRAP = (EditText) findViewById(R.id.etPincodeContInfoRAP);
         etCityContInfoRAP = (EditText) findViewById(R.id.etCityContInfoRAP);
@@ -197,7 +208,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         etLandmakContInfoPA = (EditText) findViewById(R.id.etLandmakContInfoPA);
 
         etPincodeContInfoPA = (EditText) findViewById(R.id.etPincodeContInfoPA);
-        etCityContInfo = (EditText) findViewById(R.id.etCityContInfo);
+        etCityContInfoPA = (EditText) findViewById(R.id.etCityContInfoPA);
         etStateContInfoPA = (EditText) findViewById(R.id.etStateContInfoPA);
         etCountryPA = (EditText) findViewById(R.id.etCountryPA);
 
@@ -245,6 +256,10 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         //endregion
 
         // region Employment Dtl
+
+        txtEmpNatureSalaried = (TextView) findViewById(R.id.txtEmpNatureSalaried);
+        txtEmpNatureSelfEmp = (TextView) findViewById(R.id.txtEmpNatureSelfEmp);
+
         etDesig = (EditText) findViewById(R.id.etDesig);
         etCurrJob = (EditText) findViewById(R.id.etCurrJob);
         etTotalExp = (EditText) findViewById(R.id.etTotalExp);
@@ -320,6 +335,16 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         txtPGRAD.setOnClickListener(this);
         txteducatOTH.setOnClickListener(this);
 
+        txtEmpNatureSalaried.setOnClickListener(this);
+        txtEmpNatureSelfEmp.setOnClickListener(this);
+
+        etCityContInfoRAP.setKeyListener(null);
+        etStateContInfoRAP.setKeyListener(null);
+        chkPresent.setOnCheckedChangeListener(this);
+
+        etPincodeContInfoRAP.addTextChangedListener(pincodeRAPTextWatcher);
+        etPincodeContInfoPA.addTextChangedListener(pincodePATextWatcher);
+
 
     }
 
@@ -346,17 +371,47 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     }
 
     private void setMale_gender() {
-        Gender = "M";
+        Gender = "Male";
         ivMale.setImageResource(R.drawable.male_selected);
         ivFemale.setImageResource(R.drawable.female);
-
     }
 
     private void setFeMale_gender() {
-        Gender = "F";
+        Gender = "Female";
         ivFemale.setImageResource(R.drawable.female_selected);
         ivMale.setImageResource(R.drawable.male);
 
+
+    }
+
+    private void setEmpSalaried(String Type, boolean flag, TextView clickedText, TextView textView1) {
+        EmpNature = Type;
+
+        clickedText.setBackgroundResource(R.drawable.customeborder_blue);
+        clickedText.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.colorPrimary));
+
+        textView1.setBackgroundResource(R.drawable.customeborder);
+        textView1.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
+
+        etTurnOver.setEnabled(flag);
+        etDeprec.setEnabled(flag);
+        etDirRem.setEnabled(flag);
+        etProfAftTax.setEnabled(flag);
+
+        etCurrJob.setEnabled(!flag);
+        etTotalExp.setEnabled(!flag);
+
+
+    }
+
+    private void seMaritalStatus(String Type, TextView clickedText, TextView textView1) {
+        MaritalStatus = Type;
+
+        clickedText.setBackgroundResource(R.drawable.customeborder_blue);
+        clickedText.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.colorPrimary));
+
+        textView1.setBackgroundResource(R.drawable.customeborder);
+        textView1.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
 
     }
 
@@ -437,6 +492,14 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             case R.id.rlPLInfo:
                 manageMainLayouts(llPlInfo, llAddress, llEmployment, llFinancial);
                 manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
+                if(checkPL_Info())
+                {
+                    ivPLInfoDone.setVisibility(View.VISIBLE);
+                    ivPLInfoPending.setVisibility(View.GONE);
+                }else{
+                    ivPLInfoDone.setVisibility(View.INVISIBLE);
+                    ivPLInfoPending.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case R.id.ivAddress:
@@ -444,18 +507,45 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
                 manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo, ivFinancial);
 
+                if(checkAddress_Info())
+                {
+                    ivAddressDone.setVisibility(View.VISIBLE);
+                    ivAddressPending.setVisibility(View.GONE);
+                }else{
+                    ivAddressDone.setVisibility(View.INVISIBLE);
+                    ivAddressPending.setVisibility(View.VISIBLE);
+                }
+
                 break;
 
             case R.id.ivEmploy:
             case R.id.rlEmployment:
                 manageMainLayouts(llEmployment, llPlInfo, llAddress, llFinancial);
                 manageImages(llEmployment, ivEmploy, ivPLInfo, ivAddress, ivFinancial);
+
+                if(chkEmployment_Info())
+                {
+                    ivEmployDone.setVisibility(View.VISIBLE);
+                    ivEmployPending.setVisibility(View.GONE);
+                }else{
+                    ivEmployDone.setVisibility(View.INVISIBLE);
+                    ivEmployPending.setVisibility(View.VISIBLE);
+                }
+
                 break;
 
             case R.id.ivFinancial:
             case R.id.rlFinancial:
                 manageMainLayouts(llFinancial, llPlInfo, llAddress, llEmployment);
                 manageImages(llFinancial, ivFinancial, ivPLInfo, ivAddress, ivEmploy);
+                if(chkFinancial_Info())
+                {
+                    ivFinancialDone.setVisibility(View.VISIBLE);
+                    ivFinancialPending.setVisibility(View.GONE);
+                }else{
+                    ivFinancialDone.setVisibility(View.INVISIBLE);
+                    ivFinancialPending.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case R.id.ivMale:
@@ -466,6 +556,14 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 setFeMale_gender();
                 break;
 
+            case R.id.txtMarried:
+                seMaritalStatus("MARRIED", txtMarried, txtSingle);
+                break;
+
+            case R.id.txtSingle:
+                seMaritalStatus("SINGLE", txtSingle, txtMarried);
+                break;
+            //seMaritalStatus
             //region PL INFO Status
             case R.id.txtRES:
                 managePL_Common(StatusType, "RES", txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
@@ -531,22 +629,39 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
                 //endregion
 
+            case R.id.txtEmpNatureSalaried:
+                setEmpSalaried("SAL", false, txtEmpNatureSalaried, txtEmpNatureSelfEmp);
+                break;
 
+            case R.id.txtEmpNatureSelfEmp:
+                setEmpSalaried("SELF", true, txtEmpNatureSelfEmp, txtEmpNatureSalaried);
+                break;
+            //setEmpSalaried
             case R.id.btnSubmit:
 
-//                if (validatePL_Info() == false) {
-//                    if (llPlInfo.getVisibility() == View.GONE) {
-//
-//                        manageMainLayouts(llPlInfo, llAddress, llEmployment, llFinancial);
-//                        manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
-//                    }
-//                }
+                if (validatePL_Info() == false) {
+                    if (llPlInfo.getVisibility() == View.GONE) {
 
-                if (validateAddress_Info() == false) {
+                        manageMainLayouts(llPlInfo, llAddress, llEmployment, llFinancial);
+                        manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
+                    }
+                } else if (validateAddress_Info() == false) {
                     if (llAddress.getVisibility() == View.GONE) {
 
                         manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
-                        manageImages(llAddress, ivAddress, ivPLInfo, ivEmploy, ivFinancial);//
+                        manageImages(llAddress, ivAddress, ivPLInfo, ivEmploy, ivFinancial);
+                    }
+                } else if (validateEmployment_Info() == false) {
+                    if (llEmployment.getVisibility() == View.GONE) {
+
+                        manageMainLayouts(llEmployment, llAddress, llPlInfo, llFinancial);
+                        manageImages(llEmployment, ivEmploy, ivAddress, ivPLInfo, ivFinancial);
+                    }
+                } else if (validateFinancial_Info() == false) {
+                    if (llFinancial.getVisibility() == View.GONE) {
+
+                        manageMainLayouts(llFinancial, llEmployment, llAddress, llPlInfo);
+                        manageImages(llFinancial, ivEmploy, ivFinancial, ivAddress, ivPLInfo);
                     }
                 }
 
@@ -554,6 +669,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    //  region Validate
 
     private boolean validatePL_Info() {
 
@@ -593,7 +709,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etSpouceName.requestFocus();
                 etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSpouceName.setError("Enter Last Name");
+                etSpouceName.setError("Enter Spouce Name");
                 return false;
             } else {
                 etSpouceName.requestFocus();
@@ -632,6 +748,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         if (PL_IDTYPE.equals("")) {
             txtIdType.setVisibility(View.VISIBLE);
+            etNoOfDepen.requestFocus();
             return false;
         }
 
@@ -752,7 +869,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 etPincodeContInfoRAP.setError("Enter Valid Pincode");
                 return false;
             }
-        }else if (!isEmpty(etCityContInfoRAP)) {
+        } else if (!isEmpty(etCityContInfoRAP)) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -767,7 +884,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 return false;
 
             }
-        }else if (!isEmpty(etStateContInfoRAP)) {
+        } else if (!isEmpty(etStateContInfoRAP)) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -782,7 +899,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 return false;
 
             }
-        }else if (!isEmpty(etNoOfYrsAtOffContInfoRAP)) {
+        } else if (!isEmpty(etNoOfYrsAtOffContInfoRAP)) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
@@ -797,6 +914,345 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 return false;
 
             }
+        }
+        return true;
+    }
+
+    private boolean validateEmployment_Info() {
+
+        if (!isEmpty(etDesig)) {
+
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etDesig.requestFocus();
+                etDesig.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etDesig.setError("Enter Designation");
+                return false;
+            } else {
+                etDesig.requestFocus();
+                etDesig.setError("Enter Designation");
+                return false;
+            }
+        } else if (!isEmpty(etCurrJob)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etCurrJob.requestFocus();
+                etCurrJob.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etCurrJob.setError("Enter Current Job");
+                return false;
+
+            } else {
+                etCurrJob.requestFocus();
+                etCurrJob.setError("Enter Current Job");
+                return false;
+
+            }
+        } else if (!isEmpty(etTotalExp)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etTotalExp.requestFocus();
+                etTotalExp.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etTotalExp.setError("Enter Total Exp.");
+                return false;
+
+            } else {
+                etTotalExp.requestFocus();
+                etTotalExp.setError("Enter Total Exp.");
+                return false;
+
+            }
+        } else if (!isEmpty(etNameOfOrg)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etNameOfOrg.requestFocus();
+                etNameOfOrg.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etNameOfOrg.setError("Enter Name Of Organisation");
+                return false;
+
+            } else {
+                etNameOfOrg.requestFocus();
+                etNameOfOrg.setError("Enter Name Of Organisation");
+                return false;
+
+            }
+        } else if (!isEmpty(etTurnOver)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etTurnOver.requestFocus();
+                etTurnOver.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etTurnOver.setError("Enter Turn Over");
+                return false;
+
+            } else {
+                etTurnOver.requestFocus();
+                etTurnOver.setError("Enter Turn Over");
+                return false;
+
+            }
+        } else if (!isEmpty(etDeprec)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etDeprec.requestFocus();
+                etDeprec.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etDeprec.setError("Enter Depreciation");
+                return false;
+
+            } else {
+                etDeprec.requestFocus();
+                etDeprec.setError("Enter Depreciation");
+                return false;
+
+            }
+        } else if (!isEmpty(etDirRem)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etDirRem.requestFocus();
+                etDirRem.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etDirRem.setError("Enter Directors Remuneration");
+                return false;
+
+            } else {
+                etDirRem.requestFocus();
+                etDirRem.setError("Enter Directors Remuneration");
+                return false;
+
+            }
+        } else if (!isEmpty(etProfAftTax)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etProfAftTax.requestFocus();
+                etProfAftTax.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etProfAftTax.setError("Enter Profit After Tax");
+                return false;
+
+            } else {
+                etProfAftTax.requestFocus();
+                etProfAftTax.setError("Enter Profit After Tax");
+                return false;
+
+            }
+        } else if (!isEmpty(etAddress1ED)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etAddress1ED.requestFocus();
+                etAddress1ED.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etAddress1ED.setError("Enter Address");
+                return false;
+
+            } else {
+                etAddress1ED.requestFocus();
+                etAddress1ED.setError("Enter Address");
+                return false;
+
+            }
+        } else if (!isEmpty(etPincodeED)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etPincodeED.requestFocus();
+                etPincodeED.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etPincodeED.setError("Enter Pincode");
+                return false;
+
+            } else {
+                etPincodeED.requestFocus();
+                etPincodeED.setError("Enter Pincode");
+                return false;
+
+            }
+        } else if (etPincodeED.getText().length() < 6) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etPincodeED.requestFocus();
+                etPincodeED.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etPincodeED.setError("Enter Valid Pincode");
+                return false;
+
+            } else {
+                etPincodeED.requestFocus();
+                etPincodeED.setError("Enter Valid Pincode");
+                return false;
+            }
+        } else if (!isEmpty(etCityED)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etCityED.requestFocus();
+                etCityED.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etCityED.setError("Enter City");
+                return false;
+
+            } else {
+                etCityED.requestFocus();
+                etCityED.setError("Enter City");
+                return false;
+
+            }
+        } else if (!isEmpty(etStateED)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+                etStateED.requestFocus();
+                etStateED.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etStateED.setError("Enter State");
+                return false;
+
+            } else {
+                etStateED.requestFocus();
+                etStateED.setError("Enter State");
+                return false;
+
+            }
+        }
+
+        return true;
+    }
+
+    private boolean validateFinancial_Info() {
+
+        if (!isEmpty(etNetIncome)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etNetIncome.requestFocus();
+                etNetIncome.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etNetIncome.setError("Enter Net Income");
+                return false;
+            } else {
+                etNetIncome.requestFocus();
+                etNetIncome.setError("Enter Net Income");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //endregion
+
+    private boolean checkPL_Info() {
+
+        if (!isEmpty(etFirstName)) {
+            return false;
+        }
+
+        if (!isEmpty(etLastName)) {
+            return false;
+        }
+        if (!isEmpty(etSpouceName)) {
+            return false;
+        }
+
+        if (!isEmpty(etPan)) {
+            return false;
+        }
+
+        if (!isValidPan(etPan)) {
+            return false;
+        }
+
+        if (PL_IDTYPE.equals("")) {
+            return false;
+        }
+
+        if (!isEmpty(etMoMaidenName)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean checkAddress_Info() {
+
+        if (!isEmpty(etEmailPersContInfo)) {
+
+            return false;
+        } else if (!isValideEmailID(etEmailPersContInfo)) {
+
+            return false;
+        } else if (!isEmpty(etMobNo1ContInfo)) {
+
+            return false;
+        } else if (etMobNo1ContInfo.getText().length() < 10) {
+
+        } else if (!isEmpty(etAddress1ContInfoRAP)) {
+
+            return false;
+        } else if (!isEmpty(etPincodeContInfoRAP)) {
+            return false;
+
+        } else if (etPincodeContInfoRAP.getText().length() < 6) {
+            return false;
+
+        } else if (!isEmpty(etCityContInfoRAP)) {
+            return false;
+
+        } else if (!isEmpty(etStateContInfoRAP)) {
+            return false;
+
+        } else if (!isEmpty(etNoOfYrsAtOffContInfoRAP)) {
+            return false;
+
+        }
+        return true;
+    }
+
+    private boolean chkEmployment_Info() {
+
+        if (!isEmpty(etDesig)) {
+            return false;
+
+        } else if (!isEmpty(etCurrJob)) {
+
+            return false;
+        } else if (!isEmpty(etTotalExp)) {
+
+            return false;
+        } else if (!isEmpty(etNameOfOrg)) {
+
+            return false;
+        } else if (!isEmpty(etTurnOver)) {
+
+            return false;
+        } else if (!isEmpty(etDeprec)) {
+
+            return false;
+        } else if (!isEmpty(etDirRem)) {
+
+            return false;
+        } else if (!isEmpty(etProfAftTax)) {
+
+            return false;
+        } else if (!isEmpty(etAddress1ED)) {
+            return false;
+
+        } else if (!isEmpty(etPincodeED)) {
+            return false;
+
+        } else if (etPincodeED.getText().length() < 6) {
+            return false;
+
+        } else if (!isEmpty(etCityED)) {
+            return false;
+
+        } else if (!isEmpty(etStateED)) {
+            return false;
+
+        }
+
+        return true;
+    }
+
+    private boolean chkFinancial_Info() {
+
+        if (!isEmpty(etNetIncome)) {
+
+            return false;
         }
         return true;
     }
@@ -832,6 +1288,60 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     }
 
+    //region textwatcher
+    TextWatcher pincodeRAPTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (start == 5) {
+                etCityContInfoRAP.setText("");
+                etStateContInfoRAP.setText("");
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if ((s.length() == 6) && (isDataUploaded)) {
+                isPAN_RES = true;
+                showDialog("Fetching City...");
+                Toast.makeText(HomeLoanApplyActivity.this, "Fetching City...Data", Toast.LENGTH_LONG).show();
+                new RegisterController(HomeLoanApplyActivity.this).getCityState(etPincodeContInfoRAP.getText().toString(), HomeLoanApplyActivity.this);
+
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    TextWatcher pincodePATextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (start == 5) {
+                etCityContInfoPA.setText("");
+                etStateContInfoPA.setText("");
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if ((s.length() == 6) && (isDataUploaded)) {
+                if(!chkPresent.isChecked()) {
+                    isPAN_RES = false;
+                    showDialog("Fetching City...");
+                    Toast.makeText(HomeLoanApplyActivity.this, "Fetching City...Data", Toast.LENGTH_LONG).show();
+                    new RegisterController(HomeLoanApplyActivity.this).getCityState(etPincodeContInfoPA.getText().toString(), HomeLoanApplyActivity.this);
+                }
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+    //endregion
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
@@ -854,13 +1364,72 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
+    public void OnSuccess(magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse response, String message) {
+
+        cancelDialog();
+        if (response instanceof PincodeResponse) {
+            if (response.getStatusNo() == 0) {
+
+                if(isPAN_RES) {
+                    etStateContInfoRAP.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
+                    etCityContInfoRAP.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
+                }else{
+                    etStateContInfoPA.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
+                    etCityContInfoPA.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
+                }
+
+            }
+        }
+    }
+
+    @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
 
     }
 
-    private void setRBCustomerData()
-    {
+    private void setRBCustomerData() {
 
     }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+        if (isChecked) {
+            getResAddrToPermAddress();
+        } else {
+            clearPermAddress();
+        }
+    }
+
+    private void getResAddrToPermAddress() {
+        etAddress1ContInfoPA.setText(etAddress1ContInfoRAP.getText().toString());
+        etAddress2ContInfoPA.setText(etAddress2ContInfoRAP.getText().toString());
+        etAddress3ContInfoPA.setText(etAddress3ContInfoRAP.getText().toString());
+        etLandmakContInfoPA.setText(etLandmakContInfoRAP.getText().toString());
+
+        etPincodeContInfoPA.setText(etPincodeContInfoRAP.getText().toString());
+        etCityContInfoPA.setText(etCityContInfoRAP.getText().toString());
+        etStateContInfoPA.setText(etStateContInfoRAP.getText().toString());
+        etCountryPA.setText(etCountryPlRAP.getText().toString());
+
+        etLandlineNoContInfoPA.setText(etLandlineNoContInfoRAP.getText().toString());
+        etNoOfYrsAtOffContInfoPA.setText(etNoOfYrsAtOffContInfoRAP.getText().toString());
+    }
+
+    private void clearPermAddress() {
+        etAddress1ContInfoPA.setText("");
+        etAddress2ContInfoPA.setText("");
+        etAddress3ContInfoPA.setText("");
+        etLandmakContInfoPA.setText("");
+
+        etPincodeContInfoPA.setText("");
+        etCityContInfoPA.setText("");
+        etStateContInfoPA.setText("");
+        etCountryPA.setText("");
+
+        etLandlineNoContInfoPA.setText("");
+        etNoOfYrsAtOffContInfoPA.setText("");
+    }
+
 }
