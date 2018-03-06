@@ -19,6 +19,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
@@ -138,7 +139,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
             {
                 try {
                     txtAppName.setText(""+blLoanRequest.getApplicantName().toUpperCase() );
-                    txtLoanAmnt.setText(""+blLoanRequest.getLoanamount() );
+                    txtLoanAmnt.setText(""+ BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
                     txtLoanTenure.setText(""+blLoanRequest.getLoanterm() + " Years" );
 
                     if (Integer.toString(blLoanRequest.getProduct_id()).matches("12")) {

@@ -23,6 +23,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -151,7 +152,8 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
         try {
 
-            etOutstanding.setText("" + blLoanRequest.getLoanamount());
+
+            etOutstanding.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
 
             ettenureyrs.setText("" + blLoanRequest.getLoanterm());
 

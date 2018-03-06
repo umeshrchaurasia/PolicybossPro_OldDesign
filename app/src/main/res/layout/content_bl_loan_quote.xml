@@ -377,7 +377,7 @@
                             android:layout_weight="1"
                             android:width="0dp"
                             android:gravity="left"
-                            android:text="DROP-IN INTREST RATE" />
+                            android:text="DROP-IN INTEREST RATE" />
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -412,7 +412,7 @@
                         style="@style/TextViewStyle.Medium"
                         android:layout_marginTop="8dp"
                         android:gravity="center"
-                        android:text="YOUR SAVINGS THROUGH REDUCED INTREST" />
+                        android:text="YOUR SAVINGS THROUGH REDUCED INTEREST" />
 
                     <TextView
                         style="@style/TextViewStyle.Large"

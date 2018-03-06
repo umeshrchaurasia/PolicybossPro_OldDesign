@@ -217,6 +217,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         // fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
         //   fmHomeLoanRequest.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
         homeLoanRequest.setQuote_id(QuoteID);
+
         fmHomeLoanRequest.setHomeLoanRequest(homeLoanRequest);
         new MainLoanController(getActivity()).saveHLQuoteData(fmHomeLoanRequest, this);
 
@@ -253,6 +254,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         {
             if (response.getStatusNo() == 0) {
                 ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+
             }
         }
     }

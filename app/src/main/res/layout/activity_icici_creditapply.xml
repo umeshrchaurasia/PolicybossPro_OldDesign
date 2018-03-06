@@ -661,7 +661,8 @@
                                     android:id="@+id/etPincode"
                                     style="@style/Style.edittext"
                                     android:inputType="number"
-                                    android:maxLines="4" />
+                                    android:maxLength="6"
+                                    android:maxLines="1" />
                             </android.support.design.widget.TextInputLayout>
 
                             <android.support.design.widget.TextInputLayout
@@ -821,7 +822,7 @@
                                     android:id="@+id/etPerPincode"
                                     style="@style/Style.edittext"
                                     android:inputType="number"
-                                    android:maxLines="4" />
+                                    android:maxLength="6" />
                             </android.support.design.widget.TextInputLayout>
 
                             <android.support.design.widget.TextInputLayout

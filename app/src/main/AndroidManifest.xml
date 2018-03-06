@@ -564,7 +564,7 @@
         </activity>
         <activity
             android:name=".creditcard.ICICICreditApplyActivity"
-            android:label="@string/title_activity_main"
+            android:label="@string/title_activity_rblcredit_apply"
             android:parentActivityName=".creditcard.AppliedCreditListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -594,6 +594,7 @@
         <activity
             android:name=".webviews.ShareQuoteACtivity"
             android:label="@string/title_activity_share_quote_activity"
+            android:noHistory="true"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
