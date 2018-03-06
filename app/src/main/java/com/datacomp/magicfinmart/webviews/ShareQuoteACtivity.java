@@ -106,6 +106,7 @@ public class ShareQuoteACtivity extends BaseActivity {
 
 
     private void shareQuote() {
+        showDialog("Creating pdf...");
         bmp = getBitmapFromWebView(webView);
 
         try {
@@ -275,6 +276,7 @@ public class ShareQuoteACtivity extends BaseActivity {
         document.add(image);
 
         document.close();
+        cancelDialog();
         sharePdfTowhatsApp("quote");
     }
 

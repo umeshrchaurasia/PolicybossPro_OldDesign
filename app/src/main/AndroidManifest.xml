@@ -594,6 +594,7 @@
         <activity
             android:name=".webviews.ShareQuoteACtivity"
             android:label="@string/title_activity_share_quote_activity"
+            android:noHistory="true"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
