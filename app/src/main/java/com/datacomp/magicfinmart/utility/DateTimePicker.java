@@ -18,13 +18,6 @@ public class DateTimePicker {
 
         DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
-        //always shows 1 day ahead in calender
-        // added 1 day in calender
-        // calendar.add(Calendar.MONTH, -6);
-
-        // disable all before date,
-
-        //dialog.getDatePicker().setMinDate(calendar.getTimeInMillis() + 180 * 24 * 60 * 60 * 1000);
         dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
 
         dialog.show();

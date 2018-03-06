@@ -137,6 +137,45 @@
 
     </string-array>
 
+    <string-array name="icici_qualification">
+        <item>Highest education qualification</item>
+        <item>Under Graduate</item>
+        <item>Graduate/Diploma</item>
+        <item>Post Graduate</item>
+        <item>Professional</item>
+    </string-array>
+
+    <string-array name="icici_relationship">
+        <item>ICICI Bank Relationship</item>
+        <item>Salary</item>
+        <item>Saving</item>
+        <item>Loan</item>
+        <item>Non Relationship</item>
+    </string-array>
+
+    <string-array name="icici_residence_type">
+        <item>Residence Type</item>
+        <item>Owned by self/spouse</item>
+        <item>Owned by parents/siblings</item>
+        <item>Rented with Family</item>
+        <item>Rented with Friends</item>
+        <item>Rented staying alone</item>
+        <item>Paying guest/Hostel</item>
+        <item>Company Provided</item>
+    </string-array>
+
+    <string-array name="icici_type_of_company">
+        <item>Type Of Company</item>
+        <item>Central Government</item>
+        <item>MNC</item>
+        <item>Partnership</item>
+        <item>Private Limited</item>
+        <item>Proprietorship</item>
+        <item>PSU</item>
+        <item>Public Limited</item>
+        <item>State Government</item>
+    </string-array>
+
     <string-array name="Supplimentary_card">
         <item>I want to apply for supplimentary card</item>
         <item>Yes</item>
@@ -147,6 +186,13 @@
         <item>Preferred mailing address</item>
         <item>Office</item>
         <item>Residence</item>
+    </string-array>
+
+    <string-array name="icici_salary_account_opened">
+        <item>Salary Account Opened</item>
+        <item> Greater than 2 Months </item>
+        <item> Less than 3 Months</item>
+
     </string-array>
 
     <string-array name="NoOfDependents">
@@ -230,5 +276,7 @@
     <string name="title_activity_main">ICICICreditApplyActivity</string>
     <string name="title_activity_share_quote_activity">Share</string>
 
+
+    <string name="icici_terms_con">I hereby confirm that I have read and understood the Rupeeboss Terms and Conditions applicable to this service and that all the details furnished by me above are true and correct. I further provide consent to Rupeeboss and its affiliates to contact me with reference to financial products and this consent shall override any registration with DNC/NDNC.</string>
 
 </resources>

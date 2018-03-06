@@ -1,12 +1,12 @@
 package com.datacomp.magicfinmart.webviews;
 
 import android.app.DownloadManager;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -49,7 +49,15 @@ public class CommonWebViewActivity extends BaseActivity {
                 downloadPdf(url, name);
             }
         });
-        settingWebview();
+        if (isNetworkConnected())
+            settingWebview();
+        else
+            Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 
     private void downloadPdf(String url, String name) {

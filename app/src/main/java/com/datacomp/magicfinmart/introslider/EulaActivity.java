@@ -23,6 +23,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RblCityMasterResponse;
 
 public class EulaActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     Button btnAgree, btnDisAgree;
@@ -68,11 +69,25 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
         switch (view.getId()) {
             case R.id.btnAgree:
 
+
                 if (checkAllMastersIsUpdate()) {
                     prefManager.setFirstTimeLaunch(false);
                     startActivity(new Intent(this, LoginActivity.class));
                 } else {
-                    Toast.makeText(this, "Server Down Try After some time", Toast.LENGTH_SHORT).show();
+
+                    if (prefManager.IsBikeMasterUpdate())
+                        new MasterController(this).getBikeMaster(this);
+                    if (prefManager.IsCarMasterUpdate())
+                        new MasterController(this).getCarMaster(this);
+                    if (prefManager.IsRtoMasterUpdate())
+                        new MasterController(this).getRTOMaster(this);
+                    if (prefManager.IsInsuranceMasterUpdate())
+                        new MasterController(this).getInsuranceMaster(this);
+                    if (prefManager.getIsRblCityMaster())
+                        new CreditCardController(this).getRblCityMaster(this);
+
+                    prefManager.setFirstTimeLaunch(false);
+                    startActivity(new Intent(this, LoginActivity.class));
                 }
                 break;
             case R.id.btnDisAgree:
@@ -85,25 +100,30 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof BikeMasterResponse) {
             if (checkAllMastersIsUpdate()) {
-                startActivity(new Intent(EulaActivity.this, LoginActivity.class));
+                // startActivity(new Intent(EulaActivity.this, LoginActivity.class));
             }
         } else if (response instanceof CarMasterResponse) {
             if (checkAllMastersIsUpdate()) {
-                startActivity(new Intent(EulaActivity.this, LoginActivity.class));
+                //startActivity(new Intent(EulaActivity.this, LoginActivity.class));
             }
         } else if (response instanceof CityMasterResponse) {
             if (checkAllMastersIsUpdate()) {
-                startActivity(new Intent(EulaActivity.this, LoginActivity.class));
+                //startActivity(new Intent(EulaActivity.this, LoginActivity.class));
             }
         } else if (response instanceof InsuranceMasterResponse) {
             if (checkAllMastersIsUpdate()) {
-                startActivity(new Intent(EulaActivity.this, LoginActivity.class));
+                //startActivity(new Intent(EulaActivity.this, LoginActivity.class));
+            }
+        } else if (response instanceof RblCityMasterResponse) {
+            if (checkAllMastersIsUpdate()) {
+                //startActivity(new Intent(EulaActivity.this, LoginActivity.class));
             }
         }
     }
 
     @Override
     public void OnFailure(Throwable t) {
+        cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 

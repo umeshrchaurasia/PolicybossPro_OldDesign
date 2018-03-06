@@ -1,16 +1,12 @@
 package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,14 +30,9 @@ import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.CarQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -81,11 +72,12 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
     List<MobileAddOn> listMobileAddOn;
     TextView tvPolicyExp, tvMakeModel, tvFuel, tvCrn, tvCount, tvRtoName;
     Switch swAddon;
-    TextView filter,tvWithoutAddon,tvWithAddon;
+    TextView filter, tvWithoutAddon, tvWithAddon;
     ImageView ivEdit;
     CarMasterEntity carMasterEntity;
     Realm realm;
     SaveQuoteResponse.SaveQuoteEntity saveQuoteEntity;
+    ImageView ivShare;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -122,6 +114,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
 
     private void setListener() {
+        ivShare.setOnClickListener(this);
         tvCount.setOnClickListener(this);
         ivEdit.setOnClickListener(this);
         filter.setOnClickListener(this);
@@ -174,6 +167,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
         filter = (TextView) view.findViewById(R.id.filter);
         tvWithAddon = (TextView) view.findViewById(R.id.tvWithAddon);
         tvWithoutAddon = (TextView) view.findViewById(R.id.tvWithoutAddon);
+        ivShare = (ImageView) view.findViewById(R.id.ivShare);
     }
 
     private void initializeAdapters() {
@@ -908,8 +902,11 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                         .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
                 break;
             case R.id.tvCount:
-
-
+                break;
+            case R.id.ivShare:
+                Toast.makeText(getActivity(), "WIP..", Toast.LENGTH_SHORT).show();
+              /*  startActivity(new Intent(getActivity(), ShareQuoteACtivity.class)
+                        .putExtra("RESPONSE", bikePremiumResponse));*/
                 break;
         }
     }

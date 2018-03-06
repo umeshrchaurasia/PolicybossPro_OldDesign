@@ -11,8 +11,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.AsyncRblCityMaster;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.CreditCardRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AppliedCreditCardResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCICICIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreditCardMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RblCityMasterResponse;
@@ -62,6 +64,40 @@ public class CreditCardController implements ICreditCard {
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                     }
+                }
+            }
+        });
+    }
+
+    @Override
+    public void applyICICI(CCICICIRequestEntity cciciciRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+
+        creditCardNetworkService.applyICICI(cciciciRequestEntity).enqueue(new Callback<CCICICIResponse>() {
+            @Override
+            public void onResponse(Call<CCICICIResponse> call, Response<CCICICIResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CCICICIResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                 }
             }
         });
