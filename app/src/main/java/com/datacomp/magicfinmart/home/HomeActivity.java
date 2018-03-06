@@ -99,7 +99,7 @@ public class HomeActivity extends BaseActivity {
                     case R.id.nav_myaccount: {
 
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                       //startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+                     //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
                         // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
