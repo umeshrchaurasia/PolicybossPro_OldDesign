@@ -905,8 +905,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
                 break;
             case R.id.ivShare:
                 Toast.makeText(getActivity(), "WIP..", Toast.LENGTH_SHORT).show();
-              /*  startActivity(new Intent(getActivity(), ShareQuoteACtivity.class)
-                        .putExtra("RESPONSE", bikePremiumResponse));*/
+                startActivity(new Intent(getActivity(), ShareQuoteACtivity.class)
+                        .putExtra("RESPONSE", bikePremiumResponse));
                 break;
         }
     }
