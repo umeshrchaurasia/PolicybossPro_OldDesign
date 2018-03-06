@@ -37,6 +37,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 
 public class ShareQuoteACtivity extends BaseActivity {
@@ -47,7 +49,11 @@ public class ShareQuoteACtivity extends BaseActivity {
     Bitmap bmp;
     int count = 0;
     BikePremiumResponse bikePremiumResponse;
-    String jsonResponse;
+    CarMasterEntity carMasterEntity;
+    String bikeReponse;
+    String userReponse;
+    String carReponse;
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +66,23 @@ public class ShareQuoteACtivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         webView = (WebView) findViewById(R.id.webView);
+
         if (getIntent().hasExtra("RESPONSE")) {
+
+            //bike
             bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
-            jsonResponse = getJsonFromClass(bikePremiumResponse);
+            bikeReponse = gson.toJson(bikePremiumResponse);
         }
+        if (getIntent().hasExtra("CARNAME")) {
+
+            //car
+            carMasterEntity = getIntent().getParcelableExtra("CARNAME");
+            carReponse = gson.toJson(carMasterEntity);
+        }
+
+        //user
+        userReponse = gson.toJson(new DBPersistanceController(this).getUserData());
+
 
         url = getIntent().getStringExtra("URL");
         url = "file:///android_asset/VechicleInsurance.html";
@@ -85,10 +104,6 @@ public class ShareQuoteACtivity extends BaseActivity {
         settingWebview();
     }
 
-    private String getJsonFromClass(BikePremiumResponse bikePremiumResponse) {
-        Gson gson = new Gson();
-        return gson.toJson(bikePremiumResponse);
-    }
 
     private void shareQuote() {
         bmp = getBitmapFromWebView(webView);
@@ -162,7 +177,7 @@ public class ShareQuoteACtivity extends BaseActivity {
                 // TODO hide your progress image
                 cancelDialog();
                 super.onPageFinished(view, url);
-                webView.loadUrl("javascript:init('" + jsonResponse + "')");
+                webView.loadUrl("javascript:init('" + bikeReponse + "')");
 
             }
 
