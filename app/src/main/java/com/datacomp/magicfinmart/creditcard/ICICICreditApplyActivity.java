@@ -1256,6 +1256,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                 //region creating request
 
                 requestEntity.setFba_id(new DBPersistanceController(this).getUserData().getFBAId());
+                requestEntity.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId())  ;
                 requestEntity.setProd(creditCardEntity.getRBID());
                 requestEntity.setAmount(creditCardEntity.getAmount());
                 requestEntity.setInterest(creditCardEntity.getCreditCardType());
