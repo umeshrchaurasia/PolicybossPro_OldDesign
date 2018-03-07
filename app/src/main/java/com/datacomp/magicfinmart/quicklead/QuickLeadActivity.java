@@ -1,0 +1,229 @@
+package com.datacomp.magicfinmart.quicklead;
+
+import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.DateTimePicker;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quicklead.QuickLeadController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.QuickLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuickLeadResponse;
+
+public class QuickLeadActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
+
+    EditText etName, etEmail, etMobile, etFollowupDate, etMonthlyIncome, etLoanAmount, etRemark;
+    Spinner spProduct;
+    Button btnSubmit;
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    ArrayAdapter<String> productTypeAdapter;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_quick_lead);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        init();
+        spinnerProductBinding();
+    }
+
+    private void init() {
+        etName = (EditText) findViewById(R.id.etName);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etMobile = (EditText) findViewById(R.id.etMobile);
+        etFollowupDate = (EditText) findViewById(R.id.etFollowupDate);
+        etMonthlyIncome = (EditText) findViewById(R.id.etMonthlyIncome);
+        etLoanAmount = (EditText) findViewById(R.id.etLoanAmount);
+        etRemark = (EditText) findViewById(R.id.etRemark);
+
+        spProduct = (Spinner) findViewById(R.id.spProduct);
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(this);
+        etFollowupDate.setOnClickListener(datePicker);
+    }
+
+    private void spinnerProductBinding() {
+        productTypeAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1,
+                getResources().getStringArray(R.array.quicklead_product)) {
+
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflater = LayoutInflater.from(QuickLeadActivity.this);
+                    convertView = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
+                }
+                TextView tv = (TextView) convertView.findViewById(android.R.id.text1);
+                String[] items = getResources().getStringArray(R.array.quicklead_product);
+                tv.setText(items[position]);
+                tv.setTextColor(Color.BLACK);
+                tv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                return convertView;
+            }
+
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        spProduct.setAdapter(productTypeAdapter);
+    }
+
+    protected View.OnClickListener datePicker = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Constants.hideKeyBoard(view, QuickLeadActivity.this);
+            DateTimePicker.currentDateAndForward(QuickLeadActivity.this, new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                    if (datePicker.isShown()) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        String currentDay = simpleDateFormat.format(calendar.getTime());
+                        etFollowupDate.setText(currentDay);
+                    }
+                }
+            });
+        }
+    };
+
+    @Override
+    public void onClick(View view) {
+
+        if (view.getId() == R.id.btnSubmit) {
+
+            if (!isEmpty(etName)) {
+                etName.setError("Enter Name");
+                etName.setFocusable(true);
+                return;
+            } else {
+                etName.setError(null);
+            }
+
+            if (!isValideEmailID(etEmail)) {
+                etEmail.setError("Invalid Email ID");
+                etEmail.setFocusable(true);
+                return;
+            }
+
+            if (!isValidePhoneNumber(etMobile)) {
+                etMobile.setError("Invalid Mobile Number");
+                etMobile.setFocusable(true);
+                return;
+            } else {
+                etMobile.setError(null);
+            }
+            if (!isEmpty(etFollowupDate)) {
+                etFollowupDate.setError("Invalid Follow up date");
+                etFollowupDate.setFocusable(true);
+                return;
+            } else {
+                etFollowupDate.setError(null);
+            }
+
+            if (!isEmpty(etMonthlyIncome)) {
+                etMonthlyIncome.setError("Enter Monthly income");
+                etMonthlyIncome.setFocusable(true);
+                return;
+            } else {
+                etMonthlyIncome.setError(null);
+            }
+
+            if (!isEmpty(etLoanAmount)) {
+                etLoanAmount.setError("Enter Loan Amount");
+                etLoanAmount.setFocusable(true);
+                return;
+            } else {
+                etLoanAmount.setError(null);
+            }
+
+            if (!isEmpty(etRemark)) {
+                etRemark.setError("Enter Remark");
+                etRemark.setFocusable(true);
+                return;
+            } else {
+                etRemark.setError(null);
+            }
+
+            if (spProduct.getSelectedItemPosition() == 0) {
+                Toast.makeText(this, "Select product", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            QuickLeadRequestEntity requestEntity = new QuickLeadRequestEntity();
+            requestEntity.setBrokerId(new DBPersistanceController(this).getUserData().getLoanId());
+            requestEntity.setEMail(etEmail.getText().toString());
+            requestEntity.setFBA_Id(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
+            requestEntity.setFollowupDate(etFollowupDate.getText().toString());
+            requestEntity.setLoan_amt(etLoanAmount.getText().toString());
+            requestEntity.setMobile(etMobile.getText().toString());
+            requestEntity.setMonthly_income(etMonthlyIncome.getText().toString());
+            requestEntity.setProductId(String.valueOf(spProduct.getSelectedItemPosition()));
+            requestEntity.setRemark(etRemark.getText().toString());
+            requestEntity.setName(etName.getText().toString());
+
+            showDialog();
+            new QuickLeadController(this).saveQuickLead(requestEntity, this);
+        }
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof QuickLeadResponse) {
+            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+
+}
