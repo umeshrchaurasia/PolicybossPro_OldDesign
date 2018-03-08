@@ -373,12 +373,18 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
+                if (etPincode.getText().toString().length() < 6) {
+                    etPincode.setError("Invalid Pincode");
+                    etPincode.setFocusable(true);
+                    return;
+                }
 
                 //endregion
 
                 healthRequestEntity.setContactName(etName.getText().toString());
                 healthRequestEntity.setContactMobile(etMobile.getText().toString());
                 healthRequestEntity.setSumInsured(etAmount.getText().toString());
+                healthRequestEntity.setPincode(Integer.parseInt(etPincode.getText().toString()));
                 healthRequestEntity.setCityID(new DBPersistanceController(getActivity()).getHealthCityID(acCity.getText().toString()));
 
 

@@ -14,7 +14,6 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.fragment.HealthInputFragment;
 import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
-import com.datacomp.magicfinmart.health.fragment.TestFragment;
 import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;

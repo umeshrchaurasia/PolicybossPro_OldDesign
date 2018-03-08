@@ -46,7 +46,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Sum Assured"
-                    android:textAllCaps="true" />
+                    android:textAllCaps="true"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/txtSumAssured"
@@ -71,7 +72,8 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="Deductible"
-                    android:textAllCaps="true" />
+                    android:textAllCaps="true"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/txtDeductible"
@@ -103,7 +105,8 @@
                     android:text="COMPARE"
                     android:textAlignment="center"
                     android:textAllCaps="true"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -250,7 +253,8 @@
                     android:drawablePadding="4dp"
                     android:text="ROOM RENT"
                     android:textAllCaps="true"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/txtRoomRent"
@@ -258,7 +262,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="26dp"
-                    android:text="No Limit" />
+                    android:text="No Limit"
+                    android:textSize="11sp" />
 
                 <TextView
                     style="@style/TextStyle.Body1"
@@ -269,7 +274,8 @@
                     android:drawablePadding="4dp"
                     android:text="PRE-HOSP"
                     android:textAllCaps="true"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/txtPreHosp"
@@ -277,7 +283,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="26dp"
-                    android:text="60 days" />
+                    android:text="60 days"
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -297,7 +304,8 @@
                     android:drawablePadding="4dp"
                     android:text="ICU RENT"
                     android:textAllCaps="true"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/txtIcuRent"
@@ -305,7 +313,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="26dp"
-                    android:text="No Limit" />
+                    android:text="No Limit"
+                    android:textSize="11sp" />
 
                 <TextView
                     style="@style/TextStyle.Body1"
@@ -316,7 +325,8 @@
                     android:drawablePadding="4dp"
                     android:text="POST-HOSP"
                     android:textAllCaps="true"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/txtPostHosp"
@@ -324,7 +334,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="26dp"
-                    android:text="60 days" />
+                    android:text="60 days"
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout
