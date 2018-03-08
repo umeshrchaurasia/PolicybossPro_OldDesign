@@ -201,6 +201,11 @@ public class RegisterRequestEntity {
     private String DisplayEmail;
     private String DisplayPhoneNo;
     private String DisplayDesignation;
+    /**
+     * Link :
+     */
+
+    private String Link;
 
 
     public RegisterRequestEntity() {
@@ -1086,5 +1091,13 @@ public class RegisterRequestEntity {
 
     public void setDisplayDesignation(String DisplayDesignation) {
         this.DisplayDesignation = DisplayDesignation;
+    }
+
+    public String getLink() {
+        return Link;
+    }
+
+    public void setLink(String Link) {
+        this.Link = Link;
     }
 }

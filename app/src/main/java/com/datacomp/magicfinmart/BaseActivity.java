@@ -36,6 +36,10 @@ public class BaseActivity extends AppCompatActivity {
 
     public Realm realm;
     ProgressDialog dialog;
+    int height = 300;
+    int textSize = 30;
+    int textMargin = 10;
+    int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -166,25 +170,25 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public Bitmap createBitmap(Bitmap pospPhoto, String pospName, String pospDesg, String pospMob, String pospEmail) {
-        int textSize = 20;
-        pospPhoto = Bitmap.createScaledBitmap(pospPhoto, 100, 100, false);
 
-        Bitmap textBitmap = Bitmap.createBitmap(2000, 150, Bitmap.Config.ARGB_8888);
+        pospPhoto = Bitmap.createScaledBitmap(pospPhoto, height - 20, height - 20, false);
+
+        Bitmap textBitmap = Bitmap.createBitmap(2000, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(textBitmap);
         canvas.drawColor(Color.WHITE);
         Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setTextSize(15);
-        canvas.drawText("" + pospName, 110, 40, paint);
-        canvas.drawText("" + pospDesg, 110, 40 + textSize + 2, paint);
-        canvas.drawText("" + pospMob, 110, 40 + textSize + textSize + 2, paint);
-        canvas.drawText("" + pospEmail, 110, 40 + textSize + textSize + textSize + 2, paint);
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(textSize);
+        canvas.drawText("" + pospName, height + 20, startHeight + textSize + textMargin, paint);
+        canvas.drawText("" + pospDesg, height + 20, startHeight + 2 * textSize + 2 * textMargin, paint);
+        canvas.drawText("" + pospMob, height + 20, startHeight + 3 * textSize + 3 * textMargin, paint);
+        canvas.drawText("" + pospEmail, height + 20, startHeight + 4 * textSize + 4 * textMargin, paint);
         //canvas.drawText("" + pospName + "\n" + pospDesg + "\n" + pospMob + "\n" + pospEmail, 10, 10, paint);
 
 
         Bitmap cs = null;
 
-        cs = Bitmap.createBitmap(2000, 150, Bitmap.Config.ARGB_8888);
+        cs = Bitmap.createBitmap(2000, height, Bitmap.Config.ARGB_8888);
 
         Canvas comboImage = new Canvas(cs);
 
@@ -370,8 +374,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void sharePdfTowhatsApp(String pdfFileName) {
         try {
-            File outputFile = new File(Environment.getExternalStoragePublicDirectory
-                    (Environment.DIRECTORY_DOWNLOADS), "quote/"+pdfFileName + ".pdf");
+            File outputFile = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES/" + pdfFileName + ".pdf");
 
             Uri uri = FileProvider.getUriForFile(BaseActivity.this,
                     getString(R.string.file_provider_authority),
@@ -382,8 +385,10 @@ public class BaseActivity extends AppCompatActivity {
             share.setAction(Intent.ACTION_SEND);
             share.setType("application/pdf");
             share.putExtra(Intent.EXTRA_STREAM, uri);
-            share.setPackage("com.whatsapp");
-            startActivity(share);
+            share.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            //share.setPackage("com.whatsapp");
+            Intent intent = Intent.createChooser(share, "Share Quote");
+            startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
-public class SalesProductEntity {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class SalesProductEntity implements Parcelable {
     /**
      * Product_Id : 1
      * Product_Name : Health Insurance
@@ -44,4 +47,39 @@ public class SalesProductEntity {
     public void setCount(int Count) {
         this.Count = Count;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.Product_Id);
+        dest.writeString(this.Product_Name);
+        dest.writeString(this.Product_image);
+        dest.writeInt(this.Count);
+    }
+
+    public SalesProductEntity() {
+    }
+
+    protected SalesProductEntity(Parcel in) {
+        this.Product_Id = in.readInt();
+        this.Product_Name = in.readString();
+        this.Product_image = in.readString();
+        this.Count = in.readInt();
+    }
+
+    public static final Parcelable.Creator<SalesProductEntity> CREATOR = new Parcelable.Creator<SalesProductEntity>() {
+        @Override
+        public SalesProductEntity createFromParcel(Parcel source) {
+            return new SalesProductEntity(source);
+        }
+
+        @Override
+        public SalesProductEntity[] newArray(int size) {
+            return new SalesProductEntity[size];
+        }
+    };
 }
