@@ -1441,6 +1441,22 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     private void setRBCustomerData() {
 
+        String[] name = rbCustomerEntity.getApplicantNme().split(" ");
+        etFirstName.setText(name[0]);
+        etLastName.setText(name[1]);
+        etDob.setText(rbCustomerEntity.getApplicantDOB());
+        etMobNo1ContInfo.setText("9939123211");//Qu
+        etCityContInfoRAP.setText("Mumbai");
+        //gender,source//
+       // rbCustomerEntity.getApplicantSource()
+       // rbCustomerEntity.getApplicantGender()
+
+        etGrossIncome.setText(rbCustomerEntity.getApplicantIncome());//monthly
+
+        etTurnOver.setText(rbCustomerEntity.getTurnover());//monthly
+        etDeprec.setText(rbCustomerEntity.getDepreciation());//monthly
+        etDirRem.setText(rbCustomerEntity.getDirectorRemuneration());//monthly
+        etProfAftTax.setText(rbCustomerEntity.getProfitAfterTax());//monthly
     }
 
     @Override
@@ -1584,6 +1600,32 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         //endregion
 
 
+        // For Quote and Query string
+
+        rbCustomerEntity.getApplicantNme().split(" ");
+        erpLoanRequest.setBankId(1);//qurystring
+        erpLoanRequest.setQuote_id(18711);//qurystring
+        erpLoanRequest.setLoan_Requested("213123");//
+        if(rbCustomerEntity.getBrokerId().matches(null)){
+            erpLoanRequest.setBrokerId(0);
+        }else {
+            erpLoanRequest.setBrokerId(122);//Loanid
+        }
+
+        erpLoanRequest.setProductId(rbCustomerEntity.getProductId());
+        erpLoanRequest.setIsCoApp(0);
+
+        erpLoanRequest.setProp_Loan_Amount("12222");//qurystring//eligible
+        erpLoanRequest.setProp_Terms(rbCustomerEntity.getLoanTenure());//
+        erpLoanRequest.setProp_Id_Type(rbCustomerEntity.getPropertyID());
+        erpLoanRequest.setProp_Processing_Fee(rbCustomerEntity.getProcessing_fee());//qurystring
+        erpLoanRequest.setApplnId(0);
+        erpLoanRequest.setIs_ApplnComplete(0);//submit final
+        erpLoanRequest.setIs_Confirm(0);//by default
+        erpLoanRequest.setAppln_Source("HL");
+        erpLoanRequest.setDc_fba_reg("123");
+        erpLoanRequest.setRBA_Source("Finmart");
+        erpLoanRequest.setFBA_Reg_Id("1");//qurystring
 
     }
 
