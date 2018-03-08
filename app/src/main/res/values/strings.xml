@@ -224,35 +224,55 @@
     </string-array>
 
     <string-array name="ownership">
-        <item>SELECT</item>
-        <item>RENT HOUSE</item>
-        <item>SELF OWNED</item>
-        <item>PARENTAL</item>
-        <item>CO-PROVIDED</item>
+        <item>Select</item>
+        <item>Rent House</item>
+        <item>Self Owned</item>
+        <item>Parental</item>
+        <item>Co-Provided</item>
 
     </string-array>
 
     <string-array name="organization">
-        <item>SELECT</item>
-        <item>MULTINATIONAL</item>
-        <item>PUBLIC LTD.</item>
-        <item>GOVT/SEMI GOVT.ENT.</item>
-        <item>PVT LTD.</item>
-        <item>PARTNERSHIP</item>
-        <item>PROPRIETORSHIP</item>
-        <item>OTHERS</item>
+        <item>Select</item>
+        <item>Multinational</item>
+        <item>Public Ltd.</item>
+        <item>Govt/Semi Govt.Ent.</item>
+        <item>Pvt Ltd.</item>
+        <item>Partnership</item>
+        <item>Proprietorship</item>
+        <item>Others</item>
 
     </string-array>
 
 
     <string-array name="business">
-        <item>SELECT</item>
-        <item>SERVICES</item>
-        <item>TRADING</item>
-        <item>MANUFACTURING</item>
-        <item>OTHERS</item>
+        <item>Select</item>
+        <item>Services</item>
+        <item>Trading</item>
+        <item>Manufacturing</item>
+        <item>Others</item>
 
     </string-array>
+
+    <string-array name="quicklead_product">
+        <item>Product</item>
+        <item>USED CAR Loan</item>
+        <item> LAP BT</item>
+        <item>LRD</item>
+        <item>Car Loan</item>
+        <item>Home Loan BT</item>
+        <item>MERCHANT BUSINESS</item>
+        <item> LAP</item>
+        <item> Car Refinance</item>
+        <item>Personal Loan</item>
+        <item>Credit Card</item>
+        <item>WORKING CAPITAL</item>
+        <item>Home Loan</item>
+        <item>Business Loan</item>
+        <item>Term Loan</item>
+
+    </string-array>
+
     <string name="title_activity_health_check_up_plans">HEALTH CHECK UP PLANS</string>
     <string name="title_activity_eula">Agreement</string>
     <string name="title_activity_knowledge_guru">KNOWLEDGE GURU</string>
@@ -273,10 +293,11 @@
     <string name="title_activity_applied_credit_list">Credit Card</string>
     <string name="title_activity_raise_ticket">RAISE A TICKET</string>
     <string name="title_activity_add_ticket">RAISE A TICKET</string>
-    <string name="title_activity_main">ICICICreditApplyActivity</string>
+    <string name="title_activity_main">ICICI Credit Card</string>
     <string name="title_activity_share_quote_activity">Share</string>
 
 
     <string name="icici_terms_con">I hereby confirm that I have read and understood the Rupeeboss Terms and Conditions applicable to this service and that all the details furnished by me above are true and correct. I further provide consent to Rupeeboss and its affiliates to contact me with reference to financial products and this consent shall override any registration with DNC/NDNC.</string>
+    <string name="title_activity_quick_lead">Quick Lead</string>
 
 </resources>

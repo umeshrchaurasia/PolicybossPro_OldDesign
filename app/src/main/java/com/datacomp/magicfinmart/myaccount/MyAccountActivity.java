@@ -721,6 +721,15 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 registerRequestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
                 registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
 
+            }else{
+
+                etState.setText("");
+                etCity.setText("");
+
+                registerRequestEntity.setCity("");
+                registerRequestEntity.setState("");
+                registerRequestEntity.setStateID("0");
+
             }
         } else if (response instanceof IfscCodeResponse) {
             if (response.getStatusNo() == 0) {

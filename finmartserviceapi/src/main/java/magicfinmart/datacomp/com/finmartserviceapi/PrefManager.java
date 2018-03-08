@@ -106,6 +106,10 @@ public class PrefManager {
         editor.commit();
     }
 
+    public String  getToken()
+    {
+        return pref.getString(IS_DEVICE_TOKEN,"");
+    }
     public boolean setPospInformation(RegisterRequestEntity registerRequestEntity) {
         try {
             Gson gson = new Gson();

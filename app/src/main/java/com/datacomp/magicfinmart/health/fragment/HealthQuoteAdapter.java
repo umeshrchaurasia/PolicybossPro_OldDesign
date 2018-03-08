@@ -20,6 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
@@ -54,42 +55,53 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
         final HealthQuoteEntity entity = listHealthQuotes.get(position);
 
-        if (entity.getQuoteStatus().equals("Success")) {
-            holder.txtSumAssured.setText("" + entity.getSumInsured());
-            holder.txtDeductible.setText("" + entity.getDeductible_Amount());
-            holder.txtPlanName.setText("" + entity.getPlanName());
-            holder.txtFinalPremium.setText("\u20B9 " + Math.round(entity.getNetPremium()) + " /Year");
 
-            holder.imgInsurer.setImageResource(new DBPersistanceController(mContext.getActivity()).getInsurerImage(entity.getInsurerId()));
-            holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
-            holder.chkCompare.setTag(R.id.chkCompare, entity);
-            holder.txtBuy.setTag(R.id.txtBuy, entity);
+        holder.txtSumAssured.setText("" + Math.round(entity.getSumInsured()));
+        holder.txtDeductible.setText("" + entity.getDeductible_Amount());
+        holder.txtPlanName.setText("" + entity.getPlanName());
+        holder.txtFinalPremium.setText("\u20B9 " + Math.round(entity.getNetPremium()) + " /Year");
 
-            holder.txtBuy.setOnClickListener(this);
+        holder.imgInsurer.setImageResource(new DBPersistanceController(mContext.getActivity()).getInsurerImage(entity.getInsurerId()));
+        holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
+        holder.chkCompare.setTag(R.id.chkCompare, entity);
+        holder.txtBuy.setTag(R.id.txtBuy, entity);
 
-            if (entity.isCompare()) {
-                holder.chkCompare.setChecked(true);
-            } else {
-                holder.chkCompare.setChecked(false);
-            }
+        holder.txtBuy.setOnClickListener(this);
 
-            holder.chkCompare.setOnCheckedChangeListener(checkedChangeListener);
-
-            if (!entity.getIsMore() && entity.getTotalChilds() > 0) {
-                holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " \nMore"));
-                holder.imgDropDown.setVisibility(View.VISIBLE);
-                holder.txtNoOfInsurer.setOnClickListener(this);
-            } else if (!entity.getIsMore() && entity.getTotalChilds() == 0) {
-                holder.txtNoOfInsurer.setText("");
-                holder.imgDropDown.setVisibility(View.GONE);
-                holder.txtNoOfInsurer.setOnClickListener(null);
-            } else {
-                holder.txtNoOfInsurer.setText(HIDE_OPTIONS);
-                holder.imgDropDown.setVisibility(View.VISIBLE);
-                holder.txtNoOfInsurer.setOnClickListener(this);
-            }
+        if (entity.isCompare()) {
+            holder.chkCompare.setChecked(true);
+        } else {
+            holder.chkCompare.setChecked(false);
         }
 
+        holder.chkCompare.setOnCheckedChangeListener(checkedChangeListener);
+
+        if (!entity.getIsMore() && entity.getTotalChilds() > 0) {
+            holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " \nMore"));
+            holder.imgDropDown.setVisibility(View.VISIBLE);
+            holder.txtNoOfInsurer.setOnClickListener(this);
+        } else if (!entity.getIsMore() && entity.getTotalChilds() == 0) {
+            holder.txtNoOfInsurer.setText("");
+            holder.imgDropDown.setVisibility(View.GONE);
+            holder.txtNoOfInsurer.setOnClickListener(null);
+        } else {
+            holder.txtNoOfInsurer.setText(HIDE_OPTIONS);
+            holder.imgDropDown.setVisibility(View.VISIBLE);
+            holder.txtNoOfInsurer.setOnClickListener(this);
+        }
+
+        for (int i = 0; i < entity.getLstbenfitsFive().size(); i++) {
+            BenefitsEntity benefit = entity.getLstbenfitsFive().get(i);
+            if (benefit.getBeneID() == 1) { //room rent
+                holder.txtRoomRent.setText(benefit.getBenefit());
+            } else if (benefit.getBeneID() == 2) { //icu
+                holder.txtIcuRent.setText(benefit.getBenefit());
+            } else if (benefit.getBeneID() == 3) { //pre hosp
+                holder.txtPreHosp.setText(benefit.getBenefit());
+            } else if (benefit.getBeneID() == 4) { //post
+                holder.txtPostHosp.setText(benefit.getBenefit());
+            }
+        }
     }
 
     CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {

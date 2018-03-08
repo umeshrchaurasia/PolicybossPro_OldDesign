@@ -12,7 +12,7 @@ public class MyAccountResponse  extends APIResponse {
 
 
     /**
-     * MasterData : {"SavedStatus":0,"Message":"Updated Successfully"}
+     * MasterDataEntity : {"SavedStatus":0,"Message":"Updated Successfully"}
      */
 
     private MasterDataEntity MasterData;

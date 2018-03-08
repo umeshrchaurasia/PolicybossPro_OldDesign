@@ -9,7 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospEnrollEntit
 
 public class EnrollPospResponse extends APIResponse {
     /**
-     * MasterData : {"ErrorCode":null,"ErrorDescription":null,"MSG":"Record found","MSGID":null,"Status":"1","PaymRefeID":18223172304767056,"PaymentURL":"https://goo.gl/pYNJLN"}
+     * MasterDataEntity : {"ErrorCode":null,"ErrorDescription":null,"MSG":"Record found","MSGID":null,"Status":"1","PaymRefeID":18223172304767056,"PaymentURL":"https://goo.gl/pYNJLN"}
      */
 
     private PospEnrollEntity MasterData;
