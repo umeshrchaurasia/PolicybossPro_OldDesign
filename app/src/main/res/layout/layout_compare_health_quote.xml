@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/imgInsurerLogo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/carins1" />
+
+
+        <TextView
+            android:id="@+id/txtPlanName"
+            style="@style/TextStyle.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center">
+
+        <TextView
+            style="@style/TextStyle.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="EST. PREMIUM"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/txtEstPremium"
+            style="@style/TextStyle.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+
+
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center">
+
+        <TextView
+            style="@style/TextStyle.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="INS. PREMIUM"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+
+
+        <TextView
+            android:id="@+id/txtInsPremium"
+            style="@style/TextStyle.Body1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+
+
+    </TableRow>
+</LinearLayout>

@@ -1,7 +1,9 @@
 package com.datacomp.magicfinmart.health.fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -24,12 +26,15 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 
 /**
@@ -54,6 +59,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     List<HealthQuoteEntity> listCompare;
     List<HealthQuoteEntity> listDataHeader;
     HashMap<Integer, List<HealthQuoteEntity>> listDataChild;
+
+    HealthQuoteEntity buyHealthQuoteEntity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -148,12 +155,17 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
     public void redirectToBuy(HealthQuoteEntity entity) {
+        buyHealthQuoteEntity = new HealthQuoteEntity();
+        buyHealthQuoteEntity = entity;
+        HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
+        compareRequestEntity.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
+        compareRequestEntity.setAgent_source("App");
+        compareRequestEntity.setCrn("");
+        compareRequestEntity.setHealthRequest(buyHealthQuoteEntity);
 
-        Intent intent = new Intent(getActivity(), CommonWebViewActivity.class);
-        intent.putExtra("URL", entity.getProposerPageUrl());
-        intent.putExtra("TITLE", "HEALTH INSURENCE");
-        intent.putExtra("NAME", "HEALTH INSURENCE");
-        startActivity(intent);
+        showDialog("Please wait.., Calculating final premium");
+        new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
+
     }
 
 
@@ -177,8 +189,59 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                         .getHealth_quote().getHeader(), ((HealthQuoteExpResponse) response).getMasterData()
                         .getHealth_quote().getChild());
             }
+        } else if (response instanceof HealthQuoteCompareResponse) {
+            dialogMessage((HealthQuoteCompareResponse) response);
         }
 
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void dialogMessage(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setTitle("PREMIUM DETAIL");
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.layout_compare_health_quote, null);
+        builder.setView(view);
+        ImageView imgInsurerLogo = (ImageView) view.findViewById(R.id.imgInsurerLogo);
+        TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
+        TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
+        TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
+
+        imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
+                .getInsurerImage(buyHealthQuoteEntity.getInsurerId()));
+        txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());
+        txtEstPremium.setText("\u20B9 " + Math.round(buyHealthQuoteEntity.getNetPremium()));
+        txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));
+
+        builder.setPositiveButton("BUY", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                Intent intent = new Intent(getActivity(), CommonWebViewActivity.class);
+                intent.putExtra("URL", healthQuoteCompareResponse.getMasterData().getProposerPageUrl());
+                intent.putExtra("TITLE", "HEALTH INSURENCE");
+                intent.putExtra("NAME", "HEALTH INSURENCE");
+                startActivity(intent);
+            }
+        })
+                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
+        msgTxt.setTextSize(12.0f);
     }
 
     private void prepareChild(List<HealthQuoteEntity> listHeader, List<HealthQuoteEntity> listChild) {
@@ -243,23 +306,5 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         }
     }
 
-    @Override
-    public void OnFailure(Throwable t) {
-        cancelDialog();
-        Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-    }
-
-    //region loader
-
-    private void visibleLoader() {
-        webViewLoader.setVisibility(View.VISIBLE);
-        Glide.with(this).load(R.drawable.preloader).into(webViewLoader);
-    }
-
-    private void hideLoader() {
-        webViewLoader.setVisibility(View.GONE);
-    }
-
-    //endregion
 
 }

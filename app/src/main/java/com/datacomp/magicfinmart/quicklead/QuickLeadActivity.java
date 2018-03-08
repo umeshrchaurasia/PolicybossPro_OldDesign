@@ -1,10 +1,12 @@
 package com.datacomp.magicfinmart.quicklead;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -215,15 +217,47 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof QuickLeadResponse) {
-            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            dialogMessage(true, ((QuickLeadResponse) response).getMasterData().getLead_Id(), response.getMessage());
         }
     }
 
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        dialogMessage(false, t.getMessage(), "");
     }
 
 
+    private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+
+        StringBuilder Message = new StringBuilder();
+        if (isSuccess) {
+            builder.setTitle("Lead Saved..!");
+            String strMessage = "Lead ID:" + AppNo + "\n\n";
+            String success = displayMessage;
+            Message.append(strMessage + success);
+
+        } else {
+            builder.setTitle("Failed");
+            String failure = AppNo;
+            Message.append(failure);
+        }
+        builder.setMessage(Message.toString())
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        if (isSuccess) {
+                            finish();
+                        }
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
+        msgTxt.setTextSize(14.0f);
+    }
 }
