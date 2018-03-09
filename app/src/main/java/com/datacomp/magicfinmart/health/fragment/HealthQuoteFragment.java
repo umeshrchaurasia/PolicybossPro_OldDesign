@@ -158,10 +158,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         buyHealthQuoteEntity = new HealthQuoteEntity();
         buyHealthQuoteEntity = entity;
         HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
-        compareRequestEntity.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
-        compareRequestEntity.setAgent_source("App");
-        compareRequestEntity.setCrn("");
-        compareRequestEntity.setHealthRequest(buyHealthQuoteEntity);
+        compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
+        compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
+
 
         showDialog("Please wait.., Calculating final premium");
         new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
@@ -214,9 +213,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
-
-        imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
-                .getInsurerImage(buyHealthQuoteEntity.getInsurerId()));
+        String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
+        Glide.with(this).load(imgURL + buyHealthQuoteEntity.getInsurerLogoName())
+                .into(imgInsurerLogo);
+        //imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
+        //        .getInsurerImage(buyHealthQuoteEntity.getInsurerId()));
         txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());
         txtEstPremium.setText("\u20B9 " + Math.round(buyHealthQuoteEntity.getNetPremium()));
         txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));

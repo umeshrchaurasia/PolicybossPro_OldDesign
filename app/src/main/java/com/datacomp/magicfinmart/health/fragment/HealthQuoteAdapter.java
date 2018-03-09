@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.SortbyInsurer;
 
@@ -61,7 +62,11 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         holder.txtPlanName.setText("" + entity.getPlanName());
         holder.txtFinalPremium.setText("\u20B9 " + Math.round(entity.getNetPremium()) + " /Year");
 
-        holder.imgInsurer.setImageResource(new DBPersistanceController(mContext.getActivity()).getInsurerImage(entity.getInsurerId()));
+        String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
+        Glide.with(mContext).load(imgURL + entity.getInsurerLogoName())
+                .into(holder.imgInsurer);
+//        holder.imgInsurer.setImageResource(new DBPersistanceController(mContext.getActivity())
+//                .getInsurerImage(entity.getInsurerId()));
         holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
         holder.chkCompare.setTag(R.id.chkCompare, entity);
         holder.txtBuy.setTag(R.id.txtBuy, entity);
