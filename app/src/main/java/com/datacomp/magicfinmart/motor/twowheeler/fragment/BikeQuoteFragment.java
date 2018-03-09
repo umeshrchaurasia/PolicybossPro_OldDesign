@@ -901,6 +901,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
                 if (webViewLoader.getVisibility() != View.VISIBLE) {
                     Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                    intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_ALL_QUOTE");
                     intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
                     intent.putExtra("BIKENAME", carMasterEntity);
                     startActivity(intent);

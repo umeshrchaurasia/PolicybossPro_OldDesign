@@ -905,8 +905,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
             case R.id.ivShare:
 
                 if (webViewLoader.getVisibility() != View.VISIBLE) {
-                    ;
                     Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                    intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_ALL_QUOTE");
                     intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
                     intent.putExtra("CARNAME", carMasterEntity);
                     startActivity(intent);

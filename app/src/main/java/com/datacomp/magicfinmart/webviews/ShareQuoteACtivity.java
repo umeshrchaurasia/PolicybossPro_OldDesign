@@ -60,9 +60,9 @@ public class ShareQuoteACtivity extends BaseActivity {
     BikeMasterEntity bikeMasterEntity;
     CarMasterEntity carMasterEntity;
     LoginResponseEntity loginResponseEntity;
-    String bikeReponse;
+    String respone;
     String userReponse;
-    String carReponse;
+    String otherData="";
     Gson gson = new Gson();
     String pospPhotoUrl, pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo, makeModel, cc;
     String from;
@@ -78,6 +78,8 @@ public class ShareQuoteACtivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         webView = (WebView) findViewById(R.id.webView);
+
+
 
         //region from which class
         if (getIntent().hasExtra(Constants.SHARE_ACTIVITY_NAME)) {
@@ -115,20 +117,6 @@ public class ShareQuoteACtivity extends BaseActivity {
         }
         //endregion
 
-        //region url ,name,title
-
-        url = getIntent().getStringExtra("URL");
-        url = "file:///android_asset/VechicleInsurance.html";
-        name = getIntent().getStringExtra("NAME");
-        title = getIntent().getStringExtra("TITLE");
-        if (title == null) {
-            title = "SHARE";
-        }
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(title);
-
-        //endregion
-
         //region floatingbutton
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -147,19 +135,59 @@ public class ShareQuoteACtivity extends BaseActivity {
     }
 
     private void HealthSingleQuote() {
+
+        //region url ,name,title
+
+        url = getIntent().getStringExtra("URL");
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = getIntent().getStringExtra("NAME");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
     }
 
     private void HealthAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            respone = getIntent().getStringExtra("RESPONSE");
+        }
+        //region url ,name,title
+
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = getIntent().getStringExtra("NAME");
+        title = "HEALTH QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("NAME", name);
+            otherData = jsonObject.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        //endregion
     }
 
     private void BikeSingleQuote() {
+        //region url ,name,title
+
+        url = getIntent().getStringExtra("URL");
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = getIntent().getStringExtra("NAME");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
     }
 
     private void BikeAllQuote() {
         if (getIntent().hasExtra("RESPONSE")) {
             //bike
             bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
-            bikeReponse = gson.toJson(bikePremiumResponse);
+            respone = gson.toJson(bikePremiumResponse);
         }
         if (getIntent().hasExtra("BIKENAME")) {
             //bike
@@ -167,16 +195,34 @@ public class ShareQuoteACtivity extends BaseActivity {
             makeModel = bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
             cc = "CRN : " + bikePremiumResponse.getSummary().getPB_CRN() + " , " + bikeMasterEntity.getCubic_Capacity() + "CC";
         }
+        //region url ,name,title
+
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+        title = "TWO WHEELER QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
     }
 
     private void carSingleQuote() {
+        //region url ,name,title
+
+        url = getIntent().getStringExtra("URL");
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = getIntent().getStringExtra("NAME");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
     }
 
     private void CarAllQuote() {
         if (getIntent().hasExtra("RESPONSE")) {
             //bike
             bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
-            bikeReponse = gson.toJson(bikePremiumResponse);
+            respone = gson.toJson(bikePremiumResponse);
         }
         if (getIntent().hasExtra("CARNAME")) {
             //car
@@ -184,7 +230,16 @@ public class ShareQuoteACtivity extends BaseActivity {
             makeModel = carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
             cc = "CRN : " + bikePremiumResponse.getSummary().getPB_CRN() + " , " + carMasterEntity.getCubic_Capacity() + "CC";
         }
+        //region url ,name,title
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+        title = "MOTOR QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
     }
+
 
     private String createJson() throws JSONException {
         if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
@@ -293,7 +348,7 @@ public class ShareQuoteACtivity extends BaseActivity {
                 // TODO hide your progress image
                 cancelDialog();
                 super.onPageFinished(view, url);
-                webView.loadUrl("javascript:init('" + bikeReponse + "','" + userReponse + "','" + bikeReponse + "')");
+                webView.loadUrl("javascript:init('" + respone + "','" + userReponse + "','" + otherData + "')");
             }
 
             @Override
