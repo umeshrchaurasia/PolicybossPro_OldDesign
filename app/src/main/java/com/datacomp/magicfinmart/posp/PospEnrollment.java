@@ -1232,6 +1232,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                                     bindUploadImage();
                                     if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals("")) {
                                         registerRequestEntity.setPOSPID(Integer.parseInt(pospDetailsEntity.getPOSPNo()));
+                                        if (pospDetailsEntity.getLink() != null)
+                                            registerRequestEntity.setLink(pospDetailsEntity.getLink());
                                         bindInputFromeServer(pospDetailsEntity);
                                     } else {
                                         setInputParameters();
@@ -1255,7 +1257,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 if (((EnrollPospResponse) response).getMasterData() != null) {
-                    if (!((EnrollPospResponse) response).getMasterData().getPaymentURL().equals("")) {
+                    if (((EnrollPospResponse) response).getMasterData().getPaymentURL() != null && !((EnrollPospResponse) response).getMasterData().getPaymentURL().equals("")) {
                         pospEnrollEntity = ((EnrollPospResponse) response).getMasterData();
                         //update login response
                         updateLoginResponse(pospEnrollEntity.getPaymentURL());

@@ -4,44 +4,46 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/nav_home"
+            android:icon="@drawable/home_ic"
             android:title="HOME" />
         <item
-            android:visible="false"
             android:id="@+id/nav_offlineQuotes"
-            android:icon="@drawable/nav_home"
-            android:title="OFFLINE QUOTES" />
+            android:icon="@drawable/offiline_quote_ic"
+            android:title="OFFLINE QUOTES"
+            android:visible="false" />
         <item
             android:id="@+id/nav_myBusiness"
-            android:icon="@drawable/nav_home"
-            android:title="MY BUSINESS" />
+            android:icon="@drawable/business_ic"
+            android:title="MY BUSINESS"
+            android:visible="false" />
         <item
+            android:visible="false"
             android:id="@+id/nav_referFriend"
-            android:icon="@drawable/nav_home"
+            android:icon="@drawable/refer_ic"
             android:title="REFER A FRIEND" />
         <item
             android:id="@+id/nav_myaccount"
-            android:icon="@drawable/nav_myaccount"
+            android:icon="@drawable/my_account_ic"
             android:title="MY ACCOUNT" />
         <item
             android:id="@+id/nav_mps"
-            android:icon="@drawable/nav_home"
+            android:icon="@drawable/mps_ic"
             android:title="MPS" />
         <item
             android:id="@+id/nav_pospenrollment"
-            android:icon="@drawable/nav_home"
+            android:icon="@drawable/enrollment_ic"
             android:title="POSP ENROLLMENT" />
         <item
             android:id="@+id/nav_whatsnew"
-            android:icon="@drawable/nav_home"
+            android:icon="@drawable/help_ic"
             android:title="WHATS NEW" />
         <item
             android:id="@+id/nav_helpfeedback"
-            android:icon="@drawable/nav_home"
+            android:icon="@drawable/help_ic"
             android:title="HELP &amp; FEEDBACK" />
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/logout"
+            android:icon="@drawable/logout_ic"
             android:title="LOG-OUT" />
         <item
             android:id="@+id/nav_homeloanApplication"

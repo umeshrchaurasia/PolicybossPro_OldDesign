@@ -543,7 +543,7 @@ public class ErpLoanRequest  {
         Quote_id = 0;
         Residence_Type = "";
         Co_Residence_Type = "";
-        this.empCode ="";
+        empCode ="";
         Title = "";
         First_Name = "";
         Middle_Name = "";
@@ -553,12 +553,12 @@ public class ErpLoanRequest  {
         Mother_Name = "";
         Category_Id = "";
         No_Of_Dependent = "";
-        this.PAN_No = "";
+        PAN_No = "";
         Passport_No =  "";
         Driving_Lic_No =  "";
         Aadhar_Card_No =  "";
         Voters_Id =  "";
-        this.DOB =  "";
+        DOB =  "";
         Status_Id =  "";
         Gender = "";
         Nationality =  "";
@@ -611,22 +611,22 @@ public class ErpLoanRequest  {
         Net_Income ="";
         Other_Income = "";
         Total_Income ="";
-        this.IFSC_Code_Bank1 = "";
+        IFSC_Code_Bank1 = "";
         Bank1_Name = "";
         Bank1_AcctType = "";
         Bank1_AcctNo = "";
-        this.IFSC_Code_Bank2 = "";
+        IFSC_Code_Bank2 = "";
         Bank2_Name = "";
         Bank2_AcctType = "";
         Bank2_AcctNo = "";
         Bank_Loan1 = "";
         Type_Loan1 = "";
         Amnt_Loan1 = "";
-        this.EMI_Loan1 = "";
+        EMI_Loan1 = "";
         Bank_Loan2 = "";
         Type_Loan2 = "";
         Amnt_Loan2 ="";
-        this.EMI_Loan2 = "";
+        EMI_Loan2 = "";
         Vehicle_Type = "";
         MakenModel_Vehicle = "";
         Dt_Purchase = "";
@@ -745,7 +745,7 @@ public class ErpLoanRequest  {
         Loan_Requested = "";
         Trans_type = "";
         Construction_stage ="";
-        this.expected_Completion ="";
+        expected_Completion ="";
         Land_area = "";
         Built_up_area = "";
         Prop_Ownership_Name = "";
@@ -769,7 +769,7 @@ public class ErpLoanRequest  {
         Msc_Ref2_Pin_code = "";
         Msc_Ref2_Landline_No ="";
         Msc_Ref2_Mob_No = "";
-        this.id = id;
+        id = id;
         Datetime_Created = "";
         Ip_Address = "";
         UserId = "";
@@ -795,12 +795,12 @@ public class ErpLoanRequest  {
         Co_Depreciation =  "";
         Co_Director_Remuneration =  "";
         Co_Profit_Aft_Tax =  "";
-        this.FBA_Reg_Id = "";
+        FBA_Reg_Id = "";
         Appln_Source =  "";
-        this.sourcelink =  "";
+        sourcelink =  "";
         CampaignName = "";
-        this.dc_fba_reg = "";
-        this.RBA_Source =  "";;
+        dc_fba_reg = "";
+        RBA_Source =  "";
     }
 
     public int getApplnId() {

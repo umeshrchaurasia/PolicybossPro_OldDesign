@@ -23,6 +23,7 @@ import java.net.URL;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
 
 public class SalesShareActivity extends BaseActivity {
 
@@ -35,6 +36,7 @@ public class SalesShareActivity extends BaseActivity {
     Bitmap pospDetails;
     Bitmap combinedImage;
     String pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo;
+    SalesProductEntity salesProductEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,28 +47,30 @@ public class SalesShareActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
+        if (getIntent().hasExtra(Constants.PRODUCT_ID)) {
+            salesProductEntity = getIntent().getExtras().getParcelable(Constants.PRODUCT_ID);
+            //The key argument here must match that used in the other activity
+            switch (salesProductEntity.getProduct_Id()) {
+                case 2:
+                    setPospDetails();
+                    break;
+                case 1:
+                case 3:
+                case 4:
+                case 5:
+                    setOtherDetails();
+                    break;
+            }
+        }
 
-        if (loginResponseEntity.getPOSPName() != null && loginResponseEntity.getPOSPName().equals("")) {
-            pospNAme = loginResponseEntity.getPOSPName();
-        } else {
-            pospNAme = "POSP Name";
-        }
-        if (loginResponseEntity.getPOSEmail() != null && loginResponseEntity.getPOSEmail().equals("")) {
-            pospNAme = loginResponseEntity.getPOSEmail();
-        } else {
-            pospEmail = "landmarkposp@finmart.com";
-        }
-        if (loginResponseEntity.getPOSPMobile() != null && loginResponseEntity.getPOSPMobile().equals("")) {
-            pospNAme = loginResponseEntity.getPOSPMobile();
-        } else {
-            PospMobNo = "98XXXXXXXX";
-        }
+
         initialize();
 
         /*BitmapFactory.Options options = new BitmapFactory.Options();
         options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         salesPhoto = BitmapFactory.decodeFile(docsEntity.getImage_path(), options);*/
         //salesPhoto = ((BitmapDrawable) ivProduct.getDrawable()).getBitmap();
+
         new createBitmapFromURL().execute();
     }
 
@@ -82,6 +86,47 @@ public class SalesShareActivity extends BaseActivity {
         }
     }
 
+    private void setPospDetails() {
+        pospDesg = "LandMark POSP";
+        if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
+            pospNAme = loginResponseEntity.getPOSPName();
+        } else {
+            pospNAme = "POSP Name";
+        }
+        if (loginResponseEntity.getPOSEmail() != null && !loginResponseEntity.getPOSEmail().equals("")) {
+            pospEmail = loginResponseEntity.getPOSEmail();
+        } else {
+            pospEmail = "landmarkposp@finmart.com";
+        }
+        if (loginResponseEntity.getPOSPMobile() != null && !loginResponseEntity.getPOSPMobile().equals("")) {
+            PospMobNo = loginResponseEntity.getPOSPMobile();
+        } else {
+            PospMobNo = "98XXXXXXXX";
+        }
+    }
+
+    private void setOtherDetails() {
+        if (loginResponseEntity.getDesignation() != null && !loginResponseEntity.getDesignation().equals("")) {
+            pospDesg = loginResponseEntity.getDesignation();
+        } else {
+            pospDesg = "FBA SUPPORT ASSISTANT";
+        }
+        if (loginResponseEntity.getFullName() != null && !loginResponseEntity.getFullName().equals("")) {
+            pospNAme = loginResponseEntity.getFullName();
+        } else {
+            pospNAme = "FBA Name";
+        }
+        if (loginResponseEntity.getEmailID() != null && !loginResponseEntity.getEmailID().equals("")) {
+            pospEmail = loginResponseEntity.getEmailID();
+        } else {
+            pospEmail = "landmarkfba@finmart.com";
+        }
+        if (loginResponseEntity.getMobiNumb1() != null && !loginResponseEntity.getMobiNumb1().equals("")) {
+            PospMobNo = loginResponseEntity.getMobiNumb1();
+        } else {
+            PospMobNo = "98XXXXXXXX";
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

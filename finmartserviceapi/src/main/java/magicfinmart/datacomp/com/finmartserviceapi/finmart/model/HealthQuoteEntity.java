@@ -1,8 +1,12 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
 import java.util.List;
 
-public class HealthQuoteEntity {
+public class HealthQuoteEntity implements Parcelable {
     /**
      * CustomerReferenceID : 0
      * QuoteId : 0
@@ -340,4 +344,97 @@ public class HealthQuoteEntity {
     }
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.CustomerReferenceID);
+        dest.writeInt(this.QuoteId);
+        dest.writeInt(this.PolicyTermYear);
+        dest.writeString(this.PlanName);
+        dest.writeString(this.InsurerName);
+        dest.writeString(this.InsurerLogoName);
+        dest.writeString(this.ProductName);
+        dest.writeInt(this.PlanID);
+        dest.writeInt(this.ZoneID);
+        dest.writeString(this.OtherPlanID);
+        dest.writeInt(this.ProdID);
+        dest.writeInt(this.InsurerId);
+        dest.writeInt(this.ServiceTax);
+        dest.writeDouble(this.SumInsured);
+        dest.writeString(this.HMBValue);
+        dest.writeInt(this.IsOnlinePayment);
+        dest.writeString(this.KeyFeatures);
+        dest.writeString(this.BroucherDownloadLink);
+        dest.writeInt(this.Discount);
+        dest.writeInt(this.Deductible_Amount);
+        dest.writeDouble(this.NetPremium);
+        dest.writeDouble(this.GrossPremium);
+        dest.writeString(this.DiscountPercent);
+        dest.writeString(this.Premium);
+        dest.writeString(this.Group_name);
+        dest.writeString(this.QuoteStatus);
+        dest.writeString(this.ProposerPageUrl);
+        dest.writeString(this.pincode);
+        dest.writeInt(this.FinalProductID);
+        dest.writeList(this.LstbenfitsFive);
+        dest.writeByte(this.isCompare ? (byte) 1 : (byte) 0);
+        dest.writeByte(this.isMore ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.totalChilds);
+    }
+
+    public HealthQuoteEntity() {
+    }
+
+    protected HealthQuoteEntity(Parcel in) {
+        this.CustomerReferenceID = in.readInt();
+        this.QuoteId = in.readInt();
+        this.PolicyTermYear = in.readInt();
+        this.PlanName = in.readString();
+        this.InsurerName = in.readString();
+        this.InsurerLogoName = in.readString();
+        this.ProductName = in.readString();
+        this.PlanID = in.readInt();
+        this.ZoneID = in.readInt();
+        this.OtherPlanID = in.readString();
+        this.ProdID = in.readInt();
+        this.InsurerId = in.readInt();
+        this.ServiceTax = in.readInt();
+        this.SumInsured = in.readDouble();
+        this.HMBValue = in.readString();
+        this.IsOnlinePayment = in.readInt();
+        this.KeyFeatures = in.readString();
+        this.BroucherDownloadLink = in.readString();
+        this.Discount = in.readInt();
+        this.Deductible_Amount = in.readInt();
+        this.NetPremium = in.readDouble();
+        this.GrossPremium = in.readDouble();
+        this.DiscountPercent = in.readString();
+        this.Premium = in.readString();
+        this.Group_name = in.readString();
+        this.QuoteStatus = in.readString();
+        this.ProposerPageUrl = in.readString();
+        this.pincode = in.readString();
+        this.FinalProductID = in.readInt();
+        this.LstbenfitsFive = new ArrayList<BenefitsEntity>();
+        in.readList(this.LstbenfitsFive, BenefitsEntity.class.getClassLoader());
+        this.isCompare = in.readByte() != 0;
+        this.isMore = in.readByte() != 0;
+        this.totalChilds = in.readInt();
+    }
+
+    public static final Parcelable.Creator<HealthQuoteEntity> CREATOR = new Parcelable.Creator<HealthQuoteEntity>() {
+        @Override
+        public HealthQuoteEntity createFromParcel(Parcel source) {
+            return new HealthQuoteEntity(source);
+        }
+
+        @Override
+        public HealthQuoteEntity[] newArray(int size) {
+            return new HealthQuoteEntity[size];
+        }
+    };
 }
