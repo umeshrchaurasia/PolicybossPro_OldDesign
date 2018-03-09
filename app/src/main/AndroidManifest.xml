@@ -612,6 +612,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".health.compare.HealthCompareActivity"
+            android:label="@string/title_activity_health_compare"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
