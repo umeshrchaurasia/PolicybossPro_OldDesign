@@ -5,6 +5,7 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BenefitsListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
@@ -55,5 +56,9 @@ public class HealthRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/compare-premium")
         Call<HealthQuoteCompareResponse> compareQuotes(@Body HealthCompareRequestEntity entity);
+
+        @Headers("token:" + token)
+        @POST("/api/GetCompareBenefits")
+        Call<BenefitsListResponse> getBenefits(@Body HashMap<String, String> body);
     }
 }

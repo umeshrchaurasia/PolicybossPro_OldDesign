@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.compare.HealthCompareActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -37,6 +39,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BenefitsListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 
@@ -48,6 +51,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     private static final String FLOATER = "FLOATER STANDARD";
     private static final String INDIVIDUAL = "INDIVIDUAL STANDARD";
+    public static final String HEALTH_COMPARE = "health_compare";
     private static final String SHARE_TEXT = " results from www.policyboss.com";
 
     TextView txtCoverType, txtCoverAmount;
@@ -102,6 +106,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     private void setListener() {
         ivEdit.setOnClickListener(this);
         ivHealthShare.setOnClickListener(this);
+        txtCompareCount.setOnClickListener(this);
     }
 
     @Override
@@ -116,6 +121,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 intent.putExtra("NAME", healthQuote.getHealthRequest().getContactName());
                 startActivity(intent);
             }
+        } else if (view.getId() == R.id.txtCompareCount) {
+
+            Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
+            intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
+            startActivity(intent);
 
         }
     }
@@ -185,7 +195,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
 
     }
-
 
     public void fetchQuotes() {
         //visibleLoader();
@@ -332,7 +341,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             txtCompareCount.setText("" + listCompare.size());
         }
     }
-
 
     class AsyncShareJson extends AsyncTask<Void, Void, String> {
 
