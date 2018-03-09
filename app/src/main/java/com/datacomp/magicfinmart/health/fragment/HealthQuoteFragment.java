@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -61,6 +60,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     HashMap<Integer, List<HealthQuoteEntity>> listDataChild;
 
     HealthQuoteEntity buyHealthQuoteEntity;
+    ImageView ivHealthShare;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,12 +94,15 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     private void setListener() {
         ivEdit.setOnClickListener(this);
+        ivHealthShare.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.ivEdit) {
             ((HealthQuoteBottomTabsActivity) getActivity()).redirectToInput();
+        } else if (view.getId() == R.id.ivHealthShare) {
+
         }
     }
 
@@ -152,6 +155,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvHealthQuote.setLayoutManager(layoutManager);
+
+        ivHealthShare = (ImageView) view.findViewById(R.id.ivHealthShare);
     }
 
     public void redirectToBuy(HealthQuoteEntity entity) {
