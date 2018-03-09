@@ -2,11 +2,13 @@ package com.datacomp.magicfinmart.health.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -58,6 +63,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     List<HealthQuoteEntity> listCompare;
     List<HealthQuoteEntity> listDataHeader;
     HashMap<Integer, List<HealthQuoteEntity>> listDataChild;
+
+    String jsonShareString = "";
+
 
     HealthQuoteEntity buyHealthQuoteEntity;
     ImageView ivHealthShare;
@@ -102,6 +110,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         if (view.getId() == R.id.ivEdit) {
             ((HealthQuoteBottomTabsActivity) getActivity()).redirectToInput();
         } else if (view.getId() == R.id.ivHealthShare) {
+            if (!jsonShareString.equals("")) {
+                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                intent.putExtra("", jsonShareString);
+                startActivity(intent);
+            }
 
         }
     }
@@ -192,6 +205,13 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 prepareChild(((HealthQuoteExpResponse) response).getMasterData()
                         .getHealth_quote().getHeader(), ((HealthQuoteExpResponse) response).getMasterData()
                         .getHealth_quote().getChild());
+
+                //share data
+                new AsyncShareJson(((HealthQuoteExpResponse) response).getMasterData()
+                        .getHealth_quote().getHeader(), ((HealthQuoteExpResponse) response).getMasterData()
+                        .getHealth_quote().getChild()).execute();
+
+
             }
         } else if (response instanceof HealthQuoteCompareResponse) {
             dialogMessage((HealthQuoteCompareResponse) response);
@@ -312,5 +332,31 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         }
     }
 
+
+    class AsyncShareJson extends AsyncTask<Void, Void, String> {
+
+        List<HealthQuoteEntity> headerList;
+        List<HealthQuoteEntity> childList;
+        List<HealthQuoteEntity> shareList = new ArrayList<>();
+
+        public AsyncShareJson(List<HealthQuoteEntity> header, List<HealthQuoteEntity> child) {
+            headerList = header;
+            childList = child;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            shareList.addAll(headerList);
+            shareList.addAll(childList);
+            Gson gson = new Gson();
+            return gson.toJson(shareList);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            jsonShareString = "";
+            jsonShareString = s;
+        }
+    }
 
 }
