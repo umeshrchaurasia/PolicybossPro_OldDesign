@@ -71,9 +71,9 @@ public class PersonalLoanController  implements IPersonalLoan {
             @Override
             public void onResponse(Call<GetBLDispalyResponse> call, Response<GetBLDispalyResponse> response) {
                 if (response.body().getStatus_Id() == 0) {
-                    iResponseSubcriber.OnSuccess(response.body(), "Saved");
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMsg());
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Record Not Found"));
+                    iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMsg()));
                 }
 
             }
