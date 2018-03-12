@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.pendingcases.PendingCasesAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.List;
@@ -67,9 +66,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    public void  redirectToApplyMain( int prdID)
-    {
-
+    public void redirectToApplyMain(SalesProductEntity prdID) {
         Intent intent = new Intent(this, SalesDetailActivity.class);
         intent.putExtra(Constants.PRODUCT_ID, prdID);
         startActivity(intent);

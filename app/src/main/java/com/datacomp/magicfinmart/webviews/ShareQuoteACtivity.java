@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -27,18 +29,24 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 
 public class ShareQuoteACtivity extends BaseActivity {
@@ -49,11 +57,15 @@ public class ShareQuoteACtivity extends BaseActivity {
     Bitmap bmp;
     int count = 0;
     BikePremiumResponse bikePremiumResponse;
+    BikeMasterEntity bikeMasterEntity;
     CarMasterEntity carMasterEntity;
-    String bikeReponse;
+    LoginResponseEntity loginResponseEntity;
+    String respone;
     String userReponse;
-    String carReponse;
+    String otherData="";
     Gson gson = new Gson();
+    String pospPhotoUrl, pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo, makeModel, cc;
+    String from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,30 +79,45 @@ public class ShareQuoteACtivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         webView = (WebView) findViewById(R.id.webView);
 
-        if (getIntent().hasExtra("RESPONSE")) {
 
-            //bike
-            bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
-            bikeReponse = gson.toJson(bikePremiumResponse);
+
+        //region from which class
+        if (getIntent().hasExtra(Constants.SHARE_ACTIVITY_NAME)) {
+            from = getIntent().getExtras().getString(Constants.SHARE_ACTIVITY_NAME);
+            switch (from) {
+                case "CAR_ALL_QUOTE":
+                    CarAllQuote();
+                    break;
+                case "CAR_SINGLE_QUOTE":
+                    carSingleQuote();
+                    break;
+                case "BIKE_ALL_QUOTE":
+                    BikeAllQuote();
+                    break;
+                case "BIKE_SINGLE_QUOTE":
+                    BikeSingleQuote();
+                    break;
+
+                case "HEALTH_ALL_QUOTE":
+                    HealthAllQuote();
+                    break;
+                case "HEALTH_SINGLE_QUOTE":
+                    HealthSingleQuote();
+                    break;
+            }
         }
-        if (getIntent().hasExtra("CARNAME")) {
+        //endregion
 
-            //car
-            carMasterEntity = getIntent().getParcelableExtra("CARNAME");
-            carReponse = gson.toJson(carMasterEntity);
+        //region user  details
+        try {
+            loginResponseEntity = new DBPersistanceController(this).getUserData();
+            userReponse = createJson();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        //endregion
 
-        //user
-        userReponse = gson.toJson(new DBPersistanceController(this).getUserData());
-
-
-        url = getIntent().getStringExtra("URL");
-        url = "file:///android_asset/VechicleInsurance.html";
-        name = getIntent().getStringExtra("NAME");
-        title = getIntent().getStringExtra("TITLE");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(title);
-
+        //region floatingbutton
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,23 +125,166 @@ public class ShareQuoteACtivity extends BaseActivity {
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 //downloadPdf(url, name);
-                shareQuote();
+
+                new shareQuote().execute();
             }
         });
+        //endregion
+
         settingWebview();
     }
 
+    private void HealthSingleQuote() {
 
-    private void shareQuote() {
-        showDialog("Creating pdf...");
-        bmp = getBitmapFromWebView(webView);
+        //region url ,name,title
 
+        url = getIntent().getStringExtra("URL");
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = getIntent().getStringExtra("NAME");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+    private void HealthAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            respone = getIntent().getStringExtra("RESPONSE");
+        }
+        //region url ,name,title
+
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = getIntent().getStringExtra("NAME");
+        title = "HEALTH QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
         try {
-            SimplePDFTable(bmp);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("NAME", name);
+            otherData = jsonObject.toString();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
+        //endregion
+    }
+
+    private void BikeSingleQuote() {
+        //region url ,name,title
+
+        url = getIntent().getStringExtra("URL");
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = getIntent().getStringExtra("NAME");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+    private void BikeAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(bikePremiumResponse);
+        }
+        if (getIntent().hasExtra("BIKENAME")) {
+            //bike
+            bikeMasterEntity = getIntent().getParcelableExtra("BIKENAME");
+            makeModel = bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+            cc = "CRN : " + bikePremiumResponse.getSummary().getPB_CRN() + " , " + bikeMasterEntity.getCubic_Capacity() + "CC";
+        }
+        //region url ,name,title
+
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+        title = "TWO WHEELER QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+    private void carSingleQuote() {
+        //region url ,name,title
+
+        url = getIntent().getStringExtra("URL");
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = getIntent().getStringExtra("NAME");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+    private void CarAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(bikePremiumResponse);
+        }
+        if (getIntent().hasExtra("CARNAME")) {
+            //car
+            carMasterEntity = getIntent().getParcelableExtra("CARNAME");
+            makeModel = carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+            cc = "CRN : " + bikePremiumResponse.getSummary().getPB_CRN() + " , " + carMasterEntity.getCubic_Capacity() + "CC";
+        }
+        //region url ,name,title
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+        title = "MOTOR QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+
+    private String createJson() throws JSONException {
+        if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
+            pospNAme = loginResponseEntity.getPOSPName();
+        } else {
+            pospNAme = "POSP Name";
+        }
+        if (loginResponseEntity.getPOSEmail() != null && !loginResponseEntity.getPOSEmail().equals("")) {
+            pospEmail = loginResponseEntity.getPOSEmail();
+        } else {
+            pospEmail = "landmarkposp@finmart.com";
+        }
+        if (loginResponseEntity.getPOSPMobile() != null && !loginResponseEntity.getPOSPMobile().equals("")) {
+            PospMobNo = loginResponseEntity.getPOSPMobile();
+        } else {
+            PospMobNo = "98XXXXXXXX";
+        }
+        if (loginResponseEntity.getPOSPProfileUrl() != null && !loginResponseEntity.getPOSPProfileUrl().equals("")) {
+            pospPhotoUrl = loginResponseEntity.getPOSPProfileUrl();
+        } else {
+            pospPhotoUrl = "http://www.policyboss.com/Images/insurer_logo/Bharti_Axa_General.png";
+        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("CAR_NAME", makeModel);
+        jsonObject.put("CC", cc);
+        jsonObject.put("pospPhotoUrl", pospPhotoUrl);
+        jsonObject.put("pospDesg", pospDesg);
+        jsonObject.put("pospNAme", pospNAme);
+        jsonObject.put("pospEmail", pospEmail);
+        jsonObject.put("PospMobNo", PospMobNo);
+
+        return jsonObject.toString();
+
+    }
+
+
+    private void shareQuote() {
+
+        bmp = getBitmapFromWebView(webView);
+
+        try {
+            SimplePDFTable(bmp, bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void downloadPdf(String url, String name) {
@@ -178,8 +348,7 @@ public class ShareQuoteACtivity extends BaseActivity {
                 // TODO hide your progress image
                 cancelDialog();
                 super.onPageFinished(view, url);
-                webView.loadUrl("javascript:init('" + bikeReponse + "')");
-
+                webView.loadUrl("javascript:init('" + respone + "','" + userReponse + "','" + otherData + "')");
             }
 
             @Override
@@ -187,10 +356,12 @@ public class ShareQuoteACtivity extends BaseActivity {
                 return false;
             }
         });
-        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setBuiltInZoomControls(false);
+        webView.addJavascriptInterface(new MyJavaScriptInterface(ShareQuoteACtivity.this), "Android");
         Log.d("URL", url);
         //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
-        webView.loadUrl("file:///android_asset/VechicleInsurance.html");
+        //webView.loadUrl("file:///android_asset/VechicleInsurance.html");
+        webView.loadUrl(url);
     }
 
     @Override
@@ -243,15 +414,11 @@ public class ShareQuoteACtivity extends BaseActivity {
         return bmp;
     }
 
-    public void SimplePDFTable(Bitmap bmp) throws Exception {
+    public void SimplePDFTable(Bitmap bmp, String fileName) throws Exception {
 
-        File direct = new File(Environment.getExternalStoragePublicDirectory
-                (Environment.DIRECTORY_DOWNLOADS), "quote");
+        File direct = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
         if (!direct.exists()) {
             if (direct.mkdir()) {
-                Toast.makeText(ShareQuoteACtivity.this,
-                        "Folder Is created in sd card", Toast.LENGTH_SHORT)
-                        .show();
             }
         }
         String test = direct.getAbsolutePath();
@@ -261,7 +428,7 @@ public class ShareQuoteACtivity extends BaseActivity {
         Document document = new Document(pagesize, 36f, 36f, 36f, 36f);
 
         PdfWriter.getInstance(document, new FileOutputStream(test
-                + "/quote.pdf"));
+                + "/" + fileName + ".pdf"));
 
         document.open();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -276,8 +443,50 @@ public class ShareQuoteACtivity extends BaseActivity {
         document.add(image);
 
         document.close();
-        cancelDialog();
-        sharePdfTowhatsApp("quote");
+        sharePdfTowhatsApp(fileName);
     }
 
+    public class MyJavaScriptInterface {
+        Context mContext;
+        String data;
+
+        MyJavaScriptInterface(Context ctx) {
+            this.mContext = ctx;
+        }
+
+
+        @JavascriptInterface
+        public void processComplete() {
+            //Get the string value to process
+            //shareQuote();
+        }
+    }
+
+
+    public class shareQuote extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            showDialog("Generating pdf...");
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            bmp = getBitmapFromWebView(webView);
+
+            try {
+                // SimplePDFTable(bmp, bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no());
+                SimplePDFTable(bmp, name);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            cancelDialog();
+            super.onPostExecute(aVoid);
+        }
+    }
 }

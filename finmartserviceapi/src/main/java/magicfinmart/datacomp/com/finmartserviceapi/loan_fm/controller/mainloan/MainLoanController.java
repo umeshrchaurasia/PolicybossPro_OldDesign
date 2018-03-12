@@ -14,6 +14,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSav
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BankForNodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmBalanceLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
@@ -195,9 +196,9 @@ public class MainLoanController implements IMainLoan {
     public void savebankFbABuyData(BankSaveRequest bankSaveRequest,final IResponseSubcriberFM iResponseSubcriber) {
 
 
-        loanMainNetworkService.savebankFbABuy(bankSaveRequest).enqueue(new Callback<FmSaveQuotePersonalLoanResponse>() {
+        loanMainNetworkService.savebankFbABuy(bankSaveRequest).enqueue(new Callback<BankForNodeResponse>() {
             @Override
-            public void onResponse(Call<FmSaveQuotePersonalLoanResponse> call, Response<FmSaveQuotePersonalLoanResponse> response) {
+            public void onResponse(Call<BankForNodeResponse> call, Response<BankForNodeResponse> response) {
                 if (response.body() != null) {
 
                     //callback of data
@@ -211,7 +212,7 @@ public class MainLoanController implements IMainLoan {
             }
 
             @Override
-            public void onFailure(Call<FmSaveQuotePersonalLoanResponse> call, Throwable t) {
+            public void onFailure(Call<BankForNodeResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

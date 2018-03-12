@@ -16,7 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <style>
-body {font-size:12px;}
+      body {font-size:12px;}
 .blu-heading {padding:10px;border:1px solid #4d62b5;color:#4d62b5;font-size: 16px;}
 .red-txt {color:#b60d2a;}
 .tbl1 {text-align:center;}
@@ -25,65 +25,62 @@ body {font-size:12px;}
 .tbl2 td {border:0px !important;text-align:center;}
 .box-shadow {box-shadow: 1px 1px 3px 0px #ccc;}
 .amount {background: #f95f67;padding: 5px 15px;margin: 4px;font-size: 16px;color: #fff;}
-.center {display: block;margin:0 auto; margin-top:15px;}
+.center {display: block;margin:0 auto; margin-top:2px;}
 .brd-left {border-right:1px solid #eee !important;}
-.bg-gray {background:#ddd;}
+.bg-gray {background:#f5f5f5;}
 .glyphicon {    font-weight: normal;font-size: 10px; color:#666;margin-right:4px;}
 ul li {margin:2px; padding:4px !important;}
-
-
-
-
-
-
-
-
-
-
-
-
-
+.center-txt td {padding:0px;}
+.img-pad {padding:0px !important;margin:0px !important;padding-left: 2px;}
+.img-pad img {padding:0px;margin:0px;}
+.list1 {margin:0px; padding:0px;text-align:left}
+.list1 li {overflow:hidden;float:left;text-decoration:none;width: 45%; list-style-type:none; font-size:10px;margin:0px;padding-left:2px !important;}
+.no-padding {padding : 1px !important;margin:0px;}
+h4 {padding:0px;margin:2px;}
+p {padding:0px;margin:2px;}
 
 
     </style>
 </head>
 
-
 <body>
 <div class="container">
+
     <div class="col-md-12">
         <h3 class="blu-heading text-center">Quotation for Insurance of your Vehicle</h3>
         <p>Dear <b class="red-txt" id="name">Joel Jangam</b></p>
         <p>Please find below our best quotations for renewal of insurance of your vehicle</p>
     </div>
 
+    <!--vechile details-->
     <div class="col-md-12">
         <div class="table-responsive">
             <table class="table table-bordered tbl1">
                 <tr>
-                    <td colspan="2"><b>Volkswagon Polo - MH - 01 - CP - 3283</b></td>
+                    <td colspan="2"><b id="regNo">Volkswagon Polo - MH - 01 - CP - 3283</b></td>
                 </tr>
 
                 <tr>
-                    <td>2016 119/CC</td>
-                    <td>Policy Exp. Date 21-03-2018</td>
+                    <td id="cc">2016 119/CC</td>
+                    <td>Policy Exp. Date : <b><span id="expDate">21-03-2018</span></b></td>
                 </tr>
                 <tr>
-                    <td>Present NCA:0%</td>
-                    <td>Claim in Present Year no.</td>
+                    <td>Present NCB : <b><span id="ncbPercent">0</span>%</b></td>
+                    <td>Claim in Present Year : <span><b id="claim">yes</b></span></td>
                 </tr>
             </table>
         </div>
     </div>
 
 
-    <div class="col-md-12">
+    <div class="col-md-12" id="divshow">
         <div class="table-responsive box-shadow">
             <table class="table table-bordered tbl2">
                 <tbody>
                 <tr>
-                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src="img/reliance_logo.png" class="img-responsive center"/></td>
+                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img src=""
+                                                                                         class="img-responsive center"/>
+                    </td>
                     <td>IDV</td>
                     <td>PREMIIUM</td>
                 </tr>
@@ -93,263 +90,7 @@ ul li {margin:2px; padding:4px !important;}
                 </tr>
                 </tbody>
             </table>
-            <table class="table bg-gray text-center" style="display:none;">
-                <tbody class="center-txt">
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
-    <div class="col-md-12">
-        <div class="table-responsive box-shadow">
-            <table class="table table-bordered tbl2">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src="img/reliance_logo.png" class="img-responsive center"/></td>
-                    <td>IDV</td>
-                    <td>PREMIIUM</td>
-                </tr>
-                <tr>
-                    <td>7857457</td>
-                    <td><a href="#" class="amount">₹ 13949</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table bg-gray text-center" style="display:none;">
-                <tbody class="center-txt">
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
-    <div class="col-md-12">
-        <div class="table-responsive box-shadow">
-            <table class="table table-bordered tbl2">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src="img/reliance_logo.png" class="img-responsive center"/></td>
-                    <td>IDV</td>
-                    <td>PREMIIUM</td>
-                </tr>
-                <tr>
-                    <td>7857457</td>
-                    <td><a href="#" class="amount">₹ 13949</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table bg-gray text-center" style="display:none;">
-                <tbody class="center-txt">
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    var imgSrc = "http://www.policyboss.com/Images/insurer_logo/"+response.Response[i].Insurer_Logo_Name;
-    <div class="col-md-12">
-        <div class="table-responsive box-shadow">
-            <table class="table table-bordered tbl2">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src=imgsrc class="img-responsive center"/></td>
-                    <td>IDV</td>
-                    <td>PREMIIUM</td>
-                </tr>
-                <tr>
-                    <td>7857457</td>
-                    <td><a href="#" class="amount">₹ 13949</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table bg-gray text-center" style="display:none;">
-                <tbody class="center-txt">
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
-    <div class="col-md-12">
-        <div class="table-responsive box-shadow">
-            <table class="table table-bordered tbl2">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src="img/reliance_logo.png" class="img-responsive center"/></td>
-                    <td>IDV</td>
-                    <td>PREMIIUM</td>
-                </tr>
-                <tr>
-                    <td>7857457</td>
-                    <td><a href="#" class="amount">₹ 13949</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table bg-gray text-center" style="display:none;">
-                <tbody class="center-txt">
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
-    <div class="col-md-12">
-        <div class="table-responsive box-shadow">
-            <table class="table table-bordered tbl2">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src="img/reliance_logo.png" class="img-responsive center"/></td>
-                    <td>IDV</td>
-                    <td>PREMIIUM</td>
-                </tr>
-                <tr>
-                    <td>7857457</td>
-                    <td><a href="#" class="amount">₹ 13949</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table bg-gray text-center" style="display:none;">
-                <tbody class="center-txt">
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
-    <div class="col-md-12">
-        <div class="table-responsive box-shadow">
-            <table class="table table-bordered tbl2">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src="img/reliance_logo.png" class="img-responsive center"/></td>
-                    <td>IDV</td>
-                    <td>PREMIIUM</td>
-                </tr>
-                <tr>
-                    <td>7857457</td>
-                    <td><a href="#" class="amount">₹ 13949</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table bg-gray text-center" style="display:none;">
-                <tbody class="center-txt">
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
-    <div class="col-md-12">
-        <div class="table-responsive box-shadow">
-            <table class="table table-bordered tbl2">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src="img/reliance_logo.png" class="img-responsive center"/></td>
-                    <td>IDV</td>
-                    <td>PREMIIUM</td>
-                </tr>
-                <tr>
-                    <td>7857457</td>
-                    <td><a href="#" class="amount">₹ 13949</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table bg-gray text-center" style="display:none;">
-                <tbody class="center-txt">
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                <tr>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                    <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-
-    <div class="col-md-12">
-        <div class="table-responsive box-shadow">
-            <table class="table table-bordered tbl2">
-                <tbody>
-                <tr>
-                    <td rowspan="2" style="border-right:1px solid #ccc !important;"><img
-                            src="img/reliance_logo.png" class="img-responsive center"/></td>
-                    <td>IDV</td>
-                    <td>PREMIIUM</td>
-                </tr>
-                <tr>
-                    <td>7857457</td>
-                    <td><a href="#" class="amount">₹ 13949</a></td>
-                </tr>
-                </tbody>
-            </table>
-            <table class="table bg-gray text-center" style="display:none;">
+            <table class="table bg-gray text-center">
                 <tbody class="center-txt">
                 <tr>
                     <td><span class="glyphicon glyphicon-ok"></span> simply dummy text</td>
@@ -374,28 +115,263 @@ ul li {margin:2px; padding:4px !important;}
         <div class="img-responsive">
             <table class="table table-striped">
                 <tr>
-                    <td><img src="img/Quote.jpg" class="img-responsive"/></td>
-                    <td><h4>Landmark POSP</h4></td>
+                    <td><img src="img/profile_pic.png" id="pospPhoto" class="img-responsive"/></td>
+                    <td><h4 id="pospName">Test User</h4>
+                        <p id="deg">Landmark POSP</p>
+                        <p id="phone">98XXXXXXXX</p>
+                        <p id="email">XXXXX@gmail.com</p></td>
                 </tr>
             </table>
         </div>
     </div>
 
-
 </div>
 </body>
 <script type="text/javascript">
 
-    function init(insurance){
 
-      var response= JSON.parse(insurance);
+
+
+    function init(bikeReponse,userReponse,carReponse){
+
+
+        var addon_list = {
+        'addon_ambulance_charge_cover': 'Ambulance Charge',
+        'addon_consumable_cover': 'Consumables',
+        'addon_daily_allowance_cover': 'Daily Allowance',
+        'addon_engine_protector_cover': 'Engine Protection',
+        'addon_hospital_cash_cover': 'Hospital Cash',
+        'addon_hydrostatic_lock_cover': 'Hydrostatic Lock',
+        'addon_inconvenience_allowance_cover': 'Inconvinenience Allowance',
+        'addon_invoice_price_cover': 'Invoice Price',
+        'addon_key_lock_cover': 'Key Lock',
+        'addon_losstime_protection_cover': 'Loss-Time Protection',
+        'addon_medical_expense_cover': 'Medical Expense',
+        'addon_ncb_protection_cover': 'NCB Protection',
+        'addon_passenger_assistance_cover': 'Passenger Assistance',
+        'addon_personal_belonging_loss_cover': 'Personal Belonging Loss',
+        'addon_road_assist_cover': 'RoadSide Assistance',
+        'addon_rodent_bite_cover': 'Rodent Bite',
+        'addon_tyre_coverage_cover': 'Tyre Coverage',
+        'addon_windshield_cover': 'Windshield Protection',
+        'addon_zero_dep_cover': 'Zero Depreciation'
+    };
+
+
+      var response= JSON.parse(bikeReponse);
+      var otherDetails =JSON.parse(userReponse);
 
       document.getElementById('name').innerHTML = response.Summary.Request_Core.first_name;
 
+      document.getElementById('regNo').innerHTML = otherDetails.CAR_NAME;
+      document.getElementById('expDate').innerHTML = response.Summary.Request_Core.policy_expiry_date;
+
+      document.getElementById('cc').innerHTML = otherDetails.CC;
+      document.getElementById('ncbPercent').innerHTML = response.Summary.Request_Core.vehicle_ncb_current;
+      document.getElementById('claim').innerHTML = response.Summary.Request_Core.is_claim_exists;
+
+      document.getElementById('pospName').src = otherDetails.pospNAme;
+      document.getElementById('pospPhoto').src = otherDetails.pospPhotoUrl;
+      document.getElementById('deg').innerHTML = otherDetails.pospDesg;
+      document.getElementById('phone').innerHTML = otherDetails.PospMobNo;;
+      document.getElementById('email').innerHTML = otherDetails.pospEmail;;
+
+
+
+        var HTML = "";
+        document.getElementById('divshow').innerHTML="";
+
+        for (var i = 0; i < response.Response.length; i++) {
+            if (response.Response[i].Error_Code == "") {
+
+                //var imgSrc = "http://www.policyboss.com/Images/insurer_logo/" +  response.Response[i].Insurer_Logo_Name;
+                //document.getElementById('value1').src = imgSrc;
+
+                HTML = HTML + ' <div class="table-responsive box-shadow">';
+
+                HTML = HTML + ' <table class="table table-bordered tbl2">';
+                HTML = HTML + '<tbody>';
+                HTML = HTML + '<tr>';
+                HTML = HTML + ' <td rowspan="2" class="img-pad"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="img-responsive center" /></td>';
+                HTML = HTML + '<td>IDV</td>';
+                HTML = HTML + '<td>PREMIIUM</td>';
+                HTML = HTML + '</tr>';
+                HTML = HTML + '<tr>';
+                HTML = HTML + ' <td>' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
+                HTML = HTML + ' <td><a href="#" class="amount">₹ ' + response.Response [i].Premium_Breakup.final_premium + '</a></td>';
+                HTML = HTML + '</tr>';
+                HTML = HTML + '</tbody>';
+                HTML = HTML + '</table>';
+                HTML = HTML + '<table class="table bg-gray text-center" >';
+                HTML = HTML + '<tbody class="center-txt">';
+
+                HTML = HTML + '<td>';
+                HTML = HTML + '  <ul class="list1">';
+
+                HTML = HTML + '   </ul>';
+                HTML = HTML + '</td>';
+
+
+
+               // alert(Object.keys(response.Response[i].Addon_List).length);
+
+
+
+
+                HTML = HTML + ' <div class="table-responsive box-shadow">';
+                if (response.Response[i].listAppliedAddons.length != 0) {
+
+                    HTML = HTML + ' <table class="table table-bordered tbl2">';
+                    HTML = HTML + '<tbody>';
+                    HTML = HTML + '<tr>';
+                    HTML = HTML + ' <td rowspan="2" class="img-pad"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="img-responsive center" /></td>';
+                    HTML = HTML + '<td>IDV</td>';
+                    HTML = HTML + '<td>PREMIIUM</td>';
+                    HTML = HTML + '</tr>';
+                    HTML = HTML + '<tr>';
+                    HTML = HTML + ' <td>' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
+                    HTML = HTML + ' <td><a href="#" class="amount">₹ ' +  response.Response[i].final_premium_with_addon + '</a></td>';
+                    HTML = HTML + '</tr>';
+                    HTML = HTML + '</tbody>';
+                    HTML = HTML + '</table>';
+                    HTML = HTML + '<table class="table bg-gray text-center" >';
+                    HTML = HTML + '<tbody class="center-txt">';
+
+                    HTML = HTML + '<td class="no-padding">';
+                    HTML = HTML + '  <ul class="list1">';
+                    if (response.Response[i].Addon_List != null) {
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_zero_dep_cover') && response.Response[i].Addon_List.addon_zero_dep_cover != 0) {
+                            alert(response.Response[i].Addon_List.addon_zero_dep_cover);
+
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_zero_dep_cover +
+                                ' (' + response.Response [i].Addon_List.addon_zero_dep_cover + ')' + '</li>';
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_ambulance_charge_cover') && response.Response [i].Addon_List.addon_ambulance_charge_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_ambulance_charge_cover
+                                + ' (' + response.Response [i].Addon_List.addon_ambulance_charge_cover + ')' + '</li>';
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_consumable_cover') && response.Response[i].Addon_List.addon_consumable_cover !=  0) {
+
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_consumable_cover
+                                  + ' (' + response.Response [i].Addon_List.addon_consumable_cover + ')' + '</li>';
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_daily_allowance_cover') && response.Response [i].Addon_List.addon_daily_allowance_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_daily_allowance_cover
+                               + ' (' + response.Response [i].Addon_List.addon_daily_allowance_cover + ')' + '</li>';
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_engine_protector_cover') && response.Response [i].Addon_List.addon_engine_protector_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_engine_protector_cover
+                              + ' (' + response.Response [i].Addon_List.addon_engine_protector_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_hospital_cash_cover') && response.Response [i].Addon_List.addon_hospital_cash_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_hospital_cash_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_hospital_cash_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_inconvenience_allowance_cover') && response.Response [i].Addon_List.addon_inconvenience_allowance_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_inconvenience_allowance_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_inconvenience_allowance_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_hydrostatic_lock_cover') && response.Response [i].Addon_List.addon_hydrostatic_lock_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_hydrostatic_lock_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_hydrostatic_lock_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_inconvenience_allowance_cover') && response.Response [i].Addon_List.addon_inconvenience_allowance_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_inconvenience_allowance_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_inconvenience_allowance_cover + ')' + '</li>';
+
+                        }
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_invoice_price_cover') && response.Response [i].Addon_List.addon_invoice_price_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_invoice_price_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_invoice_price_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_losstime_protection_cover') && response.Response [i].Addon_List.addon_losstime_protection_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_losstime_protection_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_losstime_protection_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_key_lock_cover') && response.Response[i].Addon_List.addon_key_lock_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_key_lock_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_key_lock_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_medical_expense_cover') && response.Response [i].Addon_List.addon_medical_expense_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_medical_expense_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_medical_expense_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_ncb_protection_cover') && response.Response [i].Addon_List.addon_ncb_protection_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_ncb_protection_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_ncb_protection_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_passenger_assistance_cover') && response.Response [i].Addon_List.addon_passenger_assistance_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_passenger_assistance_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_passenger_assistance_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_personal_belonging_loss_cover') && response.Response [i].Addon_List.addon_personal_belonging_loss_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_personal_belonging_loss_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_personal_belonging_loss_cover + ')' + '</li>';
+
+                        }
+
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_road_assist_cover') && response.Response[i].Addon_List.addon_road_assist_cover  != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_road_assist_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_road_assist_cover + ')' + '</li>';
+
+                        }
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_rodent_bite_cover') && response.Response[i].Addon_List.addon_rodent_bite_cover  != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>  ' + addon_list.addon_rodent_bite_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_rodent_bite_cover + ')' + '</li>';
+
+                        }
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_tyre_coverage_cover') && response.Response [i].Addon_List.addon_tyre_coverage_cover != 0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_tyre_coverage_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_tyre_coverage_cover + ')' + '</li>';
+
+                        }
+                        if (response.Response[i].Addon_List.hasOwnProperty ('addon_windshield_cover') && response.Response[i].Addon_List.addon_windshield_cover !=  0) {
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_windshield_cover
+                                 + ' (' + response.Response [i].Addon_List.addon_windshield_cover + ')' + '</li>';
+
+                        }
+
+
+                        //HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> simply dummy text</li>';
+                    }
+                    HTML = HTML + '   </ul>';
+                    HTML = HTML + '</td>';
+                }
+
+                HTML = HTML + '</tbody>';
+                HTML = HTML + '</table>';
+                HTML = HTML + '</div>';
+
+            }
+        }
+      document.getElementById('divshow').innerHTML = HTML;
+      Android.processComplete();
     }
-
-
-
 
 </script>
 </html>
+

@@ -131,7 +131,7 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
               //  ((QuoteFragment_hl) mContext).quoteToApp();
 
                 //redirect to apply loan
-             //   ((QuoteFragment_hl) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
+                //((QuoteFragment_hl) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
 
             }
         });

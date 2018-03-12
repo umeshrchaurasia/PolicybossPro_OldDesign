@@ -132,6 +132,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         etAmount.setText(healthRequestEntity.getSumInsured());
         etMobile.setText(healthRequestEntity.getContactMobile());
         etName.setText(healthRequestEntity.getContactName());
+        etPincode.setText(String.valueOf(healthRequestEntity.getPincode()));
 
         //select existing sum assured amount in recycler view
 

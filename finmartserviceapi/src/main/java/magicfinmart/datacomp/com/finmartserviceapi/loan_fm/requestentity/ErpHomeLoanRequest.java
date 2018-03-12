@@ -4,7 +4,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity;
  * Created by IN-RB on 04-03-2018.
  */
 
-public class ErpLoanRequest  {
+public class ErpHomeLoanRequest {
 
 
     /**
@@ -537,7 +537,7 @@ public class ErpLoanRequest  {
     private String dc_fba_reg;
     private String RBA_Source;
 
-    public ErpLoanRequest() {
+    public ErpHomeLoanRequest() {
         ApplnId = 0;
         Level = "";
         Quote_id = 0;

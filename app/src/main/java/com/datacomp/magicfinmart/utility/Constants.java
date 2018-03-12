@@ -63,6 +63,7 @@ public class Constants {
     public static int REQUEST_CODE = 22;
     public static String PRODUCT_ID = "salesProductID";
     public static String DOC_DATA = "docData";
+    public static String SHARE_ACTIVITY_NAME = "shareactivityname";
 
     public static void hideKeyBoard(View view, Context context) {
         if (view != null) {
@@ -252,7 +253,7 @@ public class Constants {
 
     }
 
-    public static  void shareToWhatsApp(Context context, String strDetail) {
+    public static void shareToWhatsApp(Context context, String strDetail) {
         Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
         whatsappIntent.setType("text/plain");
         whatsappIntent.setPackage("com.whatsapp");

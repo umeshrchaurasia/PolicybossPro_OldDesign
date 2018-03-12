@@ -2,7 +2,9 @@ package com.datacomp.magicfinmart.health.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,15 +20,18 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.compare.HealthCompareActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
@@ -34,6 +39,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BenefitsListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 
@@ -45,6 +51,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     private static final String FLOATER = "FLOATER STANDARD";
     private static final String INDIVIDUAL = "INDIVIDUAL STANDARD";
+    public static final String HEALTH_COMPARE = "health_compare";
     private static final String SHARE_TEXT = " results from www.policyboss.com";
 
     TextView txtCoverType, txtCoverAmount;
@@ -60,7 +67,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     List<HealthQuoteEntity> listDataHeader;
     HashMap<Integer, List<HealthQuoteEntity>> listDataChild;
 
+    String jsonShareString = "";
+
+
     HealthQuoteEntity buyHealthQuoteEntity;
+    ImageView ivHealthShare;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,12 +105,28 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     private void setListener() {
         ivEdit.setOnClickListener(this);
+        ivHealthShare.setOnClickListener(this);
+        txtCompareCount.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.ivEdit) {
             ((HealthQuoteBottomTabsActivity) getActivity()).redirectToInput();
+        } else if (view.getId() == R.id.ivHealthShare) {
+            if (!jsonShareString.equals("")) {
+                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HEALTH_ALL_QUOTE");
+                intent.putExtra("RESPONSE", jsonShareString);
+                intent.putExtra("NAME", healthQuote.getHealthRequest().getContactName());
+                startActivity(intent);
+            }
+        } else if (view.getId() == R.id.txtCompareCount) {
+
+            Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
+            intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
+            startActivity(intent);
+
         }
     }
 
@@ -152,22 +179,22 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvHealthQuote.setLayoutManager(layoutManager);
+
+        ivHealthShare = (ImageView) view.findViewById(R.id.ivHealthShare);
     }
 
     public void redirectToBuy(HealthQuoteEntity entity) {
         buyHealthQuoteEntity = new HealthQuoteEntity();
         buyHealthQuoteEntity = entity;
         HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
-        compareRequestEntity.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
-        compareRequestEntity.setAgent_source("App");
-        compareRequestEntity.setCrn("");
-        compareRequestEntity.setHealthRequest(buyHealthQuoteEntity);
+        compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
+        compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
+
 
         showDialog("Please wait.., Calculating final premium");
         new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
 
     }
-
 
     public void fetchQuotes() {
         //visibleLoader();
@@ -188,6 +215,13 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 prepareChild(((HealthQuoteExpResponse) response).getMasterData()
                         .getHealth_quote().getHeader(), ((HealthQuoteExpResponse) response).getMasterData()
                         .getHealth_quote().getChild());
+
+                //share data
+                new AsyncShareJson(((HealthQuoteExpResponse) response).getMasterData()
+                        .getHealth_quote().getHeader(), ((HealthQuoteExpResponse) response).getMasterData()
+                        .getHealth_quote().getChild()).execute();
+
+
             }
         } else if (response instanceof HealthQuoteCompareResponse) {
             dialogMessage((HealthQuoteCompareResponse) response);
@@ -214,9 +248,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
-
-        imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
-                .getInsurerImage(buyHealthQuoteEntity.getInsurerId()));
+        String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
+        Glide.with(this).load(imgURL + buyHealthQuoteEntity.getInsurerLogoName())
+                .into(imgInsurerLogo);
+        //imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
+        //        .getInsurerImage(buyHealthQuoteEntity.getInsurerId()));
         txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());
         txtEstPremium.setText("\u20B9 " + Math.round(buyHealthQuoteEntity.getNetPremium()));
         txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));
@@ -306,5 +342,30 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         }
     }
 
+    class AsyncShareJson extends AsyncTask<Void, Void, String> {
+
+        List<HealthQuoteEntity> headerList;
+        List<HealthQuoteEntity> childList;
+        List<HealthQuoteEntity> shareList = new ArrayList<>();
+
+        public AsyncShareJson(List<HealthQuoteEntity> header, List<HealthQuoteEntity> child) {
+            headerList = header;
+            childList = child;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            shareList.addAll(headerList);
+            shareList.addAll(childList);
+            Gson gson = new Gson();
+            return gson.toJson(shareList);
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            jsonShareString = "";
+            jsonShareString = s;
+        }
+    }
 
 }
