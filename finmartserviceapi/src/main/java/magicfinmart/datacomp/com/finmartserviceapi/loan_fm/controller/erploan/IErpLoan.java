@@ -2,8 +2,8 @@ package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan;
 
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpHomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpPersonLoanRequest;
 
 /**
  * Created by IN-RB on 04-03-2018.
@@ -11,5 +11,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoa
 
 public interface IErpLoan {
 
-    void saveERPLoan(ErpLoanRequest erpLoanRequest, IResponseSubcriberERP iResponseSubcriber);
+    void getHomeLoanApplication(String ApplnId, IResponseSubcriberERP iResponseSubcriber);
+
+    void saveERPHomeLoan(ErpHomeLoanRequest erpLoanRequest, IResponseSubcriberERP iResponseSubcriber);
+
+    void saveERPLoanAgainstProperty(ErpHomeLoanRequest erpLoanRequest, IResponseSubcriberERP iResponseSubcriber);
+
+    void saveERPPersonalLoan(ErpPersonLoanRequest erpLoanRequest, IResponseSubcriberERP iResponseSubcriber);
+
+
 }

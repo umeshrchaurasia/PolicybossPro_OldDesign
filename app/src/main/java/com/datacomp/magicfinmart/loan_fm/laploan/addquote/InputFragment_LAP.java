@@ -1221,7 +1221,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
     private BigDecimal getMaxLoanAmount(String value) {
         long loanAmount = Long.valueOf(value);
-        return BigDecimal.valueOf(Math.ceil(loanAmount * .8)).setScale(0, BigDecimal.ROUND_HALF_UP);
+        return BigDecimal.valueOf(Math.ceil(loanAmount * .6)).setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
     @Override

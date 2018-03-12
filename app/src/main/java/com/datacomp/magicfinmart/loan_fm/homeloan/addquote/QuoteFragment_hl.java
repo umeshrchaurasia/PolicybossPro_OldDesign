@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplyWebView;
+import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.List;
@@ -30,6 +31,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystring;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
@@ -60,6 +62,8 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     FmHomeLoanRequest fmHomeLoanRequest;
     int LoanRequireID = 0;
     BankSaveRequest bankSaveRequest;
+    BuyLoanQuerystring buyLoanQuerystring;
+    int QuoteID = 0;
 
     public QuoteFragment_hl() {
         // Required empty public constructor
@@ -77,6 +81,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         if (getArguments() != null) {
             fmHomeLoanRequest = getArguments().getParcelable(HLMainActivity.HL_QUOTE_REQUEST);
             homeLoanRequest = fmHomeLoanRequest.getHomeLoanRequest();
+
             showDialog("Wait..,Fetching quote");
             new HomeLoanController(getActivity()).getHomeLoan(homeLoanRequest, this);
         }
@@ -112,12 +117,6 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         //TODO : USE : LoanRequireID and "A"
     }
 
-    public void redirectToApplyLoan(QuoteEntity entity, String url, int id) {
-        startActivity(new Intent(getContext(), HomeLoanApplyWebView.class)
-                .putExtra("QUOTE_ENTITY", entity)
-                .putExtra("URL", url)
-                .putExtra("QUOTE_ID", id));
-    }
 
     private void bindQuotes() {
         if (getQuoteResponse != null) {
@@ -210,8 +209,8 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void setFmHomeLoanRequest(int QuoteID) {
-
+    private void setFmHomeLoanRequest(int tempQuoteID) {
+        QuoteID = tempQuoteID;
         showDialog();
 
         // fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
@@ -231,6 +230,18 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             bankSaveRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
             bankSaveRequest.setBank_id((entity.getBank_Id()));
             bankSaveRequest.setType("HML");
+
+            buyLoanQuerystring = new BuyLoanQuerystring();
+            buyLoanQuerystring.setType("HL");
+            buyLoanQuerystring.setBankId(entity.getBank_Id());
+
+            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf( entity.getLoan_eligible()));
+            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf( entity.getProcessingfee()));
+            buyLoanQuerystring.setQuote_id(QuoteID);
+            buyLoanQuerystring.setProp_type(entity.getRoi_type());
+            buyLoanQuerystring.setMobileNo(fmHomeLoanRequest.getHomeLoanRequest().getContact());
+            buyLoanQuerystring.setCity(fmHomeLoanRequest.getHomeLoanRequest().getCity());
+
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         }
         catch (Exception ex)
@@ -255,9 +266,18 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             if (response.getStatusNo() == 0) {
                 ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
 
+               redirectToApplyLoan();
+
             }
         }
     }
+
+    public void redirectToApplyLoan() {
+        startActivity(new Intent(getContext(), HomeLoanApplyActivity.class)
+                .putExtra("BuyLoanQuery", buyLoanQuerystring));
+
+    }
+
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -269,6 +289,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
                 bindQuotes();
                 setFmHomeLoanRequest(getQuoteResponse.getQuote_id());
+
 
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();

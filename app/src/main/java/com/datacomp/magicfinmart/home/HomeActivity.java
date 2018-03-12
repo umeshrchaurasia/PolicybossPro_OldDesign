@@ -98,8 +98,8 @@ public class HomeActivity extends BaseActivity {
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
 
-                     //   startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                       startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+                        startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                     //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
                         // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();

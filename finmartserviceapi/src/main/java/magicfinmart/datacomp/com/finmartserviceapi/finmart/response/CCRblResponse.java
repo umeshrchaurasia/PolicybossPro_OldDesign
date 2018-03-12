@@ -11,7 +11,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 public class CCRblResponse extends APIResponse {
 
     /**
-     * MasterData : {"Status":3,"ReferenceCode":"#CCD9ODIL1T","EligibleCard":"0","Errorcode":0,"Errorinfo":"","RequestIP":"49.50.95.141"}
+     * MasterDataEntity : {"Status":3,"ReferenceCode":"#CCD9ODIL1T","EligibleCard":"0","Errorcode":0,"Errorinfo":"","RequestIP":"49.50.95.141"}
      */
 
     private RblCreditEntity MasterData;
