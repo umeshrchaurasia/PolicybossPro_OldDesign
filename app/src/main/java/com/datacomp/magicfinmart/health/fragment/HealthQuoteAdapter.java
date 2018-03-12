@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.SortbyInsurer;
 
@@ -41,8 +42,6 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
     }
 
-
-    // inflates the cell layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.layout_health_quote, parent, false);
@@ -54,18 +53,23 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         final HealthQuoteEntity entity = listHealthQuotes.get(position);
-
-
         holder.txtSumAssured.setText("" + Math.round(entity.getSumInsured()));
         holder.txtDeductible.setText("" + entity.getDeductible_Amount());
         holder.txtPlanName.setText("" + entity.getPlanName());
-        holder.txtFinalPremium.setText("\u20B9 " + Math.round(entity.getNetPremium()) + " /Year");
+        holder.txtFinalPremium.setText("\u20B9 " + Math.round(entity.getNetPremium()) + "/Year");
 
-        holder.imgInsurer.setImageResource(new DBPersistanceController(mContext.getActivity()).getInsurerImage(entity.getInsurerId()));
+        if (entity.getInsurerLogoName().equals("")) {
+            holder.imgInsurer.setImageResource(new DBPersistanceController(mContext.getActivity())
+                    .getInsurerImage(entity.getInsurerId()));
+        } else {
+            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + entity.getInsurerLogoName();
+            Glide.with(mContext).load(imgURL)
+                    .into(holder.imgInsurer);
+        }
         holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
         holder.chkCompare.setTag(R.id.chkCompare, entity);
-        holder.txtBuy.setTag(R.id.txtBuy, entity);
 
+        holder.txtBuy.setTag(R.id.txtBuy, entity);
         holder.txtBuy.setOnClickListener(this);
 
         if (entity.isCompare()) {

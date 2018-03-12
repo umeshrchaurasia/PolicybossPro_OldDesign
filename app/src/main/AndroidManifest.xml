@@ -623,6 +623,7 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
         <activity
+<<<<<<< HEAD
             android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity"
             android:label="@string/title_activity_balance_transfer_loan_apply"
             android:parentActivityName=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
@@ -633,6 +634,11 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
         </activity>
+=======
+            android:name=".health.compare.HealthCompareActivity"
+            android:label="@string/title_activity_health_compare"
+            android:theme="@style/AppTheme"></activity>
+>>>>>>> f3e430a5572e8b418d1b93dfb5c82f84801f9762
     </application>
 
 </manifest>

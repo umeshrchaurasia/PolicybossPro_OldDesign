@@ -23,4 +23,6 @@ public interface IHealth {
     void deleteQuote(String healthRequestID, IResponseSubcriber iResponseSubcriber);
 
     void compareQuote(HealthCompareRequestEntity compareRequestEntity, IResponseSubcriber iResponseSubcriber);
+
+    void getlistBenefits(String ProdBeneID, IResponseSubcriber iResponseSubcriber);
 }

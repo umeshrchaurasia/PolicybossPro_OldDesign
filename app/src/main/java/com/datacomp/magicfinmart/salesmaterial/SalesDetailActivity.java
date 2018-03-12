@@ -3,17 +3,12 @@ package com.datacomp.magicfinmart.salesmaterial;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.provider.SyncStateContract;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -21,8 +16,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.notification.NotificationActivity;
-import com.datacomp.magicfinmart.notification.NotificationAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.ArrayList;
@@ -34,12 +27,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CompanyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MasterSalesMaterialPromotionEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
 
-public class SalesDetailActivity extends BaseActivity implements IResponseSubcriber  {
+public class SalesDetailActivity extends BaseActivity implements IResponseSubcriber {
 
     RecyclerView rvCompany;
     RecyclerView rvProduct;
@@ -47,7 +38,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
     SalesDocAdapter docAdapter;
     TextView txtEng, txtHindi;
     Switch swlang;
-    int prdID;
+    SalesProductEntity salesProductEntity;
 
     private List<CompanyEntity> companyLst;
     private List<DocsEntity> docLst;
@@ -67,12 +58,12 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
         companyID = "0";
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            prdID = extras.getInt(Constants.PRODUCT_ID, 0);
+            salesProductEntity = extras.getParcelable(Constants.PRODUCT_ID);
             //The key argument here must match that used in the other activity
         }
         init();
         showDialog();
-        new SalesMaterialController(this).getProductPromotions(prdID, SalesDetailActivity.this);
+        new SalesMaterialController(this).getProductPromotions(salesProductEntity.getProduct_Id(), SalesDetailActivity.this);
 
     }
 
@@ -100,20 +91,19 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
 
-                if(isChecked)
-                {
+                if (isChecked) {
                     langType = "Hindi";
 
                     txtHindi.setTextColor(ContextCompat.getColor(SalesDetailActivity.this, R.color.colorAccent));
-                   // txtHindi.getContext().getResources().getString(R.string.Hindi_bold);;
+                    // txtHindi.getContext().getResources().getString(R.string.Hindi_bold);;
                     txtHindi.setTypeface(null, Typeface.BOLD);
 
                     txtEng.setTextColor(ContextCompat.getColor(SalesDetailActivity.this, R.color.seperator_white));
-                  //  txtEng.getContext().getResources().getString(R.string.Eng);;
+                    //  txtEng.getContext().getResources().getString(R.string.Eng);;
                     txtEng.setTypeface(null, Typeface.NORMAL);
 
 
-                }else{
+                } else {
                     langType = "English";
                     txtEng.setTextColor(ContextCompat.getColor(SalesDetailActivity.this, R.color.colorAccent));
                     //txtEng.getContext().getResources().getString(R.string.Eng_bold);
@@ -123,10 +113,9 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
                     txtHindi.setTypeface(null, Typeface.NORMAL);
 
 
-
                 }
 
-                bindDocList(companyID,langType);
+                bindDocList(companyID, langType);
             }
         });
 
@@ -140,22 +129,21 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
             comAdapter = new SalesCompanyAdapter(SalesDetailActivity.this, companyLst);
             rvCompany.setAdapter(comAdapter);
 
-            if(swlang.isChecked())
-            {
+            if (swlang.isChecked()) {
                 langType = "Hindi";
-            }else {
+            } else {
                 langType = "English";
             }
-            bindDocList(companyLst.get(0).getCompany_id(),langType);
+            bindDocList(companyLst.get(0).getCompany_id(), langType);
         } else {
             rvCompany.setAdapter(null);
 
         }
     }
 
-    private void bindDocList(String compID ,String langType) {
+    private void bindDocList(String compID, String langType) {
 
-        List<DocsEntity> docLst = dbPersistanceController.getDocList(compID,langType);
+        List<DocsEntity> docLst = dbPersistanceController.getDocList(compID, langType);
         if (docLst.size() > 0) {
             docAdapter = new SalesDocAdapter(SalesDetailActivity.this, docLst);
 
@@ -185,22 +173,21 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
     }
 
 
-
     public void filterDocViaCompID(String compID) {
         companyID = compID;
-        if(swlang.isChecked())
-        {
+        if (swlang.isChecked()) {
             langType = "Hindi";
-        }else {
+        } else {
             langType = "English";
         }
-        bindDocList(compID,langType);
+        bindDocList(compID, langType);
     }
 
     public void redirectToApplyMain(DocsEntity docsEntity) {
 
         Intent intent = new Intent(this, SalesShareActivity.class);
         intent.putExtra(Constants.DOC_DATA, docsEntity);
+        intent.putExtra(Constants.PRODUCT_ID, salesProductEntity);
         startActivity(intent);
     }
 
