@@ -920,7 +920,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, V
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
-                .putExtra("RESPONSE", entity));
+                .putExtra("RESPONSE_CAR", entity)
+                .putExtra("SUMMARY", summaryEntity));
 
     }
 

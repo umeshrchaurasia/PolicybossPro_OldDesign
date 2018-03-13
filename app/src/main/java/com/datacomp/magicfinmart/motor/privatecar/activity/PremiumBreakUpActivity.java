@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.motor.privatecar.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,15 +19,20 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapterEntity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.AppliedAddonsPremiumBreakup;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.LiabilityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.OwnDamageEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 
 public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener {
     ResponseEntity responseEntity;
@@ -38,6 +44,9 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     CardView cvAddon;
     List<PremiumBreakUpAdapterEntity> damageList, liabilityList, addonList;
     DBPersistanceController dbPersistanceController;
+    BikeMasterEntity bikeMasterEntity;
+    CarMasterEntity carMasterEntity;
+    SummaryEntity summaryEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,8 +55,14 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setFinishOnTouchOutside(false);
         dbPersistanceController = new DBPersistanceController(this);
-        if (getIntent().hasExtra("RESPONSE")) {
-            responseEntity = getIntent().getParcelableExtra("RESPONSE");
+        if (getIntent().hasExtra("RESPONSE_CAR")) {
+            responseEntity = getIntent().getParcelableExtra("RESPONSE_CAR");
+        }
+        if (getIntent().hasExtra("RESPONSE_BIKE")) {
+            responseEntity = getIntent().getParcelableExtra("RESPONSE_BIKE");
+        }
+        if (getIntent().hasExtra("SUMMARY")) {
+            summaryEntity = getIntent().getParcelableExtra("SUMMARY");
         }
         initViews();
         damageList = getDamageList();
@@ -254,6 +269,32 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     private String getRupeesRound(String strText) {
         return "\u20B9 " + Math.round(Double.parseDouble(strText));
+    }
+
+    class AsyncShareJson extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            Gson gson = new Gson();
+            if (getIntent().hasExtra("RESPONSE_CAR")) {
+                if (summaryEntity != null) {
+                    carMasterEntity = dbPersistanceController.getVarientDetails("" + summaryEntity.getRequest_Core().getVehicle_id());
+                    return gson.toJson(carMasterEntity);
+                }
+            }
+            if (getIntent().hasExtra("RESPONSE_BIKE")) {
+                if (summaryEntity != null) {
+                    bikeMasterEntity = dbPersistanceController.getBikeVarientDetails("" + summaryEntity.getRequest_Core().getVehicle_id());
+                    return gson.toJson(bikeMasterEntity);
+                }
+            }
+            return "";
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            //jsonShareString = s;
+        }
     }
 }
 

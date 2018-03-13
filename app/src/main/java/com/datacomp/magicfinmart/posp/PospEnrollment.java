@@ -71,7 +71,7 @@ import okhttp3.MultipartBody;
  * Created by daniyalshaikh on 11/01/18.
  */
 
-public class PospEnrollment extends BaseActivity implements View.OnClickListener, IResponseSubcriber, View.OnFocusChangeListener {
+public class PospEnrollment extends BaseActivity implements View.OnClickListener, BaseActivity.popUpListener, IResponseSubcriber, View.OnFocusChangeListener {
     private static final int CAMERA_REQUEST = 1889;
     private static final int SELECT_PICTURE = 1801;
     int type;
@@ -1406,6 +1406,16 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+
     }
 
     class MyJavaScriptInterface {
