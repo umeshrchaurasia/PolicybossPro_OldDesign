@@ -915,7 +915,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
-                .putExtra("RESPONSE", entity));
+                .putExtra("RESPONSE_BIKE", entity)
+                .putExtra("SUMMARY", summaryEntity));
 
     }
 
