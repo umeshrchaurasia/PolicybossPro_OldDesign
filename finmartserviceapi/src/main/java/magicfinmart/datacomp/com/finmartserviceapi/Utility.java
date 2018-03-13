@@ -30,6 +30,9 @@ public class Utility {
     public static final String CARQUOTE_UNIQUEID = "car_quote_uniqueid";
     public static final String QUOTE_COUNTER = "quote_counter";
     public static final String SHARED_PREFERENCE_POLICYBOSS = "shared_finmart";
+    public static  final String HMLOAN_APPLICATION = "hmLoan_Application_LoanApply";
+    public static  final String PLLOAN_APPLICATION = "plLoan_Application_LoanApply";
+    public static  final String BTLOAN_APPLICATION = "btLoan_Application_LoanApply";
 
     public static SharedPreferences getSharedPreference(Context context) {
         return context.getSharedPreferences(SHARED_PREFERENCE_POLICYBOSS, MODE_PRIVATE);

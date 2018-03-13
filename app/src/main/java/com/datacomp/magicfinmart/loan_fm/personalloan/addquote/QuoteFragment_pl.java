@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -30,7 +31,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan.PersonalLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystring;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
@@ -57,9 +60,9 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     GetPersonalLoanResponse getPersonalLoanResponse;
     FmPersonalLoanRequest fmPersonalLoanRequest;
     PersonalLoanRequest personalLoanRequest;
-
+    BuyLoanQuerystring buyLoanQuerystring;
     LinearLayout ivllEdit;
-
+    int QuoteID = 0;
     public QuoteFragment_pl() {
         // Required empty public constructor
     }
@@ -113,12 +116,20 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         //TODO : USE : LoanRequireID and "A"
     }
 
-    public void redirectToApplyLoan(PersonalQuoteEntity entity, String url, int id) {
-        startActivity(new Intent(getActivity(), PersonalLoanApplyWebView.class)
-                .putExtra("PL", entity)
-                .putExtra("PL_URL", url)
-                .putExtra("PL_QUOTE_ID", id));
+//    public void redirectToApplyLoan(PersonalQuoteEntity entity, String url, int id) {
+//        startActivity(new Intent(getActivity(), PersonalLoanApplyWebView.class)
+//                .putExtra("PL", entity)
+//                .putExtra("PL_URL", url)
+//                .putExtra("PL_QUOTE_ID", id));
+//    }
+
+
+    public void redirectToApplyLoan() {
+        startActivity(new Intent(getContext(), PersonalLoanApplyActivity.class)
+                .putExtra("BuyLoanQuery", buyLoanQuerystring));
+
     }
+
 
     private void bindQuotes() {
 
@@ -162,12 +173,11 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     }
 
 
-    private void setFmPeronalLoanRequest(int QuoteID) {
-
+    private void setFmPeronalLoanRequest(int tempQuoteID) {
+        QuoteID = tempQuoteID;
         showDialog();
 
-        // fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
-        //   fmHomeLoanRequest.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
+
         personalLoanRequest.setQuote_id(QuoteID);
         fmPersonalLoanRequest.setPersonalLoanRequest(personalLoanRequest);
         new MainLoanController(getActivity()).savePLQuoteData(fmPersonalLoanRequest, this);
@@ -182,6 +192,17 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             bankSaveRequest.setLoan_requestID(fmPersonalLoanRequest.getLoan_requestID());
             bankSaveRequest.setBank_id((entity.getBank_Id()));
             bankSaveRequest.setType("PSL");
+
+            buyLoanQuerystring = new BuyLoanQuerystring();
+            buyLoanQuerystring.setBankId(entity.getBank_Id());
+
+            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf( entity.getLoan_eligible()));
+            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf( entity.getProcessingfee()));
+            buyLoanQuerystring.setQuote_id(QuoteID);
+            buyLoanQuerystring.setProp_type(entity.getRoi_type());
+            buyLoanQuerystring.setMobileNo(fmPersonalLoanRequest.getPersonalLoanRequest().getContact());
+            buyLoanQuerystring.setCity("");
+
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         }
         catch (Exception ex)
@@ -205,6 +226,8 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         {
             if (response.getStatusNo() == 0) {
                 ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
+
+                redirectToApplyLoan();
             }
         }
     }

@@ -11,6 +11,7 @@
     app:cardElevation="2dp">
 
     <LinearLayout
+        android:id="@+id/lyParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -48,6 +49,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="1.4dp"
             android:background="@color/seperator" />
@@ -67,6 +69,7 @@
                 android:scaleType="fitCenter" />
 
             <View
+                android:id="@+id/view2"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="0.4"
@@ -124,6 +127,7 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/view3"
                     android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="1.4dp"

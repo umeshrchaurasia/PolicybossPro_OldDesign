@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLQuoteAdapter;
+import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.application.LAPApplyWebView;
 import com.datacomp.magicfinmart.utility.Constants;
 
@@ -26,6 +27,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystring;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
@@ -58,6 +60,8 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
     FmHomeLoanRequest fmHomeLoanRequest;
     int LoanRequireID = 0;
     BankSaveRequest bankSaveRequest;
+    BuyLoanQuerystring buyLoanQuerystring;
+    int QuoteID = 0;
     public QuoteFragment_LAP() {
         // Required empty public constructor
     }
@@ -227,6 +231,18 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
             bankSaveRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
             bankSaveRequest.setBank_id((entity.getBank_Id()));
             bankSaveRequest.setType("LAP");
+
+            buyLoanQuerystring = new BuyLoanQuerystring();
+            buyLoanQuerystring.setType("LAP");
+            buyLoanQuerystring.setBankId(entity.getBank_Id());
+
+            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf( entity.getLoan_eligible()));
+            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf( entity.getProcessingfee()));
+            buyLoanQuerystring.setQuote_id(QuoteID);
+            buyLoanQuerystring.setProp_type(entity.getRoi_type());
+            buyLoanQuerystring.setMobileNo(fmHomeLoanRequest.getHomeLoanRequest().getContact());
+            buyLoanQuerystring.setCity(fmHomeLoanRequest.getHomeLoanRequest().getCity());
+
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         }
         catch (Exception ex)
@@ -250,8 +266,16 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         {
             if (response.getStatusNo() == 0) {
                 ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+
+                redirectToApplyLoan();
             }
         }
+    }
+
+    public void redirectToApplyLoan() {
+        startActivity(new Intent(getContext(), HomeLoanApplyActivity.class)
+                .putExtra("BuyLoanQuery", buyLoanQuerystring));
+
     }
 
     @Override

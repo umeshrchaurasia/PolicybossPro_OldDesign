@@ -124,10 +124,10 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
                 //bank
                 ((QuoteFragment_LAP) mContext).redirectToApplyBank(quoteEntity);
                 //quote to app conversion
-                ((QuoteFragment_LAP) mContext).quoteToApp();
+               // ((QuoteFragment_LAP) mContext).quoteToApp();
 
                 //redirect to apply loan
-                ((QuoteFragment_LAP) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
+            //    ((QuoteFragment_LAP) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
 
             }
         });

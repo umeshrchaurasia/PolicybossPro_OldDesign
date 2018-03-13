@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply;
+package com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -31,7 +31,6 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -55,18 +54,17 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystr
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HomeLoanApplyAppliEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.RBCustomerEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpHomeLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpPersonLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.RBCustomerResponse;
 
-public class PersonalLoanApplyActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IResponseSubcriberERP {
+public class BalanceTransferLoanApplyActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IResponseSubcriberERP {
 
-     // region Entity Declaration
+    // region Entity Declaration
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
     RBCustomerEntity rbCustomerEntity;
-    ErpPersonLoanRequest erpLoanRequest;
+    ErpHomeLoanRequest erpLoanRequest;
     BuyLoanQuerystring buyLoanQuerystring;
     HomeLoanApplyAppliEntity homeLoanApplyAppliEntity;
     //endregion
@@ -126,16 +124,15 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     boolean validatePA = false;
     boolean isSubmit = false;
     //endregion
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_personal_loan_apply);
+        setContentView(R.layout.activity_balance_transfer_loan_apply);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
 
         dbPersistanceController = new DBPersistanceController(this);
         loginEntity = dbPersistanceController.getUserData();
@@ -152,27 +149,28 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             setRbCustomerData2();
 
             showDialog("Please Wait...");
-            new HomeLoanController(this).getRBCustomerData(String.valueOf(buyLoanQuerystring.getQuote_id()), PersonalLoanApplyActivity.this);
+            new HomeLoanController(this).getRBCustomerData(String.valueOf(buyLoanQuerystring.getQuote_id()), BalanceTransferLoanApplyActivity.this);
 
 
-        } else if (getIntent().hasExtra(Utility.PLLOAN_APPLICATION)) {
-            String AppID = getIntent().getExtras().getString(Utility.PLLOAN_APPLICATION, "");
+        } else if (getIntent().hasExtra(Utility.BTLOAN_APPLICATION)) {
+            String AppID = getIntent().getExtras().getString(Utility.BTLOAN_APPLICATION, "");
 
             if (!AppID.equals("")) {
                 showDialog("Please Wait...");
-                new ErpLoanController(this).getHomeLoanApplication(AppID, PersonalLoanApplyActivity.this);
+                new ErpLoanController(this).getHomeLoanApplication(AppID, BalanceTransferLoanApplyActivity.this);
             }
         }
 
         //endregion
 
+     
     }
 
     //region Method
     private void initialize() {
 
         rbCustomerEntity = new RBCustomerEntity();
-        erpLoanRequest = new ErpPersonLoanRequest();
+        erpLoanRequest = new ErpHomeLoanRequest();
         // region MasterLayout
         ivPLInfo = (ImageView) findViewById(R.id.ivPLInfo);
         ivAddress = (ImageView) findViewById(R.id.ivAddress);
@@ -458,10 +456,10 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         EmpNature = Type;
 
         clickedText.setBackgroundResource(R.drawable.customeborder_blue);
-        clickedText.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.colorPrimary));
+        clickedText.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.colorPrimary));
 
         textView1.setBackgroundResource(R.drawable.customeborder);
-        textView1.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+        textView1.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.description_text));
 
 
         if (flag) {
@@ -527,10 +525,10 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         MaritalStatus = Type;
 
         clickedText.setBackgroundResource(R.drawable.customeborder_blue);
-        clickedText.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.colorPrimary));
+        clickedText.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.colorPrimary));
 
         textView1.setBackgroundResource(R.drawable.customeborder);
-        textView1.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+        textView1.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.description_text));
 
     }
 
@@ -668,7 +666,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
         erpLoanRequest.setBankId(buyLoanQuerystring.getBankId());//qurystring
         erpLoanRequest.setQuote_id(buyLoanQuerystring.getQuote_id());//qurystring
-      //  erpLoanRequest.setLoan_Requested(buyLoanQuerystring.getProp_Loan_Eligible());//
+        erpLoanRequest.setLoan_Requested(buyLoanQuerystring.getProp_Loan_Eligible());//
         if (rbCustomerEntity.getBrokerId() != null) {
             erpLoanRequest.setBrokerId(Integer.valueOf(rbCustomerEntity.getBrokerId()));//Loanid
 
@@ -677,19 +675,19 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         }
 
         erpLoanRequest.setProductId(rbCustomerEntity.getProductId());
-      //  erpLoanRequest.setIsCoApp(0);
+        erpLoanRequest.setIsCoApp(0);
 
-        erpLoanRequest.setLoan_Amount(buyLoanQuerystring.getProp_Loan_Eligible());
-        erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
-        erpLoanRequest.setROI_Id_Type(rbCustomerEntity.getPropertyID());  /// 05
-        erpLoanRequest.setProcessing_Fee(rbCustomerEntity.getProcessing_fee());
+        erpLoanRequest.setProp_Loan_Amount(buyLoanQuerystring.getProp_Loan_Eligible());//qurystring//eligible
+        erpLoanRequest.setProp_Terms(rbCustomerEntity.getLoanTenure());//
+        erpLoanRequest.setProp_Id_Type(rbCustomerEntity.getPropertyID());
+        erpLoanRequest.setProp_Processing_Fee(rbCustomerEntity.getProcessing_fee());//qurystring
         erpLoanRequest.setApplnId(0);
         erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
-        erpLoanRequest.setIs_Confirm(0);
+        erpLoanRequest.setIs_Confirm(0);//by default
         erpLoanRequest.setAppln_Source("HL");
         erpLoanRequest.setDc_fba_reg(String.valueOf(loginEntity.getFBAId()));
         erpLoanRequest.setRBA_Source("Finmart");
-        erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
+        erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));//qurystring
 
         //endregion
 
@@ -697,7 +695,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         {
             showDialog("Please wait...");
         }
-        new ErpLoanController(this).saveERPPersonalLoan(erpLoanRequest, PersonalLoanApplyActivity.this);
+        new ErpLoanController(this).saveERPHomeLoan(erpLoanRequest, BalanceTransferLoanApplyActivity.this);
     }
 
 
@@ -901,19 +899,19 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             PL_EDUCATION = Value;
         }
         clickedText.setBackgroundResource(R.drawable.customeborder_blue);
-        clickedText.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.colorPrimary));
+        clickedText.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.colorPrimary));
 
         textView1.setBackgroundResource(R.drawable.customeborder);
-        textView1.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+        textView1.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.description_text));
 
         textView2.setBackgroundResource(R.drawable.customeborder);
-        textView2.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+        textView2.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.description_text));
 
         textView3.setBackgroundResource(R.drawable.customeborder);
-        textView3.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+        textView3.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.description_text));
 
         textView4.setBackgroundResource(R.drawable.customeborder);
-        textView4.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+        textView4.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.description_text));
 
 
     }
@@ -923,13 +921,13 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         PL_IDTYPE = Value;
         txtIdType.setVisibility(View.GONE);
         clickedText.setBackgroundResource(R.drawable.customeborder_blue);
-        clickedText.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.colorPrimary));
+        clickedText.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.colorPrimary));
 
         textView1.setBackgroundResource(R.drawable.customeborder);
-        textView1.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+        textView1.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.description_text));
 
         textView2.setBackgroundResource(R.drawable.customeborder);
-        textView2.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+        textView2.setTextColor(ContextCompat.getColor(BalanceTransferLoanApplyActivity.this, R.color.description_text));
 
     }
 
@@ -1183,7 +1181,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     protected View.OnClickListener datePickerDialogApplicant = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Constants.hideKeyBoard(view, PersonalLoanApplyActivity.this);
+            Constants.hideKeyBoard(view, BalanceTransferLoanApplyActivity.this);
             DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -2012,6 +2010,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         }
     }
 
+
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
@@ -2021,7 +2020,6 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             clearPermAddress();
         }
     }
-
 
     //region Suceess Event
 
@@ -2082,7 +2080,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
                 if (isSubmit) {
 
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, PersonalLoanDetailActivity.class));
+                    startActivity(new Intent(this, HomeLoanDetailActivity.class));
                 }
 
             } else {
@@ -2133,7 +2131,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             if ((s.length() == 6) && (isDataUploaded)) {
                 PAN_type = 1;
                 showDialog("Fetching City...");
-                new RegisterController(PersonalLoanApplyActivity.this).getCityState(etPincodeContInfoRAP.getText().toString(), PersonalLoanApplyActivity.this);
+                new RegisterController(BalanceTransferLoanApplyActivity.this).getCityState(etPincodeContInfoRAP.getText().toString(), BalanceTransferLoanApplyActivity.this);
 
             }
         }
@@ -2173,7 +2171,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
                     PAN_type = 2;
                     showDialog("Fetching City...");
 
-                    new RegisterController(PersonalLoanApplyActivity.this).getCityState(etPincodeContInfoPA.getText().toString(), PersonalLoanApplyActivity.this);
+                    new RegisterController(BalanceTransferLoanApplyActivity.this).getCityState(etPincodeContInfoPA.getText().toString(), BalanceTransferLoanApplyActivity.this);
                 }
             }
         }
@@ -2201,7 +2199,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             if ((s.length() == 6) && (isDataUploaded)) {
                 PAN_type = 3;
                 showDialog("Fetching City...");
-                new RegisterController(PersonalLoanApplyActivity.this).getCityState(etPincodeED.getText().toString(), PersonalLoanApplyActivity.this);
+                new RegisterController(BalanceTransferLoanApplyActivity.this).getCityState(etPincodeED.getText().toString(), BalanceTransferLoanApplyActivity.this);
 
             }
         }
@@ -2214,7 +2212,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
     //endregion
 
-    // region Back even
+    // region Back event
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -2234,5 +2232,5 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     //endregion
 
     //endregion
-
+    
 }

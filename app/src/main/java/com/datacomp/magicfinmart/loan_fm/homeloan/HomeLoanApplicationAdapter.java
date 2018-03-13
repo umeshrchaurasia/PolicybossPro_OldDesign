@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,16 +30,18 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeL
  * Created by IN-RB on 19-01-2018.
  */
 
-public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApplicationAdapter.ApplicationItem>implements Filterable {
+public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApplicationAdapter.ApplicationItem> implements Filterable {
 
     Fragment fragment;
     List<FmHomeLoanRequest> mAppList;
     List<FmHomeLoanRequest> mAppListFiltered;
+
     public HomeLoanApplicationAdapter(Fragment context, List<FmHomeLoanRequest> mApplicationList) {
         this.fragment = context;
         mAppList = mApplicationList;
         mAppListFiltered = mApplicationList;
     }
+
     @Override
     public ApplicationItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
@@ -53,23 +56,61 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
             final FmHomeLoanRequest entity = mAppListFiltered.get(position);
 
             if (entity.getHomeLoanRequest().getApplNumb() != null) {
-                holder.txtApplicationNumber.setText(""+String.valueOf(entity.getHomeLoanRequest().getApplNumb()));
-            }else
-            {
+                holder.txtApplicationNumber.setText("" + String.valueOf(entity.getHomeLoanRequest().getApplNumb()));
+            } else {
                 holder.txtApplicationNumber.setText("");
             }
             holder.txtPersonName.setText(entity.getHomeLoanRequest().getApplicantNme());
 
             if (entity.getHomeLoanRequest().getApplDate() != null) {
                 holder.txtApplicationDate.setText("" + entity.getHomeLoanRequest().getApplDate());
-            }else
-            {
+            } else {
                 holder.txtApplicationDate.setText("");
             }
 
-            holder.txtloanamount.setText(""+String.valueOf(entity.getHomeLoanRequest().getPropertyCost()));
+            holder.txtloanamount.setText("" + String.valueOf(entity.getHomeLoanRequest().getPropertyCost()));
+
+            if (entity.getHomeLoanRequest().getRBStatus() != null) {
+
+                if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                    holder.txtApplicationNumber.setVisibility(View.VISIBLE);
+
+                } else {
+                    holder.txtApplicationNumber.setVisibility(View.GONE);
+
+                }
+            } else {
+                holder.txtApplicationNumber.setVisibility(View.GONE);
+            }
+
+            holder.lyParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
 
+                    if (entity.getHomeLoanRequest().getRBStatus() != null) {
+
+                        if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+
+                            Toast.makeText(fragment.getActivity(),"Application Number Already Generated",Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            if(entity.getHomeLoanRequest().getApplNumb() != null) {
+                                ((HL_ApplicationFragment) fragment).redirectHomeLoanApply(entity.getHomeLoanRequest().getApplNumb());
+                            }else{
+                                Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }else{
+                          if(entity.getHomeLoanRequest().getApplNumb() != null) {
+                              ((HL_ApplicationFragment) fragment).redirectHomeLoanApply(entity.getHomeLoanRequest().getApplNumb());
+                          }else{
+                              Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
+                          }
+                    }
+
+                }
+            });
 
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -92,6 +133,7 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
             }
         }
     }
+
     private void openPopUp(View v, final FmHomeLoanRequest entity) {
         //creating a popup menu
         PopupMenu popup = new PopupMenu(fragment.getActivity(), v);
@@ -103,8 +145,8 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        ((HL_ApplicationFragment)fragment).callnumber(entity.getHomeLoanRequest().getContact());
-                      //  Toast.makeText(fragment.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        ((HL_ApplicationFragment) fragment).callnumber(entity.getHomeLoanRequest().getContact());
+                        //  Toast.makeText(fragment.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
                         Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
@@ -117,6 +159,7 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
         //displaying the popup
         popup.show();
     }
+
     @Override
     public int getItemCount() {
         if (mAppListFiltered == null) {
@@ -134,7 +177,9 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
-        ImageView imgbankLogo,imgStatus;
+        ImageView imgbankLogo, imgStatus;
+        LinearLayout lyParent;
+        View view1,view2,view3;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -145,6 +190,11 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
             imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
+            lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
+
+            view1 = (View) itemView.findViewById(R.id.view1);
+            view2 = (View) itemView.findViewById(R.id.view2);
+            view3 = (View) itemView.findViewById(R.id.view3);
 
         }
     }

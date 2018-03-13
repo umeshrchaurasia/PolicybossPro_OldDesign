@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan.application;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,10 +15,13 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.ActivityTabsPagerAdapter_HL;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanApplicationAdapter;
+import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 
 /**
@@ -73,6 +77,12 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
 
  }
 
+    public void redirectHomeLoanApply(String ApplNum){
+         Intent intent=new Intent(getActivity(), HomeLoanApplyActivity.class);
+         intent.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
+         startActivity(intent);
+
+    }
     private void setListener() {
         ivSearch.setOnClickListener(this);
         ivAdd.setOnClickListener(this);
