@@ -127,8 +127,8 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
                 //bank
                 ((QuoteFragment_pl) mContext).redirectToApplyBank(quoteEntity);
                 //quote to app conversion
-                ((QuoteFragment_pl) mContext).quoteToApp();
-                ((QuoteFragment_pl) mContext).redirectToApplyLoan(quoteEntity,getPersonalLoanResponse.getUrl(), getPersonalLoanResponse.getQuote_id());
+              //  ((QuoteFragment_pl) mContext).quoteToApp();
+              //  ((QuoteFragment_pl) mContext).redirectToApplyLoan(quoteEntity,getPersonalLoanResponse.getUrl(), getPersonalLoanResponse.getQuote_id());
 
             }
         });

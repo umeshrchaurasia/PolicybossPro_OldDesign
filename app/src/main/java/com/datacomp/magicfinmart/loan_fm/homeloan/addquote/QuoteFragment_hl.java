@@ -232,6 +232,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             bankSaveRequest.setType("HML");
 
             buyLoanQuerystring = new BuyLoanQuerystring();
+            buyLoanQuerystring.setType("HL");
             buyLoanQuerystring.setBankId(entity.getBank_Id());
 
             buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf( entity.getLoan_eligible()));
@@ -265,10 +266,6 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             if (response.getStatusNo() == 0) {
                 ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
 
-               // buyLoanQuerystring.set
-                // Buy
-
-                //redirect to apply loan
                redirectToApplyLoan();
 
             }

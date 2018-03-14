@@ -7,6 +7,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSav
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BankForNodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmBalanceLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
@@ -61,7 +62,7 @@ public class LoanMainRequestBuilder extends FinmartRetroRequestBuilder {
         //bank save
         @Headers("token:1234567890")
         @POST("/api/update-bank-id")
-        Call<FmSaveQuotePersonalLoanResponse> savebankFbABuy(@Body BankSaveRequest bankSaveRequest);
+        Call<BankForNodeResponse> savebankFbABuy(@Body BankSaveRequest bankSaveRequest);
 
         //BT
 

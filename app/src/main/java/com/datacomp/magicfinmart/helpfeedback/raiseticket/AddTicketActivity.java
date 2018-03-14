@@ -55,7 +55,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
     EditText etFileNAme, etMessage;
     Button btnSubmit;
     private static final int SELECT_PICTURE = 1802;
-    HashMap<String, Integer> body;
+    HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
     String categoryId;
@@ -376,7 +376,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                 showDialog();
                 file = saveImageToStorage(mphoto, "" + 12);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(this, loginResponseEntity.getFBAId(), 12);
+                body = Utility.getBody(this, loginResponseEntity.getFBAId(), 12,"Tiket");
                 new RegisterController(this).uploadDocuments(part, body, this);
 
             } catch (IOException e) {
