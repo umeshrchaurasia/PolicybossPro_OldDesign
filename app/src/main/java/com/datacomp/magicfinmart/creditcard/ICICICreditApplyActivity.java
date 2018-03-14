@@ -866,8 +866,6 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         @Override
         public void onClick(View view) {
 
-            Toast.makeText(ICICICreditApplyActivity.this, "" + view.getId(), Toast.LENGTH_SHORT).show();
-
             if (view.getId() == R.id.etDOB) {
                 DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -888,7 +886,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etDOB.setText(currentDay);
+                            etMemberSince.setText(currentDay);
                         }
                     }
                 });
