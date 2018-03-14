@@ -122,6 +122,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     int PAN_type = 1;
     boolean validatePA = false;
     boolean isSubmit = false;
+
+    String TypePage = "";
     //endregion
 
     @Override
@@ -142,10 +144,14 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         initLayouts();
         setDefaultCheckList();
 
+
         // region getIntent Data
         if (getIntent().hasExtra("BuyLoanQuery")) {
             buyLoanQuerystring = getIntent().getExtras().getParcelable("BuyLoanQuery");
-            if(buyLoanQuerystring.getType().equals("HL")) {
+
+            TypePage = buyLoanQuerystring.getType();
+
+            if(TypePage.equals("HL")) {
                 getSupportActionBar().setTitle("HOME LOAN");
             }else{
                 getSupportActionBar().setTitle("LOAN AGAINST PROPERTY");
@@ -159,6 +165,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         } else if (getIntent().hasExtra(Utility.HMLOAN_APPLICATION)) {
             String AppID = getIntent().getExtras().getString(Utility.HMLOAN_APPLICATION, "");
+            TypePage = getIntent().getExtras().getString("TypePage", "");
 
             if (!AppID.equals("")) {
                 showDialog("Please Wait...");
@@ -694,7 +701,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         erpLoanRequest.setApplnId(0);
         erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
         erpLoanRequest.setIs_Confirm(0);//by default
-        erpLoanRequest.setAppln_Source(buyLoanQuerystring.getType());   // ie HL / LAP
+        erpLoanRequest.setAppln_Source(TypePage);   // ie HL / LAP
         erpLoanRequest.setDc_fba_reg(String.valueOf(loginEntity.getFBAId()));
         erpLoanRequest.setRBA_Source("Finmart");
         erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
@@ -707,7 +714,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             showDialog("Please wait...");
         }
 
-        if(buyLoanQuerystring.getType().equals("HL")) {
+        if(TypePage.equals("HL")) {
             new ErpLoanController(this).saveERPHomeLoan(erpLoanRequest, HomeLoanApplyActivity.this);
         }else {
             new ErpLoanController(this).saveERPLoanAgainstProperty(erpLoanRequest, HomeLoanApplyActivity.this);

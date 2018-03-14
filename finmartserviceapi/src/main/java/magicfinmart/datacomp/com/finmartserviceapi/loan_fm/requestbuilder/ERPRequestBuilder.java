@@ -29,7 +29,7 @@ public class ERPRequestBuilder extends ERPRetroRequestBuilder {
         @POST("/LoginDtls.svc/XMLService/insLAPDtlsForAPP")
         Call<ERPSaveResponse> saveErpHoLoanAgainstPropertyData(@Body ErpHomeLoanRequest erpLoanRequest);
 
-        @POST("/LoginDtls.svc/XMLService/insPersonalLoanApplnDtlsFor")
+        @POST("/LoginDtls.svc/XMLService/insPersonalLoanApplnDtlsForAPP")
         Call<ERPSaveResponse> saveErpPersonalLoanData(@Body ErpPersonLoanRequest erpLoanRequest);
 
 

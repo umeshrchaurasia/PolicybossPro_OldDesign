@@ -125,6 +125,8 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     int PAN_type = 1;
     boolean validatePA = false;
     boolean isSubmit = false;
+
+
     //endregion
     @Override
     protected void onCreate(Bundle savedInstanceState) {

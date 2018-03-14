@@ -3,13 +3,14 @@ package com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +18,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView;
-import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -31,6 +31,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.M
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan.PersonalLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLSavingEntity;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.SavingBLEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
@@ -56,7 +58,8 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     BLLoanRequest blLoanRequest;
     FmBalanceLoanRequest fmBalanceLoanRequest;
     LinearLayout ivllEdit, llgraph;
-    ImageView ivShare;
+
+    List<SavingBLEntity> savingBlList;
 
     public QuoteFragment_bl() {
     }
@@ -70,6 +73,11 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         if (getArguments() != null) {
             fmBalanceLoanRequest = getArguments().getParcelable(BLMainActivity.BL_QUOTE_REQUEST);
             blLoanRequest = fmBalanceLoanRequest.getBLLoanRequest();
+
+            Gson gson = new Gson();
+
+            String json = gson.toJson(blLoanRequest);
+            int i = json.length();
             showDialog("Wait..,Fetching quote");
             new PersonalLoanController(getActivity()).getBLQuote(blLoanRequest, this);
         }
@@ -81,8 +89,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     }
 
     private void initialise_widget(View view) {
-        ivShare = (ImageView) view.findViewById(R.id.ivShare);
-        ivShare.setOnClickListener(this);
+
         cvInputSummary = (CardView) view.findViewById(R.id.cvInputSummary);
         llgraph = (LinearLayout) view.findViewById(R.id.llgraph);
 
@@ -128,11 +135,13 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
             cvInputSummary.setVisibility(View.VISIBLE);
             llgraph.setVisibility(View.VISIBLE);
 
-            mAdapter = new BLQuoteAdapter(this, getblDispalyResponse.getData(), getblDispalyResponse, blLoanRequest.getLoanamount());
+            mAdapter = new BLQuoteAdapter(this, getblDispalyResponse.getData().getBank_data(), getblDispalyResponse, blLoanRequest.getLoanamount());
             rvBLQuotes.setAdapter(mAdapter);
 
-            if (getblDispalyResponse.getData().size() > 0) {
-                txtCount.setText("" + getblDispalyResponse.getData().size() + " Results from www.rupeeboss.com");
+            savingBlList = getblDispalyResponse.getData().getSavings();
+
+            if (getblDispalyResponse.getData().getBank_data().size() > 0) {
+                txtCount.setText("" + getblDispalyResponse.getData().getBank_data().size() + " Results from www.rupeeboss.com");
                 txtCount.setVisibility(View.VISIBLE);
             } else {
                 txtCount.setText("");
@@ -155,12 +164,19 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
                     txtcurrRate.setText("" + blLoanRequest.getLoaninterest());
 
+                    if (savingBlList != null) {
 
-//                    txtcurrloanemi.setText(""+blLoanRequest.get() );
-//                    txtdropemi.setText(""+blLoanRequest.getContact() );
-//                    txtnewemi.setText(""+blLoanRequest.getContact() );
-//                    txtdropinterestrate.setText(""+blLoanRequest.getContact() );
-//                    txtreducedintrest.setText(""+blLoanRequest.getContact() );
+                       // txtcurrloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(savingBlList.get(0).getAmount()).toPlainString());
+                       // txtdropemi.setText("" + "\u20B9"+" " +String.format("%.0f", savingBlList.get(0).getDrop_emi()));
+                       // txtcurrloanemi.setText("" + savingBlList.get(0).getAmount());
+
+                        txtcurrloanemi.setText("" +"\u20B9" + Math.round(savingBlList.get(0).getAmount()));
+                        txtdropemi.setText("" +"\u20B9" + Math.round(savingBlList.get(0).getDrop_emi()));
+                        txtnewemi.setText("" +"\u20B9" +Math.round(savingBlList.get(0).getNew_amount()));
+                        txtdropinterestrate.setText("" +"\u20B9" + savingBlList.get(0).getDrop_in_int() +" %");
+                        txtreducedintrest.setText("" +"\u20B9" +  Math.round(savingBlList.get(0).getSavings()));
+
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -240,14 +256,6 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == R.id.ivllEdit) {
             ((BLMainActivity) getActivity()).redirectInput(fmBalanceLoanRequest);
-        } else if (v.getId() == R.id.ivShare) {
-            if (getblDispalyResponse != null) {
-                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
-                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BL_ALL_QUOTE");
-                intent.putExtra("RESPONSE", getblDispalyResponse);
-                intent.putExtra("NAME", fmBalanceLoanRequest.getBLLoanRequest().getApplicantName());
-                startActivity(intent);
-            }
         }
     }
 }
