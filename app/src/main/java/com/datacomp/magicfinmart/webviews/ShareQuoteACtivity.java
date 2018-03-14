@@ -42,6 +42,8 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
@@ -62,7 +64,7 @@ public class ShareQuoteACtivity extends BaseActivity {
     LoginResponseEntity loginResponseEntity;
     String respone;
     String userReponse;
-    String otherData="";
+    String otherData = "";
     Gson gson = new Gson();
     String pospPhotoUrl, pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo, makeModel, cc;
     String from;
@@ -78,7 +80,6 @@ public class ShareQuoteACtivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         webView = (WebView) findViewById(R.id.webView);
-
 
 
         //region from which class
@@ -172,11 +173,19 @@ public class ShareQuoteACtivity extends BaseActivity {
     }
 
     private void BikeSingleQuote() {
-        //region url ,name,title
 
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            respone = getIntent().getStringExtra("RESPONSE");
+        }
+        if (getIntent().hasExtra("OTHER")) {
+            //bike
+            otherData = getIntent().getStringExtra("OTHER");
+        }
+        //region url ,name,title
         url = getIntent().getStringExtra("URL");
-        url = "file:///android_asset/VechicleInsurance.html";
-        name = getIntent().getStringExtra("NAME");
+        url = "file:///android_asset/vechile_single_quote.html";
+        title = "Two Wheeler Quote";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
 
@@ -207,11 +216,19 @@ public class ShareQuoteACtivity extends BaseActivity {
     }
 
     private void carSingleQuote() {
-        //region url ,name,title
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            respone = getIntent().getStringExtra("RESPONSE");
+        }
+        if (getIntent().hasExtra("OTHER")) {
+            //bike
+            otherData = getIntent().getStringExtra("OTHER");
+        }
 
+        //region url ,name,title
         url = getIntent().getStringExtra("URL");
-        url = "file:///android_asset/VechicleInsurance.html";
-        name = getIntent().getStringExtra("NAME");
+        url = "file:///android_asset/vechile_single_quote.html";
+        title = "Car Quote";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
 
@@ -281,7 +298,7 @@ public class ShareQuoteACtivity extends BaseActivity {
         bmp = getBitmapFromWebView(webView);
 
         try {
-            SimplePDFTable(bmp, bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no());
+            SimplePDFTable(bmp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -414,7 +431,11 @@ public class ShareQuoteACtivity extends BaseActivity {
         return bmp;
     }
 
-    public void SimplePDFTable(Bitmap bmp, String fileName) throws Exception {
+    public void SimplePDFTable(Bitmap bmp) throws Exception {
+        String fileName;
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        fileName = df.format(c.getTime());
 
         File direct = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
         if (!direct.exists()) {
@@ -476,7 +497,7 @@ public class ShareQuoteACtivity extends BaseActivity {
 
             try {
                 // SimplePDFTable(bmp, bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no());
-                SimplePDFTable(bmp, name);
+                SimplePDFTable(bmp);
             } catch (Exception e) {
                 e.printStackTrace();
             }
