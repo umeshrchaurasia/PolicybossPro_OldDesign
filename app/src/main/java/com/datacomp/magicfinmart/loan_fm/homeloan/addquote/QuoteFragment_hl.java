@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplyWebView;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 
 import java.util.List;
 
@@ -64,7 +66,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     BankSaveRequest bankSaveRequest;
     BuyLoanQuerystring buyLoanQuerystring;
     int QuoteID = 0;
-
+    ImageView ivShare;
     public QuoteFragment_hl() {
         // Required empty public constructor
     }
@@ -95,7 +97,8 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     }
 
     private void initialise_widget(View view) {
-
+        ivShare = (ImageView)view.findViewById(R.id.ivShare);
+        ivShare.setOnClickListener(this);
         txtInputSummary = (TextView) view.findViewById(R.id.txtInputSummary);
         txtPropertyType = (TextView) view.findViewById(R.id.txtPropertyType);
         txtCostOfProp = (TextView) view.findViewById(R.id.txtCostOfProp);
@@ -205,6 +208,14 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 //                loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
 //            }
             ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+        }else if(v.getId() == R.id.ivShare){
+            if(getQuoteResponse!=null){
+                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HL_ALL_QUOTE");
+                intent.putExtra("RESPONSE", getQuoteResponse);
+                intent.putExtra("NAME", homeLoanRequest.getApplicantNme());
+                startActivity(intent);
+            }
         }
 
     }

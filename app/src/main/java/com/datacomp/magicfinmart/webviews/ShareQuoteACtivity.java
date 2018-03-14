@@ -49,6 +49,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 
 public class ShareQuoteACtivity extends BaseActivity {
@@ -69,6 +72,9 @@ public class ShareQuoteACtivity extends BaseActivity {
     String pospPhotoUrl, pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo, makeModel, cc;
     String from;
 
+    GetQuoteResponse getQuoteResponse;
+    GetBLDispalyResponse getblDispalyResponse;
+    GetPersonalLoanResponse getPersonalLoanResponse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +111,20 @@ public class ShareQuoteACtivity extends BaseActivity {
                 case "HEALTH_SINGLE_QUOTE":
                     HealthSingleQuote();
                     break;
+                case "HL_ALL_QUOTE":
+                    HlAllQuote();
+                    break;
+                case "BL_ALL_QUOTE":
+                    BlAllQuote();
+                    break;
+                case "PL_ALL_QUOTE":
+                    PlAllQuote();
+                    break;
+                case "LAP_ALL_QUOTE":
+                    LapAllQuote();
+                    break;
+
+
             }
         }
         //endregion
@@ -133,6 +153,70 @@ public class ShareQuoteACtivity extends BaseActivity {
         //endregion
 
         settingWebview();
+    }
+
+    private void HlAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            getQuoteResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(getQuoteResponse);
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+        url = "file:///android_asset/HomeLoan.html";
+        title = "HOME LOAN QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+    }
+
+    private void PlAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            getPersonalLoanResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(getPersonalLoanResponse);
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+        url = "file:///android_asset/health_insurance.html";
+        title = "HOME LOAN QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+    }
+
+    private void BlAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            getblDispalyResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(getblDispalyResponse);
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+        url = "file:///android_asset/health_insurance.html";
+        title = "BALANCE TRANSFER QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+    }
+
+    private void LapAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            getQuoteResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(getQuoteResponse);
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+        url = "file:///android_asset/HomeLoan.html";
+        title = "LAP QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
     }
 
     private void HealthSingleQuote() {
