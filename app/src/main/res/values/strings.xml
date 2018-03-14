@@ -304,6 +304,9 @@
     </string>
 
     <string name="title_activity_health_compare">Compare</string>
+    <string name="title_activity_life_detail">LIFE INSURANCE</string>
+    <string name="title_activity_input_quote_bottm_life">InputQuoteBottmLifeActivity</string>
+    <string name="title_activity_compare_ins_detail">CompareInsDetailActivity</string>
 
 
 </resources>

@@ -111,10 +111,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             ivAadharCamBack, ivAadharGalleryBack, ivEduCam, ivEduGallery,
             ivAadhar, ivAadharBack, ivCancel, ivPan, ivPhoto, ivEdu;
 
-    HashMap<String, Integer> body;
+    HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
     private int POSP_PHOTO = 6, POSP_PAN = 7, POSP_AADHAR_FRONT = 8, POSP_AADHAR_BACK = 9, POSP_CANCEL_CHQ = 10, POSP_EDU = 11;
+    private String PHOTO_File = "POSPPhotograph", PAN_File = "POSPPanCard", CANCEL_CHQ_File = "POSPCancelledChq", AADHAR_FRONT_File = "POSPAadharCard",AADHAR_BACK_File=   "POSPAadharCardBack", EDU_FILE = "POSPHighestEducationProof";
     boolean isAllImageUpload;
     LinearLayout llMain;
 
@@ -1552,7 +1553,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     showDialog();
                     file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO,PHOTO_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 7:
@@ -1560,7 +1561,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     showDialog();
                     file = saveImageToStorage(mphoto, "" + POSP_PAN);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN,PAN_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
 
@@ -1568,28 +1569,28 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     showDialog();
                     file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT,AADHAR_FRONT_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 9:
                     showDialog();
                     file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK,AADHAR_BACK_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 10:
                     showDialog();
                     file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ,CANCEL_CHQ_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 11:
                     showDialog();
                     file = saveImageToStorage(mphoto, "" + POSP_EDU);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU);
+                    body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU,EDU_FILE);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
             }
@@ -1608,7 +1609,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         showDialog();
                         file = saveImageToStorage(mphoto, "" + POSP_PHOTO);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PHOTO,PHOTO_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 7:
@@ -1616,7 +1617,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         showDialog();
                         file = saveImageToStorage(mphoto, "" + POSP_PAN);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_PAN,PAN_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
 
@@ -1624,28 +1625,28 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         showDialog();
                         file = saveImageToStorage(mphoto, "" + POSP_AADHAR_FRONT);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_FRONT,AADHAR_FRONT_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 9:
                         showDialog();
                         file = saveImageToStorage(mphoto, "" + POSP_AADHAR_BACK);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_AADHAR_BACK,AADHAR_BACK_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 10:
                         showDialog();
                         file = saveImageToStorage(mphoto, "" + POSP_CANCEL_CHQ);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_CANCEL_CHQ,CANCEL_CHQ_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 11:
                         showDialog();
                         file = saveImageToStorage(mphoto, "" + POSP_EDU);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU);
+                        body = Utility.getBody(this, loginResponseEntity.getFBAId(), POSP_EDU,EDU_FILE);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                 }

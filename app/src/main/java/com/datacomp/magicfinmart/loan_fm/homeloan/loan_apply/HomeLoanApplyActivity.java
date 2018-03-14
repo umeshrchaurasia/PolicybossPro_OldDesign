@@ -699,6 +699,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         erpLoanRequest.setRBA_Source("Finmart");
         erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
 
+
         //endregion
 
         if(SubmitType == 1)

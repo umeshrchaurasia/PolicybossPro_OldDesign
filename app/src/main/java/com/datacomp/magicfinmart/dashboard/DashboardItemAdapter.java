@@ -13,10 +13,9 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
-import com.datacomp.magicfinmart.creditcard.CreditCardActivity;
-import com.datacomp.magicfinmart.creditcard.CreditCardMainActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
+import com.datacomp.magicfinmart.lifeinsurance.LifeDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
@@ -141,6 +140,11 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         case 11:
                             //health check up
                             mContext.startActivity(new Intent(mContext.getActivity(), HealthCheckUpPlansActivity.class));
+                            break;
+
+                        case 12:
+                            //Life Insurance
+                            mContext.startActivity(new Intent(mContext.getActivity(), LifeDetailActivity.class));
                             break;
                         default:
                             Toast.makeText(mContext.getContext(), "Work in progress", Toast.LENGTH_SHORT).show();

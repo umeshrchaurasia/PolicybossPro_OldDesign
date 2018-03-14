@@ -82,7 +82,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     LoginResponseEntity loginEntity;
     public String ACCOUNT_TYPE = "SAVING";
 
-    HashMap<String, Integer> body;
+    HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
     // private String PROFILE = "1", PHOTO = "2", PAN = "3", CANCEL_CHQ = "4", AADHAR = "5";
@@ -967,9 +967,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 case 1:
                     showDialog();
                     setProfilePhoto(mphoto);
-                    file = saveImageToStorage(mphoto, "PROFILE");
+                    file = saveImageToStorage(mphoto, PHOTO_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE,PHOTO_File);
 
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
@@ -977,7 +977,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     showDialog();
                     file = saveImageToStorage(mphoto, PHOTO_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO,PHOTO_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 3:
@@ -985,7 +985,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     showDialog();
                     file = saveImageToStorage(mphoto, PAN_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), PAN);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PAN,PAN_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
 
@@ -993,14 +993,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     showDialog();
                     file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ,CANCEL_CHQ_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 5:
                     showDialog();
                     file = saveImageToStorage(mphoto, AADHAR_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR,AADHAR_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
             }
@@ -1020,7 +1020,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         setProfilePhoto(mphoto);
                         file = saveImageToStorage(mphoto, "PROFILE");
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE,PHOTO_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
 
                         break;
@@ -1028,7 +1028,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         showDialog();
                         file = saveImageToStorage(mphoto, PHOTO_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO,PHOTO_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 3:
@@ -1036,7 +1036,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         showDialog();
                         file = saveImageToStorage(mphoto, PAN_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PAN);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PAN,PAN_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
 
@@ -1044,14 +1044,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         showDialog();
                         file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ,CANCEL_CHQ_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 5:
                         showDialog();
                         file = saveImageToStorage(mphoto, AADHAR_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR,AADHAR_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                 }

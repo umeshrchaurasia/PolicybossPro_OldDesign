@@ -323,7 +323,7 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void uploadDocuments(MultipartBody.Part document, HashMap<String, Integer> body, final IResponseSubcriber iResponseSubcriber) {
+    public void uploadDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber) {
 
 
         registerQuotesNetworkService.uploadDocument(document ,body).enqueue(new Callback<DocumentResponse>() {

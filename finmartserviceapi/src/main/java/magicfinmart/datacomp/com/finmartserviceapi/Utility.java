@@ -73,12 +73,13 @@ public class Utility {
 //    }
 
 
-    public static HashMap<String, Integer> getBody(Context context,int FbaID,int DocTyp) {
-        HashMap<String, Integer> body = new HashMap<String, Integer>();
+    public static HashMap<String, String> getBody(Context context,int FbaID,int DocTyp, String DocName) {
+        HashMap<String, String> body = new HashMap<String, String>();
 
 
-        body.put("FBAID", FbaID);
-        body.put("DocType",DocTyp);
+        body.put("FBAID", String.valueOf(FbaID));
+        body.put("DocType",String.valueOf(DocTyp));
+        body.put("DocName",DocName);
 
 
         return body;
