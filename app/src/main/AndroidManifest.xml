@@ -627,15 +627,34 @@
             android:label="@string/title_activity_balance_transfer_loan_apply"
             android:parentActivityName=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
         </activity>
-		<activity
+        <activity
             android:name=".health.compare.HealthCompareActivity"
             android:label="@string/title_activity_health_compare"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".lifeinsurance.LifeDetailActivity"
+            android:label="@string/title_activity_life_detail"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".life.CompareInsurance.activity.InputQuoteBottmLifeActivity"
+            android:label="@string/title_activity_input_quote_bottm_life"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".lifeinsurance.CompareInsurance.CompareInsDetailActivity"
+            android:label="@string/title_activity_compare_ins_detail"
             android:theme="@style/AppTheme"></activity>
     </application>
 
