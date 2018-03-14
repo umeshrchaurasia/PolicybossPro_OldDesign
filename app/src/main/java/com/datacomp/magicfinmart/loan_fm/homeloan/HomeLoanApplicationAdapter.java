@@ -54,7 +54,7 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
         if (holder instanceof ApplicationItem) {
 
             final FmHomeLoanRequest entity = mAppListFiltered.get(position);
-
+           // entity.getHomeLoanRequest().setApplNumb("18072");
             if (entity.getHomeLoanRequest().getApplNumb() != null) {
                 holder.txtApplicationNumber.setText("" + String.valueOf(entity.getHomeLoanRequest().getApplNumb()));
             } else {

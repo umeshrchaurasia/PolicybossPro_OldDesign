@@ -53,6 +53,7 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.APPLICATION_LIST);
         }
 
+
         rvApplicationList.setAdapter(null);
         homeLoanApplicationAdapter = new HomeLoanApplicationAdapter(HL_ApplicationFragment.this,mApplicationList);
         rvApplicationList.setAdapter(homeLoanApplicationAdapter);
@@ -80,6 +81,7 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
     public void redirectHomeLoanApply(String ApplNum){
          Intent intent=new Intent(getActivity(), HomeLoanApplyActivity.class);
          intent.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
+        intent.putExtra("TypePage","HL");
          startActivity(intent);
 
     }
