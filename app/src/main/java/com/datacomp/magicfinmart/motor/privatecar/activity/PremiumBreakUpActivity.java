@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.motor.privatecar.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,6 +29,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
@@ -37,7 +39,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.model.OwnDamageEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 
-public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener {
+public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener,BaseActivity.PopUpListener {
     ResponseEntity responseEntity;
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
@@ -248,23 +250,26 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.ivShare:
-                jsonShareString = getShareData();
-                if (jsonShareString != null && responseJson != null) {
-                    if (getIntent().hasExtra("RESPONSE_BIKE")) {
-                        Intent intent = new Intent(this, ShareQuoteACtivity.class);
-                        intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_SINGLE_QUOTE");
-                        intent.putExtra("RESPONSE", jsonShareString);
-                        intent.putExtra("OTHER", jsonShareString);
-                        startActivity(intent);
-                    } else if (getIntent().hasExtra("RESPONSE_CAR")) {
-                        Intent intent = new Intent(this, ShareQuoteACtivity.class);
-                        intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_SINGLE_QUOTE");
-                        intent.putExtra("RESPONSE", responseJson);
-                        intent.putExtra("OTHER", jsonShareString);
-                        startActivity(intent);
+                if (Utility.checkShareStatus() == 1) {
+                    jsonShareString = getShareData();
+                    if (jsonShareString != null && responseJson != null) {
+                        if (getIntent().hasExtra("RESPONSE_BIKE")) {
+                            Intent intent = new Intent(this, ShareQuoteACtivity.class);
+                            intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_SINGLE_QUOTE");
+                            intent.putExtra("RESPONSE", responseJson);
+                            intent.putExtra("OTHER", jsonShareString);
+                            startActivity(intent);
+                        } else if (getIntent().hasExtra("RESPONSE_CAR")) {
+                            Intent intent = new Intent(this, ShareQuoteACtivity.class);
+                            intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_SINGLE_QUOTE");
+                            intent.putExtra("RESPONSE", responseJson);
+                            intent.putExtra("OTHER", jsonShareString);
+                            startActivity(intent);
+                        }
                     }
+                }else {
+                    openPopUp(ivShare, "Message", "Your POSP status is INACTIVE", "OK", true);
                 }
-
                 break;
 
         }
@@ -356,6 +361,19 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         @Override
         protected void onPostExecute(String s) {
             responseJson = s;
+        }
+    }
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
+        }
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
         }
     }
 }

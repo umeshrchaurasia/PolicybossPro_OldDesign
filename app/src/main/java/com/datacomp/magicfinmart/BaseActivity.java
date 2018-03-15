@@ -79,7 +79,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void showDialog(String msg) {
-        dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+            dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
     }
 
     public void sendSms(String mobNumber) {

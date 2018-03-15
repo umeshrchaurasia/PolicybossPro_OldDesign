@@ -54,6 +54,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
 
+import static magicfinmart.datacomp.com.finmartserviceapi.Utility.createShareDirIfNotExists;
+
 public class ShareQuoteACtivity extends BaseActivity {
     WebView webView;
     String url;
@@ -75,6 +77,7 @@ public class ShareQuoteACtivity extends BaseActivity {
     GetQuoteResponse getQuoteResponse;
     GetBLDispalyResponse getblDispalyResponse;
     GetPersonalLoanResponse getPersonalLoanResponse;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -146,8 +149,10 @@ public class ShareQuoteACtivity extends BaseActivity {
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 //downloadPdf(url, name);
+                bmp = getBitmapFromWebView(webView);
+                new shareQuote(webView).execute();
 
-                new shareQuote().execute();
+
             }
         });
         //endregion
@@ -235,9 +240,19 @@ public class ShareQuoteACtivity extends BaseActivity {
 
         //region url ,name,title
 
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            respone = getIntent().getStringExtra("RESPONSE");
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+
+        //region url ,name,title
         url = getIntent().getStringExtra("URL");
-        url = "file:///android_asset/VechicleInsurance.html";
-        name = getIntent().getStringExtra("NAME");
+        url = "file:///android_asset/health_insurance_quotation.html";
+        title = "Health Quote";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
 
@@ -530,14 +545,15 @@ public class ShareQuoteACtivity extends BaseActivity {
     public void SimplePDFTable(Bitmap bmp) throws Exception {
         String fileName;
         Calendar c = Calendar.getInstance();
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         fileName = df.format(c.getTime());
 
-        File direct = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
-        if (!direct.exists()) {
+        //File direct = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
+        File direct = createShareDirIfNotExists();
+        /*if (!direct.exists()) {
             if (direct.mkdir()) {
             }
-        }
+        }*/
         String test = direct.getAbsolutePath();
 
         Rectangle pagesize = new Rectangle(bmp.getWidth() + 36, bmp.getHeight() + 36);
@@ -581,6 +597,12 @@ public class ShareQuoteACtivity extends BaseActivity {
 
 
     public class shareQuote extends AsyncTask<Void, Void, Void> {
+        WebView webView;
+
+        public shareQuote(WebView web) {
+            webView = web;
+        }
+
         @Override
         protected void onPreExecute() {
             showDialog("Generating pdf...");
@@ -589,9 +611,10 @@ public class ShareQuoteACtivity extends BaseActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            bmp = getBitmapFromWebView(webView);
+
 
             try {
+                //bmp = getBitmapFromWebView(webView);
                 // SimplePDFTable(bmp, bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no());
                 SimplePDFTable(bmp);
             } catch (Exception e) {

@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.motor.twowheeler.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
-public class BikeQuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class BikeQuoteFragment extends BaseFragment implements IResponseSubcriber, BaseFragment.PopUpListener, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     String status;
     BikePremiumResponse bikePremiumResponse;
     RecyclerView bikeQuoteRecycler;
@@ -72,12 +73,13 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     List<MobileAddOn> listMobileAddOn;
     TextView tvPolicyExp, tvMakeModel, tvFuel, tvCrn, tvCount, tvRtoName;
     Switch swAddon;
-    TextView filter,tvWithoutAddon,tvWithAddon;
+    TextView filter, tvWithoutAddon, tvWithAddon;
     ImageView ivEdit;
     BikeMasterEntity carMasterEntity;
     Realm realm;
     SaveQuoteResponse.SaveQuoteEntity saveQuoteEntity;
     ImageView ivShare;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +91,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bike_fragment_quote, container, false);
+        registerPopUp(this);
         initView(view);
         realm = Realm.getDefaultInstance();
         databaseController = new DBPersistanceController(getActivity());
@@ -898,15 +901,18 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                         .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
                 break;
             case R.id.ivShare:
-
-                if (webViewLoader.getVisibility() != View.VISIBLE) {
-                    Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
-                    intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_ALL_QUOTE");
-                    intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
-                    intent.putExtra("BIKENAME", carMasterEntity);
-                    startActivity(intent);
+                if (Utility.checkShareStatus() == 1) {
+                    if (webViewLoader.getVisibility() != View.VISIBLE) {
+                        Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                        intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_ALL_QUOTE");
+                        intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
+                        intent.putExtra("BIKENAME", carMasterEntity);
+                        startActivity(intent);
+                    } else {
+                        Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    openPopUp(ivShare, "Message", "Your POSP status is INACTIVE", "OK", true);
                 }
                 break;
         }
@@ -1521,5 +1527,19 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         }
 
         return bikePremiumResponse;
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
+        }
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
+        }
     }
 }
