@@ -50,6 +50,14 @@
                     android:textColor="@color/black" />
 
                 <TextView
+                    android:id="@+id/txtDisplayCardName"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:lines="1"
+                    />
+
+                <TextView
                     android:id="@+id/txtCardType"
                     style="@style/TextStyle.Body1"
                     android:layout_width="match_parent"
