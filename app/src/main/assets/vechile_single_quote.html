@@ -584,9 +584,9 @@ ul li {margin:2px; padding:4px !important;}
 
                 if (response.Premium_Breakup.liability.hasOwnProperty('tp_cng_lpg') && response.Premium_Breakup.liability.tp_cng_lpg != 0) {
 
-                    OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%">' + liability_list.tp_cng_lpg + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.liability.tp_cng_lpg * 100) / 100 + '</td>';
-                    OwnDamage = OwnDamage + '</tr>';
+                    Lib = Lib + '<tr>';
+                    Lib = Lib + ' <td style="width:70%">' + liability_list.tp_cng_lpg + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.liability.tp_cng_lpg * 100) / 100 + '</td>';
+                    Lib = Lib + '</tr>';
                 }
 
 
@@ -599,9 +599,9 @@ ul li {margin:2px; padding:4px !important;}
 
                 if (response.Premium_Breakup.liability.hasOwnProperty('tp_cover_owner_driver_pa') && response.Premium_Breakup.liability.tp_cover_owner_driver_pa != 0) {
 
-                    OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%">' + liability_list.tp_cover_owner_driver_pa + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.liability.tp_cover_owner_driver_pa * 100) / 100 + '</td>';
-                    OwnDamage = OwnDamage + '</tr>';
+                    Lib = Lib + '<tr>';
+                    Lib = Lib + ' <td style="width:70%">' + liability_list.tp_cover_owner_driver_pa + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.liability.tp_cover_owner_driver_pa * 100) / 100 + '</td>';
+                    Lib = Lib + '</tr>';
                 }
 
                 if (response.Premium_Breakup.liability.hasOwnProperty('tp_cover_paid_driver_ll') && response.Premium_Breakup.liability.tp_cover_paid_driver_ll != 0) {
@@ -613,9 +613,9 @@ ul li {margin:2px; padding:4px !important;}
 
                 if (response.Premium_Breakup.liability.hasOwnProperty('tp_cover_paid_driver_pa') && response.Premium_Breakup.liability.tp_cover_paid_driver_pa != 0) {
 
-                    OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%">' + liability_list.tp_cover_paid_driver_pa + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.liability.tp_cover_paid_driver_pa * 100) / 100 + '</td>';
-                    OwnDamage = OwnDamage + '</tr>';
+                    Lib = Lib + '<tr>';
+                    Lib = Lib + ' <td style="width:70%">' + liability_list.tp_cover_paid_driver_pa + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.liability.tp_cover_paid_driver_pa * 100) / 100 + '</td>';
+                    Lib = Lib + '</tr>';
                 }
 
                 if (response.Premium_Breakup.liability.hasOwnProperty('tp_cover_unnamed_passenger_pa') && response.Premium_Breakup.liability.tp_cover_unnamed_passenger_pa != 0) {
@@ -627,9 +627,9 @@ ul li {margin:2px; padding:4px !important;}
 
                 if (response.Premium_Breakup.liability.hasOwnProperty('tp_final_premium') && response.Premium_Breakup.liability.tp_final_premium != 0) {
 
-                    OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%">' + liability_list.tp_final_premium + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.liability.tp_final_premium * 100) / 100 + '</td>';
-                    OwnDamage = OwnDamage + '</tr>';
+                    Lib = Lib + '<tr>';
+                    Lib = Lib + ' <td style="width:70%">' + liability_list.tp_final_premium + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.liability.tp_final_premium * 100) / 100 + '</td>';
+                    Lib = Lib + '</tr>';
                 }
 
             }

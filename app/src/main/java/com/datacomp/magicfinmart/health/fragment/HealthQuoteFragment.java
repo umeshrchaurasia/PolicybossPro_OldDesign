@@ -125,7 +125,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                     startActivity(intent);
                 }
             } else {
-                openPopUp(ivHealthShare, "Message", "Please Enroll for POSP to use this feature", "OK", true);
+                openPopUp(ivHealthShare, "Message", "Your POSP status is INACTIVE", "OK", true);
+
             }
 
         } else if (view.getId() == R.id.txtCompareCount) {
@@ -194,6 +195,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         Intent intent = new Intent(getActivity(), HealthQuoteDetailsDialogActivity.class);
         intent.putExtra("DETAIL", entity);
+        intent.putExtra("NAME", healthQuote.getHealthRequest().getContactName());
         startActivity(intent);
 
     }

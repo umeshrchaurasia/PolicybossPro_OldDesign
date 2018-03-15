@@ -98,8 +98,21 @@ public class Utility {
         return file;
     }
 
+    public static File createShareDirIfNotExists() {
+        boolean ret = true;
+
+        File file = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                Log.e("TravellerLog :: ", "Problem creating Quotes folder");
+                ret = false;
+            }
+        }
+        return file;
+    }
+
     public static int checkShareStatus() {
-        int temp = 0;
+        int temp = 1;
         return temp;
     }
 }
