@@ -16,6 +16,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcard.CreditCardController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
@@ -73,11 +74,20 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                         //TODO Redirect to homeactivity
                         startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
                     } else {
-                       /* if (checkAllMastersIsUpdate()) {
+                        if (checkAllMastersIsUpdate()) {
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         } else {
-                            Toast.makeText(SplashScreenActivity.this, "Server Down Try After Some time.", Toast.LENGTH_SHORT).show();
-                        }*/
+                            if (prefManager.IsBikeMasterUpdate())
+                                new MasterController(SplashScreenActivity.this).getBikeMaster(SplashScreenActivity.this);
+                            if (prefManager.IsCarMasterUpdate())
+                                new MasterController(SplashScreenActivity.this).getCarMaster(SplashScreenActivity.this);
+                            if (prefManager.IsRtoMasterUpdate())
+                                new MasterController(SplashScreenActivity.this).getRTOMaster(SplashScreenActivity.this);
+                            if (prefManager.IsInsuranceMasterUpdate())
+                                new MasterController(SplashScreenActivity.this).getInsuranceMaster(SplashScreenActivity.this);
+                            if (prefManager.getIsRblCityMaster())
+                                new CreditCardController(SplashScreenActivity.this).getRblCityMaster(SplashScreenActivity.this);
+                        }
                     }
                 }
             }, SPLASH_DISPLAY_LENGTH);

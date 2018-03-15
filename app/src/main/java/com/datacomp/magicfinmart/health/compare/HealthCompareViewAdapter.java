@@ -6,22 +6,30 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 
 public class HealthCompareViewAdapter extends RecyclerView.Adapter<HealthCompareViewAdapter.ViewHolder> {
 
 
     private LayoutInflater mInflater;
     Context mContext;
-
+    List<HealthQuoteEntity> listBenefits;
 
     // data is passed into the constructor
-    HealthCompareViewAdapter(Context context) {
+    HealthCompareViewAdapter(Context context, List<HealthQuoteEntity> list) {
         mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
-
+        listBenefits = list;
     }
 
 
@@ -36,44 +44,57 @@ public class HealthCompareViewAdapter extends RecyclerView.Adapter<HealthCompare
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
-//        holder.txtSumAssured.setText(listSumAssured.get(position).getDisplayValue());
-//        if (listSumAssured.get(position).isSelected()) {
-//            holder.txtSumAssured.setBackgroundResource(R.drawable.sumassuredborder_blue);
-//        } else {
-//            holder.txtSumAssured.setBackgroundResource(R.drawable.sumassured_border);
-//        }
-//        holder.txtSumAssured.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                holder.txtSumAssured.setBackgroundResource(R.drawable.sumassuredborder_blue);
-//                for (int i = 0; i < listSumAssured.size(); i++) {
-//                    listSumAssured.get(i).setSelected(false);
-//                }
-//                listSumAssured.get(position).setSelected(true);
-//                ((HealthInputFragment) mContext).getSumAssured(listSumAssured.get(position).getSumAssuredAmount());
-//                notifyDataSetChanged();
-//            }
-//        });
+        HealthQuoteEntity healthQuoteEntity = listBenefits.get(position);
+
+        holder.txtInsurerName.setText(healthQuoteEntity.getInsurerName());
+        holder.txtPlanName.setText(healthQuoteEntity.getPlanName());
+
+        if (healthQuoteEntity.getInsurerLogoName().equals("")) {
+            holder.imgInsurerLogo.setImageResource(new DBPersistanceController(mContext)
+                    .getInsurerImage(healthQuoteEntity.getInsurerId()));
+        } else {
+            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" +
+                    healthQuoteEntity.getInsurerLogoName();
+            Glide.with(mContext).load(imgURL)
+                    .into(holder.imgInsurerLogo);
+        }
+
+
+        for (int i = 0; i < healthQuoteEntity.getLstbenfitsFive().size(); i++) {
+            BenefitsEntity entity = healthQuoteEntity.getLstbenfitsFive().get(i);
+            if (entity.isSelected()) {
+
+                holder.txtBenefitsName.setText("* " + entity.getBenefit());
+            }
+        }
+
     }
 
-    // total number of cells
     @Override
     public int getItemCount() {
-        return 22;
+        return listBenefits.size();
     }
 
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtSumAssured;
+        TextView txtBenefitsName, txtInsurerName, txtPlanName;
+        ImageView imgInsurerLogo;
 
         ViewHolder(View itemView) {
             super(itemView);
-            txtSumAssured = (TextView) itemView.findViewById(R.id.txtSumAssured);
+            txtBenefitsName = (TextView) itemView.findViewById(R.id.txtBenefitsName);
+            txtInsurerName = (TextView) itemView.findViewById(R.id.txtInsurerName);
+            txtPlanName = (TextView) itemView.findViewById(R.id.txtPlanName);
+            imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
         }
 
 
     }
 
+    public void refreshSelection(List<HealthQuoteEntity> list) {
+        listBenefits = list;
+        notifyDataSetChanged();
+    }
 
 }

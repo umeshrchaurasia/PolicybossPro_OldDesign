@@ -5,21 +5,21 @@ import android.os.Parcelable;
 
 public class BLEntity implements Parcelable {
 
-        /**
-         * Bank_Id : 33
-         * Bank_Code : KOTAK MAHINDRA
-         * Bank_Name : KOTAK MAHINDRA BANK
-         * roi : 11.49
-         * pf : 2.00
-         * pf_type : Percentage
-         * Bank_Logo : http://erp.rupeeboss.com/Banklogo/kotak.png
-         * processingfee : 10000
-         * roi_type : Fixed
-         */
+    /**
+     * Bank_Id : 33
+     * Bank_Code : KOTAK MAHINDRA
+     * Bank_Name : KOTAK MAHINDRA BANK
+     * roi : 11.49
+     * pf : 2.00
+     * pf_type : Percentage
+     * Bank_Logo : http://erp.rupeeboss.com/Banklogo/kotak.png
+     * processingfee : 10000
+     * roi_type : Fixed
+     */
 
-        private int Bank_Id;
-        private String Bank_Code;
-        private String Bank_Name;
+    private int Bank_Id;
+    private String Bank_Code;
+    private String Bank_Name;
     private String roi;
     private String pf;
     private String pf_type;
@@ -98,7 +98,6 @@ public class BLEntity implements Parcelable {
     public void setRoi_type(String roi_type) {
         this.roi_type = roi_type;
     }
-
 
 
     @Override

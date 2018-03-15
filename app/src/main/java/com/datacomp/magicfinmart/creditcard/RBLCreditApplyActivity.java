@@ -369,7 +369,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
 
         } else {
             builder.setTitle("Failed ");
-            String failure = AppNo;
+            String failure = displayMessage;
             Message.append(failure);
         }
         builder.setMessage(Message.toString())

@@ -1,12 +1,18 @@
 package com.datacomp.magicfinmart;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -19,11 +25,15 @@ import java.util.regex.Pattern;
  * Created by Rohit on 17/01/16.
  */
 public class BaseFragment extends Fragment {
-
+    PopUpListener popUpListener;
     ProgressDialog dialog;
 
     public BaseFragment() {
 
+    }
+
+    public void registerPopUp(PopUpListener popUpListener) {
+        this.popUpListener = popUpListener;
     }
 
     protected void cancelDialog() {
@@ -153,4 +163,55 @@ public class BaseFragment extends Fragment {
         return 0;
     }
 
+    public interface PopUpListener {
+
+        void onPositiveButtonClick(Dialog dialog, View view);
+
+        void onCancelButtonClick(Dialog dialog, View view);
+    }
+
+    public void openPopUp(final View view, String title, String desc, String positiveButtonName, boolean isCancelable) {
+        try {
+            final Dialog dialog;
+            dialog = new Dialog(getActivity());
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.layout_common_popup);
+
+            TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
+            tvTitle.setText(title);
+            TextView tvOk = (TextView) dialog.findViewById(R.id.tvOk);
+            tvOk.setText(positiveButtonName);
+            TextView txtMessage = (TextView) dialog.findViewById(R.id.txtMessage);
+            txtMessage.setText(desc);
+            ImageView ivCross = (ImageView) dialog.findViewById(R.id.ivCross);
+
+            dialog.setCancelable(isCancelable);
+            dialog.setCanceledOnTouchOutside(isCancelable);
+
+            Window dialogWindow = dialog.getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = lp.MATCH_PARENT;  // Width
+            lp.height = lp.WRAP_CONTENT; // Height
+            dialogWindow.setAttributes(lp);
+
+            dialog.show();
+            tvOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    popUpListener.onPositiveButtonClick(dialog, view);
+                }
+            });
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    popUpListener.onCancelButtonClick(dialog, view);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
