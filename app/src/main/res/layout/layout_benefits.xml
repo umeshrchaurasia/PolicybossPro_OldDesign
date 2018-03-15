@@ -31,7 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dp"
-                android:gravity="left"
+                android:gravity="center"
                 android:textColor="@color/black" />
 
             <TextView
@@ -39,7 +39,7 @@
                 style="@style/TextStyle.Body1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="left"
+                android:gravity="center"
                 android:textSize="11sp"/>
         </LinearLayout>
 

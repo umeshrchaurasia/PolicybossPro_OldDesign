@@ -112,9 +112,11 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-            HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
-            entity.setCompare(b);
-            ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+            if (b) {
+                HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
+                entity.setCompare(b);
+                ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+            }
         }
     };
 
