@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.health.fragment;
 
 import android.app.Dialog;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -23,6 +24,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.compare.HealthCompareActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
@@ -43,12 +45,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 
 /**
  * Created by Nilesh Birhade on 14/02/2018.
  */
 
 public class HealthQuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, BaseFragment.PopUpListener {
+
+    public static final int RESULT_COMPARE = 1000;
 
     private static final String FLOATER = "FLOATER STANDARD";
     private static final String INDIVIDUAL = "INDIVIDUAL STANDARD";
@@ -196,8 +201,24 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         Intent intent = new Intent(getActivity(), HealthQuoteDetailsDialogActivity.class);
         intent.putExtra("DETAIL", entity);
         intent.putExtra("NAME", healthQuote.getHealthRequest().getContactName());
-        startActivity(intent);
+        startActivityForResult(intent, RESULT_COMPARE);
 
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case (RESULT_COMPARE): {
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data.getParcelableExtra("BUY") != null) {
+                        redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
+                    }
+
+                }
+                break;
+            }
+        }
     }
 
     public void redirectToBuy(HealthQuoteEntity entity) {

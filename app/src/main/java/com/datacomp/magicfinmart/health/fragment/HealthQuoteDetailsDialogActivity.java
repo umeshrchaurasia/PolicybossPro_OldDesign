@@ -1,5 +1,7 @@
 package com.datacomp.magicfinmart.health.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -26,7 +28,7 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
 
     HealthQuoteEntity healthQuoteEntity;
     ImageView imgInsurer;
-    TextView txtPlanName, txtSumAssured, txtDeductible, txtFinalPremium;
+    TextView txtPlanName, txtSumAssured, txtDeductible, txtFinalPremium, txtBuy;
     RecyclerView rvBenefits;
     HealthSingleBenefitsAdapter mAdapter;
     ImageView imgShare;
@@ -60,6 +62,10 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
         imgInsurer = (ImageView) findViewById(R.id.imgInsurer);
         imgShare = (ImageView) findViewById(R.id.imgShare);
         imgShare.setOnClickListener(this);
+
+        txtBuy = (TextView) findViewById(R.id.txtBuy);
+        txtBuy.setOnClickListener(this);
+
         rvBenefits = (RecyclerView) findViewById(R.id.rvBenefits);
         rvBenefits.setLayoutManager(new LinearLayoutManager(this));
         rvBenefits.setHasFixedSize(true);
@@ -100,7 +106,13 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
                 openPopUp(imgShare, "Message", "Your POSP status is INACTIVE", "OK", true);
             }
         }
-    }
+
+
+        } else if (view.getId() == R.id.txtBuy) {
+            Intent resultIntent = new Intent();
+            resultIntent.putExtra("BUY", healthQuoteEntity);
+            setResult(HealthQuoteFragment.RESULT_COMPARE, resultIntent);
+            finish();
 
     class AsyncShareJson extends AsyncTask<Void, Void, String> {
 

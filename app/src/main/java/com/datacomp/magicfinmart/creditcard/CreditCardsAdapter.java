@@ -60,8 +60,12 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
         final CreditCardEntity entity = listCreditCards.get(position);
         hold.txtCardbankName.setText("" + entity.getBankName());
         hold.txtCardType.setText(entity.getCreditCardType());
-
-
+        if (entity.getDisplaycardname().length() == 0) {
+            hold.txtDisplayCardName.setVisibility(View.GONE);
+        } else {
+            hold.txtDisplayCardName.setVisibility(View.VISIBLE);
+            hold.txtDisplayCardName.setText(entity.getDisplaycardname());
+        }
         if (entity.getImagePath() != null) {
             Glide.with(mContext).load(entity.getImagePath()).into(hold.imgCard);
         }
@@ -76,7 +80,7 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
         hold.btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dialogMessage(sb.toString());
+                dialogMessage(sb.toString(), entity.getDisplaycardname());
             }
         });
 
@@ -97,7 +101,7 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtCCDesc, txtCardType, txtCardbankName;
+        TextView txtCCDesc, txtCardType, txtCardbankName, txtDisplayCardName;
         ImageView imgCard;
         CardView cvCCItem;
         Button btnApply, btnInfo;
@@ -107,6 +111,7 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
             txtCCDesc = (TextView) v.findViewById(R.id.txtCCDesc);
             txtCardType = (TextView) v.findViewById(R.id.txtCardType);
             txtCardbankName = (TextView) v.findViewById(R.id.txtCardbankName);
+            txtDisplayCardName = (TextView) v.findViewById(R.id.txtDisplayCardName);
             imgCard = (ImageView) v.findViewById(R.id.imgCard);
             cvCCItem = (CardView) v.findViewById(R.id.cvCCItem);
             btnInfo = (Button) v.findViewById(R.id.btnInfo);
@@ -120,11 +125,11 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
         notifyDataSetChanged();
     }
 
-    private void dialogMessage(String displayMessage) {
+    private void dialogMessage(String displayMessage, String cardType) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
         builder.setCancelable(true);
-        builder.setTitle("Info");
+        builder.setTitle(cardType);
 
         builder.setMessage(displayMessage)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {

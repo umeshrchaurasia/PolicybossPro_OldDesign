@@ -11,6 +11,7 @@ import java.util.TreeMap;
 import io.realm.Case;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.R;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
@@ -626,6 +627,7 @@ public class DBPersistanceController {
     public void logout() {
         realm.beginTransaction();
         realm.delete(LoginResponseEntity.class);
+        realm.delete(AccountDtlEntity.class);
         realm.delete(DocsEntity.class);
         realm.commitTransaction();
     }
@@ -641,6 +643,19 @@ public class DBPersistanceController {
 
     //endregion
 
+    public void updateMyAccountData(AccountDtlEntity accountDtlEntity) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(accountDtlEntity);
+        realm.commitTransaction();
+    }
+
+    public AccountDtlEntity getAccountData() {
+        AccountDtlEntity entity = realm.where(AccountDtlEntity.class).findFirst();
+        if (entity != null)
+            return entity;
+        else
+            return null;
+    }
     //region DOC list
 
     public void storeDocList(List<DocsEntity> docsEntityList) {
