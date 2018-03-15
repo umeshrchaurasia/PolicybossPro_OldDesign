@@ -299,9 +299,7 @@
 
     <string name="icici_terms_con">I hereby confirm that I have read and understood the Rupeeboss Terms and Conditions applicable to this service and that all the details furnished by me above are true and correct. I further provide consent to Rupeeboss and its affiliates to contact me with reference to financial products and this consent shall override any registration with DNC/NDNC.</string>
     <string name="title_activity_quick_lead">Quick Lead</string>
-
-    <string name="title_activity_balance_transfer_loan_apply">BalanceTransferLoanApplyActivity
-    </string>
+    <string name="title_activity_balance_transfer_loan_apply">BalanceTransferLoanApplyActivity</string>
 
     <string name="title_activity_health_compare">Compare</string>
     <string name="title_activity_life_detail">LIFE INSURANCE</string>

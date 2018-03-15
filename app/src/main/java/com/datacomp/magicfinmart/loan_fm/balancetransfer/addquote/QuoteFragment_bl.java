@@ -3,14 +3,13 @@ package com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +17,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView;
+import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
@@ -31,7 +32,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.M
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan.PersonalLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLSavingEntity;
-
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.SavingBLEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
@@ -60,6 +60,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     LinearLayout ivllEdit, llgraph;
 
     List<SavingBLEntity> savingBlList;
+    ImageView ivShare;
 
     public QuoteFragment_bl() {
     }
@@ -89,7 +90,8 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     }
 
     private void initialise_widget(View view) {
-
+        ivShare = (ImageView) view.findViewById(R.id.ivShare);
+        ivShare.setOnClickListener(this);
         cvInputSummary = (CardView) view.findViewById(R.id.cvInputSummary);
         llgraph = (LinearLayout) view.findViewById(R.id.llgraph);
 
@@ -166,15 +168,15 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
                     if (savingBlList != null) {
 
-                       // txtcurrloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(savingBlList.get(0).getAmount()).toPlainString());
-                       // txtdropemi.setText("" + "\u20B9"+" " +String.format("%.0f", savingBlList.get(0).getDrop_emi()));
-                       // txtcurrloanemi.setText("" + savingBlList.get(0).getAmount());
+                        // txtcurrloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(savingBlList.get(0).getAmount()).toPlainString());
+                        // txtdropemi.setText("" + "\u20B9"+" " +String.format("%.0f", savingBlList.get(0).getDrop_emi()));
+                        // txtcurrloanemi.setText("" + savingBlList.get(0).getAmount());
 
-                        txtcurrloanemi.setText("" +"\u20B9" + Math.round(savingBlList.get(0).getAmount()));
-                        txtdropemi.setText("" +"\u20B9" + Math.round(savingBlList.get(0).getDrop_emi()));
-                        txtnewemi.setText("" +"\u20B9" +Math.round(savingBlList.get(0).getNew_amount()));
-                        txtdropinterestrate.setText("" +"\u20B9" + savingBlList.get(0).getDrop_in_int() +" %");
-                        txtreducedintrest.setText("" +"\u20B9" +  Math.round(savingBlList.get(0).getSavings()));
+                        txtcurrloanemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getAmount()));
+                        txtdropemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getDrop_emi()));
+                        txtnewemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getNew_amount()));
+                        txtdropinterestrate.setText("" + "\u20B9" + savingBlList.get(0).getDrop_in_int() + " %");
+                        txtreducedintrest.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getSavings()));
 
                     }
 
@@ -256,6 +258,15 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == R.id.ivllEdit) {
             ((BLMainActivity) getActivity()).redirectInput(fmBalanceLoanRequest);
+        } else if (v.getId() == R.id.ivShare) {
+            if (getblDispalyResponse != null) {
+                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BL_ALL_QUOTE");
+                intent.putExtra("RESPONSE", getblDispalyResponse);
+                intent.putExtra("NAME", fmBalanceLoanRequest.getBLLoanRequest().getApplicantName());
+                intent.putExtra("LOAN_REQUIRED", ""+fmBalanceLoanRequest.getBLLoanRequest().getLoanamount());
+                startActivity(intent);
+            }
         }
     }
 }
