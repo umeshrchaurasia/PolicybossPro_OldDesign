@@ -226,7 +226,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
 
 
-        showDialog("Please wait.., Calculating final premium");
+        showDialog();
         new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
 
     }

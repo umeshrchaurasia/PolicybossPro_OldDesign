@@ -36,15 +36,15 @@ public class CreditCardEntity implements Parcelable {
     private String Amount;
     private String ProcessingFees;
     private int CreditCardApplied;
-    private String displaycardname;
+    private String CreditCardName;
 
 
     public String getDisplaycardname() {
-        return displaycardname;
+        return CreditCardName;
     }
 
     public void setDisplaycardname(String displaycardname) {
-        this.displaycardname = displaycardname;
+        this.CreditCardName = displaycardname;
     }
 
     public int getCreditCardApplied() {
@@ -163,7 +163,7 @@ public class CreditCardEntity implements Parcelable {
         dest.writeString(this.Amount);
         dest.writeString(this.ProcessingFees);
         dest.writeInt(this.CreditCardApplied);
-        dest.writeString(this.displaycardname);
+        dest.writeString(this.CreditCardName);
     }
 
     public CreditCardEntity() {
@@ -182,7 +182,7 @@ public class CreditCardEntity implements Parcelable {
         this.Amount = in.readString();
         this.ProcessingFees = in.readString();
         this.CreditCardApplied = in.readInt();
-        this.displaycardname = in.readString();
+        this.CreditCardName = in.readString();
     }
 
     public static final Parcelable.Creator<CreditCardEntity> CREATOR = new Parcelable.Creator<CreditCardEntity>() {
