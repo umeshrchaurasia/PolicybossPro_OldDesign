@@ -649,6 +649,7 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
 
+
         <activity
             android:name=".health.fragment.HealthQuoteDetailsDialogActivity"
             android:noHistory="true"
@@ -661,14 +662,23 @@
                 android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
         </activity>
 
-        <activity
-            android:name=".life.CompareInsurance.activity.InputQuoteBottmLifeActivity"
-            android:label="@string/title_activity_input_quote_bottm_life"
-            android:theme="@style/AppTheme" />
+
         <activity
             android:name=".lifeinsurance.CompareInsurance.CompareInsDetailActivity"
             android:label="@string/title_activity_compare_ins_detail"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".lifeinsurance.CompareInsurance.addquote.CompareInsMainActivity"
+            android:label="@string/title_activity_compare_ins_main"
+            android:parentActivityName=".lifeinsurance.CompareInsurance.CompareInsDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".lifeinsurance.CompareInsurance.CompareInsDetailActivity" />
+
+        </activity>
     </application>
 
 </manifest>

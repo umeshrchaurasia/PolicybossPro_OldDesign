@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
@@ -21,6 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
@@ -37,7 +39,7 @@ public class SalesShareActivity extends BaseActivity {
     Bitmap combinedImage;
     String pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo;
     SalesProductEntity salesProductEntity;
-
+    AccountDtlEntity accountDtlEntity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +49,15 @@ public class SalesShareActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
+        accountDtlEntity = dbPersistanceController.getAccountData();
+
+//        Toast.makeText(this, accountDtlEntity.getDesignation() + "\n" +
+//                accountDtlEntity.getEditMobiNumb() + "\n" +
+//                accountDtlEntity.getEditEmailId() + "\n" +
+//                accountDtlEntity.getDisplayDesignation() + "\n" +
+//                accountDtlEntity.getDisplayPhoneNo() + "\n" +
+//                accountDtlEntity.getDisplayEmail(), Toast.LENGTH_LONG).show();
+
         if (getIntent().hasExtra(Constants.PRODUCT_ID)) {
             salesProductEntity = getIntent().getExtras().getParcelable(Constants.PRODUCT_ID);
             //The key argument here must match that used in the other activity
