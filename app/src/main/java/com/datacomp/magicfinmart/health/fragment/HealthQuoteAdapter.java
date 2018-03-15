@@ -69,6 +69,9 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
         holder.chkCompare.setTag(R.id.chkCompare, entity);
 
+        holder.llBenefits.setTag(R.id.llBenefits, entity);
+        holder.llBenefits.setOnClickListener(this);
+
         holder.txtBuy.setTag(R.id.txtBuy, entity);
         holder.txtBuy.setOnClickListener(this);
 
@@ -133,6 +136,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         TextView txtRoomRent, txtIcuRent, txtPreHosp, txtPostHosp, txtNoOfInsurer;
         CheckBox chkCompare;
         ImageView imgInsurer, imgDropDown;
+        LinearLayout llBenefits;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -151,6 +155,8 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             chkCompare = (CheckBox) itemView.findViewById(R.id.chkCompare);
             imgInsurer = (ImageView) itemView.findViewById(R.id.imgInsurer);
             imgDropDown = (ImageView) itemView.findViewById(R.id.imgDropDown);
+
+            llBenefits = (LinearLayout) itemView.findViewById(R.id.llBenefits);
         }
     }
 
@@ -175,6 +181,10 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
             case R.id.txtBuy:
                 ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+                break;
+
+            case R.id.llBenefits:
+                ((HealthQuoteFragment) mContext).redirectToDetail(((HealthQuoteEntity) view.getTag(R.id.llBenefits)));
                 break;
         }
     }

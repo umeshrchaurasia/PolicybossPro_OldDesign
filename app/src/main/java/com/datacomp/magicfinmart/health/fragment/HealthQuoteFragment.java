@@ -183,6 +183,14 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         ivHealthShare = (ImageView) view.findViewById(R.id.ivHealthShare);
     }
 
+    public void redirectToDetail(HealthQuoteEntity entity) {
+
+        Intent intent = new Intent(getActivity(), HealthQuoteDetailsDialogActivity.class);
+        intent.putExtra("DETAIL", entity);
+        startActivity(intent);
+
+    }
+
     public void redirectToBuy(HealthQuoteEntity entity) {
         buyHealthQuoteEntity = new HealthQuoteEntity();
         buyHealthQuoteEntity = entity;
