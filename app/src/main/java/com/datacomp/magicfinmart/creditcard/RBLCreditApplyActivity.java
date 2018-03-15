@@ -300,6 +300,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             rblCCRequest.setNMI(etMonthlyIncome.getText().toString());
             rblCCRequest.setMobile(etMobile.getText().toString());
             rblCCRequest.setPAN(etpancard.getText().toString());
+
             rblCCRequest.setEmail(etEmail.getText().toString());
             rblCCRequest.setCreditCardApplied(String.valueOf(mCreditCardEntity.getCreditCardApplied()));
             rblCCRequest.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId());
