@@ -25,6 +25,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CompanyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
@@ -55,6 +56,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(SalesDetailActivity.this);
+
         companyID = "0";
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
