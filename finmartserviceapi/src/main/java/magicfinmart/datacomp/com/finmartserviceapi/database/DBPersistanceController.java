@@ -627,6 +627,7 @@ public class DBPersistanceController {
     public void logout() {
         realm.beginTransaction();
         realm.delete(LoginResponseEntity.class);
+        realm.delete(AccountDtlEntity.class);
         realm.delete(DocsEntity.class);
         realm.commitTransaction();
     }
