@@ -7,7 +7,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -30,9 +29,9 @@ public class Utility {
     public static final String CARQUOTE_UNIQUEID = "car_quote_uniqueid";
     public static final String QUOTE_COUNTER = "quote_counter";
     public static final String SHARED_PREFERENCE_POLICYBOSS = "shared_finmart";
-    public static  final String HMLOAN_APPLICATION = "hmLoan_Application_LoanApply";
-    public static  final String PLLOAN_APPLICATION = "plLoan_Application_LoanApply";
-    public static  final String BTLOAN_APPLICATION = "btLoan_Application_LoanApply";
+    public static final String HMLOAN_APPLICATION = "hmLoan_Application_LoanApply";
+    public static final String PLLOAN_APPLICATION = "plLoan_Application_LoanApply";
+    public static final String BTLOAN_APPLICATION = "btLoan_Application_LoanApply";
 
     public static SharedPreferences getSharedPreference(Context context) {
         return context.getSharedPreferences(SHARED_PREFERENCE_POLICYBOSS, MODE_PRIVATE);
@@ -73,13 +72,13 @@ public class Utility {
 //    }
 
 
-    public static HashMap<String, String> getBody(Context context,int FbaID,int DocTyp, String DocName) {
+    public static HashMap<String, String> getBody(Context context, int FbaID, int DocTyp, String DocName) {
         HashMap<String, String> body = new HashMap<String, String>();
 
 
         body.put("FBAID", String.valueOf(FbaID));
-        body.put("DocType",String.valueOf(DocTyp));
-        body.put("DocName",DocName);
+        body.put("DocType", String.valueOf(DocTyp));
+        body.put("DocName", DocName);
 
 
         return body;
@@ -97,5 +96,10 @@ public class Utility {
             }
         }
         return file;
+    }
+
+    public static int checkShareStatus() {
+        int temp = 0;
+        return temp;
     }
 }

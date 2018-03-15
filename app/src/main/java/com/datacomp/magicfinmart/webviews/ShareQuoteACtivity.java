@@ -181,7 +181,7 @@ public class ShareQuoteACtivity extends BaseActivity {
             //bike
             otherData = getIntent().getStringExtra("NAME");
         }
-        url = "file:///android_asset/health_insurance.html";
+        url = "file:///android_asset/PersonalLoan.html";
         title = "HOME LOAN QUOTE";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
@@ -195,12 +195,24 @@ public class ShareQuoteACtivity extends BaseActivity {
         }
         if (getIntent().hasExtra("NAME")) {
             //bike
-            otherData = getIntent().getStringExtra("NAME");
+            name = getIntent().getStringExtra("NAME");
         }
-        url = "file:///android_asset/health_insurance.html";
+        if (getIntent().hasExtra("LOAN_REQUIRED")) {
+            //bike
+            otherData = getIntent().getStringExtra("LOAN_REQUIRED");
+        }
+        url = "file:///android_asset/BT.html";
         title = "BALANCE TRANSFER QUOTE";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("NAME", name);
+            jsonObject.put("LOAN_REQUIRED", otherData);
+            otherData = jsonObject.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void LapAllQuote() {
@@ -213,7 +225,7 @@ public class ShareQuoteACtivity extends BaseActivity {
             //bike
             otherData = getIntent().getStringExtra("NAME");
         }
-        url = "file:///android_asset/HomeLoan.html";
+        url = "file:///android_asset/LoanAgainstProperty.html";
         title = "LAP QUOTE";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
@@ -312,7 +324,7 @@ public class ShareQuoteACtivity extends BaseActivity {
         //region url ,name,title
         url = getIntent().getStringExtra("URL");
         url = "file:///android_asset/vechile_single_quote.html";
-        title = "Car Quote";
+        title = "Motor Quote";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
 
