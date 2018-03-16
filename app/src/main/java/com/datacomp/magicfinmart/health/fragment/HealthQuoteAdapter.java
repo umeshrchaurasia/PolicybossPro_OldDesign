@@ -38,6 +38,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     HealthQuoteAdapter(Fragment context, List<HealthQuoteEntity> listQuotes) {
         mContext = context;
         this.mInflater = LayoutInflater.from(mContext.getActivity());
+        Collections.sort(listQuotes, new SortbyInsurer());
         this.listHealthQuotes = listQuotes;
 
     }
@@ -56,16 +57,20 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         holder.txtSumAssured.setText("" + Math.round(entity.getSumInsured()));
         holder.txtDeductible.setText("" + entity.getDeductible_Amount());
         holder.txtPlanName.setText("" + entity.getPlanName());
+        holder.txtProductName.setText("" + entity.getProductName());
+
         holder.txtFinalPremium.setText("\u20B9 " + Math.round(entity.getNetPremium()) + "/Year");
 
-        if (entity.getInsurerLogoName().equals("")) {
-            holder.imgInsurer.setImageResource(new DBPersistanceController(mContext.getActivity())
-                    .getInsurerImage(entity.getInsurerId()));
-        } else {
-            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + entity.getInsurerLogoName();
-            Glide.with(mContext).load(imgURL)
-                    .into(holder.imgInsurer);
-        }
+        Glide.with(mContext).load(entity.getInsurerLogoName())
+                .into(holder.imgInsurer);
+
+        //if (entity.getInsurerLogoName().equals("")) {
+
+        // } else {
+        //     String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + entity.getInsurerLogoName();
+        //     Glide.with(mContext).load(imgURL)
+        //              .into(holder.imgInsurer);
+        // }
         holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
         holder.chkCompare.setTag(R.id.chkCompare, entity);
 
@@ -115,11 +120,10 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-            if (b) {
-                HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
-                entity.setCompare(b);
-                ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
-            }
+            HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
+            entity.setCompare(b);
+            ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+
         }
     };
 
@@ -132,7 +136,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cvHealthQuote;
-        TextView txtSumAssured, txtDeductible, txtPlanName, txtFinalPremium, txtBuy;
+        TextView txtSumAssured, txtDeductible, txtPlanName, txtFinalPremium, txtBuy, txtProductName;
         TextView txtRoomRent, txtIcuRent, txtPreHosp, txtPostHosp, txtNoOfInsurer;
         CheckBox chkCompare;
         ImageView imgInsurer, imgDropDown;
@@ -151,7 +155,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             txtPreHosp = (TextView) itemView.findViewById(R.id.txtPreHosp);
             txtPostHosp = (TextView) itemView.findViewById(R.id.txtPostHosp);
             txtNoOfInsurer = (TextView) itemView.findViewById(R.id.txtNoOfInsurer);
-
+            txtProductName = (TextView) itemView.findViewById(R.id.txtProductName);
             chkCompare = (CheckBox) itemView.findViewById(R.id.chkCompare);
             imgInsurer = (ImageView) itemView.findViewById(R.id.imgInsurer);
             imgDropDown = (ImageView) itemView.findViewById(R.id.imgDropDown);
@@ -192,14 +196,14 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     public void refreshNewQuote(List<HealthQuoteEntity> list) {
         listHealthQuotes.addAll(list);
         Collections.sort(listHealthQuotes, new SortbyInsurer());
-        Collections.reverse(listHealthQuotes);
+        // Collections.reverse(listHealthQuotes);
         notifyDataSetChanged();
     }
 
     public void removeRefresh(List<HealthQuoteEntity> list) {
         listHealthQuotes = list;
         Collections.sort(listHealthQuotes, new SortbyInsurer());
-        Collections.reverse(listHealthQuotes);
+        // Collections.reverse(listHealthQuotes);
         notifyDataSetChanged();
     }
 

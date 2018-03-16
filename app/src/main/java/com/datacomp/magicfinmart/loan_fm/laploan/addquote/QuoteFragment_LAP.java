@@ -117,12 +117,6 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         //TODO : USE : LoanRequireID and "A"
     }
 
-    public void redirectToApplyLoan(QuoteEntity entity, String url, int id) {
-        startActivity(new Intent(getContext(), LAPApplyWebView.class)
-                .putExtra("QUOTE_ENTITY", entity)
-                .putExtra("URL", url)
-                .putExtra("QUOTE_ID", id));
-    }
 
     private void bindQuotes() {
         if (getQuoteResponse != null) {
@@ -223,8 +217,8 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
 
     }
 
-    private void setFmHomeLoanRequest(int QuoteID) {
-
+    private void setFmHomeLoanRequest(int tempQuoteID) {
+        QuoteID = tempQuoteID;
         showDialog();
 
         // fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());

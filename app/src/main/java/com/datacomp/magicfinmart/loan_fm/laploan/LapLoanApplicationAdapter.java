@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,7 +72,47 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
 
             holder.txtloanamount.setText(""+String.valueOf(entity.getHomeLoanRequest().getPropertyCost()));
 
+            if (entity.getHomeLoanRequest().getRBStatus() != null) {
 
+                if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                    holder.txtApplicationNumber.setVisibility(View.VISIBLE);
+
+                } else {
+                    holder.txtApplicationNumber.setVisibility(View.GONE);
+
+                }
+            } else {
+                holder.txtApplicationNumber.setVisibility(View.GONE);
+            }
+
+            holder.lyParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if (entity.getHomeLoanRequest().getRBStatus() != null) {
+
+                        if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+
+                            Toast.makeText(fragment.getActivity(),"Application Number Already Generated",Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            if(entity.getHomeLoanRequest().getApplNumb() != null) {
+                                ((LAP_ApplicationFragment) fragment).redirectLAPLoanApply(entity.getHomeLoanRequest().getApplNumb());
+                            }else{
+                                Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }else{
+                        if(entity.getHomeLoanRequest().getApplNumb() != null) {
+                            ((LAP_ApplicationFragment) fragment).redirectLAPLoanApply(entity.getHomeLoanRequest().getApplNumb());
+                        }else{
+                            Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+            });
 
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,6 +126,9 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
                         .load(entity.getHomeLoanRequest().getbank_image())
                         .into(holder.imgbankLogo);
                 //change Fresco
+                Glide.with(fragment)
+                        .load(entity.getHomeLoanRequest().getProgress_image())
+                        .into(holder.imgStatus);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -135,7 +179,9 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
-        ImageView imgbankLogo;
+        ImageView imgbankLogo, imgStatus;
+        LinearLayout lyParent;
+        View view1,view2,view3;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -145,6 +191,14 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
             txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
+            imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
+            lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
+
+            view1 = (View) itemView.findViewById(R.id.view1);
+            view2 = (View) itemView.findViewById(R.id.view2);
+            view3 = (View) itemView.findViewById(R.id.view3);
+
         }
     }
+
 }

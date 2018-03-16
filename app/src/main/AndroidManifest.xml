@@ -676,9 +676,16 @@
         <activity
             android:name=".health.compare.HealthCompareActivity"
             android:label="@string/title_activity_health_compare"
+            android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+            android:theme="@style/DialogTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
+
+        </activity>
         <activity
             android:name=".lifeinsurance.LifeDetailActivity"
             android:label="@string/title_activity_life_detail"

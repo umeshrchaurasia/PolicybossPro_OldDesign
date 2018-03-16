@@ -69,9 +69,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_health_input, container, false);
-
         init(view);
-
 
         // set initial values
         healthQuote = new HealthQuote();
@@ -80,7 +78,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         healthRequestEntity = new HealthRequestEntity();
 
         cityList = new DBPersistanceController(getActivity()).getHealthCity();
-
         cityBinding();
 
         db = new DBPersistanceController(getActivity());
@@ -111,12 +108,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     private void processMemberForAge() {
         List<MemberListEntity> listM = new ArrayList<MemberListEntity>();
-        for (int i = 0; i < healthRequestEntity.getMemberList().size(); i++) {
-            MemberListEntity entity = healthRequestEntity.getMemberList().get(i);
-            entity.setAge(getAgeFromDate(entity.getMemberDOB()));
-            listM.add(entity);
-        }
+        if (healthRequestEntity.getMemberList() != null) {
+            for (int i = 0; i < healthRequestEntity.getMemberList().size(); i++) {
+                MemberListEntity entity = healthRequestEntity.getMemberList().get(i);
+                entity.setAge(getAgeFromDate(entity.getMemberDOB()));
+                listM.add(entity);
+            }
 
+        }
         healthRequestEntity.setMemberList(listM);
     }
 
@@ -128,7 +127,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     private void bindInput() {
 
-        selectCoverFor();
+        resetonClick();
+        selectCoverFor(healthRequestEntity.getPolicyFor().toLowerCase());
+
         etAmount.setText(healthRequestEntity.getSumInsured());
         etMobile.setText(healthRequestEntity.getContactMobile());
         etName.setText(healthRequestEntity.getContactName());
@@ -190,8 +191,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
-    private void selectCoverFor() {
-        switch (healthQuote.getHealthRequest().getPolicyFor().toLowerCase()) {
+    private void selectCoverFor(String coverfor) {
+        switch (coverfor) {
             case "self":
                 btnSelf.performClick();
                 break;

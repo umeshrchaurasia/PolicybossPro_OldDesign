@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,10 +27,11 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
 
     HealthQuoteEntity healthQuoteEntity;
     ImageView imgInsurer;
-    TextView txtPlanName, txtSumAssured, txtDeductible, txtFinalPremium, txtBuy;
+    TextView txtPlanName, txtSumAssured, txtDeductible, txtFinalPremium, txtProductName, txtBuy;
     RecyclerView rvBenefits;
     HealthSingleBenefitsAdapter mAdapter;
     ImageView imgShare;
+    Button btnBack;
     String name, responseJson;
     Gson gson = new Gson();
 
@@ -53,11 +55,14 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
     }
 
     private void init() {
+        txtProductName = (TextView) findViewById(R.id.txtProductName);
         txtSumAssured = (TextView) findViewById(R.id.txtSumAssured);
         txtDeductible = (TextView) findViewById(R.id.txtDeductible);
         txtPlanName = (TextView) findViewById(R.id.txtPlanName);
         txtFinalPremium = (TextView) findViewById(R.id.txtFinalPremium);
         imgInsurer = (ImageView) findViewById(R.id.imgInsurer);
+        btnBack = (Button) findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
         imgShare = (ImageView) findViewById(R.id.imgShare);
         imgShare.setOnClickListener(this);
 
@@ -74,15 +79,15 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
         txtDeductible.setText("" + healthQuoteEntity.getDeductible_Amount());
         txtPlanName.setText("" + healthQuoteEntity.getPlanName());
         txtFinalPremium.setText("\u20B9 " + Math.round(healthQuoteEntity.getNetPremium()) + "/Year");
-
-        if (healthQuoteEntity.getInsurerLogoName().equals("")) {
-            imgInsurer.setImageResource(new DBPersistanceController(this)
-                    .getInsurerImage(healthQuoteEntity.getInsurerId()));
-        } else {
-            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + healthQuoteEntity.getInsurerLogoName();
-            Glide.with(this).load(imgURL)
-                    .into(imgInsurer);
-        }
+        txtProductName.setText(healthQuoteEntity.getProductName());
+//        if (healthQuoteEntity.getInsurerLogoName().equals("")) {
+        imgInsurer.setImageResource(new DBPersistanceController(this)
+                .getInsurerImage(healthQuoteEntity.getInsurerId()));
+//        } else {
+//            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + healthQuoteEntity.getInsurerLogoName();
+//            Glide.with(this).load(imgURL)
+//                    .into(imgInsurer);
+//        }
 
         mAdapter = new HealthSingleBenefitsAdapter(this, healthQuoteEntity.getLstbenfitsFive());
         rvBenefits.setAdapter(mAdapter);
@@ -107,6 +112,8 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
             Intent resultIntent = new Intent();
             resultIntent.putExtra("BUY", healthQuoteEntity);
             setResult(HealthQuoteFragment.RESULT_COMPARE, resultIntent);
+            finish();
+        } else if (view.getId() == R.id.btnBack) {
             finish();
         }
     }
