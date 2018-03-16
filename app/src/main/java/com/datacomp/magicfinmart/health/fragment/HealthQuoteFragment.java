@@ -24,7 +24,6 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.compare.HealthCompareActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
-import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
@@ -45,7 +44,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 
 /**
  * Created by Nilesh Birhade on 14/02/2018.
@@ -225,7 +223,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
         compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
 
-
         showDialog();
         new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
 
@@ -259,7 +256,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             }
         } else if (response instanceof HealthQuoteCompareResponse) {
-            dialogMessage((HealthQuoteCompareResponse) response);
+            buyHealthDialog((HealthQuoteCompareResponse) response);
         }
 
     }
@@ -270,7 +267,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    private void dialogMessage(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
+    private void buyHealthDialog(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
