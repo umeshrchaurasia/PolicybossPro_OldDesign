@@ -1,7 +1,5 @@
 package com.datacomp.magicfinmart.health.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -105,14 +103,13 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
             } else {
                 openPopUp(imgShare, "Message", "Your POSP status is INACTIVE", "OK", true);
             }
-        }
-
-
         } else if (view.getId() == R.id.txtBuy) {
             Intent resultIntent = new Intent();
             resultIntent.putExtra("BUY", healthQuoteEntity);
             setResult(HealthQuoteFragment.RESULT_COMPARE, resultIntent);
             finish();
+        }
+    }
 
     class AsyncShareJson extends AsyncTask<Void, Void, String> {
 
