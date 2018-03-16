@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -71,7 +72,47 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
 
             holder.txtloanamount.setText(""+String.valueOf(entity.getPersonalLoanRequest().getLoanRequired()));
 
+            if (entity.getPersonalLoanRequest().getRBStatus() != null) {
 
+                if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                    holder.txtApplicationNumber.setVisibility(View.VISIBLE);
+
+                } else {
+                    holder.txtApplicationNumber.setVisibility(View.GONE);
+
+                }
+            } else {
+                holder.txtApplicationNumber.setVisibility(View.GONE);
+            }
+
+            holder.lyParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if (entity.getPersonalLoanRequest().getRBStatus() != null) {
+
+                        if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+
+                            Toast.makeText(fragment.getActivity(),"Application Number Already Generated",Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            if(entity.getPersonalLoanRequest().getApplNumb() != null) {
+                                ((PL_ApplicationFragment) fragment).redirectPersonalLoanApply(entity.getPersonalLoanRequest().getApplNumb());
+                            }else{
+                                Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }else{
+                        if(entity.getPersonalLoanRequest().getApplNumb() != null) {
+                            ((PL_ApplicationFragment) fragment).redirectPersonalLoanApply(entity.getPersonalLoanRequest().getApplNumb());
+                        }else{
+                            Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+            });
 
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,6 +179,7 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
 
         TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
         ImageView imgbankLogo,imgStatus;
+        LinearLayout lyParent;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -148,6 +190,7 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
             imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
+            lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
         }
     }
 }

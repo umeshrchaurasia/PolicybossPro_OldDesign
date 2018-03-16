@@ -17,6 +17,8 @@ public interface IErpLoan {
 
     void saveERPLoanAgainstProperty(ErpHomeLoanRequest erpLoanRequest, IResponseSubcriberERP iResponseSubcriber);
 
+    void getPersonalLoanApplication(String ApplnId, IResponseSubcriberERP iResponseSubcriber);
+
     void saveERPPersonalLoan(ErpPersonLoanRequest erpLoanRequest, IResponseSubcriberERP iResponseSubcriber);
 
 
