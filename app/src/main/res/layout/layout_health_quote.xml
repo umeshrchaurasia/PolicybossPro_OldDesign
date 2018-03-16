@@ -131,14 +131,15 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtProductName"
                     style="@style/TextStyle.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Floater"
                     android:textAlignment="center"
                     android:textAllCaps="true"
+                    android:textSize="13sp"
                     android:textColor="@color/black"
-                    android:visibility="invisible" />
+                    />
 
                 <TextView
                     android:id="@+id/txtPlanName"
@@ -148,7 +149,7 @@
                     android:text=""
                     android:textAlignment="center"
                     android:textAllCaps="true"
-                    android:textColor="@color/black" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout

@@ -111,12 +111,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     private void processMemberForAge() {
         List<MemberListEntity> listM = new ArrayList<MemberListEntity>();
-        for (int i = 0; i < healthRequestEntity.getMemberList().size(); i++) {
-            MemberListEntity entity = healthRequestEntity.getMemberList().get(i);
-            entity.setAge(getAgeFromDate(entity.getMemberDOB()));
-            listM.add(entity);
-        }
+        if (healthRequestEntity.getMemberList() != null) {
+            for (int i = 0; i < healthRequestEntity.getMemberList().size(); i++) {
+                MemberListEntity entity = healthRequestEntity.getMemberList().get(i);
+                entity.setAge(getAgeFromDate(entity.getMemberDOB()));
+                listM.add(entity);
+            }
 
+        }
         healthRequestEntity.setMemberList(listM);
     }
 

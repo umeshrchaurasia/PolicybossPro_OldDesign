@@ -273,6 +273,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
 
             CCRblRequestEntity rblCCRequest = new CCRblRequestEntity();
 
+            rblCCRequest.setCreditCardDetailId(mCreditCardEntity.getCreditCardDetailId());
             rblCCRequest.setFba_id(new DBPersistanceController(this).getUserData().getFBAId());
             //server hit
             if (spTitle.getSelectedItemPosition() == 0) {

@@ -134,9 +134,13 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         } else if (view.getId() == R.id.txtCompareCount) {
 
-            Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
-            intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
-            startActivity(intent);
+            if (listCompare.size() == 1) {
+                Toast.makeText(getActivity(), "Select quote to compare with...", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
+                intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
+                startActivity(intent);
+            }
 
         }
     }
@@ -208,7 +212,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case (RESULT_COMPARE): {
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == RESULT_COMPARE) {
                     if (data.getParcelableExtra("BUY") != null) {
                         redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
                     }
@@ -283,8 +287,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
-        String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
-        Glide.with(this).load(imgURL + buyHealthQuoteEntity.getInsurerLogoName())
+
+        //String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
+        Glide.with(this).load(buyHealthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);
         //imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
         //        .getInsurerImage(buyHealthQuoteEntity.getInsurerId()));
