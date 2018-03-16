@@ -2,6 +2,9 @@ package com.datacomp.magicfinmart.health.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,11 +16,15 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.google.gson.Gson;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 
-public class HealthQuoteDetailsDialogActivity extends BaseActivity implements View.OnClickListener {
+public class HealthQuoteDetailsDialogActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener {
 
     HealthQuoteEntity healthQuoteEntity;
     ImageView imgInsurer;
@@ -25,6 +32,8 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
     RecyclerView rvBenefits;
     HealthSingleBenefitsAdapter mAdapter;
     ImageView imgShare;
+    String name, responseJson;
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +43,15 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
         this.setFinishOnTouchOutside(false);
         init();
         healthQuoteEntity = new HealthQuoteEntity();
-
+        registerPopUp(this);
         if (getIntent().getParcelableExtra("DETAIL") != null) {
             healthQuoteEntity = getIntent().getParcelableExtra("DETAIL");
             bindData();
         }
-
+        if (getIntent().hasExtra("NAME")) {
+            name = getIntent().getStringExtra("NAME");
+        }
+        new AsyncShareJson().execute();
     }
 
     private void init() {
@@ -82,6 +94,19 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
     public void onClick(View view) {
 
         if (view.getId() == R.id.imgShare) {
+            if (Utility.checkShareStatus() == 1) {
+                if (responseJson != null) {
+                    Intent intent = new Intent(this, ShareQuoteACtivity.class);
+                    intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HEALTH_SINGLE_QUOTE");
+                    intent.putExtra("RESPONSE", responseJson);
+                    intent.putExtra("NAME", name);
+                    startActivity(intent);
+                }
+            } else {
+                openPopUp(imgShare, "Message", "Your POSP status is INACTIVE", "OK", true);
+            }
+        }
+
 
         } else if (view.getId() == R.id.txtBuy) {
             Intent resultIntent = new Intent();
@@ -89,6 +114,32 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
             setResult(HealthQuoteFragment.RESULT_COMPARE, resultIntent);
             finish();
 
+    class AsyncShareJson extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            responseJson = gson.toJson(healthQuoteEntity);
+            return responseJson;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            responseJson = s;
+        }
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.imgShare) {
+            dialog.cancel();
+        }
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.imgShare) {
+            dialog.cancel();
         }
     }
 }

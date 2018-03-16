@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -40,7 +41,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BankForNodeR
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteBLResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
 
-public class QuoteFragment_bl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM {
+public class QuoteFragment_bl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, BaseFragment.PopUpListener {
 
     TextView txtAppName, txtLoanAmnt, txtLoanTenure, txtInputSummry, txtCount, txtType, txtcurrRate;
     TextView txtcurrloanemi, txtdropemi, txtnewemi, txtdropinterestrate, txtreducedintrest;
@@ -70,6 +71,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_bl_loan_quote, container, false);
+        registerPopUp(this);
         initialise_widget(view);
         if (getArguments() != null) {
             fmBalanceLoanRequest = getArguments().getParcelable(BLMainActivity.BL_QUOTE_REQUEST);
@@ -259,14 +261,31 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         if (v.getId() == R.id.ivllEdit) {
             ((BLMainActivity) getActivity()).redirectInput(fmBalanceLoanRequest);
         } else if (v.getId() == R.id.ivShare) {
+
             if (getblDispalyResponse != null) {
                 Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BL_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getblDispalyResponse);
                 intent.putExtra("NAME", fmBalanceLoanRequest.getBLLoanRequest().getApplicantName());
-                intent.putExtra("LOAN_REQUIRED", ""+fmBalanceLoanRequest.getBLLoanRequest().getLoanamount());
+                intent.putExtra("LOAN_REQUIRED", "" + fmBalanceLoanRequest.getBLLoanRequest().getLoanamount());
                 startActivity(intent);
             }
+
+
+        }
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
+        }
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
         }
     }
 }
