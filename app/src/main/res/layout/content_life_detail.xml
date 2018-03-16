@@ -14,12 +14,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/background"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:orientation="vertical">
 
-
+            <android.support.v7.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                style="@style/CardViewStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
             <LinearLayout
                 android:background="@color/white"
                 android:id="@+id/lyCompare"
@@ -60,7 +67,18 @@
 
 
             </LinearLayout>
+            </android.support.v7.widget.CardView>
 
+            <android.support.v7.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                style="@style/CardViewStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
             <LinearLayout
                 android:id="@+id/lyHdfc"
                 android:background="@color/white"
@@ -101,6 +119,18 @@
 
 
             </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                style="@style/CardViewStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
 
             <LinearLayout
                 android:id="@+id/lyIcici"
@@ -142,6 +172,18 @@
 
 
             </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                style="@style/CardViewStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
 
             <LinearLayout
                 android:id="@+id/lyTata"
@@ -183,6 +225,18 @@
 
 
             </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                style="@style/CardViewStyle"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="4dp"
+                app:cardCornerRadius="2dp"
+                app:cardElevation="2dp">
 
             <LinearLayout
                 android:id="@+id/lyEdelweiss"
@@ -224,6 +278,7 @@
 
 
             </LinearLayout>
+            </android.support.v7.widget.CardView>
 
         </LinearLayout>
 
