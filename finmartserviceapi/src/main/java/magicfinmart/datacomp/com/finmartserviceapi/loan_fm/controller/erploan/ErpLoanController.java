@@ -16,6 +16,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpHome
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpPersonLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -138,6 +139,45 @@ public class ErpLoanController implements IErpLoan {
         });
     }
 
+
+    //personal
+
+    public void getPersonalLoanApplication(String ApplnId, final IResponseSubcriberERP iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("ApplnId", ApplnId);
+
+        erpNetworkService.getPersonalLoanApplication(body).enqueue(new Callback<PersonalLoanApplicationResponse>() {
+            @Override
+            public void onResponse(Call<PersonalLoanApplicationResponse> call, Response<PersonalLoanApplicationResponse> response) {
+                try {
+
+                    iResponseSubcriber.OnSuccessERP(response.body(),response.body().getMessage());
+
+
+                } catch (Exception e) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PersonalLoanApplicationResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof JsonParseException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
+                }else{
+                    iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
+                }
+            }
+        });
+
+
+    }
     @Override
     public void saveERPPersonalLoan(ErpPersonLoanRequest erpLoanRequest, final IResponseSubcriberERP iResponseSubcriber) {
 

@@ -30,7 +30,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
+
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -52,12 +52,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystring;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.HomeLoanApplyAppliEntity;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalLoanApplyAppliEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.RBCustomerEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpHomeLoanRequest;
+
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpPersonLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
+
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.RBCustomerResponse;
 
 public class PersonalLoanApplyActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IResponseSubcriberERP {
@@ -68,7 +70,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     RBCustomerEntity rbCustomerEntity;
     ErpPersonLoanRequest erpLoanRequest;
     BuyLoanQuerystring buyLoanQuerystring;
-    HomeLoanApplyAppliEntity homeLoanApplyAppliEntity;
+    PersonalLoanApplyAppliEntity personalLoanApplyAppliEntity;
     //endregion
 
     // region Control Declaration
@@ -126,6 +128,8 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     boolean validatePA = false;
     boolean isSubmit = false;
 
+    boolean isAppliction = false;
+    String AppID = "0";
 
     //endregion
     @Override
@@ -142,7 +146,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         dbPersistanceController = new DBPersistanceController(this);
         loginEntity = dbPersistanceController.getUserData();
         buyLoanQuerystring = new BuyLoanQuerystring();
-        homeLoanApplyAppliEntity = new HomeLoanApplyAppliEntity();
+        personalLoanApplyAppliEntity = new PersonalLoanApplyAppliEntity();
         initialize();
         setListener();
         initLayouts();
@@ -151,6 +155,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         // region getIntent Data
         if (getIntent().hasExtra("BuyLoanQuery")) {
             buyLoanQuerystring = getIntent().getExtras().getParcelable("BuyLoanQuery");
+            isAppliction = false;
             setRbCustomerData2();
 
             showDialog("Please Wait...");
@@ -158,11 +163,12 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
 
         } else if (getIntent().hasExtra(Utility.PLLOAN_APPLICATION)) {
-            String AppID = getIntent().getExtras().getString(Utility.PLLOAN_APPLICATION, "");
+            AppID = getIntent().getExtras().getString(Utility.PLLOAN_APPLICATION, "");
 
+            isAppliction = true;
             if (!AppID.equals("")) {
                 showDialog("Please Wait...");
-                new ErpLoanController(this).getHomeLoanApplication(AppID, PersonalLoanApplyActivity.this);
+                new ErpLoanController(this).getPersonalLoanApplication(AppID, PersonalLoanApplyActivity.this);
             }
         }
 
@@ -567,139 +573,274 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     }
 
     private void saveData(int SubmitType) {
+        if(isAppliction) {
+            //region PL_INFO
+            erpLoanRequest.setTitle(spTitle.getSelectedItem().toString());
 
-        //region PL_INFO
-        erpLoanRequest.setTitle(spTitle.getSelectedItem().toString());
+            erpLoanRequest.setFirst_Name(etFirstName.getText().toString().trim());
+            erpLoanRequest.setDOB(etDob.getText().toString().trim());
+          //  erpLoanRequest.setDOB(getMMDDYYYPattern(etDob.getText().toString().trim()));
+            erpLoanRequest.setMiddle_Name(etFatherName.getText().toString().trim());
+            erpLoanRequest.setGender(Gender);
 
-        erpLoanRequest.setFirst_Name(etFirstName.getText().toString().trim());
+            erpLoanRequest.setMarital_Status(MaritalStatus);
+            erpLoanRequest.setSpouce_Name(etSpouceName.getText().toString().trim());
+            erpLoanRequest.setNo_Of_Dependent(etNoOfDepen.getText().toString().trim());
+            erpLoanRequest.setPAN_No(etPan.getText().toString().trim());
+            erpLoanRequest.setNationality(etNationality.getText().toString().trim());
 
-        erpLoanRequest.setDOB(getMMDDYYYPattern(etDob.getText().toString().trim()));
-        erpLoanRequest.setMiddle_Name(etFatherName.getText().toString().trim());
-        erpLoanRequest.setGender(Gender);
+            erpLoanRequest.setStatus_Id(PL_STATUS);
+            erpLoanRequest.setCategory_Id(PL_CATEGORY);
+            erpLoanRequest.setId_Type(PL_IDTYPE);
+            erpLoanRequest.setEducation_Id(PL_EDUCATION);
+            erpLoanRequest.setId_No(etIDNumber.getText().toString().trim());
 
-        erpLoanRequest.setMarital_Status(MaritalStatus);
-        erpLoanRequest.setSpouce_Name(etSpouceName.getText().toString().trim());
-        erpLoanRequest.setNo_Of_Dependent(etNoOfDepen.getText().toString().trim());
-        erpLoanRequest.setPAN_No(etPan.getText().toString().trim());
-        erpLoanRequest.setNationality(etNationality.getText().toString().trim());
+            erpLoanRequest.setInstitute_University(etUniversity.getText().toString().trim());
+            erpLoanRequest.setMothers_Maidan_Name(etMoMaidenName.getText().toString().trim());
+            //endregion
 
-        erpLoanRequest.setStatus_Id(PL_STATUS);
-        erpLoanRequest.setCategory_Id(PL_CATEGORY);
-        erpLoanRequest.setId_Type(PL_IDTYPE);
-        erpLoanRequest.setEducation_Id(PL_EDUCATION);
-        erpLoanRequest.setId_No(etIDNumber.getText().toString().trim());
+            //region Address_INFO
+            erpLoanRequest.setPer_Email_Id(etEmailPersContInfo.getText().toString().trim());
+            erpLoanRequest.setOfc_Email_Id(etEmailOffContInfo.getText().toString().trim());
+            erpLoanRequest.setMobile_No1(etMobNo1ContInfo.getText().toString().trim());
+            erpLoanRequest.setMobile_No2(etMobNo2ContInfo.getText().toString().trim());
 
-        erpLoanRequest.setInstitute_University(etUniversity.getText().toString().trim());
-        erpLoanRequest.setMothers_Maidan_Name(etMoMaidenName.getText().toString().trim());
-        //endregion
+            // region Address RAP
+            erpLoanRequest.setAddress1(etAddress1ContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setAddress2(etAddress2ContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setAddress3(etAddress3ContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setLandmark(etLandmakContInfoRAP.getText().toString().trim());
 
-        //region Address_INFO
-        erpLoanRequest.setPer_Email_Id(etEmailPersContInfo.getText().toString().trim());
-        erpLoanRequest.setOfc_Email_Id(etEmailOffContInfo.getText().toString().trim());
-        erpLoanRequest.setMobile_No1(etMobNo1ContInfo.getText().toString().trim());
-        erpLoanRequest.setMobile_No2(etMobNo2ContInfo.getText().toString().trim());
+            erpLoanRequest.setPincode(etPincodeContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setCity(etCityContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setState(etStateContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setCountry(etCountryPlRAP.getText().toString().trim());
+            erpLoanRequest.setLandlineNo(etLandlineNoContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setAddrsYrs(etNoOfYrsAtOffContInfoRAP.getText().toString().trim());
+            //endregion
 
-        // region Address RAP
-        erpLoanRequest.setAddress1(etAddress1ContInfoRAP.getText().toString().trim());
-        erpLoanRequest.setAddress2(etAddress2ContInfoRAP.getText().toString().trim());
-        erpLoanRequest.setAddress3(etAddress3ContInfoRAP.getText().toString().trim());
-        erpLoanRequest.setLandmark(etLandmakContInfoRAP.getText().toString().trim());
+            // region Address PA
+            //   spResidence..getSelectedItem().toString();                                       // 05
+            erpLoanRequest.setPer_Address1(etAddress1ContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_Address2(etAddress2ContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_Address3(etAddress3ContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_Landmark(etLandmakContInfoPA.getText().toString().trim());
 
-        erpLoanRequest.setPincode(etPincodeContInfoRAP.getText().toString().trim());
-        erpLoanRequest.setCity(etCityContInfoRAP.getText().toString().trim());
-        erpLoanRequest.setState(etStateContInfoRAP.getText().toString().trim());
-        erpLoanRequest.setCountry(etCountryPlRAP.getText().toString().trim());
-        erpLoanRequest.setLandlineNo(etLandlineNoContInfoRAP.getText().toString().trim());
-        erpLoanRequest.setAddrsYrs(etNoOfYrsAtOffContInfoRAP.getText().toString().trim());
-        //endregion
+            erpLoanRequest.setPer_Pincode(etPincodeContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_City(etCityContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_State(etStateContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_Country(etCountryPA.getText().toString().trim());
+            erpLoanRequest.setPer_LandlineNo(etLandlineNoContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_AddrsYrs(etNoOfYrsAtOffContInfoPA.getText().toString().trim());
+            //endregion
 
-        // region Address PA
-        //   spResidence..getSelectedItem().toString();                                       // 05
-        erpLoanRequest.setPer_Address1(etAddress1ContInfoPA.getText().toString().trim());
-        erpLoanRequest.setPer_Address2(etAddress2ContInfoPA.getText().toString().trim());
-        erpLoanRequest.setPer_Address3(etAddress3ContInfoPA.getText().toString().trim());
-        erpLoanRequest.setPer_Landmark(etLandmakContInfoPA.getText().toString().trim());
+            //endregion
 
-        erpLoanRequest.setPer_Pincode(etPincodeContInfoPA.getText().toString().trim());
-        erpLoanRequest.setPer_City(etCityContInfoPA.getText().toString().trim());
-        erpLoanRequest.setPer_State(etStateContInfoPA.getText().toString().trim());
-        erpLoanRequest.setPer_Country(etCountryPA.getText().toString().trim());
-        erpLoanRequest.setPer_LandlineNo(etLandlineNoContInfoPA.getText().toString().trim());
-        erpLoanRequest.setPer_AddrsYrs(etNoOfYrsAtOffContInfoPA.getText().toString().trim());
-        //endregion
+            //region EmploymentINFO
 
-        //endregion
+            erpLoanRequest.setNature_Of_Employer(EmpNature);
+            erpLoanRequest.setNature_Of_Organization(spNatureOfOrg.getSelectedItem().toString());
+            erpLoanRequest.setNature_Of_Business(spNatureOfBus.getSelectedItem().toString());
+            erpLoanRequest.setDesignation(etDesig.getText().toString().trim());
+            erpLoanRequest.setCurrnet_Employment_Period(etCurrJob.getText().toString().trim());
 
-        //region EmploymentINFO
+            erpLoanRequest.setTotal_Employment_Period(etTotalExp.getText().toString().trim());
+            erpLoanRequest.setName_of_Organisation(etNameOfOrg.getText().toString().trim());
+            erpLoanRequest.setTurn_Over(etTurnOver.getText().toString().trim());
+            erpLoanRequest.setDepreciation(etDeprec.getText().toString().trim());
+            erpLoanRequest.setDirector_Remuneration(etDirRem.getText().toString().trim());
+            erpLoanRequest.setProfit_Aft_Tax(etProfAftTax.getText().toString().trim());
 
-        erpLoanRequest.setNature_Of_Employer(EmpNature);
-        erpLoanRequest.setNature_Of_Organization(spNatureOfOrg.getSelectedItem().toString());
-        erpLoanRequest.setNature_Of_Business(spNatureOfBus.getSelectedItem().toString());
-        erpLoanRequest.setDesignation(etDesig.getText().toString().trim());
-        erpLoanRequest.setCurrnet_Employment_Period(etCurrJob.getText().toString().trim());
+            erpLoanRequest.setAddress1_of_Organisation(etAddress1ED.getText().toString().trim());
+            erpLoanRequest.setAddress2_of_Organisation(etAddress2ED.getText().toString().trim());
+            erpLoanRequest.setAddress3_of_Organisation(etAddress3ED.getText().toString().trim());
+            erpLoanRequest.setOrganize_Landmark(etLandmakED.getText().toString().trim());
+            erpLoanRequest.setOrganize_Pincode(etPincodeED.getText().toString().trim());
 
-        erpLoanRequest.setTotal_Employment_Period(etTotalExp.getText().toString().trim());
-        erpLoanRequest.setName_of_Organisation(etNameOfOrg.getText().toString().trim());
-        erpLoanRequest.setTurn_Over(etTurnOver.getText().toString().trim());
-        erpLoanRequest.setDepreciation(etDeprec.getText().toString().trim());
-        erpLoanRequest.setDirector_Remuneration(etDirRem.getText().toString().trim());
-        erpLoanRequest.setProfit_Aft_Tax(etProfAftTax.getText().toString().trim());
-
-        erpLoanRequest.setAddress1_of_Organisation(etAddress1ED.getText().toString().trim());
-        erpLoanRequest.setAddress2_of_Organisation(etAddress2ED.getText().toString().trim());
-        erpLoanRequest.setAddress3_of_Organisation(etAddress3ED.getText().toString().trim());
-        erpLoanRequest.setOrganize_Landmark(etLandmakED.getText().toString().trim());
-        erpLoanRequest.setOrganize_Pincode(etPincodeED.getText().toString().trim());
-
-        erpLoanRequest.setOrganize_City(etCityED.getText().toString().trim());
-        erpLoanRequest.setOrganize_State(etStateED.getText().toString().trim());
-        erpLoanRequest.setOrganize_Country(etCountryED.getText().toString().trim());
-        erpLoanRequest.setOrganize_LandlineNo(etLandlineNoED.getText().toString().trim());
+            erpLoanRequest.setOrganize_City(etCityED.getText().toString().trim());
+            erpLoanRequest.setOrganize_State(etStateED.getText().toString().trim());
+            erpLoanRequest.setOrganize_Country(etCountryED.getText().toString().trim());
+            erpLoanRequest.setOrganize_LandlineNo(etLandlineNoED.getText().toString().trim());
 
 
-        //endregion
+            //endregion
 
-        //region Financial INFO
-        erpLoanRequest.setGross_Income(etGrossIncome.getText().toString().trim());
-        erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
-        erpLoanRequest.setOther_Income(etOtherIncome.getText().toString().trim());
-        erpLoanRequest.setTotal_Income(etTotalIncome.getText().toString().trim());
-        //endregion
+            //region Financial INFO
+            erpLoanRequest.setGross_Income(etGrossIncome.getText().toString().trim());
+            erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
+            erpLoanRequest.setOther_Income(etOtherIncome.getText().toString().trim());
+            erpLoanRequest.setTotal_Income(etTotalIncome.getText().toString().trim());
+            //endregion
 
-        // region For Quote and Query string
+            // region For Quote and Query string
 
-        erpLoanRequest.setBankId(buyLoanQuerystring.getBankId());//qurystring
-        erpLoanRequest.setQuote_id(buyLoanQuerystring.getQuote_id());//qurystring
-      //  erpLoanRequest.setLoan_Requested(buyLoanQuerystring.getProp_Loan_Eligible());//
-        if (rbCustomerEntity.getBrokerId() != null) {
-            erpLoanRequest.setBrokerId(Integer.valueOf(rbCustomerEntity.getBrokerId()));//Loanid
+            erpLoanRequest.setBankId(personalLoanApplyAppliEntity.getBankId());//qurystring
+            erpLoanRequest.setQuote_id(personalLoanApplyAppliEntity.getQuote_id());//qurystring
+            //  erpLoanRequest.setLoan_Requested(buyLoanQuerystring.getProp_Loan_Eligible());//
 
-        } else {
-            erpLoanRequest.setBrokerId(0);
+            erpLoanRequest.setBrokerId(Integer.valueOf(personalLoanApplyAppliEntity.getBrokerId()));//Loanid
+
+
+            erpLoanRequest.setProductId(personalLoanApplyAppliEntity.getProductId());
+            //  erpLoanRequest.setIsCoApp(0);
+
+            erpLoanRequest.setLoan_Amount(personalLoanApplyAppliEntity.getLoan_Amount());
+            erpLoanRequest.setLoan_Terms(personalLoanApplyAppliEntity.getLoan_Terms());
+
+            erpLoanRequest.setROI_Id_Type(personalLoanApplyAppliEntity.getROI_Id_Type());  /// 05
+            erpLoanRequest.setProcessing_Fee(personalLoanApplyAppliEntity.getProcessing_Fee());
+
+            erpLoanRequest.setApplnId(personalLoanApplyAppliEntity.getApplnId());
+            erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
+            erpLoanRequest.setIs_Confirm(0);
+            erpLoanRequest.setAppln_Source("PL");
+            erpLoanRequest.setDc_fba_reg(String.valueOf(loginEntity.getFBAId()));
+            erpLoanRequest.setRBA_Source("Finmart");
+            erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
+
+            //endregion
+
+            if (SubmitType == 1) {
+                showDialog("Please wait...");
+            }
+            new ErpLoanController(this).saveERPPersonalLoan(erpLoanRequest, PersonalLoanApplyActivity.this);
         }
+        else {
 
-        erpLoanRequest.setProductId(rbCustomerEntity.getProductId());
-      //  erpLoanRequest.setIsCoApp(0);
+            //region PL_INFO
+            erpLoanRequest.setTitle(spTitle.getSelectedItem().toString());
 
-        erpLoanRequest.setLoan_Amount(buyLoanQuerystring.getProp_Loan_Eligible());
-        erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
-        erpLoanRequest.setROI_Id_Type(rbCustomerEntity.getPropertyID());  /// 05
-        erpLoanRequest.setProcessing_Fee(rbCustomerEntity.getProcessing_fee());
-        erpLoanRequest.setApplnId(0);
-        erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
-        erpLoanRequest.setIs_Confirm(0);
-        erpLoanRequest.setAppln_Source("HL");
-        erpLoanRequest.setDc_fba_reg(String.valueOf(loginEntity.getFBAId()));
-        erpLoanRequest.setRBA_Source("Finmart");
-        erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
+            erpLoanRequest.setFirst_Name(etFirstName.getText().toString().trim());
+            erpLoanRequest.setDOB(etDob.getText().toString().trim());
+          //  erpLoanRequest.setDOB(getMMDDYYYPattern(etDob.getText().toString().trim()));
+            erpLoanRequest.setMiddle_Name(etFatherName.getText().toString().trim());
+            erpLoanRequest.setGender(Gender);
 
-        //endregion
+            erpLoanRequest.setMarital_Status(MaritalStatus);
+            erpLoanRequest.setSpouce_Name(etSpouceName.getText().toString().trim());
+            erpLoanRequest.setNo_Of_Dependent(etNoOfDepen.getText().toString().trim());
+            erpLoanRequest.setPAN_No(etPan.getText().toString().trim());
+            erpLoanRequest.setNationality(etNationality.getText().toString().trim());
 
-        if(SubmitType == 1)
-        {
-            showDialog("Please wait...");
+            erpLoanRequest.setStatus_Id(PL_STATUS);
+            erpLoanRequest.setCategory_Id(PL_CATEGORY);
+            erpLoanRequest.setId_Type(PL_IDTYPE);
+            erpLoanRequest.setEducation_Id(PL_EDUCATION);
+            erpLoanRequest.setId_No(etIDNumber.getText().toString().trim());
+
+            erpLoanRequest.setInstitute_University(etUniversity.getText().toString().trim());
+            erpLoanRequest.setMothers_Maidan_Name(etMoMaidenName.getText().toString().trim());
+            //endregion
+
+            //region Address_INFO
+            erpLoanRequest.setPer_Email_Id(etEmailPersContInfo.getText().toString().trim());
+            erpLoanRequest.setOfc_Email_Id(etEmailOffContInfo.getText().toString().trim());
+            erpLoanRequest.setMobile_No1(etMobNo1ContInfo.getText().toString().trim());
+            erpLoanRequest.setMobile_No2(etMobNo2ContInfo.getText().toString().trim());
+
+            // region Address RAP
+            erpLoanRequest.setAddress1(etAddress1ContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setAddress2(etAddress2ContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setAddress3(etAddress3ContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setLandmark(etLandmakContInfoRAP.getText().toString().trim());
+
+            erpLoanRequest.setPincode(etPincodeContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setCity(etCityContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setState(etStateContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setCountry(etCountryPlRAP.getText().toString().trim());
+            erpLoanRequest.setLandlineNo(etLandlineNoContInfoRAP.getText().toString().trim());
+            erpLoanRequest.setAddrsYrs(etNoOfYrsAtOffContInfoRAP.getText().toString().trim());
+            //endregion
+
+            // region Address PA
+            //   spResidence..getSelectedItem().toString();                                       // 05
+            erpLoanRequest.setPer_Address1(etAddress1ContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_Address2(etAddress2ContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_Address3(etAddress3ContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_Landmark(etLandmakContInfoPA.getText().toString().trim());
+
+            erpLoanRequest.setPer_Pincode(etPincodeContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_City(etCityContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_State(etStateContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_Country(etCountryPA.getText().toString().trim());
+            erpLoanRequest.setPer_LandlineNo(etLandlineNoContInfoPA.getText().toString().trim());
+            erpLoanRequest.setPer_AddrsYrs(etNoOfYrsAtOffContInfoPA.getText().toString().trim());
+            //endregion
+
+            //endregion
+
+            //region EmploymentINFO
+
+            erpLoanRequest.setNature_Of_Employer(EmpNature);
+            erpLoanRequest.setNature_Of_Organization(spNatureOfOrg.getSelectedItem().toString());
+            erpLoanRequest.setNature_Of_Business(spNatureOfBus.getSelectedItem().toString());
+            erpLoanRequest.setDesignation(etDesig.getText().toString().trim());
+            erpLoanRequest.setCurrnet_Employment_Period(etCurrJob.getText().toString().trim());
+
+            erpLoanRequest.setTotal_Employment_Period(etTotalExp.getText().toString().trim());
+            erpLoanRequest.setName_of_Organisation(etNameOfOrg.getText().toString().trim());
+            erpLoanRequest.setTurn_Over(etTurnOver.getText().toString().trim());
+            erpLoanRequest.setDepreciation(etDeprec.getText().toString().trim());
+            erpLoanRequest.setDirector_Remuneration(etDirRem.getText().toString().trim());
+            erpLoanRequest.setProfit_Aft_Tax(etProfAftTax.getText().toString().trim());
+
+            erpLoanRequest.setAddress1_of_Organisation(etAddress1ED.getText().toString().trim());
+            erpLoanRequest.setAddress2_of_Organisation(etAddress2ED.getText().toString().trim());
+            erpLoanRequest.setAddress3_of_Organisation(etAddress3ED.getText().toString().trim());
+            erpLoanRequest.setOrganize_Landmark(etLandmakED.getText().toString().trim());
+            erpLoanRequest.setOrganize_Pincode(etPincodeED.getText().toString().trim());
+
+            erpLoanRequest.setOrganize_City(etCityED.getText().toString().trim());
+            erpLoanRequest.setOrganize_State(etStateED.getText().toString().trim());
+            erpLoanRequest.setOrganize_Country(etCountryED.getText().toString().trim());
+            erpLoanRequest.setOrganize_LandlineNo(etLandlineNoED.getText().toString().trim());
+
+
+            //endregion
+
+            //region Financial INFO
+            erpLoanRequest.setGross_Income(etGrossIncome.getText().toString().trim());
+            erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
+            erpLoanRequest.setOther_Income(etOtherIncome.getText().toString().trim());
+            erpLoanRequest.setTotal_Income(etTotalIncome.getText().toString().trim());
+            //endregion
+
+            // region For Quote and Query string
+
+            erpLoanRequest.setBankId(buyLoanQuerystring.getBankId());//qurystring
+            erpLoanRequest.setQuote_id(buyLoanQuerystring.getQuote_id());//qurystring
+            //  erpLoanRequest.setLoan_Requested(buyLoanQuerystring.getProp_Loan_Eligible());//
+            if (rbCustomerEntity.getBrokerId() != null) {
+                erpLoanRequest.setBrokerId(Integer.valueOf(rbCustomerEntity.getBrokerId()));//Loanid
+
+            } else {
+                erpLoanRequest.setBrokerId(0);
+            }
+
+            erpLoanRequest.setProductId(rbCustomerEntity.getProductId());
+            //  erpLoanRequest.setIsCoApp(0);
+
+            erpLoanRequest.setLoan_Amount(buyLoanQuerystring.getProp_Loan_Eligible());
+            erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
+            erpLoanRequest.setROI_Id_Type(rbCustomerEntity.getPropertyID());  /// 05
+            erpLoanRequest.setProcessing_Fee(rbCustomerEntity.getProcessing_fee());
+            erpLoanRequest.setApplnId(0);
+            erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
+            erpLoanRequest.setIs_Confirm(0);
+            erpLoanRequest.setAppln_Source("PL");
+            erpLoanRequest.setDc_fba_reg(String.valueOf(loginEntity.getFBAId()));
+            erpLoanRequest.setRBA_Source("Finmart");
+            erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
+
+            //endregion
+
+            if (SubmitType == 1) {
+                showDialog("Please wait...");
+            }
+            new ErpLoanController(this).saveERPPersonalLoan(erpLoanRequest, PersonalLoanApplyActivity.this);
+
+
         }
-        new ErpLoanController(this).saveERPPersonalLoan(erpLoanRequest, PersonalLoanApplyActivity.this);
     }
 
 
@@ -709,7 +850,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         String[] arrTitle = getResources().getStringArray(R.array.title);
         for (int i = 0; i < arrTitle.length; i++) {
 
-            if (arrTitle[i].toString().equals(strTitle)) {
+            if (arrTitle[i].toLowerCase().equals(strTitle.toLowerCase())) {
                 pos = i;
                 break;
             }
@@ -722,7 +863,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         String[] arrOrg = getResources().getStringArray(R.array.organization);
         for (int i = 0; i < arrOrg.length; i++) {
 
-            if (arrOrg[i].toString().equals(strOrg)) {
+            if (arrOrg[i].toLowerCase().equals(strOrg.toLowerCase())) {
                 pos = i;
                 break;
             }
@@ -735,7 +876,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         String[] arrBuss = getResources().getStringArray(R.array.business);
         for (int i = 0; i < arrBuss.length; i++) {
 
-            if (arrBuss[i].toString().equals(strTitle)) {
+            if (arrBuss[i].toLowerCase().equals(strTitle.toLowerCase())) {
                 pos = i;
                 break;
             }
@@ -748,144 +889,146 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     private void setApplictionData() {
         isDataUploaded = false;
         //region PL_INFO
-        etFirstName.setText(homeLoanApplyAppliEntity.getFirst_Name());
-        etLastName.setText(homeLoanApplyAppliEntity.getLast_Name());
-        spTitle.setSelection(getTitlePos(homeLoanApplyAppliEntity.getTitle()));
-        etDob.setText(getDDMMYYYPattern(homeLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
+        etFirstName.setText(personalLoanApplyAppliEntity.getFirst_Name());
+        etLastName.setText(personalLoanApplyAppliEntity.getLast_Name());
+        spTitle.setSelection(getTitlePos(personalLoanApplyAppliEntity.getTitle()));
+        etDob.setText(getDDMMYYYPattern(personalLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
         //etFatherName.setText("");
 
-        if (homeLoanApplyAppliEntity.getGender().equals("Male")) {
+        if (personalLoanApplyAppliEntity.getGender().equals("Male")) {
             setMale_gender();
         } else {
             setFeMale_gender();
         }
 
-        if (homeLoanApplyAppliEntity.getMarital_Status().equals("MARRIED")) {
+        if (personalLoanApplyAppliEntity.getMarital_Status().equals("MARRIED")) {
             seMaritalStatus("MARRIED", txtMarried, txtSingle);
         } else {
             seMaritalStatus("SINGLE", txtSingle, txtMarried);
         }
 
 
-        etSpouceName.setText(homeLoanApplyAppliEntity.getSpouce_Name());
-        etNoOfDepen.setText(homeLoanApplyAppliEntity.getNo_Of_Dependent());
-        etPan.setText(homeLoanApplyAppliEntity.getPAN_No());
-        etNationality.setText(homeLoanApplyAppliEntity.getNationality());
+        etSpouceName.setText(personalLoanApplyAppliEntity.getSpouce_Name());
+        etNoOfDepen.setText(personalLoanApplyAppliEntity.getNo_Of_Dependent());
+        etPan.setText(personalLoanApplyAppliEntity.getPAN_No());
+        etNationality.setText(personalLoanApplyAppliEntity.getNationality());
 
-        managePL_Common(StatusType, homeLoanApplyAppliEntity.getStatus_Id(), txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
-        managePL_Common(CategoryType, homeLoanApplyAppliEntity.getCategory_Id(), txtGEN, txtSC, txtST, txtOBC, txtOTH);
-        managePL_Common(EducationType, homeLoanApplyAppliEntity.getEducation_Id(), txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
-        managePL_IDTYPE(homeLoanApplyAppliEntity.getId_Type(), txtPORT, txtVOTER, txtDRV);
+        managePL_Common(StatusType, personalLoanApplyAppliEntity.getStatus_Id(), txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
+        managePL_Common(CategoryType, personalLoanApplyAppliEntity.getCategory_Id(), txtGEN, txtSC, txtST, txtOBC, txtOTH);
+        managePL_Common(EducationType, personalLoanApplyAppliEntity.getEducation_Id(), txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
+        managePL_IDTYPE(personalLoanApplyAppliEntity.getId_Type(), txtPORT, txtVOTER, txtDRV);
 
-        etIDNumber.setText(homeLoanApplyAppliEntity.getId_No());
-        etUniversity.setText(homeLoanApplyAppliEntity.getInstitute_University());
-        etMoMaidenName.setText(homeLoanApplyAppliEntity.getMothers_Maidan_Name());
+        etIDNumber.setText(personalLoanApplyAppliEntity.getId_No());
+        etUniversity.setText(personalLoanApplyAppliEntity.getInstitute_University());
+        etMoMaidenName.setText(personalLoanApplyAppliEntity.getMothers_Maidan_Name());
 
         //endregion
 
         //region Address_INFO
-        etEmailPersContInfo.setText(homeLoanApplyAppliEntity.getPer_Email_Id());
-        etEmailOffContInfo.setText(homeLoanApplyAppliEntity.getOfc_Email_Id());
-        etMobNo1ContInfo.setText(homeLoanApplyAppliEntity.getMobile_No1());
-        etMobNo2ContInfo.setText(homeLoanApplyAppliEntity.getMobile_No2());
+        etEmailPersContInfo.setText(personalLoanApplyAppliEntity.getPer_Email_Id());
+        etEmailOffContInfo.setText(personalLoanApplyAppliEntity.getOfc_Email_Id());
+        etMobNo1ContInfo.setText(personalLoanApplyAppliEntity.getMobile_No1());
+        etMobNo2ContInfo.setText(personalLoanApplyAppliEntity.getMobile_No2());
 
         // region Address RAP
-        etAddress1ContInfoRAP.setText(homeLoanApplyAppliEntity.getAddress1());
-        etAddress2ContInfoRAP.setText(homeLoanApplyAppliEntity.getAddress2());
-        etAddress3ContInfoRAP.setText(homeLoanApplyAppliEntity.getAddress3());
-        etLandmakContInfoRAP.setText(homeLoanApplyAppliEntity.getLandmark());
+        etAddress1ContInfoRAP.setText(personalLoanApplyAppliEntity.getAddress1());
+        etAddress2ContInfoRAP.setText(personalLoanApplyAppliEntity.getAddress2());
+        etAddress3ContInfoRAP.setText(personalLoanApplyAppliEntity.getAddress3());
+        etLandmakContInfoRAP.setText(personalLoanApplyAppliEntity.getLandmark());
 
-        etPincodeContInfoRAP.setText(homeLoanApplyAppliEntity.getPincode());
-        etCityContInfoRAP.setText(homeLoanApplyAppliEntity.getCity());
-        etStateContInfoRAP.setText(homeLoanApplyAppliEntity.getState());
-        etCountryPlRAP.setText(homeLoanApplyAppliEntity.getCountry());
-        etLandlineNoContInfoRAP.setText(homeLoanApplyAppliEntity.getLandlineNo());
-        etNoOfYrsAtOffContInfoRAP.setText(homeLoanApplyAppliEntity.getAddrsYrs());
+        etPincodeContInfoRAP.setText(personalLoanApplyAppliEntity.getPincode());
+        etCityContInfoRAP.setText(personalLoanApplyAppliEntity.getCity());
+        etStateContInfoRAP.setText(personalLoanApplyAppliEntity.getState());
+        etCountryPlRAP.setText(personalLoanApplyAppliEntity.getCountry());
+        etLandlineNoContInfoRAP.setText(personalLoanApplyAppliEntity.getLandlineNo());
+        etNoOfYrsAtOffContInfoRAP.setText(personalLoanApplyAppliEntity.getAddrsYrs());
         //endregion
 
         // region Address PA
         //   spResidence
-        etAddress1ContInfoPA.setText(homeLoanApplyAppliEntity.getPer_Address1());
-        etAddress2ContInfoPA.setText(homeLoanApplyAppliEntity.getPer_Address2());
-        etAddress3ContInfoPA.setText(homeLoanApplyAppliEntity.getPer_Address3());
-        etLandmakContInfoPA.setText(homeLoanApplyAppliEntity.getPer_Landmark());
+        etAddress1ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address1());
+        etAddress2ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address2());
+        etAddress3ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address3());
+        etLandmakContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Landmark());
 
-        etPincodeContInfoPA.setText(homeLoanApplyAppliEntity.getPer_Pincode());
-        etCityContInfoPA.setText(homeLoanApplyAppliEntity.getPer_City());
-        etStateContInfoPA.setText(homeLoanApplyAppliEntity.getPer_State());
-        etCountryPA.setText(homeLoanApplyAppliEntity.getPer_Country());
-        etLandlineNoContInfoPA.setText(homeLoanApplyAppliEntity.getPer_LandlineNo());
-        etNoOfYrsAtOffContInfoPA.setText(homeLoanApplyAppliEntity.getCo_Per_AddrsYrs());
+        etPincodeContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Pincode());
+        etCityContInfoPA.setText(personalLoanApplyAppliEntity.getPer_City());
+        etStateContInfoPA.setText(personalLoanApplyAppliEntity.getPer_State());
+        etCountryPA.setText(personalLoanApplyAppliEntity.getPer_Country());
+        etLandlineNoContInfoPA.setText(personalLoanApplyAppliEntity.getPer_LandlineNo());
+
+       //05
+        etNoOfYrsAtOffContInfoPA.setText(personalLoanApplyAppliEntity.getPer_AddrsYrs());
         //endregion
 
         //endregion
 
         //region EmploymentINFO
 
-        if (homeLoanApplyAppliEntity.getCo_Nature_Of_Employer().equals("Salaried")) {
+        if (personalLoanApplyAppliEntity.getNature_Of_Employer().equals("Salaried")) {
             setEmpSalaried("Salaried", false, txtEmpNatureSalaried, txtEmpNatureSelfEmp);
         } else {
             setEmpSalaried("Self-Emp", true, txtEmpNatureSelfEmp, txtEmpNatureSalaried);
         }
 
 
-        spNatureOfOrg.setSelection(getOrganizationPos(homeLoanApplyAppliEntity.getNature_Of_Organization()));
-        spNatureOfBus.setSelection(getBuisnessPos(homeLoanApplyAppliEntity.getNature_Of_Business()));
-        etDesig.setText(homeLoanApplyAppliEntity.getDesignation());
-        etCurrJob.setText(homeLoanApplyAppliEntity.getCurrnet_Employment_Period());
+        spNatureOfOrg.setSelection(getOrganizationPos(personalLoanApplyAppliEntity.getNature_Of_Organization()));
+        spNatureOfBus.setSelection(getBuisnessPos(personalLoanApplyAppliEntity.getNature_Of_Business()));
+        etDesig.setText(personalLoanApplyAppliEntity.getDesignation());
+        etCurrJob.setText(personalLoanApplyAppliEntity.getCurrnet_Employment_Period());
 
-        etTotalExp.setText(homeLoanApplyAppliEntity.getTotal_Employment_Period());
-        etNameOfOrg.setText(homeLoanApplyAppliEntity.getName_of_Organisation());
+        etTotalExp.setText(personalLoanApplyAppliEntity.getTotal_Employment_Period());
+        etNameOfOrg.setText(personalLoanApplyAppliEntity.getName_of_Organisation());
 
-        if (homeLoanApplyAppliEntity.getTurn_Over() != null) {
-            if (homeLoanApplyAppliEntity.getTurn_Over().toString().trim().equals("0")) {
+        if (personalLoanApplyAppliEntity.getTurn_Over() != null) {
+            if (personalLoanApplyAppliEntity.getTurn_Over().toString().trim().equals("0")) {
                 etTurnOver.setText("");
             } else {
-                etTurnOver.setText(homeLoanApplyAppliEntity.getTurn_Over());
+                etTurnOver.setText(personalLoanApplyAppliEntity.getTurn_Over());
             }
         }
 
-        if (homeLoanApplyAppliEntity.getDepreciation() != null) {
-            if (homeLoanApplyAppliEntity.getDepreciation().toString().trim().equals("0")) {
+        if (personalLoanApplyAppliEntity.getDepreciation() != null) {
+            if (personalLoanApplyAppliEntity.getDepreciation().toString().trim().equals("0")) {
                 etDeprec.setText("");
             } else {
-                etDeprec.setText(homeLoanApplyAppliEntity.getDepreciation());
+                etDeprec.setText(personalLoanApplyAppliEntity.getDepreciation());
             }
         }
 
-        if (homeLoanApplyAppliEntity.getDirector_Remuneration() != null) {
-            if (homeLoanApplyAppliEntity.getDirector_Remuneration().toString().trim().equals("0")) {
+        if (personalLoanApplyAppliEntity.getDirector_Remuneration() != null) {
+            if (personalLoanApplyAppliEntity.getDirector_Remuneration().toString().trim().equals("0")) {
                 etDirRem.setText("");
             } else {
-                etDirRem.setText(homeLoanApplyAppliEntity.getDirector_Remuneration());
+                etDirRem.setText(personalLoanApplyAppliEntity.getDirector_Remuneration());
             }
         }
-        if (homeLoanApplyAppliEntity.getProfit_Aft_Tax() != null) {
-            if (homeLoanApplyAppliEntity.getProfit_Aft_Tax().toString().trim().equals("0")) {
+        if (personalLoanApplyAppliEntity.getProfit_Aft_Tax() != null) {
+            if (personalLoanApplyAppliEntity.getProfit_Aft_Tax().toString().trim().equals("0")) {
                 etProfAftTax.setText("");
             } else {
-                etProfAftTax.setText(homeLoanApplyAppliEntity.getProfit_Aft_Tax());
+                etProfAftTax.setText(personalLoanApplyAppliEntity.getProfit_Aft_Tax());
             }
         }
 
 
-        etAddress1ED.setText(homeLoanApplyAppliEntity.getAddress1_of_Organisation());
-        etAddress2ED.setText(homeLoanApplyAppliEntity.getAddress2_of_Organisation());
-        etAddress3ED.setText(homeLoanApplyAppliEntity.getAddress3_of_Organisation());
-        etLandmakED.setText(homeLoanApplyAppliEntity.getOrganize_Landmark());
-        etPincodeED.setText(homeLoanApplyAppliEntity.getOrganize_Pincode());
+        etAddress1ED.setText(personalLoanApplyAppliEntity.getAddress1_of_Organisation());
+        etAddress2ED.setText(personalLoanApplyAppliEntity.getAddress2_of_Organisation());
+        etAddress3ED.setText(personalLoanApplyAppliEntity.getAddress3_of_Organisation());
+        etLandmakED.setText(personalLoanApplyAppliEntity.getOrganize_Landmark());
+        etPincodeED.setText(personalLoanApplyAppliEntity.getOrganize_Pincode());
 
-        etCityED.setText(homeLoanApplyAppliEntity.getOrganize_City());
-        etStateED.setText(homeLoanApplyAppliEntity.getOrganize_State());
-        etCountryED.setText(homeLoanApplyAppliEntity.getOrganize_Country());
-        etLandlineNoED.setText(homeLoanApplyAppliEntity.getCo_Organize_LandlineNo());
+        etCityED.setText(personalLoanApplyAppliEntity.getOrganize_City());
+        etStateED.setText(personalLoanApplyAppliEntity.getOrganize_State());
+        etCountryED.setText(personalLoanApplyAppliEntity.getOrganize_Country());
+        etLandlineNoED.setText(personalLoanApplyAppliEntity.getOrganize_LandlineNo());
         //endregion
 
         //region Financial INFO
-        etGrossIncome.setText(homeLoanApplyAppliEntity.getGross_Income());
-        etNetIncome.setText(homeLoanApplyAppliEntity.getNet_Income());
-        etOtherIncome.setText(homeLoanApplyAppliEntity.getOther_Income());
-        etTotalIncome.setText(homeLoanApplyAppliEntity.getTotal_Income());
+        etGrossIncome.setText(personalLoanApplyAppliEntity.getGross_Income());
+        etNetIncome.setText(personalLoanApplyAppliEntity.getNet_Income());
+        etOtherIncome.setText(personalLoanApplyAppliEntity.getOther_Income());
+        etTotalIncome.setText(personalLoanApplyAppliEntity.getTotal_Income());
         //endregion
     }
 
@@ -1138,7 +1281,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
 
         if (rbCustomerEntity.getTurnover() != null) {
-            if (homeLoanApplyAppliEntity.getTurn_Over().toString().trim().equals("0")) {
+            if (rbCustomerEntity.getTurnover().toString().trim().equals("0")) {
                 etTurnOver.setText("");
             } else {
                 etTurnOver.setText(rbCustomerEntity.getTurnover());
@@ -2090,13 +2233,13 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             } else {
                 Toast.makeText(this, "Fail", Toast.LENGTH_SHORT).show();
             }
-        } else if (response instanceof HomeLoanApplicationResponse) {
+        } else if (response instanceof PersonalLoanApplicationResponse) {
 
             if (response.getStatusId() == 0) {
 
-                homeLoanApplyAppliEntity = ((HomeLoanApplicationResponse) response).getData();
+                personalLoanApplyAppliEntity = ((PersonalLoanApplicationResponse) response).getData();
 
-                if (homeLoanApplyAppliEntity != null) {
+                if (personalLoanApplyAppliEntity != null) {
                     setApplictionData();
                 }
 
