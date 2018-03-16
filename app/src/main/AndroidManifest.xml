@@ -676,9 +676,10 @@
         <activity
             android:name=".health.compare.HealthCompareActivity"
             android:label="@string/title_activity_health_compare"
+            android:noHistory="true"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" >
+            android:theme="@style/DialogTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

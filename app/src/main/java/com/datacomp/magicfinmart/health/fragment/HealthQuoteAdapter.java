@@ -38,6 +38,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     HealthQuoteAdapter(Fragment context, List<HealthQuoteEntity> listQuotes) {
         mContext = context;
         this.mInflater = LayoutInflater.from(mContext.getActivity());
+        Collections.sort(listQuotes, new SortbyInsurer());
         this.listHealthQuotes = listQuotes;
 
     }
@@ -60,9 +61,11 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
         holder.txtFinalPremium.setText("\u20B9 " + Math.round(entity.getNetPremium()) + "/Year");
 
-        //if (entity.getInsurerLogoName().equals("")) {
         Glide.with(mContext).load(entity.getInsurerLogoName())
                 .into(holder.imgInsurer);
+
+        //if (entity.getInsurerLogoName().equals("")) {
+
         // } else {
         //     String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + entity.getInsurerLogoName();
         //     Glide.with(mContext).load(imgURL)
@@ -193,14 +196,14 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     public void refreshNewQuote(List<HealthQuoteEntity> list) {
         listHealthQuotes.addAll(list);
         Collections.sort(listHealthQuotes, new SortbyInsurer());
-        Collections.reverse(listHealthQuotes);
+        // Collections.reverse(listHealthQuotes);
         notifyDataSetChanged();
     }
 
     public void removeRefresh(List<HealthQuoteEntity> list) {
         listHealthQuotes = list;
         Collections.sort(listHealthQuotes, new SortbyInsurer());
-        Collections.reverse(listHealthQuotes);
+        // Collections.reverse(listHealthQuotes);
         notifyDataSetChanged();
     }
 
