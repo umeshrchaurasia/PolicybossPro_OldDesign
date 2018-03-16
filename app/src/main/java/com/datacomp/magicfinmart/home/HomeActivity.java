@@ -1,6 +1,8 @@
 package com.datacomp.magicfinmart.home;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -20,14 +22,12 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.util.List;
@@ -45,6 +45,8 @@ public class HomeActivity extends BaseActivity {
     TextView textNotifyItemCount, txtEntityName, txtDetails, txtFbaCode;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
+    String versionNAme;
+    PackageInfo pinfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,12 @@ public class HomeActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
-
+        try {
+            pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionNAme = pinfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
         init_headers();
@@ -99,7 +106,7 @@ public class HomeActivity extends BaseActivity {
                     case R.id.nav_myaccount: {
 
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                     //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+                        //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
                         // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
@@ -190,7 +197,7 @@ public class HomeActivity extends BaseActivity {
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
         txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
 
-        txtEntityName.setText("Magic Finmart v1.0");
+        txtEntityName.setText("Magic Finmart v" + versionNAme);
         txtDetails.setText("" + loginResponseEntity.getFullName());
         txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 

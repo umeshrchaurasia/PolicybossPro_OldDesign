@@ -15,6 +15,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
@@ -643,6 +644,7 @@ public class DBPersistanceController {
 
     //endregion
 
+    //region myAccount data
     public void updateMyAccountData(AccountDtlEntity accountDtlEntity) {
         realm.beginTransaction();
         realm.copyToRealmOrUpdate(accountDtlEntity);
@@ -656,6 +658,8 @@ public class DBPersistanceController {
         else
             return null;
     }
+    //endregion
+
     //region DOC list
 
     public void storeDocList(List<DocsEntity> docsEntityList) {
@@ -1591,6 +1595,16 @@ public class DBPersistanceController {
             }
         }
         return clasId;
+    }
+    //endregion
+
+    //region constants data
+    public ConstantEntity getConstantsData() {
+        ConstantEntity entity = realm.where(ConstantEntity.class).findFirst();
+        if (entity != null)
+            return entity;
+        else
+            return null;
     }
     //endregion
 }

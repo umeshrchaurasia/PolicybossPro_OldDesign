@@ -1,7 +1,11 @@
 package com.datacomp.magicfinmart.dashboard;
 
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -15,24 +19,30 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
-
-import java.util.List;
-
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
+import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
+
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends BaseFragment {
+public class DashboardFragment extends BaseFragment implements IResponseSubcriber, BaseFragment.PopUpListener {
 
     RecyclerView rvHome;
     DashboardRowAdapter mAdapter;
     BottomNavigationView navigation;
+    PackageInfo pinfo;
+    View view;
+    ConstantEntity constantEntity;
+    PrefManager prefManager;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -43,11 +53,19 @@ public class DashboardFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        initialise(view);
 
+        view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+        initialise(view);
+        registerPopUp(this);
+        prefManager = new PrefManager(getActivity());
+        try {
+            pinfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         mAdapter = new DashboardRowAdapter(DashboardFragment.this);
         this.rvHome.setAdapter(mAdapter);
+        new MasterController(getActivity()).getConstants(this);
         return view;
     }
 
@@ -81,4 +99,55 @@ public class DashboardFragment extends BaseFragment {
             return false;
         }
     };
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof ConstantsResponse) {
+            constantEntity = ((ConstantsResponse) response).getMasterData();
+            if (response.getStatusNo() == 0) {
+                if (pinfo != null && pinfo.versionCode < ((ConstantsResponse) response).getMasterData().getVersionCode()) {
+                    if (((ConstantsResponse) response).getMasterData().getIsForceUpdate() == 1) {
+                        // forced update app
+                        openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", false);
+                    } else {
+                        // aap with less version but not forced update
+                        if (prefManager.getUpdateShown()) {
+                            prefManager.setIsUpdateShown(false);
+                            openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", true);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+        openAppMarketPlace();
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        if (constantEntity.getIsForceUpdate() == 1) {
+
+        } else {
+            dialog.cancel();
+        }
+    }
+
+    private void openAppMarketPlace() {
+        final String appPackageName = getActivity().getPackageName(); // getPackageName() from Context or Activity object
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
+
+    }
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactUsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.WhatsNewResponse;
@@ -54,6 +55,10 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/whats-new")
         Call<WhatsNewResponse> getWhatsNew(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/get-constant-data")
+        Call<ConstantsResponse> getConstantsData(@Body HashMap<String, String> body);
 
        /* @Headers("token:1234567890")
         @POST("/api/generate-otp")
