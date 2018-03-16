@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.motor.privatecar.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -18,28 +19,32 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapterEntity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 import com.google.gson.Gson;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.AppliedAddonsPremiumBreakup;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.LiabilityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.OwnDamageEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 
-public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener {
+public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener,BaseActivity.PopUpListener {
     ResponseEntity responseEntity;
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
     TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium;
-    ImageView ivCross;
+    ImageView ivCross, ivShare;
     Button btnBuy, btnBackToQuote;
     CardView cvAddon;
     List<PremiumBreakUpAdapterEntity> damageList, liabilityList, addonList;
@@ -47,6 +52,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     BikeMasterEntity bikeMasterEntity;
     CarMasterEntity carMasterEntity;
     SummaryEntity summaryEntity;
+    String jsonShareString, responseJson;
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +62,19 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setFinishOnTouchOutside(false);
         dbPersistanceController = new DBPersistanceController(this);
-        if (getIntent().hasExtra("RESPONSE_CAR")) {
-            responseEntity = getIntent().getParcelableExtra("RESPONSE_CAR");
-        }
-        if (getIntent().hasExtra("RESPONSE_BIKE")) {
-            responseEntity = getIntent().getParcelableExtra("RESPONSE_BIKE");
-        }
+
         if (getIntent().hasExtra("SUMMARY")) {
             summaryEntity = getIntent().getParcelableExtra("SUMMARY");
         }
+        if (getIntent().hasExtra("RESPONSE_CAR")) {
+            responseEntity = getIntent().getParcelableExtra("RESPONSE_CAR");
+            carMasterEntity = dbPersistanceController.getVarientDetails("" + summaryEntity.getRequest_Core().getVehicle_id());
+        }
+        if (getIntent().hasExtra("RESPONSE_BIKE")) {
+            responseEntity = getIntent().getParcelableExtra("RESPONSE_BIKE");
+            bikeMasterEntity = dbPersistanceController.getBikeVarientDetails("" + summaryEntity.getRequest_Core().getVehicle_id());
+        }
+
         initViews();
         damageList = getDamageList();
         liabilityList = getLiabilityList();
@@ -71,6 +82,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         initrecyclers();
         setListeners();
         bindData();
+        new AsyncShareJson().execute();
     }
 
     private void bindData() {
@@ -92,6 +104,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         btnBuy.setOnClickListener(this);
         btnBackToQuote.setOnClickListener(this);
         ivCross.setOnClickListener(this);
+        ivShare.setOnClickListener(this);
     }
 
     private void initrecyclers() {
@@ -128,6 +141,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         tvGst = (TextView) findViewById(R.id.tvGst);
         tvNetPremium = (TextView) findViewById(R.id.tvNetPremium);
         ivCross = (ImageView) findViewById(R.id.ivCross);
+        ivShare = (ImageView) findViewById(R.id.ivShare);
         btnBuy = (Button) findViewById(R.id.btnBuy);
         btnBackToQuote = (Button) findViewById(R.id.btnBackToQuote);
         cvAddon = (CardView) findViewById(R.id.cvAddon);
@@ -235,8 +249,72 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             case R.id.btnBackToQuote:
                 finish();
                 break;
+            case R.id.ivShare:
+                if (Utility.checkShareStatus() == 1) {
+                    jsonShareString = getShareData();
+                    if (jsonShareString != null && responseJson != null) {
+                        if (getIntent().hasExtra("RESPONSE_BIKE")) {
+                            Intent intent = new Intent(this, ShareQuoteACtivity.class);
+                            intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_SINGLE_QUOTE");
+                            intent.putExtra("RESPONSE", responseJson);
+                            intent.putExtra("OTHER", jsonShareString);
+                            startActivity(intent);
+                        } else if (getIntent().hasExtra("RESPONSE_CAR")) {
+                            Intent intent = new Intent(this, ShareQuoteACtivity.class);
+                            intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_SINGLE_QUOTE");
+                            intent.putExtra("RESPONSE", responseJson);
+                            intent.putExtra("OTHER", jsonShareString);
+                            startActivity(intent);
+                        }
+                    }
+                }else {
+                    openPopUp(ivShare, "Message", "Your POSP status is INACTIVE", "OK", true);
+                }
+                break;
 
         }
+    }
+
+    private String getShareData() {
+        JSONObject jsonObject = new JSONObject();
+        if (getIntent().hasExtra("RESPONSE_CAR")) {
+            if (summaryEntity != null && carMasterEntity != null) {
+
+                //return gson.toJson(carMasterEntity);
+                try {
+
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name());
+                    jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name() + " - " + carMasterEntity.getCubic_Capacity() + "CC");
+                    jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
+                    jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
+                    jsonObject.put("NCB", summaryEntity.getRequest_Core().getVehicle_ncb_current());
+                    jsonObject.put("CLAIM", summaryEntity.getRequest_Core().getIs_claim_exists());
+
+                    return jsonObject.toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (getIntent().hasExtra("RESPONSE_BIKE")) {
+            if (summaryEntity != null && bikeMasterEntity != null) {
+
+                try {
+
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name());
+                    jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
+                    jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
+                    jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
+                    jsonObject.put("NCB", summaryEntity.getRequest_Core().getVehicle_ncb_current());
+                    jsonObject.put("CLAIM", summaryEntity.getRequest_Core().getIs_claim_exists());
+
+                    return jsonObject.toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return "";
     }
 
     public void redirectToBuy(String Service_Log_Unique_Id) {
@@ -275,25 +353,27 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
         @Override
         protected String doInBackground(Void... voids) {
-            Gson gson = new Gson();
-            if (getIntent().hasExtra("RESPONSE_CAR")) {
-                if (summaryEntity != null) {
-                    carMasterEntity = dbPersistanceController.getVarientDetails("" + summaryEntity.getRequest_Core().getVehicle_id());
-                    return gson.toJson(carMasterEntity);
-                }
-            }
-            if (getIntent().hasExtra("RESPONSE_BIKE")) {
-                if (summaryEntity != null) {
-                    bikeMasterEntity = dbPersistanceController.getBikeVarientDetails("" + summaryEntity.getRequest_Core().getVehicle_id());
-                    return gson.toJson(bikeMasterEntity);
-                }
-            }
-            return "";
+
+            responseJson = gson.toJson(responseEntity);
+            return responseJson;
         }
 
         @Override
         protected void onPostExecute(String s) {
-            //jsonShareString = s;
+            responseJson = s;
+        }
+    }
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
+        }
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
         }
     }
 }

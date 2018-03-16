@@ -56,18 +56,23 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         holder.txtSumAssured.setText("" + Math.round(entity.getSumInsured()));
         holder.txtDeductible.setText("" + entity.getDeductible_Amount());
         holder.txtPlanName.setText("" + entity.getPlanName());
+        holder.txtProductName.setText("" + entity.getProductName());
+
         holder.txtFinalPremium.setText("\u20B9 " + Math.round(entity.getNetPremium()) + "/Year");
 
-        if (entity.getInsurerLogoName().equals("")) {
-            holder.imgInsurer.setImageResource(new DBPersistanceController(mContext.getActivity())
-                    .getInsurerImage(entity.getInsurerId()));
-        } else {
-            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + entity.getInsurerLogoName();
-            Glide.with(mContext).load(imgURL)
-                    .into(holder.imgInsurer);
-        }
+        //if (entity.getInsurerLogoName().equals("")) {
+        Glide.with(mContext).load(entity.getInsurerLogoName())
+                .into(holder.imgInsurer);
+        // } else {
+        //     String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + entity.getInsurerLogoName();
+        //     Glide.with(mContext).load(imgURL)
+        //              .into(holder.imgInsurer);
+        // }
         holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
         holder.chkCompare.setTag(R.id.chkCompare, entity);
+
+        holder.llBenefits.setTag(R.id.llBenefits, entity);
+        holder.llBenefits.setOnClickListener(this);
 
         holder.txtBuy.setTag(R.id.txtBuy, entity);
         holder.txtBuy.setOnClickListener(this);
@@ -115,6 +120,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
             entity.setCompare(b);
             ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+
         }
     };
 
@@ -127,10 +133,11 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
         CardView cvHealthQuote;
-        TextView txtSumAssured, txtDeductible, txtPlanName, txtFinalPremium, txtBuy;
+        TextView txtSumAssured, txtDeductible, txtPlanName, txtFinalPremium, txtBuy, txtProductName;
         TextView txtRoomRent, txtIcuRent, txtPreHosp, txtPostHosp, txtNoOfInsurer;
         CheckBox chkCompare;
         ImageView imgInsurer, imgDropDown;
+        LinearLayout llBenefits;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -145,10 +152,12 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             txtPreHosp = (TextView) itemView.findViewById(R.id.txtPreHosp);
             txtPostHosp = (TextView) itemView.findViewById(R.id.txtPostHosp);
             txtNoOfInsurer = (TextView) itemView.findViewById(R.id.txtNoOfInsurer);
-
+            txtProductName = (TextView) itemView.findViewById(R.id.txtProductName);
             chkCompare = (CheckBox) itemView.findViewById(R.id.chkCompare);
             imgInsurer = (ImageView) itemView.findViewById(R.id.imgInsurer);
             imgDropDown = (ImageView) itemView.findViewById(R.id.imgDropDown);
+
+            llBenefits = (LinearLayout) itemView.findViewById(R.id.llBenefits);
         }
     }
 
@@ -173,6 +182,10 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
             case R.id.txtBuy:
                 ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+                break;
+
+            case R.id.llBenefits:
+                ((HealthQuoteFragment) mContext).redirectToDetail(((HealthQuoteEntity) view.getTag(R.id.llBenefits)));
                 break;
         }
     }

@@ -1,5 +1,7 @@
 package com.datacomp.magicfinmart.health.fragment;
 
+import android.app.Dialog;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -32,6 +34,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
@@ -39,7 +42,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BenefitsListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 
@@ -47,7 +49,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteE
  * Created by Nilesh Birhade on 14/02/2018.
  */
 
-public class HealthQuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener {
+public class HealthQuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, BaseFragment.PopUpListener {
+
+    public static final int RESULT_COMPARE = 1000;
 
     private static final String FLOATER = "FLOATER STANDARD";
     private static final String INDIVIDUAL = "INDIVIDUAL STANDARD";
@@ -84,6 +88,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_healthcontent_quote, container, false);
+        registerPopUp(this);
         initView(view);
         setListener();
         listCompare = new ArrayList<>();
@@ -114,18 +119,28 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         if (view.getId() == R.id.ivEdit) {
             ((HealthQuoteBottomTabsActivity) getActivity()).redirectToInput();
         } else if (view.getId() == R.id.ivHealthShare) {
-            if (!jsonShareString.equals("")) {
-                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
-                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HEALTH_ALL_QUOTE");
-                intent.putExtra("RESPONSE", jsonShareString);
-                intent.putExtra("NAME", healthQuote.getHealthRequest().getContactName());
-                startActivity(intent);
+            if (Utility.checkShareStatus() == 1) {
+                if (!jsonShareString.equals("")) {
+                    Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                    intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HEALTH_ALL_QUOTE");
+                    intent.putExtra("RESPONSE", jsonShareString);
+                    intent.putExtra("NAME", healthQuote.getHealthRequest().getContactName());
+                    startActivity(intent);
+                }
+            } else {
+                openPopUp(ivHealthShare, "Message", "Your POSP status is INACTIVE", "OK", true);
+
             }
+
         } else if (view.getId() == R.id.txtCompareCount) {
 
-            Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
-            intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
-            startActivity(intent);
+            if (listCompare.size() == 1) {
+                Toast.makeText(getActivity(), "Select quote to compare with...", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
+                intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
+                startActivity(intent);
+            }
 
         }
     }
@@ -183,6 +198,31 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         ivHealthShare = (ImageView) view.findViewById(R.id.ivHealthShare);
     }
 
+    public void redirectToDetail(HealthQuoteEntity entity) {
+
+        Intent intent = new Intent(getActivity(), HealthQuoteDetailsDialogActivity.class);
+        intent.putExtra("DETAIL", entity);
+        intent.putExtra("NAME", healthQuote.getHealthRequest().getContactName());
+        startActivityForResult(intent, RESULT_COMPARE);
+
+
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case (RESULT_COMPARE): {
+                if (resultCode == RESULT_COMPARE) {
+                    if (data.getParcelableExtra("BUY") != null) {
+                        redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
+                    }
+
+                }
+                break;
+            }
+        }
+    }
+
     public void redirectToBuy(HealthQuoteEntity entity) {
         buyHealthQuoteEntity = new HealthQuoteEntity();
         buyHealthQuoteEntity = entity;
@@ -190,8 +230,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
         compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
 
-
-        showDialog("Please wait.., Calculating final premium");
+        showDialog();
         new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
 
     }
@@ -224,7 +263,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             }
         } else if (response instanceof HealthQuoteCompareResponse) {
-            dialogMessage((HealthQuoteCompareResponse) response);
+            buyHealthDialog((HealthQuoteCompareResponse) response);
         }
 
     }
@@ -235,7 +274,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    private void dialogMessage(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
+    private void buyHealthDialog(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -248,8 +287,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
-        String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
-        Glide.with(this).load(imgURL + buyHealthQuoteEntity.getInsurerLogoName())
+
+        //String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
+        Glide.with(this).load(buyHealthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);
         //imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
         //        .getInsurerImage(buyHealthQuoteEntity.getInsurerId()));
@@ -339,6 +379,20 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         } else {
             txtCompareCount.setVisibility(View.VISIBLE);
             txtCompareCount.setText("" + listCompare.size());
+        }
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivHealthShare) {
+            dialog.cancel();
+        }
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivHealthShare) {
+            dialog.cancel();
         }
     }
 

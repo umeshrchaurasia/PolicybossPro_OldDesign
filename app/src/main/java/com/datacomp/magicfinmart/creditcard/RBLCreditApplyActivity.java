@@ -273,6 +273,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
 
             CCRblRequestEntity rblCCRequest = new CCRblRequestEntity();
 
+            rblCCRequest.setCreditCardDetailId(mCreditCardEntity.getCreditCardDetailId());
             rblCCRequest.setFba_id(new DBPersistanceController(this).getUserData().getFBAId());
             //server hit
             if (spTitle.getSelectedItemPosition() == 0) {
@@ -300,6 +301,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             rblCCRequest.setNMI(etMonthlyIncome.getText().toString());
             rblCCRequest.setMobile(etMobile.getText().toString());
             rblCCRequest.setPAN(etpancard.getText().toString());
+
             rblCCRequest.setEmail(etEmail.getText().toString());
             rblCCRequest.setCreditCardApplied(String.valueOf(mCreditCardEntity.getCreditCardApplied()));
             rblCCRequest.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId());
@@ -369,7 +371,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
 
         } else {
             builder.setTitle("Failed ");
-            String failure = AppNo;
+            String failure = displayMessage;
             Message.append(failure);
         }
         builder.setMessage(Message.toString())

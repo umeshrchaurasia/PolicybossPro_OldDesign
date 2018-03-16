@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="90"
+        android:orientation="vertical">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <ImageView
+                android:id="@+id/imgInsurer"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="2dp"
+                android:layout_weight="25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+
+                <TextView
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Sum Assured"
+                    android:textAllCaps="true"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/txtSumAssured"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Deductible"
+                    android:textAllCaps="true"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/txtDeductible"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <ImageView
+                    android:id="@+id/imgShare"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/ic_menu_share"
+                    android:textAlignment="center" />
+
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
+            android:background="@color/divider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="100">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="25"
+                android:gravity="center|bottom"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtProductName"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="marquee"
+                    android:lines="1"
+                    android:singleLine="true"
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/txtPlanName"
+                    style="@style/TextStyle.Body1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textAllCaps="true"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="37"
+                android:gravity="center|bottom"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|top"
+                    android:text="Premium"
+                    android:textAllCaps="true"
+                    android:textColor="#ff5c61" />
+
+                <TextView
+                    android:id="@+id/txtFinalPremium"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#ff5c61"
+                    android:gravity="center"
+                    android:minHeight="30dp"
+                    android:textColor="@android:color/white" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_weight="37"
+                android:gravity="center|bottom"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center|top"
+                    android:text="Premium"
+                    android:textAllCaps="true"
+                    android:textColor="#ff5c61"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/txtBuy"
+                    style="@style/ButtonStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:background="#f38d1e"
+                    android:drawableLeft="@drawable/vector_cart"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:minHeight="30dp"
+                    android:text="BUY NOW"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:minHeight="30dp"
+            android:text="Policy benefits"
+            android:textAllCaps="true"
+            android:textColor="@color/black" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvBenefits"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/ButtonStyle.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:text="Back to quote" />
+</LinearLayout>
+

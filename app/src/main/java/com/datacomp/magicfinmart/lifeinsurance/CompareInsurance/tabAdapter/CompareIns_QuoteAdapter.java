@@ -75,14 +75,7 @@ public class CompareIns_QuoteAdapter extends RecyclerView.Adapter<CompareIns_Quo
             holder.txtloanamount.setText("" + entity.getPersonalLoanRequest().getLoanRequired());
 
 
-            //click listener
 
-//            holder.txtPersonName.setOnClickListener(this);
-//            holder.txtQuoteDate.setOnClickListener(this);
-//            holder.txtloanamount.setOnClickListener(this);
-//            holder.tvloanamount.setOnClickListener(this);
-//            holder.tvQuoteDate.setOnClickListener(this);
-//            holder.txtOverflowMenu.setOnClickListener(this);
 
             holder.txtPersonName.setOnClickListener(new View.OnClickListener() {
                 @Override

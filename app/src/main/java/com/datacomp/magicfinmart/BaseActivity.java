@@ -46,7 +46,7 @@ public class BaseActivity extends AppCompatActivity {
     int textSize = 30;
     int textMargin = 10;
     int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
-    popUpListener popUpListener;
+    PopUpListener popUpListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void showDialog(String msg) {
-        dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+            dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
     }
 
     public void sendSms(String mobNumber) {
@@ -401,12 +401,15 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public void registerPopUp(PopUpListener popUpListener) {
+        this.popUpListener = popUpListener;
+    }
 
-    public interface popUpListener {
+    public interface PopUpListener {
 
-        void onPositiveButtonClick(Dialog dialog,View view);
+        void onPositiveButtonClick(Dialog dialog, View view);
 
-        void onCancelButtonClick(Dialog dialog,View view);
+        void onCancelButtonClick(Dialog dialog, View view);
     }
 
     public void openPopUp(final View view, String title, String desc, String positiveButtonName, boolean isCancelable) {
@@ -438,7 +441,7 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // Close dialog
-                    popUpListener.onPositiveButtonClick(dialog,view);
+                    popUpListener.onPositiveButtonClick(dialog, view);
                 }
             });
 
@@ -446,7 +449,7 @@ public class BaseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     // Close dialog
-                    popUpListener.onCancelButtonClick(dialog,view);
+                    popUpListener.onCancelButtonClick(dialog, view);
                 }
             });
         } catch (Exception e) {

@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -51,6 +52,8 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
     CardView ccPersonal, ccCompantDetail, ccCurrentAddress, ccContactDetail;
     CheckBox chkTermsCondition, chkSameAsAbove;
     Button btnICICINext;
+
+    TextInputLayout tlCreditLimit, tlMemberSince, tlBank;
 
     //personal detail
     EditText etFirstName, etLastName, etDOB, etMotherName, etCardName;
@@ -722,13 +725,20 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
             if (b) {
+                tlCreditLimit.setVisibility(View.VISIBLE);
+                tlMemberSince.setVisibility(View.VISIBLE);
+                tlBank.setVisibility(View.VISIBLE);
                 etBankName.setVisibility(View.VISIBLE);
                 etMemberSince.setVisibility(View.VISIBLE);
                 etCreditLimit.setVisibility(View.VISIBLE);
             } else {
+                tlCreditLimit.setVisibility(View.GONE);
+                tlMemberSince.setVisibility(View.GONE);
+                tlBank.setVisibility(View.GONE);
                 etBankName.setVisibility(View.GONE);
                 etMemberSince.setVisibility(View.GONE);
                 etCreditLimit.setVisibility(View.GONE);
+
             }
         }
     };
@@ -770,6 +780,11 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
 
 
     private void init() {
+
+        tlCreditLimit = (TextInputLayout) findViewById(R.id.tlCreditLimit);
+        tlMemberSince = (TextInputLayout) findViewById(R.id.tlMemberSince);
+        tlBank = (TextInputLayout) findViewById(R.id.tlBank);
+
         ccPersonal = (CardView) findViewById(R.id.ccPersonal);
         ccCompantDetail = (CardView) findViewById(R.id.ccCompantDetail);
         ccCurrentAddress = (CardView) findViewById(R.id.ccCurrentAddress);
@@ -866,8 +881,6 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         @Override
         public void onClick(View view) {
 
-            Toast.makeText(ICICICreditApplyActivity.this, "" + view.getId(), Toast.LENGTH_SHORT).show();
-
             if (view.getId() == R.id.etDOB) {
                 DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
@@ -888,7 +901,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etDOB.setText(currentDay);
+                            etMemberSince.setText(currentDay);
                         }
                     }
                 });
@@ -954,6 +967,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
 
 
                 if (spNoOfDependents.getSelectedItemPosition() == 0) {
+
                     Toast.makeText(this, "Select No of Dependents", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -1047,6 +1061,12 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                 if (spICICIRelationShip.getSelectedItemPosition() == 1) {
                     if (!isEmpty(etICICINumber)) {
                         etICICINumber.setError("Enter ICICI Relation number");
+                        etICICINumber.setFocusable(true);
+                        return;
+                    }
+
+                    if (etICICINumber.getText().toString().length() < 13) {
+                        etICICINumber.setError("Invalid ICICI Relation number");
                         etICICINumber.setFocusable(true);
                         return;
                     }
@@ -1255,6 +1275,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
 
                 //region creating request
 
+                requestEntity.setCreditCardDetailId(creditCardEntity.getCreditCardDetailId());
                 requestEntity.setFba_id(new DBPersistanceController(this).getUserData().getFBAId());
                 requestEntity.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId());
                 requestEntity.setProd(creditCardEntity.getRBID());

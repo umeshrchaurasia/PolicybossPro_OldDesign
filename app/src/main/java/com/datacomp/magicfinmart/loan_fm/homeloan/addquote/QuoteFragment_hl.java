@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan.addquote;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,23 +9,20 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplyWebView;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 
-import java.util.List;
-
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
@@ -43,7 +41,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResp
 /**
  * A simple {@link Fragment} subclass.
  */
-public class QuoteFragment_hl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM {
+public class QuoteFragment_hl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, BaseFragment.PopUpListener {
 
     private static String INPUT_FRAGMENT = "input";
 
@@ -64,6 +62,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     BankSaveRequest bankSaveRequest;
     BuyLoanQuerystring buyLoanQuerystring;
     int QuoteID = 0;
+    ImageView ivShare;
 
     public QuoteFragment_hl() {
         // Required empty public constructor
@@ -76,6 +75,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.content_home_loan_quote, container, false);
+        registerPopUp(this);
         initialise_widget(view);
 
         if (getArguments() != null) {
@@ -95,7 +95,8 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     }
 
     private void initialise_widget(View view) {
-
+        ivShare = (ImageView) view.findViewById(R.id.ivShare);
+        ivShare.setOnClickListener(this);
         txtInputSummary = (TextView) view.findViewById(R.id.txtInputSummary);
         txtPropertyType = (TextView) view.findViewById(R.id.txtPropertyType);
         txtCostOfProp = (TextView) view.findViewById(R.id.txtCostOfProp);
@@ -151,9 +152,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
                     txtMonthlyIncome.setText("" + homeLoanRequest.getApplicantIncome());
                     txtExistEmi.setText("" + homeLoanRequest.getApplicantObligations());
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -205,6 +204,14 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 //                loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
 //            }
             ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+        } else if (v.getId() == R.id.ivShare) {
+            if (getQuoteResponse != null) {
+                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HL_ALL_QUOTE");
+                intent.putExtra("RESPONSE", getQuoteResponse);
+                intent.putExtra("NAME", homeLoanRequest.getApplicantNme());
+                startActivity(intent);
+            }
         }
 
     }
@@ -225,7 +232,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     private void setFmBankRequest(QuoteEntity entity) {
 
 
-        try{
+        try {
             bankSaveRequest = new BankSaveRequest();
             bankSaveRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
             bankSaveRequest.setBank_id((entity.getBank_Id()));
@@ -235,17 +242,15 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             buyLoanQuerystring.setType("HL");
             buyLoanQuerystring.setBankId(entity.getBank_Id());
 
-            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf( entity.getLoan_eligible()));
-            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf( entity.getProcessingfee()));
+            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf(entity.getLoan_eligible()));
+            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
             buyLoanQuerystring.setQuote_id(QuoteID);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());
             buyLoanQuerystring.setMobileNo(fmHomeLoanRequest.getHomeLoanRequest().getContact());
             buyLoanQuerystring.setCity(fmHomeLoanRequest.getHomeLoanRequest().getCity());
 
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -261,12 +266,11 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
                 ((HLMainActivity) getActivity()).updateRequest(fmHomeLoanRequest, true);
 
             }
-        }else if(response instanceof BankForNodeResponse)
-        {
+        } else if (response instanceof BankForNodeResponse) {
             if (response.getStatusNo() == 0) {
                 ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
 
-               redirectToApplyLoan();
+                redirectToApplyLoan();
 
             }
         }
@@ -302,5 +306,19 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
+        }
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
+        }
     }
 }
