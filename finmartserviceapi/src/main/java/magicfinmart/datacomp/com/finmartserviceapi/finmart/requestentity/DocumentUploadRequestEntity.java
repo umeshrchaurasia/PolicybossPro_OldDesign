@@ -5,4 +5,30 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
  */
 
 public class DocumentUploadRequestEntity {
+    int FBAID, DocType;
+    String DocName;
+
+    public int getFBAID() {
+        return FBAID;
+    }
+
+    public void setFBAID(int FBAID) {
+        this.FBAID = FBAID;
+    }
+
+    public int getDocType() {
+        return DocType;
+    }
+
+    public void setDocType(int docType) {
+        DocType = docType;
+    }
+
+    public String getDocName() {
+        return DocName;
+    }
+
+    public void setDocName(String docName) {
+        DocName = docName;
+    }
 }
