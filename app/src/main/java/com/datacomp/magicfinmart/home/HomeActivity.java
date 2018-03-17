@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.home;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -28,15 +29,20 @@ import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener {
 
     final String TAG = "HOME";
     private Toolbar toolbar;
@@ -52,6 +58,7 @@ public class HomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        registerPopUp(this);
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //Initializing NavigationView
@@ -133,7 +140,9 @@ public class HomeActivity extends BaseActivity {
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_mps:
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        showDialog();
+                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+                        //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_helpfeedback:
                         startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
@@ -273,4 +282,34 @@ public class HomeActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof MpsResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                if (((MpsResponse) response).getMasterData().getPaymentURL() != null) {
+                    startActivity(new Intent(this, CommonWebViewActivity.class)
+                            .putExtra("URL", ((MpsResponse) response).getMasterData().getPaymentURL())
+                            .putExtra("NAME", "MPS")
+                            .putExtra("TITLE", "MPS"));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        openPopUp(toolbar, "Message", "" + t.getMessage(), "OK", true);
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
 }

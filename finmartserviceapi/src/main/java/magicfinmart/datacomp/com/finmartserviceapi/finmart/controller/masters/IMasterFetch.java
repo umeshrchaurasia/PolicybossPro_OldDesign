@@ -23,4 +23,6 @@ public interface IMasterFetch {
 
     public void getConstants(IResponseSubcriber iResponseSubcriber);
 
+    public void getMpsData(IResponseSubcriber iResponseSubcriber);
+
 }
