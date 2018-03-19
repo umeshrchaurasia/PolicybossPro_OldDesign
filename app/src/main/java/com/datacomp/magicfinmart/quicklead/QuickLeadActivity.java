@@ -40,7 +40,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
     EditText etName, etEmail, etMobile, etFollowupDate, etMonthlyIncome, etLoanAmount, etRemark;
     Spinner spProduct;
     Button btnSubmit;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
     ArrayAdapter<String> productTypeAdapter;
 
     @Override
