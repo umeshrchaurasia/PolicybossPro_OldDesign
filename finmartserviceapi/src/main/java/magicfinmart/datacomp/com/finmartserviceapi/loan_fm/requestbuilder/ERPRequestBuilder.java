@@ -37,7 +37,7 @@ public class ERPRequestBuilder extends ERPRetroRequestBuilder {
         @POST("/LoginDtls.svc/XMLService/dsplyHomeloanDtlsForAPP")
         Call<HomeLoanApplicationResponse> getHomeLoanApplication(@Body HashMap<String, String> body);
 
-        @POST("/LoginDtls.svc/XMLService/insPersonalLoanApplnDtlsForAPP")
+        @POST("/LoginDtls.svc/XMLService/dsplypersonalloanDtlsForAPP")
         Call<PersonalLoanApplicationResponse> getPersonalLoanApplication(@Body HashMap<String, String> body);
 
     }

@@ -581,6 +581,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             erpLoanRequest.setDOB(etDob.getText().toString().trim());
           //  erpLoanRequest.setDOB(getMMDDYYYPattern(etDob.getText().toString().trim()));
             erpLoanRequest.setMiddle_Name(etFatherName.getText().toString().trim());
+            erpLoanRequest.setLast_Name(etLastName.getText().toString().trim());
             erpLoanRequest.setGender(Gender);
 
             erpLoanRequest.setMarital_Status(MaritalStatus);
@@ -667,25 +668,44 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
             //region Financial INFO
             erpLoanRequest.setGross_Income(etGrossIncome.getText().toString().trim());
-            erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
+
+            if (!etNetIncome.getText().toString().equals("")) {
+                erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
+            }else
+            {
+                erpLoanRequest.setNet_Income("0");
+
+            }
+
             erpLoanRequest.setOther_Income(etOtherIncome.getText().toString().trim());
             erpLoanRequest.setTotal_Income(etTotalIncome.getText().toString().trim());
             //endregion
 
-            // region For Quote and Query string
-
             erpLoanRequest.setBankId(personalLoanApplyAppliEntity.getBankId());//qurystring
             erpLoanRequest.setQuote_id(personalLoanApplyAppliEntity.getQuote_id());//qurystring
+            erpLoanRequest.setBrokerId(Integer.valueOf(personalLoanApplyAppliEntity.getBrokerId()));//Loanid
+            erpLoanRequest.setProductId(personalLoanApplyAppliEntity.getProductId());
+            // region For Quote and Query string
+
+
+            if (!personalLoanApplyAppliEntity.getLoan_Amount().equals("")) {
+                erpLoanRequest.setLoan_Amount(personalLoanApplyAppliEntity.getLoan_Amount());
+
+            }else {
+                erpLoanRequest.setLoan_Amount("0");
+            }
+
+            if (!personalLoanApplyAppliEntity.getLoan_Terms().equals("")) {
+                erpLoanRequest.setLoan_Terms(personalLoanApplyAppliEntity.getLoan_Terms());
+
+            }else {
+                erpLoanRequest.setLoan_Terms("0");
+            }
+
             //  erpLoanRequest.setLoan_Requested(buyLoanQuerystring.getProp_Loan_Eligible());//
 
-            erpLoanRequest.setBrokerId(Integer.valueOf(personalLoanApplyAppliEntity.getBrokerId()));//Loanid
-
-
-            erpLoanRequest.setProductId(personalLoanApplyAppliEntity.getProductId());
             //  erpLoanRequest.setIsCoApp(0);
 
-            erpLoanRequest.setLoan_Amount(personalLoanApplyAppliEntity.getLoan_Amount());
-            erpLoanRequest.setLoan_Terms(personalLoanApplyAppliEntity.getLoan_Terms());
 
             erpLoanRequest.setROI_Id_Type(personalLoanApplyAppliEntity.getROI_Id_Type());  /// 05
             erpLoanRequest.setProcessing_Fee(personalLoanApplyAppliEntity.getProcessing_Fee());
@@ -817,12 +837,31 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
                 erpLoanRequest.setBrokerId(0);
             }
 
+
             erpLoanRequest.setProductId(rbCustomerEntity.getProductId());
             //  erpLoanRequest.setIsCoApp(0);
 
-            erpLoanRequest.setLoan_Amount(buyLoanQuerystring.getProp_Loan_Eligible());
-            erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
-            erpLoanRequest.setROI_Id_Type(rbCustomerEntity.getPropertyID());  /// 05
+            if (!buyLoanQuerystring.getProp_Loan_Eligible().equals("")) {
+
+                erpLoanRequest.setLoan_Amount(buyLoanQuerystring.getProp_Loan_Eligible());
+
+            }else
+            {
+                erpLoanRequest.setLoan_Amount("0");
+            }
+
+            if (!rbCustomerEntity.getLoanTenure().equals("")) {
+
+                erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
+
+            }else
+            {
+                erpLoanRequest.setLoan_Terms("0");
+            }
+
+
+           // erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
+            erpLoanRequest.setROI_Id_Type(rbCustomerEntity.getRoi_type());  /// 05
             erpLoanRequest.setProcessing_Fee(rbCustomerEntity.getProcessing_fee());
             erpLoanRequest.setApplnId(0);
             erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
@@ -884,6 +923,19 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         return pos;
     }
 
+    private int getResidencePos(String strTitle) {
+        int pos = 0;
+        String[] arrOwenship = getResources().getStringArray(R.array.ownership);
+        for (int i = 0; i < arrOwenship.length; i++) {
+
+            if (arrOwenship[i].toLowerCase().equals(strTitle.toLowerCase())) {
+                pos = i;
+                break;
+            }
+        }
+        return pos;
+    }
+
     //endregion
 
     private void setApplictionData() {
@@ -893,7 +945,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         etLastName.setText(personalLoanApplyAppliEntity.getLast_Name());
         spTitle.setSelection(getTitlePos(personalLoanApplyAppliEntity.getTitle()));
         etDob.setText(getDDMMYYYPattern(personalLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
-        //etFatherName.setText("");
+        etFatherName.setText(personalLoanApplyAppliEntity.getMiddle_Name());
 
         if (personalLoanApplyAppliEntity.getGender().equals("Male")) {
             setMale_gender();
@@ -946,6 +998,8 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
         // region Address PA
         //   spResidence
+        spResidence.setSelection(getResidencePos(personalLoanApplyAppliEntity.getResidence_Type()) );
+
         etAddress1ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address1());
         etAddress2ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address2());
         etAddress3ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address3());
@@ -2377,6 +2431,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     }
 
     //endregion
+
 
     //endregion
 
