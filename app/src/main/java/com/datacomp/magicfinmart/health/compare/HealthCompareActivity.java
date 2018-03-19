@@ -86,6 +86,7 @@ public class HealthCompareActivity extends BaseActivity {
 
     private void updateBenefits(String benefits) {
 
+        resetBenefits();
         for (int i = 0; i < listHealthQuote.size(); i++) {
             HealthQuoteEntity entity = listHealthQuote.get(i);
 
@@ -100,6 +101,17 @@ public class HealthCompareActivity extends BaseActivity {
 
         mAdapter.refreshSelection(listHealthQuote);
 
+    }
+
+    private void resetBenefits() {
+        for (int i = 0; i < listHealthQuote.size(); i++) {
+            HealthQuoteEntity entity = listHealthQuote.get(i);
+
+            for (int j = 0; j < entity.getLstbenfitsFive().size(); j++) {
+                BenefitsEntity benefitsEntity = entity.getLstbenfitsFive().get(j);
+                benefitsEntity.setSelected(false);
+            }
+        }
     }
 
     private void init() {
