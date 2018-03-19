@@ -24,7 +24,6 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.compare.HealthCompareActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
-import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
@@ -45,7 +44,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 
 /**
  * Created by Nilesh Birhade on 14/02/2018.
@@ -136,9 +134,13 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         } else if (view.getId() == R.id.txtCompareCount) {
 
-            Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
-            intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
-            startActivity(intent);
+            if (listCompare.size() == 1) {
+                Toast.makeText(getActivity(), "Select quote to compare with...", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
+                intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
+                startActivity(intent);
+            }
 
         }
     }
@@ -210,7 +212,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case (RESULT_COMPARE): {
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == RESULT_COMPARE) {
                     if (data.getParcelableExtra("BUY") != null) {
                         redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
                     }
@@ -228,8 +230,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
         compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
 
-
-        showDialog("Please wait.., Calculating final premium");
+        showDialog();
         new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
 
     }
@@ -262,7 +263,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             }
         } else if (response instanceof HealthQuoteCompareResponse) {
-            dialogMessage((HealthQuoteCompareResponse) response);
+            buyHealthDialog((HealthQuoteCompareResponse) response);
         }
 
     }
@@ -273,7 +274,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    private void dialogMessage(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
+    private void buyHealthDialog(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -286,8 +287,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
-        String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
-        Glide.with(this).load(imgURL + buyHealthQuoteEntity.getInsurerLogoName())
+
+        //String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
+        Glide.with(this).load(buyHealthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);
         //imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
         //        .getInsurerImage(buyHealthQuoteEntity.getInsurerId()));

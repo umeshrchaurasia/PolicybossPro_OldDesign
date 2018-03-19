@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.fragment.HealthInputFragment;
-import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
+//import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
 import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
@@ -108,9 +108,9 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
 
                     } else {
                         if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
-                            HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
-                            quoteFragment.setArguments(quoteBundle);
-                            loadFragment(quoteFragment, QUOTE_FRAGMENT);
+//                            HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
+//                            quoteFragment.setArguments(quoteBundle);
+//                            loadFragment(quoteFragment, QUOTE_FRAGMENT);
                         } else {
 
                             Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
