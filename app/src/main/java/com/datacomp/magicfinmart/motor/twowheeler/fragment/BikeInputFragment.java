@@ -1274,7 +1274,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             motorRequestEntity.setLast_name(fullName[2]);
         }
         motorRequestEntity.setMobile(etMobile.getText().toString());
-        motorRequestEntity.setEmail("test@test.com");
+        motorRequestEntity.setEmail("");
     }
 
     //region api response
