@@ -29,14 +29,14 @@
                 android:id="@+id/imgInsurer"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="25" />
+                android:layout_weight="30" />
 
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="2dp"
-                android:layout_weight="25"
+                android:layout_weight="30"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -63,7 +63,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="25"
+                android:layout_weight="30"
                 android:gravity="center"
                 android:orientation="vertical">
 
@@ -89,7 +89,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="25"
+                android:layout_weight="10"
                 android:gravity="center"
                 android:orientation="vertical"
                 android:visibility="visible">
@@ -110,7 +110,7 @@
             android:layout_height="1dp"
             android:layout_marginBottom="2dp"
             android:layout_marginTop="2dp"
-            android:background="@color/divider" />
+            android:background="@color/bg" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -121,7 +121,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="25"
+                android:layout_weight="30"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 
@@ -154,7 +154,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:layout_weight="37"
+                android:layout_weight="35"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 
@@ -186,7 +186,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
-                android:layout_weight="37"
+                android:layout_weight="35"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 
@@ -222,7 +222,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:background="@color/divider" />
+            android:background="@color/bg" />
 
         <TextView
             android:layout_width="match_parent"
@@ -237,7 +237,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="8dp"
-            android:background="@color/divider" />
+            android:background="@color/bg" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvBenefits"
