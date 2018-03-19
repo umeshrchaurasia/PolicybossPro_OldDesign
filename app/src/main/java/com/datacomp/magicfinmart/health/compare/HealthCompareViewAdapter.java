@@ -20,7 +20,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEnti
 
 public class HealthCompareViewAdapter extends RecyclerView.Adapter<HealthCompareViewAdapter.ViewHolder> {
 
-
     private LayoutInflater mInflater;
     Context mContext;
     List<HealthQuoteEntity> listBenefits;
