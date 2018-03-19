@@ -80,7 +80,7 @@ public class LoginResponseEntity extends RealmObject {
     private String PayStatus;
     private String CustID;
     private String PaymentUrl;
-    private int IsFoc;
+    private String IsFoc;
     private String POSPName;
     private String POSEmail;
     private String POSPMobile;
@@ -377,11 +377,11 @@ public class LoginResponseEntity extends RealmObject {
         this.PaymentUrl = PaymentUrl;
     }
 
-    public int getIsFoc() {
+    public String getIsFoc() {
         return IsFoc;
     }
 
-    public void setIsFoc(int IsFoc) {
+    public void setIsFoc(String IsFoc) {
         this.IsFoc = IsFoc;
     }
 
