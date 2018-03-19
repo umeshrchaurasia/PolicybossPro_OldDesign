@@ -321,7 +321,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
     private void prepareChild(List<HealthQuoteEntity> listHeader, List<HealthQuoteEntity> listChild) {
-
         for (int i = 0; i < listHeader.size(); i++) {
 
             HealthQuoteEntity header = listHeader.get(i);
@@ -403,8 +402,10 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         List<HealthQuoteEntity> shareList = new ArrayList<>();
 
         public AsyncShareJson(List<HealthQuoteEntity> header, List<HealthQuoteEntity> child) {
+
             headerList = header;
             childList = child;
+
         }
 
         @Override
