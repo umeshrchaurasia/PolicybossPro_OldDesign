@@ -1,25 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cvHealthQuote"
-    style="@style/CardViewStyle"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
-    android:layout_marginTop="4dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="2dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="100">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_height="0dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="90"
         android:orientation="vertical">
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="24dp" />
+            android:layout_height="12dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,14 +126,17 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/txtProductName"
                     style="@style/TextStyle.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Floater"
+                    android:ellipsize="marquee"
+                    android:lines="1"
+                    android:singleLine="true"
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
-                    android:visibility="invisible" />
+                    android:textSize="13sp" />
 
                 <TextView
                     android:id="@+id/txtPlanName"
@@ -146,7 +146,7 @@
                     android:text=""
                     android:textAlignment="center"
                     android:textAllCaps="true"
-                    android:textColor="@color/black" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -218,30 +218,39 @@
 
         </LinearLayout>
 
-        <!--Features-->
-
-
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="8dp"
             android:background="@color/divider" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
             android:gravity="center"
             android:minHeight="30dp"
             android:text="Policy benefits"
             android:textAllCaps="true"
             android:textColor="@color/black" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider" />
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvBenefits"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+            android:layout_height="match_parent" />
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+    <Button
+        android:id="@+id/btnBack"
+        style="@style/ButtonStyle.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:text="Back to quote" />
+</LinearLayout>
+

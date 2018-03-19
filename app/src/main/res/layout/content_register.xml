@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,379 +9,375 @@
     tools:context="com.datacomp.magicfinmart.register.RegisterActivity"
     tools:showIn="@layout/activity_register">
 
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="92"
-        android:scrollbars="none">
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/rlPersonalInfo"
+            style="@style/HeaderLayout"
+            android:gravity="center"
+            android:paddingLeft="@dimen/view_spacing_small"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_weight="90"
+                android:text="Personal Information"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextStyle.Body1"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivPersonalInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:padding="2dp"
+                android:src="@drawable/down_arrow" />
+
+
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/llPersonalInfo"
+            style="@style/CardStyle.Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical">
+            android:visibility="visible">
 
             <LinearLayout
-                android:id="@+id/rlPersonalInfo"
-                style="@style/HeaderLayout"
-                android:gravity="center"
-                android:paddingLeft="@dimen/view_spacing_small"
-                android:weightSum="100">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_weight="90"
-                    android:text="Personal Information"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextStyle.Body1"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/ivPersonalInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:padding="2dp"
-                    android:src="@drawable/down_arrow" />
-
-
-            </LinearLayout>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/llPersonalInfo"
-                style="@style/CardStyle.Home"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
                 android:visibility="visible">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:orientation="vertical"
-                    android:visibility="visible">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="First Name">
-
-                            <EditText
-                                android:id="@+id/etFirstName"
-                                style="@style/Style.edittext"
-                                android:drawableRight="@drawable/vector_person" />
-
-                        </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Last Name">
-
-                            <EditText
-                                android:id="@+id/etLastName"
-                                style="@style/Style.edittext"
-                                android:drawableRight="@drawable/vector_person" />
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="top"
-                        android:orientation="horizontal"
-                        android:weightSum="100">
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="50"
-                            android:hint="Date of Birth">
-
-                            <EditText
-                                android:id="@+id/etDob"
-                                style="@style/Style.edittext"
-                                android:drawableRight="@drawable/vector_date"
-                                android:focusable="false" />
-                        </android.support.design.widget.TextInputLayout>
-
-                        <ImageView
-                            android:id="@+id/ivMale"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="25"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/male_selected" />
-
-                        <ImageView
-                            android:id="@+id/ivFemale"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_weight="25"
-                            android:scaleType="centerInside"
-                            android:src="@drawable/female" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Mobile">
-
-                            <EditText
-                                android:id="@+id/etMobile1"
-                                style="@style/Style.edittext"
-                                android:drawableRight="@drawable/vector_mobile"
-                                android:inputType="number"
-                                android:maxLength="10" />
-
-                        </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Mobile 2">
-
-                            <EditText
-                                android:id="@+id/etMobile2"
-                                style="@style/Style.edittext"
-                                android:drawableRight="@drawable/vector_mobile"
-                                android:inputType="number"
-                                android:maxLength="10" />
-
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
+                    android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="Email">
+                        android:layout_weight="1"
+                        android:hint="First Name">
 
                         <EditText
-                            android:id="@+id/etEmail"
+                            android:id="@+id/etFirstName"
                             style="@style/Style.edittext"
-                            android:drawableRight="@drawable/vector_email"
-                            android:inputType="textEmailAddress" />
+                            android:drawableRight="@drawable/vector_person" />
 
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="Confirm Email">
+                        android:layout_weight="1"
+                        android:hint="Last Name">
 
                         <EditText
-                            android:id="@+id/etConfirmEmail"
+                            android:id="@+id/etLastName"
                             style="@style/Style.edittext"
-                            android:drawableRight="@drawable/vector_email"
-                            android:inputType="textEmailAddress" />
+                            android:drawableRight="@drawable/vector_person" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="top"
+                    android:orientation="horizontal"
+                    android:weightSum="100">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:hint="Date of Birth">
+
+                        <EditText
+                            android:id="@+id/etDob"
+                            style="@style/Style.edittext"
+                            android:drawableRight="@drawable/vector_date"
+                            android:focusable="false" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <ImageView
+                        android:id="@+id/ivMale"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="25"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/male_selected" />
+
+                    <ImageView
+                        android:id="@+id/ivFemale"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="25"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/female" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Mobile">
+
+                        <EditText
+                            android:id="@+id/etMobile1"
+                            style="@style/Style.edittext"
+                            android:drawableRight="@drawable/vector_mobile"
+                            android:inputType="number"
+                            android:maxLength="10" />
 
                     </android.support.design.widget.TextInputLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="Pincode">
-
-                            <EditText
-                                android:id="@+id/etPincode"
-                                style="@style/Style.edittext"
-                                android:drawableRight="@drawable/vector_pincode"
-                                android:inputType="number"
-                                android:maxLength="6" />
-
-                        </android.support.design.widget.TextInputLayout>
-
-                        <android.support.design.widget.TextInputLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="City">
-
-                            <EditText
-                                android:id="@+id/etCity"
-                                style="@style/Style.edittext"
-                                android:drawableRight="@drawable/vector_city"
-                                android:editable="false" />
-                        </android.support.design.widget.TextInputLayout>
-                    </LinearLayout>
-
                     <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:hint="State">
+                        android:layout_weight="1"
+                        android:hint="Mobile 2">
 
                         <EditText
-                            android:id="@+id/etState"
+                            android:id="@+id/etMobile2"
                             style="@style/Style.edittext"
-                            android:drawableRight="@drawable/vector_state"
+                            android:drawableRight="@drawable/vector_mobile"
+                            android:inputType="number"
+                            android:maxLength="10" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Email">
+
+                    <EditText
+                        android:id="@+id/etEmail"
+                        style="@style/Style.edittext"
+                        android:drawableRight="@drawable/vector_email"
+                        android:inputType="textEmailAddress" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Confirm Email">
+
+                    <EditText
+                        android:id="@+id/etConfirmEmail"
+                        style="@style/Style.edittext"
+                        android:drawableRight="@drawable/vector_email"
+                        android:inputType="textEmailAddress" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Pincode">
+
+                        <EditText
+                            android:id="@+id/etPincode"
+                            style="@style/Style.edittext"
+                            android:drawableRight="@drawable/vector_pincode"
+                            android:inputType="number"
+                            android:maxLength="6" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="City">
+
+                        <EditText
+                            android:id="@+id/etCity"
+                            style="@style/Style.edittext"
+                            android:drawableRight="@drawable/vector_city"
                             android:editable="false" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
 
-
-            <LinearLayout
-                android:id="@+id/rlProfessionalInfo"
-                style="@style/HeaderLayout"
-                android:gravity="center"
-                android:paddingLeft="@dimen/view_spacing_small"
-                android:weightSum="100">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_weight="90"
-                    android:text="Professional Information"
-                    android:textAllCaps="true"
-                    android:textAppearance="@style/TextStyle.Body1"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/ivProfessionalInfo"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:padding="2dp"
-                    android:src="@drawable/down_arrow" />
-
-
-            </LinearLayout>
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/llProfessionalInfo"
-                style="@style/CardStyle.Home"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible">
-
-                <LinearLayout
-
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:animateLayoutChanges="true"
-                    android:background="@color/white"
-                    android:orientation="vertical"
-                    android:visibility="visible">
+                    android:hint="State">
 
-                    <CheckBox
-                        android:id="@+id/chbxLife"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Life Insurance" />
-
-                    <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
-                        android:id="@+id/spLifeIns"
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="false" />
-
-                    <CheckBox
-                        android:id="@+id/chbxGen"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="General Insurance" />
-
-                    <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
-                        android:id="@+id/spGenIns"
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="false" />
+                    <EditText
+                        android:id="@+id/etState"
+                        style="@style/Style.edittext"
+                        android:drawableRight="@drawable/vector_state"
+                        android:editable="false" />
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
 
-                    <CheckBox
-                        android:id="@+id/chbxHealth"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Health Insurance" />
+        <LinearLayout
+            android:id="@+id/rlProfessionalInfo"
+            style="@style/HeaderLayout"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:paddingLeft="@dimen/view_spacing_small"
+            android:weightSum="100">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_weight="90"
+                android:text="Professional Information"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextStyle.Body1"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivProfessionalInfo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="10"
+                android:padding="2dp"
+                android:src="@drawable/down_arrow" />
 
 
-                    <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
-                        android:id="@+id/spHealthIns"
-                        style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:id="@+id/chbxMutual"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Mutual Fund" />
-
-                        <CheckBox
-                            android:id="@+id/chbxStocks"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Stocks" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <CheckBox
-                            android:id="@+id/chbxPostal"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Postal Savings" />
-
-                        <CheckBox
-                            android:id="@+id/chbxBonds"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Bonds/CFDs" />
-                    </LinearLayout>
-
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
         </LinearLayout>
-    </ScrollView>
 
-    <Button
-        android:id="@+id/btnSubmit"
-        style="@style/ButtonStyle"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8"
-        android:text="SUBMIT"
-        android:visibility="visible" />
+        <android.support.v7.widget.CardView
+            android:id="@+id/llProfessionalInfo"
+            style="@style/CardStyle.Home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
 
-</LinearLayout>
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:animateLayoutChanges="true"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <CheckBox
+                    android:id="@+id/chbxLife"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Life Insurance" />
+
+                <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
+                    android:id="@+id/spLifeIns"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false" />
+
+                <CheckBox
+                    android:id="@+id/chbxGen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="General Insurance" />
+
+                <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
+                    android:id="@+id/spGenIns"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false" />
+
+
+                <CheckBox
+                    android:id="@+id/chbxHealth"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Health Insurance" />
+
+
+                <com.datacomp.magicfinmart.register.adapters.MultiSelectionSpinner
+                    android:id="@+id/spHealthIns"
+                    style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/chbxMutual"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Mutual Fund" />
+
+                    <CheckBox
+                        android:id="@+id/chbxStocks"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Stocks" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/chbxPostal"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Postal Savings" />
+
+                    <CheckBox
+                        android:id="@+id/chbxBonds"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Bonds/CFDs" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            style="@style/ButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="8"
+            android:text="SUBMIT"
+            android:visibility="visible" />
+    </LinearLayout>
+
+
+</ScrollView>

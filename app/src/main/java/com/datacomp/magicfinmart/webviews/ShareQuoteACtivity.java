@@ -46,6 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -67,16 +68,18 @@ public class ShareQuoteACtivity extends BaseActivity {
     BikeMasterEntity bikeMasterEntity;
     CarMasterEntity carMasterEntity;
     LoginResponseEntity loginResponseEntity;
+    AccountDtlEntity accountDtlEntity;
     String respone;
     String userReponse;
     String otherData = "";
     Gson gson = new Gson();
     String pospPhotoUrl, pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo, makeModel, cc;
     String from;
-
+    DBPersistanceController dbPersistanceController;
     GetQuoteResponse getQuoteResponse;
     GetBLDispalyResponse getblDispalyResponse;
     GetPersonalLoanResponse getPersonalLoanResponse;
+    JSONObject userJson = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +93,9 @@ public class ShareQuoteACtivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         webView = (WebView) findViewById(R.id.webView);
 
+        dbPersistanceController = new DBPersistanceController(this);
+        loginResponseEntity = dbPersistanceController.getUserData();
+        accountDtlEntity = dbPersistanceController.getAccountData();
 
         //region from which class
         if (getIntent().hasExtra(Constants.SHARE_ACTIVITY_NAME)) {
@@ -97,34 +103,50 @@ public class ShareQuoteACtivity extends BaseActivity {
             switch (from) {
                 case "CAR_ALL_QUOTE":
                     CarAllQuote();
+                    createJson();
+                    setPospDetails();
                     break;
                 case "CAR_SINGLE_QUOTE":
                     carSingleQuote();
+                    createJson();
+                    setPospDetails();
                     break;
                 case "BIKE_ALL_QUOTE":
                     BikeAllQuote();
+                    createJson();
+                    setPospDetails();
                     break;
                 case "BIKE_SINGLE_QUOTE":
                     BikeSingleQuote();
+                    createJson();
+                    setPospDetails();
                     break;
 
                 case "HEALTH_ALL_QUOTE":
                     HealthAllQuote();
+                    createJson();
+                    setPospDetails();
                     break;
                 case "HEALTH_SINGLE_QUOTE":
                     HealthSingleQuote();
+                    createJson();
+                    setPospDetails();
                     break;
                 case "HL_ALL_QUOTE":
                     HlAllQuote();
+                    setOtherDetails();
                     break;
                 case "BL_ALL_QUOTE":
                     BlAllQuote();
+                    setOtherDetails();
                     break;
                 case "PL_ALL_QUOTE":
                     PlAllQuote();
+                    setOtherDetails();
                     break;
                 case "LAP_ALL_QUOTE":
                     LapAllQuote();
+                    setOtherDetails();
                     break;
 
 
@@ -133,12 +155,8 @@ public class ShareQuoteACtivity extends BaseActivity {
         //endregion
 
         //region user  details
-        try {
-            loginResponseEntity = new DBPersistanceController(this).getUserData();
-            userReponse = createJson();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        userReponse = userJson.toString();
         //endregion
 
         //region floatingbutton
@@ -158,6 +176,122 @@ public class ShareQuoteACtivity extends BaseActivity {
         //endregion
 
         settingWebview();
+    }
+
+    private void setPospDetails() {
+        if (accountDtlEntity != null) {
+
+            if (loginResponseEntity != null) {
+                if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
+                    pospNAme = loginResponseEntity.getPOSPName();
+                } else {
+                    pospNAme = "POSP Name";
+                }
+                if (loginResponseEntity.getPOSPProfileUrl() != null && !loginResponseEntity.getPOSPProfileUrl().equals("")) {
+                    pospPhotoUrl = loginResponseEntity.getPOSPProfileUrl();
+                }
+            } else {
+                pospNAme = "POSP Name";
+            }
+
+            if (accountDtlEntity.getDisplayEmail() != null && !accountDtlEntity.getDisplayEmail().equals("")) {
+                pospEmail = accountDtlEntity.getDisplayEmail();
+            } else {
+                pospEmail = "XXXXXX@finmart.com";
+            }
+
+            if (accountDtlEntity.getDisplayDesignation() != null && !accountDtlEntity.getDisplayDesignation().equals("")) {
+                pospDesg = accountDtlEntity.getDisplayDesignation();
+            } else {
+                pospDesg = "LandMark POSP";
+            }
+
+            if (accountDtlEntity.getDisplayPhoneNo() != null && !accountDtlEntity.getDisplayPhoneNo().equals("")) {
+                PospMobNo = accountDtlEntity.getDisplayPhoneNo();
+            } else {
+                PospMobNo = "98XXXXXXXX";
+            }
+        } else {
+            pospNAme = "POSP Name";
+            pospEmail = "XXXXXX@finmart.com";
+            pospDesg = "LandMark POSP";
+            PospMobNo = "98XXXXXXXX";
+        }
+
+        try {
+            userJson.put("pospPhotoUrl", pospPhotoUrl);
+            userJson.put("pospDesg", pospDesg);
+            userJson.put("pospNAme", pospNAme);
+            userJson.put("pospEmail", pospEmail);
+            userJson.put("PospMobNo", PospMobNo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setOtherDetails() {
+
+        if (accountDtlEntity != null) {
+
+            if (loginResponseEntity != null) {
+                if (loginResponseEntity.getFullName() != null && !loginResponseEntity.getFullName().equals("")) {
+                    pospNAme = loginResponseEntity.getFullName();
+                } else {
+                    pospNAme = "FBA Name";
+                }
+                if (loginResponseEntity.getFBAProfileUrl() != null && !loginResponseEntity.getFBAProfileUrl().equals("")) {
+                    pospPhotoUrl = loginResponseEntity.getFBAProfileUrl();
+                }
+
+            } else {
+                pospNAme = "FBA Name";
+            }
+
+            if (accountDtlEntity.getEditEmailId() != null && !accountDtlEntity.getEditEmailId().equals("")) {
+                pospEmail = accountDtlEntity.getEditEmailId();
+            } else {
+                pospEmail = "XXXXXX@finmart.com";
+            }
+
+            if (accountDtlEntity.getDesignation() != null && !accountDtlEntity.getDesignation().equals("")) {
+                pospDesg = accountDtlEntity.getDesignation();
+            } else {
+                pospDesg = "FBA SUPPORT ASSISTANT";
+            }
+
+            if (accountDtlEntity.getEditMobiNumb() != null && !accountDtlEntity.getEditMobiNumb().equals("")) {
+                PospMobNo = accountDtlEntity.getEditMobiNumb();
+            } else {
+                PospMobNo = "98XXXXXXXX";
+            }
+        } else {
+            pospNAme = "FBA Name";
+            pospEmail = "XXXXXX@finmart.com";
+            pospDesg = "FBA SUPPORT ASSISTANT";
+            PospMobNo = "98XXXXXXXX";
+        }
+
+
+        try {
+            userJson.put("pospPhotoUrl", pospPhotoUrl);
+            userJson.put("pospDesg", pospDesg);
+            userJson.put("pospNAme", pospNAme);
+            userJson.put("pospEmail", pospEmail);
+            userJson.put("PospMobNo", PospMobNo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createJson() {
+
+        try {
+            userJson.put("CC", cc);
+            userJson.put("CAR_NAME", makeModel);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void HlAllQuote() {
@@ -312,7 +446,10 @@ public class ShareQuoteACtivity extends BaseActivity {
         if (getIntent().hasExtra("BIKENAME")) {
             //bike
             bikeMasterEntity = getIntent().getParcelableExtra("BIKENAME");
-            makeModel = bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+            if (!bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
+                makeModel = bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+            else
+                makeModel = bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name();
             cc = "CRN : " + bikePremiumResponse.getSummary().getPB_CRN() + " , " + bikeMasterEntity.getCubic_Capacity() + "CC";
         }
         //region url ,name,title
@@ -355,7 +492,10 @@ public class ShareQuoteACtivity extends BaseActivity {
         if (getIntent().hasExtra("CARNAME")) {
             //car
             carMasterEntity = getIntent().getParcelableExtra("CARNAME");
-            makeModel = carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+            if (!bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
+                makeModel = carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+            else
+                makeModel = carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name();
             cc = "CRN : " + bikePremiumResponse.getSummary().getPB_CRN() + " , " + carMasterEntity.getCubic_Capacity() + "CC";
         }
         //region url ,name,title
@@ -366,41 +506,6 @@ public class ShareQuoteACtivity extends BaseActivity {
         getSupportActionBar().setTitle(title);
 
         //endregion
-    }
-
-
-    private String createJson() throws JSONException {
-        if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
-            pospNAme = loginResponseEntity.getPOSPName();
-        } else {
-            pospNAme = "POSP Name";
-        }
-        if (loginResponseEntity.getPOSEmail() != null && !loginResponseEntity.getPOSEmail().equals("")) {
-            pospEmail = loginResponseEntity.getPOSEmail();
-        } else {
-            pospEmail = "landmarkposp@finmart.com";
-        }
-        if (loginResponseEntity.getPOSPMobile() != null && !loginResponseEntity.getPOSPMobile().equals("")) {
-            PospMobNo = loginResponseEntity.getPOSPMobile();
-        } else {
-            PospMobNo = "98XXXXXXXX";
-        }
-        if (loginResponseEntity.getPOSPProfileUrl() != null && !loginResponseEntity.getPOSPProfileUrl().equals("")) {
-            pospPhotoUrl = loginResponseEntity.getPOSPProfileUrl();
-        } else {
-            pospPhotoUrl = "http://www.policyboss.com/Images/insurer_logo/Bharti_Axa_General.png";
-        }
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("CAR_NAME", makeModel);
-        jsonObject.put("CC", cc);
-        jsonObject.put("pospPhotoUrl", pospPhotoUrl);
-        jsonObject.put("pospDesg", pospDesg);
-        jsonObject.put("pospNAme", pospNAme);
-        jsonObject.put("pospEmail", pospEmail);
-        jsonObject.put("PospMobNo", PospMobNo);
-
-        return jsonObject.toString();
-
     }
 
 

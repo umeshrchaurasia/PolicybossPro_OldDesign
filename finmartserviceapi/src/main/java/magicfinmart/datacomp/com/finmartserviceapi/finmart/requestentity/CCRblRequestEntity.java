@@ -62,6 +62,15 @@ public class CCRblRequestEntity {
     private String empid;
     private String source;
     private int fba_id;
+    private int CreditCardDetailId;
+
+    public int getCreditCardDetailId() {
+        return CreditCardDetailId;
+    }
+
+    public void setCreditCardDetailId(int creditCardDetailId) {
+        CreditCardDetailId = creditCardDetailId;
+    }
 
     public int getFba_id() {
         return fba_id;

@@ -82,18 +82,20 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
             //set tag for sharing entity
 
-            holder.txtCrnNo.setTag(R.id.txtCrnNo, entity);
+    /*        holder.txtCrnNo.setTag(R.id.txtCrnNo, entity);
             holder.txtQuoteDate.setTag(R.id.txtQuoteDate, entity);
-            holder.txtVehicleName.setTag(R.id.txtVehicleName, entity);
+            holder.txtVehicleName.setTag(R.id.txtVehicleName, entity);*/
             holder.txtPersonName.setTag(R.id.txtPersonName, entity);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
+            holder.llDetails.setTag(R.id.llDetails, entity);
 
             //click listener
-            holder.txtCrnNo.setOnClickListener(this);
+ /*           holder.txtCrnNo.setOnClickListener(this);
             holder.txtQuoteDate.setOnClickListener(this);
-            holder.txtVehicleName.setOnClickListener(this);
+            holder.txtVehicleName.setOnClickListener(this);*/
             holder.txtPersonName.setOnClickListener(this);
             holder.txtOverflowMenu.setOnClickListener(this);
+            holder.llDetails.setOnClickListener(this);
 
         }
     }
@@ -137,9 +139,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.txtCrnNo:
-            case R.id.txtQuoteDate:
-            case R.id.txtVehicleName:
+
             case R.id.llDetails:
             case R.id.txtPersonName:
                 ((MotorQuoteFragment) mFrament).redirectToInputQuote((QuoteListEntity) view.getTag(view.getId()));

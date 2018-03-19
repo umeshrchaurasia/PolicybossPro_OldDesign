@@ -60,7 +60,7 @@ public class CreditCardsAdapter extends RecyclerView.Adapter<CreditCardsAdapter.
         final CreditCardEntity entity = listCreditCards.get(position);
         hold.txtCardbankName.setText("" + entity.getBankName());
         hold.txtCardType.setText(entity.getCreditCardType());
-        if (entity.getDisplaycardname().length() == 0) {
+        if (entity.getDisplaycardname() == null) {
             hold.txtDisplayCardName.setVisibility(View.GONE);
         } else {
             hold.txtDisplayCardName.setVisibility(View.VISIBLE);

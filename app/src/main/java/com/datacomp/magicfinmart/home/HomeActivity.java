@@ -1,6 +1,9 @@
 package com.datacomp.magicfinmart.home;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -20,23 +23,26 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener {
 
     final String TAG = "HOME";
     private Toolbar toolbar;
@@ -45,11 +51,14 @@ public class HomeActivity extends BaseActivity {
     TextView textNotifyItemCount, txtEntityName, txtDetails, txtFbaCode;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
+    String versionNAme;
+    PackageInfo pinfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        registerPopUp(this);
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //Initializing NavigationView
@@ -60,7 +69,12 @@ public class HomeActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
-
+        try {
+            pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionNAme = pinfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
         init_headers();
@@ -99,7 +113,7 @@ public class HomeActivity extends BaseActivity {
                     case R.id.nav_myaccount: {
 
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                     //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+                        //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
                         // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
@@ -126,7 +140,9 @@ public class HomeActivity extends BaseActivity {
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_mps:
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        showDialog();
+                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+                        //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_helpfeedback:
                         startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
@@ -190,7 +206,7 @@ public class HomeActivity extends BaseActivity {
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
         txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
 
-        txtEntityName.setText("Magic Finmart v1.0");
+        txtEntityName.setText("Magic Finmart v" + versionNAme);
         txtDetails.setText("" + loginResponseEntity.getFullName());
         txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
@@ -266,4 +282,34 @@ public class HomeActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof MpsResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                if (((MpsResponse) response).getMasterData().getPaymentURL() != null) {
+                    startActivity(new Intent(this, CommonWebViewActivity.class)
+                            .putExtra("URL", ((MpsResponse) response).getMasterData().getPaymentURL())
+                            .putExtra("NAME", "MPS")
+                            .putExtra("TITLE", "MPS"));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        openPopUp(toolbar, "Message", "" + t.getMessage(), "OK", true);
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
 }

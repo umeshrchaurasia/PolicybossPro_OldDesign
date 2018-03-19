@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -60,7 +58,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew;
@@ -69,7 +67,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo;
     View cvInput;
-    Button btnGetQuote;
+    Button btnGetQuote, btnGo;
     TextView tvDontKnow;
     EditText etreg1, etreg2, etreg3, etreg4;
     String regNo = "";
@@ -102,7 +100,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
         View view = inflater.inflate(R.layout.content_add_new_quote, container, false);
         dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity();
-
+        registerPopUp(this);
         init_view(view);
 
         setListener();
@@ -594,6 +592,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
     }
 
     private void setListener() {
+        btnGo.setOnClickListener(this);
         switchNewRenew.setOnCheckedChangeListener(this);
         swIndividual.setOnCheckedChangeListener(this);
         tvClaimYes.setOnClickListener(this);
@@ -636,6 +635,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
     }
 
     private void init_view(View view) {
+        btnGo = (Button) view.findViewById(R.id.btnGo);
         tvNew = (TextView) view.findViewById(R.id.tvNew);
         tvRenew = (TextView) view.findViewById(R.id.tvRenew);
         llVerifyCarDetails = (LinearLayout) view.findViewById(R.id.llVerifyCarDetails);
@@ -687,6 +687,17 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.btnGo:
+                regNo = etreg1.getText().toString() + etreg2.getText().toString()
+                        + etreg3.getText().toString() + etreg4.getText().toString();
+                if (!regNo.equals("")) {
+                    Constants.hideKeyBoard(etreg4, getActivity());
+                    tvDontKnow.performClick();
+                    btnGetQuote.setVisibility(View.VISIBLE);
+                    showDialog("Fetching Car Details...");
+                    new FastLaneController(getActivity()).getVechileDetails(regNo, this);
+                }
+                break;
             case R.id.tvClaimNo:
                 isClaimExist = false;
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder_blue);
@@ -836,16 +847,19 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
     public void getVehicleNumber(View view, String vehicleNo) {
         switch (view.getId()) {
             case R.id.etreg1:
+                regNo = etreg1.getText().toString();
                 etreg2.requestFocus();
                 break;
             case R.id.etreg2:
+                regNo = etreg1.getText().toString() + etreg2.getText().toString();
                 etreg3.requestFocus();
                 break;
             case R.id.etreg3:
+                regNo = etreg1.getText().toString() + etreg2.getText().toString() + etreg3.getText().toString();
                 etreg4.requestFocus();
                 break;
             case R.id.etreg4:
-
+                //regNo += etreg4.getText().toString();
                 regNo = etreg1.getText().toString() + etreg2.getText().toString()
                         + etreg3.getText().toString() + etreg4.getText().toString();
                 llVerifyCarDetails.setVisibility(View.VISIBLE);
@@ -1249,7 +1263,7 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
             motorRequestEntity.setLast_name(fullName[2]);
         }
         motorRequestEntity.setMobile(etMobile.getText().toString());
-        motorRequestEntity.setEmail("test@test.com");
+        motorRequestEntity.setEmail("");
     }
 
     //region api response
@@ -1353,55 +1367,34 @@ public class InputFragment extends BaseFragment implements CompoundButton.OnChec
                 etExpDate.setEnabled(false);
                 spPrevIns.setEnabled(false);
                 cvNcb.setVisibility(View.GONE);
+                tvDontKnow.performClick();
             }
         } else if (R.id.swIndividual == compoundButton.getId()) {
             if (!b) {
                 //openPop up
                 swIndividual.setChecked(true);
-                showPopUp("CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "", "OK", true);
+                openPopUp(swIndividual, "MAGIC-FINMART", "CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "OK", true);
+                //showPopUp("CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "", "OK", true);
             }
         }
 
     }
 
-    private void showPopUp(String title, String message, String buttonName, boolean isCancelable) {
-
-        try {
-            final Dialog dialog;
-            dialog = new Dialog(getActivity());
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setContentView(R.layout.layout_pancard_popup);
-
-            TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
-            tvTitle.setText(title);
-            TextView tvOk = (TextView) dialog.findViewById(R.id.tvOk);
-            tvOk.setText(buttonName);
-            tvOk.setVisibility(View.GONE);
-            TextView txtMessage = (TextView) dialog.findViewById(R.id.txtMessage);
-            txtMessage.setText(message);
-            txtMessage.setVisibility(View.GONE);
-
-            dialog.setCancelable(isCancelable);
-            dialog.setCanceledOnTouchOutside(isCancelable);
-
-            Window dialogWindow = dialog.getWindow();
-            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-            lp.width = lp.MATCH_PARENT;
-            ; // Width
-            lp.height = lp.WRAP_CONTENT; // Height
-            dialogWindow.setAttributes(lp);
-
-            dialog.show();
-            tvOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Close dialog
-                    dialog.cancel();
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        switch (view.getId()) {
+            case R.id.swIndividual:
+                dialog.dismiss();
+                break;
         }
     }
 
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        switch (view.getId()) {
+            case R.id.swIndividual:
+                dialog.dismiss();
+                break;
+        }
+    }
 }

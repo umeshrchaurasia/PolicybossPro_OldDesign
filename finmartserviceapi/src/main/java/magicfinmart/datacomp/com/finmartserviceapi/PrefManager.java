@@ -28,11 +28,21 @@ public class PrefManager {
 
     private static final String IS_ZOHO_MASTER = "iszohomaster";
     private static final String POSP_INFO = "pospinfo";
+    private static final String IS_UPDATE_SHOWN = "updateshown";
 
     public PrefManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
+    }
+
+    public void setIsUpdateShown(boolean isFirstTime) {
+        editor.putBoolean(IS_UPDATE_SHOWN, isFirstTime);
+        editor.commit();
+    }
+
+    public boolean getUpdateShown() {
+        return pref.getBoolean(IS_UPDATE_SHOWN, true);
     }
 
     public void setIsZohoMaster(boolean isFirstTime) {
@@ -106,10 +116,10 @@ public class PrefManager {
         editor.commit();
     }
 
-    public String  getToken()
-    {
-        return pref.getString(IS_DEVICE_TOKEN,"");
+    public String getToken() {
+        return pref.getString(IS_DEVICE_TOKEN, "");
     }
+
     public boolean setPospInformation(RegisterRequestEntity registerRequestEntity) {
         try {
             Gson gson = new Gson();
@@ -131,9 +141,11 @@ public class PrefManager {
             return null;
     }
 
-    public void deletePospInfo(){
+    public void deletePospInfo() {
         pref.edit().remove(POSP_INFO).commit();
-    };
+    }
+
+    ;
 
 
 }

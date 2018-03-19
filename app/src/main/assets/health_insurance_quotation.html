@@ -320,7 +320,7 @@
         document.getElementById('name').innerHTML = otherResponse;
 
 
-        document.getElementById('pospName').src = otherDetails.pospNAme;
+        document.getElementById('pospName').innerHTML = otherDetails.pospNAme;
         document.getElementById('pospPhoto').src = otherDetails.pospPhotoUrl;
         document.getElementById('deg').innerHTML = otherDetails.pospDesg;
         document.getElementById('phone').innerHTML = otherDetails.PospMobNo;;
@@ -339,13 +339,13 @@
             HTML = HTML + '<table class="table table-bordered tbl2" >';
             HTML = HTML + '  <tbody>';
             HTML = HTML + '<tr>';
-            HTML = HTML + '<td><img src="http://www.policyboss.com/Images/insurer_logo/' + response.InsurerLogoName + '" class="img-responsive center" /></td>';
+            HTML = HTML + '<td><img src="' + response.InsurerLogoName + '" class="img-responsive center" /></td>';
             HTML = HTML + ' <td><p>SUM ASSURED</p><h5><b>₹ ' + response.SumInsured + '</h5></b></td>';
-            HTML = HTML + '<td><p>DEDUCT DLE</p><h5><b>₹ ' + response.Deductible_Amount + '</b></h5></td>';
+            HTML = HTML + '<td><p>DEDUCTIBLE</p><h5><b>₹ ' + response.Deductible_Amount + '</b></h5></td>';
             HTML = HTML + '</tr>';
             HTML = HTML + ' <tr>';
-            HTML = HTML + ' <td><p>CARE FLOATER</p><h5><b>' + response.PlanName + ' </b></h5> </td>';
-            HTML = HTML + '<td colspan="2"><p class="text-center">PREMIUM</p> <a href="#" class="amount">₹ ' + response.NetPremium + '</a></td>';
+            HTML = HTML + ' <td><p>' + response.PlanName + '</p><h5><b>' + response.ProductName + ' </b></h5> </td>';
+            HTML = HTML + '<td colspan="2"><p class="text-center">PREMIUM</p> <a href="#" class="amount">₹ ' + response.NetPremium + '/Year</a></td>';
             HTML = HTML + ' </tr>';
             HTML = HTML + '</tbody>';
             HTML = HTML + '</table>';

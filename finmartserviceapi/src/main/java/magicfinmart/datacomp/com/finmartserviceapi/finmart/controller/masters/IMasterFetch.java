@@ -19,6 +19,10 @@ public interface IMasterFetch {
 
     public void getContactList(IResponseSubcriber iResponseSubcriber);
 
-    public void getWhatsNew(String app_version,IResponseSubcriber iResponseSubcriber);
+    public void getWhatsNew(String app_version, IResponseSubcriber iResponseSubcriber);
+
+    public void getConstants(IResponseSubcriber iResponseSubcriber);
+
+    public void getMpsData(IResponseSubcriber iResponseSubcriber);
 
 }

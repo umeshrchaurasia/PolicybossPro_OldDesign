@@ -20,7 +20,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEnti
 
 public class HealthCompareViewAdapter extends RecyclerView.Adapter<HealthCompareViewAdapter.ViewHolder> {
 
-
     private LayoutInflater mInflater;
     Context mContext;
     List<HealthQuoteEntity> listBenefits;
@@ -49,15 +48,15 @@ public class HealthCompareViewAdapter extends RecyclerView.Adapter<HealthCompare
         holder.txtInsurerName.setText(healthQuoteEntity.getInsurerName());
         holder.txtPlanName.setText(healthQuoteEntity.getPlanName());
 
-        if (healthQuoteEntity.getInsurerLogoName().equals("")) {
-            holder.imgInsurerLogo.setImageResource(new DBPersistanceController(mContext)
-                    .getInsurerImage(healthQuoteEntity.getInsurerId()));
-        } else {
-            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" +
-                    healthQuoteEntity.getInsurerLogoName();
-            Glide.with(mContext).load(imgURL)
-                    .into(holder.imgInsurerLogo);
-        }
+//        if (healthQuoteEntity.getInsurerLogoName().equals("")) {
+        Glide.with(mContext).load(healthQuoteEntity.getInsurerLogoName())
+                .into(holder.imgInsurerLogo);
+//        } else {
+//            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" +
+//                    healthQuoteEntity.getInsurerLogoName();
+//            Glide.with(mContext).load(imgURL)
+//                    .into(holder.imgInsurerLogo);
+//        }
 
 
         for (int i = 0; i < healthQuoteEntity.getLstbenfitsFive().size(); i++) {
