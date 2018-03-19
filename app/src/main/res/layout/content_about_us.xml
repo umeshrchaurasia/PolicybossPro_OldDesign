@@ -11,13 +11,14 @@
     tools:showIn="@layout/activity_about_us">
 
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
             android:src="@drawable/finmart_logo" />
 
         <TextView

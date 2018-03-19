@@ -98,7 +98,7 @@ ul li {margin:2px; padding:4px !important;}
 
       document.getElementById('name').innerHTML = other.NAME;
 
-      document.getElementById('pospName').src = user.pospNAme;
+      document.getElementById('pospName').innerHTML = user.pospNAme;
       document.getElementById('pospPhoto').src = user.pospPhotoUrl;
       document.getElementById('deg').innerHTML = user.pospDesg;
       document.getElementById('phone').innerHTML = user.PospMobNo;
@@ -109,7 +109,7 @@ ul li {margin:2px; padding:4px !important;}
         for (var i = 0; i < quotes.length; i++)
         {
 
-          HTML = HTML + '<div class="table-responsive box-shadow"><table class="table table-bordered tbl2"><tbody><tr><td><img  alt="No Image" src="http://www.policyboss.com/Images/insurer_logo/' + quotes[i].InsurerLogoName + '" class="img-responsive center" /></td><td><p>SUM ASSURED</p><h5><b>₹ '+quotes[i].SumInsured+'</b></h5></td><td><p>DEDUCTIBLE</p><h5><b>₹ '+quotes[i].Deductible_Amount+'</b></h5></td></tr><tr><td><p>CARE FLOATER</p><h5><b>'+quotes[i].ProductName+' </b></h5></td><td colspan="2"><p class="text-center">PREMIUM</p> <a href="#" class="amount">₹ '+quotes[i].NetPremium+'</a></td></tr></tbody></table></div>';
+          HTML = HTML + '<div class="table-responsive box-shadow"><table class="table table-bordered tbl2"><tbody><tr><td><img  alt="No Image" src="http://www.policyboss.com/Images/insurer_logo/' + quotes[i].InsurerLogoName + '" class="img-responsive center" /></td><td><p>SUM ASSURED</p><h5><b>₹ '+quotes[i].SumInsured+'</b></h5></td><td><p>DEDUCTIBLE</p><h5><b>₹ '+quotes[i].Deductible_Amount+'</b></h5></td></tr><tr><td><p>' + quotes[i].ProductName + '</p><h5><b>'+quotes[i].PlanName+' </b></h5></td><td colspan="2"><p class="text-center">PREMIUM</p> <a href="#" class="amount">₹ '+quotes[i].NetPremium+'/Year</a></td></tr></tbody></table></div>';
 
         }
     document.getElementById('divshow').innerHTML = HTML;
