@@ -107,10 +107,15 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
 
                     } else {
-                        if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
-                            HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
-                            quoteFragment.setArguments(quoteBundle);
-                            loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                        if (quoteBundle != null) {
+                            if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
+                                HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
+                                quoteFragment.setArguments(quoteBundle);
+                                loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                            } else {
+
+                                Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
 
                             Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
