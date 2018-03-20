@@ -81,8 +81,9 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
         txtFinalPremium.setText("\u20B9 " + Math.round(healthQuoteEntity.getNetPremium()) + "/Year");
         txtProductName.setText(healthQuoteEntity.getProductName());
 //        if (healthQuoteEntity.getInsurerLogoName().equals("")) {
-        imgInsurer.setImageResource(new DBPersistanceController(this)
-                .getInsurerImage(healthQuoteEntity.getInsurerId()));
+        Glide.with(this).load(healthQuoteEntity.getInsurerLogoName())
+                .into(imgInsurer);
+
 //        } else {
 //            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + healthQuoteEntity.getInsurerLogoName();
 //            Glide.with(this).load(imgURL)

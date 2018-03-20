@@ -150,7 +150,7 @@ public class AccountDtlEntity extends RealmObject {
     private String ProfPictName;
     private String GstNo;
     private String FBAPan;
-    private String IsFoc;
+  //  private String IsFoc;
     private String IsBlocked;
     private String CityId;
     private String created_by;
@@ -543,13 +543,13 @@ public class AccountDtlEntity extends RealmObject {
         this.FBAPan = FBAPan;
     }
 
-    public String getIsFoc() {
-        return IsFoc;
-    }
-
-    public void setIsFoc(String IsFoc) {
-        this.IsFoc = IsFoc;
-    }
+//    public String getIsFoc() {
+//        return IsFoc;
+//    }
+//
+//    public void setIsFoc(String IsFoc) {
+//        this.IsFoc = IsFoc;
+//    }
 
     public String getIsBlocked() {
         return IsBlocked;

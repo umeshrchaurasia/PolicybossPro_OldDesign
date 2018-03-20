@@ -18,7 +18,7 @@
         android:text="INPUT SUMMARY"
         android:textColor="@color/black"
         android:textStyle="bold"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/cvInputSummary"
@@ -28,7 +28,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginBottom="8dp"
         android:layout_marginTop="8dp"
-
+android:visibility="gone"
         app:cardElevation="2dp">
         <LinearLayout
             android:padding="5dp"
@@ -205,10 +205,12 @@
 
     </android.support.v7.widget.CardView>
     <LinearLayout
+        android:id="@+id/llshare"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:padding="5dp">
 
         <TextView
@@ -240,7 +242,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/llgraph"
-            android:visibility="visible"
+            android:visibility="gone"
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
@@ -462,16 +464,6 @@
 
             </android.support.v7.widget.CardView>
 
-            <TextView
-                android:id="@+id/txtCount1"
-                style="@style/TextViewStyle.Large"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="12dp"
-                android:gravity="left"
-                android:textColor="@color/colorAccent"
-                android:textStyle="normal" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/rvbLQuotes"

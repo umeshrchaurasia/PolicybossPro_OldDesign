@@ -101,8 +101,8 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
 
                 ((QuoteFragment_bl) mContext).redirectToApplyBank(quoteEntity);
                 //quote to app conversion
-                ((QuoteFragment_bl) mContext).quoteToApp();
-                ((QuoteFragment_bl) mContext).redirectToApplyLoan(quoteEntity,getblDispalyResponse.getUrl(), getblDispalyResponse.getQuote_id());
+                //((QuoteFragment_bl) mContext).quoteToApp();
+               // ((QuoteFragment_bl) mContext).redirectToApplyLoan(quoteEntity,getblDispalyResponse.getUrl(), getblDispalyResponse.getQuote_id());
 
 
             }
