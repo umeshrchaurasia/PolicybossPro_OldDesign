@@ -81,10 +81,6 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
                 }
                 holder.txtloanamount.setText("" +  BigDecimal.valueOf(Math.ceil(entity.getBLLoanRequest().getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
 
-            }catch (Exception ex)
-            {
-                ex.printStackTrace();
-            }
 
 
             holder.txtPersonName.setOnClickListener(new View.OnClickListener() {
@@ -136,6 +132,12 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
                     openPopUp(view, entity);
                 }
             });
+
+            }catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+
         }
     }
 
@@ -159,9 +161,9 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
                         Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
-                        ((BL_QuoteFragment)mFrament).removeQuoteBL(entity);
-                        // Toast.makeText(mFrament.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
-                        break;
+                        ((BL_QuoteFragment)mFrament).removeQuoteBL(entity);((BL_QuoteFragment)mFrament).removeQuoteBL(entity);
+
+                           break;
                 }
                 return false;
             }
