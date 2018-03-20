@@ -102,6 +102,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             holder.txtNoOfInsurer.setOnClickListener(this);
         }
 
+        // if (entity.getLstbenfitsFive() != null) {
         for (int i = 0; i < entity.getLstbenfitsFive().size(); i++) {
             BenefitsEntity benefit = entity.getLstbenfitsFive().get(i);
             if (benefit.getBeneID() == 1) { //room rent
@@ -114,6 +115,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 holder.txtPostHosp.setText(benefit.getBenefit());
             }
         }
+        //}
     }
 
     CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {

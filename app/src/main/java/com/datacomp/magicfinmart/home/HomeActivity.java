@@ -90,6 +90,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         }
 
+
+
         //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
