@@ -1,12 +1,16 @@
 package com.datacomp.magicfinmart.home;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -35,11 +39,13 @@ import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 
 public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener {
@@ -53,6 +59,26 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     DBPersistanceController db;
     String versionNAme;
     PackageInfo pinfo;
+    PrefManager prefManager;
+    NotifyEntity notifyEntity;
+    public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction() != null && intent.getAction().equalsIgnoreCase(Utility.PUSH_BROADCAST_ACTION)) {
+                int notifyCount = prefManager.getNotificationCounter();
+
+                if (notifyCount == 0) {
+                    textNotifyItemCount.setVisibility(View.GONE);
+                } else {
+                    textNotifyItemCount.setVisibility(View.VISIBLE);
+                    textNotifyItemCount.setText("" + String.valueOf(notifyCount));
+                }
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +103,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
+        prefManager = new PrefManager(this);
         init_headers();
         List<String> rtoDesc = db.getRTOListNames();
 
@@ -90,7 +117,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         }
 
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+        getNotificationAction();
+        //   Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
             @Override
@@ -231,6 +259,92 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     }
 
+    private void getNotificationAction() {
+
+        // region Activity Open Usnig Notification
+
+        if (getIntent().getExtras() != null) {
+
+
+            boolean verifyLogin = prefManager.getIsUserLogin();
+            // region verifyUser : when user logout and when Apps in background
+            if (verifyLogin == false || loginResponseEntity == null) {
+                //username and password are present, do your stuff
+               NotifyEntity notifyEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+               if(notifyEntity == null)
+               {
+                   return;
+               }
+
+                if (notifyEntity.getNotifyFlag().matches("WB")) {
+
+                    prefManager.setSharePushWebURL(notifyEntity.getWeb_url());
+                    prefManager.setSharePushWebTitle(notifyEntity.getWeb_title());
+
+                }
+                prefManager.setSharePushType(notifyEntity.getNotifyFlag());
+
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+
+            }
+            //endregion
+
+            // region For Notification come via Login for user credential
+            else if (getIntent().getStringExtra(Utility.PUSH_LOGIN_PAGE) != null) {
+                String pushLogin = getIntent().getStringExtra(Utility.PUSH_LOGIN_PAGE);
+                if (pushLogin.equals("555")) {
+
+                    String type = prefManager.getSharePushType();
+                    String web_url = prefManager.getSharePushWebURL();
+                    String web_title = prefManager.getSharePushWebTitle();
+                    String web_name = "";
+                    prefManager.clearNotification();
+
+                    if (type.matches("NL")) {
+                        Intent intent = new Intent(this, NotificationActivity.class);
+                        startActivity(intent);
+
+                    } else if (type.matches("WB")) {
+
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", web_url)
+                                .putExtra("NAME", web_name)
+                                .putExtra("TITLE", web_title));
+
+                    }
+                }
+
+            }
+            //endregion
+
+            // region user already logged in and app in forground
+            else if (getIntent().getStringExtra(Utility.PUSH_NOTIFY) != null) {
+                String type = getIntent().getStringExtra(Utility.PUSH_NOTIFY);
+                if (type.matches("NL")) {
+                    Intent intent = new Intent(this, NotificationActivity.class);
+                    startActivity(intent);
+                } else if (type.matches("WB")) {
+                    String web_url = prefManager.getSharePushWebURL();
+                    String web_title = prefManager.getSharePushWebTitle();
+                    String web_name = "";
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                            .putExtra("URL", web_url)
+                            .putExtra("NAME", web_name)
+                            .putExtra("TITLE", web_title));
+
+                }
+            }
+            //endregion
+
+        }
+
+        ///
+
+        //endregion
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dashboard_menu, menu);
@@ -241,14 +355,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         textNotifyItemCount = (TextView) actionView.findViewById(R.id.notify_badge);
         textNotifyItemCount.setVisibility(View.GONE);
 
-//        int PushCount = Integer.parseInt(sharedPreferences.getString(Utility.NOTIFICATION_COUNTER, "0"));
-//
-//        if (PushCount == 0) {
-//            textNotifyItemCount.setVisibility(View.GONE);
-//        } else {
-//            textNotifyItemCount.setVisibility(View.VISIBLE);
-//            textNotifyItemCount.setText("" + String.valueOf(PushCount));
-//        }
+        int PushCount = prefManager.getNotificationCounter();
+
+        if (PushCount == 0) {
+            textNotifyItemCount.setVisibility(View.GONE);
+        } else {
+            textNotifyItemCount.setVisibility(View.VISIBLE);
+            textNotifyItemCount.setText("" + String.valueOf(PushCount));
+        }
 
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -311,5 +425,33 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
         dialog.cancel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mHandleMessageReceiver);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.REQUEST_CODE) {
+            if (data != null) {
+                int  Counter =  prefManager.getNotificationCounter()  ;
+                textNotifyItemCount.setText("" +Counter);
+                textNotifyItemCount.setVisibility(View.GONE);
+
+            }
+
+        }
     }
 }

@@ -8,29 +8,34 @@ import android.content.Intent;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
 import java.util.Map;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 
 /**
  * Created by IN-RB on 21-02-2018.
  */
 
-public class MyFirebaseMessagingService  extends FirebaseMessagingService {
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     public static final String CHANNEL_ID = "com.datacomp.magicfinmart.NotifyID";
 
-    String type  ;
-    String WebURL ,WebTitle ,messageId;
-    NotifyEntity  notifyEntity;
+    String type;
+    String WebURL, WebTitle, messageId;
+    NotifyEntity notifyEntity;
+    PrefManager prefManager;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -41,6 +46,7 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
     private void sendNotification(RemoteMessage remoteMessage, Map<String, String> data) {
 
         notifyEntity = new NotifyEntity();
+        prefManager = new PrefManager(getApplicationContext());
         int NOTIFICATION_ID = 0;
 
         NOTIFICATION_ID = (int) Math.round(Math.random() * 100);
@@ -54,26 +60,23 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
         if (NotifyData.get("notifyFlag") == null) {
             return;
         } else {
-             type = NotifyData.get("notifyFlag");
+            type = NotifyData.get("notifyFlag");
 
-            if (NotifyData.get("web_url") == null)
-            {
+            if (NotifyData.get("web_url") == null) {
                 WebURL = "";
                 WebTitle = "";
             }
 
-            if (NotifyData.get("message_id") == null)
-            {
-               messageId = "0";
+            if (NotifyData.get("message_id") == null) {
+                messageId = "0";
             }
-            if (NotifyData.get("message_id").toString().isEmpty())
-            {
+            if (NotifyData.get("message_id").toString().isEmpty()) {
                 messageId = "0";
             }
 
-            messageId =  NotifyData.get("message_id");
-            WebURL =  NotifyData.get("web_url");
-            WebTitle  =  NotifyData.get("web_title");
+            messageId = NotifyData.get("message_id");
+            WebURL = NotifyData.get("web_url");
+            WebTitle = NotifyData.get("web_title");
 
             notifyEntity.setNotifyFlag(type);
             notifyEntity.setMessage_id(messageId);
@@ -81,8 +84,8 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
             notifyEntity.setWeb_url(WebTitle);
 
 
-            intent = new Intent(this, SplashScreenActivity.class);
-            intent.putExtra(Constants.PUSH_NOTIFY, type);
+            intent = new Intent(this, HomeActivity.class);
+            intent.putExtra(Constants.PUSH_NOTIFY, notifyEntity);
 
         }
 
@@ -97,7 +100,7 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
 
         NotificationCompat.Builder notificationBuilder = null;
 
-        notificationBuilder = new NotificationCompat.Builder(this,CHANNEL_ID);
+        notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
         notificationBuilder
                 .setSmallIcon(R.drawable.finmart_logo)
@@ -117,5 +120,17 @@ public class MyFirebaseMessagingService  extends FirebaseMessagingService {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+
+        setNotifyCounter();
+    }
+
+    private void setNotifyCounter() {
+        int notifyCounter = prefManager.getNotificationCounter();
+        prefManager.setNotificationCounter(notifyCounter + 1);
+
+        Intent intent = new Intent(Utility.PUSH_BROADCAST_ACTION);
+        LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
+
+
     }
 }

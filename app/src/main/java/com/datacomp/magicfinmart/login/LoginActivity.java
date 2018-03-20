@@ -26,6 +26,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -193,7 +194,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         cancelDialog();
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
-                startActivity(new Intent(this, HomeActivity.class));
+
+                prefManager.setIsUserLogin(true);
+                if(!prefManager.getSharePushType().equals("")) {
+
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
+                    startActivity(intent);
+
+                }else{
+                    startActivity(new Intent(this, HomeActivity.class));
+                }
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }

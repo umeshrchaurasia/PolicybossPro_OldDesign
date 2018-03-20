@@ -6,11 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.lifeinsurance.CompareInsurance.CompareInsDetailActivity;
 import com.datacomp.magicfinmart.lifeinsurance.CompareInsurance.addquote.CompareInsMainActivity;
+
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 
 public class LifeDetailActivity extends BaseActivity implements View.OnClickListener {
 
@@ -22,9 +25,9 @@ public class LifeDetailActivity extends BaseActivity implements View.OnClickList
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         initialize();
         setListner();
+
 
     }
 
