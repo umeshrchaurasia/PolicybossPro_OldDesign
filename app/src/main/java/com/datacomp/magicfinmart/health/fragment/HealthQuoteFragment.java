@@ -25,11 +25,16 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.compare.HealthCompareActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.SortbyInsurer;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 import com.google.gson.Gson;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -73,6 +78,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     String jsonShareString = "";
 
+    List<HealthQuoteEntity> listHeader;
+    List<HealthQuoteEntity> listChild;
 
     HealthQuoteEntity buyHealthQuoteEntity;
     ImageView ivHealthShare;
@@ -120,6 +127,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             ((HealthQuoteBottomTabsActivity) getActivity()).redirectToInput();
         } else if (view.getId() == R.id.ivHealthShare) {
             if (Utility.checkShareStatus() == 1) {
+
                 if (!jsonShareString.equals("")) {
                     Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
                     intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HEALTH_ALL_QUOTE");
@@ -250,15 +258,16 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
                 //update request id
                 ((HealthQuoteBottomTabsActivity) getActivity()).updateRequestID(((HealthQuoteExpResponse) response).getMasterData().getHealthRequestId());
+                listHeader = ((HealthQuoteExpResponse) response).getMasterData()
+                        .getHealth_quote().getHeader();
+                listChild = ((HealthQuoteExpResponse) response).getMasterData()
+                        .getHealth_quote().getChild();
 
-                prepareChild(((HealthQuoteExpResponse) response).getMasterData()
-                        .getHealth_quote().getHeader(), ((HealthQuoteExpResponse) response).getMasterData()
-                        .getHealth_quote().getChild());
+
+                prepareChild();
 
                 //share data
-                new AsyncShareJson(((HealthQuoteExpResponse) response).getMasterData()
-                        .getHealth_quote().getHeader(), ((HealthQuoteExpResponse) response).getMasterData()
-                        .getHealth_quote().getChild()).execute();
+                new AsyncShareJson().execute();
 
 
             }
@@ -279,7 +288,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(false);
-       // builder.setTitle("PREMIUM DETAIL");
+        // builder.setTitle("PREMIUM DETAIL");
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_compare_health_quote, null);
         builder.setView(view);
@@ -320,7 +329,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         msgTxt.setTextSize(12.0f);
     }
 
-    private void prepareChild(List<HealthQuoteEntity> listHeader, List<HealthQuoteEntity> listChild) {
+    private void prepareChild() {
         for (int i = 0; i < listHeader.size(); i++) {
 
             HealthQuoteEntity header = listHeader.get(i);
@@ -397,23 +406,35 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     class AsyncShareJson extends AsyncTask<Void, Void, String> {
 
-        List<HealthQuoteEntity> headerList;
-        List<HealthQuoteEntity> childList;
+
         List<HealthQuoteEntity> shareList = new ArrayList<>();
 
-        public AsyncShareJson(List<HealthQuoteEntity> header, List<HealthQuoteEntity> child) {
-
-            headerList = header;
-            childList = child;
+        public AsyncShareJson() {
 
         }
 
         @Override
         protected String doInBackground(Void... voids) {
-            shareList.addAll(headerList);
-            shareList.addAll(childList);
+            shareList.addAll(listHeader);
+            shareList.addAll(listChild);
+            Collections.sort(shareList, new SortbyInsurer());
+
+            JSONArray jsonArrayNew = new JSONArray();
             Gson gson = new Gson();
-            return gson.toJson(shareList);
+            String json = gson.toJson(shareList);
+            try {
+                JSONArray jsonArray = new JSONArray(json);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject obj = (JSONObject) jsonArray.get(i);
+                    if (obj.has("LstbenfitsFive")) {
+                        obj.remove("LstbenfitsFive");
+                    }
+                    jsonArrayNew.put(obj);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return jsonArrayNew.toString();
         }
 
         @Override

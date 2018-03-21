@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
@@ -79,10 +80,25 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
         };
 
         holder.spHealthRelation.setAdapter(relationAdapter);
+        holder.spHealthRelation.setTag(R.id.spHealthRelation, entity);
         holder.rbMale.setTag(R.id.llMarried, entity);
         holder.rbFemale.setTag(R.id.llMarried, entity);
         holder.swUnMarried.setTag(R.id.swUnMarried, entity);
         holder.txtMarried.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
+
+
+        holder.spHealthRelation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                MemberListEntity memberListEntity = (MemberListEntity) holder.spHealthRelation.getTag(R.id.spHealthRelation);
+                memberListEntity.setMemberRelationShip(holder.spHealthRelation.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         holder.swUnMarried.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
