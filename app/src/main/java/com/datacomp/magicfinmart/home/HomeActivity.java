@@ -31,6 +31,7 @@ import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
+import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -60,7 +61,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     String versionNAme;
     PackageInfo pinfo;
     PrefManager prefManager;
-    NotifyEntity notifyEntity;
+
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
         @Override
@@ -104,7 +105,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
         prefManager = new PrefManager(this);
-        init_headers();
+
+        getNotificationAction();
+
+        if(loginResponseEntity != null) {
+            init_headers();
+        }
+
         List<String> rtoDesc = db.getRTOListNames();
 
         // set first fragement selected.
@@ -117,8 +124,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         }
 
-        getNotificationAction();
-        //   Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
             @Override
@@ -182,7 +188,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     case R.id.nav_logout:
                         new DBPersistanceController(HomeActivity.this).logout();
-                        new PrefManager(HomeActivity.this).deletePospInfo();
+                        new PrefManager(HomeActivity.this).clearAll();
                         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -228,6 +234,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionBarDrawerToggle.syncState();
     }
 
+    // endregion
+
     private void init_headers() {
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
@@ -266,10 +274,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (getIntent().getExtras() != null) {
 
 
-            boolean verifyLogin = prefManager.getIsUserLogin();
+          // step1: boolean verifyLogin = prefManager.getIsUserLogin();
             // region verifyUser : when user logout and when Apps in background
-            if (verifyLogin == false || loginResponseEntity == null) {
-                //username and password are present, do your stuff
+            if (loginResponseEntity == null) {
+
                NotifyEntity notifyEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
                if(notifyEntity == null)
                {
@@ -284,14 +292,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
                 prefManager.setSharePushType(notifyEntity.getNotifyFlag());
 
-                Intent intent = new Intent(this, LoginActivity.class);
+                Intent intent = new Intent(this, SplashScreenActivity.class);
                 startActivity(intent);
                 finish();
+
 
             }
             //endregion
 
-            // region For Notification come via Login for user credential
+            //  region step2: For Notification come via Login for user credential  (step2 perform after step1)
             else if (getIntent().getStringExtra(Utility.PUSH_LOGIN_PAGE) != null) {
                 String pushLogin = getIntent().getStringExtra(Utility.PUSH_LOGIN_PAGE);
                 if (pushLogin.equals("555")) {
@@ -320,14 +329,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             //endregion
 
             // region user already logged in and app in forground
-            else if (getIntent().getStringExtra(Utility.PUSH_NOTIFY) != null) {
-                String type = getIntent().getStringExtra(Utility.PUSH_NOTIFY);
-                if (type.matches("NL")) {
+            else if (getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
+                NotifyEntity notificationEntity= getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+                if (notificationEntity.getNotifyFlag().matches("NL")) {
                     Intent intent = new Intent(this, NotificationActivity.class);
                     startActivity(intent);
-                } else if (type.matches("WB")) {
-                    String web_url = prefManager.getSharePushWebURL();
-                    String web_title = prefManager.getSharePushWebTitle();
+                } else if (notificationEntity.getNotifyFlag().matches("WB")) {
+                    String web_url = notificationEntity.getWeb_url();
+                    String web_title =  notificationEntity.getWeb_title();
                     String web_name = "";
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                             .putExtra("URL", web_url)

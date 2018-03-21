@@ -122,6 +122,7 @@ public class PrefManager {
         editor.putString(IS_DEVICE_TOKEN, token);
         editor.commit();
     }
+
     public String getToken() {
         return pref.getString(IS_DEVICE_TOKEN, "");
     }
@@ -129,6 +130,7 @@ public class PrefManager {
     public int getNotificationCounter() {
         return pref.getInt(NOTIFICATION_COUNTER, 0);
     }
+
     public void setNotificationCounter(int counter) {
         editor.putInt(NOTIFICATION_COUNTER, counter);
         editor.commit();
@@ -207,6 +209,18 @@ public class PrefManager {
                 .remove(SHARED_KEY_PUSH_WEB_TITLE).commit();
 
     }
+
+    // region delete Share Data
+
+    public void clearAll() {
+        pref.edit().remove(POSP_INFO)
+                 .remove(SHARED_KEY_PUSH_NOTIFY)
+                .remove(SHARED_KEY_PUSH_WEB_URL)
+                .remove(SHARED_KEY_PUSH_WEB_TITLE).commit();
+
+    }
+
+    //endregion
 
 
 }

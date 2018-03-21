@@ -195,7 +195,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
-                prefManager.setIsUserLogin(true);
+               // prefManager.setIsUserLogin(true);
                 if(!prefManager.getSharePushType().equals("")) {
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);

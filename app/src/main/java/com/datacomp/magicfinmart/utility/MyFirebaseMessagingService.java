@@ -49,7 +49,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         prefManager = new PrefManager(getApplicationContext());
         int NOTIFICATION_ID = 0;
 
-        NOTIFICATION_ID = (int) Math.round(Math.random() * 100);
+        NOTIFICATION_ID = (int) Math.round(Math.random() * 1000);
         if (remoteMessage.getData().size() == 0) {
             Log.d(TAG, "Message Data Body Empty: ");
             return;
@@ -81,17 +81,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notifyEntity.setNotifyFlag(type);
             notifyEntity.setMessage_id(messageId);
             notifyEntity.setWeb_url(WebURL);
-            notifyEntity.setWeb_url(WebTitle);
+            notifyEntity.setWeb_title(WebTitle);
 
 
             intent = new Intent(this, HomeActivity.class);
-            intent.putExtra(Constants.PUSH_NOTIFY, notifyEntity);
+            intent.putExtra(Utility.PUSH_NOTIFY, notifyEntity);
 
         }
 
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) Math.round(Math.random() * 100), intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) Math.round(Math.random() * 1000), intent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
 
 
