@@ -20,8 +20,17 @@ public class MemberListEntity implements Parcelable {
     private String MemberTypeID;
     private String HealthRequestId;
     private String MemberType;
+    private String MemberRelationShip;
     private int Age;
 
+
+    public String getMemberRelationShip() {
+        return MemberRelationShip;
+    }
+
+    public void setMemberRelationShip(String memberRelationShip) {
+        MemberRelationShip = memberRelationShip;
+    }
 
     public String getMemberType() {
         return MemberType;
@@ -87,6 +96,7 @@ public class MemberListEntity implements Parcelable {
         this.HealthRequestId = HealthRequestId;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -101,6 +111,7 @@ public class MemberListEntity implements Parcelable {
         dest.writeString(this.MemberTypeID);
         dest.writeString(this.HealthRequestId);
         dest.writeString(this.MemberType);
+        dest.writeString(this.MemberRelationShip);
         dest.writeInt(this.Age);
     }
 
@@ -115,6 +126,7 @@ public class MemberListEntity implements Parcelable {
         this.MemberTypeID = in.readString();
         this.HealthRequestId = in.readString();
         this.MemberType = in.readString();
+        this.MemberRelationShip = in.readString();
         this.Age = in.readInt();
     }
 
