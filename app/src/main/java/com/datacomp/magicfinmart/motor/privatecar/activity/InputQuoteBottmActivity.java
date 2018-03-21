@@ -244,13 +244,13 @@ public class InputQuoteBottmActivity extends BaseActivity {
                     return false;
                 }
 
-            case R.id.action_home:
-
-                Intent intent = new Intent(this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-                return true;
+//            case R.id.action_home:
+//
+//                Intent intent = new Intent(this, HomeActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                startActivity(intent);
+//                finish();
+//                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -298,11 +298,11 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
     //endregion
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.home_menu, menu);
+//        return true;
+//    }
 
 
 

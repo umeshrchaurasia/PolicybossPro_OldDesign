@@ -236,12 +236,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
             case R.id.add_on:
                 openPopUp();
                 return true;
-            case R.id.action_home:
-                Intent intent = new Intent(this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                finish();
-                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
