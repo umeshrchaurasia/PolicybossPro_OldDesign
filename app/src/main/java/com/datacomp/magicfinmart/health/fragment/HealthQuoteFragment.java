@@ -279,7 +279,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(false);
-        builder.setTitle("PREMIUM DETAIL");
+       // builder.setTitle("PREMIUM DETAIL");
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_compare_health_quote, null);
         builder.setView(view);

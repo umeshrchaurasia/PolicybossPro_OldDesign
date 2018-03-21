@@ -15,8 +15,10 @@ import android.widget.Spinner;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
+import com.datacomp.magicfinmart.utility.SortbyInsurer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
@@ -32,7 +34,6 @@ public class HealthCompareActivity extends BaseActivity {
     ArrayList<String> listBenefits;
     ArrayAdapter<String> benefitsAdapter;
 
-    List<HealthQuoteEntity> displayHealthQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,6 @@ public class HealthCompareActivity extends BaseActivity {
         init();
         listBenefits = new ArrayList<>();
         listHealthQuote = new ArrayList<>();
-        displayHealthQuote = new ArrayList<>();
         if (getIntent().getParcelableArrayListExtra(HealthQuoteFragment.HEALTH_COMPARE) != null) {
             listHealthQuote = getIntent().getParcelableArrayListExtra(HealthQuoteFragment.HEALTH_COMPARE);
             fillBenefits();
@@ -64,6 +64,7 @@ public class HealthCompareActivity extends BaseActivity {
 
     private void bindBenefits() {
 
+        Collections.sort(listHealthQuote, new SortbyInsurer());
         mAdapter = new HealthCompareViewAdapter(this, listHealthQuote);
         rvBenefits.setAdapter(mAdapter);
 
