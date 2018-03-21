@@ -1,13 +1,17 @@
 package com.datacomp.magicfinmart.motor.twowheeler.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeActivityTabsPagerAdapter;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -102,4 +106,28 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
         mAdapter = new BikeActivityTabsPagerAdapter(getSupportFragmentManager(), null);
         viewPager.setAdapter(mAdapter);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_home:
+
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
