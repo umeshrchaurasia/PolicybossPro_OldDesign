@@ -5,6 +5,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 
 import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -264,17 +265,18 @@ public class DateTimePicker {
         dialog.show();
     }
 
-    public static void BikepolicyExpValidation(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
+    public static void BikepolicyExpValidation(Context context, Calendar calenderDate, DatePickerDialog.OnDateSetListener callBack) {
 
         final Calendar calendar = Calendar.getInstance();
-        DatePickerDialog dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate());
+
+        DatePickerDialog dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), calenderDate.get(Calendar.MONTH), calenderDate.get(Calendar.DATE));
 
         Calendar calendarToday = Calendar.getInstance();
         calendarToday.add(Calendar.DAY_OF_MONTH, -180);
         Date currDate = calendarToday.getTime();
 
         Calendar calendarReg = Calendar.getInstance();
-        calendarReg.setTime(date);
+        calendarReg.setTime(calenderDate.getTime());
         calendarReg.add(Calendar.DAY_OF_MONTH, 180);
         Date regDate = calendarReg.getTime();
 

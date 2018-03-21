@@ -270,82 +270,85 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         int vehicleID = motorRequestEntity.getVehicle_id();
         CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
-        makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
-
-        //region make model
-        acMakeModel.setText(makeModel);
-        acMakeModel.performCompletion();
-
-        //endregion
-
-        //region varient list
-
-        variantList.clear();
-        List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
-                carMasterEntity.getModel_Name(),
-                carMasterEntity.getFuel_Name());
-        variantList.addAll(varList);
-        varientAdapter.notifyDataSetChanged();
+        if (carMasterEntity != null) {
 
 
-        //endregion
+            makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
 
-        //region fuel list
-        fuelList.clear();
-        fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
-        fuelAdapter.notifyDataSetChanged();
+            //region make model
+            acMakeModel.setText(makeModel);
+            acMakeModel.performCompletion();
 
-        //endregion
+            //endregion
 
-        //region spinner selection
+            //region varient list
 
-        int varientIndex = 0;
-        for (int i = 0; i < variantList.size(); i++) {
-            if (variantList.get(i).matches(carMasterEntity.getVariant_Name())) {
-                varientIndex = i;
-                break;
-            }
-        }
-        spVarient.setSelection(varientIndex);
+            variantList.clear();
+            List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
+                    carMasterEntity.getModel_Name(),
+                    carMasterEntity.getFuel_Name());
+            variantList.addAll(varList);
+            varientAdapter.notifyDataSetChanged();
 
-        int fuelIndex = 0;
-        for (int i = 0; i < fuelList.size(); i++) {
-            if (fuelList.get(i).matches(carMasterEntity.getFuel_Name())) {
-                fuelIndex = i;
-                break;
-            }
-        }
-        spFuel.setSelection(fuelIndex);
-        if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
-            int prevInsurerIndex = 0;
-            String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
-            for (int i = 0; i < prevInsurerList.size(); i++) {
-                if (prevInsurerList.get(i).matches(insName)) {
-                    prevInsurerIndex = i;
+
+            //endregion
+
+            //region fuel list
+            fuelList.clear();
+            fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
+            fuelAdapter.notifyDataSetChanged();
+
+            //endregion
+
+            //region spinner selection
+
+            int varientIndex = 0;
+            for (int i = 0; i < variantList.size(); i++) {
+                if (variantList.get(i).matches(carMasterEntity.getVariant_Name())) {
+                    varientIndex = i;
                     break;
                 }
             }
-            spPrevIns.setSelection(prevInsurerIndex);
+            spVarient.setSelection(varientIndex);
+
+            int fuelIndex = 0;
+            for (int i = 0; i < fuelList.size(); i++) {
+                if (fuelList.get(i).matches(carMasterEntity.getFuel_Name())) {
+                    fuelIndex = i;
+                    break;
+                }
+            }
+            spFuel.setSelection(fuelIndex);
+            if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
+                int prevInsurerIndex = 0;
+                String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
+                for (int i = 0; i < prevInsurerList.size(); i++) {
+                    if (prevInsurerList.get(i).matches(insName)) {
+                        prevInsurerIndex = i;
+                        break;
+                    }
+                }
+                spPrevIns.setSelection(prevInsurerIndex);
+            }
+
+
+            //endregion
+
+            //region Rto binding
+
+            acRto.setText(dbController.getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+            acRto.performCompletion();
+            regplace = acRto.getText().toString();
+
+            //endregion
+
+            if (motorRequestEntity.getExternal_bifuel_value() != 0)
+                etExtValue.setText(String.valueOf(motorRequestEntity.getExternal_bifuel_value()));
+
+            etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
+
+            etMobile.setText(motorRequestEntity.getMobile());
         }
-
-
-        //endregion
-
-        //region Rto binding
-
-        acRto.setText(dbController.getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
-        acRto.performCompletion();
-        regplace = acRto.getText().toString();
-
-        //endregion
-
-        if (motorRequestEntity.getExternal_bifuel_value() != 0)
-            etExtValue.setText(String.valueOf(motorRequestEntity.getExternal_bifuel_value()));
-
-        etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
-
-        etMobile.setText(motorRequestEntity.getMobile());
-
         try {
             etRegDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_registration_date())));
 

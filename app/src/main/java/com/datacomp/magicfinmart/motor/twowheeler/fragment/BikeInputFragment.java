@@ -255,43 +255,46 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         int vehicleID = motorRequestEntity.getVehicle_id();
         BikeMasterEntity carMasterEntity = dbController.getBikeVarientDetails(String.valueOf(vehicleID));
-        makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
+        if (carMasterEntity != null) {
 
-        //region make model
-        acMakeModel.setText(makeModel);
-        acMakeModel.performCompletion();
 
-        //endregion
+            makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
 
-        //region varient list
+            //region make model
+            acMakeModel.setText(makeModel);
+            acMakeModel.performCompletion();
 
-        variantList.clear();
+            //endregion
+
+            //region varient list
+
+            variantList.clear();
         /*List<String> varList = dbController.getVariant(carMasterEntity.getMake_Name(),
                 carMasterEntity.getModel_Name(),
                 carMasterEntity.getFuel_Name());*/
-        variantList.addAll(dbController.getBikeVariantbyModelID(carMasterEntity.getModel_ID()));
-        varientAdapter.notifyDataSetChanged();
+            variantList.addAll(dbController.getBikeVariantbyModelID(carMasterEntity.getModel_ID()));
+            varientAdapter.notifyDataSetChanged();
 
 
-        //endregion
+            //endregion
 
-        //region fuel list
+            //region fuel list
        /* fuelList.clear();
         fuelList.addAll(dbController.getFuelTypeByModelId(carMasterEntity.getModel_ID()));
         fuelAdapter.notifyDataSetChanged();*/
 
-        //endregion
+            //endregion
 
-        //region spinner selection
+            //region spinner selection
 
-        int varientIndex = 0;
-        for (int i = 0; i < variantList.size(); i++) {
-            if (variantList.get(i).matches(carMasterEntity.getVariant_Name())) {
-                varientIndex = i;
-                break;
+            int varientIndex = 0;
+            for (int i = 0; i < variantList.size(); i++) {
+                if (variantList.get(i).matches(carMasterEntity.getVariant_Name())) {
+                    varientIndex = i;
+                    break;
+                }
             }
-        }
-        spVarient.setSelection(varientIndex);
+            spVarient.setSelection(varientIndex);
 
         /*int fuelIndex = 0;
         for (int i = 0; i < fuelList.size(); i++) {
@@ -301,53 +304,52 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             }
         }
         spFuel.setSelection(fuelIndex);*/
-        if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
-            int prevInsurerIndex = 0;
-            String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
-            for (int i = 0; i < prevInsurerList.size(); i++) {
-                if (prevInsurerList.get(i).matches(insName)) {
-                    prevInsurerIndex = i;
-                    break;
+            if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
+                int prevInsurerIndex = 0;
+                String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
+                for (int i = 0; i < prevInsurerList.size(); i++) {
+                    if (prevInsurerList.get(i).matches(insName)) {
+                        prevInsurerIndex = i;
+                        break;
+                    }
                 }
+                spPrevIns.setSelection(prevInsurerIndex);
             }
-            spPrevIns.setSelection(prevInsurerIndex);
+
+
+            //endregion
+
+            //region Rto binding
+
+            acRto.setText(dbController.getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+            acRto.performCompletion();
+            regplace = acRto.getText().toString();
+
+            //endregion
+
+            if (motorRequestEntity.getExternal_bifuel_value() != 0)
+                etExtValue.setText(motorRequestEntity.getExternal_bifuel_value());
+
+            etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
+
+            etMobile.setText(motorRequestEntity.getMobile());
         }
-
-
-        //endregion
-
-        //region Rto binding
-
-        acRto.setText(dbController.getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
-        acRto.performCompletion();
-        regplace = acRto.getText().toString();
-
-        //endregion
-
-        if (motorRequestEntity.getExternal_bifuel_value() != 0)
-            etExtValue.setText(motorRequestEntity.getExternal_bifuel_value());
-
-        etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
-
-        etMobile.setText(motorRequestEntity.getMobile());
-
         try {
             etRegDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_registration_date())));
 
             etMfgDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date())));
 
+            if (motorRequestEntity.getIs_claim_exists().equals("no")) {
+                tvClaimNo.performClick();
+                setSeekbarProgress(Integer.parseInt(motorRequestEntity.getVehicle_ncb_current()));
+                //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            } else {
+                tvClaimYes.performClick();
+                setSeekbarProgress(Integer.parseInt(motorRequestEntity.getVehicle_ncb_current()));
+            }
+
             if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
                 etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
-                if (motorRequestEntity.getIs_claim_exists().equals("no")) {
-                    cvNcb.setVisibility(View.VISIBLE);
-                    setSeekbarProgress(Integer.parseInt(motorRequestEntity.getVehicle_ncb_current()));
-                    //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
-                } else {
-                    cvNcb.setVisibility(View.GONE);
-                    tvClaimYes.performClick();
-                }
-            } else {
-                cvNcb.setVisibility(View.GONE);
             }
 
 
@@ -999,7 +1001,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                                 calendar.set(year, monthOfYear, 01);
                                 String currentDay1 = simpleDateFormat.format(calendar.getTime());
                                 etMfgDate.setText(currentDay1);
-
+                                etExpDate.setEnabled(true);
                                 /*Calendar calendar1 = Calendar.getInstance();
                                 calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
                                 String expDate = simpleDateFormat.format(calendar1.getTime());
@@ -1032,22 +1034,21 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             //region policy expirydate
             else if (view.getId() == R.id.etExpDate) {
-
+                Calendar calendar = Calendar.getInstance();
                 Date regDate = new Date();
                 if (etRegDate.getText().toString().isEmpty()) {
-                    Calendar calendar = Calendar.getInstance();
                     regDate = calendar.getTime();
                 } else {
                     try {
                         regDate = simpleDateFormat.parse(etRegDate.getText().toString());
+                        calendar.setTime(regDate);
                     } catch (ParseException e) {
-                        Calendar calendar = Calendar.getInstance();
                         regDate = calendar.getTime();
                         e.printStackTrace();
                     }
                 }
 
-                DateTimePicker.BikepolicyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.BikepolicyExpValidation(view.getContext(), calendar, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {

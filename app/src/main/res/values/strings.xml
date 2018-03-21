@@ -404,6 +404,9 @@
     <string name="title_activity_input_quote_bottm_life">InputQuoteBottmLifeActivity</string>
     <string name="title_activity_compare_ins_detail">CompareInsDetailActivity</string>
     <string name="title_activity_compare_ins_main">COMPARE TERM INSURANCE</string>
+    <string name="title_activity_balance_transfer_personal_apply">
+        BalanceTransferPersonalApplyActivity
+    </string>
 
 
 </resources>

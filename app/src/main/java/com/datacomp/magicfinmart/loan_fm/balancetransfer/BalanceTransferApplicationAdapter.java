@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
@@ -69,7 +70,47 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
 
             holder.txtloanamount.setText(""+String.valueOf(entity.getBLLoanRequest().getLoanamount()));
 
+            if (entity.getBLLoanRequest().getRBStatus() != null) {
 
+                if (entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                    holder.txtApplicationNumber.setVisibility(View.VISIBLE);
+
+                } else {
+                    holder.txtApplicationNumber.setVisibility(View.GONE);
+
+                }
+            } else {
+                holder.txtApplicationNumber.setVisibility(View.GONE);
+            }
+
+            holder.lyParent.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+                    if (entity.getBLLoanRequest().getRBStatus() != null) {
+
+                        if (entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+
+                            Toast.makeText(fragment.getActivity(),"Application Number Already Generated",Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            if(entity.getBLLoanRequest().getApplNumb() != null) {
+                                ((BL_ApplicationFragment) fragment).redirectBLLoanApply(entity.getBLLoanRequest().getApplNumb());
+                            }else{
+                                Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }else{
+                        if(entity.getBLLoanRequest().getApplNumb() != null) {
+                            ((BL_ApplicationFragment) fragment).redirectBLLoanApply(entity.getBLLoanRequest().getApplNumb());
+                        }else{
+                            Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                }
+            });
 
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -138,6 +179,7 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
 
         TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
         ImageView imgbankLogo,imgStatus;
+        LinearLayout lyParent;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -148,6 +190,7 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
             imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
+            lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
         }
     }
 }

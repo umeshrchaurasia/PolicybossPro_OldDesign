@@ -209,7 +209,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
                 tvCrn.setText("" + bikePremiumResponse.getSummary().getPB_CRN());
                 tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from qa.policyboss.com");
-                motorRequestEntity.setCrn(Integer.valueOf(bikePremiumResponse.getSummary().getPB_CRN()));
+                if (!bikePremiumResponse.getSummary().getPB_CRN().equals(""))
+                    motorRequestEntity.setCrn(Integer.valueOf(bikePremiumResponse.getSummary().getPB_CRN()));
 
                 boolean isQuoteFetch = false;
                 if (webViewLoader.getVisibility() == View.GONE) {
