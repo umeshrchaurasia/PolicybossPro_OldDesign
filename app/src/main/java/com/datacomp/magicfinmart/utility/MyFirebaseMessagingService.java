@@ -1,12 +1,15 @@
 package com.datacomp.magicfinmart.utility;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -29,8 +32,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    private NotificationManager mManager;
     private static final String TAG = "MyFirebaseMsgService";
     public static final String CHANNEL_ID = "com.datacomp.magicfinmart.NotifyID";
+    public static final String CHANNEL_NAME = "FINMART CHANNEL";
 
     String type;
     String WebURL, WebTitle, messageId;
@@ -94,9 +99,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) Math.round(Math.random() * 1000), intent,
                 PendingIntent.FLAG_CANCEL_CURRENT);
 
-
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
+        createChannels();
 
         NotificationCompat.Builder notificationBuilder = null;
 
@@ -111,15 +116,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setTicker("Finmart")
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setWhen(System.currentTimeMillis())
-
+                .setChannelId(CHANNEL_ID)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(NotifyData.get("body")))
                 .setContentIntent(pendingIntent);
 
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
-        notificationManager.notify(NOTIFICATION_ID, notificationBuilder.build());
+        getManager().notify(NOTIFICATION_ID, notificationBuilder.build());
 
         setNotifyCounter();
     }
@@ -132,5 +134,29 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
 
 
+    }
+
+    public void createChannels()  {
+        if (Build.VERSION.SDK_INT >=  26) {
+
+
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
+                    CHANNEL_NAME,
+                    NotificationManager.IMPORTANCE_HIGH);
+            channel.enableLights(true);
+            channel.enableVibration(true);
+            channel.setLightColor(Color.BLUE);
+            channel.setDescription("Finmart");
+            // Sets whether notifications posted to this channel appear on the lockscreen or not
+            channel.setLockscreenVisibility(Notification.VISIBILITY_SECRET);    // Notification.VISIBILITY_PRIVATE
+            getManager().createNotificationChannel(channel);
+        }
+    }
+
+    private NotificationManager getManager() {
+        if (mManager == null) {
+            mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+        return mManager;
     }
 }
