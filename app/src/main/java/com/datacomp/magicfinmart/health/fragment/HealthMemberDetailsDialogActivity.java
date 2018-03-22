@@ -62,6 +62,12 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
         if (view.getId() == R.id.btnContinue) {
             List<MemberListEntity> updateMember = new ArrayList<>();
             List<MemberListEntity> listMember = healthQuote.getHealthRequest().getMemberList();
+
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+
+            }
+
             for (int i = 0; i < listMember.size(); i++) {
                 MemberListEntity entity = listMember.get(i);
                 if (entity.getMemberRelationShip().toLowerCase().equals("self")) {
@@ -92,6 +98,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
 
                 updateMember.add(entity);
             }
+
 
             healthQuote.getHealthRequest().setMemberList(updateMember);
 

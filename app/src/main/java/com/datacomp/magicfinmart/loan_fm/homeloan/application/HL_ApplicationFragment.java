@@ -31,7 +31,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeL
 public class HL_ApplicationFragment extends BaseFragment implements View.OnClickListener {
     RecyclerView rvApplicationList;
     HomeLoanApplicationAdapter homeLoanApplicationAdapter;
-    List<FmHomeLoanRequest>mApplicationList;
+    List<FmHomeLoanRequest> mApplicationList;
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
@@ -39,6 +39,7 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
     public HL_ApplicationFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -53,9 +54,7 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.APPLICATION_LIST);
         }
 
-
-        rvApplicationList.setAdapter(null);
-        homeLoanApplicationAdapter = new HomeLoanApplicationAdapter(HL_ApplicationFragment.this,mApplicationList);
+        homeLoanApplicationAdapter = new HomeLoanApplicationAdapter(HL_ApplicationFragment.this, mApplicationList);
         rvApplicationList.setAdapter(homeLoanApplicationAdapter);
 
         return view;
@@ -76,24 +75,27 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
         rvApplicationList.setLayoutManager(layoutManager);
 
 
- }
+    }
 
-    public void redirectHomeLoanApply(String ApplNum){
-         Intent intent=new Intent(getActivity(), HomeLoanApplyActivity.class);
-         intent.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
-        intent.putExtra("TypePage","HL");
-         startActivity(intent);
+    public void redirectHomeLoanApply(String ApplNum) {
+        Intent intent = new Intent(getActivity(), HomeLoanApplyActivity.class);
+        intent.putExtra(Utility.HMLOAN_APPLICATION, ApplNum);
+        intent.putExtra("TypePage", "HL");
+        startActivity(intent);
 
     }
+
     private void setListener() {
         ivSearch.setOnClickListener(this);
         ivAdd.setOnClickListener(this);
         tvAdd.setOnClickListener(this);
         tvSearch.setOnClickListener(this);
     }
+
     private void setTextWatcher() {
 //search
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -107,8 +109,7 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
         }
     }
 
-    public void callnumber(String mobNumber)
-    {
+    public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
     }
 }

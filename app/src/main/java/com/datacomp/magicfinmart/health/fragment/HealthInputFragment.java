@@ -400,7 +400,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setMemberDOB(getDateFromAge(Age));
 
 
-                        if (Age > 18) {
+                        if (Age >= 18) {
                             entity.setMemberType("Adult");
                         } else {
                             entity.setMemberType("Child");
@@ -425,7 +425,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setMemberDOB(getDateFromAge(Age));
 
 
-                        if (Age > 18) {
+                        if (Age >= 18) {
                             entity.setMemberType("Adult");
                         } else {
                             entity.setMemberType("Child");
@@ -438,7 +438,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et2.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
-                        if (Age > 18)
+                        if (Age >= 18)
                             entity.setMemberType("Adult");
                         else
                             entity.setMemberType("Child");
@@ -450,7 +450,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et3.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
-                        if (Age > 18)
+                        if (Age >= 18)
                             entity.setMemberType("Adult");
                         else
                             entity.setMemberType("Child");
@@ -464,7 +464,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        if (Age > 18)
+                        if (Age >= 18)
                             entity.setMemberType("Adult");
                         else
                             entity.setMemberType("Child");
@@ -477,7 +477,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        if (Age > 18)
+                        if (Age >= 18)
                             entity.setMemberType("Adult");
                         else
                             entity.setMemberType("Child");
@@ -490,7 +490,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        if (Age > 18)
+                        if (Age >= 18)
                             entity.setMemberType("Adult");
                         else
                             entity.setMemberType("Child");
@@ -510,7 +510,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        if (Age > 18)
+                        if (Age >= 18)
                             entity.setMemberType("Adult");
                         else
                             entity.setMemberType("Child");
@@ -523,7 +523,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        if (Age > 18)
+                        if (Age >= 18)
                             entity.setMemberType("Adult");
                         else
                             entity.setMemberType("Child");

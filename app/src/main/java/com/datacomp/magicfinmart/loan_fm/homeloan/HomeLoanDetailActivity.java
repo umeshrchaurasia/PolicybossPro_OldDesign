@@ -23,7 +23,8 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     Toolbar toolbar;
     ViewPager viewPager;
     ActivityTabsPagerAdapter_HL mAdapter;
-    LoginResponseEntity loginEntity ;
+    LoginResponseEntity loginEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +40,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
         tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
         tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        loginEntity =  new DBPersistanceController(this).getUserData();
+        loginEntity = new DBPersistanceController(this).getUserData();
 
 //        mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager());
 //        viewPager.setAdapter(mAdapter);
@@ -48,6 +49,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                Toast.makeText(HomeLoanDetailActivity.this, "" + tab.getPosition(), Toast.LENGTH_SHORT).show();
                 viewPager.setCurrentItem(tab.getPosition());
 
             }
@@ -73,12 +75,8 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     private void fetchQuoteApplication() {
 
         showDialog("Fetching.., Please wait.!");
-
-
         new MainLoanController(this).getHLQuoteApplicationData(String.valueOf(loginEntity.getFBAId()),
                 "HML", HomeLoanDetailActivity.this);
-
-
     }
 
     @Override
@@ -88,9 +86,9 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
         if (response instanceof FmHomelLoanResponse) {
             if (((FmHomelLoanResponse) response).getMasterData() != null) {
 
-                HomeLoanRequestMainEntity hlQuoteApplicationEntity =((FmHomelLoanResponse)response).getMasterData();
+                HomeLoanRequestMainEntity hlQuoteApplicationEntity = ((FmHomelLoanResponse) response).getMasterData();
 
-                mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager(),hlQuoteApplicationEntity);
+                mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager(), hlQuoteApplicationEntity);
                 viewPager.setAdapter(mAdapter);
             }
 
@@ -101,7 +99,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     public void OnFailure(Throwable t) {
 
         cancelDialog();
-        Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
 
     }
