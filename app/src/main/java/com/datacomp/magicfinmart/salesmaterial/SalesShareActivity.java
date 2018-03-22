@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.salesmaterial;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -22,6 +23,7 @@ import com.datacomp.magicfinmart.utility.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -261,10 +263,22 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
 
             //  URL networkUrl = urls[0]; //Load the first element
             try {
-                //pospPhotoUrl = new URL(loginResponseEntity.getPOSPProfileUrl());
-                pospPhotoUrl = new URL("http://edu.policyboss.com/eduappservice/Uploaded/1.JPEG");
-                networkBitmap = BitmapFactory.decodeStream(
-                        pospPhotoUrl.openConnection().getInputStream());
+                if (loginResponseEntity.getFBAProfileUrl() != null && !loginResponseEntity.getFBAProfileUrl().equals("")) {
+                    pospPhotoUrl = new URL(loginResponseEntity.getPOSPProfileUrl());
+                    networkBitmap = BitmapFactory.decodeStream(
+                            pospPhotoUrl.openConnection().getInputStream());
+                } else {
+                    AssetManager assetManager = getAssets();
+                    InputStream istr;
+                    try {
+                        istr = assetManager.open("file:///android_asset/profile_pic.png");
+                        networkBitmap = BitmapFactory.decodeStream(istr);
+                    } catch (IOException e) {
+                        // handle exception
+                    }
+                }
+                //pospPhotoUrl = new URL("http://edu.policyboss.com/eduappservice/Uploaded/1.JPEG");
+
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e("TAG", "Could not load Bitmap from: " + pospPhotoUrl);

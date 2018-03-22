@@ -326,7 +326,7 @@ ul li {margin:2px; padding:4px !important;}
      
         document.getElementById('lblImg').src = "http://www.policyboss.com/Images/insurer_logo/" + response.Insurer.Insurer_Logo_Name;
         document.getElementById('IDV').innerHTML = response.LM_Custom_Request.vehicle_expected_idv;
-        document.getElementById('PREM').innerHTML =   "₹ " + response.Premium_Breakup.final_premium  ;
+        document.getElementById('PREM').innerHTML =   "₹ " +  Math.round(response.Premium_Breakup.final_premium)  ;
         var WithOutAddOn = ""
         var HTML = "";
         var OwnDamage = "";

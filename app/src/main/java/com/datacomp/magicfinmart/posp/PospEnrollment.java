@@ -126,6 +126,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        registerPopUp(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         registerRequestEntity = new RegisterRequestEntity();
@@ -360,7 +361,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (registerRequestEntity.getPosp_BankBranch() != null && !registerRequestEntity.getPosp_BankBranch().equals("")) {
             etBankBranch.setText("" + registerRequestEntity.getPosp_BankBranch());
         }
-
+        if (registerRequestEntity.getPOSPBankCity() != null && !registerRequestEntity.getPOSPBankCity().equals("")) {
+            etBankCity.setText("" + registerRequestEntity.getPOSPBankCity());
+        }
     }
 
     private void setTextWatcher() {
@@ -954,9 +957,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     // payment done
                     if (checkAllImageUpload()) {
                         llMain.setVisibility(View.GONE);
-                        showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", false);
+                        openPopUp(llDocumentUpload, "SUCCESS", "POSP Already exist!!", "OK", true);
+                        //showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", false);
                     } else {
-                        showPopUpNew("SUCCESS ", "Upload Remaining Document !", "OK", true);
+                        openPopUp(llDocumentUpload, "SUCCESS", "Upload Remaining Document !", "OK", true);
+                        //showPopUpNew("SUCCESS ", "Upload Remaining Document !", "OK", true);
                     }
                 }
                 break;
@@ -1257,7 +1262,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                                 } else {
                                     // payment done & documents uploaded
                                     llMain.setVisibility(View.GONE);
-                                    showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", true);
+                                    openPopUp(llDocumentUpload, "SUCCESS", "POSP Already exist!!", "OK", true);
+                                    //showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", true);
 
                                 }
                             } else {
@@ -1290,7 +1296,11 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         } else if (response instanceof DocumentResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
-
+                if (type == 6 || type == 7) {
+                    String temp = ((DocumentResponse) response).getMasterData().get(0).getPrv_file();
+                    if (temp != null && !temp.equals(""))
+                        updatePhotoUrl(temp);
+                }
                 // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
                 setDocumentUpload();
 
@@ -1304,6 +1314,16 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             @Override
             public void execute(Realm realm) {
                 loginResponseEntity.setPaymentUrl(paymentUrl);
+                loginResponseEntity.setPOSPName(registerRequestEntity.getPosp_FirstName() + " " + registerRequestEntity.getPosp_LastName());
+            }
+        });
+    }
+
+    public void updatePhotoUrl(final String pospPhotoUrl) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                loginResponseEntity.setPOSPProfileUrl("http://qa.mgfm.in/" + pospPhotoUrl);
             }
         });
     }
@@ -1431,12 +1451,36 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
-
+        switch (view.getId()) {
+            case R.id.webView:
+                dialog.cancel();
+                PospEnrollment.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        etPan.setText("");
+                    }
+                });
+                break;
+            case R.id.llDocumentUpload:
+                dialog.cancel();
+                break;
+        }
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-
+        switch (view.getId()) {
+            case R.id.webView:
+                dialog.cancel();
+                PospEnrollment.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        etPan.setText("");
+                    }
+                });
+                break;
+            case R.id.llDocumentUpload:
+                dialog.cancel();
+                break;
+        }
     }
 
     class MyJavaScriptInterface {
@@ -1447,7 +1491,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             if (html.toLowerCase().contains("not")) {
 
             } else {
-                showPopUp("ERROR MESSAGE", "Pan No. Already Registered in IRDA", "OK", false);
+                openPopUp(webView, "ERROR MESSAGE", "Pan No. Already Registered in IRDA", "OK", false);
+                //showPopUp("ERROR MESSAGE", "Pan No. Already Registered in IRDA", "OK", false);
                 //Toast.makeText(PospEnrollment.this, "Pan Card Already Registered in IRDA", Toast.LENGTH_SHORT).show();
             }
         }
