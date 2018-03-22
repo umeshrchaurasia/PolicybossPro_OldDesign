@@ -89,14 +89,17 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     private void bindData() {
         if (responseEntity != null) {
+            txtIDV.setText("" + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Code());
             if (responseEntity.getFinal_premium_without_addon() != null && !responseEntity.getFinal_premium_without_addon().equals("")) {
                 tvTotalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_without_addon()));
                 tvNetPremium.setText(getRupeesRound(responseEntity.getFinal_premium_with_addon()));
+                txtFinalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_without_addon()));
                 tvGst.setText(getRupeesRound(responseEntity.getTotalGST()));
             } else {
                 tvTotalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
                 tvNetPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
+                txtFinalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
                 tvGst.setText(getRupeesRound(responseEntity.getPremium_Breakup().getService_tax()));
             }
         }
@@ -147,8 +150,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         btnBuy = (TextView) findViewById(R.id.btnBuy);
         btnBackToQuote = (Button) findViewById(R.id.btnBackToQuote);
         cvAddon = (CardView) findViewById(R.id.cvAddon);
-        txtIDV = (TextView)findViewById(R.id.txtIDV);
-        txtFinalPremium = (TextView)findViewById(R.id.txtFinalPremium);
+        txtIDV = (TextView) findViewById(R.id.txtIDV);
+        txtFinalPremium = (TextView) findViewById(R.id.txtFinalPremium);
 
         //ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
         Glide.with(this)
