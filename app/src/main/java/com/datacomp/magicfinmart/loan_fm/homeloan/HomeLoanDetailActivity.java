@@ -1,14 +1,20 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
@@ -49,7 +55,6 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Toast.makeText(HomeLoanDetailActivity.this, "" + tab.getPosition(), Toast.LENGTH_SHORT).show();
                 viewPager.setCurrentItem(tab.getPosition());
 
             }
@@ -75,8 +80,12 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     private void fetchQuoteApplication() {
 
         showDialog("Fetching.., Please wait.!");
+
+
         new MainLoanController(this).getHLQuoteApplicationData(String.valueOf(loginEntity.getFBAId()),
                 "HML", HomeLoanDetailActivity.this);
+
+
     }
 
     @Override
@@ -103,4 +112,28 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
 
 
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_home:
+
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
