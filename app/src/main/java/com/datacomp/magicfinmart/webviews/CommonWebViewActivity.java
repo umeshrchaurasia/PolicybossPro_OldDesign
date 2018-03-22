@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 
 public class CommonWebViewActivity extends BaseActivity {
 
@@ -159,14 +161,26 @@ public class CommonWebViewActivity extends BaseActivity {
     class MyJavaScriptInterface {
         @JavascriptInterface
         public void AddNewMotorQuote() {
-            Toast.makeText(CommonWebViewActivity.this, "Add Quote", Toast.LENGTH_SHORT).show();
+            Intent intent;
+            if (url.contains("buynowTwoWheeler")) {
+                intent = new Intent(CommonWebViewActivity.this, TwoWheelerQuoteAppActivity.class);
+            } else {
+                intent = new Intent(CommonWebViewActivity.this, InputQuoteBottmActivity.class);
+            }
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
 
         @JavascriptInterface
         public void RedirectToHomepage() {
-            Toast.makeText(CommonWebViewActivity.this, "Home", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(CommonWebViewActivity.this, HomeActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
         }
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu, menu);

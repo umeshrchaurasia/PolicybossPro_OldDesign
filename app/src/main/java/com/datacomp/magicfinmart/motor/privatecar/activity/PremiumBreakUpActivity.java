@@ -45,9 +45,9 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     ResponseEntity responseEntity;
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
-    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium;
+    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium, txtIDV, txtFinalPremium, btnBuy;
     ImageView ivCross, ivShare;
-    Button btnBuy, btnBackToQuote;
+    Button btnBackToQuote;
     CardView cvAddon;
     List<PremiumBreakUpAdapterEntity> damageList, liabilityList, addonList;
     DBPersistanceController dbPersistanceController;
@@ -144,9 +144,12 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         tvNetPremium = (TextView) findViewById(R.id.tvNetPremium);
         ivCross = (ImageView) findViewById(R.id.ivCross);
         ivShare = (ImageView) findViewById(R.id.ivShare);
-        btnBuy = (Button) findViewById(R.id.btnBuy);
+        btnBuy = (TextView) findViewById(R.id.btnBuy);
         btnBackToQuote = (Button) findViewById(R.id.btnBackToQuote);
         cvAddon = (CardView) findViewById(R.id.cvAddon);
+        txtIDV = (TextView)findViewById(R.id.txtIDV);
+        txtFinalPremium = (TextView)findViewById(R.id.txtFinalPremium);
+
         //ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
         Glide.with(this)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
