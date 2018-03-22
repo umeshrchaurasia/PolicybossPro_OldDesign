@@ -1,16 +1,14 @@
 package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
 
-import android.content.ComponentName;
 import android.content.Intent;
-
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,18 +16,16 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 
-
-
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan.PersonalLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystring;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
@@ -37,7 +33,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.Persona
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BankForNodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 
 /**
  * Created by Rahul on 24/01/2018.
@@ -46,7 +41,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResp
 public class QuoteFragment_pl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM {
     private static String INPUT_FRAGMENT = "input";
 
-    TextView txtAppName , txtCostOfProp ,txtLoanTenure, txtOccupation, txtMonthlyIncome,txtExistEmi ,txtCount ,txtInputSummary ;
+    TextView txtAppName, txtCostOfProp, txtLoanTenure, txtOccupation, txtMonthlyIncome, txtExistEmi, txtCount, txtInputSummary;
     CardView cvInputSummary;
 
     RecyclerView rvPLQuotes;
@@ -57,8 +52,10 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     GetPersonalLoanResponse getPersonalLoanResponse;
     FmPersonalLoanRequest fmPersonalLoanRequest;
     PersonalLoanRequest personalLoanRequest;
-
+    BuyLoanQuerystring buyLoanQuerystring;
     LinearLayout ivllEdit;
+    int QuoteID = 0;
+    ImageView ivShare;
 
     public QuoteFragment_pl() {
         // Required empty public constructor
@@ -85,9 +82,9 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     }
 
 
-
     private void initialise_widget(View view) {
-
+        ivShare = (ImageView) view.findViewById(R.id.ivShare);
+        ivShare.setOnClickListener(this);
         cvInputSummary = (CardView) view.findViewById(R.id.cvInputSummary);
 
         txtInputSummary = (TextView) view.findViewById(R.id.txtInputSummary);
@@ -113,61 +110,64 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         //TODO : USE : LoanRequireID and "A"
     }
 
-    public void redirectToApplyLoan(PersonalQuoteEntity entity, String url, int id) {
-        startActivity(new Intent(getActivity(), PersonalLoanApplyWebView.class)
-                .putExtra("PL", entity)
-                .putExtra("PL_URL", url)
-                .putExtra("PL_QUOTE_ID", id));
+//    public void redirectToApplyLoan(PersonalQuoteEntity entity, String url, int id) {
+//        startActivity(new Intent(getActivity(), PersonalLoanApplyWebView.class)
+//                .putExtra("PL", entity)
+//                .putExtra("PL_URL", url)
+//                .putExtra("PL_QUOTE_ID", id));
+//    }
+
+
+    public void redirectToApplyLoan() {
+        startActivity(new Intent(getContext(), PersonalLoanApplyActivity.class)
+                .putExtra("BuyLoanQuery", buyLoanQuerystring));
+
     }
+
 
     private void bindQuotes() {
 
-  if (getPersonalLoanResponse != null) {
-                txtInputSummary.setVisibility(View.VISIBLE);
-                cvInputSummary.setVisibility(View.VISIBLE);
+        if (getPersonalLoanResponse != null) {
+            txtInputSummary.setVisibility(View.VISIBLE);
+            cvInputSummary.setVisibility(View.VISIBLE);
 
-                mAdapter = new PLQuoteAdapter(this, getPersonalLoanResponse.getData(),getPersonalLoanResponse);
-                rvPLQuotes.setAdapter(mAdapter);
+            mAdapter = new PLQuoteAdapter(this, getPersonalLoanResponse.getData(), getPersonalLoanResponse);
+            rvPLQuotes.setAdapter(mAdapter);
 
-                if(getPersonalLoanResponse.getData().size() >0)
-                {
-                    txtCount.setText(""+getPersonalLoanResponse.getData().size() + " Results from www.rupeeboss.com" );
-                    txtCount.setVisibility(View.VISIBLE);
-                }else{
-                    txtCount.setText("");
-                    txtCount.setVisibility(View.GONE);
-                }
+            if (getPersonalLoanResponse.getData().size() > 0) {
+                txtCount.setText("" + getPersonalLoanResponse.getData().size() + " Results from www.rupeeboss.com");
+                txtCount.setVisibility(View.VISIBLE);
+            } else {
+                txtCount.setText("");
+                txtCount.setVisibility(View.GONE);
+            }
 
-                if(personalLoanRequest != null)
-                {
-                    try {
-                    txtAppName.setText(""+personalLoanRequest.getApplicantNme().toUpperCase() );
-                    txtCostOfProp.setText(""+personalLoanRequest.getLoanRequired() );
-                    txtLoanTenure.setText(""+personalLoanRequest.getLoanTenure() + " Years");
+            if (personalLoanRequest != null) {
+                try {
+                    txtAppName.setText("" + personalLoanRequest.getApplicantNme().toUpperCase());
+                    txtCostOfProp.setText("" + personalLoanRequest.getLoanRequired());
+                    txtLoanTenure.setText("" + personalLoanRequest.getLoanTenure() + " Years");
 
 
-                    txtOccupation.setText("SALARIED" );
+                    txtOccupation.setText("SALARIED");
 
-                    txtMonthlyIncome.setText(""+personalLoanRequest.getApplicantIncome() );
-                    txtExistEmi.setText(""+personalLoanRequest.getApplicantObligations() );
+                    txtMonthlyIncome.setText("" + personalLoanRequest.getApplicantIncome());
+                    txtExistEmi.setText("" + personalLoanRequest.getApplicantObligations());
 
-                    }
-                    catch (Exception e)
-                    {
-                        e.printStackTrace();
-                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
+        }
 
     }
 
 
-    private void setFmPeronalLoanRequest(int QuoteID) {
-
+    private void setFmPeronalLoanRequest(int tempQuoteID) {
+        QuoteID = tempQuoteID;
         showDialog();
 
-        // fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
-        //   fmHomeLoanRequest.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
+
         personalLoanRequest.setQuote_id(QuoteID);
         fmPersonalLoanRequest.setPersonalLoanRequest(personalLoanRequest);
         new MainLoanController(getActivity()).savePLQuoteData(fmPersonalLoanRequest, this);
@@ -177,15 +177,24 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     private void setFmBankRequest(PersonalQuoteEntity entity) {
 
 
-        try{
+        try {
             bankSaveRequest = new BankSaveRequest();
             bankSaveRequest.setLoan_requestID(fmPersonalLoanRequest.getLoan_requestID());
             bankSaveRequest.setBank_id((entity.getBank_Id()));
             bankSaveRequest.setType("PSL");
+
+            buyLoanQuerystring = new BuyLoanQuerystring();
+            buyLoanQuerystring.setBankId(entity.getBank_Id());
+
+            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf(entity.getLoan_eligible()));
+            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
+            buyLoanQuerystring.setQuote_id(QuoteID);
+            buyLoanQuerystring.setProp_type(entity.getRoi_type());
+            buyLoanQuerystring.setMobileNo(fmPersonalLoanRequest.getPersonalLoanRequest().getContact());
+            buyLoanQuerystring.setCity("");
+
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -201,10 +210,11 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
                 ((PLMainActivity) getActivity()).updateRequest(fmPersonalLoanRequest, true);
 
             }
-        }else if(response instanceof BankForNodeResponse)
-        {
+        } else if (response instanceof BankForNodeResponse) {
             if (response.getStatusNo() == 0) {
                 ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
+
+                redirectToApplyLoan();
             }
         }
     }
@@ -237,6 +247,14 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == R.id.ivllEdit) {
             ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
+        } else if (v.getId() == R.id.ivShare) {
+            if (getPersonalLoanResponse != null) {
+                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "PL_ALL_QUOTE");
+                intent.putExtra("RESPONSE", getPersonalLoanResponse);
+                intent.putExtra("NAME", personalLoanRequest.getApplicantNme());
+                startActivity(intent);
+            }
         }
     }
 }

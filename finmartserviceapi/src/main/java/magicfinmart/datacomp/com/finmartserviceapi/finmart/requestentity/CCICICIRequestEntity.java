@@ -121,7 +121,25 @@ public class CCICICIRequestEntity {
     private String ChannelType;
     private String CampaignName;
     private int fba_id;
+    private String brokerid;
     private String ICICIRelationshipNumber;
+    private int CreditCardDetailId;
+
+    public int getCreditCardDetailId() {
+        return CreditCardDetailId;
+    }
+
+    public void setCreditCardDetailId(int creditCardDetailId) {
+        CreditCardDetailId = creditCardDetailId;
+    }
+
+    public String getBrokerid() {
+        return brokerid;
+    }
+
+    public void setBrokerid(String brokerid) {
+        this.brokerid = brokerid;
+    }
 
     public String getICICIRelationshipNumber() {
         return ICICIRelationshipNumber;

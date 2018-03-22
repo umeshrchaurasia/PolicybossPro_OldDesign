@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -14,8 +15,8 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.fragment.HealthInputFragment;
 import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
-import com.datacomp.magicfinmart.health.fragment.TestFragment;
 import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
+import com.datacomp.magicfinmart.home.HomeActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 
@@ -73,10 +74,6 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-//
-//                    TestFragment testFragment = new TestFragment();
-//                    loadFragment(testFragment, "TEST");
-
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
 
                     if (healthQuote != null) {
@@ -84,14 +81,18 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                         quoteBundle.putParcelable(INPUT_DATA, healthQuote);
                     }
 
-                    if (tabFragment != null) {
-                        tabFragment.setArguments(quoteBundle);
-                        loadFragment(tabFragment, INPUT_FRAGMENT);
-                    } else {
-                        HealthInputFragment inputFragment = new HealthInputFragment();
-                        inputFragment.setArguments(quoteBundle);
-                        loadFragment(inputFragment, INPUT_FRAGMENT);
-                    }
+//                    if (tabFragment != null) {
+//                        tabFragment.setArguments(quoteBundle);
+//                        loadFragment(tabFragment, INPUT_FRAGMENT);
+//                    } else {
+//                        HealthInputFragment inputFragment = new HealthInputFragment();
+//                        inputFragment.setArguments(quoteBundle);
+//                        loadFragment(inputFragment, INPUT_FRAGMENT);
+//                    }
+
+                    HealthInputFragment inputFragment = new HealthInputFragment();
+                    inputFragment.setArguments(quoteBundle);
+                    loadFragment(inputFragment, INPUT_FRAGMENT);
 
                     return true;
                 case R.id.navigation_quote:
@@ -108,10 +109,15 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
 
                     } else {
-                        if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
-                            HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
-                            quoteFragment.setArguments(quoteBundle);
-                            loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                        if (quoteBundle != null) {
+                            if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
+                                HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
+                                quoteFragment.setArguments(quoteBundle);
+                                loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                            } else {
+
+                                Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            }
                         } else {
 
                             Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
@@ -155,4 +161,28 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     public void updateRequestID(int healthRequestID) {
         healthQuote.setHealthRequestId(healthRequestID);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_home:
+
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

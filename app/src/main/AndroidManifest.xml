@@ -16,9 +16,9 @@
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/finmart_logo"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/finmart_logo"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
@@ -89,6 +89,7 @@
             android:name=".motor.privatecar.activity.PrivateCarDetailActivity"
             android:label="@string/title_activity_private_car_detail"
             android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -98,6 +99,7 @@
             android:name=".register.RegisterActivity"
             android:label="@string/title_activity_register"
             android:parentActivityName=".login.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
@@ -107,8 +109,9 @@
         <activity
             android:name=".introslider.WelcomeActivity"
             android:noHistory="true"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".myaccount.MyAccountActivity"
             android:label="@string/title_myaccount"
@@ -120,7 +123,9 @@
             android:name=".posp.PospEnrollment"
             android:label="@string/title_pospenrollment"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -129,7 +134,9 @@
             android:name=".motor.privatecar.activity.AddQuoteActivity"
             android:label="@string/title_activity_add_new_quote"
             android:parentActivityName=".motor.privatecar.activity.PrivateCarDetailActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity" />
@@ -138,7 +145,9 @@
             android:name=".motor.privatecar.activity.QuoteActivity"
             android:label="@string/title_activity_quote"
             android:parentActivityName=".motor.privatecar.activity.AddQuoteActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.privatecar.activity.AddQuoteActivity" />
@@ -147,7 +156,9 @@
             android:name=".webviews.CommonWebViewActivity"
             android:label="@string/title_activity_common_web_view"
             android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.privatecar.activity.QuoteActivity" />
@@ -167,9 +178,14 @@
         <activity
             android:name=".loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity"
             android:label="@string/title_activity_personal_loan_apply"
-            android:parentActivityName=".loan_fm.personalloan.addquote.PLMainActivity"
+            android:parentActivityName=".loan_fm.personalloan.PersonalLoanDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity" />
+        </activity>
         <activity
             android:name=".loan_fm.personalloan.PersonalLoanDetailActivity"
             android:label="@string/title_activity_personal_loan_detail"
@@ -195,7 +211,9 @@
         <activity
             android:name=".loan_fm.homeloan.addquote.HomeLoanQuoteActivity"
             android:label="@string/title_activity_home_loan_quote"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".loan_fm.laploan.LapLoanDetailActivity"
             android:label="@string/title_activity_lap_loan_detail"
@@ -206,6 +224,7 @@
         <activity
             android:name=".loan_fm.laploan.addquote.LapLoanQuoteActivity"
             android:label="@string/title_activity_lap_loan_quote"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
@@ -222,8 +241,14 @@
         <activity
             android:name=".loan_fm.homeloan.loan_apply.HomeLoanApplyActivity"
             android:label="@string/title_activity_home_loan_apply"
+            android:parentActivityName=".loan_fm.homeloan.HomeLoanDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity" />
+        </activity>
         <activity
             android:name=".loan_fm.personalloan.addquote.PLMainActivity"
             android:label="@string/title_activity_plmain"
@@ -239,7 +264,9 @@
             android:name=".motor.privatecar.activity.InputQuoteBottmActivity"
             android:label="@string/title_activity_input_quote_bottm"
             android:parentActivityName=".motor.privatecar.activity.PrivateCarDetailActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity" />
@@ -282,13 +309,15 @@
             android:label="@string/title_activity_personal_loan_apply_web_view"
             android:parentActivityName=".loan_fm.personalloan.addquote.PLMainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".loan_fm.homeloan.application.HomeLoanApplyWebView"
             android:label="@string/title_activity_home_loan_apply_web_view"
             android:parentActivityName=".loan_fm.homeloan.addquote.HLMainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".loan_fm.laploan.addquote.LAPMainActivity"
             android:label="@string/title_activity_lapmain"
@@ -303,20 +332,28 @@
         <activity
             android:name=".loan_fm.laploan.addquote.LAPApplyActivity"
             android:label="@string/title_activity_lapapply"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".loan_fm.laploan.application.LAPApplyWebView"
             android:label="@string/title_activity_lapapply_web_view"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView"
             android:label="@string/title_activity_balance_transfer_detail"
-            android:theme="@style/AppTheme" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
             android:name=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
             android:label="@string/title_activity_two_wheeler_quote_app"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -325,7 +362,9 @@
             android:name=".motor.twowheeler.activity.BikeAddQuoteActivity"
             android:label="@string/title_activity_bike_add_quote"
             android:parentActivityName=".motor.twowheeler.activity.TwoWheelerQuoteAppActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity" />
@@ -334,6 +373,7 @@
             android:name=".health.HealthQuoteAppActivity"
             android:label="Health Insurance"
             android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
@@ -344,6 +384,7 @@
             android:name=".health.healthquotetabs.HealthQuoteBottomTabsActivity"
             android:label="Quotes"
             android:parentActivityName=".health.HealthQuoteAppActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
@@ -366,7 +407,9 @@
             android:name=".healthcheckupplans.HealthCheckUpPlansActivity"
             android:label="@string/title_activity_health_check_up_plans"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -408,17 +451,6 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
         <activity
-            android:name=".creditcard.CreditCardMainActivity"
-            android:label="@string/title_activity_credit_card_main"
-            android:parentActivityName=".home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
-        </activity>
-        <activity
             android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
             android:label="@string/title_activity_knowledge_guru_webview"
             android:parentActivityName=".knowledgeguru.KnowledgeGuruActivity"
@@ -434,7 +466,8 @@
             android:label="@string/title_activity_notification"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -444,7 +477,9 @@
             android:label="@string/title_activity_under_construction"
             android:noHistory="true"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -453,7 +488,9 @@
             android:name=".whatsnew.WhatsNewActivity"
             android:label="@string/title_activity_whats_new"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -462,7 +499,9 @@
             android:name=".helpfeedback.HelpFeedBackActivity"
             android:label="@string/title_activity_help_feed_back"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -471,7 +510,9 @@
             android:name=".helpfeedback.contactus.ContactUsActivity"
             android:label="@string/title_activity_contact_us"
             android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
@@ -480,7 +521,9 @@
             android:name=".helpfeedback.aboutus.AboutUsActivity"
             android:label="@string/title_activity_about_us"
             android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
@@ -564,7 +607,7 @@
         </activity>
         <activity
             android:name=".creditcard.ICICICreditApplyActivity"
-            android:label="@string/title_activity_main"
+            android:label="@string/title_activity_rblcredit_apply"
             android:parentActivityName=".creditcard.AppliedCreditListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
@@ -577,7 +620,9 @@
             android:name=".helpfeedback.raiseticket.RaiseTicketActivity"
             android:label="@string/title_activity_raise_ticket"
             android:parentActivityName=".helpfeedback.HelpFeedBackActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity" />
@@ -586,7 +631,9 @@
             android:name=".helpfeedback.raiseticket.AddTicketActivity"
             android:label="@string/title_activity_add_ticket"
             android:parentActivityName=".helpfeedback.raiseticket.RaiseTicketActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity" />
@@ -594,12 +641,91 @@
         <activity
             android:name=".webviews.ShareQuoteACtivity"
             android:label="@string/title_activity_share_quote_activity"
+            android:noHistory="true"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".quicklead.QuickLeadActivity"
+            android:label="@string/title_activity_quick_lead"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity"
+            android:label="@string/title_activity_balance_transfer_loan_apply"
+            android:parentActivityName=".loan_fm.balancetransfer.BalanceTransferDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity" />
+        </activity>
+        <activity
+            android:name=".health.compare.HealthCompareActivity"
+            android:label="@string/title_activity_health_compare"
+            android:noHistory="true"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
+        </activity>
+        <activity
+            android:name=".lifeinsurance.LifeDetailActivity"
+            android:label="@string/title_activity_life_detail"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".health.fragment.HealthQuoteDetailsDialogActivity"
+            android:noHistory="true"
+            android:parentActivityName=".health.healthquotetabs.HealthQuoteBottomTabsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/DialogTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
+        </activity>
+        <activity
+            android:name=".lifeinsurance.CompareInsurance.CompareInsDetailActivity"
+            android:label="@string/title_activity_compare_ins_detail"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+        <activity
+            android:name=".lifeinsurance.CompareInsurance.addquote.CompareInsMainActivity"
+            android:label="@string/title_activity_compare_ins_main"
+            android:parentActivityName=".lifeinsurance.CompareInsurance.CompareInsDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".lifeinsurance.CompareInsurance.CompareInsDetailActivity" />
+        </activity>
+        <activity
+            android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
+            android:label="@string/title_activity_balance_transfer_personal_apply"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -13,16 +13,16 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
-import com.datacomp.magicfinmart.creditcard.CreditCardActivity;
-import com.datacomp.magicfinmart.creditcard.CreditCardMainActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
+import com.datacomp.magicfinmart.lifeinsurance.LifeDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
+import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
@@ -117,15 +117,18 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                             break;
                         case 9:
                             //Other loan
-                            String brokerId = "";
-                            if (dbPersistanceController.getUserData().getLoanId() != null) {
-                                brokerId = dbPersistanceController.getUserData().getLoanId();
-                            }
-                            String source = "DC";
-                            mContext.startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-                                    .putExtra("URL", "http://www.rupeeboss.com/other-loans?brokerId=" + brokerId + "&Source=" + source)
-                                    .putExtra("NAME", "MAGIC FIN-MART")
-                                    .putExtra("TITLE", "MAGIC FIN-MART"));
+//                            String brokerId = "";
+//                            if (dbPersistanceController.getUserData().getLoanId() != null) {
+//                                brokerId = dbPersistanceController.getUserData().getLoanId();
+//                            }
+//                            String source = "DC";
+//                            mContext.startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
+//                                    .putExtra("URL", "http://www.rupeeboss.com/other-loans?brokerId=" + brokerId + "&Source=" + source)
+//                                    .putExtra("NAME", "MAGIC FIN-MART")
+//                                    .putExtra("TITLE", "MAGIC FIN-MART"));
+
+                            mContext.startActivity(new Intent(mContext.getActivity(), QuickLeadActivity.class));
+
                             break;
                         case 2:
                             //fin peace
@@ -137,6 +140,11 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         case 11:
                             //health check up
                             mContext.startActivity(new Intent(mContext.getActivity(), HealthCheckUpPlansActivity.class));
+                            break;
+
+                        case 12:
+                            //Life Insurance
+                            mContext.startActivity(new Intent(mContext.getActivity(), LifeDetailActivity.class));
                             break;
                         default:
                             Toast.makeText(mContext.getContext(), "Work in progress", Toast.LENGTH_SHORT).show();

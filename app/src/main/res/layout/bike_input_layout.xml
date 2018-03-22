@@ -234,6 +234,7 @@
                             android:id="@+id/etExpDate"
                             style="@style/Style.edittext"
                             android:drawableRight="@drawable/vector_date"
+                            android:enabled="false"
                             android:focusable="false" />
                     </android.support.design.widget.TextInputLayout>
 

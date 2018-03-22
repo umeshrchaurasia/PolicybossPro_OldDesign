@@ -1,6 +1,8 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
-public class DocAvailableEntity {
+import io.realm.RealmObject;
+
+public class DocAvailableEntity  extends RealmObject {
     /**
      * DocType : 1
      * FileName : 1519378976465.png

@@ -69,14 +69,15 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 
         if (holder instanceof HomeLoan_QuoteAdapter.QuoteItem) {
             final FmHomeLoanRequest entity = mQuoteListFiltered.get(position);
+            try {
 
-            holder.txtPersonName.setText(""+ entity.getHomeLoanRequest().getApplicantNme());
-            holder.txtQuoteDate.setText("" + entity.getHomeLoanRequest().getRow_created_date().split("T")[0].toString());
+                holder.txtPersonName.setText("" + entity.getHomeLoanRequest().getApplicantNme());
+                holder.txtQuoteDate.setText("" + entity.getHomeLoanRequest().getRow_created_date().split("T")[0].toString());
 
-            holder.txtloanamount.setText("" + entity.getHomeLoanRequest().getLoanRequired());
+                holder.txtloanamount.setText("" + entity.getHomeLoanRequest().getLoanRequired());
 
 
-            //click listener
+                //click listener
 
 //            holder.txtPersonName.setOnClickListener(this);
 //            holder.txtQuoteDate.setOnClickListener(this);
@@ -85,45 +86,48 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 //            holder.tvQuoteDate.setOnClickListener(this);
 
 
-            holder.txtPersonName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
-                }
-            });
-            holder.txtQuoteDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
-                }
-            });
-            holder.txtloanamount.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
-                }
-            });
-            holder.tvloanamount.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
-                }
-            });
-            holder.tvQuoteDate.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ((HL_QuoteFragment)mFrament).redirectQuoteHL(entity);
-                }
-            });
+                holder.txtPersonName.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((HL_QuoteFragment) mFrament).redirectQuoteHL(entity);
+                    }
+                });
+                holder.txtQuoteDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((HL_QuoteFragment) mFrament).redirectQuoteHL(entity);
+                    }
+                });
+                holder.txtloanamount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((HL_QuoteFragment) mFrament).redirectQuoteHL(entity);
+                    }
+                });
+                holder.tvloanamount.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((HL_QuoteFragment) mFrament).redirectQuoteHL(entity);
+                    }
+                });
+                holder.tvQuoteDate.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((HL_QuoteFragment) mFrament).redirectQuoteHL(entity);
+                    }
+                });
 
 
-            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    openPopUp(view, entity);
-                }
-            });
-
+                holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        openPopUp(view, entity);
+                    }
+                });
+            }catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
         }
     }
 

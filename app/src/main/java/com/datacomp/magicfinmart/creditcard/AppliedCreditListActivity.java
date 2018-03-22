@@ -55,14 +55,18 @@ public class AppliedCreditListActivity extends BaseActivity implements View.OnCl
         init();
         setListener();
         setTextWatcher();
-
         mCreditCardEntityList = new ArrayList<>();
-        fetchCreditCards();
     }
 
     private void fetchCreditCards() {
         showDialog();
         new CreditCardController(this).getAppliedCreditCards(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchCreditCards();
     }
 
     private void init() {

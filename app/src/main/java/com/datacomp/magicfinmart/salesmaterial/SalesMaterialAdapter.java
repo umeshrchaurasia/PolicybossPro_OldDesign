@@ -54,7 +54,7 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
             @Override
             public void onClick(View v) {
 
-                ((SalesMaterialActivity)mContex).redirectToApplyMain(entity.getProduct_Id());
+                ((SalesMaterialActivity)mContex).redirectToApplyMain(entity);
             }
 
         });

@@ -224,35 +224,153 @@
     </string-array>
 
     <string-array name="ownership">
-        <item>SELECT</item>
-        <item>RENT HOUSE</item>
-        <item>SELF OWNED</item>
-        <item>PARENTAL</item>
-        <item>CO-PROVIDED</item>
+        <item>Select</item>
+        <item>Rent House</item>
+        <item>Self Owned</item>
+        <item>Parental</item>
+        <item>Co-Provided</item>
 
     </string-array>
 
     <string-array name="organization">
-        <item>SELECT</item>
-        <item>MULTINATIONAL</item>
-        <item>PUBLIC LTD.</item>
-        <item>GOVT/SEMI GOVT.ENT.</item>
-        <item>PVT LTD.</item>
-        <item>PARTNERSHIP</item>
-        <item>PROPRIETORSHIP</item>
-        <item>OTHERS</item>
+        <item>Select</item>
+        <item>Multinational</item>
+        <item>Public Ltd.</item>
+        <item>Govt/Semi Govt.Ent.</item>
+        <item>Pvt Ltd.</item>
+        <item>Partnership</item>
+        <item>Proprietorship</item>
+        <item>Others</item>
 
     </string-array>
 
 
     <string-array name="business">
-        <item>SELECT</item>
-        <item>SERVICES</item>
-        <item>TRADING</item>
-        <item>MANUFACTURING</item>
-        <item>OTHERS</item>
+        <item>Select</item>
+        <item>Services</item>
+        <item>Trading</item>
+        <item>Manufacturing</item>
+        <item>Others</item>
 
     </string-array>
+
+    <string-array name="quicklead_product">
+        <item>Product</item>
+        <item>USED CAR Loan</item>
+        <item> LAP BT</item>
+        <item>LRD</item>
+        <item>Car Loan</item>
+        <item>Home Loan BT</item>
+        <item>MERCHANT BUSINESS</item>
+        <item> LAP</item>
+        <item> Car Refinance</item>
+        <item>Personal Loan</item>
+        <item>Credit Card</item>
+        <item>WORKING CAPITAL</item>
+        <item>Home Loan</item>
+        <item>Business Loan</item>
+        <item>Term Loan</item>
+
+    </string-array>
+
+    <string-array name="policy_term">
+        <item>Select</item>
+        <item>5 Years</item>
+        <item>6 Years</item>
+        <item>7 Years</item>
+        <item>8 Years</item>
+        <item>9 Years</item>
+        <item>10 Years</item>
+
+        <item>11 Years</item>
+        <item>12 Years</item>
+        <item>13 Years</item>
+        <item>14 Years</item>
+        <item>15 Years</item>
+
+        <item>16 Years</item>
+        <item>17 Years</item>
+        <item>18 Years</item>
+        <item>19 Years</item>
+        <item>20 Years</item>
+
+        <item>21 Years</item>
+        <item>22 Years</item>
+        <item>23 Years</item>
+        <item>24 Years</item>
+        <item>25 Years</item>
+
+        <item>26 Years</item>
+        <item>27 Years</item>
+        <item>28 Years</item>
+        <item>29 Years</item>
+        <item>30 Years</item>
+
+        <item>31 Years</item>
+        <item>32 Years</item>
+        <item>33 Years</item>
+        <item>34 Years</item>
+        <item>35 Years</item>
+
+        <item>36 Years</item>
+        <item>37 Years</item>
+        <item>38 Years</item>
+        <item>39 Years</item>
+        <item>40 Years</item>
+
+        <item>Max Policy Term</item>
+
+    </string-array>
+
+    <string-array name="premium_term">
+        <item>Select</item>
+        <item>5 Years</item>
+        <item>6 Years</item>
+        <item>7 Years</item>
+        <item>8 Years</item>
+        <item>9 Years</item>
+        <item>10 Years</item>
+
+        <item>11 Years</item>
+        <item>12 Years</item>
+        <item>13 Years</item>
+        <item>14 Years</item>
+        <item>15 Years</item>
+
+        <item>16 Years</item>
+        <item>17 Years</item>
+        <item>18 Years</item>
+        <item>19 Years</item>
+        <item>20 Years</item>
+
+        <item>21 Years</item>
+        <item>22 Years</item>
+        <item>23 Years</item>
+        <item>24 Years</item>
+        <item>25 Years</item>
+
+        <item>26 Years</item>
+        <item>27 Years</item>
+        <item>28 Years</item>
+        <item>29 Years</item>
+        <item>30 Years</item>
+
+        <item>31 Years</item>
+        <item>32 Years</item>
+        <item>33 Years</item>
+        <item>34 Years</item>
+        <item>35 Years</item>
+
+        <item>36 Years</item>
+        <item>37 Years</item>
+        <item>38 Years</item>
+        <item>39 Years</item>
+        <item>40 Years</item>
+
+        <item>Max Premium Term</item>
+
+    </string-array>
+
     <string name="title_activity_health_check_up_plans">HEALTH CHECK UP PLANS</string>
     <string name="title_activity_eula">Agreement</string>
     <string name="title_activity_knowledge_guru">KNOWLEDGE GURU</string>
@@ -273,10 +391,22 @@
     <string name="title_activity_applied_credit_list">Credit Card</string>
     <string name="title_activity_raise_ticket">RAISE A TICKET</string>
     <string name="title_activity_add_ticket">RAISE A TICKET</string>
-    <string name="title_activity_main">ICICICreditApplyActivity</string>
+    <string name="title_activity_main">ICICI Credit Card</string>
     <string name="title_activity_share_quote_activity">Share</string>
 
 
     <string name="icici_terms_con">I hereby confirm that I have read and understood the Rupeeboss Terms and Conditions applicable to this service and that all the details furnished by me above are true and correct. I further provide consent to Rupeeboss and its affiliates to contact me with reference to financial products and this consent shall override any registration with DNC/NDNC.</string>
+    <string name="title_activity_quick_lead">Quick Lead</string>
+    <string name="title_activity_balance_transfer_loan_apply">BalanceTransferLoanApplyActivity</string>
+
+    <string name="title_activity_health_compare">Compare</string>
+    <string name="title_activity_life_detail">LIFE INSURANCE</string>
+    <string name="title_activity_input_quote_bottm_life">InputQuoteBottmLifeActivity</string>
+    <string name="title_activity_compare_ins_detail">CompareInsDetailActivity</string>
+    <string name="title_activity_compare_ins_main">COMPARE TERM INSURANCE</string>
+    <string name="title_activity_balance_transfer_personal_apply">
+        BalanceTransferPersonalApplyActivity
+    </string>
+
 
 </resources>

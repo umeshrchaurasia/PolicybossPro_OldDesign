@@ -25,6 +25,8 @@ import com.datacomp.magicfinmart.utility.ReadDeviceID;
 import java.util.List;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -33,6 +35,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
+    PrefManager prefManager;
     EditText etEmail, etPassword;
     LoginRequestEntity loginRequestEntity;
     TextView tvSignUp;
@@ -60,6 +63,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         initWidgets();
         setListener();
         realm = Realm.getDefaultInstance();
+        prefManager = new PrefManager(this);
+
 
         if (!checkPermission()) {
             requestPermission();
@@ -177,6 +182,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 loginRequestEntity.setUserName(etEmail.getText().toString());
                 loginRequestEntity.setPassword(etPassword.getText().toString());
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
+                loginRequestEntity.setTokenId(prefManager.getToken());
                 showDialog();
                 new LoginController(this).login(loginRequestEntity, this);
                 break;
@@ -188,7 +194,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         cancelDialog();
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
-                startActivity(new Intent(this, HomeActivity.class));
+
+               // prefManager.setIsUserLogin(true);
+                if(!prefManager.getSharePushType().equals("")) {
+
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                    intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
+                    startActivity(intent);
+
+                }else{
+                    startActivity(new Intent(this, HomeActivity.class));
+                }
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }

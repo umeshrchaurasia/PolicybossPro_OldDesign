@@ -10,7 +10,7 @@ public class CCICICIResponse extends APIResponse{
 
 
     /**
-     * MasterData : {"$id":"1","ApplicationId":"","Decision":"","ErrorMessage":"Sorry! we are unable to process your application. Please contact administrator.","Reason":""}
+     * MasterDataEntity : {"$id":"1","ApplicationId":"","Decision":"","ErrorMessage":"Sorry! we are unable to process your application. Please contact administrator.","Reason":""}
      */
 
     private MasterDataBean MasterData;

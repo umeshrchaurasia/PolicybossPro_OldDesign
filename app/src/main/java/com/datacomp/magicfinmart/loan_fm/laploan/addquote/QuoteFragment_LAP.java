@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,8 +18,10 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLQuoteAdapter;
+import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.application.LAPApplyWebView;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
@@ -26,6 +29,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystring;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
@@ -58,6 +62,9 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
     FmHomeLoanRequest fmHomeLoanRequest;
     int LoanRequireID = 0;
     BankSaveRequest bankSaveRequest;
+    BuyLoanQuerystring buyLoanQuerystring;
+    int QuoteID = 0;
+    ImageView ivShare;
     public QuoteFragment_LAP() {
         // Required empty public constructor
     }
@@ -87,7 +94,8 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
     }
 
     private void initialise_widget(View view) {
-
+        ivShare = (ImageView)view.findViewById(R.id.ivShare);
+        ivShare.setOnClickListener(this);
         txtInputSummary = (TextView) view.findViewById(R.id.txtInputSummary);
         txtPropertyType = (TextView) view.findViewById(R.id.txtPropertyType);
         txtCostOfProp = (TextView) view.findViewById(R.id.txtCostOfProp);
@@ -109,12 +117,6 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         //TODO : USE : LoanRequireID and "A"
     }
 
-    public void redirectToApplyLoan(QuoteEntity entity, String url, int id) {
-        startActivity(new Intent(getContext(), LAPApplyWebView.class)
-                .putExtra("QUOTE_ENTITY", entity)
-                .putExtra("URL", url)
-                .putExtra("QUOTE_ID", id));
-    }
 
     private void bindQuotes() {
         if (getQuoteResponse != null) {
@@ -203,12 +205,20 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
 //                loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
 //            }
             ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+        }else if(v.getId() == R.id.ivShare){
+            if(getQuoteResponse!=null){
+                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "LAP_ALL_QUOTE");
+                intent.putExtra("RESPONSE", getQuoteResponse);
+                intent.putExtra("NAME", homeLoanRequest.getApplicantNme());
+                startActivity(intent);
+            }
         }
 
     }
 
-    private void setFmHomeLoanRequest(int QuoteID) {
-
+    private void setFmHomeLoanRequest(int tempQuoteID) {
+        QuoteID = tempQuoteID;
         showDialog();
 
         // fmHomeLoanRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
@@ -227,6 +237,18 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
             bankSaveRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
             bankSaveRequest.setBank_id((entity.getBank_Id()));
             bankSaveRequest.setType("LAP");
+
+            buyLoanQuerystring = new BuyLoanQuerystring();
+            buyLoanQuerystring.setType("LAP");
+            buyLoanQuerystring.setBankId(entity.getBank_Id());
+
+            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf( entity.getLoan_eligible()));
+            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf( entity.getProcessingfee()));
+            buyLoanQuerystring.setQuote_id(QuoteID);
+            buyLoanQuerystring.setProp_type(entity.getRoi_type());
+            buyLoanQuerystring.setMobileNo(fmHomeLoanRequest.getHomeLoanRequest().getContact());
+            buyLoanQuerystring.setCity(fmHomeLoanRequest.getHomeLoanRequest().getCity());
+
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         }
         catch (Exception ex)
@@ -250,8 +272,16 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         {
             if (response.getStatusNo() == 0) {
                 ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+
+                redirectToApplyLoan();
             }
         }
+    }
+
+    public void redirectToApplyLoan() {
+        startActivity(new Intent(getContext(), HomeLoanApplyActivity.class)
+                .putExtra("BuyLoanQuery", buyLoanQuerystring));
+
     }
 
     @Override

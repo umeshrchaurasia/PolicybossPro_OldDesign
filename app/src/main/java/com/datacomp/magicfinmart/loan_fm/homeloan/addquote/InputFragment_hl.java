@@ -213,6 +213,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 //            if (homeLoanRequest.getLoanRequired() != null)
             etCostOfProp.setText(homeLoanRequest.getPropertyCost());
+            txtMaxLoanAmntAllow.setText(homeLoanRequest.getLoanRequired());
+
             if (homeLoanRequest.getLoanTenure() != null)
                 etTenureInYear.setText(homeLoanRequest.getLoanTenure());
 
@@ -1168,8 +1170,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         homeLoanRequest.setApi_source("Finmart");
         // Below two For Node JS Maintainance
         homeLoanRequest.setType("HML");
-        homeLoanRequest.setQuote_id(0);
-
+      //  homeLoanRequest.setQuote_id(0);// RupeeBoss error
+        homeLoanRequest.setQuote_id(fmHomeLoanRequest.getHomeLoanRequest().getQuote_id());
         //   homeLoanRequest.setLoaniD(Integer.valueOf(loginEntity.getLoanId()));
 
 
@@ -1227,7 +1229,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
     private BigDecimal getMaxLoanAmount(String value) {
-        double loanAmount = Double.parseDouble(value);
+        long loanAmount = Long.valueOf(value);
         return BigDecimal.valueOf(Math.ceil(loanAmount * .8)).setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
@@ -1239,8 +1241,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             if (!etCostOfProp.getText().toString().equals("") && !etCostOfProp.getText().toString().equals(null)) {
 
                 long costOfProperty = Long.valueOf(etCostOfProp.getText().toString());
-                long sactionAmount = getMaxLoanAmount("" + costOfProperty).intValueExact();
-                txtMaxLoanAmntAllow.setText("" + sactionAmount);
+                txtMaxLoanAmntAllow.setText("" + getMaxLoanAmount("" + costOfProperty));
             } else {
                 txtMaxLoanAmntAllow.setText("");
             }
@@ -1289,21 +1290,32 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
     public void monthlycalc_applicant(long int_etProfitAtTax,long int_etDirecPartRemuntion,long int_etDepreciation)
     {
-        float total = int_etProfitAtTax+int_etDirecPartRemuntion+int_etDepreciation;
-        if (total > 0) {
-            totalmonthlucalc_app = Math.round((total) / 12);
-            etMonthlyInc.setText(""+totalmonthlucalc_app);
+        if (ApplicantSource== "1") {
+
+        } else if (ApplicantSource == "2") {
+
+            float total = int_etProfitAtTax+int_etDirecPartRemuntion+int_etDepreciation;
+            if (total > 0) {
+                totalmonthlucalc_app = Math.round((total) / 12);
+                etMonthlyInc.setText(""+totalmonthlucalc_app);
+            }
+
         }
+
     }
 
     public void monthlycalc_coapplicant(long int_coApp_etDepreciation,long int_coApp_etProfitAtTax,long int_coApp_etDirecPartRemuntion)
     {
+        if (CoApplicantSource == "1") {
 
-        float totalcoapp = int_coApp_etDepreciation+int_coApp_etProfitAtTax+int_coApp_etDirecPartRemuntion;
-        if (totalcoapp > 0) {
-            totalmonthlucalc_coapp = Math.round((totalcoapp) / 12);
-            coApp_etMonthlyInc.setText(""+totalmonthlucalc_coapp);
-        }
+            } else if (CoApplicantSource== "2") {
+                float totalcoapp = int_coApp_etDepreciation+int_coApp_etProfitAtTax+int_coApp_etDirecPartRemuntion;
+                if (totalcoapp > 0) {
+                    totalmonthlucalc_coapp = Math.round((totalcoapp) / 12);
+                    coApp_etMonthlyInc.setText(""+totalmonthlucalc_coapp);
+                }
+            }
+
     }
     @Override
     public void afterTextChanged(Editable s) {

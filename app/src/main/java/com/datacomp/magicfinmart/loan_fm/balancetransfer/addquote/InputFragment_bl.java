@@ -3,7 +3,9 @@ package com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
@@ -66,7 +69,6 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
         View view = inflater.inflate(R.layout.content_add_blquote, container, false);
 
         init_widgets(view);
-
         databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
         setListener();
@@ -127,13 +129,13 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
         if (rbimghl.isChecked()) {
             blLoanRequest.setProduct_id(12);//hl
-            blLoanRequest.setType("BLHL");
+            blLoanRequest.setType("BTHL");
         } else if (rbimgpl.isChecked()) {
             blLoanRequest.setProduct_id(9);//pl
-            blLoanRequest.setType("BLPL");
+            blLoanRequest.setType("BTPL");
         }else if (rbimglap.isChecked()) {
             blLoanRequest.setProduct_id(7);//lap
-            blLoanRequest.setType("BLLAP");
+            blLoanRequest.setType("BTLAP");
         }
         blLoanRequest.setbrokerid(Integer.parseInt(loginEntity.getLoanId()));
         blLoanRequest.setLoanID(Integer.parseInt(loginEntity.getLoanId()));
@@ -150,7 +152,8 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
         try {
 
-            etOutstanding.setText("" + blLoanRequest.getLoanamount());
+
+            etOutstanding.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
 
             ettenureyrs.setText("" + blLoanRequest.getLoanterm());
 
@@ -266,82 +269,12 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
     }
 
 
-
-
-    //endegion
-
-//    @Override
-//    public void OnSuccess(APIResponse response, String message) {
-//
-//        cancelDialog();
-//        if (response instanceof GetBLDispalyResponse) {
-//            if (((GetBLDispalyResponse) response).getStatusbl() == 0) {
-//
-////                ((BLMainActivity)mContext).setQuoteCheck();
-////
-////                getBLDispalyLoanResponse = ((GetBLDispalyResponse) response);
-////
-////                Bundle bundle = new Bundle();
-////                bundle.putParcelable(Constants.BL_LOAN_QUOTES, getBLDispalyLoanResponse);
-////                QuoteFragment_bl quoteFragment = new QuoteFragment_bl();
-////                quoteFragment.setArguments(bundle);
-////                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-////                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-////                transaction_quote.addToBackStack("QUOTE");
-////                transaction_quote.show(quoteFragment);
-////                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-////                transaction_quote.commit();
-//
-//
-//                Toast.makeText(getActivity(), "bbbbbbbbbllllllllll", Toast.LENGTH_SHORT).show();
-//
-//            } else {
-//                Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
-//            }
-//        }
-//    }
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mContext = context;
     }
 
-//    @Override
-//    public void OnSuccess(APIResponse response, String message) {
-
-//        cancelDialog();
-//        if (response instanceof GetBLDispalyResponse) {
-//            if (((GetBLDispalyResponse) response).getStatus() == 1) {
-//
-//                ((BLMainActivity)mContext).setQuoteCheck();
-//
-//                getBLDispalyLoanResponse = ((GetBLDispalyResponse) response);
-//
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelable(Constants.BL_LOAN_SERVICE, getBLDispalyLoanResponse.getSaving());
-//                bundle.putParcelable(Constants.BL_REQUEST, blLoanRequest);
-//                bundle.putParcelableArrayList(Constants.BL_LOAN_QUOTES, (ArrayList<BLEntity>) getBLDispalyLoanResponse.getData());
-//
-//                QuoteFragment_bl quoteFragment = new QuoteFragment_bl();
-//                quoteFragment.setArguments(bundle);
-//                FragmentTransaction transaction_quote = getActivity().getSupportFragmentManager().beginTransaction();
-//                transaction_quote.replace(R.id.frame_layout, quoteFragment, "QUOTE");
-//                transaction_quote.addToBackStack("QUOTE");
-//                transaction_quote.show(quoteFragment);
-//                //  transaction_quote.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
-//                transaction_quote.commit();
-////
-//            }
-//        }
-
-//    }
-//
-//    @Override
-//    public void OnFailure(Throwable t) {
-//        cancelDialog();
-//        Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
-//    }
 
 
 }

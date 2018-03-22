@@ -80,9 +80,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     RegisterRequestEntity registerRequestEntity;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
+    AccountDtlEntity accountDtlEntity;
     public String ACCOUNT_TYPE = "SAVING";
 
-    HashMap<String, Integer> body;
+    HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
     // private String PROFILE = "1", PHOTO = "2", PAN = "3", CANCEL_CHQ = "4", AADHAR = "5";
@@ -106,6 +107,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         dbPersistanceController = new DBPersistanceController(this);
 
         loginEntity = dbPersistanceController.getUserData();
+
 
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginEntity.getFBAId());
@@ -237,7 +239,6 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         btnSave = (Button) findViewById(R.id.btnSave);
 
 
-
     }
 
     @Override
@@ -330,14 +331,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.btnSave:
 
-                if (validateProfile()== false) {
-                   // llMyProfile.setVisibility(View.GONE);
-                    if(llMyProfile.getVisibility() == View.GONE) {
+                if (validateProfile() == false) {
+                    // llMyProfile.setVisibility(View.GONE);
+                    if (llMyProfile.getVisibility() == View.GONE) {
                         manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp);
                         manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP);
                     }
-                }
-                 else {
+                } else {
                     showDialog();
                     saveMain();
                 }
@@ -721,6 +721,15 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 registerRequestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
                 registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
 
+            } else {
+
+                etState.setText("");
+                etCity.setText("");
+
+                registerRequestEntity.setCity("");
+                registerRequestEntity.setState("");
+                registerRequestEntity.setStateID("0");
+
             }
         } else if (response instanceof IfscCodeResponse) {
             if (response.getStatusNo() == 0) {
@@ -746,6 +755,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             if (registerRequestEntity.getType().equals("0")) {
                 Snackbar.make(ivMyProfile, response.getMessage(), Snackbar.LENGTH_SHORT).show();
+                saveAcctDtlToDB(0);
+            } else if ((registerRequestEntity.getType().equals("1") || registerRequestEntity.getType().equals("4")))
+            {
+                saveAcctDtlToDB(Integer.valueOf(registerRequestEntity.getType()));
             }
         }
 
@@ -761,11 +774,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (response.getStatusNo() == 0) {
 
 
-                AccountDtlEntity accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);
+                accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);  // 05
 
                 if (accountDtlEntity != null) {
                     isDataUploaded = false;
                     setAcctDtlInfo(accountDtlEntity);
+                    dbPersistanceController.updateMyAccountData(accountDtlEntity);
                     isDataUploaded = true;
                 }
 
@@ -824,6 +838,31 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    private void saveAcctDtlToDB(int type) {
+        if (accountDtlEntity != null) {
+            if(type == 1) {
+                accountDtlEntity.setDesignation("" + etSubHeading.getText().toString());
+                accountDtlEntity.setEditMobiNumb("" + etMobileNo.getText().toString());
+                accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString());
+            }else if(type == 4) {
+                accountDtlEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString());
+                accountDtlEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
+                accountDtlEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
+            }else if(type ==0 )
+            {
+                accountDtlEntity.setDesignation("" + etSubHeading.getText().toString());
+                accountDtlEntity.setEditMobiNumb("" + etMobileNo.getText().toString());
+                accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString());
+
+                accountDtlEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString());
+                accountDtlEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
+                accountDtlEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
+            }
+        }
+
+        dbPersistanceController.updateMyAccountData(accountDtlEntity);
+    }
+
     private SimpleTarget target = new SimpleTarget<Bitmap>() {
         @Override
         public void onResourceReady(Bitmap bitmap, GlideAnimation glideAnimation) {
@@ -832,6 +871,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             ivUser.setImageBitmap(bitmap);
         }
     };
+
     private void setDocumentUpload(int fileType, String FileNmae) {
         if (fileType == 1) {
             //ProfiePics
@@ -853,11 +893,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void setDocumentUpload() {
-        if(type == 1)
-        {
+        if (type == 1) {
             ivUser.setImageBitmap(bitmapPhoto);
-        }
-       else if (type == 2) {
+        } else if (type == 2) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
         } else if (type == 3) {
             ivPan.setImageResource(R.drawable.doc_uploaded);
@@ -941,13 +979,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
     }
 
-    private void setProfilePhoto( Bitmap mphoto)
-    {
+    private void setProfilePhoto(Bitmap mphoto) {
         bitmapPhoto = mphoto;
     }
-
-
-
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -958,9 +992,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 case 1:
                     showDialog();
                     setProfilePhoto(mphoto);
-                    file = saveImageToStorage(mphoto, "PROFILE");
+                    file = saveImageToStorage(mphoto, PHOTO_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE, PHOTO_File);
 
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
@@ -968,7 +1002,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     showDialog();
                     file = saveImageToStorage(mphoto, PHOTO_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO, PHOTO_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 3:
@@ -976,7 +1010,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     showDialog();
                     file = saveImageToStorage(mphoto, PAN_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), PAN);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), PAN, PAN_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
 
@@ -984,14 +1018,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     showDialog();
                     file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
                 case 5:
                     showDialog();
                     file = saveImageToStorage(mphoto, AADHAR_File);
                     part = Utility.getMultipartImage(file);
-                    body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR);
+                    body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR, AADHAR_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
                     break;
             }
@@ -1011,7 +1045,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         setProfilePhoto(mphoto);
                         file = saveImageToStorage(mphoto, "PROFILE");
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE, PHOTO_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
 
                         break;
@@ -1019,7 +1053,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         showDialog();
                         file = saveImageToStorage(mphoto, PHOTO_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO, PHOTO_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 3:
@@ -1027,7 +1061,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         showDialog();
                         file = saveImageToStorage(mphoto, PAN_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), PAN);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), PAN, PAN_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
 
@@ -1035,14 +1069,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         showDialog();
                         file = saveImageToStorage(mphoto, CANCEL_CHQ_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), CANCEL_CHQ, CANCEL_CHQ_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                     case 5:
                         showDialog();
                         file = saveImageToStorage(mphoto, AADHAR_File);
                         part = Utility.getMultipartImage(file);
-                        body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR);
+                        body = Utility.getBody(this, loginEntity.getFBAId(), AADHAR, AADHAR_File);
                         new RegisterController(this).uploadDocuments(part, body, this);
                         break;
                 }

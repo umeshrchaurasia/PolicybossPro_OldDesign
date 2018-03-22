@@ -11,9 +11,11 @@ import java.util.TreeMap;
 import io.realm.Case;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.R;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
@@ -456,6 +458,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
 
         return dashboardEntities;
     }
@@ -625,6 +628,7 @@ public class DBPersistanceController {
     public void logout() {
         realm.beginTransaction();
         realm.delete(LoginResponseEntity.class);
+        realm.delete(AccountDtlEntity.class);
         realm.delete(DocsEntity.class);
         realm.commitTransaction();
     }
@@ -638,6 +642,22 @@ public class DBPersistanceController {
     }
 
 
+    //endregion
+
+    //region myAccount data
+    public void updateMyAccountData(AccountDtlEntity accountDtlEntity) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(accountDtlEntity);
+        realm.commitTransaction();
+    }
+
+    public AccountDtlEntity getAccountData() {
+        AccountDtlEntity entity = realm.where(AccountDtlEntity.class).findFirst();
+        if (entity != null)
+            return entity;
+        else
+            return null;
+    }
     //endregion
 
     //region DOC list
@@ -1575,6 +1595,16 @@ public class DBPersistanceController {
             }
         }
         return clasId;
+    }
+    //endregion
+
+    //region constants data
+    public ConstantEntity getConstantsData() {
+        ConstantEntity entity = realm.where(ConstantEntity.class).findFirst();
+        if (entity != null)
+            return entity;
+        else
+            return null;
     }
     //endregion
 }

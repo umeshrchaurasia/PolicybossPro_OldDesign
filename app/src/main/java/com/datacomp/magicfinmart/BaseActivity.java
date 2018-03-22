@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,11 +15,21 @@ import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -36,6 +47,11 @@ public class BaseActivity extends AppCompatActivity {
 
     public Realm realm;
     ProgressDialog dialog;
+    int height = 300;
+    int textSize = 30;
+    int textMargin = 10;
+    int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
+    PopUpListener popUpListener;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +62,10 @@ public class BaseActivity extends AppCompatActivity {
         realm = Realm.getDefaultInstance();
     }
 
+
+
+
+    //region all neccessary functions
     @Override
     protected void onResume() {
         super.onResume();
@@ -166,25 +186,25 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public Bitmap createBitmap(Bitmap pospPhoto, String pospName, String pospDesg, String pospMob, String pospEmail) {
-        int textSize = 20;
-        pospPhoto = Bitmap.createScaledBitmap(pospPhoto, 100, 100, false);
 
-        Bitmap textBitmap = Bitmap.createBitmap(2000, 150, Bitmap.Config.ARGB_8888);
+        pospPhoto = Bitmap.createScaledBitmap(pospPhoto, height - 20, height - 20, false);
+
+        Bitmap textBitmap = Bitmap.createBitmap(2000, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(textBitmap);
         canvas.drawColor(Color.WHITE);
         Paint paint = new Paint();
-        paint.setColor(Color.RED);
-        paint.setTextSize(15);
-        canvas.drawText("" + pospName, 110, 40, paint);
-        canvas.drawText("" + pospDesg, 110, 40 + textSize + 2, paint);
-        canvas.drawText("" + pospMob, 110, 40 + textSize + textSize + 2, paint);
-        canvas.drawText("" + pospEmail, 110, 40 + textSize + textSize + textSize + 2, paint);
+        paint.setColor(Color.BLACK);
+        paint.setTextSize(textSize);
+        canvas.drawText("" + pospName, height + 20, startHeight + textSize + textMargin, paint);
+        canvas.drawText("" + pospDesg, height + 20, startHeight + 2 * textSize + 2 * textMargin, paint);
+        canvas.drawText("" + pospMob, height + 20, startHeight + 3 * textSize + 3 * textMargin, paint);
+        canvas.drawText("" + pospEmail, height + 20, startHeight + 4 * textSize + 4 * textMargin, paint);
         //canvas.drawText("" + pospName + "\n" + pospDesg + "\n" + pospMob + "\n" + pospEmail, 10, 10, paint);
 
 
         Bitmap cs = null;
 
-        cs = Bitmap.createBitmap(2000, 150, Bitmap.Config.ARGB_8888);
+        cs = Bitmap.createBitmap(2000, height, Bitmap.Config.ARGB_8888);
 
         Canvas comboImage = new Canvas(cs);
 
@@ -370,8 +390,7 @@ public class BaseActivity extends AppCompatActivity {
 
     public void sharePdfTowhatsApp(String pdfFileName) {
         try {
-            File outputFile = new File(Environment.getExternalStoragePublicDirectory
-                    (Environment.DIRECTORY_DOWNLOADS), "quote/"+pdfFileName + ".pdf");
+            File outputFile = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES/" + pdfFileName + ".pdf");
 
             Uri uri = FileProvider.getUriForFile(BaseActivity.this,
                     getString(R.string.file_provider_authority),
@@ -382,11 +401,71 @@ public class BaseActivity extends AppCompatActivity {
             share.setAction(Intent.ACTION_SEND);
             share.setType("application/pdf");
             share.putExtra(Intent.EXTRA_STREAM, uri);
-            share.setPackage("com.whatsapp");
-            startActivity(share);
+            share.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            //share.setPackage("com.whatsapp");
+            Intent intent = Intent.createChooser(share, "Share Quote");
+            startActivity(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public void registerPopUp(PopUpListener popUpListener) {
+        this.popUpListener = popUpListener;
+    }
+
+    public interface PopUpListener {
+
+        void onPositiveButtonClick(Dialog dialog, View view);
+
+        void onCancelButtonClick(Dialog dialog, View view);
+    }
+
+    public void openPopUp(final View view, String title, String desc, String positiveButtonName, boolean isCancelable) {
+        try {
+            final Dialog dialog;
+            dialog = new Dialog(BaseActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.layout_common_popup);
+
+            TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
+            tvTitle.setText(title);
+            TextView tvOk = (TextView) dialog.findViewById(R.id.tvOk);
+            tvOk.setText(positiveButtonName);
+            TextView txtMessage = (TextView) dialog.findViewById(R.id.txtMessage);
+            txtMessage.setText(desc);
+            ImageView ivCross = (ImageView) dialog.findViewById(R.id.ivCross);
+
+            dialog.setCancelable(isCancelable);
+            dialog.setCanceledOnTouchOutside(isCancelable);
+
+            Window dialogWindow = dialog.getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = lp.MATCH_PARENT;  // Width
+            lp.height = lp.WRAP_CONTENT; // Height
+            dialogWindow.setAttributes(lp);
+
+            dialog.show();
+            tvOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    popUpListener.onPositiveButtonClick(dialog, view);
+                }
+            });
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    popUpListener.onCancelButtonClick(dialog, view);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    //endregion
 }
 

@@ -1,0 +1,340 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    tools:context="com.datacomp.magicfinmart.lifeinsurance.CompareInsurance.addquote.QuoteFragment_CompareIns">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnSubmit"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+
+        android:scrollbars="none">
+
+        <android.support.v7.widget.CardView
+            style="@style/CardViewStyle"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:animateLayoutChanges="true"
+            app:cardElevation="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textView2"
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_weight="1"
+                            android:hint="Required Loan Amount">
+
+                            <EditText
+                                android:id="@+id/etReqLoanAmnt"
+                                style="@style/Style.edittext"
+                                android:digits="0123456789"
+                                android:inputType="number"
+                                android:maxLength="10"
+                                android:text="" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textView1014"
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:hint="Mobile Number">
+
+                            <EditText
+                                android:id="@+id/etMobile"
+                                style="@style/Style.edittext"
+                                android:digits="0123456789"
+                                android:ems="10"
+                                android:inputType="number"
+                                android:maxLength="10" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textView4"
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="1dp"
+                            android:layout_weight="1"
+                            android:hint="Date of Birth">
+
+                            <EditText
+                                android:id="@+id/et_DOB"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_date"
+                                android:focusable="false" />
+                        </android.support.design.widget.TextInputLayout>
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingRight="5dp">
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                style="@style/TextViewStyle.Medium"
+                                android:gravity="center"
+                                android:text="Gender" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="100">
+
+                                <TextView
+                                    android:id="@+id/txtMale"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_weight="50"
+                                    android:background="@drawable/customeborder_blue"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="Male"
+                                    android:textColor="@color/colorPrimary" />
+
+                                <TextView
+
+                                    android:id="@+id/txtFemale"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_weight="50"
+                                    android:background="@drawable/customeborder"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="Female"
+                                    android:textColor="@color/description_text" />
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="1dp"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingLeft="5dp">
+
+                            <TextView
+                                android:id="@+id/textView31"
+                                style="@style/TextViewStyle.Medium"
+                                android:gravity="center"
+                                android:text="SMOKER" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:weightSum="100">
+
+                                <TextView
+                                    android:id="@+id/txtYesSmoker"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_weight="50"
+                                    android:background="@drawable/customeborder_blue"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="YES"
+                                    android:textColor="@color/colorPrimary" />
+
+                                <TextView
+
+                                    android:id="@+id/txtNoSmoker"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_weight="50"
+                                    android:background="@drawable/customeborder"
+                                    android:gravity="center"
+                                    android:padding="5dp"
+                                    android:text="NO"
+                                    android:textColor="@color/description_text" />
+
+
+                            </LinearLayout>
+
+                        </LinearLayout>
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="*Pincode">
+
+                            <EditText
+                                android:id="@+id/etPincode"
+                                style="@style/Style.edittext"
+                                android:digits="0123456789"
+                                android:inputType="number"
+                                android:maxLength="6" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textView114"
+                            style="@style/TextAppearence.App.TextInputLayout"
+                            android:layout_width="0dp"
+                            android:layout_marginLeft="1dp"
+                            android:layout_weight="1"
+                            android:hint="Sum Assured">
+
+                            <EditText
+                                android:id="@+id/etSumAssured"
+                                style="@style/Style.edittext"
+                                android:digits="0123456789"
+                                android:ems="10"
+                                android:inputType="number"
+                                android:maxLength="10" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="4dp">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="50"
+                            android:orientation="vertical"
+                            android:paddingTop="2dp">
+
+                            <TextView
+                                android:id="@+id/txtPolicyTerm"
+                                style="@style/TextViewStyle.Medium"
+                                android:text="Policy Term" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <Spinner
+                                    android:id="@+id/spPolicyTerm"
+                                    style="@style/SpinnerStyle.Underlined"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="20"
+                                    android:dropDownWidth="200dp"
+                                    android:entries="@array/policy_term"
+                                    android:gravity="center"
+                                    android:paddingBottom="8dp" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="50"
+                            android:orientation="vertical"
+                            android:paddingTop="2dp">
+
+                            <TextView
+                                android:id="@+id/txtPremInsur"
+                                style="@style/TextViewStyle.Medium"
+                                android:text="Max Premium Term" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+
+                                <Spinner
+                                    android:id="@+id/spPremTerm"
+                                    style="@style/SpinnerStyle.Underlined"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="20"
+                                    android:entries="@array/premium_term"
+                                    android:dropDownWidth="200dp"
+                                    android:gravity="center"
+                                    android:paddingBottom="8dp" />
+
+
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+                    </TableRow>
+                </TableLayout>
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnSubmit"
+        style="@style/ButtonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="SUBMIT" />
+
+</RelativeLayout>

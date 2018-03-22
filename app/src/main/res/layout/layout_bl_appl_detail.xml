@@ -168,8 +168,8 @@
                 android:ems="10"
 
                 android:maxLength="5"
-                android:digits="0123456789.+-"
-                android:inputType="numberDecimal|numberSigned"/>
+                android:digits="0123456789."
+                android:inputType="numberDecimal"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
@@ -197,8 +197,8 @@
                 android:ems="10"
 
                 android:maxLength="5"
-                android:digits="0123456789.+-"
-                android:inputType="numberDecimal|numberSigned"/>
+                android:digits="0123456789."
+                android:inputType="numberDecimal"/>
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 

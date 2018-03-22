@@ -207,6 +207,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 //            if (homeLoanRequest.getLoanRequired() != null)
             etCostOfProp.setText(homeLoanRequest.getPropertyCost());
+            txtMaxLoanAmntAllow.setText(homeLoanRequest.getLoanRequired());
+
             if (homeLoanRequest.getLoanTenure() != null)
                 etTenureInYear.setText(homeLoanRequest.getLoanTenure());
 
@@ -1157,7 +1159,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         homeLoanRequest.setApi_source("Finmart");
         // Below two For Node JS Maintainance
         homeLoanRequest.setType("LAP");
-        homeLoanRequest.setQuote_id(0);
+        //  homeLoanRequest.setQuote_id(0);// RupeeBoss error
+        homeLoanRequest.setQuote_id(fmHomeLoanRequest.getHomeLoanRequest().getQuote_id());
 
         //   homeLoanRequest.setLoaniD(Integer.valueOf(loginEntity.getLoanId()));
 
@@ -1217,7 +1220,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 
     private BigDecimal getMaxLoanAmount(String value) {
-        double loanAmount = Double.parseDouble(value);
+        long loanAmount = Long.valueOf(value);
         return BigDecimal.valueOf(Math.ceil(loanAmount * .6)).setScale(0, BigDecimal.ROUND_HALF_UP);
     }
 
@@ -1229,13 +1232,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             if (!etCostOfProp.getText().toString().equals("") && !etCostOfProp.getText().toString().equals(null)) {
 
                 long costOfProperty = Long.valueOf(etCostOfProp.getText().toString());
-                long sactionAmount = getMaxLoanAmount("" + costOfProperty).intValueExact();
-                txtMaxLoanAmntAllow.setText("" + sactionAmount);
+                txtMaxLoanAmntAllow.setText("" + getMaxLoanAmount("" + costOfProperty));
             } else {
                 txtMaxLoanAmntAllow.setText("");
             }
             // monthly income calc in Applicant
-        }  else if ( etProfitAtTax.getText().hashCode() == s.hashCode()) {
+        }    else if ( etProfitAtTax.getText().hashCode() == s.hashCode()) {
 
             if (!etProfitAtTax.getText().toString().equals("") && !etProfitAtTax.getText().toString().equals(null)) {
                 int_etProfitAtTax =  Long.valueOf(etProfitAtTax.getText().toString());

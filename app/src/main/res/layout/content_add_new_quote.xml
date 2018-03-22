@@ -126,6 +126,15 @@
                         android:inputType="text"
                         android:maxLength="4" />
 
+                    <Button
+                        android:id="@+id/btnGo"
+                        style="@style/ButtonStyle.Colored"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:minHeight="35dp"
+                        android:text="GO" />
+
                 </LinearLayout>
 
                 <TextView

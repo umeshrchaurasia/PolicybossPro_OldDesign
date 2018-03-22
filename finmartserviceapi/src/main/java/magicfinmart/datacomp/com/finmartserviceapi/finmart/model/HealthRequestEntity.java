@@ -60,6 +60,15 @@ public class HealthRequestEntity implements Parcelable {
     private int isActive;
     private List<MemberListEntity> MemberList;
     private int selectedPrevInsID;
+    private int pincode;
+
+    public int getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(int pincode) {
+        this.pincode = pincode;
+    }
 
     public int getSelectedPrevInsID() {
         return selectedPrevInsID;
@@ -273,9 +282,9 @@ public class HealthRequestEntity implements Parcelable {
     public HealthRequestEntity() {
 
         CityID = 0;
-        ContactEmail = "test@test.com";
-        ContactMobile = "9934554512";
-        ContactName = "pramod parit";
+        ContactEmail = "";
+        ContactMobile = "";
+        ContactName = "";
         DeductibleAmount = 0;
         ExistingCustomerReferenceID = 0;
         HealthType = "Health";
@@ -290,6 +299,7 @@ public class HealthRequestEntity implements Parcelable {
         MemberList = null;
 
     }
+
 
     @Override
     public int describeContents() {
@@ -324,6 +334,7 @@ public class HealthRequestEntity implements Parcelable {
         dest.writeInt(this.isActive);
         dest.writeTypedList(this.MemberList);
         dest.writeInt(this.selectedPrevInsID);
+        dest.writeInt(this.pincode);
     }
 
     protected HealthRequestEntity(Parcel in) {
@@ -353,6 +364,7 @@ public class HealthRequestEntity implements Parcelable {
         this.isActive = in.readInt();
         this.MemberList = in.createTypedArrayList(MemberListEntity.CREATOR);
         this.selectedPrevInsID = in.readInt();
+        this.pincode = in.readInt();
     }
 
     public static final Parcelable.Creator<HealthRequestEntity> CREATOR = new Parcelable.Creator<HealthRequestEntity>() {

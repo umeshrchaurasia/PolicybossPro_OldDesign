@@ -8,6 +8,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntit
 public class SortbyInsurer implements Comparator<HealthQuoteEntity> {
     // Used for sorting in ascending order of age
     public int compare(HealthQuoteEntity a, HealthQuoteEntity b) {
-        return a.getTotalChilds() - b.getTotalChilds();
+        return ((int) Math.round(a.getNetPremium())) - ((int) Math.round(b.getNetPremium()));
     }
 }

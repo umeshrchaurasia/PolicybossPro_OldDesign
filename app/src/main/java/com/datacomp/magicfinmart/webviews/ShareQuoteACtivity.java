@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,6 +19,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -27,17 +29,33 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.google.gson.Gson;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
+
+import static magicfinmart.datacomp.com.finmartserviceapi.Utility.createShareDirIfNotExists;
 
 public class ShareQuoteACtivity extends BaseActivity {
     WebView webView;
@@ -47,7 +65,21 @@ public class ShareQuoteACtivity extends BaseActivity {
     Bitmap bmp;
     int count = 0;
     BikePremiumResponse bikePremiumResponse;
-    String jsonResponse;
+    BikeMasterEntity bikeMasterEntity;
+    CarMasterEntity carMasterEntity;
+    LoginResponseEntity loginResponseEntity;
+    AccountDtlEntity accountDtlEntity;
+    String respone;
+    String userReponse;
+    String otherData = "";
+    Gson gson = new Gson();
+    String pospPhotoUrl, pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo, makeModel, cc;
+    String from;
+    DBPersistanceController dbPersistanceController;
+    GetQuoteResponse getQuoteResponse;
+    GetBLDispalyResponse getblDispalyResponse;
+    GetPersonalLoanResponse getPersonalLoanResponse;
+    JSONObject userJson = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,18 +92,74 @@ public class ShareQuoteACtivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         webView = (WebView) findViewById(R.id.webView);
-        if (getIntent().hasExtra("RESPONSE")) {
-            bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
-            jsonResponse = getJsonFromClass(bikePremiumResponse);
+
+        dbPersistanceController = new DBPersistanceController(this);
+        loginResponseEntity = dbPersistanceController.getUserData();
+        accountDtlEntity = dbPersistanceController.getAccountData();
+
+        //region from which class
+        if (getIntent().hasExtra(Constants.SHARE_ACTIVITY_NAME)) {
+            from = getIntent().getExtras().getString(Constants.SHARE_ACTIVITY_NAME);
+            switch (from) {
+                case "CAR_ALL_QUOTE":
+                    CarAllQuote();
+                    createJson();
+                    setPospDetails();
+                    break;
+                case "CAR_SINGLE_QUOTE":
+                    carSingleQuote();
+                    createJson();
+                    setPospDetails();
+                    break;
+                case "BIKE_ALL_QUOTE":
+                    BikeAllQuote();
+                    createJson();
+                    setPospDetails();
+                    break;
+                case "BIKE_SINGLE_QUOTE":
+                    BikeSingleQuote();
+                    createJson();
+                    setPospDetails();
+                    break;
+
+                case "HEALTH_ALL_QUOTE":
+                    HealthAllQuote();
+                    createJson();
+                    setPospDetails();
+                    break;
+                case "HEALTH_SINGLE_QUOTE":
+                    HealthSingleQuote();
+                    createJson();
+                    setPospDetails();
+                    break;
+                case "HL_ALL_QUOTE":
+                    HlAllQuote();
+                    setOtherDetails();
+                    break;
+                case "BL_ALL_QUOTE":
+                    BlAllQuote();
+                    setOtherDetails();
+                    break;
+                case "PL_ALL_QUOTE":
+                    PlAllQuote();
+                    setOtherDetails();
+                    break;
+                case "LAP_ALL_QUOTE":
+                    LapAllQuote();
+                    setOtherDetails();
+                    break;
+
+
+            }
         }
+        //endregion
 
-        url = getIntent().getStringExtra("URL");
-        url = "file:///android_asset/VechicleInsurance.html";
-        name = getIntent().getStringExtra("NAME");
-        title = getIntent().getStringExtra("TITLE");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(title);
+        //region user  details
 
+        userReponse = userJson.toString();
+        //endregion
+
+        //region floatingbutton
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,18 +167,350 @@ public class ShareQuoteACtivity extends BaseActivity {
                /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 //downloadPdf(url, name);
-                shareQuote();
+                bmp = getBitmapFromWebView(webView);
+                new shareQuote(webView).execute();
+
+
             }
         });
+        //endregion
+
         settingWebview();
     }
 
-    private String getJsonFromClass(BikePremiumResponse bikePremiumResponse) {
-        Gson gson = new Gson();
-        return gson.toJson(bikePremiumResponse);
+    private void setPospDetails() {
+        if (accountDtlEntity != null) {
+
+            if (loginResponseEntity != null) {
+                if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
+                    pospNAme = loginResponseEntity.getPOSPName();
+                } else {
+                    pospNAme = "POSP Name";
+                }
+                if (loginResponseEntity.getPOSPProfileUrl() != null && !loginResponseEntity.getPOSPProfileUrl().equals("")) {
+                    pospPhotoUrl = loginResponseEntity.getPOSPProfileUrl();
+                }
+            } else {
+                pospNAme = "POSP Name";
+            }
+
+            if (accountDtlEntity.getDisplayEmail() != null && !accountDtlEntity.getDisplayEmail().equals("")) {
+                pospEmail = accountDtlEntity.getDisplayEmail();
+            } else {
+                pospEmail = "XXXXXX@finmart.com";
+            }
+
+            if (accountDtlEntity.getDisplayDesignation() != null && !accountDtlEntity.getDisplayDesignation().equals("")) {
+                pospDesg = accountDtlEntity.getDisplayDesignation();
+            } else {
+                pospDesg = "LandMark POSP";
+            }
+
+            if (accountDtlEntity.getDisplayPhoneNo() != null && !accountDtlEntity.getDisplayPhoneNo().equals("")) {
+                PospMobNo = accountDtlEntity.getDisplayPhoneNo();
+            } else {
+                PospMobNo = "98XXXXXXXX";
+            }
+        } else {
+            pospNAme = "POSP Name";
+            pospEmail = "XXXXXX@finmart.com";
+            pospDesg = "LandMark POSP";
+            PospMobNo = "98XXXXXXXX";
+        }
+
+        try {
+            userJson.put("pospPhotoUrl", pospPhotoUrl);
+            userJson.put("pospDesg", pospDesg);
+            userJson.put("pospNAme", pospNAme);
+            userJson.put("pospEmail", pospEmail);
+            userJson.put("PospMobNo", PospMobNo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
+    private void setOtherDetails() {
+
+        if (accountDtlEntity != null) {
+
+            if (loginResponseEntity != null) {
+                if (loginResponseEntity.getFullName() != null && !loginResponseEntity.getFullName().equals("")) {
+                    pospNAme = loginResponseEntity.getFullName();
+                } else {
+                    pospNAme = "FBA Name";
+                }
+                if (loginResponseEntity.getFBAProfileUrl() != null && !loginResponseEntity.getFBAProfileUrl().equals("")) {
+                    pospPhotoUrl = loginResponseEntity.getFBAProfileUrl();
+                }
+
+            } else {
+                pospNAme = "FBA Name";
+            }
+
+            if (accountDtlEntity.getEditEmailId() != null && !accountDtlEntity.getEditEmailId().equals("")) {
+                pospEmail = accountDtlEntity.getEditEmailId();
+            } else {
+                pospEmail = "XXXXXX@finmart.com";
+            }
+
+            if (accountDtlEntity.getDesignation() != null && !accountDtlEntity.getDesignation().equals("")) {
+                pospDesg = accountDtlEntity.getDesignation();
+            } else {
+                pospDesg = "FBA SUPPORT ASSISTANT";
+            }
+
+            if (accountDtlEntity.getEditMobiNumb() != null && !accountDtlEntity.getEditMobiNumb().equals("")) {
+                PospMobNo = accountDtlEntity.getEditMobiNumb();
+            } else {
+                PospMobNo = "98XXXXXXXX";
+            }
+        } else {
+            pospNAme = "FBA Name";
+            pospEmail = "XXXXXX@finmart.com";
+            pospDesg = "FBA SUPPORT ASSISTANT";
+            PospMobNo = "98XXXXXXXX";
+        }
+
+
+        try {
+            userJson.put("pospPhotoUrl", pospPhotoUrl);
+            userJson.put("pospDesg", pospDesg);
+            userJson.put("pospNAme", pospNAme);
+            userJson.put("pospEmail", pospEmail);
+            userJson.put("PospMobNo", PospMobNo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void createJson() {
+
+        try {
+            userJson.put("CC", cc);
+            userJson.put("CAR_NAME", makeModel);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void HlAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            getQuoteResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(getQuoteResponse);
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+        url = "file:///android_asset/HomeLoan.html";
+        title = "HOME LOAN QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+    }
+
+    private void PlAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            getPersonalLoanResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(getPersonalLoanResponse);
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+        url = "file:///android_asset/PersonalLoan.html";
+        title = "HOME LOAN QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+    }
+
+    private void BlAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            getblDispalyResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(getblDispalyResponse);
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            name = getIntent().getStringExtra("NAME");
+        }
+        if (getIntent().hasExtra("LOAN_REQUIRED")) {
+            //bike
+            otherData = getIntent().getStringExtra("LOAN_REQUIRED");
+        }
+        url = "file:///android_asset/BT.html";
+        title = "BALANCE TRANSFER QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("NAME", name);
+            jsonObject.put("LOAN_REQUIRED", otherData);
+            otherData = jsonObject.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void LapAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            getQuoteResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(getQuoteResponse);
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+        url = "file:///android_asset/LoanAgainstProperty.html";
+        title = "LAP QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+    }
+
+    private void HealthSingleQuote() {
+
+        //region url ,name,title
+
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            respone = getIntent().getStringExtra("RESPONSE");
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+
+        //region url ,name,title
+        url = getIntent().getStringExtra("URL");
+        url = "file:///android_asset/health_insurance_quotation.html";
+        title = "Health Quote";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+    private void HealthAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            respone = getIntent().getStringExtra("RESPONSE");
+        }
+        //region url ,name,title
+
+        url = "file:///android_asset/health_insurance.html";
+        name = getIntent().getStringExtra("NAME");
+        title = "HEALTH QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("NAME", name);
+            otherData = jsonObject.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+        //endregion
+    }
+
+    private void BikeSingleQuote() {
+
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            respone = getIntent().getStringExtra("RESPONSE");
+        }
+        if (getIntent().hasExtra("OTHER")) {
+            //bike
+            otherData = getIntent().getStringExtra("OTHER");
+        }
+        //region url ,name,title
+        url = getIntent().getStringExtra("URL");
+        url = "file:///android_asset/vechile_single_quote.html";
+        title = "Two Wheeler Quote";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+    private void BikeAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(bikePremiumResponse);
+        }
+        if (getIntent().hasExtra("BIKENAME")) {
+            //bike
+            bikeMasterEntity = getIntent().getParcelableExtra("BIKENAME");
+            if (!bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
+                makeModel = bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+            else
+                makeModel = bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name();
+            cc = "CRN : " + bikePremiumResponse.getSummary().getPB_CRN() + " , " + bikeMasterEntity.getCubic_Capacity() + "CC";
+        }
+        //region url ,name,title
+
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+        title = "TWO WHEELER QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+    private void carSingleQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            respone = getIntent().getStringExtra("RESPONSE");
+        }
+        if (getIntent().hasExtra("OTHER")) {
+            //bike
+            otherData = getIntent().getStringExtra("OTHER");
+        }
+
+        //region url ,name,title
+        url = getIntent().getStringExtra("URL");
+        url = "file:///android_asset/vechile_single_quote.html";
+        title = "Motor Quote";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+    private void CarAllQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //bike
+            bikePremiumResponse = getIntent().getParcelableExtra("RESPONSE");
+            respone = gson.toJson(bikePremiumResponse);
+        }
+        if (getIntent().hasExtra("CARNAME")) {
+            //car
+            carMasterEntity = getIntent().getParcelableExtra("CARNAME");
+            if (!bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
+                makeModel = carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name() + " -  " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+            else
+                makeModel = carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name();
+            cc = "CRN : " + bikePremiumResponse.getSummary().getPB_CRN() + " , " + carMasterEntity.getCubic_Capacity() + "CC";
+        }
+        //region url ,name,title
+        url = "file:///android_asset/VechicleInsurance.html";
+        name = bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+        title = "MOTOR QUOTE";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
+
+        //endregion
+    }
+
+
     private void shareQuote() {
+
         bmp = getBitmapFromWebView(webView);
 
         try {
@@ -98,7 +518,6 @@ public class ShareQuoteACtivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     private void downloadPdf(String url, String name) {
@@ -162,8 +581,7 @@ public class ShareQuoteACtivity extends BaseActivity {
                 // TODO hide your progress image
                 cancelDialog();
                 super.onPageFinished(view, url);
-                webView.loadUrl("javascript:init('" + jsonResponse + "')");
-
+                webView.loadUrl("javascript:init('" + respone + "','" + userReponse + "','" + otherData + "')");
             }
 
             @Override
@@ -171,10 +589,12 @@ public class ShareQuoteACtivity extends BaseActivity {
                 return false;
             }
         });
-        webView.getSettings().setBuiltInZoomControls(true);
+        webView.getSettings().setBuiltInZoomControls(false);
+        webView.addJavascriptInterface(new MyJavaScriptInterface(ShareQuoteACtivity.this), "Android");
         Log.d("URL", url);
         //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
-        webView.loadUrl("file:///android_asset/VechicleInsurance.html");
+        //webView.loadUrl("file:///android_asset/VechicleInsurance.html");
+        webView.loadUrl(url);
     }
 
     @Override
@@ -228,16 +648,17 @@ public class ShareQuoteACtivity extends BaseActivity {
     }
 
     public void SimplePDFTable(Bitmap bmp) throws Exception {
+        String fileName;
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        fileName = df.format(c.getTime());
 
-        File direct = new File(Environment.getExternalStoragePublicDirectory
-                (Environment.DIRECTORY_DOWNLOADS), "quote");
-        if (!direct.exists()) {
+        //File direct = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
+        File direct = createShareDirIfNotExists();
+        /*if (!direct.exists()) {
             if (direct.mkdir()) {
-                Toast.makeText(ShareQuoteACtivity.this,
-                        "Folder Is created in sd card", Toast.LENGTH_SHORT)
-                        .show();
             }
-        }
+        }*/
         String test = direct.getAbsolutePath();
 
         Rectangle pagesize = new Rectangle(bmp.getWidth() + 36, bmp.getHeight() + 36);
@@ -245,7 +666,7 @@ public class ShareQuoteACtivity extends BaseActivity {
         Document document = new Document(pagesize, 36f, 36f, 36f, 36f);
 
         PdfWriter.getInstance(document, new FileOutputStream(test
-                + "/quote.pdf"));
+                + "/" + fileName + ".pdf"));
 
         document.open();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -260,7 +681,57 @@ public class ShareQuoteACtivity extends BaseActivity {
         document.add(image);
 
         document.close();
-        sharePdfTowhatsApp("quote");
+        sharePdfTowhatsApp(fileName);
     }
 
+    public class MyJavaScriptInterface {
+        Context mContext;
+        String data;
+
+        MyJavaScriptInterface(Context ctx) {
+            this.mContext = ctx;
+        }
+
+
+        @JavascriptInterface
+        public void processComplete() {
+            //Get the string value to process
+            //shareQuote();
+        }
+    }
+
+
+    public class shareQuote extends AsyncTask<Void, Void, Void> {
+        WebView webView;
+
+        public shareQuote(WebView web) {
+            webView = web;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            showDialog("Generating pdf...");
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            try {
+                //bmp = getBitmapFromWebView(webView);
+                // SimplePDFTable(bmp, bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no());
+                SimplePDFTable(bmp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            cancelDialog();
+            super.onPostExecute(aVoid);
+        }
+    }
 }

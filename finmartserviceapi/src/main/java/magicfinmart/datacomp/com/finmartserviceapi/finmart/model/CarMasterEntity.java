@@ -1,9 +1,12 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class CarMasterEntity extends RealmObject {
+public class CarMasterEntity extends RealmObject implements Parcelable {
     /**
      * Make_ID : 1
      * Make_Name : Aston Martin
@@ -208,4 +211,71 @@ public class CarMasterEntity extends RealmObject {
     public void setMake_ID1(String Make_ID1) {
         this.Make_ID1 = Make_ID1;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.Make_ID);
+        dest.writeString(this.Make_Name);
+        dest.writeString(this.Model_ID);
+        dest.writeString(this.Model_Name);
+        dest.writeString(this.Variant_ID);
+        dest.writeString(this.Variant_Name);
+        dest.writeString(this.Model_ID1);
+        dest.writeString(this.Cubic_Capacity);
+        dest.writeString(this.Fuel_ID);
+        dest.writeString(this.Seating_Capacity);
+        dest.writeString(this.ExShoroomPrice);
+        dest.writeString(this.IsActive);
+        dest.writeString(this.CreatedOn);
+        dest.writeString(this.ModifyOn);
+        dest.writeString(this.Product_Id_New);
+        dest.writeString(this.Make_Name1);
+        dest.writeString(this.Model_Name1);
+        dest.writeString(this.Fuel_Name);
+        dest.writeString(this.Description);
+        dest.writeString(this.Make_ID1);
+    }
+
+    public CarMasterEntity() {
+    }
+
+    protected CarMasterEntity(Parcel in) {
+        this.Make_ID = in.readString();
+        this.Make_Name = in.readString();
+        this.Model_ID = in.readString();
+        this.Model_Name = in.readString();
+        this.Variant_ID = in.readString();
+        this.Variant_Name = in.readString();
+        this.Model_ID1 = in.readString();
+        this.Cubic_Capacity = in.readString();
+        this.Fuel_ID = in.readString();
+        this.Seating_Capacity = in.readString();
+        this.ExShoroomPrice = in.readString();
+        this.IsActive = in.readString();
+        this.CreatedOn = in.readString();
+        this.ModifyOn = in.readString();
+        this.Product_Id_New = in.readString();
+        this.Make_Name1 = in.readString();
+        this.Model_Name1 = in.readString();
+        this.Fuel_Name = in.readString();
+        this.Description = in.readString();
+        this.Make_ID1 = in.readString();
+    }
+
+    public static final Parcelable.Creator<CarMasterEntity> CREATOR = new Parcelable.Creator<CarMasterEntity>() {
+        @Override
+        public CarMasterEntity createFromParcel(Parcel source) {
+            return new CarMasterEntity(source);
+        }
+
+        @Override
+        public CarMasterEntity[] newArray(int size) {
+            return new CarMasterEntity[size];
+        }
+    };
 }

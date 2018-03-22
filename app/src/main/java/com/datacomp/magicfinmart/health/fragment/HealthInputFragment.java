@@ -69,9 +69,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_health_input, container, false);
-
         init(view);
-
 
         // set initial values
         healthQuote = new HealthQuote();
@@ -80,7 +78,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         healthRequestEntity = new HealthRequestEntity();
 
         cityList = new DBPersistanceController(getActivity()).getHealthCity();
-
         cityBinding();
 
         db = new DBPersistanceController(getActivity());
@@ -111,12 +108,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     private void processMemberForAge() {
         List<MemberListEntity> listM = new ArrayList<MemberListEntity>();
-        for (int i = 0; i < healthRequestEntity.getMemberList().size(); i++) {
-            MemberListEntity entity = healthRequestEntity.getMemberList().get(i);
-            entity.setAge(getAgeFromDate(entity.getMemberDOB()));
-            listM.add(entity);
-        }
+        if (healthRequestEntity.getMemberList() != null) {
+            for (int i = 0; i < healthRequestEntity.getMemberList().size(); i++) {
+                MemberListEntity entity = healthRequestEntity.getMemberList().get(i);
+                entity.setAge(getAgeFromDate(entity.getMemberDOB()));
+                listM.add(entity);
+            }
 
+        }
         healthRequestEntity.setMemberList(listM);
     }
 
@@ -128,10 +127,13 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     private void bindInput() {
 
-        selectCoverFor();
+        resetonClick();
+        selectCoverFor(healthRequestEntity.getPolicyFor().toLowerCase());
+
         etAmount.setText(healthRequestEntity.getSumInsured());
         etMobile.setText(healthRequestEntity.getContactMobile());
         etName.setText(healthRequestEntity.getContactName());
+        etPincode.setText(String.valueOf(healthRequestEntity.getPincode()));
 
         //select existing sum assured amount in recycler view
 
@@ -189,8 +191,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
-    private void selectCoverFor() {
-        switch (healthQuote.getHealthRequest().getPolicyFor().toLowerCase()) {
+    private void selectCoverFor(String coverfor) {
+        switch (coverfor) {
             case "self":
                 btnSelf.performClick();
                 break;
@@ -373,12 +375,18 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
+                if (etPincode.getText().toString().length() < 6) {
+                    etPincode.setError("Invalid Pincode");
+                    etPincode.setFocusable(true);
+                    return;
+                }
 
                 //endregion
 
                 healthRequestEntity.setContactName(etName.getText().toString());
                 healthRequestEntity.setContactMobile(etMobile.getText().toString());
                 healthRequestEntity.setSumInsured(etAmount.getText().toString());
+                healthRequestEntity.setPincode(Integer.parseInt(etPincode.getText().toString()));
                 healthRequestEntity.setCityID(new DBPersistanceController(getActivity()).getHealthCityID(acCity.getText().toString()));
 
 
@@ -390,12 +398,13 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et1.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
-                        entity.setMemberTypeID("1");
-                        entity.setMemberNumber("1");
-                        if (Age > 18)
+
+
+                        if (Age > 18) {
                             entity.setMemberType("Adult");
-                        else
+                        } else {
                             entity.setMemberType("Child");
+                        }
 
                         memberList.add(entity);
                     }
@@ -414,12 +423,13 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et1.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
-                        entity.setMemberTypeID("1");
-                        entity.setMemberNumber("1");
-                        if (Age > 18)
+
+
+                        if (Age > 18) {
                             entity.setMemberType("Adult");
-                        else
+                        } else {
                             entity.setMemberType("Child");
+                        }
 
                         memberList.add(entity);
                     }
@@ -428,9 +438,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et2.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
-
-                        entity.setMemberTypeID("2");
-                        entity.setMemberNumber("2");
                         if (Age > 18)
                             entity.setMemberType("Adult");
                         else
@@ -443,9 +450,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         int Age = Integer.parseInt(et3.getText().toString());
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
-
-                        entity.setMemberTypeID("3");
-                        entity.setMemberNumber("3");
                         if (Age > 18)
                             entity.setMemberType("Adult");
                         else
@@ -460,8 +464,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        entity.setMemberTypeID("4");
-                        entity.setMemberNumber("4");
                         if (Age > 18)
                             entity.setMemberType("Adult");
                         else
@@ -475,8 +477,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        entity.setMemberTypeID("5");
-                        entity.setMemberNumber("5");
                         if (Age > 18)
                             entity.setMemberType("Adult");
                         else
@@ -490,8 +490,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        entity.setMemberTypeID("6");
-                        entity.setMemberNumber("6");
                         if (Age > 18)
                             entity.setMemberType("Adult");
                         else
@@ -512,8 +510,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        entity.setMemberTypeID("1");
-                        entity.setMemberNumber("1");
                         if (Age > 18)
                             entity.setMemberType("Adult");
                         else
@@ -527,8 +523,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                         entity.setAge(Age);
                         entity.setMemberDOB(getDateFromAge(Age));
 
-                        entity.setMemberTypeID("2");
-                        entity.setMemberNumber("2");
                         if (Age > 18)
                             entity.setMemberType("Adult");
                         else

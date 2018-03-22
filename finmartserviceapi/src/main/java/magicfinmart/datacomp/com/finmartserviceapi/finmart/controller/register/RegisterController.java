@@ -6,6 +6,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -323,17 +324,17 @@ public class RegisterController implements IRegister {
     }
 
     @Override
-    public void uploadDocuments(MultipartBody.Part document, HashMap<String, Integer> body, final IResponseSubcriber iResponseSubcriber) {
+    public void uploadDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber) {
 
 
-        registerQuotesNetworkService.uploadDocument(document ,body).enqueue(new Callback<DocumentResponse>() {
+        registerQuotesNetworkService.uploadDocument(document, body).enqueue(new Callback<DocumentResponse>() {
             @Override
-                public void onResponse(Call<DocumentResponse> call, Response<DocumentResponse> response) {
+            public void onResponse(Call<DocumentResponse> call, Response<DocumentResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
                         //callback of data
                         iResponseSubcriber.OnSuccess(response.body(), "");
-                    }else {
+                    } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                     }
 
@@ -361,8 +362,47 @@ public class RegisterController implements IRegister {
         });
     }
 
+    @Override
+    public void newUploadDocuments(MultipartBody.Part document, int FBAID, int DocType, String DocName, final IResponseSubcriber iResponseSubcriber) {
+        Map<String, String> partMapString = new HashMap<String, String>();
+        partMapString.put("DocName", DocName);
+        Map<String, Integer> partMapInt = new HashMap<String, Integer>();
+        partMapInt.put("FBAID", FBAID);
+        partMapInt.put("DocType", DocType);
+        registerQuotesNetworkService.uploadDocumentNew(document, partMapString, partMapInt).enqueue(new Callback<DocumentResponse>() {
+            @Override
+            public void onResponse(Call<DocumentResponse> call, Response<DocumentResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        //callback of data
+                        iResponseSubcriber.OnSuccess(response.body(), "");
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
 
 
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DocumentResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
 
     @Override
     public void getMyAcctDtl(String FBAID, final IResponseSubcriber iResponseSubcriber) {

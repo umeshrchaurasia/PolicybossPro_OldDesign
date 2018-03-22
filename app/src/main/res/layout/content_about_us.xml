@@ -11,13 +11,14 @@
     tools:showIn="@layout/activity_about_us">
 
     <LinearLayout
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="300dp"
+            android:layout_height="150dp"
             android:src="@drawable/finmart_logo" />
 
         <TextView
@@ -131,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text=""
+                        android:text="-------"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextViewStyle.Medium"
                         android:textColor="@color/blue"
@@ -343,7 +344,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:padding="5dp"
-                        android:text="9999999999"
+                        android:text="022 - 66048200"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextViewStyle.Medium"
                         android:textColor="@color/blue"
@@ -373,10 +374,11 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:paddingTop="5dp"
-                        android:text="arardfgafsggfr@gmail.com"
-                        android:textAllCaps="true"
-                        android:textColor="@color/green_descent"
-                        android:textSize="10sp" />
+                        android:text="fba.support@magicfinmart.com"
+                        android:textAllCaps="false"
+                        android:textStyle="bold"
+                        android:textColor="@color/blue"
+                        android:textSize="11sp" />
                 </LinearLayout>
             </LinearLayout>
 

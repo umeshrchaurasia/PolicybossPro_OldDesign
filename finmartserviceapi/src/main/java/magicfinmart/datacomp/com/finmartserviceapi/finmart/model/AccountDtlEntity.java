@@ -2,7 +2,11 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 import java.util.List;
 
-public class AccountDtlEntity {
+import io.realm.RealmList;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class AccountDtlEntity extends RealmObject {
 
 
     /**
@@ -105,7 +109,7 @@ public class AccountDtlEntity {
      * DisplayPhoneNo : null
      * DisplayDesignation : null
      */
-
+    @PrimaryKey
     private int FBAID;
     private String FBACode;
     private String FBAType;
@@ -146,7 +150,7 @@ public class AccountDtlEntity {
     private String ProfPictName;
     private String GstNo;
     private String FBAPan;
-    private String IsFoc;
+  //  private String IsFoc;
     private String IsBlocked;
     private String CityId;
     private String created_by;
@@ -206,7 +210,7 @@ public class AccountDtlEntity {
     private String DisplayEmail;
     private String DisplayPhoneNo;
     private String DisplayDesignation;
-    private List<DocAvailableEntity> doc_available;
+    private RealmList<DocAvailableEntity> doc_available;
     /**
      * FBAID : 3
      * StatDate : 1900-01-01 00:00:00
@@ -539,13 +543,13 @@ public class AccountDtlEntity {
         this.FBAPan = FBAPan;
     }
 
-    public String getIsFoc() {
-        return IsFoc;
-    }
-
-    public void setIsFoc(String IsFoc) {
-        this.IsFoc = IsFoc;
-    }
+//    public String getIsFoc() {
+//        return IsFoc;
+//    }
+//
+//    public void setIsFoc(String IsFoc) {
+//        this.IsFoc = IsFoc;
+//    }
 
     public String getIsBlocked() {
         return IsBlocked;
@@ -1011,11 +1015,11 @@ public class AccountDtlEntity {
         this.DisplayDesignation = DisplayDesignation;
     }
 
-    public List<DocAvailableEntity> getDoc_available() {
+    public RealmList<DocAvailableEntity> getDoc_available() {
         return doc_available;
     }
 
-    public void setDoc_available(List<DocAvailableEntity> doc_available) {
+    public void setDoc_available(RealmList<DocAvailableEntity> doc_available) {
         this.doc_available = doc_available;
     }
 

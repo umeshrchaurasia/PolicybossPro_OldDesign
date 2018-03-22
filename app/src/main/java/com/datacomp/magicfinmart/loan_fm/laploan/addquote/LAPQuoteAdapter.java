@@ -124,10 +124,10 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
                 //bank
                 ((QuoteFragment_LAP) mContext).redirectToApplyBank(quoteEntity);
                 //quote to app conversion
-                ((QuoteFragment_LAP) mContext).quoteToApp();
+               // ((QuoteFragment_LAP) mContext).quoteToApp();
 
                 //redirect to apply loan
-                ((QuoteFragment_LAP) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
+            //    ((QuoteFragment_LAP) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
 
             }
         });
@@ -147,10 +147,31 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
                     quoteEntity.setIskeyvisible(true);
                     holder.ivArrow.setImageDrawable(mContext.getResources().getDrawable(R.drawable.up_arrow_blue));
 
-                    String pre = " = "+ quoteEntity.getPre_Closer_Fixed() + " %";
-                    String par = " = "+quoteEntity.getPart_Pmt_Fixed() + " %";
+                    String pre="",par="",spe="";
+                    if(quoteEntity.getPre_Closer_Fixed() != null) {
+                        pre = " = " + quoteEntity.getPre_Closer_Fixed() + " %";
+                    }
+                    else
+                    {
+                        pre = " = ";
+                    }
 
-                    String spe = " = "+quoteEntity.getWomen_roi() + " %";
+                    if(quoteEntity.getPart_Pmt_Fixed() != null) {
+                        par = " = " + quoteEntity.getPart_Pmt_Fixed() + " %";
+                    }
+                    else
+                    {
+                        par = " = ";
+                    }
+
+                    if(quoteEntity.getWomen_roi() != null) {
+                        spe = " = " + quoteEntity.getWomen_roi() + " %";
+                    }
+                    else
+                    {
+                        spe = " = ";
+                    }
+
 
                     holder.tvDetailsCount1.setText(pre);
                     holder.tvDetailsCount2.setText(par);

@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.loan_fm.balancetransfer.application;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,10 +17,12 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.ActivityTabsPagerAdapter_BL;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferApplicationAdapter;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
 
@@ -74,11 +77,15 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
         rvApplicationList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvApplicationList.setLayoutManager(layoutManager);
-
-//        balanceTransferApplicationAdapter = new BalanceTransferApplicationAdapter(getActivity());
-//        rvApplicationList.setAdapter(balanceTransferApplicationAdapter);
     }
 
+    public void redirectBLLoanApply(String ApplNum){
+        Intent intent=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
+        intent.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
+        intent.putExtra("TypePage","HL");
+        startActivity(intent);
+
+    }
     private void setListener() {
         ivSearch.setOnClickListener(this);
         ivAdd.setOnClickListener(this);

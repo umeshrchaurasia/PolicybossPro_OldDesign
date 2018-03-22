@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 import java.util.HashMap;
 import java.util.Map;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.DocumentUploadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
@@ -17,7 +18,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaR
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
@@ -25,7 +25,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
-import retrofit2.http.QueryMap;
 
 /**
  * Created by Rajeev Ranjan on 22/01/2018.
@@ -81,7 +80,12 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @Multipart
         @POST("/api/upload-doc")
-        Call<DocumentResponse> uploadDocument(@Part() MultipartBody.Part doc,   @PartMap() Map<String, Integer> partMap);
+        Call<DocumentResponse> uploadDocument(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
+
+        @Headers("token:" + token)
+        @Multipart
+        @POST("/api/upload-doc")
+        Call<DocumentResponse> uploadDocumentNew(@Part() MultipartBody.Part doc,  @PartMap() Map<String, String> partMapString,@PartMap() Map<String, Integer> partMapInt);
 
 
 ////////////////////// Notification ////////////////////////////////
@@ -89,7 +93,6 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/get-notification-data")
         Call<NotificationResponse> getNotificationData(@Body HashMap<String, String> body);
-
 
 
     }

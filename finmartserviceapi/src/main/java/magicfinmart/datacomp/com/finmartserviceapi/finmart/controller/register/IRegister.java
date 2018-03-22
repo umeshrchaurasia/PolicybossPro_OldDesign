@@ -2,6 +2,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
@@ -29,10 +30,12 @@ public interface IRegister {
 
     void saveAccDtl(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);
 
-    void uploadDocuments(MultipartBody.Part document, HashMap<String, Integer> body, final IResponseSubcriber iResponseSubcriber);
+    void uploadDocuments(MultipartBody.Part document, HashMap<String, String> body, final IResponseSubcriber iResponseSubcriber);
+
+    void newUploadDocuments(MultipartBody.Part document, int FBAID, int DocType, String DocName, final IResponseSubcriber iResponseSubcriber);
 
     void getMyAcctDtl(String FBAID, IResponseSubcriber iResponseSubcriber);
 
-    void getNotificationData (String FBAID, IResponseSubcriber iResponseSubcriber);
+    void getNotificationData(String FBAID, IResponseSubcriber iResponseSubcriber);
 
 }

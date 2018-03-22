@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.loan_fm.laploan.application;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.ActivityTabsPagerAdapter_LAP;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanApplicationAdapter;
 
@@ -22,6 +24,7 @@ import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanApplicationAdapter;
  import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 
 public class LAP_ApplicationFragment extends BaseFragment implements View.OnClickListener {
@@ -78,6 +81,14 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
         ivAdd.setOnClickListener(this);
         tvAdd.setOnClickListener(this);
         tvSearch.setOnClickListener(this);
+    }
+
+    public void redirectLAPLoanApply(String ApplNum){
+        Intent intent=new Intent(getActivity(), HomeLoanApplyActivity.class);
+        intent.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
+        intent.putExtra("TypePage","LAP");
+        startActivity(intent);
+
     }
     private void setTextWatcher() {
 //search

@@ -1,9 +1,16 @@
 package com.datacomp.magicfinmart.home;
 
+import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,23 +27,29 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
+import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 
-public class HomeActivity extends BaseActivity {
+public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener {
 
     final String TAG = "HOME";
     private Toolbar toolbar;
@@ -45,11 +58,34 @@ public class HomeActivity extends BaseActivity {
     TextView textNotifyItemCount, txtEntityName, txtDetails, txtFbaCode;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
+    String versionNAme;
+    PackageInfo pinfo;
+    PrefManager prefManager;
+
+    public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction() != null && intent.getAction().equalsIgnoreCase(Utility.PUSH_BROADCAST_ACTION)) {
+                int notifyCount = prefManager.getNotificationCounter();
+
+                if (notifyCount == 0) {
+                    textNotifyItemCount.setVisibility(View.GONE);
+                } else {
+                    textNotifyItemCount.setVisibility(View.VISIBLE);
+                    textNotifyItemCount.setText("" + String.valueOf(notifyCount));
+                }
+            }
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        registerPopUp(this);
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //Initializing NavigationView
@@ -60,10 +96,22 @@ public class HomeActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
-
+        try {
+            pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+            versionNAme = pinfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
-        init_headers();
+        prefManager = new PrefManager(this);
+
+        getNotificationAction();
+
+        if(loginResponseEntity != null) {
+            init_headers();
+        }
+
         List<String> rtoDesc = db.getRTOListNames();
 
         // set first fragement selected.
@@ -76,7 +124,7 @@ public class HomeActivity extends BaseActivity {
 
         }
 
-        //Setting Navigation View Item Selected Listener to handle the item click of the navigation menu
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
             @Override
@@ -99,7 +147,7 @@ public class HomeActivity extends BaseActivity {
                     case R.id.nav_myaccount: {
 
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
-                       //startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
+                        //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
                         // getSupportActionBar().setTitle("BAS 2016-17");
                         // Toast.makeText(HomeActivity.this, "my_account", Toast.LENGTH_SHORT).show();
@@ -126,7 +174,9 @@ public class HomeActivity extends BaseActivity {
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_mps:
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        showDialog();
+                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+                        //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_helpfeedback:
                         startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
@@ -138,7 +188,7 @@ public class HomeActivity extends BaseActivity {
 
                     case R.id.nav_logout:
                         new DBPersistanceController(HomeActivity.this).logout();
-                        new PrefManager(HomeActivity.this).deletePospInfo();
+                        new PrefManager(HomeActivity.this).clearAll();
                         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
@@ -184,13 +234,15 @@ public class HomeActivity extends BaseActivity {
         actionBarDrawerToggle.syncState();
     }
 
+    // endregion
+
     private void init_headers() {
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
         txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
 
-        txtEntityName.setText("Magic Finmart v1.0");
+        txtEntityName.setText("Magic Finmart v" + versionNAme);
         txtDetails.setText("" + loginResponseEntity.getFullName());
         txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
@@ -215,6 +267,93 @@ public class HomeActivity extends BaseActivity {
         }
     }
 
+    private void getNotificationAction() {
+
+        // region Activity Open Usnig Notification
+
+        if (getIntent().getExtras() != null) {
+
+
+          // step1: boolean verifyLogin = prefManager.getIsUserLogin();
+            // region verifyUser : when user logout and when Apps in background
+            if (loginResponseEntity == null) {
+
+               NotifyEntity notifyEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+               if(notifyEntity == null)
+               {
+                   return;
+               }
+
+                if (notifyEntity.getNotifyFlag().matches("WB")) {
+
+                    prefManager.setSharePushWebURL(notifyEntity.getWeb_url());
+                    prefManager.setSharePushWebTitle(notifyEntity.getWeb_title());
+
+                }
+                prefManager.setSharePushType(notifyEntity.getNotifyFlag());
+
+                Intent intent = new Intent(this, SplashScreenActivity.class);
+                startActivity(intent);
+                finish();
+
+
+            }
+            //endregion
+
+            //  region step2: For Notification come via Login for user credential  (step2 perform after step1)
+            else if (getIntent().getStringExtra(Utility.PUSH_LOGIN_PAGE) != null) {
+                String pushLogin = getIntent().getStringExtra(Utility.PUSH_LOGIN_PAGE);
+                if (pushLogin.equals("555")) {
+
+                    String type = prefManager.getSharePushType();
+                    String web_url = prefManager.getSharePushWebURL();
+                    String web_title = prefManager.getSharePushWebTitle();
+                    String web_name = "";
+                    prefManager.clearNotification();
+
+                    if (type.matches("NL")) {
+                        Intent intent = new Intent(this, NotificationActivity.class);
+                        startActivity(intent);
+
+                    } else if (type.matches("WB")) {
+
+                        startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                .putExtra("URL", web_url)
+                                .putExtra("NAME", web_name)
+                                .putExtra("TITLE", web_title));
+
+                    }
+                }
+
+            }
+            //endregion
+
+            // region user already logged in and app in forground
+            else if (getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
+                NotifyEntity notificationEntity= getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+                if (notificationEntity.getNotifyFlag().matches("NL")) {
+                    Intent intent = new Intent(this, NotificationActivity.class);
+                    startActivity(intent);
+                } else if (notificationEntity.getNotifyFlag().matches("WB")) {
+                    String web_url = notificationEntity.getWeb_url();
+                    String web_title =  notificationEntity.getWeb_title();
+                    String web_name = "";
+                    startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                            .putExtra("URL", web_url)
+                            .putExtra("NAME", web_name)
+                            .putExtra("TITLE", web_title));
+
+                }
+            }
+            //endregion
+
+        }
+
+        ///
+
+        //endregion
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.dashboard_menu, menu);
@@ -225,14 +364,14 @@ public class HomeActivity extends BaseActivity {
         textNotifyItemCount = (TextView) actionView.findViewById(R.id.notify_badge);
         textNotifyItemCount.setVisibility(View.GONE);
 
-//        int PushCount = Integer.parseInt(sharedPreferences.getString(Utility.NOTIFICATION_COUNTER, "0"));
-//
-//        if (PushCount == 0) {
-//            textNotifyItemCount.setVisibility(View.GONE);
-//        } else {
-//            textNotifyItemCount.setVisibility(View.VISIBLE);
-//            textNotifyItemCount.setText("" + String.valueOf(PushCount));
-//        }
+        int PushCount = prefManager.getNotificationCounter();
+
+        if (PushCount == 0) {
+            textNotifyItemCount.setVisibility(View.GONE);
+        } else {
+            textNotifyItemCount.setVisibility(View.VISIBLE);
+            textNotifyItemCount.setText("" + String.valueOf(PushCount));
+        }
 
         actionView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,4 +405,62 @@ public class HomeActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof MpsResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                if (((MpsResponse) response).getMasterData().getPaymentURL() != null) {
+                    startActivity(new Intent(this, CommonWebViewActivity.class)
+                            .putExtra("URL", ((MpsResponse) response).getMasterData().getPaymentURL())
+                            .putExtra("NAME", "MPS")
+                            .putExtra("TITLE", "MPS"));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        openPopUp(toolbar, "Message", "" + t.getMessage(), "OK", true);
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mHandleMessageReceiver);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.REQUEST_CODE) {
+            if (data != null) {
+                int  Counter =  prefManager.getNotificationCounter()  ;
+                textNotifyItemCount.setText("" +Counter);
+                textNotifyItemCount.setVisibility(View.GONE);
+
+            }
+
+        }
+    }
 }
