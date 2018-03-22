@@ -99,7 +99,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
         if (motorRequestEntity.getVehicle_expected_idv() > 0) {
             etIdv.setText("" + motorRequestEntity.getVehicle_expected_idv());
-            sbIdv.setProgress(motorRequestEntity.getVehicle_expected_idv());
+            sbIdv.setProgress(motorRequestEntity.getVehicle_expected_idv()/1000);
             tvProgress.setText("" + motorRequestEntity.getVehicle_expected_idv());
         }
     }
@@ -137,8 +137,8 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         tvLiabYes.setOnClickListener(this);
         tvLiabNo.setOnClickListener(this);
         try {
-            sbIdv.setMin(Integer.parseInt(summaryEntity.getVehicle_min_idv()));
-            sbIdv.setMax(Integer.parseInt(summaryEntity.getVehicle_max_idv()));
+            sbIdv.setMin(Integer.parseInt(summaryEntity.getVehicle_min_idv()) / 1000);
+            sbIdv.setMax(Integer.parseInt(summaryEntity.getVehicle_max_idv()) / 1000);
             tvMinIdv.setText("" + summaryEntity.getVehicle_min_idv());
             tvMaxIdv.setText("" + summaryEntity.getVehicle_max_idv());
         } catch (Exception e) {
@@ -172,6 +172,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
     }
 
     public int getPercentFromProgress(int value) {
+
       /*  switch (value) {
             case 0:
                 return 0;
@@ -186,7 +187,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
             case 5:
                 return 50;
         }*/
-        return value;
+        return value * 1000;
     }
 
     private void initWidgets() {

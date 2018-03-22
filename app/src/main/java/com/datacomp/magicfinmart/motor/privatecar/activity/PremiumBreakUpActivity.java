@@ -39,7 +39,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.model.OwnDamageEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 
-public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener,BaseActivity.PopUpListener {
+public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener {
     ResponseEntity responseEntity;
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
@@ -267,7 +267,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                             startActivity(intent);
                         }
                     }
-                }else {
+                } else {
                     openPopUp(ivShare, "Message", "Your POSP status is INACTIVE", "OK", true);
                 }
                 break;
@@ -324,13 +324,20 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         String title = "";
         String name = "";
         url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";
-        title = "Car Insurance";
+        title = "Motor Insurance";
 
-
-        startActivity(new Intent(this, CommonWebViewActivity.class)
-                .putExtra("URL", url)
-                .putExtra("NAME", name)
-                .putExtra("TITLE", title));
+        if (getIntent().hasExtra("RESPONSE_BIKE")) {
+            startActivity(new Intent(this, CommonWebViewActivity.class)
+                    .putExtra("URL", Utility.getTwoWheelerUrl(this, Service_Log_Unique_Id))
+                    .putExtra("NAME", name)
+                    .putExtra("TITLE", title));
+        }
+        if (getIntent().hasExtra("RESPONSE_CAR")) {
+            startActivity(new Intent(this, CommonWebViewActivity.class)
+                    .putExtra("URL", Utility.getMotorUrl(this, Service_Log_Unique_Id))
+                    .putExtra("NAME", name)
+                    .putExtra("TITLE", title));
+        }
     }
 
     @Override
@@ -363,6 +370,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             responseJson = s;
         }
     }
+
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
         if (view.getId() == R.id.ivShare) {

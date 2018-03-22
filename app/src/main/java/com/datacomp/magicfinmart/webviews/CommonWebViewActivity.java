@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -109,6 +110,7 @@ public class CommonWebViewActivity extends BaseActivity {
             }
         });*/
         webView.getSettings().setBuiltInZoomControls(true);
+        webView.addJavascriptInterface(new MyJavaScriptInterface(), "Android");
         Log.d("URL", url);
         //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
         webView.loadUrl(url);
@@ -143,5 +145,15 @@ public class CommonWebViewActivity extends BaseActivity {
 
     }
 
+    class MyJavaScriptInterface {
+        @JavascriptInterface
+        public void AddNewMotorQuote() {
+            Toast.makeText(CommonWebViewActivity.this, "Add Quote", Toast.LENGTH_SHORT).show();
+        }
 
+        @JavascriptInterface
+        public void RedirectToHomepage() {
+            Toast.makeText(CommonWebViewActivity.this, "Home", Toast.LENGTH_SHORT).show();
+        }
+    }
 }

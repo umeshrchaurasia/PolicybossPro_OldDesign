@@ -708,12 +708,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         etAddress2.requestFocus();
-                        etAddress2.setError("Enter Address 1");
+                        etAddress2.setError("Enter Address 2");
                         etAddress2.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
                         return;
                     } else {
                         etAddress2.requestFocus();
-                        etAddress2.setError("Enter Address 1");
+                        etAddress2.setError("Enter Address 2");
                         return;
                     }
                 }
@@ -932,7 +932,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setCurrentAcc();
                 break;
             case R.id.btnSave:
-                if (pospDetailsEntity.getPaymStat() == null) {
+                if (pospDetailsEntity.getPaymStat() == null || pospDetailsEntity.getPaymStat().isEmpty()) {
                     if (loginResponseEntity.getPaymentUrl() != null) {
                         openWebView(loginResponseEntity.getPaymentUrl());
                     } else {
@@ -1222,13 +1222,27 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         pospDetailsEntity = ((PospDetailsResponse) response).getMasterData().get(0);
                         if (pospDetailsEntity != null) {
 
+                            /*if (checkAllImageUpload()) {
+                                // all image uploaded
+
+                                if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals("")) {
+                                    // posp enrollment done , all image uploaded
+
+
+                                } else {
+                                    // posp not registered ,all image uploaded
+
+                                }
+
+
+                            } else {
+                                // All image not uploaded
+                            }*/
+
+
                             if (checkAllImageUpload()) {
                                 // all documents uploaded
-                                if (pospDetailsEntity.getPaymStat() != null) {
-                                    // payment done & documents uploaded
-                                    llMain.setVisibility(View.GONE);
-                                    showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", true);
-                                } else {
+                                if (pospDetailsEntity.getPaymStat() == null || pospDetailsEntity.getPaymStat().equals("")) {
                                     // payment   Not done & documents uploaded
                                     bindUploadImage();
                                     if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals("")) {
@@ -1239,6 +1253,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                                     } else {
                                         setInputParameters();
                                     }
+
+                                } else {
+                                    // payment done & documents uploaded
+                                    llMain.setVisibility(View.GONE);
+                                    showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", true);
+
                                 }
                             } else {
                                 // some documents uploaded

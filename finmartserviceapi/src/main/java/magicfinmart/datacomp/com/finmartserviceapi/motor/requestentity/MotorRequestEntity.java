@@ -1,9 +1,12 @@
 package magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 
 
 /**
@@ -107,6 +110,55 @@ public class MotorRequestEntity implements Parcelable {
      */
 
     private String agent_source;
+    private String app_version;
+    private String device_id;
+    private String erp_source;
+    private String mac_address;
+    /**
+     * app_version : 1.8
+     * client_id : 3
+     * client_name : Finmart
+     * crn : 498669
+     * device_id : 00000000-373e-5fe2-162a-16fe162a16fe
+     * erp_source : POSP-MTR
+     * expected_idv : 0
+     * external_bifuel_value : 0
+     * fba_id : 1976
+     * geo_lat : null
+     * geo_long : null
+     * mac_address : 02:00:00:00:00:00
+     * posp_aadhar : 554411226352
+     * posp_agent_city : Mumbai
+     * posp_category : Datacomp POSP
+     * posp_email_id : live@gmail.com
+     * posp_erp_id : 600076
+     * posp_fba_id : 1976
+     * posp_first_name : Direct
+     * posp_gender : Male
+     * posp_last_name : POSP
+     * posp_middle_name : 0
+     * posp_mobile_no : 9292929292
+     * posp_pan_no : assps9647w
+     * posp_posp_category : GI
+     * posp_posp_id : 1090
+     * posp_reporting_agent_name : Rajesh Ramnivas Verma
+     * posp_reporting_agent_uid : 108132
+     * posp_sm_posp_id : 0
+     * posp_sm_posp_name : 0
+     * posp_sources : 1
+     * posp_ss_id : 2335
+     * product_id : 1
+     * registration_no_1 : MH
+     * registration_no_2 : 4
+     * registration_no_3 : AA
+     * registration_no_4 : 1234
+     * rto_id : 582
+     * ss_id : 2335
+     * vehicle_expected_idv : 0
+     * vehicle_id : 4659
+     * voluntary_deductible : 0
+     */
+
 
     /**
      * VehicleRequestID : 171
@@ -185,7 +237,11 @@ public class MotorRequestEntity implements Parcelable {
         VehicleRequestID = vehicleRequestID;
     }
 
-    public MotorRequestEntity() {
+    public MotorRequestEntity(Context context) {
+        DBPersistanceController dbPersistanceController;
+        LoginResponseEntity loginResponseEntity;
+        dbPersistanceController = new DBPersistanceController(context);
+        loginResponseEntity = dbPersistanceController.getUserData();
         // this.birth_date = "1992-01-01";
         this.agent_source = "";
         this.is_aai_member = "no";
@@ -225,7 +281,12 @@ public class MotorRequestEntity implements Parcelable {
         this.mobile = "";
         this.email = "";
         this.crn = 0;
-        this.ip_address = "";
+        this.app_version = Utility.getVersionName(context);
+        this.device_id = Utility.getTokenId(context);
+        this.fba_id = loginResponseEntity.getFBAId();
+        if (loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
+            this.ss_id = Integer.parseInt(loginResponseEntity.getPOSPNo());
+        this.ip_address = Utility.LOGIN_IP;
     }
 
 
@@ -590,6 +651,38 @@ public class MotorRequestEntity implements Parcelable {
         this.selectedPrevInsID = selectedPrevInsID;
     }
 
+    public String getApp_version() {
+        return app_version;
+    }
+
+    public void setApp_version(String app_version) {
+        this.app_version = app_version;
+    }
+
+    public String getDevice_id() {
+        return device_id;
+    }
+
+    public void setDevice_id(String device_id) {
+        this.device_id = device_id;
+    }
+
+    public String getErp_source() {
+        return erp_source;
+    }
+
+    public void setErp_source(String erp_source) {
+        this.erp_source = erp_source;
+    }
+
+    public String getMac_address() {
+        return mac_address;
+    }
+
+    public void setMac_address(String mac_address) {
+        this.mac_address = mac_address;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -639,6 +732,10 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeDouble(this.geo_lat);
         dest.writeDouble(this.geo_long);
         dest.writeString(this.agent_source);
+        dest.writeString(this.app_version);
+        dest.writeString(this.device_id);
+        dest.writeString(this.erp_source);
+        dest.writeString(this.mac_address);
         dest.writeInt(this.isTwentyfour);
         dest.writeInt(this.isActive);
         dest.writeString(this.created_date);
@@ -693,6 +790,10 @@ public class MotorRequestEntity implements Parcelable {
         this.geo_lat = in.readDouble();
         this.geo_long = in.readDouble();
         this.agent_source = in.readString();
+        this.app_version = in.readString();
+        this.device_id = in.readString();
+        this.erp_source = in.readString();
+        this.mac_address = in.readString();
         this.isTwentyfour = in.readInt();
         this.isActive = in.readInt();
         this.created_date = in.readString();

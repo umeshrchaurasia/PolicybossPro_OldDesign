@@ -270,7 +270,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
         String title = "";
         String name = "";
         url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
-        title = "Car Insurance";
+        title = "Motor Insurance";
 
         //new QuoteApplicationController(this).convertQuoteToApp(entity.);
 
