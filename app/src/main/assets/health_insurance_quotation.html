@@ -332,7 +332,7 @@
 
 
         var response = bikeReponse;
-        response = response.replace(/\n/g, " ");
+        response = response.replace(/\n+/g, " , ");
         response = JSON.parse(response);
 
         var HTML = "";
