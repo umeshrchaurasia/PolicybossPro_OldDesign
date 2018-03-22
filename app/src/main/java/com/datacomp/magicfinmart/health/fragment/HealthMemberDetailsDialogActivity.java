@@ -22,10 +22,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
     public static final String UPDATE_MEMBER_QUOTE = "healthquote_update";
 
     HealthQuote healthQuote;
-    //    LinearLayout llSelf;
     Button btnContinue;
-    //    Switch swUnMarried;
-//    RadioButton rbSelfMale, rbSelfFemale;
     List<MemberListEntity> listMemberList;
     RecyclerView rvMemberDetail;
     HealthMemberDetailsViewAdapter adapter;
@@ -63,6 +60,40 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnContinue) {
+            List<MemberListEntity> updateMember = new ArrayList<>();
+            List<MemberListEntity> listMember = healthQuote.getHealthRequest().getMemberList();
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberRelationShip().toLowerCase().equals("self")) {
+                    entity.setMemberNumber("1");
+                    entity.setMemberTypeID("1");
+                } else if (entity.getMemberRelationShip().toLowerCase().equals("spouse")) {
+                    entity.setMemberNumber("2");
+                    entity.setMemberTypeID("2");
+                } else if (entity.getMemberRelationShip().toLowerCase().equals("father")) {
+                    entity.setMemberNumber("3");
+                    entity.setMemberTypeID("5");
+                } else if (entity.getMemberRelationShip().toLowerCase().equals("mother")) {
+                    entity.setMemberNumber("4");
+                    entity.setMemberTypeID("4");
+                } else if (entity.getMemberRelationShip().toLowerCase().equals("child1")) {
+                    entity.setMemberNumber("5");
+                    entity.setMemberTypeID("3");
+                } else if (entity.getMemberRelationShip().toLowerCase().equals("child2")) {
+                    entity.setMemberNumber("6");
+                    entity.setMemberTypeID("3");
+                } else if (entity.getMemberRelationShip().toLowerCase().equals("child3")) {
+                    entity.setMemberNumber("7");
+                    entity.setMemberTypeID("3");
+                } else if (entity.getMemberRelationShip().toLowerCase().equals("child4")) {
+                    entity.setMemberNumber("8");
+                    entity.setMemberTypeID("3");
+                }
+
+                updateMember.add(entity);
+            }
+
+            healthQuote.getHealthRequest().setMemberList(updateMember);
 
             Intent intent = new Intent();
             intent.putExtra(UPDATE_MEMBER_QUOTE, healthQuote);

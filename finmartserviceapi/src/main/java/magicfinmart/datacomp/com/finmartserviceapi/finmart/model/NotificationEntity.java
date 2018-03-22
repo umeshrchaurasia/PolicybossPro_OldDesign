@@ -1,40 +1,29 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 public class NotificationEntity {
+
+
     /**
-     * title : dfgsdfg
-     * body : dfghb
+     * title : sdfghj
+     * body : qwerfg
      * img_url : null
      * action : WB
-     * web_url : wedfg
-     * web_title : sdfg
+     * web_url : wefghjk
+     * web_title : asdfgh
      * is_read : 0
      * date : 01/03/2018
-     * message_id : 212
+     * message_id : 238
      */
 
     private String title;
     private String body;
-    private Object img_url;
+    private String img_url;
     private String action;
     private String web_url;
     private String web_title;
     private String is_read;
     private String date;
-    private Double message_id;
-
-    public NotificationEntity() {
-        this.title = "";
-        this.body = "";
-        this.img_url = "";
-        this.action = "";
-        this.web_url = "";
-        this.web_title = "";
-        this.is_read = "0";
-        this.date = "";
-        this.message_id = 0.0;
-
-    }
+    private int message_id;
 
     public String getTitle() {
         return title;
@@ -52,11 +41,11 @@ public class NotificationEntity {
         this.body = body;
     }
 
-    public Object getImg_url() {
+    public String getImg_url() {
         return img_url;
     }
 
-    public void setImg_url(Object img_url) {
+    public void setImg_url(String img_url) {
         this.img_url = img_url;
     }
 
@@ -100,34 +89,12 @@ public class NotificationEntity {
         this.date = date;
     }
 
-    public Double getMessage_id() {
+    public int getMessage_id() {
         return message_id;
     }
 
-    public void setMessage_id(Double message_id) {
+    public void setMessage_id(int message_id) {
         this.message_id = message_id;
     }
-    /**
-     * title : Finmart Offer
-     * body : Notofication test
-     * img_url : http://i.stack.imgur.com/CE5lz.png
-     * action : HL
-     * web_url : http://i.stack.imgur.com/CE5lz.png
-     * web_title : Demo
-     * is_read : 0
-     */
-
-//    private String title;
-//    private String body;
-//    private String img_url;
-//    private String action;
-//    private String web_url;
-//    private String web_title;
-//
-//
-//    private String date;
-//    private Double is_read;
-//
-
 
 }

@@ -451,7 +451,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
-
         <activity
             android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
             android:label="@string/title_activity_knowledge_guru_webview"
@@ -681,11 +680,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/DialogTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
-
         </activity>
         <activity
             android:name=".lifeinsurance.LifeDetailActivity"
@@ -698,8 +695,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
-
         <activity
             android:name=".health.fragment.HealthQuoteDetailsDialogActivity"
             android:noHistory="true"
@@ -711,8 +706,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
         </activity>
-
-
         <activity
             android:name=".lifeinsurance.CompareInsurance.CompareInsDetailActivity"
             android:label="@string/title_activity_compare_ins_detail"
@@ -729,8 +722,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".lifeinsurance.CompareInsurance.CompareInsDetailActivity" />
-
         </activity>
+        <activity
+            android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
+            android:label="@string/title_activity_balance_transfer_personal_apply"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

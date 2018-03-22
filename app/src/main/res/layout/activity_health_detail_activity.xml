@@ -121,7 +121,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="30"
+                android:layout_weight="35"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 
@@ -130,13 +130,11 @@
                     style="@style/TextStyle.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:ellipsize="marquee"
-                    android:lines="1"
-                    android:singleLine="true"
+                    android:text=""
                     android:textAlignment="center"
                     android:textAllCaps="true"
                     android:textColor="@color/black"
-                    android:textSize="13sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/txtPlanName"
@@ -146,14 +144,14 @@
                     android:text=""
                     android:textAlignment="center"
                     android:textAllCaps="true"
-                    android:textSize="11sp" />
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
                 android:layout_weight="35"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
@@ -184,9 +182,9 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="4dp"
-                android:layout_marginRight="4dp"
-                android:layout_weight="35"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:layout_weight="30"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 

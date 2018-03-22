@@ -30,6 +30,13 @@ public class PrefManager {
     private static final String POSP_INFO = "pospinfo";
     private static final String IS_UPDATE_SHOWN = "updateshown";
 
+    public static String PUSH_VERIFY_LOGIN = "push_verify_login";
+    public static String NOTIFICATION_COUNTER = "Notification_Counter";
+    public static String SHARED_KEY_PUSH_NOTIFY = "shared_notifyFlag";
+    public static String SHARED_KEY_PUSH_WEB_URL = "shared_notify_webUrl";
+    public static String SHARED_KEY_PUSH_WEB_TITLE = "shared_notify_webTitle";
+
+
     public PrefManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
@@ -120,6 +127,57 @@ public class PrefManager {
         return pref.getString(IS_DEVICE_TOKEN, "");
     }
 
+    public int getNotificationCounter() {
+        return pref.getInt(NOTIFICATION_COUNTER, 0);
+    }
+
+    public void setNotificationCounter(int counter) {
+        editor.putInt(NOTIFICATION_COUNTER, counter);
+        editor.commit();
+    }
+
+
+    public void setIsUserLogin(boolean isUserLogin) {
+        editor.putBoolean(PUSH_VERIFY_LOGIN, isUserLogin);
+        editor.commit();
+    }
+
+    public boolean getIsUserLogin() {
+        return pref.getBoolean(PUSH_VERIFY_LOGIN, false);
+    }
+
+    public void setSharePushType(String type) {
+
+        editor.putString(SHARED_KEY_PUSH_NOTIFY, type);
+        editor.commit();
+    }
+
+    public String getSharePushType() {
+        return pref.getString(SHARED_KEY_PUSH_NOTIFY, "");
+    }
+
+
+    public String getSharePushWebURL() {
+        return pref.getString(SHARED_KEY_PUSH_WEB_URL, "");
+    }
+
+    public void setSharePushWebURL(String url) {
+
+        editor.putString(SHARED_KEY_PUSH_WEB_URL, url);
+        editor.commit();
+    }
+
+    public String getSharePushWebTitle() {
+        return pref.getString(SHARED_KEY_PUSH_WEB_TITLE, "");
+    }
+
+    public void setSharePushWebTitle(String webtite) {
+
+        editor.putString(SHARED_KEY_PUSH_WEB_TITLE, webtite);
+        editor.commit();
+    }
+
+
     public boolean setPospInformation(RegisterRequestEntity registerRequestEntity) {
         try {
             Gson gson = new Gson();
@@ -145,7 +203,24 @@ public class PrefManager {
         pref.edit().remove(POSP_INFO).commit();
     }
 
-    ;
+    public void clearNotification() {
+        pref.edit().remove(SHARED_KEY_PUSH_NOTIFY)
+                .remove(SHARED_KEY_PUSH_WEB_URL)
+                .remove(SHARED_KEY_PUSH_WEB_TITLE).commit();
+
+    }
+
+    // region delete Share Data
+
+    public void clearAll() {
+        pref.edit().remove(POSP_INFO)
+                 .remove(SHARED_KEY_PUSH_NOTIFY)
+                .remove(SHARED_KEY_PUSH_WEB_URL)
+                .remove(SHARED_KEY_PUSH_WEB_TITLE).commit();
+
+    }
+
+    //endregion
 
 
 }

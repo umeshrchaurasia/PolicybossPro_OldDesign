@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -15,6 +16,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.fragment.HealthInputFragment;
 import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
 import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
+import com.datacomp.magicfinmart.home.HomeActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 
@@ -159,4 +161,28 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     public void updateRequestID(int healthRequestID) {
         healthQuote.setHealthRequestId(healthRequestID);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_home:
+
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

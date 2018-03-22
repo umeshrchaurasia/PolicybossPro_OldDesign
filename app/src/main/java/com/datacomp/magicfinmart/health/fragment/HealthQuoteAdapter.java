@@ -102,20 +102,20 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             holder.txtNoOfInsurer.setOnClickListener(this);
         }
 
-        // if (entity.getLstbenfitsFive() != null) {
-        for (int i = 0; i < entity.getLstbenfitsFive().size(); i++) {
-            BenefitsEntity benefit = entity.getLstbenfitsFive().get(i);
-            if (benefit.getBeneID() == 1) { //room rent
-                holder.txtRoomRent.setText(benefit.getBenefit());
-            } else if (benefit.getBeneID() == 2) { //icu
-                holder.txtIcuRent.setText(benefit.getBenefit());
-            } else if (benefit.getBeneID() == 3) { //pre hosp
-                holder.txtPreHosp.setText(benefit.getBenefit());
-            } else if (benefit.getBeneID() == 4) { //post
-                holder.txtPostHosp.setText(benefit.getBenefit());
+        if (entity.getLstbenfitsFive() != null) {
+            for (int i = 0; i < entity.getLstbenfitsFive().size(); i++) {
+                BenefitsEntity benefit = entity.getLstbenfitsFive().get(i);
+                if (benefit.getBeneID() == 1) { //room rent
+                    holder.txtRoomRent.setText(benefit.getBenefit());
+                } else if (benefit.getBeneID() == 2) { //icu
+                    holder.txtIcuRent.setText(benefit.getBenefit());
+                } else if (benefit.getBeneID() == 3) { //pre hosp
+                    holder.txtPreHosp.setText(benefit.getBenefit());
+                } else if (benefit.getBeneID() == 4) { //post
+                    holder.txtPostHosp.setText(benefit.getBenefit());
+                }
             }
         }
-        //}
     }
 
     CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
