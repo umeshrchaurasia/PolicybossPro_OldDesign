@@ -311,8 +311,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 dialog.dismiss();
                 Intent intent = new Intent(getActivity(), CommonWebViewActivity.class);
                 intent.putExtra("URL", healthQuoteCompareResponse.getMasterData().getProposerPageUrl());
-                intent.putExtra("TITLE", "HEALTH INSURENCE");
-                intent.putExtra("NAME", "HEALTH INSURENCE");
+                intent.putExtra("TITLE", "HEALTH INSURANCE");
+                intent.putExtra("NAME", "HEALTH INSURANCE");
                 startActivity(intent);
             }
         })

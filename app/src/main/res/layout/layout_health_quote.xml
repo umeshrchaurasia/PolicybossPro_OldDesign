@@ -263,7 +263,7 @@
                     style="@style/TextStyle.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="26dp"
+                    android:layout_marginLeft="20dp"
                     android:textSize="11sp" />
 
                 <TextView
@@ -283,7 +283,7 @@
                     style="@style/TextStyle.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="26dp"
+                    android:layout_marginLeft="20dp"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -312,7 +312,7 @@
                     style="@style/TextStyle.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="26dp"
+                    android:layout_marginLeft="20dp"
                     android:textSize="11sp" />
 
                 <TextView
@@ -332,7 +332,7 @@
                     style="@style/TextStyle.Body1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="26dp"
+                    android:layout_marginLeft="20dp"
                     android:textSize="11sp" />
             </LinearLayout>
 

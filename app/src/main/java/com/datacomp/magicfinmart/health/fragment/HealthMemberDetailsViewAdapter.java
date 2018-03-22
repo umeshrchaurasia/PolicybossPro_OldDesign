@@ -144,7 +144,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
             holder.rbFemale.setChecked(true);
 
-            if (entity.getAge() > 18)
+            if (entity.getAge() >= 18)
                 holder.spHealthRelation.setSelection(2);
             else
                 holder.spHealthRelation.setSelection(5);
@@ -156,7 +156,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
             holder.rbMale.setChecked(true);
 
-            if (entity.getAge() > 18)
+            if (entity.getAge() >= 18)
                 holder.spHealthRelation.setSelection(3);
             else
                 holder.spHealthRelation.setSelection(5);
@@ -168,7 +168,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
             holder.rbFemale.setChecked(true);
 
-            if (entity.getAge() > 18)
+            if (entity.getAge() >= 18)
                 holder.spHealthRelation.setSelection(4);
             else
                 holder.spHealthRelation.setSelection(5);
@@ -180,7 +180,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
             holder.rbMale.setChecked(true);
 
-            if (entity.getAge() > 18)
+            if (entity.getAge() >= 18)
                 holder.spHealthRelation.setSelection(3);
             else
                 holder.spHealthRelation.setSelection(5);
@@ -192,7 +192,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
             holder.rbMale.setChecked(true);
 
-            if (entity.getAge() > 18)
+            if (entity.getAge() >= 18)
                 holder.spHealthRelation.setSelection(3);
             else
                 holder.spHealthRelation.setSelection(5);
