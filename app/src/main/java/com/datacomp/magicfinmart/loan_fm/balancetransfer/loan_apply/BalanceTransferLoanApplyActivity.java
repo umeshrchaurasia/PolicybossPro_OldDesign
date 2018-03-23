@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
@@ -2290,12 +2291,9 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                 if (isSubmit) {
 
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
-                    if(TypePage.equals("HLBT")) {
-                        startActivity(new Intent(this, HomeLoanDetailActivity.class));
-                    }else{
-                        startActivity(new Intent(this, LapLoanDetailActivity.class));
 
-                    }
+                        startActivity(new Intent(this, BalanceTransferDetailActivity.class));
+
 
                 }
 

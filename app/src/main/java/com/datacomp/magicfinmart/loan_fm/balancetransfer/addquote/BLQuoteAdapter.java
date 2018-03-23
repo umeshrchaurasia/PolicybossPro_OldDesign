@@ -81,7 +81,7 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
         holder.tvLoanAmt.setText("" + "\u20B9" + " "+  BigDecimal.valueOf(Math.ceil(LoanAmount)).setScale(0, BigDecimal.ROUND_HALF_UP) );
 
        // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
-        holder.tvBestRate.setText(""+ "\u20B9"+ " " + quoteEntity.getRoi() +" %");
+        holder.tvBestRate.setText(""+" " + quoteEntity.getRoi() +" %");
         holder.tvBankName.setText("" + quoteEntity.getBank_Code());
         holder.tvpf.setText("" + quoteEntity.getPf());
         holder.tvpf_type.setText("" + quoteEntity.getPf_type());
