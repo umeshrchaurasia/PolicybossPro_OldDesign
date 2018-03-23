@@ -74,6 +74,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     @Override
     protected void onResume() {
         super.onResume();
+
         fetchQuoteApplication();
     }
 
