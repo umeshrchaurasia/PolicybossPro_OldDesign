@@ -12,18 +12,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
+import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeApplicationTabFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeInputFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteTabFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 
-public class BikeAddQuoteActivity extends AppCompatActivity {
+public class BikeAddQuoteActivity extends BaseActivity {
 
 
     private static String BIKE_INPUT_FRAGMENT = "bike_input";
@@ -53,7 +57,35 @@ public class BikeAddQuoteActivity extends AppCompatActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        if (getIntent().getParcelableExtra(BikeQuoteTabFragment.FROM_QUOTE_BIKE) != null) {
+        if (getIntent().getParcelableExtra(BikeApplicationTabFragment.FROM_BIKE_APPLICATION) != null) {
+            ApplicationListEntity entity = getIntent().getParcelableExtra(BikeApplicationTabFragment.FROM_BIKE_APPLICATION);
+            if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
+
+                //update counetr to hit  two times only to manage multiple hits
+                Utility.getSharedPreferenceEditor(this).putInt(Utility.QUOTE_COUNTER,
+                        MotorController.NO_OF_SERVER_HITS - 1)
+                        .commit();
+                //1. update srn in preference
+                Utility.getSharedPreferenceEditor(this).
+                        putString(Utility.CARQUOTE_UNIQUEID, entity.getSRN()).commit();
+
+
+                //2. create bundle
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(BIKE_QUOTE_REQUEST, entity.getMotorRequestEntity());
+                quoteBundle = bundle;
+
+                bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+            } else {
+                //send to Input
+                //modify
+                quoteBundle = new Bundle();
+                quoteBundle.putParcelable(BIKE_QUOTE_REQUEST, entity.getMotorRequestEntity());
+
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            }
+
+        } else if (getIntent().getParcelableExtra(BikeQuoteTabFragment.FROM_QUOTE_BIKE) != null) {
             QuoteListEntity entity = getIntent().getParcelableExtra(BikeQuoteTabFragment.FROM_QUOTE_BIKE);
             if (entity.getMotorRequestEntity().getIsTwentyfour() == 0) {
 
@@ -228,7 +260,6 @@ public class BikeAddQuoteActivity extends AppCompatActivity {
                     Toast.makeText(BikeAddQuoteActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
                     return false;
                 }
-
 
 
             default:
