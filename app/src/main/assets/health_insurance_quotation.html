@@ -136,7 +136,7 @@
             medical
             expenses and gives you protection
         </p>
-        <div class="table-responsive" id="divBeneFits">
+        <div  id="divBeneFits">
             <table class="table table-striped">
                 <tr>
                     <td><b>Room Rent Limit</b></td>
@@ -332,7 +332,7 @@
 
 
         var response = bikeReponse;
-        response = response.replace(/\n/g, " ");
+        response = response.replace(/\n+/g, " , ");
         response = JSON.parse(response);
 
         var HTML = "";

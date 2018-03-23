@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -62,6 +63,63 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
         if (view.getId() == R.id.btnContinue) {
             List<MemberListEntity> updateMember = new ArrayList<>();
             List<MemberListEntity> listMember = healthQuote.getHealthRequest().getMemberList();
+
+            int isChildRepeat = 0;
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberRelationShip().toLowerCase().equals("child1")) {
+                    isChildRepeat++;
+                }
+            }
+            if (isChildRepeat > 1) {
+                Toast.makeText(this, "Same Child selected multiple time", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                isChildRepeat = 0;
+            }
+
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberRelationShip().toLowerCase().equals("child2")) {
+                    isChildRepeat++;
+                }
+            }
+            if (isChildRepeat > 1) {
+                Toast.makeText(this, "Same Child selected multiple time", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                isChildRepeat = 0;
+            }
+
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberRelationShip().toLowerCase().equals("child3")) {
+                    isChildRepeat++;
+                }
+            }
+            if (isChildRepeat > 1) {
+                Toast.makeText(this, "Same Child selected multiple time", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                isChildRepeat = 0;
+            }
+
+
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberRelationShip().toLowerCase().equals("child4")) {
+                    isChildRepeat++;
+                }
+            }
+
+            if (isChildRepeat > 1) {
+                Toast.makeText(this, "Same Child selected multiple time", Toast.LENGTH_SHORT).show();
+                return;
+            } else {
+                isChildRepeat = 0;
+            }
+
+
             for (int i = 0; i < listMember.size(); i++) {
                 MemberListEntity entity = listMember.get(i);
                 if (entity.getMemberRelationShip().toLowerCase().equals("self")) {
@@ -92,6 +150,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
 
                 updateMember.add(entity);
             }
+
 
             healthQuote.getHealthRequest().setMemberList(updateMember);
 
