@@ -96,14 +96,14 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
 
                         }else{
                             if(entity.getBLLoanRequest().getApplNumb() != null) {
-                                ((BL_ApplicationFragment) fragment).redirectBLLoanApply(entity.getBLLoanRequest().getApplNumb());
+                                ((BL_ApplicationFragment) fragment).redirectBLLoanApply(entity.getBLLoanRequest().getApplNumb(),entity.getBLLoanRequest().getProduct_id());
                             }else{
                                 Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
                             }
                         }
                     }else{
                         if(entity.getBLLoanRequest().getApplNumb() != null) {
-                            ((BL_ApplicationFragment) fragment).redirectBLLoanApply(entity.getBLLoanRequest().getApplNumb());
+                            ((BL_ApplicationFragment) fragment).redirectBLLoanApply(entity.getBLLoanRequest().getApplNumb(),entity.getBLLoanRequest().getProduct_id());
                         }else{
                             Toast.makeText(fragment.getActivity(),"Application Number Not Found",Toast.LENGTH_SHORT).show();
                         }
