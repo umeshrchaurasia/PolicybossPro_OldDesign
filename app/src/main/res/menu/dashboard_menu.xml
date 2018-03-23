@@ -5,9 +5,9 @@
 
     <item
         android:id="@+id/action_push_notification"
-
         android:orderInCategory="10"
         android:title="Notificaton"
+        android:visible="false"
         app:actionLayout="@layout/notification_action_item_layout"
         app:showAsAction="always" />
 

@@ -7,6 +7,7 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -34,6 +35,7 @@ public class AboutUsActivity extends BaseActivity implements IResponseSubcriber 
     }
 
     private void bindData() {
+        tvAppVersion.setText("v" + Utility.getVersionName(this) + "DATE 01/01/2018");
         tvNAme.setText(loginResponseEntity.getFullName());
         tvFbaCode.setText("" + loginResponseEntity.getFBAId());
         if (loginResponseEntity.getPOSPNo() != null) {

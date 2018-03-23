@@ -44,7 +44,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
@@ -73,6 +76,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     boolean isMale = false, isFemale = false;
     String pass;
     PrefManager prefManager;
+    TrackingRequestEntity trackingRequestEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +85,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        trackingRequestEntity = new TrackingRequestEntity();
         dbPersistanceController = new DBPersistanceController(this);
         registerRequestEntity = new RegisterRequestEntity();
         initWidgets();
@@ -154,7 +158,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         spLifeIns.setEnabled(false);
         spGenIns.setEnabled(false);
         spHealthIns.setEnabled(false);
-        btnSubmit.setVisibility(View.INVISIBLE);
+        btnSubmit.setVisibility(View.VISIBLE);
 
     }
 
@@ -443,6 +447,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
         if (response instanceof RegisterFbaResponse) {
             cancelDialog();
+            trackingRequestEntity.setType("Register");
+            trackingRequestEntity.setData(new TrackingData("Submit button for registration Success"));
+            new TrackingController(this).sendData(trackingRequestEntity, RegisterActivity.this);
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             if (response.getStatusNo() == 0)
                 finish();
@@ -460,6 +467,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        trackingRequestEntity.setType("Register");
+        trackingRequestEntity.setData(new TrackingData(t.getMessage()));
+        new TrackingController(this).sendData(trackingRequestEntity, RegisterActivity.this);
     }
 
     private String extractDigitFromMessage(String message) {
