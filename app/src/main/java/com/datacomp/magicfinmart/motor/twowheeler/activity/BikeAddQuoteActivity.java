@@ -8,10 +8,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeInputFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteTabFragment;
@@ -227,8 +229,12 @@ public class BikeAddQuoteActivity extends AppCompatActivity {
                     return false;
                 }
 
+
+
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.webviews;
 
 import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 
 public class CommonWebViewActivity extends BaseActivity {
 
@@ -137,10 +140,24 @@ public class CommonWebViewActivity extends BaseActivity {
             case android.R.id.home:
                 finish();
                 return true;
+
+            case R.id.action_home:
+
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                finish();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
     }
 
 

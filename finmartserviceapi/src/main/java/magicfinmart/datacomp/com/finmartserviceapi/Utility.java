@@ -32,6 +32,11 @@ public class Utility {
     public static final String HMLOAN_APPLICATION = "hmLoan_Application_LoanApply";
     public static final String PLLOAN_APPLICATION = "plLoan_Application_LoanApply";
     public static final String BTLOAN_APPLICATION = "btLoan_Application_LoanApply";
+    public static String PUSH_BROADCAST_ACTION = "Finmart_Push_BroadCast_Action";
+    public static String PUSH_NOTIFY = "notifyFlag";
+    public static String PUSH_LOGIN_PAGE = "pushloginPage";
+
+
 
     public static SharedPreferences getSharedPreference(Context context) {
         return context.getSharedPreferences(SHARED_PREFERENCE_POLICYBOSS, MODE_PRIVATE);

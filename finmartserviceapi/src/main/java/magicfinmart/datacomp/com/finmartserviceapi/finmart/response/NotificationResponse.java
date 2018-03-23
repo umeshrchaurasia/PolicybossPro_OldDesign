@@ -22,5 +22,4 @@ public class NotificationResponse extends APIResponse {
         this.MasterData = MasterData;
     }
 
-
 }

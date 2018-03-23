@@ -16,13 +16,30 @@
         android:padding="6dp"
         android:textColor="@color/black" />
 
-    <TextView
-        android:id="@+id/txtBenefitsName"
-        style="@style/TextStyle.Body1"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="left"
-        android:padding="6dp" />
+        android:gravity="top"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="4dp"
+            android:background="@color/red_descent"
+            android:gravity="left"
+            android:padding="6dp"
+            android:src="@drawable/selected_dot" />
+
+        <TextView
+            android:id="@+id/txtBenefitsName"
+            style="@style/TextStyle.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:padding="6dp" />
+    </LinearLayout>
 </LinearLayout>
 
 

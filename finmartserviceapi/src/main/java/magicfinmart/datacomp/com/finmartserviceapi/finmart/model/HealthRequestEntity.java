@@ -282,9 +282,9 @@ public class HealthRequestEntity implements Parcelable {
     public HealthRequestEntity() {
 
         CityID = 0;
-        ContactEmail = "test@test.com";
-        ContactMobile = "9934554512";
-        ContactName = "pramod parit";
+        ContactEmail = "";
+        ContactMobile = "";
+        ContactName = "";
         DeductibleAmount = 0;
         ExistingCustomerReferenceID = 0;
         HealthType = "Health";

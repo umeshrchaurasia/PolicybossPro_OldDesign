@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -14,10 +15,13 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -34,6 +38,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     NotificationAdapter mAdapter;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginEntity;
+    PrefManager prefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +64,10 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
     private void initialize() {
 
+        prefManager = new PrefManager(NotificationActivity.this);
+        NotificationLst = new ArrayList<NotificationEntity>();
 
-        //clearNotifyCounter();
+        prefManager.setNotificationCounter(0);
 
         rvNotify = (RecyclerView) findViewById(R.id.rvNotify);
         rvNotify.setHasFixedSize(true);
@@ -68,41 +75,10 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(NotificationActivity.this);
         rvNotify.setLayoutManager(layoutManager);
 
-       // NotificationLst = getNotifyLst();
-
-       // Log.d("NOTIFYLST",NotificationLst.toString());
 
 
     }
 
-    private   List<NotificationEntity>  getNotifyLst()
-    {
-        List<NotificationEntity>  NotificationLst ;
-        NotificationLst = new ArrayList<NotificationEntity>();
-
-        NotificationEntity notifyEntity1 = new NotificationEntity();
-        notifyEntity1.setTitle("Finmart Offer 500" );
-        notifyEntity1.setBody("Description  Data about partcicular prd " );
-        notifyEntity1.setImg_url("http://i.stack.imgur.com/CE5lz.png");
-        notifyEntity1.setDate("12-Feb-2018");
-        notifyEntity1.setAction("PL");
-        notifyEntity1.setIs_read("1");
-        NotificationLst.add(notifyEntity1);
-
-        for(int i=0; i <= 10 ; i++)
-        {
-            NotificationEntity notifyEntity = new NotificationEntity();
-            notifyEntity.setTitle("Finmart Offer 500" + i);
-            notifyEntity.setBody("Description  Data about partcicular prd ");
-            notifyEntity.setImg_url("http://i.stack.imgur.com/CE5lz.png");
-            notifyEntity.setDate("12-Feb-2018");
-            notifyEntity.setAction("HL");
-            notifyEntity.setIs_read("0");
-            NotificationLst.add(notifyEntity);
-        }
-
-        return NotificationLst;
-    }
 
     public void redirectToApplyLoan(NotificationEntity notifyEntity) {
 
@@ -125,7 +101,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
         if (response instanceof NotificationResponse) {
 
             if (response.getStatusNo() == 0) {
-                if (NotificationLst.size() > 0) {
+                if ( ((NotificationResponse) response).getMasterData() != null) {
 
                     NotificationLst = ((NotificationResponse) response).getMasterData();
 
@@ -148,4 +124,29 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+
+       // intent.putExtra("COUNTER", "0");
+        setResult(Constants.REQUEST_CODE, intent);
+        finish();
+        super.onBackPressed();
+    }
+
+
+
 }

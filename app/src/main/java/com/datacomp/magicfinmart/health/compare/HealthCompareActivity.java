@@ -1,10 +1,13 @@
 package com.datacomp.magicfinmart.health.compare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -15,8 +18,11 @@ import android.widget.Spinner;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
+import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.utility.SortbyInsurer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
@@ -32,7 +38,6 @@ public class HealthCompareActivity extends BaseActivity {
     ArrayList<String> listBenefits;
     ArrayAdapter<String> benefitsAdapter;
 
-    List<HealthQuoteEntity> displayHealthQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +50,6 @@ public class HealthCompareActivity extends BaseActivity {
         init();
         listBenefits = new ArrayList<>();
         listHealthQuote = new ArrayList<>();
-        displayHealthQuote = new ArrayList<>();
         if (getIntent().getParcelableArrayListExtra(HealthQuoteFragment.HEALTH_COMPARE) != null) {
             listHealthQuote = getIntent().getParcelableArrayListExtra(HealthQuoteFragment.HEALTH_COMPARE);
             fillBenefits();
@@ -64,6 +68,7 @@ public class HealthCompareActivity extends BaseActivity {
 
     private void bindBenefits() {
 
+        Collections.sort(listHealthQuote, new SortbyInsurer());
         mAdapter = new HealthCompareViewAdapter(this, listHealthQuote);
         rvBenefits.setAdapter(mAdapter);
 
@@ -130,5 +135,29 @@ public class HealthCompareActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.home_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case R.id.action_home:
+
+                Intent intent = new Intent(this, HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+
+                finish();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 
 }

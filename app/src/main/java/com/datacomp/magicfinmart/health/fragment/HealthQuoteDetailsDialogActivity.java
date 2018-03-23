@@ -94,6 +94,8 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
         rvBenefits.setAdapter(mAdapter);
     }
 
+
+
     @Override
     public void onClick(View view) {
 

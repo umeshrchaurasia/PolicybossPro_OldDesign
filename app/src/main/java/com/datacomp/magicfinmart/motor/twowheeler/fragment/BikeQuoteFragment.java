@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
@@ -325,6 +326,13 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 return true;
             case R.id.add_on:
                 openPopUp();
+                return true;
+
+            case R.id.action_home:
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                getActivity().finish();
                 return true;
 
             default:
