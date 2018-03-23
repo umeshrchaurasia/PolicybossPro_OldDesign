@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -2280,7 +2281,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 if (isSubmit) {
 
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, PersonalLoanDetailActivity.class));
+                    startActivity(new Intent(this, BalanceTransferDetailActivity.class));
                 }
 
             } else {

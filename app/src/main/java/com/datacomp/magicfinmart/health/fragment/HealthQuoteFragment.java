@@ -280,29 +280,33 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     public void OnFailure(Throwable t) {
         cancelDialog();
         if (t.getMessage().equals("FAILURE")) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setCancelable(false);
-            builder.setTitle("Try again..");
-            builder.setMessage("We are unable to verify the premium from insurer at this moment..!");
-            builder.setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    dialog.dismiss();
-                    redirectToBuy(buyHealthQuoteEntity);
-                }
-            })
-                    .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int id) {
-                            dialog.dismiss();
-                        }
-                    });
-
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            ErrorDialog();
 
         } else {
             Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void ErrorDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+        builder.setTitle("Try again..");
+        builder.setMessage("We are unable to verify the premium from insurer at this moment..!");
+        builder.setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.dismiss();
+                redirectToBuy(buyHealthQuoteEntity);
+            }
+        })
+                .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void buyHealthDialog(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
@@ -393,8 +397,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     public void addRemoveCompare(HealthQuoteEntity entity, boolean isAdd) {
         if (isAdd) {
-            if (listCompare.size() < 5) {
+            if (listCompare.size() < 4) {
                 listCompare.add(entity);
+
             } else {
                 Toast.makeText(getActivity(), "Cannot select more than 4 quotes", Toast.LENGTH_SHORT).show();
             }
