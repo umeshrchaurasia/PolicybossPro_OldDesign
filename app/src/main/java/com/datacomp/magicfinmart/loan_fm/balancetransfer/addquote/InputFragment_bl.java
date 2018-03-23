@@ -55,7 +55,7 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
     Button btnGetQuote;
 
     Context mContext;
-
+    double  ROIHLBL=0,ROILABL=0,ROIPLBL=0;
 
     public InputFragment_bl() {
         // Required empty public constructor
@@ -71,6 +71,10 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
         init_widgets(view);
         databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
+
+        ROIHLBL= databaseController.getConstantsData().getROIHLBL();
+        ROILABL= databaseController.getConstantsData().getROILABL();
+        ROIPLBL= databaseController.getConstantsData().getROIPLBL();
         setListener();
 
         if (getArguments() != null) {
@@ -129,13 +133,13 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
         if (rbimghl.isChecked()) {
             blLoanRequest.setProduct_id(12);//hl
-            blLoanRequest.setType("BTHL");
+            blLoanRequest.setType("HLBT");
         } else if (rbimgpl.isChecked()) {
             blLoanRequest.setProduct_id(9);//pl
-            blLoanRequest.setType("BTPL");
+            blLoanRequest.setType("PLBT");
         }else if (rbimglap.isChecked()) {
             blLoanRequest.setProduct_id(7);//lap
-            blLoanRequest.setType("BTLAP");
+            blLoanRequest.setType("LAPBT");
         }
         blLoanRequest.setbrokerid(Integer.parseInt(loginEntity.getLoanId()));
         blLoanRequest.setLoanID(Integer.parseInt(loginEntity.getLoanId()));
@@ -226,6 +230,8 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
                 return;
 
             }
+
+
             if (TextUtils.isEmpty(CurrInc)) {
 
                 etOutstanding.setError("Please Enter Curr Int Rate.");
@@ -255,6 +261,55 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
             }
 
+            if (rbimghl.isChecked()) {
+                if (Double.parseDouble(Outstanding) < 500000) {
+
+                    etOutstanding.setError("Outstanding Amount SHOULD BE GREATER THAN 500000.");
+                    etOutstanding.requestFocus();
+                    return;
+
+                }
+                if (ROIHLBL >=Double.parseDouble(etCurrInc.getText().toString()) ) {
+
+                    etCurrInc.setError("INTEREST SHOULD BE GREATER THAN "+ROIHLBL+"");
+                    etCurrInc.requestFocus();
+                    return;
+
+                }
+            } else if (rbimglap.isChecked()) {
+
+                if (Double.parseDouble(Outstanding) < 500000) {
+
+                    etOutstanding.setError("Outstanding Amount SHOULD BE GREATER THAN 500000.");
+                    etOutstanding.requestFocus();
+                    return;
+
+                }
+                if (ROILABL >=Double.parseDouble(etCurrInc.getText().toString()) ) {
+
+                    etCurrInc.setError("INTEREST SHOULD BE GREATER THAN (OR)EQUAL TO "+ROILABL+" ");
+                    etCurrInc.requestFocus();
+                    return;
+
+                }
+            }else if (rbimgpl.isChecked()) {
+
+                if (Double.parseDouble(Outstanding) < 100000) {
+
+                    etOutstanding.setError("Outstanding Amount SHOULD BE GREATER THAN 100000.");
+                    etOutstanding.requestFocus();
+                    return;
+
+                }
+
+                if (ROIPLBL >=Double.parseDouble(etCurrInc.getText().toString())  ) {
+
+                    etCurrInc.setError("INTEREST SHOULD BE GREATER THAN (OR)EQUAL TO "+ROIPLBL+" ");
+                    etCurrInc.requestFocus();
+                    return;
+
+                }
+            }
             //endregion
 
 

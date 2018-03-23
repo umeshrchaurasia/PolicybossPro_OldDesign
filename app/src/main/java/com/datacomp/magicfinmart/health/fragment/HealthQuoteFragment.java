@@ -143,7 +143,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         } else if (view.getId() == R.id.txtCompareCount) {
 
             if (listCompare.size() == 1) {
-                Toast.makeText(getActivity(), "Select quote to compare with...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "Please select at least 2 plans for comparison", Toast.LENGTH_SHORT).show();
             } else {
                 Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
                 intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
@@ -269,7 +269,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 //share data
                 new AsyncShareJson().execute();
 
-
             }
         } else if (response instanceof HealthQuoteCompareResponse) {
             buyHealthDialog((HealthQuoteCompareResponse) response);
@@ -280,7 +279,30 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (t.getMessage().equals("FAILURE")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setCancelable(false);
+            builder.setTitle("Try again..");
+            builder.setMessage("We are unable to verify the premium from insurer at this moment..!");
+            builder.setPositiveButton("RETRY", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    dialog.dismiss();
+                    redirectToBuy(buyHealthQuoteEntity);
+                }
+            })
+                    .setNegativeButton("EXIT", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+
+        } else {
+            Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void buyHealthDialog(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
@@ -311,8 +333,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 dialog.dismiss();
                 Intent intent = new Intent(getActivity(), CommonWebViewActivity.class);
                 intent.putExtra("URL", healthQuoteCompareResponse.getMasterData().getProposerPageUrl());
-                intent.putExtra("TITLE", "HEALTH INSURENCE");
-                intent.putExtra("NAME", "HEALTH INSURENCE");
+                intent.putExtra("TITLE", "HEALTH INSURANCE");
+                intent.putExtra("NAME", "HEALTH INSURANCE");
                 startActivity(intent);
             }
         })
@@ -371,7 +393,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     public void addRemoveCompare(HealthQuoteEntity entity, boolean isAdd) {
         if (isAdd) {
-            listCompare.add(entity);
+            if (listCompare.size() < 5) {
+                listCompare.add(entity);
+            } else {
+                Toast.makeText(getActivity(), "Cannot select more than 4 quotes", Toast.LENGTH_SHORT).show();
+            }
         } else {
             //remove item from list
             for (Iterator<HealthQuoteEntity> iter = listCompare.listIterator(); iter.hasNext(); ) {

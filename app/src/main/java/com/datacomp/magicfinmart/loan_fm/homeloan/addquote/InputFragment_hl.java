@@ -470,7 +470,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -490,7 +490,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -1294,7 +1294,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         } else if (ApplicantSource == "2") {
 
-            float total = int_etProfitAtTax+int_etDirecPartRemuntion+int_etDepreciation;
+            double total = int_etProfitAtTax+int_etDirecPartRemuntion+int_etDepreciation;
             if (total > 0) {
                 totalmonthlucalc_app = Math.round((total) / 12);
                 etMonthlyInc.setText(""+totalmonthlucalc_app);
@@ -1309,7 +1309,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         if (CoApplicantSource == "1") {
 
             } else if (CoApplicantSource== "2") {
-                float totalcoapp = int_coApp_etDepreciation+int_coApp_etProfitAtTax+int_coApp_etDirecPartRemuntion;
+                double totalcoapp = int_coApp_etDepreciation+int_coApp_etProfitAtTax+int_coApp_etDirecPartRemuntion;
                 if (totalcoapp > 0) {
                     totalmonthlucalc_coapp = Math.round((totalcoapp) / 12);
                     coApp_etMonthlyInc.setText(""+totalmonthlucalc_coapp);
