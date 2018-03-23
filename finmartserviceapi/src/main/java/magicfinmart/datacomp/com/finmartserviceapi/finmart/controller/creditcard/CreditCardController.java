@@ -42,8 +42,13 @@ public class CreditCardController implements ICreditCard {
         creditCardNetworkService.getRblCityMaster().enqueue(new Callback<RblCityMasterResponse>() {
             @Override
             public void onResponse(Call<RblCityMasterResponse> call, Response<RblCityMasterResponse> response) {
-                if (response.body().getStatusNo() == 0) {
-                    new AsyncRblCityMaster(mContext, response.body().getMasterData()).execute();
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        new AsyncRblCityMaster(mContext, response.body().getMasterData()).execute();
+                    } else {
+                        if (iResponseSubcriber != null)
+                            iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    }
                 } else {
                     if (iResponseSubcriber != null)
                         iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
