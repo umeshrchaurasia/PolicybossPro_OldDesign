@@ -45,9 +45,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 
 public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener {
 
@@ -108,7 +110,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         getNotificationAction();
 
-        if(loginResponseEntity != null) {
+        if (loginResponseEntity != null) {
             init_headers();
         }
 
@@ -246,6 +248,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtDetails.setText("" + loginResponseEntity.getFullName());
         txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
+        if (db.getAccountData() == null) {
+            new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
+        }
     }
 
     @Override
@@ -274,15 +279,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (getIntent().getExtras() != null) {
 
 
-          // step1: boolean verifyLogin = prefManager.getIsUserLogin();
+            // step1: boolean verifyLogin = prefManager.getIsUserLogin();
             // region verifyUser : when user logout and when Apps in background
             if (loginResponseEntity == null) {
 
-               NotifyEntity notifyEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
-               if(notifyEntity == null)
-               {
-                   return;
-               }
+                NotifyEntity notifyEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+                if (notifyEntity == null) {
+                    return;
+                }
 
                 if (notifyEntity.getNotifyFlag().matches("WB")) {
 
@@ -330,13 +334,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             // region user already logged in and app in forground
             else if (getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
-                NotifyEntity notificationEntity= getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+                NotifyEntity notificationEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
                 if (notificationEntity.getNotifyFlag().matches("NL")) {
                     Intent intent = new Intent(this, NotificationActivity.class);
                     startActivity(intent);
                 } else if (notificationEntity.getNotifyFlag().matches("WB")) {
                     String web_url = notificationEntity.getWeb_url();
-                    String web_title =  notificationEntity.getWeb_title();
+                    String web_title = notificationEntity.getWeb_title();
                     String web_name = "";
                     startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                             .putExtra("URL", web_url)
@@ -417,7 +421,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             .putExtra("TITLE", "MPS"));
                 }
             }
+        } else if (response instanceof MyAcctDtlResponse) {
+            if (response.getStatusNo() == 0) {
+
+                if (((MyAcctDtlResponse) response).getMasterData().get(0) != null) {
+
+                    db.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
+
+                }
+            }
         }
+
+
     }
 
     @Override
@@ -455,8 +470,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (requestCode == Constants.REQUEST_CODE) {
             if (data != null) {
-                int  Counter =  prefManager.getNotificationCounter()  ;
-                textNotifyItemCount.setText("" +Counter);
+                int Counter = prefManager.getNotificationCounter();
+                textNotifyItemCount.setText("" + Counter);
                 textNotifyItemCount.setVisibility(View.GONE);
 
             }

@@ -6,20 +6,29 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.salesmaterial.SalesShareActivity;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -36,7 +45,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private static final String TAG = "MyFirebaseMsgService";
     public static final String CHANNEL_ID = "com.datacomp.magicfinmart.NotifyID";
     public static final String CHANNEL_NAME = "FINMART CHANNEL";
-
+    Bitmap bitmap_image = null;
     String type;
     String WebURL, WebTitle, messageId;
     NotifyEntity notifyEntity;
@@ -88,6 +97,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notifyEntity.setWeb_url(WebURL);
             notifyEntity.setWeb_title(WebTitle);
 
+            new createBitmapFromURL(NotifyData.get("img_url")).execute();
 
             intent = new Intent(this, HomeActivity.class);
             intent.putExtra(Utility.PUSH_NOTIFY, notifyEntity);
@@ -103,7 +113,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         createChannels();
 
+        NotificationCompat.BigPictureStyle style = new NotificationCompat.BigPictureStyle()
+                .bigPicture(bitmap_image)
+                .setSummaryText(NotifyData.get("body"));
+
         NotificationCompat.Builder notificationBuilder = null;
+
 
         notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
@@ -116,8 +131,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setTicker("Finmart")
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setWhen(System.currentTimeMillis())
+                .setVisibility(NOTIFICATION_ID)
                 .setChannelId(CHANNEL_ID)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText(NotifyData.get("body")))
+                .setStyle(style)
+
                 .setContentIntent(pendingIntent);
 
 
@@ -125,6 +142,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         setNotifyCounter();
     }
+
+        //   .setStyle(new NotificationCompat.BigTextStyle().bigText(NotifyData.get("body")))
 
     private void setNotifyCounter() {
         int notifyCounter = prefManager.getNotificationCounter();
@@ -148,15 +167,54 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             channel.setLightColor(Color.BLUE);
             channel.setDescription("Finmart");
             // Sets whether notifications posted to this channel appear on the lockscreen or not
-            channel.setLockscreenVisibility(Notification.VISIBILITY_SECRET);    // Notification.VISIBILITY_PRIVATE
+            channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);    // Notification.VISIBILITY_PRIVATE
             getManager().createNotificationChannel(channel);
         }
     }
+
+
 
     private NotificationManager getManager() {
         if (mManager == null) {
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
         return mManager;
+    }
+
+    public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
+        URL NotifyPhotoUrl;
+        String imgURL;
+
+        public createBitmapFromURL(String imgURL) {
+            this.imgURL = imgURL;
+        }
+
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap networkBitmap = null;
+
+            try {
+                NotifyPhotoUrl = new URL(imgURL);
+                networkBitmap = BitmapFactory.decodeStream(
+                        NotifyPhotoUrl.openConnection().getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + NotifyPhotoUrl);
+            }
+
+            return networkBitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+
+            bitmap_image = result;
+        }
     }
 }
