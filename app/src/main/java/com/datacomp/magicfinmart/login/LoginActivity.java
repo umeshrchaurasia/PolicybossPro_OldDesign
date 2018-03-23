@@ -179,6 +179,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     etPassword.setError("Enter Password");
                     return;
                 }
+                Toast.makeText(this,prefManager.getToken(),Toast.LENGTH_LONG).show();
                 loginRequestEntity.setUserName(etEmail.getText().toString());
                 loginRequestEntity.setPassword(etPassword.getText().toString());
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
