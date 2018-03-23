@@ -64,13 +64,6 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         Glide.with(mContext).load(entity.getInsurerLogoName())
                 .into(holder.imgInsurer);
 
-        //if (entity.getInsurerLogoName().equals("")) {
-
-        // } else {
-        //     String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + entity.getInsurerLogoName();
-        //     Glide.with(mContext).load(imgURL)
-        //              .into(holder.imgInsurer);
-        // }
         holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
         holder.chkCompare.setTag(R.id.chkCompare, entity);
 
@@ -137,7 +130,6 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         }
     };
 
-    // total number of cells
     @Override
     public int getItemCount() {
         return listHealthQuotes.size();
@@ -206,14 +198,13 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     public void refreshNewQuote(List<HealthQuoteEntity> list) {
         listHealthQuotes.addAll(list);
         Collections.sort(listHealthQuotes, new SortbyInsurer());
-        // Collections.reverse(listHealthQuotes);
         notifyDataSetChanged();
     }
+
 
     public void removeRefresh(List<HealthQuoteEntity> list) {
         listHealthQuotes = list;
         Collections.sort(listHealthQuotes, new SortbyInsurer());
-        // Collections.reverse(listHealthQuotes);
         notifyDataSetChanged();
     }
 
