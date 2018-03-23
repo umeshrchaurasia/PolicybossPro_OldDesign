@@ -126,7 +126,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         if (view.getId() == R.id.ivEdit) {
             ((HealthQuoteBottomTabsActivity) getActivity()).redirectToInput();
         } else if (view.getId() == R.id.ivHealthShare) {
-            if (Utility.checkShareStatus() == 1) {
+            if (Utility.checkShareStatus(getActivity()) == 1) {
 
                 if (!jsonShareString.equals("")) {
                     Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);

@@ -868,7 +868,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     }
 
     public void redirectToBuy(ResponseEntity entity) {
-        if (Utility.checkShareStatus() == 1) {
+        if (Utility.checkShareStatus(getActivity()) == 1) {
             if (webViewLoader.getVisibility() == View.GONE) {
 
 
@@ -918,7 +918,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 }
                 break;
             case R.id.ivShare:
-                if (Utility.checkShareStatus() == 1) {
+                if (Utility.checkShareStatus(getActivity()) == 1) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
                         Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
                         intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_ALL_QUOTE");

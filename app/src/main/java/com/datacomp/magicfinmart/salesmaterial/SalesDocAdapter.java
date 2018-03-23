@@ -59,7 +59,7 @@ public class SalesDocAdapter extends RecyclerView.Adapter<SalesDocAdapter.SalesD
 
         Glide.with(mContex)
                 .load(docsEntity.getImage_path())
-                .placeholder(R.drawable.icici_credit_crd) // can also be a drawable
+                .placeholder(R.drawable.finmart_placeholder) // can also be a drawable
                 .into(holder.ivProduct);
 
         holder.lyParent.setOnClickListener(new View.OnClickListener() {

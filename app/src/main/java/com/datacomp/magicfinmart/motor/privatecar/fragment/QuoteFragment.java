@@ -880,7 +880,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     }
 
     public void redirectToBuy(ResponseEntity entity) {
-        if (Utility.checkShareStatus() == 1) {
+        if (Utility.checkShareStatus(getActivity()) == 1) {
             if (webViewLoader.getVisibility() == View.GONE) {
 
 
@@ -933,7 +933,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             case R.id.tvCount:
                 break;
             case R.id.ivShare:
-                if (Utility.checkShareStatus() == 1) {
+                if (Utility.checkShareStatus(getActivity()) == 1) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
                         Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
                         intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_ALL_QUOTE");

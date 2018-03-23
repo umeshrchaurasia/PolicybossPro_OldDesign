@@ -44,7 +44,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         Utility.LOGIN_IP = Utility.getLocalIpAddress(this);
-        Toast.makeText(this, "" + Utility.getLocalIpAddress(this), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "" + Utility.getLocalIpAddress(this), Toast.LENGTH_SHORT).show();
         /*//region fetch  data of health checkup plans
         HealthPacksRequestEntity healthPacksRequestEntity = new HealthPacksRequestEntity();
         PackDetailsEntity packDetailsEntity = new PackDetailsEntity();

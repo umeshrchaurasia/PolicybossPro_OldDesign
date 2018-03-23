@@ -1573,7 +1573,7 @@ public class DBPersistanceController {
             List<ZohoClassificationEntity> zohoClassificationEntities = zohoTicketCategoryEntity.getClassification();
             if (zohoClassificationEntities != null) {
                 for (ZohoClassificationEntity zohoClassificationEntity : zohoClassificationEntities) {
-                    if (zohoClassificationEntity.getID() == QuerID) {
+                    if (zohoClassificationEntity.getQuerID() == QuerID) {
                         list.add(zohoClassificationEntity.getDescription());
                     }
                 }
@@ -1589,7 +1589,7 @@ public class DBPersistanceController {
             if (zohoClassificationEntities != null) {
                 for (ZohoClassificationEntity zohoClassificationEntity : zohoClassificationEntities) {
                     if (zohoClassificationEntity.getDescription().equals(className)) {
-                        return zohoClassificationEntity.getQuerID();
+                        return zohoClassificationEntity.getID();
                     }
                 }
             }
