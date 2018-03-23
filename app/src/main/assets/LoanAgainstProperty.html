@@ -122,7 +122,7 @@ ul li {margin:2px; padding:4px !important;}
             HTML = HTML +      '<table class="table table-bordered tbl2" >';
             HTML = HTML +     '<tbody>';
             HTML = HTML +     '  <tr>';
-            HTML = HTML +     '<td><img src="'+response.data[i].Bank_Logo+'" class="img-responsive center" /></td>';
+            HTML = HTML +     '<td><img src="'+response.data[i].Bank_Logo+'" class="img-responsive center" /><span style="font-size:10px;padding-left: 8px;">' + response.data[i].Bank_Code + ' <span></td>';
             HTML = HTML +     ' <td style="border-right:0px;"><p>LOAN AMOUNT</p><h5><b>₹ '+response.data[i].LoanRequired+'</b></h5></td>';
             HTML = HTML + '<td style="border-left:0px;"><p>EMI</p><h5><b>₹ ' + response.data[i].emi + '</b></h5></td>';
             HTML = HTML + ' <td><p>EMI PER LAC</p><h5><b>₹ ' + Math.round(response.data[i].emi/response.data[i].LoanRequired * 100000) + '</b></h5></td>';

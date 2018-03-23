@@ -177,6 +177,33 @@ public class MotorRequestEntity implements Parcelable {
      * selectedPrevInsID : 0
      */
 
+    private String PBStatus;
+    private int StatusPercent;
+    private int varid;
+
+    public String getPBStatus() {
+        return PBStatus;
+    }
+
+    public void setPBStatus(String PBStatus) {
+        this.PBStatus = PBStatus;
+    }
+
+    public int getStatusPercent() {
+        return StatusPercent;
+    }
+
+    public void setStatusPercent(int statusPercent) {
+        StatusPercent = statusPercent;
+    }
+
+    public int getVarid() {
+        return varid;
+    }
+
+    public void setVarid(int varid) {
+        this.varid = varid;
+    }
 
     public int getIsTwentyfour() {
         return isTwentyfour;
@@ -683,6 +710,7 @@ public class MotorRequestEntity implements Parcelable {
         this.mac_address = mac_address;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -736,6 +764,9 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.device_id);
         dest.writeString(this.erp_source);
         dest.writeString(this.mac_address);
+        dest.writeString(this.PBStatus);
+        dest.writeInt(this.StatusPercent);
+        dest.writeInt(this.varid);
         dest.writeInt(this.isTwentyfour);
         dest.writeInt(this.isActive);
         dest.writeString(this.created_date);
@@ -794,6 +825,9 @@ public class MotorRequestEntity implements Parcelable {
         this.device_id = in.readString();
         this.erp_source = in.readString();
         this.mac_address = in.readString();
+        this.PBStatus = in.readString();
+        this.StatusPercent = in.readInt();
+        this.varid = in.readInt();
         this.isTwentyfour = in.readInt();
         this.isActive = in.readInt();
         this.created_date = in.readString();

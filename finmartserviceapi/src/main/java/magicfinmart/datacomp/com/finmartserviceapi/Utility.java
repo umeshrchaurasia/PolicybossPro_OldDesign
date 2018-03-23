@@ -21,6 +21,7 @@ import java.util.Enumeration;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -60,8 +61,6 @@ public class Utility {
     public static String PUSH_BROADCAST_ACTION = "Finmart_Push_BroadCast_Action";
     public static String PUSH_NOTIFY = "notifyFlag";
     public static String PUSH_LOGIN_PAGE = "pushloginPage";
-
-
 
 
     public static SharedPreferences getSharedPreference(Context context) {
@@ -142,9 +141,17 @@ public class Utility {
         return file;
     }
 
-    public static int checkShareStatus() {
-        int temp = 1;
-        return temp;
+    public static int checkShareStatus(Context context) {
+        int pospStatus;
+        DBPersistanceController dbPersistanceController = new DBPersistanceController(context);
+        ConstantEntity constantEntity = dbPersistanceController.getConstantsData();
+
+        if (constantEntity != null) {
+            pospStatus = Integer.parseInt(constantEntity.getPOSPStat());
+            if (pospStatus == 6)
+                return 1;
+        }
+        return 0;
     }
 
     public static String getLocalIpAddress(Context context) {

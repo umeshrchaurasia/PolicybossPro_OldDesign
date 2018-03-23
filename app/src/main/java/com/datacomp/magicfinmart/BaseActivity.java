@@ -47,8 +47,8 @@ public class BaseActivity extends AppCompatActivity {
 
     public Realm realm;
     ProgressDialog dialog;
-    int height = 300;
-    int textSize = 30;
+    int height = 200;
+    int textSize = 20;
     int textMargin = 10;
     int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
     PopUpListener popUpListener;

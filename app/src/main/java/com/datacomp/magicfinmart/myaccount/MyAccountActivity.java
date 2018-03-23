@@ -13,11 +13,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +36,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -96,6 +95,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     Boolean isDataUploaded = true;
     Bitmap bitmapPhoto = null;
+    LoginResponseEntity loginResponseEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,7 +105,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(this);
-
+        loginResponseEntity = dbPersistanceController.getUserData();
         loginEntity = dbPersistanceController.getUserData();
 
 
@@ -756,8 +756,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (registerRequestEntity.getType().equals("0")) {
                 Snackbar.make(ivMyProfile, response.getMessage(), Snackbar.LENGTH_SHORT).show();
                 saveAcctDtlToDB(0);
-            } else if ((registerRequestEntity.getType().equals("1") || registerRequestEntity.getType().equals("4")))
-            {
+            } else if ((registerRequestEntity.getType().equals("1") || registerRequestEntity.getType().equals("4"))) {
                 saveAcctDtlToDB(Integer.valueOf(registerRequestEntity.getType()));
             }
         }
@@ -768,6 +767,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                 // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
                 setDocumentUpload();
+                if (type == 1) {
+                    try {
+                        updateLoginResponse(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
 
             }
         } else if (response instanceof MyAcctDtlResponse) {
@@ -787,6 +794,15 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
         }
 
+    }
+
+    public void updateLoginResponse(final String fbaProfileUrl) {
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                loginResponseEntity.setFBAProfileUrl("http://qa.mgfm.in/" + fbaProfileUrl);
+            }
+        });
     }
 
     private void setAcctDtlInfo(AccountDtlEntity accountDtlEntity) {
@@ -840,16 +856,15 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private void saveAcctDtlToDB(int type) {
         if (accountDtlEntity != null) {
-            if(type == 1) {
+            if (type == 1) {
                 accountDtlEntity.setDesignation("" + etSubHeading.getText().toString());
                 accountDtlEntity.setEditMobiNumb("" + etMobileNo.getText().toString());
                 accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString());
-            }else if(type == 4) {
+            } else if (type == 4) {
                 accountDtlEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString());
                 accountDtlEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
                 accountDtlEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
-            }else if(type ==0 )
-            {
+            } else if (type == 0) {
                 accountDtlEntity.setDesignation("" + etSubHeading.getText().toString());
                 accountDtlEntity.setEditMobiNumb("" + etMobileNo.getText().toString());
                 accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString());
