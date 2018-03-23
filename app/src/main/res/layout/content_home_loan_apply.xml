@@ -267,10 +267,11 @@
                         android:layout_marginTop="4dp">
 
                         <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInpLaySpouseName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Spouce Name">
+                            android:hint="*Spouse Name">
 
                             <EditText
                                 android:id="@+id/etSpouceName"
@@ -2077,6 +2078,7 @@
                             <EditText
                                 android:id="@+id/etTotalIncome"
                                 style="@style/Style.edittext"
+                                android:enabled="false"
                                android:inputType="text"
                                 android:maxLines="1"
                                 android:maxLength="15" />

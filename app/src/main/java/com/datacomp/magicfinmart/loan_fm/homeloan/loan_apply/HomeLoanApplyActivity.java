@@ -110,7 +110,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             txtEmpNatureSalaried, txtEmpNatureSelfEmp;
 
     TextInputLayout textInpLayCurrJob, textInpLayTotalExp,
-            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax;
+            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax,textInpLaySpouseName;
     //endregion
 
     // region Variable Declaration
@@ -347,6 +347,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         textInpLayDepreciation = (TextInputLayout) findViewById(R.id.textInpLayDepreciation);
         textInpLayDirRem = (TextInputLayout) findViewById(R.id.textInpLayDirRem);
         textInpLayProfAftTax = (TextInputLayout) findViewById(R.id.textInpLayProfAftTax);
+        textInpLaySpouseName = (TextInputLayout) findViewById(R.id.textInpLaySpouseName);
 
         etDesig = (EditText) findViewById(R.id.etDesig);
         etCurrJob = (EditText) findViewById(R.id.etCurrJob);
@@ -554,6 +555,21 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         textView1.setBackgroundResource(R.drawable.customeborder);
         textView1.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
+
+        if(MaritalStatus.equals("MARRIED"))
+        {
+            textInpLaySpouseName.setHint("*Spouse Name");
+            etSpouceName.setEnabled(true);
+
+        }else{
+            textInpLaySpouseName.setHint("Spouse Name");
+            etSpouceName.setText("");
+            etSpouceName.setError(null);
+            etSpouceName.clearFocus();
+            etSpouceName.setEnabled(false);
+
+
+        }
 
     }
 
@@ -1169,6 +1185,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         etNetIncome.setText(homeLoanApplyAppliEntity.getNet_Income());
         etOtherIncome.setText(homeLoanApplyAppliEntity.getOther_Income());
         etTotalIncome.setText(homeLoanApplyAppliEntity.getTotal_Income());
+
         //endregion
     }
 
@@ -1532,18 +1549,22 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             }
         }
 
-        // etDob
-        if (!isEmpty(etSpouceName)) {
+        //
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                etSpouceName.requestFocus();
-                etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSpouceName.setError("Enter Spouce Name");
-                return false;
-            } else {
-                etSpouceName.requestFocus();
-                etSpouceName.setError("Enter Spouce Name");
-                return false;
+        if (MaritalStatus.equals("MARRIED")) {
+
+            if (!isEmpty(etSpouceName)) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    etSpouceName.setError("Enter Spouce Name");
+                    return false;
+                } else {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setError("Enter Spouce Name");
+                    return false;
+                }
             }
         }
 
@@ -2004,10 +2025,14 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         if (!isEmpty(etLastName)) {
             return false;
         }
-        if (!isEmpty(etSpouceName)) {
-            return false;
-        }
 
+
+        if (MaritalStatus.equals("MARRIED")) {
+            if (!isEmpty(etSpouceName)) {
+
+                return false;
+            }
+        }
         if (!isEmpty(etPan)) {
             return false;
         }
@@ -2164,7 +2189,6 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageImages(llFinancial, ivFinancial, ivPLInfo, ivAddress, ivEmploy);
                 manageTaskBar();
 
-
                 break;
 
             case R.id.ivMale:
@@ -2177,12 +2201,12 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
             case R.id.txtMarried:
                 seMaritalStatus("MARRIED", txtMarried, txtSingle);
-                etSpouceName.setEnabled(true);
+
                 break;
 
             case R.id.txtSingle:
                 seMaritalStatus("SINGLE", txtSingle, txtMarried);
-                etSpouceName.setEnabled(false);
+
                 break;
             //seMaritalStatus
             //region PL INFO Status
@@ -2388,6 +2412,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
                 if (homeLoanApplyAppliEntity != null) {
                     setApplictionData();
+                    manageTaskBar();
                 }
 
             }

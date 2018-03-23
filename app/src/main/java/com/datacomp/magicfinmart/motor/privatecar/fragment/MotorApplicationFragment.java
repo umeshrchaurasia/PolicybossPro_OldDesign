@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,9 +14,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorApplicationAdapter;
 
@@ -28,6 +31,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationList
  * A simple {@link Fragment} subclass.
  */
 public class MotorApplicationFragment extends BaseFragment implements View.OnClickListener {
+    public static final String FROM_APPLICATION = "from_application";
+
     RecyclerView rvApplicationList;
     MotorApplicationAdapter motorApplicationAdapter;
     List<ApplicationListEntity> mApplicationList;
@@ -58,6 +63,16 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
         rvApplicationList.setAdapter(motorApplicationAdapter);
         return view;
     }
+
+    public void redirectApplication(ApplicationListEntity entity) {
+        if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("a")) {
+            startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_APPLICATION, entity));
+        } else {
+            Toast.makeText(getActivity(), "PB Status "
+                    + entity.getMotorRequestEntity().getPBStatus(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void initView(View view) {
         ivSearch = (ImageView) view.findViewById(R.id.ivSearch);

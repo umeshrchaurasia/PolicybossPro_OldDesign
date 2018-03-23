@@ -64,13 +64,6 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         Glide.with(mContext).load(entity.getInsurerLogoName())
                 .into(holder.imgInsurer);
 
-        //if (entity.getInsurerLogoName().equals("")) {
-
-        // } else {
-        //     String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + entity.getInsurerLogoName();
-        //     Glide.with(mContext).load(imgURL)
-        //              .into(holder.imgInsurer);
-        // }
         holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
         holder.chkCompare.setTag(R.id.chkCompare, entity);
 
@@ -79,6 +72,9 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
         holder.txtBuy.setTag(R.id.txtBuy, entity);
         holder.txtBuy.setOnClickListener(this);
+
+        // to stop triggering event every time
+        holder.chkCompare.setOnCheckedChangeListener(null);
 
         if (entity.isCompare()) {
             holder.chkCompare.setChecked(true);
@@ -122,14 +118,18 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-            HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
-            entity.setCompare(b);
-            ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
-
+            if (b) {
+                HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
+                entity.setCompare(b);
+                ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+            } else {
+                HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
+                entity.setCompare(b);
+                ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+            }
         }
     };
 
-    // total number of cells
     @Override
     public int getItemCount() {
         return listHealthQuotes.size();
@@ -198,14 +198,13 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     public void refreshNewQuote(List<HealthQuoteEntity> list) {
         listHealthQuotes.addAll(list);
         Collections.sort(listHealthQuotes, new SortbyInsurer());
-        // Collections.reverse(listHealthQuotes);
         notifyDataSetChanged();
     }
+
 
     public void removeRefresh(List<HealthQuoteEntity> list) {
         listHealthQuotes = list;
         Collections.sort(listHealthQuotes, new SortbyInsurer());
-        // Collections.reverse(listHealthQuotes);
         notifyDataSetChanged();
     }
 

@@ -18,7 +18,26 @@ public class ApplicationListEntity implements Parcelable {
     private int VehicleRequestID;
     private int fba_id;
     private int isActive;
+    private int selectedPrevInsID;
+    private String insurerImage;
     private MotorRequestEntity motorRequestEntity;
+
+
+    public String getInsurerImage() {
+        return insurerImage;
+    }
+
+    public void setInsurerImage(String insurerImage) {
+        this.insurerImage = insurerImage;
+    }
+
+    public int getSelectedPrevInsID() {
+        return selectedPrevInsID;
+    }
+
+    public void setSelectedPrevInsID(int selectedPrevInsID) {
+        this.selectedPrevInsID = selectedPrevInsID;
+    }
 
     public String getSRN() {
         return SRN;
@@ -60,6 +79,7 @@ public class ApplicationListEntity implements Parcelable {
         this.motorRequestEntity = motorRequestEntity;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -71,6 +91,8 @@ public class ApplicationListEntity implements Parcelable {
         dest.writeInt(this.VehicleRequestID);
         dest.writeInt(this.fba_id);
         dest.writeInt(this.isActive);
+        dest.writeInt(this.selectedPrevInsID);
+        dest.writeString(this.insurerImage);
         dest.writeParcelable(this.motorRequestEntity, flags);
     }
 
@@ -82,6 +104,8 @@ public class ApplicationListEntity implements Parcelable {
         this.VehicleRequestID = in.readInt();
         this.fba_id = in.readInt();
         this.isActive = in.readInt();
+        this.selectedPrevInsID = in.readInt();
+        this.insurerImage = in.readString();
         this.motorRequestEntity = in.readParcelable(MotorRequestEntity.class.getClassLoader());
     }
 

@@ -53,6 +53,7 @@
             android:background="@color/seperator" />
 
         <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -82,8 +83,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:weightSum="5"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="5">
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -113,19 +114,19 @@
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/imgProgressStatus"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="3"
                         android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:src="@drawable/ten_percent" />
+                        android:paddingRight="8dp" />
                 </LinearLayout>
 
                 <View
-                    android:visibility="visible"
                     android:layout_width="match_parent"
                     android:layout_height="1.4dp"
-                    android:background="@color/seperator" />
+                    android:background="@color/seperator"
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
