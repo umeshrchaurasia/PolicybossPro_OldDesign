@@ -547,7 +547,8 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         textView1.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
 
     }
-			 private void settotal() {
+
+	 private void settotal() {
         long  netIncome = 0, othIncome = 0;
 
 
@@ -727,10 +728,6 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             }else {
                 erpLoanRequest.setLoan_Terms("0");
             }
-
-            //  erpLoanRequest.setLoan_Requested(buyLoanQuerystring.getProp_Loan_Eligible());//
-
-            //  erpLoanRequest.setIsCoApp(0);
 
 
             erpLoanRequest.setROI_Id_Type(personalLoanApplyAppliEntity.getROI_Id_Type());  /// 05
@@ -982,9 +979,9 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         etFirstName.setText(personalLoanApplyAppliEntity.getFirst_Name());
         etLastName.setText(personalLoanApplyAppliEntity.getLast_Name());
 
+        etFatherName.setText(personalLoanApplyAppliEntity.getMiddle_Name());
         spTitle.setSelection(getTitlePos(personalLoanApplyAppliEntity.getTitle()));
         etDob.setText(getDDMMYYYPattern(personalLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
-        etFatherName.setText(personalLoanApplyAppliEntity.getMiddle_Name());
 
         if (personalLoanApplyAppliEntity.getGender().equals("Male")) {
             setMale_gender();
