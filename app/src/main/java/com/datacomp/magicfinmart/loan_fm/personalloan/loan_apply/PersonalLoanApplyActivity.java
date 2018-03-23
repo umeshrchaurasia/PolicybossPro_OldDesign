@@ -246,7 +246,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         etMoMaidenName = (EditText) findViewById(R.id.etMoMaidenName);
         etSpouceName = (EditText) findViewById(R.id.etSpouceName);
         etNoOfDepen = (EditText) findViewById(R.id.etNoOfDepen);
-        etIDNumber = (EditText) findViewById(R.id.etNoOfDepen);
+        etIDNumber = (EditText) findViewById(R.id.etIDNumber);
 
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
         // endregion
@@ -423,6 +423,10 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         etPincodeED.addTextChangedListener(pincodeEDTextWatcher);
 
 
+        etGrossIncome.addTextChangedListener(grossIncomeTextWatcher);
+        etNetIncome.addTextChangedListener(grossIncomeTextWatcher);
+        etOtherIncome.addTextChangedListener(grossIncomeTextWatcher);
+
     }
 
     private void initLayouts() {
@@ -481,8 +485,8 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             textInpLayCurrJob.setHint("Current Job(YRS)");
             textInpLayTotalExp.setHint("Total Exp(YRS)");
 
-            etCurrJob.setText("");
-            etTotalExp.setText("");
+//            etCurrJob.setText("");
+//            etTotalExp.setText("");
 
             etCurrJob.setError(null);
             etTotalExp.setError(null);
@@ -501,10 +505,10 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             textInpLayDirRem.setHint("Directors Remuneration");
             textInpLayProfAftTax.setHint("Profit After Tax");
 
-            etTurnOver.setText("");
-            etDeprec.setText("");
-            etDirRem.setText("");
-            etProfAftTax.setText("");
+//            etTurnOver.setText("");
+//            etDeprec.setText("");
+//            etDirRem.setText("");
+//            etProfAftTax.setText("");
 
             etTurnOver.setError(null);
             etDeprec.setError(null);
@@ -541,7 +545,24 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         textView1.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
 
     }
+			 private void settotal() {
+        long  netIncome = 0, othIncome = 0;
 
+
+        if (!etNetIncome.getText().toString().trim().equals("")) {
+            netIncome = Long.valueOf(etNetIncome.getText().toString());
+        }
+
+        if (!etOtherIncome.getText().toString().trim().equals("")) {
+            othIncome = Long.valueOf(etOtherIncome.getText().toString());
+        }
+
+        double total =  netIncome + othIncome;
+        if (total > 0) {
+            //   etTotalIncome = Math.round((total));
+            etTotalIncome.setText("" + total);
+        }
+    }
     private void getResAddrToPermAddress() {
         etAddress1ContInfoPA.setText(etAddress1ContInfoRAP.getText().toString());
         etAddress2ContInfoPA.setText(etAddress2ContInfoRAP.getText().toString());
@@ -579,7 +600,8 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
             erpLoanRequest.setFirst_Name(etFirstName.getText().toString().trim());
             erpLoanRequest.setDOB(etDob.getText().toString().trim());
-          //  erpLoanRequest.setDOB(getMMDDYYYPattern(etDob.getText().toString().trim()));
+            // erpLoanRequest.setDOB(getDDMMYYYPattern(etDob.getText().toString().trim(),"dd-MM-yyyy"));
+//
             erpLoanRequest.setMiddle_Name(etFatherName.getText().toString().trim());
             erpLoanRequest.setLast_Name(etLastName.getText().toString().trim());
             erpLoanRequest.setGender(Gender);
@@ -620,8 +642,10 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             erpLoanRequest.setAddrsYrs(etNoOfYrsAtOffContInfoRAP.getText().toString().trim());
             //endregion
 
-            // region Address PA
-            //   spResidence..getSelectedItem().toString();                                       // 05
+            // region Address PA  ;
+            // 05
+
+            erpLoanRequest.setResidence_Type(spResidence.getSelectedItem().toString());
             erpLoanRequest.setPer_Address1(etAddress1ContInfoPA.getText().toString().trim());
             erpLoanRequest.setPer_Address2(etAddress2ContInfoPA.getText().toString().trim());
             erpLoanRequest.setPer_Address3(etAddress3ContInfoPA.getText().toString().trim());
@@ -734,6 +758,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             erpLoanRequest.setDOB(etDob.getText().toString().trim());
           //  erpLoanRequest.setDOB(getMMDDYYYPattern(etDob.getText().toString().trim()));
             erpLoanRequest.setMiddle_Name(etFatherName.getText().toString().trim());
+            erpLoanRequest.setLast_Name(etLastName.getText().toString().trim());
             erpLoanRequest.setGender(Gender);
 
             erpLoanRequest.setMarital_Status(MaritalStatus);
@@ -773,7 +798,9 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             //endregion
 
             // region Address PA
-            //   spResidence..getSelectedItem().toString();                                       // 05
+            //   spResidence..getSelectedItem().toString();
+            erpLoanRequest.setResidence_Type(spResidence.getSelectedItem().toString());
+
             erpLoanRequest.setPer_Address1(etAddress1ContInfoPA.getText().toString().trim());
             erpLoanRequest.setPer_Address2(etAddress2ContInfoPA.getText().toString().trim());
             erpLoanRequest.setPer_Address3(etAddress3ContInfoPA.getText().toString().trim());
@@ -829,7 +856,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
             erpLoanRequest.setBankId(buyLoanQuerystring.getBankId());//qurystring
             erpLoanRequest.setQuote_id(buyLoanQuerystring.getQuote_id());//qurystring
-            //  erpLoanRequest.setLoan_Requested(buyLoanQuerystring.getProp_Loan_Eligible());//
+
             if (rbCustomerEntity.getBrokerId() != null) {
                 erpLoanRequest.setBrokerId(Integer.valueOf(rbCustomerEntity.getBrokerId()));//Loanid
 
@@ -936,6 +963,15 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         return pos;
     }
 
+//    private int getResidencePos(String strTitle) {
+//        String[] list = getResources().getStringArray(R.array.ownership);
+//        for (int i = 0; i < list.length; i++) {
+//            if (list[i].toLowerCase().equals(strTitle.toLowerCase())) {
+//                return i;
+//            }
+//        }
+//        return 0;
+//    }
     //endregion
 
     private void setApplictionData() {
@@ -943,6 +979,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         //region PL_INFO
         etFirstName.setText(personalLoanApplyAppliEntity.getFirst_Name());
         etLastName.setText(personalLoanApplyAppliEntity.getLast_Name());
+
         spTitle.setSelection(getTitlePos(personalLoanApplyAppliEntity.getTitle()));
         etDob.setText(getDDMMYYYPattern(personalLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
         etFatherName.setText(personalLoanApplyAppliEntity.getMiddle_Name());
@@ -2410,6 +2447,29 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
         }
     };
+
+    TextWatcher grossIncomeTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            if ((s.length() > 1)) {
+                settotal();
+
+            }
+        }
+    };
+
 
     //endregion
 

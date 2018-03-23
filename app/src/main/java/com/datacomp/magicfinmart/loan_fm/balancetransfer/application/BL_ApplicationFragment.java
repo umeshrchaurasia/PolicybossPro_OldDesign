@@ -18,6 +18,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.ActivityTabsPagerAdapter_BL;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferApplicationAdapter;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,11 +80,39 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
         rvApplicationList.setLayoutManager(layoutManager);
     }
 
-    public void redirectBLLoanApply(String ApplNum){
-        Intent intent=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
-        intent.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
-        intent.putExtra("TypePage","HL");
-        startActivity(intent);
+    public void redirectBLLoanApply(String ApplNum,int Type){
+//        Intent intent=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
+//        intent.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
+//        intent.putExtra("TypePage","HL");
+//        startActivity(intent);
+      //  HLBT,PLBT,LAPBT
+
+        if (Integer.toString(Type).matches("12")) {
+//home
+
+            Intent intenthl=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
+            intenthl.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
+            intenthl.putExtra("TypePage","HLBT");
+            startActivity(intenthl);
+
+
+        }else if (Integer.toString(Type).matches("9")) {
+            //personal
+
+            Intent intentpl=new Intent(getActivity(), BalanceTransferPersonalApplyActivity.class);
+            intentpl.putExtra(Utility.PLLOAN_APPLICATION,ApplNum);
+            intentpl.putExtra("TypePage","PLBT");
+            startActivity(intentpl);
+
+        } else if (Integer.toString(Type).matches("7")) {
+            //lap
+            Intent intenthl=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
+            intenthl.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
+            intenthl.putExtra("TypePage","LAPBT");
+            startActivity(intenthl);
+
+        }
+
 
     }
     private void setListener() {

@@ -176,7 +176,12 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             isAppliction = true;
 
             TypePage = getIntent().getExtras().getString("TypePage", "");
+            if(TypePage.equals("HLBT")) {
+                getSupportActionBar().setTitle("\n" + "HOME LOAN - BALANCE TRANSFER");
+            }else{
+                getSupportActionBar().setTitle("LAP - BALANCE TRANSFER");
 
+            }
             if (!AppID.equals("")) {
                 showDialog("Please Wait...");
                 new ErpLoanController(this).getHomeLoanApplication(AppID, BalanceTransferLoanApplyActivity.this);
