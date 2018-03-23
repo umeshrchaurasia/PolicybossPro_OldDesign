@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.salesmaterial;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -22,6 +23,8 @@ import com.datacomp.magicfinmart.utility.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -44,6 +47,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
     String pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo;
     SalesProductEntity salesProductEntity;
     AccountDtlEntity accountDtlEntity;
+    URL pospPhotoUrl = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +92,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         salesPhoto = BitmapFactory.decodeFile(docsEntity.getImage_path(), options);*/
         //salesPhoto = ((BitmapDrawable) ivProduct.getDrawable()).getBitmap();
 
-        new createBitmapFromURL().execute();
+        new createBitmapFromURL(pospPhotoUrl).execute();
     }
 
     private void initialize() {
@@ -139,7 +143,23 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
             pospDesg = "LandMark POSP";
             PospMobNo = "98XXXXXXXX";
         }
-
+        //setting photo url
+        if (loginResponseEntity != null) {
+            if (loginResponseEntity.getPOSPProfileUrl() != null && !loginResponseEntity.getPOSPProfileUrl().equals("")) {
+                try {
+                    pospPhotoUrl = new URL(loginResponseEntity.getPOSPProfileUrl());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if(pospPhotoUrl==null){
+            try {
+                pospPhotoUrl=new URL("http://qa.mgfm.in/images/profile_pic.png");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void setOtherDetails() {
@@ -178,6 +198,23 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
             pospEmail = "XXXXXX@finmart.com";
             pospDesg = "FBA SUPPORT ASSISTANT";
             PospMobNo = "98XXXXXXXX";
+        }
+        //setting photo url
+        if (loginResponseEntity != null) {
+            if (loginResponseEntity.getFBAProfileUrl() != null && !loginResponseEntity.getFBAProfileUrl().equals("")) {
+                try {
+                    pospPhotoUrl = new URL(loginResponseEntity.getFBAProfileUrl());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if(pospPhotoUrl==null){
+            try {
+                pospPhotoUrl=new URL("http://qa.mgfm.in/images/profile_pic.png");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -246,8 +283,12 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
     }
 
     public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
-        URL pospPhotoUrl;
 
+        URL url;
+
+        public createBitmapFromURL(URL url) {
+            this.url = url;
+        }
 
         @Override
         protected void onPreExecute() {
@@ -259,17 +300,23 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         protected Bitmap doInBackground(Void... voids) {
             Bitmap networkBitmap = null;
 
-            //  URL networkUrl = urls[0]; //Load the first element
-            try {
-                //pospPhotoUrl = new URL(loginResponseEntity.getPOSPProfileUrl());
-                pospPhotoUrl = new URL("http://edu.policyboss.com/eduappservice/Uploaded/1.JPEG");
-                networkBitmap = BitmapFactory.decodeStream(
-                        pospPhotoUrl.openConnection().getInputStream());
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + pospPhotoUrl);
+            if (url == null) {
+                AssetManager assetManager = getAssets();
+                InputStream istr;
+                try {
+                    istr = assetManager.open("file:///android_asset/profile_pic.png");
+                    networkBitmap = BitmapFactory.decodeStream(istr);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    networkBitmap = BitmapFactory.decodeStream(
+                            pospPhotoUrl.openConnection().getInputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-
             return networkBitmap;
         }
 

@@ -2,10 +2,10 @@ package magicfinmart.datacomp.com.finmartserviceapi.motor.retrobuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -15,9 +15,11 @@ public abstract class NodeRetroRequestBuilder {
 
     //protected String url = "http://services.rupeeboss.com/LoginDtls.svc/";
     static Retrofit restAdapter = null;
-    // production url
+    // test url
     public static String URL = "http://qa-horizon.policyboss.com:3000";
 
+    // live url
+    //public static String URL = "http://horizon.policyboss.com:5000";
     public final static String SUB_URL = "/api";
 
 
@@ -38,7 +40,7 @@ public abstract class NodeRetroRequestBuilder {
                     .build();
 
             restAdapter = new Retrofit.Builder()
-                    .baseUrl(URL)
+                    .baseUrl(Utility.HORIZON_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

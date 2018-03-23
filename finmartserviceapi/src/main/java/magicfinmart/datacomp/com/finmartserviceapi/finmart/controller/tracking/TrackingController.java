@@ -1,0 +1,70 @@
+package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking;
+
+import android.content.Context;
+
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.TrackingRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TrackingResponse;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+/**
+ * Created by Rajeev Ranjan on 21/03/2018.
+ */
+
+public class TrackingController implements ITracking {
+    TrackingRequestBuilder.TrackingNetworkService trackingNetworkService;
+    Context mContext;
+    DBPersistanceController dbPersistanceController;
+
+    public TrackingController(Context context) {
+        trackingNetworkService = new TrackingRequestBuilder().getService();
+        mContext = context;
+        dbPersistanceController = new DBPersistanceController(context);
+    }
+
+    @Override
+    public void sendData(TrackingRequestEntity trackingRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+        try {
+            trackingRequestEntity.setFBAID(String.valueOf(dbPersistanceController.getUserData().getFBAId()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        trackingNetworkService.sendTracking(trackingRequestEntity).enqueue(new Callback<TrackingResponse>() {
+            @Override
+            public void onResponse(Call<TrackingResponse> call, Response<TrackingResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TrackingResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+}

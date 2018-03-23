@@ -99,7 +99,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_add_new_quote, container, false);
         dbController = new DBPersistanceController(getActivity());
-        motorRequestEntity = new MotorRequestEntity();
+        motorRequestEntity = new MotorRequestEntity(getActivity());
         registerPopUp(this);
         init_view(view);
 
@@ -745,7 +745,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     }
                     if (spPrevIns.getSelectedItemPosition() == 0) {
                         spPrevIns.requestFocus();
-                        Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Select Prev Insurer", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -1141,7 +1141,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         //motorRequestEntity.setCrn(0);
-        motorRequestEntity.setIp_address("");
 
         if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
@@ -1226,7 +1225,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         //motorRequestEntity.setCrn(0);
-        motorRequestEntity.setIp_address("");
 
         if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");

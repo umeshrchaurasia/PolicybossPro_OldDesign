@@ -99,7 +99,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bike_fragment_input, container, false);
         dbController = new DBPersistanceController(getActivity());
-        motorRequestEntity = new MotorRequestEntity();
+        motorRequestEntity = new MotorRequestEntity(getActivity());
         registerPopUp(this);
         init_view(view);
 
@@ -742,7 +742,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     }
                     if (spPrevIns.getSelectedItemPosition() == 0) {
                         spPrevIns.requestFocus();
-                        Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Select Prev Insurer", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -1144,7 +1144,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         //motorRequestEntity.setCrn(0);
-        motorRequestEntity.setIp_address("");
 
 
         motorRequestEntity.setExternal_bifuel_type("");
@@ -1231,7 +1230,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         //motorRequestEntity.setCrn(0);
-        motorRequestEntity.setIp_address("");
 
 
         /*if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {

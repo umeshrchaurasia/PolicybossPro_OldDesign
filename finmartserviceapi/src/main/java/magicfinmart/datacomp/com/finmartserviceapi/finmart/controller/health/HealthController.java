@@ -240,7 +240,7 @@ public class HealthController implements IHealth {
                     if (response.body().getStatusNo() == 0) {
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
-                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        iResponseSubcriber.OnFailure(new RuntimeException("FAILURE"));
                     }
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));

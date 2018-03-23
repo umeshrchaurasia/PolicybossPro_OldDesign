@@ -760,7 +760,7 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
         String title = "";
         String name = "";
         url = url + "buynowprivatecar/4/" + Service_Log_Unique_Id + "/nonposp/0";
-        title = "Car Insurance";
+        title = "Motor Insurance";
 
 
         startActivity(new Intent(this, CommonWebViewActivity.class)

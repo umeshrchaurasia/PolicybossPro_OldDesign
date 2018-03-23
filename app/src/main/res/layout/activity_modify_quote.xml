@@ -33,7 +33,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="8dp"
-            android:src="@drawable/cross" />
+            android:src="@drawable/close" />
     </RelativeLayout>
 
     <android.support.v7.widget.CardView

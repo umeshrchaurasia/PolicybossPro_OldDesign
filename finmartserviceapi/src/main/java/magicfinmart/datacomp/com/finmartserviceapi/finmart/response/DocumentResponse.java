@@ -1,7 +1,5 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.response;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -31,6 +29,13 @@ public class DocumentResponse extends APIResponse {
 
         private int SavedStatus;
         private String Message;
+        /**
+         * RowUpdated : 1
+         * prv_file : uploads/39774/POSPPhotograph.jpg
+         */
+
+        private int RowUpdated;
+        private String prv_file;
 
         public int getSavedStatus() {
             return SavedStatus;
@@ -46,6 +51,22 @@ public class DocumentResponse extends APIResponse {
 
         public void setMessageX(String Message) {
             this.Message = Message;
+        }
+
+        public int getRowUpdated() {
+            return RowUpdated;
+        }
+
+        public void setRowUpdated(int RowUpdated) {
+            this.RowUpdated = RowUpdated;
+        }
+
+        public String getPrv_file() {
+            return prv_file;
+        }
+
+        public void setPrv_file(String prv_file) {
+            this.prv_file = prv_file;
         }
     }
 }

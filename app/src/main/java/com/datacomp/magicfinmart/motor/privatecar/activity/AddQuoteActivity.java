@@ -88,7 +88,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         databaseController = new DBPersistanceController(this);
         cityList = databaseController.getRTOListNames();
         makeModelList = databaseController.getCarMakeModel();
-        motorRequestEntity = new MotorRequestEntity();
+        motorRequestEntity = new MotorRequestEntity(this);
         intit_view();
         setListener();
         initialize_views();
@@ -582,7 +582,6 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn(0);
-        motorRequestEntity.setIp_address("");
         setCustomerDetails();
     }
 
@@ -645,7 +644,6 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn(0);
-        motorRequestEntity.setIp_address("");
         setCustomerDetails();
 
     }
