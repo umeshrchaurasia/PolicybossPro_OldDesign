@@ -205,6 +205,16 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             tvFuel.setText(carMasterEntity.getFuel_Name());
             tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + "(" + carMasterEntity.getCubic_Capacity() + "CC)");
         }
+        if (motorRequestEntity != null) {
+            if (motorRequestEntity.getIs_external_bifuel().equals("yes")) {
+                if (motorRequestEntity.getExternal_bifuel_type().equals("lpg")) {
+                    tvFuel.setText(Constants.EXTERNAL_LPG);
+                }
+                if (motorRequestEntity.getExternal_bifuel_type().equals("cng")) {
+                    tvFuel.setText(Constants.EXTERNAL_CNG);
+                }
+            }
+        }
     }
 
     private void updateCrn() {
@@ -327,7 +337,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 getActivity().finish();
                 return true;
             case R.id.add_on:
-                openPopUp();
+                openAddonPopUp();
                 return true;
 
             case R.id.action_home:
@@ -346,7 +356,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
     //endregion
 
-    private void openPopUp() {
+    private void openAddonPopUp() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Select Add-on :");
@@ -870,32 +880,36 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     }
 
     public void redirectToBuy(ResponseEntity entity) {
+        if (Utility.checkShareStatus() == 1) {
+            if (webViewLoader.getVisibility() == View.GONE) {
 
-        if (webViewLoader.getVisibility() == View.GONE) {
 
+                int fbaID = new DBPersistanceController(getActivity()).getUserData().getFBAId();
 
-            int fbaID = new DBPersistanceController(getActivity()).getUserData().getFBAId();
+                String url = "http://qa.policyboss.com/";
+                //String url = "http://policyboss.com/";
+                String title = "";
+                String name = "";
+                url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
+                title = "Motor Insurance";
 
-            String url = "http://qa.policyboss.com/";
-            //String url = "http://policyboss.com/";
-            String title = "";
-            String name = "";
-            url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
-            title = "Motor Insurance";
+                //convert quote to application server
+                new QuoteApplicationController(getActivity()).convertQuoteToApp(
+                        "" + saveQuoteEntity.getVehicleRequestID(),
+                        this);
 
-            //convert quote to application server
-            new QuoteApplicationController(getActivity()).convertQuoteToApp(
-                    "" + saveQuoteEntity.getVehicleRequestID(),
-                    this);
+                startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                        .putExtra("URL", Utility.getMotorUrl(getActivity(),entity.getService_Log_Unique_Id()))
+                        .putExtra("NAME", name)
+                        .putExtra("TITLE", title));
+            } else {
 
-            startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                    .putExtra("URL", url)
-                    .putExtra("NAME", name)
-                    .putExtra("TITLE", title));
+                Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+            }
         } else {
-
-            Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+            openPopUp(ivEdit, "Message", "Your POSP status is INACTIVE", "OK", true);
         }
+
 
     }
 
@@ -907,9 +921,14 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 ((InputQuoteBottmActivity) getActivity()).redirectInput(motorRequestEntity);
                 break;
             case R.id.filter:
-                startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
-                        .putExtra("SUMMARY", bikePremiumResponse.getSummary())
-                        .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
+                if (webViewLoader.getVisibility() != View.VISIBLE) {
+                    startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
+                            .putExtra("SUMMARY", bikePremiumResponse.getSummary())
+                            .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
+                } else {
+                    Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             case R.id.tvCount:
                 break;
@@ -1546,6 +1565,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     public void onPositiveButtonClick(Dialog dialog, View view) {
         if (view.getId() == R.id.ivShare) {
             dialog.cancel();
+        }else if(view.getId()==R.id.ivEdit){
+            dialog.cancel();
         }
     }
 
@@ -1553,6 +1574,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     public void onCancelButtonClick(Dialog dialog, View view) {
         if (view.getId() == R.id.ivShare) {
             dialog.cancel();
+        }else if(view.getId()==R.id.ivEdit){
+            dialog.cancel();
         }
     }
+
 }

@@ -198,7 +198,7 @@ p {padding:0px;margin:2px;}
                 HTML = HTML + '</tr>';
                 HTML = HTML + '<tr>';
                 HTML = HTML + ' <td>' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
-                HTML = HTML + ' <td><a href="#" class="amount">₹ ' + response.Response [i].Premium_Breakup.final_premium + '</a></td>';
+                HTML = HTML + ' <td><a href="#" class="amount">₹ ' + Math.round(response.Response [i].Premium_Breakup.final_premium) + '</a></td>';
                 HTML = HTML + '</tr>';
                 HTML = HTML + '</tbody>';
                 HTML = HTML + '</table>';
