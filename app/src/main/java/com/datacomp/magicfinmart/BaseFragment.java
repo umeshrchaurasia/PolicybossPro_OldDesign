@@ -37,7 +37,7 @@ public class BaseFragment extends Fragment {
     }
 
     protected void cancelDialog() {
-        if (dialog != null) {
+        if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
     }
