@@ -2143,6 +2143,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                 break;
             case R.id.txtOTH:
                 managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
+                break;
                 //endregion
 
                 // region PL INFO IDType

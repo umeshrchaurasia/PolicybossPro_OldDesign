@@ -2242,6 +2242,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.txtOTH:
                 managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
+                break;
                 //endregion
 
                 // region PL INFO IDType

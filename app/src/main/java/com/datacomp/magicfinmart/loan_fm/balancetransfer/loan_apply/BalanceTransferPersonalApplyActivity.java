@@ -2132,6 +2132,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 break;
             case R.id.txtOTH:
                 managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
+                break;
                 //endregion
 
                 // region PL INFO IDType
