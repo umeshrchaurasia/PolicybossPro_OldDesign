@@ -99,7 +99,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             notifyEntity.setWeb_url(WebURL);
             notifyEntity.setWeb_title(WebTitle);
 
-            new createBitmapFromURL(NotifyData.get("img_url")).execute();
+            String img_url = NotifyData.get("img_url");
+            bitmap_image = getBitmapfromUrl(img_url);
+          //  new createBitmapFromURL(NotifyData.get("img_url")).execute();
 
             intent = new Intent(this, HomeActivity.class);
             intent.putExtra(Utility.PUSH_NOTIFY, notifyEntity);
@@ -135,13 +137,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setWhen(System.currentTimeMillis())
                 .setVisibility(NOTIFICATION_ID)
                 .setChannelId(CHANNEL_ID)
-                .setStyle(style)
-//                .setStyle(new NotificationCompat.BigPictureStyle()
-//                        .bigPicture(Picasso.with(context).load("URL_TO_LOAD_BANNER_IMAGE").get())
-//                        //When Notification expanded title and content text
-//                        .setBigContentTitle(title)
-//                        .setSummaryText(message)
-//                        .bigText(NotifyData.get("body")))
+              //  .setStyle(style)
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .bigPicture(bitmap_image)
+                        //When Notification expanded title and content text
+                        .setBigContentTitle(NotifyData.get("title"))
+                        .setSummaryText(NotifyData.get("body"))
+                         )
                 .setContentIntent(pendingIntent);
 
 
