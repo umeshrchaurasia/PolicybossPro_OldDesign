@@ -39,12 +39,12 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
         viewPager = (ViewPager) findViewById(R.id.pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         setSupportActionBar(toolbar);
-
+        tabLayout.setupWithViewPager(viewPager, true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
-        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
+        // tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
+        // tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         loginEntity = new DBPersistanceController(this).getUserData();
 
@@ -52,6 +52,8 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
 //        viewPager.setAdapter(mAdapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -74,19 +76,13 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     @Override
     protected void onResume() {
         super.onResume();
-
         fetchQuoteApplication();
     }
 
     private void fetchQuoteApplication() {
-
         showDialog("Fetching.., Please wait.!");
-
-
         new MainLoanController(this).getHLQuoteApplicationData(String.valueOf(loginEntity.getFBAId()),
                 "HML", HomeLoanDetailActivity.this);
-
-
     }
 
     @Override
