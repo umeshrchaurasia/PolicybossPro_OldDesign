@@ -100,7 +100,7 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
     public void onClick(View view) {
 
         if (view.getId() == R.id.imgShare) {
-            if (Utility.checkShareStatus() == 1) {
+            if (Utility.checkShareStatus(this) == 1) {
                 if (responseJson != null) {
                     Intent intent = new Intent(this, ShareQuoteACtivity.class);
                     intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HEALTH_SINGLE_QUOTE");

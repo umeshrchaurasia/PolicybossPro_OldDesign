@@ -28,6 +28,8 @@ import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Map;
 
@@ -134,7 +136,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setVisibility(NOTIFICATION_ID)
                 .setChannelId(CHANNEL_ID)
                 .setStyle(style)
-
+//                .setStyle(new NotificationCompat.BigPictureStyle()
+//                        .bigPicture(Picasso.with(context).load("URL_TO_LOAD_BANNER_IMAGE").get())
+//                        //When Notification expanded title and content text
+//                        .setBigContentTitle(title)
+//                        .setSummaryText(message)
+//                        .bigText(NotifyData.get("body")))
                 .setContentIntent(pendingIntent);
 
 
@@ -144,6 +151,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
         //   .setStyle(new NotificationCompat.BigTextStyle().bigText(NotifyData.get("body")))
+
 
     private void setNotifyCounter() {
         int notifyCounter = prefManager.getNotificationCounter();
@@ -179,6 +187,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         }
         return mManager;
+    }
+
+    public Bitmap getBitmapfromUrl(String imageUrl) {
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(input);
+            return bitmap;
+
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+
+        }
     }
 
     public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {

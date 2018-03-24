@@ -4,77 +4,99 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 public class ConstantEntity extends RealmObject {
+
     /**
      * VersionCode : 0
      * IsForceUpdate : 0
      * PBNoOfHits : 5
      * PBHitTime : 6000
-     * ROIHLBL : 8.3
+     * ROIHLBL : 8.30
+     * <p>
      * ROIPLBL : 11.49
      * ROILABL : 8.75
+     * POSPNo : 404
+     * POSPStat : 1
      */
     @PrimaryKey
-    private int VersionCode;
-    private int IsForceUpdate;
-    private int PBNoOfHits;
-    private int PBHitTime;
-    private double ROIHLBL;
-    private double ROIPLBL;
-    private double ROILABL;
+    private String VersionCode;
+    private String IsForceUpdate;
+    private String PBNoOfHits;
+    private String PBHitTime;
+    private String ROIHLBL;
+    private String ROIPLBL;
+    private String ROILABL;
+    private String POSPNo;
+    private String POSPStat;
 
-    public int getVersionCode() {
+    public String getVersionCode() {
         return VersionCode;
     }
 
-    public void setVersionCode(int VersionCode) {
+    public void setVersionCode(String VersionCode) {
         this.VersionCode = VersionCode;
     }
 
-    public int getIsForceUpdate() {
+    public String getIsForceUpdate() {
         return IsForceUpdate;
     }
 
-    public void setIsForceUpdate(int IsForceUpdate) {
+    public void setIsForceUpdate(String IsForceUpdate) {
         this.IsForceUpdate = IsForceUpdate;
     }
 
-    public int getPBNoOfHits() {
+    public String getPBNoOfHits() {
         return PBNoOfHits;
     }
 
-    public void setPBNoOfHits(int PBNoOfHits) {
+    public void setPBNoOfHits(String PBNoOfHits) {
         this.PBNoOfHits = PBNoOfHits;
     }
 
-    public int getPBHitTime() {
+    public String getPBHitTime() {
         return PBHitTime;
     }
 
-    public void setPBHitTime(int PBHitTime) {
+    public void setPBHitTime(String PBHitTime) {
         this.PBHitTime = PBHitTime;
     }
 
-    public double getROIHLBL() {
+    public String getROIHLBL() {
         return ROIHLBL;
     }
 
-    public void setROIHLBL(double ROIHLBL) {
+    public void setROIHLBL(String ROIHLBL) {
         this.ROIHLBL = ROIHLBL;
     }
 
-    public double getROIPLBL() {
+    public String getROIPLBL() {
         return ROIPLBL;
     }
 
-    public void setROIPLBL(double ROIPLBL) {
+    public void setROIPLBL(String ROIPLBL) {
         this.ROIPLBL = ROIPLBL;
     }
 
-    public double getROILABL() {
+    public String getROILABL() {
         return ROILABL;
     }
 
-    public void setROILABL(double ROILABL) {
+    public void setROILABL(String ROILABL) {
         this.ROILABL = ROILABL;
+    }
+
+    public String getPOSPNo() {
+        return POSPNo;
+    }
+
+    public void setPOSPNo(String POSPNo) {
+        this.POSPNo = POSPNo;
+    }
+
+    public String getPOSPStat() {
+        return POSPStat;
+    }
+
+    public void setPOSPStat(String POSPStat) {
+        this.POSPStat = POSPStat;
     }
 }

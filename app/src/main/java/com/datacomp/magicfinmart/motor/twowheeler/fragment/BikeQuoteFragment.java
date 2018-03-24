@@ -868,7 +868,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     }
 
     public void redirectToBuy(ResponseEntity entity) {
-        if (Utility.checkShareStatus() == 1) {
+        if (Utility.checkShareStatus(getActivity()) == 1) {
             if (webViewLoader.getVisibility() == View.GONE) {
 
 
@@ -882,12 +882,15 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 title = "Two Wheeler";
 
                 //convert quote to application server
+                String imgPath = "http://qa.policyboss.com/Images/insurer_logo/" + entity.getInsurer().getInsurer_Logo_Name();
+
                 new QuoteApplicationController(getActivity()).convertQuoteToApp(
                         "" + saveQuoteEntity.getVehicleRequestID(),
+                        entity.getInsurer_Id(), imgPath,
                         this);
 
                 startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", Utility.getTwoWheelerUrl(getActivity(),entity.getService_Log_Unique_Id()))
+                        .putExtra("URL", Utility.getTwoWheelerUrl(getActivity(), entity.getService_Log_Unique_Id()))
                         .putExtra("NAME", name)
                         .putExtra("TITLE", title));
             } else {
@@ -918,7 +921,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 }
                 break;
             case R.id.ivShare:
-                if (Utility.checkShareStatus() == 1) {
+                if (Utility.checkShareStatus(getActivity()) == 1) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
                         Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
                         intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_ALL_QUOTE");
@@ -1550,7 +1553,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     public void onPositiveButtonClick(Dialog dialog, View view) {
         if (view.getId() == R.id.ivShare) {
             dialog.cancel();
-        }else if(view.getId()==R.id.ivEdit){
+        } else if (view.getId() == R.id.ivEdit) {
             dialog.cancel();
         }
     }
@@ -1559,7 +1562,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     public void onCancelButtonClick(Dialog dialog, View view) {
         if (view.getId() == R.id.ivShare) {
             dialog.cancel();
-        }else if(view.getId()==R.id.ivEdit){
+        } else if (view.getId() == R.id.ivEdit) {
             dialog.cancel();
         }
     }

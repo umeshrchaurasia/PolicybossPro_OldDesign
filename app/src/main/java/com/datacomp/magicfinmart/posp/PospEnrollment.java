@@ -1287,7 +1287,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     if (((EnrollPospResponse) response).getMasterData().getPaymentURL() != null && !((EnrollPospResponse) response).getMasterData().getPaymentURL().equals("")) {
                         pospEnrollEntity = ((EnrollPospResponse) response).getMasterData();
                         //update login response
-                        updateLoginResponse(pospEnrollEntity.getPaymentURL());
+                        updateLoginResponse(pospEnrollEntity);
                         openWebView(pospEnrollEntity.getPaymentURL());
                     }
                 }
@@ -1309,12 +1309,15 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     }
 
-    public void updateLoginResponse(final String paymentUrl) {
+    public void updateLoginResponse(final PospEnrollEntity pospEnrollEntity) {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                loginResponseEntity.setPaymentUrl(paymentUrl);
+                loginResponseEntity.setPaymentUrl(pospEnrollEntity.getPaymentURL());
                 loginResponseEntity.setPOSPName(registerRequestEntity.getPosp_FirstName() + " " + registerRequestEntity.getPosp_LastName());
+                loginResponseEntity.setPOSPNo(pospEnrollEntity.getPOSPNo());
+                loginResponseEntity.setPOSEmail(registerRequestEntity.getPosp_Email());
+                loginResponseEntity.setPOSPMobile(registerRequestEntity.getPosp_Mobile1());
             }
         });
     }

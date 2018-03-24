@@ -43,6 +43,7 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
     View view;
     ConstantEntity constantEntity;
     PrefManager prefManager;
+    int forceUpdate;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -105,8 +106,10 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
         if (response instanceof ConstantsResponse) {
             constantEntity = ((ConstantsResponse) response).getMasterData();
             if (response.getStatusNo() == 0) {
-                if (pinfo != null && pinfo.versionCode < ((ConstantsResponse) response).getMasterData().getVersionCode()) {
-                    if (((ConstantsResponse) response).getMasterData().getIsForceUpdate() == 1) {
+                int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
+                if (pinfo != null && pinfo.versionCode < serverVersionCode) {
+                    forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
+                    if (forceUpdate == 1) {
                         // forced update app
                         openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", false);
                     } else {
@@ -134,7 +137,8 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-        if (constantEntity.getIsForceUpdate() == 1) {
+
+        if (forceUpdate == 1) {
 
         } else {
             dialog.cancel();

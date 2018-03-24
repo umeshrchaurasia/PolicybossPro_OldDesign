@@ -44,6 +44,7 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
+
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

@@ -36,12 +36,10 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
         viewPager = (ViewPager) findViewById(R.id.pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         setSupportActionBar(toolbar);
-
+        tabLayout.setupWithViewPager(viewPager, true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
-        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         loginEntity =  new DBPersistanceController(this).getUserData();
 
@@ -49,7 +47,7 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
 //        viewPager.setAdapter(mAdapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());

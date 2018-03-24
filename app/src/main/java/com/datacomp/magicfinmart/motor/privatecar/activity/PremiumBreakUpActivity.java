@@ -258,7 +258,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.ivShare:
-                if (Utility.checkShareStatus() == 1) {
+                if (Utility.checkShareStatus(this) == 1) {
                     jsonShareString = getShareData();
                     if (jsonShareString != null && responseJson != null) {
                         if (getIntent().hasExtra("RESPONSE_BIKE")) {

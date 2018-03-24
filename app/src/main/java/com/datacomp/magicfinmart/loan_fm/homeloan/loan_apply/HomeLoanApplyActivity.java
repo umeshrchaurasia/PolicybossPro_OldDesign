@@ -2248,6 +2248,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.txtOTH:
                 managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
+                break;
                 //endregion
 
                 // region PL INFO IDType
@@ -2277,7 +2278,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.txteducatOTH:
                 managePL_Common(EducationType, "OTH", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
-
+                break;
                 //endregion
 
             case R.id.txtEmpNatureSalaried:
