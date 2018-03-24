@@ -43,8 +43,6 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        // tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
-        // tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         loginEntity = new DBPersistanceController(this).getUserData();
 
@@ -53,8 +51,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
-
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
