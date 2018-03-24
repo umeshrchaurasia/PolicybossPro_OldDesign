@@ -44,7 +44,7 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
 
     public class BLQuotesItem extends RecyclerView.ViewHolder {
 
-        TextView tvLoanAmt, tvBestRate, tvBankName, tvpf,tvpf_type, tvLoanTenure, tvProcessingFee, btnApply,tvEligibleLoan;
+        TextView tvLoanAmt, tvBestRate, tvBankName, tvpf,tvdrop, tvLoanTenure, tvProcessingFee, btnApply,tvEligibleLoan;
         ImageView ivBankLogo;
 
         public BLQuotesItem(View view) {
@@ -53,7 +53,7 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
             tvBestRate = (TextView) itemView.findViewById(R.id.tvBestRate);
             tvBankName = (TextView) itemView.findViewById(R.id.tvBankName);
             tvpf = (TextView) itemView.findViewById(R.id.tvpf);
-            tvpf_type = (TextView) itemView.findViewById(R.id.tvpf_type);
+            tvdrop = (TextView) itemView.findViewById(R.id.tvdrop);
             tvLoanTenure = (TextView) itemView.findViewById(R.id.tvLoanTenure);
             tvProcessingFee = (TextView) itemView.findViewById(R.id.tvProcessingFee);
             btnApply = (TextView) itemView.findViewById(R.id.btnApply);
@@ -83,8 +83,8 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
        // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
         holder.tvBestRate.setText(""+" " + quoteEntity.getRoi() +" %");
         holder.tvBankName.setText("" + quoteEntity.getBank_Code());
-        holder.tvpf.setText("" + quoteEntity.getPf());
-        holder.tvpf_type.setText("" + quoteEntity.getPf_type());
+       // holder.tvpf.setText("" + quoteEntity.getPf());
+        holder.tvdrop.setText("" + "\u20B9" + " "+  BigDecimal.valueOf(Math.ceil(quoteEntity.getdrop_emi())).setScale(0, BigDecimal.ROUND_HALF_UP) );;
         holder.tvProcessingFee.setText("" + "\u20B9" + " "+quoteEntity.getProcessingfee());
         //holder.tvEligibleLoan.setText(""+quoteEntity.getLoan_eligible());
         Glide.with(mContext)

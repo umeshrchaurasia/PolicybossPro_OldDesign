@@ -72,11 +72,11 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
                 }
 
 
-                if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("12")) {
+                if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("5")) {
                     holder.txttype.setText("HOME");
-                } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("9")) {
+                } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("14")) {
                     holder.txttype.setText("PERSONAL");
-                } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("7")) {
+                } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("2")) {
                     holder.txttype.setText("LAP");
                 }
                 holder.txtloanamount.setText("" +  BigDecimal.valueOf(Math.ceil(entity.getBLLoanRequest().getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));

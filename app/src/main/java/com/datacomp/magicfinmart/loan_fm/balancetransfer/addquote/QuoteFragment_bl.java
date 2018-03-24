@@ -139,17 +139,17 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
     public void redirectToApplyLoanBT(FmBalanceLoanRequest entity) {
 
-        if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("12")) {
+        if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("5")) {
 //home
             startActivity(new Intent(getContext(), BalanceTransferLoanApplyActivity.class)
                     .putExtra("BuyLoanQuery", buyLoanQuerystring));
 
-        } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("9")) {
+        } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("14")) {
             //personal
             startActivity(new Intent(getContext(), BalanceTransferPersonalApplyActivity.class)
                     .putExtra("BuyLoanQuery", buyLoanQuerystring));
 
-        } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("7")) {
+        } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("2")) {
             //lap
             startActivity(new Intent(getContext(), BalanceTransferLoanApplyActivity.class)
                     .putExtra("BuyLoanQuery", buyLoanQuerystring));
@@ -185,11 +185,11 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                     txtLoanAmnt.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
                     txtLoanTenure.setText("" + blLoanRequest.getLoanterm() + " Years");
 
-                    if (Integer.toString(blLoanRequest.getProduct_id()).matches("12")) {
+                    if (Integer.toString(blLoanRequest.getProduct_id()).matches("5")) {
                         txtType.setText("HOME LOAN");
-                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("9")) {
+                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("14")) {
                         txtType.setText("PERSONAL LOAN");
-                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("7")) {
+                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("2")) {
                         txtType.setText("LAP");
                     }
 
@@ -204,7 +204,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                         txtcurrloanemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getAmount()));
                         txtdropemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getDrop_emi()));
                         txtnewemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getNew_amount()));
-                        txtdropinterestrate.setText("" + "\u20B9" + savingBlList.get(0).getDrop_in_int() + " %");
+                        txtdropinterestrate.setText("" + savingBlList.get(0).getDrop_in_int() + " %");
                         txtreducedintrest.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getSavings()));
 
                     }
@@ -249,12 +249,12 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
             buyLoanQuerystring.setMobileNo(fmBalanceLoanRequest.getBLLoanRequest().getContact());
           //  buyLoanQuerystring.setCity(fmBalanceLoanRequest.getBLLoanRequest().getCity());
 
-            if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("12")) {
+            if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("5")) {
                 buyLoanQuerystring.setType("HLBT");
 
-            } else if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("9")) {
+            } else if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("14")) {
                 buyLoanQuerystring.setType("PLBT");
-            } else if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("7")) {
+            } else if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("2")) {
                 buyLoanQuerystring.setType("LAPBT");
            }
 

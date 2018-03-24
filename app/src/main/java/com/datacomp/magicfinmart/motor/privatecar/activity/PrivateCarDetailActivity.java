@@ -40,10 +40,11 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-
-        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
-        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
+        tabLayout.setupWithViewPager(viewPager, true);
+//        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
+//        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
         //fetchQuoteApplication();
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));

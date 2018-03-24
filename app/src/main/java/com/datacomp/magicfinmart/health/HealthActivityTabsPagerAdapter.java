@@ -21,10 +21,16 @@ public class HealthActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
     public final static String HEALTH_QUOTE_LIST = "HEALTH_LIST_QUOTE";
     public final static String HEALTH_APPLICATION_LIST = "HEALTH_LIST_APPLICATION";
     HealthQuoteAppResponse mMasterData;
+    private String[] pageTitle = new String[]{"QUOTES", "APPLICATION"};
 
     public HealthActivityTabsPagerAdapter(FragmentManager fm, HealthQuoteAppResponse masterData) {
         super(fm);
         mMasterData = masterData;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return pageTitle[position];
     }
 
     @Override
@@ -63,9 +69,9 @@ public class HealthActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
         // get item count - equal to number of tabs
         return 2;
     }
-
-    @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
-    }
+//
+//    @Override
+//    public int getItemPosition(Object object) {
+//        return POSITION_NONE;
+//    }
 }

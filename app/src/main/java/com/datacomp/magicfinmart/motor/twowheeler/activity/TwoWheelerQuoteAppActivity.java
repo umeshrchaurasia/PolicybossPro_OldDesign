@@ -38,8 +38,9 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         viewPager = (ViewPager) findViewById(R.id.pager);
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
-        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
+        tabLayout.setupWithViewPager(viewPager, true);
+//        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
+//        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
 
