@@ -58,7 +58,7 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_BL.APPLICATION_LIST);
         }
 
-        rvApplicationList.setAdapter(null);
+      // rvApplicationList.setAdapter(null);
         balanceTransferApplicationAdapter = new BalanceTransferApplicationAdapter(BL_ApplicationFragment.this,mApplicationList);
         rvApplicationList.setAdapter(balanceTransferApplicationAdapter);
 

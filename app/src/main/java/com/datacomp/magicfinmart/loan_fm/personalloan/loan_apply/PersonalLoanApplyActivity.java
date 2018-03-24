@@ -114,7 +114,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             txtEmpNatureSalaried, txtEmpNatureSelfEmp;
 
     TextInputLayout textInpLayCurrJob, textInpLayTotalExp,
-            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax;
+            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax,textInpLaySpouseName;
     //endregion
 
     // region Variable Declaration
@@ -338,6 +338,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         textInpLayDepreciation = (TextInputLayout) findViewById(R.id.textInpLayDepreciation);
         textInpLayDirRem = (TextInputLayout) findViewById(R.id.textInpLayDirRem);
         textInpLayProfAftTax = (TextInputLayout) findViewById(R.id.textInpLayProfAftTax);
+        textInpLaySpouseName = (TextInputLayout) findViewById(R.id.textInpLaySpouseName);
 
         etDesig = (EditText) findViewById(R.id.etDesig);
         etCurrJob = (EditText) findViewById(R.id.etCurrJob);
@@ -545,6 +546,20 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
         textView1.setBackgroundResource(R.drawable.customeborder);
         textView1.setTextColor(ContextCompat.getColor(PersonalLoanApplyActivity.this, R.color.description_text));
+		if(MaritalStatus.equals("MARRIED"))
+        {
+            textInpLaySpouseName.setHint("*Spouse Name");
+            etSpouceName.setEnabled(true);
+
+        }else{
+            textInpLaySpouseName.setHint("Spouse Name");
+            etSpouceName.setText("");
+            etSpouceName.setError(null);
+            etSpouceName.clearFocus();
+            etSpouceName.setEnabled(false);
+
+
+        }
 
     }
 
@@ -1001,11 +1016,72 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         etPan.setText(personalLoanApplyAppliEntity.getPAN_No());
         etNationality.setText(personalLoanApplyAppliEntity.getNationality());
 
-        managePL_Common(StatusType, personalLoanApplyAppliEntity.getStatus_Id(), txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
-        managePL_Common(CategoryType, personalLoanApplyAppliEntity.getCategory_Id(), txtGEN, txtSC, txtST, txtOBC, txtOTH);
-        managePL_Common(EducationType, personalLoanApplyAppliEntity.getEducation_Id(), txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
-        managePL_IDTYPE(personalLoanApplyAppliEntity.getId_Type(), txtPORT, txtVOTER, txtDRV);
+//        managePL_Common(StatusType, personalLoanApplyAppliEntity.getStatus_Id(), txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
+//        managePL_Common(CategoryType, personalLoanApplyAppliEntity.getCategory_Id(), txtGEN, txtSC, txtST, txtOBC, txtOTH);
+//        managePL_Common(EducationType, personalLoanApplyAppliEntity.getEducation_Id(), txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
+//        managePL_IDTYPE(personalLoanApplyAppliEntity.getId_Type(), txtPORT, txtVOTER, txtDRV);
 
+
+        // region PL INFO Status
+        if (personalLoanApplyAppliEntity.getStatus_Id().equals("RES")) {
+            managePL_Common(StatusType, "RES", txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
+        } else if (personalLoanApplyAppliEntity.getStatus_Id().equals("NRI")) {
+            managePL_Common(StatusType, "NRI", txtNRI, txtRES, txtPIO, txtOCR, txtFOR);
+        }
+        if (personalLoanApplyAppliEntity.getStatus_Id().equals("PIO")) {
+            managePL_Common(StatusType, "PIO", txtPIO, txtRES, txtNRI, txtOCR, txtFOR);
+        }
+        if (personalLoanApplyAppliEntity.getStatus_Id().equals("OCR")) {
+            managePL_Common(StatusType, "OCR", txtOCR, txtRES, txtNRI, txtPIO, txtFOR);
+        }
+        if (personalLoanApplyAppliEntity.getStatus_Id().equals("FOR")) {
+            managePL_Common(StatusType, "FOR", txtFOR, txtRES, txtNRI, txtPIO, txtOCR);
+        }
+        //endregion
+
+        // region PL INFO Category
+        if (personalLoanApplyAppliEntity.getCategory_Id().equals("GEN")) {
+            managePL_Common(CategoryType, "GEN", txtGEN, txtSC, txtST, txtOBC, txtOTH);
+        } else if (personalLoanApplyAppliEntity.getCategory_Id().equals("SC")) {
+            managePL_Common(CategoryType, "SC", txtSC, txtGEN, txtST, txtOBC, txtOTH);
+        }
+        if (personalLoanApplyAppliEntity.getCategory_Id().equals("ST")) {
+            managePL_Common(CategoryType, "ST", txtST, txtGEN, txtSC, txtOBC, txtOTH);
+        }
+        if (personalLoanApplyAppliEntity.getCategory_Id().equals("OBC")) {
+            managePL_Common(CategoryType, "OBC", txtOBC, txtGEN, txtSC, txtST, txtOTH);
+        }
+        if (personalLoanApplyAppliEntity.getCategory_Id().equals("OTH")) {
+            managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
+        }
+        //endregion
+
+        // region PL INFO Education
+        if (personalLoanApplyAppliEntity.getEducation_Id().equals("MATR")) {
+            managePL_Common(EducationType, "MATR", txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
+        } else if (personalLoanApplyAppliEntity.getEducation_Id().equals("U-GRAD")) {
+            managePL_Common(EducationType, "U-GRAD", txtUGRAD, txtMATR, txtGRAD, txtPGRAD, txteducatOTH);
+        }
+        if (personalLoanApplyAppliEntity.getEducation_Id().equals("GRAD")) {
+            managePL_Common(EducationType, "GRAD", txtGRAD, txtMATR, txtUGRAD, txtPGRAD, txteducatOTH);
+        }
+        if (personalLoanApplyAppliEntity.getEducation_Id().equals("P-GRAD")) {
+            managePL_Common(EducationType, "P-GRAD", txtPGRAD, txtMATR, txtUGRAD, txtGRAD, txteducatOTH);
+        }
+        if (personalLoanApplyAppliEntity.getEducation_Id().equals("OTH")) {
+            managePL_Common(EducationType, "OTH", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
+        }
+        //endregion
+
+        // region ID Type
+        if (personalLoanApplyAppliEntity.getId_Type().equals("P-PORT")) {
+            managePL_IDTYPE("P-PORT", txtPORT, txtVOTER, txtDRV);
+        } else if (personalLoanApplyAppliEntity.getId_Type().equals("VOTER")) {
+            managePL_IDTYPE("VOTER", txtVOTER, txtPORT, txtDRV);
+        } else if (personalLoanApplyAppliEntity.getId_Type().equals("DRV-L")) {
+            managePL_IDTYPE("DRV-L", txtDRV, txtPORT, txtVOTER);
+        }
+        //endregion
         etIDNumber.setText(personalLoanApplyAppliEntity.getId_No());
         etUniversity.setText(personalLoanApplyAppliEntity.getInstitute_University());
         etMoMaidenName.setText(personalLoanApplyAppliEntity.getMothers_Maidan_Name());
@@ -1484,7 +1560,10 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             }
         }
 
-        // etDob
+        //
+
+        if (MaritalStatus.equals("MARRIED")) {
+
         if (!isEmpty(etSpouceName)) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1497,6 +1576,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
                 etSpouceName.setError("Enter Spouce Name");
                 return false;
             }
+        }
         }
 
         if (!isEmpty(etPan)) {
@@ -1956,10 +2036,14 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         if (!isEmpty(etLastName)) {
             return false;
         }
+
+
+        if (MaritalStatus.equals("MARRIED")) {
         if (!isEmpty(etSpouceName)) {
+
             return false;
         }
-
+        }
         if (!isEmpty(etPan)) {
             return false;
         }
@@ -2129,10 +2213,12 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
             case R.id.txtMarried:
                 seMaritalStatus("MARRIED", txtMarried, txtSingle);
+
                 break;
 
             case R.id.txtSingle:
                 seMaritalStatus("SINGLE", txtSingle, txtMarried);
+
                 break;
             //seMaritalStatus
             //region PL INFO Status
@@ -2207,6 +2293,8 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             case R.id.txtEmpNatureSelfEmp:
                 setEmpSalaried("Self-Emp", true, txtEmpNatureSelfEmp, txtEmpNatureSalaried);
                 break;
+
+
             //setEmpSalaried
             case R.id.btnSubmit:
 
@@ -2331,6 +2419,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
                 if (personalLoanApplyAppliEntity != null) {
                     setApplictionData();
+						  manageTaskBar();
                 }
 
             }
@@ -2472,7 +2561,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
     //endregion
 
-    // region Back even
+    // region Back event
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -2480,6 +2569,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
                 onBackPressed();
 
                 return true;
+
             case R.id.action_home:
 
                 Intent intent = new Intent(this, HomeActivity.class);
@@ -2490,6 +2580,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         finish();
@@ -2497,6 +2588,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     }
 
     //endregion
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu, menu);
@@ -2504,6 +2596,8 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     }
 
 
+
     //endregion
+
 
 }

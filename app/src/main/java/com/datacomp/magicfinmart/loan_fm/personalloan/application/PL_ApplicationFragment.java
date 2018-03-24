@@ -54,7 +54,7 @@ public class PL_ApplicationFragment  extends BaseFragment  implements View.OnCli
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_PL.APPLICATION_LIST);
         }
 
-        rvApplicationList.setAdapter(null);
+        //rvApplicationList.setAdapter(null);
         personalLoanApplicationAdapter = new PersonalLoanApplicationAdapter(PL_ApplicationFragment.this,mApplicationList);
         rvApplicationList.setAdapter(personalLoanApplicationAdapter);
 
