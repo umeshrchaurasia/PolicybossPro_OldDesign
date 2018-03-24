@@ -21,10 +21,16 @@ public class BikeActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     QuoteApplicationEntity mMasterData;
+    private String[] pageTitle = new String[]{"QUOTES", "APPLICATION"};
 
     public BikeActivityTabsPagerAdapter(FragmentManager fm, QuoteApplicationEntity masterData) {
         super(fm);
         mMasterData = masterData;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return pageTitle[position];
     }
 
     @Override
@@ -64,8 +70,8 @@ public class BikeActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
         return 2;
     }
 
-    @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
-    }
+//    @Override
+//    public int getItemPosition(Object object) {
+//        return POSITION_NONE;
+//    }
 }
