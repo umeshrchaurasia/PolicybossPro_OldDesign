@@ -30,7 +30,6 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     ViewPager viewPager;
     ActivityTabsPagerAdapter_HL mAdapter;
     LoginResponseEntity loginEntity;
-    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,14 +37,14 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
         setContentView(R.layout.activity_home_loan_detail);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ViewPager) findViewById(R.id.pager);
-        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         setSupportActionBar(toolbar);
-
+        tabLayout.setupWithViewPager(viewPager, true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
-        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
+        // tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
+        // tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
         loginEntity = new DBPersistanceController(this).getUserData();
 
@@ -53,7 +52,9 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
 //        viewPager.setAdapter(mAdapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {   //setOnTabSelectedListener
+
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
@@ -75,6 +76,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     @Override
     protected void onResume() {
         super.onResume();
+
         fetchQuoteApplication();
     }
 
@@ -100,34 +102,10 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
 
                 mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager(), hlQuoteApplicationEntity);
                 viewPager.setAdapter(mAdapter);
-////
-//                viewPager.setOffscreenPageLimit(2);
-//                viewPager.setCurrentItem(0); // <-- Note the use of mCurrentItem here!
-//
-//                tabLayout.setupWithViewPager(viewPager);
-
-                viewPager.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        viewPager.setCurrentItem(0);
-                    }
-                }, 100);
-
             }
 
         }
     }
-
-//    public void setCurrentItem(int currentItem)
-//    {
-//        mCurrentItem = currentItem;
-//
-//        // This should be called in cases where onResume() is not called later,
-//        // for example if you only want to change the page in the ViewPager
-//        // when clicking a Button or whatever. Just omit if not needed.
-//        mViewPager.setCurrentItem(mCurrentItem);
-//    }
 
     @Override
     public void OnFailure(Throwable t) {
