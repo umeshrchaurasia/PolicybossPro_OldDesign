@@ -19,16 +19,16 @@ public class ApplicationListEntity implements Parcelable {
     private int fba_id;
     private int isActive;
     private int selectedPrevInsID;
-    private String insurerImage;
+    private String insImage;
     private MotorRequestEntity motorRequestEntity;
 
 
-    public String getInsurerImage() {
-        return insurerImage;
+    public String getInsImage() {
+        return insImage;
     }
 
-    public void setInsurerImage(String insurerImage) {
-        this.insurerImage = insurerImage;
+    public void setInsImage(String insImage) {
+        this.insImage = insImage;
     }
 
     public int getSelectedPrevInsID() {
@@ -92,7 +92,7 @@ public class ApplicationListEntity implements Parcelable {
         dest.writeInt(this.fba_id);
         dest.writeInt(this.isActive);
         dest.writeInt(this.selectedPrevInsID);
-        dest.writeString(this.insurerImage);
+        dest.writeString(this.insImage);
         dest.writeParcelable(this.motorRequestEntity, flags);
     }
 
@@ -105,7 +105,7 @@ public class ApplicationListEntity implements Parcelable {
         this.fba_id = in.readInt();
         this.isActive = in.readInt();
         this.selectedPrevInsID = in.readInt();
-        this.insurerImage = in.readString();
+        this.insImage = in.readString();
         this.motorRequestEntity = in.readParcelable(MotorRequestEntity.class.getClassLoader());
     }
 

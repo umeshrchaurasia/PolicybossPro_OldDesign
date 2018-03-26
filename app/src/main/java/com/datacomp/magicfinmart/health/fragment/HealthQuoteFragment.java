@@ -178,7 +178,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             imageview.setPadding(2, 0, 2, 0);
 
-            if (listmember.get(i).getAge() > 18)
+            if (listmember.get(i).getAge() >= 18)
                 imageview.setImageResource(R.mipmap.adult);
             else
                 imageview.setImageResource(R.mipmap.child);
@@ -327,7 +327,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         Glide.with(this).load(buyHealthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);
         //imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
-        //        .getInsurerImage(buyHealthQuoteEntity.getInsurerId()));
+        //        .getInsImage(buyHealthQuoteEntity.getInsurerId()));
         txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());
         txtEstPremium.setText("\u20B9 " + Math.round(buyHealthQuoteEntity.getNetPremium()));
         txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));

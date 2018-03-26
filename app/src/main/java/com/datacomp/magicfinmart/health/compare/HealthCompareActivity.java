@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.health.compare;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -23,20 +25,25 @@ import com.datacomp.magicfinmart.utility.SortbyInsurer;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 
 public class HealthCompareActivity extends BaseActivity {
 
-    RecyclerView rvBenefits;
+    RecyclerView rvBenefits, rvBenefitsOptions;
     List<HealthQuoteEntity> listHealthQuote;
     HealthCompareViewAdapter mAdapter;
     Spinner spBenefits;
     Button btnBack;
     ArrayList<String> listBenefits;
+    ArrayList<BenefitsEntity> list9Benefits;
     ArrayAdapter<String> benefitsAdapter;
+    HealthNineBenefitsViewAdapter mBenefitsAdapter;
 
 
     @Override
@@ -45,24 +52,57 @@ public class HealthCompareActivity extends BaseActivity {
         setContentView(R.layout.activity_health_compare);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setFinishOnTouchOutside(false);
-        this.setTitle("Compare");
+        this.setTitle("COMPARE");
 
         init();
         listBenefits = new ArrayList<>();
-        listHealthQuote = new ArrayList<>();
+        list9Benefits = new ArrayList<BenefitsEntity>();
+        //listHealthQuote = new ArrayList<>();
         if (getIntent().getParcelableArrayListExtra(HealthQuoteFragment.HEALTH_COMPARE) != null) {
-            listHealthQuote = getIntent().getParcelableArrayListExtra(HealthQuoteFragment.HEALTH_COMPARE);
+            List<HealthQuoteEntity> list = getIntent().getParcelableArrayListExtra(HealthQuoteFragment.HEALTH_COMPARE);
+
+            listHealthQuote = new ArrayList<>(removeDuplicate(list));
+
             fillBenefits();
             bindBenefits();
+
         }
 
-        spBenefits.setSelection(0);
+        // spBenefits.setSelection(0);
+        updateBenefits("Room Rent Limit");
+        mBenefitsAdapter.updateList(0);
+
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
+    }
+
+    private List<HealthQuoteEntity> removeDuplicate(List<HealthQuoteEntity> list) {
+        List<HealthQuoteEntity> quoteList = new ArrayList<>();
+
+        boolean isAdd = true;
+
+        for (int i = 0; i < list.size(); i++) {
+            HealthQuoteEntity entity = list.get(i);
+            for (int j = 0; j < quoteList.size(); j++) {
+                HealthQuoteEntity en = quoteList.get(j);
+                if (en.getInsurerId() == entity.getInsurerId()) {
+                    isAdd = false;
+                } else {
+                    isAdd = true;
+                }
+            }
+            if (isAdd) {
+                quoteList.add(entity);
+            }
+        }
+
+
+        return quoteList;
     }
 
 
@@ -72,14 +112,42 @@ public class HealthCompareActivity extends BaseActivity {
         mAdapter = new HealthCompareViewAdapter(this, listHealthQuote);
         rvBenefits.setAdapter(mAdapter);
 
+
         benefitsAdapter = new
-                ArrayAdapter(this, android.R.layout.simple_list_item_1, listBenefits);
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, listBenefits) {
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
         spBenefits.setAdapter(benefitsAdapter);
 
         spBenefits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                updateBenefits(spBenefits.getSelectedItem().toString());
+                if (position != 0) {
+                    updateBenefits(spBenefits.getSelectedItem().toString());
+                }
             }
 
             @Override
@@ -89,7 +157,7 @@ public class HealthCompareActivity extends BaseActivity {
         });
     }
 
-    private void updateBenefits(String benefits) {
+    public void updateBenefits(String benefits) {
 
         resetBenefits();
         for (int i = 0; i < listHealthQuote.size(); i++) {
@@ -121,17 +189,45 @@ public class HealthCompareActivity extends BaseActivity {
 
     private void init() {
         btnBack = (Button) findViewById(R.id.btnBack);
-
         spBenefits = (Spinner) findViewById(R.id.spBenefits);
         rvBenefits = (RecyclerView) findViewById(R.id.rvBenefits);
         rvBenefits.setLayoutManager(new LinearLayoutManager(this));
+
+        rvBenefitsOptions = (RecyclerView) findViewById(R.id.rvBenefitsOptions);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        rvBenefitsOptions.setLayoutManager(layoutManager);
     }
 
     private void fillBenefits() {
 
-        if (listHealthQuote.get(0) != null) {
-            for (int i = 0; i < listHealthQuote.get(0).getLstbenfitsFive().size(); i++) {
-                listBenefits.add(listHealthQuote.get(0).getLstbenfitsFive().get(i).getBeneDesc());
+
+        if (listHealthQuote != null) {
+            if (listHealthQuote.get(0) != null) {
+                for (int i = 0; i < listHealthQuote.get(0).getLstbenfitsFive().size(); i++) {
+                    BenefitsEntity entity = listHealthQuote.get(0).getLstbenfitsFive().get(i);
+                    if (entity.getBeneID() == 1
+                            || entity.getBeneID() == 2
+                            || entity.getBeneID() == 3
+                            || entity.getBeneID() == 4
+                            || entity.getBeneID() == 6
+                            || entity.getBeneID() == 8
+                            || entity.getBeneID() == 13
+                            || entity.getBeneID() == 14
+                            || entity.getBeneID() == 22) {
+                        if (entity.getBeneID() == 1) {
+                            entity.setSelected(true);
+                        }
+                        list9Benefits.add(entity);
+
+                    } else {
+                        listBenefits.add(entity.getBeneDesc());
+                    }
+                }
+
+                listBenefits.add(0, "Select other benefits");
+
+                mBenefitsAdapter = new HealthNineBenefitsViewAdapter(this, list9Benefits);
+                rvBenefitsOptions.setAdapter(mBenefitsAdapter);
             }
         }
     }
