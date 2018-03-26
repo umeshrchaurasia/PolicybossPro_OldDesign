@@ -130,6 +130,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         if (getPersonalLoanResponse != null) {
             txtInputSummary.setVisibility(View.VISIBLE);
             cvInputSummary.setVisibility(View.VISIBLE);
+            ivShare.setVisibility(View.VISIBLE);
 
             mAdapter = new PLQuoteAdapter(this, getPersonalLoanResponse.getData(), getPersonalLoanResponse);
             rvPLQuotes.setAdapter(mAdapter);
