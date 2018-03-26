@@ -54,6 +54,9 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         if (getIntent().hasExtra("CAR_REQUEST")) {
             motorRequestEntity = getIntent().getParcelableExtra("CAR_REQUEST");
         }
+        if (getIntent().hasExtra("BIKE_REQUEST")) {
+            motorRequestEntity = getIntent().getParcelableExtra("BIKE_REQUEST");
+        }
         if (getIntent().hasExtra("SUMMARY")) {
             summaryEntity = getIntent().getParcelableExtra("SUMMARY");
         }
@@ -102,7 +105,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
         if (motorRequestEntity.getVehicle_expected_idv() > 0) {
             etIdv.setText("" + motorRequestEntity.getVehicle_expected_idv());
-            sbIdv.setProgress(motorRequestEntity.getVehicle_expected_idv()/1000);
+            sbIdv.setProgress(motorRequestEntity.getVehicle_expected_idv() / 1000);
             tvProgress.setText("" + motorRequestEntity.getVehicle_expected_idv());
         }
     }
@@ -194,6 +197,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void initWidgets() {
+
         etIdv = (EditText) findViewById(R.id.etIdv);
         sbIdv = (DiscreteSeekBar) findViewById(R.id.sbIdv);
         tvMaxIdv = (TextView) findViewById(R.id.tvMaxIdv);
@@ -212,7 +216,10 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         tvAntiNo = (TextView) findViewById(R.id.tvAntiNo);
 
         spPaCover = (Spinner) findViewById(R.id.spPaCover);
-
+        if (getIntent().hasExtra("BIKE_REQUEST")) {
+            etElecAcc.setVisibility(View.GONE);
+            etNonElecAcc.setVisibility(View.GONE);
+        }
     }
 
     @Override

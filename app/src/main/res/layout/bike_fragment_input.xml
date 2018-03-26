@@ -95,6 +95,7 @@
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
                         android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:inputType="text"
                         android:maxLength="2" />
 
                     <EditText
@@ -103,8 +104,8 @@
                         android:layout_width="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
-                        android:digits="0123456789"
-                        android:inputType="number"
+                        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:inputType="text"
                         android:maxLength="2" />
 
                     <EditText
@@ -113,7 +114,7 @@
                         android:layout_width="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
-                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:maxLength="2" />
 
                     <EditText
@@ -125,6 +126,7 @@
                         android:digits="0123456789"
                         android:inputType="number"
                         android:maxLength="4" />
+
                     <Button
                         android:id="@+id/btnGo"
                         style="@style/ButtonStyle.Colored"

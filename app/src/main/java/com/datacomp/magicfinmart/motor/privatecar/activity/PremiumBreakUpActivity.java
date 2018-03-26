@@ -21,6 +21,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapterEntity;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAddonAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAddonEntity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
@@ -35,27 +37,36 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.AppliedAddonsPremiumBreakup;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.LiabilityEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.MobileAddOn;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.OwnDamageEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
 
-public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener {
+public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener, IResponseSubcriber {
     ResponseEntity responseEntity;
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
-    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium, txtIDV, txtFinalPremium, btnBuy;
+    PremiumBreakUpAddonAdapter addonAdapterNew;
+    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium, txtIDV, txtFinalPremium, btnBuy, tvAddonTotal;
     ImageView ivCross, ivShare;
     Button btnBackToQuote;
     CardView cvAddon;
     List<PremiumBreakUpAdapterEntity> damageList, liabilityList, addonList;
+    List<PremiumBreakUpAddonEntity> addonListNew;
+    List<MobileAddOn> listMobileAddOn;
     DBPersistanceController dbPersistanceController;
     BikeMasterEntity bikeMasterEntity;
     CarMasterEntity carMasterEntity;
     SummaryEntity summaryEntity;
     String jsonShareString, responseJson;
     Gson gson = new Gson();
+    Double addOnTotal = 0.0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +75,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         this.setFinishOnTouchOutside(false);
         dbPersistanceController = new DBPersistanceController(this);
-
+        registerPopUp(this);
         if (getIntent().hasExtra("SUMMARY")) {
             summaryEntity = getIntent().getParcelableExtra("SUMMARY");
         }
@@ -72,17 +83,26 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             responseEntity = getIntent().getParcelableExtra("RESPONSE_CAR");
             carMasterEntity = dbPersistanceController.getVarientDetails("" + summaryEntity.getRequest_Core().getVehicle_id());
         }
+        if (getIntent().hasExtra("MOBILE_ADDON")) {
+            listMobileAddOn = getIntent().getParcelableArrayListExtra("MOBILE_ADDON");
+
+        }
         if (getIntent().hasExtra("RESPONSE_BIKE")) {
             responseEntity = getIntent().getParcelableExtra("RESPONSE_BIKE");
             bikeMasterEntity = dbPersistanceController.getBikeVarientDetails("" + summaryEntity.getRequest_Core().getVehicle_id());
         }
 
         initViews();
+
         damageList = getDamageList();
         liabilityList = getLiabilityList();
         addonList = getAddonList();
+        addonListNew = getAddonListNew();
         initrecyclers();
         setListeners();
+        if (listMobileAddOn != null)
+            addOnTotal = applyPositiveAddons(listMobileAddOn);
+
         bindData();
         new AsyncShareJson().execute();
     }
@@ -102,13 +122,14 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 txtFinalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
                 tvGst.setText(getRupeesRound(responseEntity.getPremium_Breakup().getService_tax()));
             }
+            tvAddonTotal.setText("" + Math.round(addOnTotal));
         }
     }
 
     private void setListeners() {
         btnBuy.setOnClickListener(this);
         btnBackToQuote.setOnClickListener(this);
-       // ivCross.setOnClickListener(this);
+        // ivCross.setOnClickListener(this);
         ivShare.setOnClickListener(this);
     }
 
@@ -134,6 +155,15 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             cvAddon.setVisibility(View.GONE);
         }
 
+        if (addonListNew != null && addonListNew.size() > 0) {
+            cvAddon.setVisibility(View.VISIBLE);
+            rvAddonPremium.setLayoutManager(new LinearLayoutManager(this));
+            addonAdapterNew = new PremiumBreakUpAddonAdapter(this, addonListNew, listMobileAddOn);
+            rvAddonPremium.setAdapter(addonAdapterNew);
+        } else {
+            cvAddon.setVisibility(View.GONE);
+        }
+
     }
 
     private void initViews() {
@@ -152,7 +182,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         cvAddon = (CardView) findViewById(R.id.cvAddon);
         txtIDV = (TextView) findViewById(R.id.txtIDV);
         txtFinalPremium = (TextView) findViewById(R.id.txtFinalPremium);
-
+        tvAddonTotal = (TextView) findViewById(R.id.tvAddonTotal);
         //ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
         Glide.with(this)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
@@ -240,7 +270,20 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             for (AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup : appliedAddonsPremiumBreakups) {
                 addonList.add(new PremiumBreakUpAdapterEntity(appliedAddonsPremiumBreakup.getAddonName(), "" + appliedAddonsPremiumBreakup.getPriceAddon()));
             }
-            addonList.add(new PremiumBreakUpAdapterEntity("Total Addon Premium", responseEntity.getTotalAddonAplied()));
+            //addonList.add(new PremiumBreakUpAdapterEntity("Total Addon Premium", responseEntity.getTotalAddonAplied()));
+        }
+        return addonList;
+    }
+
+    public List<PremiumBreakUpAddonEntity> getAddonListNew() {
+        List<PremiumBreakUpAddonEntity> addonList = new ArrayList<PremiumBreakUpAddonEntity>();
+
+        if (responseEntity.getListAppliedAddons() != null && responseEntity.getListAppliedAddons().size() > 0) {
+            List<AppliedAddonsPremiumBreakup> appliedAddonsPremiumBreakups = responseEntity.getListAppliedAddons();
+            for (AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup : appliedAddonsPremiumBreakups) {
+                addonList.add(new PremiumBreakUpAddonEntity(appliedAddonsPremiumBreakup.getAddonName(), "" + appliedAddonsPremiumBreakup.getPriceAddon()));
+            }
+            //addonList.add(new PremiumBreakUpAddonEntity("Total Addon Premium", responseEntity.getTotalAddonAplied()));
         }
         return addonList;
     }
@@ -325,7 +368,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         return "";
     }
 
-    public void redirectToBuy(String Service_Log_Unique_Id) {
+    /*public void redirectToBuy(String Service_Log_Unique_Id) {
         String URL = "http://qa.policyboss.com/buynowprivatecar/2/arn-5vsdcdks-ifxf-lbo7-imvr-ycc3axgrfrwe/nonposp/0";
         String url = "http://qa.policyboss.com/";
         //String url = "http://policyboss.com/";
@@ -346,7 +389,28 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     .putExtra("NAME", name)
                     .putExtra("TITLE", title));
         }
+    }*/
+
+    public void redirectToBuy(String Service_Log_Unique_Id) {
+        if (Utility.checkShareStatus(this) == 1) {
+            if (getIntent().hasExtra("RESPONSE_CAR")) {
+                startActivity(new Intent(this, CommonWebViewActivity.class)
+                        .putExtra("URL", Utility.getMotorUrl(this, Service_Log_Unique_Id))
+                        .putExtra("NAME", "CAR INSURANCE")
+                        .putExtra("TITLE", "CAR INSURANCE"));
+            }
+            if (getIntent().hasExtra("RESPONSE_BIKE")) {
+                startActivity(new Intent(this, CommonWebViewActivity.class)
+                        .putExtra("URL", Utility.getTwoWheelerUrl(this, Service_Log_Unique_Id))
+                        .putExtra("NAME", "TWO WHEELER")
+                        .putExtra("TITLE", "TWO WHEELER"));
+            }
+
+        } else {
+            openPopUp(btnBuy, "Message", "Your POSP status is INACTIVE", "OK", true);
+        }
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -372,6 +436,16 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         return "\u20B9 " + Math.round(Double.parseDouble(strText));
     }
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
+    }
+
     class AsyncShareJson extends AsyncTask<Void, Void, String> {
 
         @Override
@@ -385,20 +459,17 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         protected void onPostExecute(String s) {
             responseJson = s;
         }
+
     }
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
-        if (view.getId() == R.id.ivShare) {
-            dialog.cancel();
-        }
+        dialog.cancel();
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-        if (view.getId() == R.id.ivShare) {
-            dialog.cancel();
-        }
+        dialog.cancel();
     }
 
     @Override
@@ -408,6 +479,464 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     }
 
 
+    public void updateAddonToserver(List<MobileAddOn> addOnList) {
+        SaveAddOnRequestEntity entity = new SaveAddOnRequestEntity();
+        for (int i = 0; i < addOnList.size(); i++) {
+            MobileAddOn mobileAddOn = addOnList.get(i);
+
+            if (mobileAddOn.getAddonKey().matches("addon_zero_dep_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_zero_dep_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_road_assist_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_road_assist_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_ncb_protection_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_ncb_protection_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_engine_protector_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_engine_protector_cover("yes");
+            }
+
+            if (mobileAddOn.getAddonKey().matches("addon_invoice_price_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_invoice_price_cover("yes");
+            }
+
+            if (mobileAddOn.getAddonKey().matches("addon_key_lock_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_key_lock_cover("yes");
+            }
+
+            if (mobileAddOn.getAddonKey().matches("addon_consumable_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_consumable_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_daily_allowance_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_daily_allowance_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_windshield_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_windshield_cover("yes");
+            }
+
+            if (mobileAddOn.getAddonKey().matches("addon_passenger_assistance_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_passenger_assistance_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_tyre_coverage_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_tyre_coverage_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_personal_belonging_loss_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_personal_belonging_loss_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_inconvenience_allowance_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_inconvenience_allowance_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_medical_expense_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_medical_expense_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_hospital_cash_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_hospital_cash_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_ambulance_charge_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_ambulance_charge_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_rodent_bite_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_rodent_bite_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_losstime_protection_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_losstime_protection_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_hydrostatic_lock_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_hydrostatic_lock_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_guaranteed_auto_protection_cover") && mobileAddOn.isSelected) {
+                entity.setAddon_guaranteed_auto_protection_cover("yes");
+            }
+            if (mobileAddOn.getAddonKey().matches("addon_final_premium") && mobileAddOn.isSelected) {
+                entity.setAddon_final_premium("yes");
+            }
+            /*if (mobileAddOn.getAddonKey().matches("search_reference_number") && mobileAddOn.isSelected) {
+                entity.setSearch_reference_number("yes");
+            }*/
+        }
+        if (getIntent().hasExtra("RESPONSE_CAR"))
+            entity.setSearch_reference_number(Constants.getSharedPreference(this).getString(Utility.CARQUOTE_UNIQUEID, ""));
+        if (getIntent().hasExtra("RESPONSE_BIKE"))
+            entity.setSearch_reference_number(Constants.getSharedPreference(this).getString(Utility.BIKEQUOTE_UNIQUEID, ""));
+
+        new MotorController(this).saveAddOn(entity, this);
+    }
+
+    public double applyPositiveAddons(List<MobileAddOn> addOnList) {
+
+        ResponseEntity entity = responseEntity;
+
+        double addonValue = 0;
+        entity.setAddonApplied(false);
+        entity.setListAppliedAddons(null);
+
+        if (entity.getAddon_List() != null) {
+            List<AppliedAddonsPremiumBreakup> listAppliedAddonPremium =
+                    new ArrayList<AppliedAddonsPremiumBreakup>();// list of applied addon
+
+            //region list of available addons
+            for (int i = 0; i < addOnList.size(); i++) {
+
+                MobileAddOn mobileAddOn = addOnList.get(i);
+                // check if addon is selected
+                if (!mobileAddOn.isSelected()) {
+                    continue;
+                }
+
+                //region addon_zero_dep_cover
+                if (mobileAddOn.getAddonKey().matches("addon_zero_dep_cover")) {
+
+                    if (entity.getAddon_List().getAddon_zero_dep_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_zero_dep_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_zero_dep_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_zero_dep_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_road_assist_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_road_assist_cover")) {
+
+                    if (entity.getAddon_List().getAddon_road_assist_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_road_assist_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_road_assist_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_road_assist_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_ncb_protection_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_ncb_protection_cover")) {
+
+                    if (entity.getAddon_List().getAddon_ncb_protection_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_ncb_protection_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_ncb_protection_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_ncb_protection_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_engine_protector_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_engine_protector_cover")) {
+
+                    if (entity.getAddon_List().getAddon_engine_protector_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_engine_protector_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_engine_protector_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_engine_protector_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_invoice_price_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_invoice_price_cover")) {
+
+                    if (entity.getAddon_List().getAddon_invoice_price_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_invoice_price_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_invoice_price_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_invoice_price_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_key_lock_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_key_lock_cover")) {
+
+                    if (entity.getAddon_List().getAddon_key_lock_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_key_lock_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_key_lock_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_key_lock_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_consumable_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_consumable_cover")) {
+
+                    if (entity.getAddon_List().getAddon_consumable_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_consumable_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_consumable_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_consumable_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_daily_allowance_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_daily_allowance_cover")) {
+
+                    if (entity.getAddon_List().getAddon_daily_allowance_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_daily_allowance_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_daily_allowance_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_daily_allowance_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_windshield_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_windshield_cover")) {
+
+                    if (entity.getAddon_List().getAddon_windshield_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_windshield_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_windshield_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_windshield_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_passenger_assistance_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_passenger_assistance_cover")) {
+
+                    if (entity.getAddon_List().getAddon_passenger_assistance_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_passenger_assistance_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_passenger_assistance_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_passenger_assistance_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_tyre_coverage_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_tyre_coverage_cover")) {
+
+                    if (entity.getAddon_List().getAddon_tyre_coverage_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_tyre_coverage_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_tyre_coverage_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_tyre_coverage_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_personal_belonging_loss_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_personal_belonging_loss_cover")) {
+
+                    if (entity.getAddon_List().getAddon_personal_belonging_loss_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_personal_belonging_loss_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_personal_belonging_loss_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_personal_belonging_loss_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_inconvenience_allowance_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_inconvenience_allowance_cover")) {
+
+                    if (entity.getAddon_List().getAddon_inconvenience_allowance_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_inconvenience_allowance_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_inconvenience_allowance_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_inconvenience_allowance_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_medical_expense_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_medical_expense_cover")) {
+
+                    if (entity.getAddon_List().getAddon_medical_expense_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_medical_expense_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_medical_expense_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_medical_expense_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_hospital_cash_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_hospital_cash_cover")) {
+
+                    if (entity.getAddon_List().getAddon_hospital_cash_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_hospital_cash_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_hospital_cash_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_hospital_cash_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_ambulance_charge_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_ambulance_charge_cover")) {
+
+                    if (entity.getAddon_List().getAddon_ambulance_charge_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_ambulance_charge_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_ambulance_charge_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_ambulance_charge_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_rodent_bite_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_rodent_bite_cover")) {
+
+                    if (entity.getAddon_List().getAddon_rodent_bite_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_rodent_bite_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_rodent_bite_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_rodent_bite_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_losstime_protection_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_losstime_protection_cover")) {
+
+                    if (entity.getAddon_List().getAddon_losstime_protection_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_losstime_protection_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_losstime_protection_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_losstime_protection_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_hydrostatic_lock_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_hydrostatic_lock_cover")) {
+
+                    if (entity.getAddon_List().getAddon_hydrostatic_lock_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_hydrostatic_lock_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_hydrostatic_lock_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_hydrostatic_lock_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_guaranteed_auto_protection_cover
+
+                if (mobileAddOn.getAddonKey().matches("addon_guaranteed_auto_protection_cover")) {
+
+                    if (entity.getAddon_List().getAddon_guaranteed_auto_protection_cover() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_guaranteed_auto_protection_cover"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_guaranteed_auto_protection_cover());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_guaranteed_auto_protection_cover();
+                    }
+
+                }
+                //endregion
+
+                //region addon_final_premium
+
+                if (mobileAddOn.getAddonKey().matches("addon_final_premium")) {
+
+                    if (entity.getAddon_List().getAddon_final_premium() != 0) {
+                        entity.setAddonApplied(true);
+                        AppliedAddonsPremiumBreakup appliedAddonsPremiumBreakup = new AppliedAddonsPremiumBreakup();
+                        appliedAddonsPremiumBreakup.setAddonName(dbPersistanceController.getAddonName("addon_final_premium"));
+                        appliedAddonsPremiumBreakup.setPriceAddon(entity.getAddon_List().getAddon_final_premium());
+                        listAppliedAddonPremium.add(appliedAddonsPremiumBreakup);
+                        addonValue = addonValue + entity.getAddon_List().getAddon_final_premium();
+                    }
+
+                }
+                //endregion
+
+            }
+            //endregion
+
+            //region update response entity
+            double finalPremWithoutGST = addonValue + Double.parseDouble(entity.getPremium_Breakup().getNet_premium());
+            entity.setFinal_premium_without_addon("" + finalPremWithoutGST);
+            entity.setTotalGST("" + finalPremWithoutGST * Constants.GST);
+            entity.setTotalAddonAplied("" + addonValue);
+            double finalPremWithGST = finalPremWithoutGST + (finalPremWithoutGST * Constants.GST);
+            entity.setFinal_premium_with_addon("" + finalPremWithGST);
+            entity.setListAppliedAddons(listAppliedAddonPremium);
+            //endregion
+        }
+
+        addOnTotal = addonValue;
+        bindData();
+        return addonValue;
+    }
 }
 
 

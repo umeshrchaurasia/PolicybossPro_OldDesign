@@ -54,7 +54,7 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
 
             holder.txtTicketId.setText("" + entity.getTicketRequestId());
             holder.txtTicketStatus.setText("" + entity.getStatus());
-            holder.txtTicketCategory.setText(entity.getDescription());
+            holder.txtTicketCategory.setText(entity.getCateName());
             holder.txtTicketDesc.setText("" + entity.getMessage());
 
 

@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.health.fragment;
 
 import android.app.Dialog;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -232,14 +231,20 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
     public void redirectToBuy(HealthQuoteEntity entity) {
-        buyHealthQuoteEntity = new HealthQuoteEntity();
-        buyHealthQuoteEntity = entity;
-        HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
-        compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
-        compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
+        if (Utility.checkShareStatus(getActivity()) == 1) {
+            buyHealthQuoteEntity = new HealthQuoteEntity();
+            buyHealthQuoteEntity = entity;
+            HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
+            compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
+            compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
 
-        showDialog();
-        new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
+            showDialog();
+            new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
+        }else {
+            openPopUp(ivHealthShare, "Message", "Your POSP status is INACTIVE", "OK", true);
+
+        }
+
 
     }
 

@@ -20,7 +20,6 @@ import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 import com.google.gson.Gson;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 
 public class HealthQuoteDetailsDialogActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener {
@@ -95,7 +94,6 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
     }
 
 
-
     @Override
     public void onClick(View view) {
 
@@ -112,10 +110,14 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
                 openPopUp(imgShare, "Message", "Your POSP status is INACTIVE", "OK", true);
             }
         } else if (view.getId() == R.id.txtBuy) {
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("BUY", healthQuoteEntity);
-            setResult(HealthQuoteFragment.RESULT_COMPARE, resultIntent);
-            finish();
+            if (Utility.checkShareStatus(this) == 1) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("BUY", healthQuoteEntity);
+                setResult(HealthQuoteFragment.RESULT_COMPARE, resultIntent);
+                finish();
+            } else {
+                openPopUp(imgShare, "Message", "Your POSP status is INACTIVE", "OK", true);
+            }
         } else if (view.getId() == R.id.btnBack) {
             finish();
         }

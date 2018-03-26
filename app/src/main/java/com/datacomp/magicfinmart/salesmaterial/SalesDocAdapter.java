@@ -19,7 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
  * Created by IN-RB on 23-02-2018.
  */
 
-public class SalesDocAdapter extends RecyclerView.Adapter<SalesDocAdapter.SalesDocItem>{
+public class SalesDocAdapter extends RecyclerView.Adapter<SalesDocAdapter.SalesDocItem> {
 
     Context mContex;
     List<DocsEntity> docLst;
@@ -30,7 +30,7 @@ public class SalesDocAdapter extends RecyclerView.Adapter<SalesDocAdapter.SalesD
     }
 
 
-    public class SalesDocItem extends RecyclerView.ViewHolder{
+    public class SalesDocItem extends RecyclerView.ViewHolder {
 
         CustomImageView ivProduct;
         LinearLayout lyParent;
@@ -55,17 +55,18 @@ public class SalesDocAdapter extends RecyclerView.Adapter<SalesDocAdapter.SalesD
     @Override
     public void onBindViewHolder(SalesDocAdapter.SalesDocItem holder, int position) {
 
-      final   DocsEntity docsEntity = docLst.get(position);
+        final DocsEntity docsEntity = docLst.get(position);
 
         Glide.with(mContex)
                 .load(docsEntity.getImage_path())
+                .skipMemoryCache(true)
                 .placeholder(R.drawable.finmart_placeholder) // can also be a drawable
                 .into(holder.ivProduct);
 
         holder.lyParent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ((SalesDetailActivity)mContex).redirectToApplyMain(docsEntity);
+                ((SalesDetailActivity) mContex).redirectToApplyMain(docsEntity);
             }
         });
 

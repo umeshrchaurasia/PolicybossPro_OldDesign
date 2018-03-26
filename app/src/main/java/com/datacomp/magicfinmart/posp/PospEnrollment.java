@@ -957,7 +957,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     // payment done
                     if (checkAllImageUpload()) {
                         llMain.setVisibility(View.GONE);
-                        openPopUp(llDocumentUpload, "SUCCESS", "POSP Already exist!!", "OK", true);
+                        openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", true);
                         //showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", false);
                     } else {
                         openPopUp(llDocumentUpload, "SUCCESS", "Upload Remaining Document !", "OK", true);
@@ -1262,7 +1262,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                                 } else {
                                     // payment done & documents uploaded
                                     llMain.setVisibility(View.GONE);
-                                    openPopUp(llDocumentUpload, "SUCCESS", "POSP Already exist!!", "OK", true);
+                                    openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", true);
                                     //showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", true);
 
                                 }
@@ -1466,6 +1466,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             case R.id.llDocumentUpload:
                 dialog.cancel();
                 break;
+            case R.id.btnSave:
+                finish();
+                break;
         }
     }
 
@@ -1482,6 +1485,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.llDocumentUpload:
                 dialog.cancel();
+                break;
+            case R.id.btnSave:
+                finish();
                 break;
         }
     }

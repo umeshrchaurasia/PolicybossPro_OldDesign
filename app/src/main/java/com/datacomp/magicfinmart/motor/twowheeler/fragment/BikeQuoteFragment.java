@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -915,7 +916,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 if (webViewLoader.getVisibility() != View.VISIBLE) {
                     startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
                             .putExtra("SUMMARY", bikePremiumResponse.getSummary())
-                            .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
+                            .putExtra("BIKE_REQUEST", motorRequestEntity), 1000);
                 } else {
                     Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
                 }
@@ -942,6 +943,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
                 .putExtra("RESPONSE_BIKE", entity)
+                .putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn)
                 .putExtra("SUMMARY", summaryEntity));
 
     }
