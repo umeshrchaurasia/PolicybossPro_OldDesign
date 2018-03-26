@@ -108,7 +108,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     private void setListeners() {
         btnBuy.setOnClickListener(this);
         btnBackToQuote.setOnClickListener(this);
-        ivCross.setOnClickListener(this);
+       // ivCross.setOnClickListener(this);
         ivShare.setOnClickListener(this);
     }
 
