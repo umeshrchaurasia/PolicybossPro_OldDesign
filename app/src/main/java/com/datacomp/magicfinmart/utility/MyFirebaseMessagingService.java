@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -117,8 +118,15 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         createChannels();
 
-        NotificationCompat.BigPictureStyle style = new NotificationCompat.BigPictureStyle()
+        NotificationCompat.BigPictureStyle BigPicstyle = new NotificationCompat.BigPictureStyle()
                 .bigPicture(bitmap_image)
+                .setBigContentTitle(NotifyData.get("title"))
+                .setSummaryText(NotifyData.get("body"))
+                .bigLargeIcon(null);
+
+        NotificationCompat.BigTextStyle BigTextstyle = new NotificationCompat.BigTextStyle()
+                .bigText(NotifyData.get("body"))
+                .setBigContentTitle(NotifyData.get("title"))
                 .setSummaryText(NotifyData.get("body"));
 
         NotificationCompat.Builder notificationBuilder = null;
@@ -126,24 +134,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
+        if(bitmap_image != null) {
+            notificationBuilder.setStyle(BigPicstyle);
+        }else{
+            notificationBuilder.setStyle(BigTextstyle);
+        }
+
         notificationBuilder
                 .setSmallIcon(R.drawable.finmart_logo)
+                .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
                 .setContentTitle(NotifyData.get("title"))
                 .setContentText(NotifyData.get("body"))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setTicker("Finmart")
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setLargeIcon(bitmap_image)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setWhen(System.currentTimeMillis())
                 .setVisibility(NOTIFICATION_ID)
                 .setChannelId(CHANNEL_ID)
-              //  .setStyle(style)
-                .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(bitmap_image)
-                        //When Notification expanded title and content text
-                        .setBigContentTitle(NotifyData.get("title"))
-                        .setSummaryText(NotifyData.get("body"))
-                         )
                 .setContentIntent(pendingIntent);
 
 
@@ -153,6 +163,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
         //   .setStyle(new NotificationCompat.BigTextStyle().bigText(NotifyData.get("body")))
+    //      builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.finmart_logo));
 
 
     private void setNotifyCounter() {
