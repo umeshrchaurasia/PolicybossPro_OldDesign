@@ -175,6 +175,12 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             isAppliction = true;
 
             TypePage = getIntent().getExtras().getString("TypePage", "");
+			if (TypePage.equals("HL")) {
+                getSupportActionBar().setTitle("HOME LOAN");
+            } else {
+                getSupportActionBar().setTitle("LOAN AGAINST PROPERTY");
+
+            }
 
             if (!AppID.equals("")) {
                 showDialog("Please Wait...");

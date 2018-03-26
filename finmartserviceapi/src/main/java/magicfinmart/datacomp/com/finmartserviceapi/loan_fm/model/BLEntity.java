@@ -27,6 +27,8 @@ public class BLEntity implements Parcelable {
     private double processingfee;
     private String roi_type;
 
+    private double drop_emi;
+
     public int getBank_Id() {
         return Bank_Id;
     }
@@ -99,6 +101,14 @@ public class BLEntity implements Parcelable {
         this.roi_type = roi_type;
     }
 
+    public double getdrop_emi() {
+        return drop_emi;
+    }
+
+    public void setdrop_emi(double drop_emi) {
+        this.processingfee = drop_emi;
+    }
+
 
     @Override
     public int describeContents() {
@@ -116,6 +126,7 @@ public class BLEntity implements Parcelable {
         dest.writeString(this.Bank_Logo);
         dest.writeDouble(this.processingfee);
         dest.writeString(this.roi_type);
+        dest.writeDouble(this.drop_emi);
     }
 
     public BLEntity() {
@@ -131,6 +142,7 @@ public class BLEntity implements Parcelable {
         this.Bank_Logo = in.readString();
         this.processingfee = in.readDouble();
         this.roi_type = in.readString();
+        this.drop_emi = in.readDouble();
     }
 
     public static final Parcelable.Creator<BLEntity> CREATOR = new Parcelable.Creator<BLEntity>() {

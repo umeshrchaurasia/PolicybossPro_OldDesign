@@ -122,7 +122,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         if (getQuoteResponse != null) {
             txtInputSummary.setVisibility(View.VISIBLE);
             cvInputSummary.setVisibility(View.VISIBLE);
-
+            ivShare.setVisibility(View.VISIBLE);
             mAdapter = new LAPQuoteAdapter(this, getQuoteResponse.getData(), getQuoteResponse);
             rvQuotes.setAdapter(mAdapter);
 

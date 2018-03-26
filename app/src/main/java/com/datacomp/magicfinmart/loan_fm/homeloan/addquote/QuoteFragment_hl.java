@@ -123,6 +123,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         if (getQuoteResponse != null) {
             txtInputSummary.setVisibility(View.VISIBLE);
             cvInputSummary.setVisibility(View.VISIBLE);
+            ivShare.setVisibility(View.VISIBLE);
 
             mAdapter = new HLQuoteAdapter(this, getQuoteResponse.getData(), getQuoteResponse);
             rvQuotes.setAdapter(mAdapter);
