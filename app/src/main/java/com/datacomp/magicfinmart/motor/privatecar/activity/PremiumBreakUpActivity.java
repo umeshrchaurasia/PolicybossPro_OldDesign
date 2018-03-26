@@ -153,7 +153,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         txtIDV = (TextView) findViewById(R.id.txtIDV);
         txtFinalPremium = (TextView) findViewById(R.id.txtFinalPremium);
 
-        //ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
+        //ivCross.setImageResource(dbPersistanceController.getInsImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
         Glide.with(this)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
                 .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name())

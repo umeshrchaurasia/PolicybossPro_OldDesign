@@ -21,7 +21,6 @@ import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragm
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
@@ -89,7 +88,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
                 holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
             }
             try {
-                Glide.with(fragment).load(entity.getInsurerImage())
+                Glide.with(fragment).load(entity.getInsImage())
                         .into(holder.imgInsurerLogo);
             } catch (Exception e) {
                 e.printStackTrace();
