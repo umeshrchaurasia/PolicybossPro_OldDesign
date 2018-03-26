@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
@@ -893,6 +894,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             Glide.with(MyAccountActivity.this)
                     .load(FileNmae)
                     .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
                     .into(target);
         }
 

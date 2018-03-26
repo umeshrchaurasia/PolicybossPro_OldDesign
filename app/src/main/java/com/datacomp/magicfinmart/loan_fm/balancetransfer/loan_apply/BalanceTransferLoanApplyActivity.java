@@ -2555,10 +2555,8 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         @Override
         public void afterTextChanged(Editable s) {
 
-            if ((s.length() > 1)) {
-                settotal();
+            settotal();
 
-            }
         }
     };
 

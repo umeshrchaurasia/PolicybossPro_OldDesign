@@ -2544,10 +2544,8 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         @Override
         public void afterTextChanged(Editable s) {
 
-            if ((s.length() > 1)) {
-                settotal();
+            settotal();
 
-            }
         }
     };
 

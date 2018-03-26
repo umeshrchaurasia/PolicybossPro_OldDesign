@@ -2551,10 +2551,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         @Override
         public void afterTextChanged(Editable s) {
 
-            if ((s.length() > 1)) {
-                settotal();
+            settotal();
 
-            }
         }
     };
 

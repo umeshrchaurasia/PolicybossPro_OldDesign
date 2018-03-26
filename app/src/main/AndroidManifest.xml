@@ -726,6 +726,7 @@
         <activity
             android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
             android:label="@string/title_activity_balance_transfer_personal_apply"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:theme="@style/AppTheme"></activity>
     </application>
 

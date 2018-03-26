@@ -2551,11 +2551,8 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
         @Override
         public void afterTextChanged(Editable s) {
+            settotal();
 
-            if ((s.length() > 1)) {
-                settotal();
-
-            }
         }
     };
 
