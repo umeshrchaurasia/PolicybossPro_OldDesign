@@ -16,13 +16,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeApplicationTabFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
@@ -91,7 +89,7 @@ public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicat
                 holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
             }
             try {
-                Glide.with(fragment).load(entity.getInsurerImage())
+                Glide.with(fragment).load(entity.getInsImage())
                         .into(holder.imgInsurerLogo);
             } catch (Exception e) {
                 e.printStackTrace();
