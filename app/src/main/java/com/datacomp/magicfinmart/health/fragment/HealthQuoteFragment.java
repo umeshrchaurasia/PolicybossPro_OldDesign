@@ -178,7 +178,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             imageview.setPadding(2, 0, 2, 0);
 
-            if (listmember.get(i).getAge() > 18)
+            if (listmember.get(i).getAge() >= 18)
                 imageview.setImageResource(R.mipmap.adult);
             else
                 imageview.setImageResource(R.mipmap.child);
