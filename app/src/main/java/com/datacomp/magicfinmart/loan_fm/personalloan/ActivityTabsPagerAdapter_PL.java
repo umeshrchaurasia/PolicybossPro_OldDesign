@@ -24,10 +24,17 @@ public class ActivityTabsPagerAdapter_PL extends FragmentStatePagerAdapter {
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     PersonalMainEntity mMasterData;
 
+    private String[] tabTitles = new String[]{"QUOTES", "APPLICATION"};
 
     public ActivityTabsPagerAdapter_PL(FragmentManager fm,PersonalMainEntity masterData) {
         super(fm);
         mMasterData = masterData;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        //return super.getPageTitle(position);
+        return tabTitles[position];
     }
 
     @Override

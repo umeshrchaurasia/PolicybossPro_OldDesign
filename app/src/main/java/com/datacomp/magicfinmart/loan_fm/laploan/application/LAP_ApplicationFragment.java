@@ -52,7 +52,7 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_LAP.APPLICATION_LIST);
         }
 
-        rvApplicationList.setAdapter(null);
+       // rvApplicationList.setAdapter(null);
         lapLoanApplicationAdapter = new LapLoanApplicationAdapter(LAP_ApplicationFragment.this,mApplicationList);
         rvApplicationList.setAdapter(lapLoanApplicationAdapter);
 
