@@ -9,4 +9,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRe
 
 public interface ILogin {
     void login(LoginRequestEntity loginRequestEntity, IResponseSubcriber iResponseSubcriber);
+
+    void forgotPassword(String emailID,IResponseSubcriber iResponseSubcriber );
 }
