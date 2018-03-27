@@ -14,12 +14,16 @@ import android.widget.RadioGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.Constants;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
@@ -182,6 +186,7 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
 
         if (v.getId() == R.id.btnGetQuote) {
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote BL : Get quote button for BL"), Constants.BALANCE_TRANSFER), null);
             //region Validation
             //region Property Validation
             String Outstanding = etOutstanding.getText().toString();

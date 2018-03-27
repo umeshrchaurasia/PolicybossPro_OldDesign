@@ -8,7 +8,10 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.FastLaneRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,5 +64,6 @@ public class FastLaneController implements IFastLane {
                 }
             }
         });
+        new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fastlane : Go button on fastlane "), "Motor Insurance"), null);
     }
 }

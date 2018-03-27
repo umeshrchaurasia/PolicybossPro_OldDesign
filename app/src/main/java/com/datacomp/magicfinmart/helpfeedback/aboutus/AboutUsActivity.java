@@ -42,14 +42,21 @@ public class AboutUsActivity extends BaseActivity implements IResponseSubcriber 
             tvPospNo.setText("" + loginResponseEntity.getPOSPNo());
         }
         tvLoginId.setText("" + loginResponseEntity.getUserName());
-        if (loginResponseEntity.getPOSPStatus() != null && !loginResponseEntity.getPOSPStatus().equals("") && loginResponseEntity.getPOSPStatus().equals("6")) {
-
+        if (Utility.checkShareStatus(this) == 1) {
             tvPospStatus.setText("ACTIVE");
             tvPospStatus.setTextColor(getResources().getColor(R.color.green_descent));
         } else {
             tvPospStatus.setText("INACTIVE");
             tvPospStatus.setTextColor(getResources().getColor(R.color.holo_red_dark));
         }
+        /*if (loginResponseEntity.getPOSPStatus() != null && !loginResponseEntity.getPOSPStatus().equals("") && loginResponseEntity.getPOSPStatus().equals("6")) {
+
+            tvPospStatus.setText("ACTIVE");
+            tvPospStatus.setTextColor(getResources().getColor(R.color.green_descent));
+        } else {
+            tvPospStatus.setText("INACTIVE");
+            tvPospStatus.setTextColor(getResources().getColor(R.color.holo_red_dark));
+        }*/
     }
 
     private void init_widgets() {

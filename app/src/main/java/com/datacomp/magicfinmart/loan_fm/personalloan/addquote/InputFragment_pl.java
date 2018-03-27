@@ -31,8 +31,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
@@ -256,6 +259,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             setApp_FeMale_gender();
         }
         else if (v.getId() == R.id.btnGetQuote) {
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote PL : Get quote button for PL"), Constants.PERSONA_LOAN), null);
             //region Validation
             String NameOfApplicant = etNameOfApplicant.getText().toString();
             String DOB = et_DOB.getText().toString();

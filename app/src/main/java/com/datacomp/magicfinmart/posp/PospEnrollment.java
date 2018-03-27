@@ -54,12 +54,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocAvailableEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IfscEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospDetailsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PospEnrollEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
@@ -935,6 +938,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setCurrentAcc();
                 break;
             case R.id.btnSave:
+                new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : submit button for posp enrollment"), Constants.POSP), null);
                 if (pospDetailsEntity.getPaymStat() == null || pospDetailsEntity.getPaymStat().isEmpty()) {
                     if (loginResponseEntity.getPaymentUrl() != null) {
                         openWebView(loginResponseEntity.getPaymentUrl());
@@ -957,7 +961,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     // payment done
                     if (checkAllImageUpload()) {
                         llMain.setVisibility(View.GONE);
-                        openPopUp(llDocumentUpload, "SUCCESS", "POSP Already exist!!", "OK", true);
+                        openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", true);
                         //showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", false);
                     } else {
                         openPopUp(llDocumentUpload, "SUCCESS", "Upload Remaining Document !", "OK", true);
@@ -1262,7 +1266,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                                 } else {
                                     // payment done & documents uploaded
                                     llMain.setVisibility(View.GONE);
-                                    openPopUp(llDocumentUpload, "SUCCESS", "POSP Already exist!!", "OK", true);
+                                    openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", true);
                                     //showPopUpNew("SUCCESS ", "POSP Already exist!!", "OK", true);
 
                                 }
@@ -1335,6 +1339,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : " + t.getMessage()), Constants.POSP), null);
     }
 
 
@@ -1466,6 +1471,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             case R.id.llDocumentUpload:
                 dialog.cancel();
                 break;
+            case R.id.btnSave:
+                finish();
+                break;
         }
     }
 
@@ -1482,6 +1490,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.llDocumentUpload:
                 dialog.cancel();
+                break;
+            case R.id.btnSave:
+                finish();
                 break;
         }
     }

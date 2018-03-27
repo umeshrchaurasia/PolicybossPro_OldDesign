@@ -41,9 +41,12 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
@@ -712,7 +715,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 sbNoClaimBonus.setProgress(0);
                 break;
             case R.id.btnGetQuote:
-
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("TW Get quote : get quote button for TW "), Constants.TWO_WHEELER), null);
                 //region validations
                 if (makeModel == null || makeModel.equals("")) {
                     acMakeModel.requestFocus();
@@ -1370,6 +1373,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 etExpDate.setEnabled(true);
                 spPrevIns.setEnabled(true);
                 cvNcb.setVisibility(View.VISIBLE);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.TWO_WHEELER), null);
             } else {
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -1377,6 +1381,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 spPrevIns.setEnabled(false);
                 cvNcb.setVisibility(View.GONE);
                 tvDontKnow.performClick();
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.TWO_WHEELER), null);
             }
         } else if (R.id.swIndividual == compoundButton.getId()) {
             if (!b) {

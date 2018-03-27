@@ -17,6 +17,25 @@ public class TrackingRequestEntity {
     private TrackingData Data;
     private String Type;
 
+    public TrackingRequestEntity() {
+
+    }
+
+    public TrackingRequestEntity(String FBAID) {
+        this.FBAID = FBAID;
+    }
+
+    public TrackingRequestEntity(TrackingData data, String type) {
+        Data = data;
+        Type = type;
+    }
+
+    public TrackingRequestEntity(String FBAID, TrackingData data, String type) {
+        this.FBAID = FBAID;
+        Data = data;
+        Type = type;
+    }
+
     public String getFBAID() {
         return FBAID;
     }

@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.health.fragment;
 
 import android.app.Dialog;
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -43,10 +42,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 
@@ -230,15 +232,21 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
     public void redirectToBuy(HealthQuoteEntity entity) {
-        buyHealthQuoteEntity = new HealthQuoteEntity();
-        buyHealthQuoteEntity = entity;
-        HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
-        compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
-        compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
+        if (Utility.checkShareStatus(getActivity()) == 1) {
+            buyHealthQuoteEntity = new HealthQuoteEntity();
+            buyHealthQuoteEntity = entity;
+            HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
+            compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
+            compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
 
-        showDialog();
-        new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
+            showDialog();
+            new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
+        }else {
+            openPopUp(ivHealthShare, "Message", "Your POSP status is INACTIVE", "OK", true);
 
+        }
+
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy health : buy button for health"), Constants.HEALTH_INS), null);
     }
 
     public void fetchQuotes() {
