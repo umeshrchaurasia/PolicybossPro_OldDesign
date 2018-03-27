@@ -112,7 +112,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             txtEmpNatureSalaried, txtEmpNatureSelfEmp;
 
     TextInputLayout textInpLayCurrJob, textInpLayTotalExp,
-            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax,textInpLaySpouseName;
+            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax, textInpLaySpouseName;
     //endregion
 
     // region Variable Declaration
@@ -544,12 +544,11 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
         textView1.setBackgroundResource(R.drawable.customeborder);
         textView1.setTextColor(ContextCompat.getColor(BalanceTransferPersonalApplyActivity.this, R.color.description_text));
-		if(MaritalStatus.equals("MARRIED"))
-        {
+        if (MaritalStatus.equals("MARRIED")) {
             textInpLaySpouseName.setHint("*Spouse Name");
             etSpouceName.setEnabled(true);
 
-        }else{
+        } else {
             textInpLaySpouseName.setHint("Spouse Name");
             etSpouceName.setText("");
             etSpouceName.setError(null);
@@ -561,8 +560,8 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
     }
 
-	 private void settotal() {
-        long  netIncome = 0, othIncome = 0;
+    private void settotal() {
+        long netIncome = 0, othIncome = 0;
 
 
         if (!etNetIncome.getText().toString().trim().equals("")) {
@@ -573,12 +572,11 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             othIncome = Long.valueOf(etOtherIncome.getText().toString());
         }
 
-        double total =  netIncome + othIncome;
-        if (total > 0) {
-            //   etTotalIncome = Math.round((total));
-            etTotalIncome.setText("" + total);
-        }
+        double total = netIncome + othIncome;
+        etTotalIncome.setText("" + total);
+
     }
+
     private void getResAddrToPermAddress() {
         etAddress1ContInfoPA.setText(etAddress1ContInfoRAP.getText().toString());
         etAddress2ContInfoPA.setText(etAddress2ContInfoRAP.getText().toString());
@@ -610,7 +608,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
     }
 
     private void saveData(int SubmitType) {
-        if(isAppliction) {
+        if (isAppliction) {
             //region PL_INFO
             erpLoanRequest.setTitle(spTitle.getSelectedItem().toString());
 
@@ -710,8 +708,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
             if (!etNetIncome.getText().toString().equals("")) {
                 erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
-            }else
-            {
+            } else {
                 erpLoanRequest.setNet_Income("0");
 
             }
@@ -730,14 +727,14 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             if (!personalLoanApplyAppliEntity.getLoan_Amount().equals("")) {
                 erpLoanRequest.setLoan_Amount(personalLoanApplyAppliEntity.getLoan_Amount());
 
-            }else {
+            } else {
                 erpLoanRequest.setLoan_Amount("0");
             }
 
             if (!personalLoanApplyAppliEntity.getLoan_Terms().equals("")) {
                 erpLoanRequest.setLoan_Terms(personalLoanApplyAppliEntity.getLoan_Terms());
 
-            }else {
+            } else {
                 erpLoanRequest.setLoan_Terms("0");
             }
 
@@ -763,8 +760,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 showDialog("Please wait...");
             }
             new ErpLoanController(this).saveERPPersonalLoan(erpLoanRequest, BalanceTransferPersonalApplyActivity.this);
-        }
-        else {
+        } else {
 
             //region PL_INFO
             erpLoanRequest.setTitle(spTitle.getSelectedItem().toString());
@@ -887,8 +883,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                 erpLoanRequest.setLoan_Amount(buyLoanQuerystring.getProp_Loan_Eligible());
 
-            }else
-            {
+            } else {
                 erpLoanRequest.setLoan_Amount("0");
             }
 
@@ -896,8 +891,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                 erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
 
-            }else
-            {
+            } else {
                 erpLoanRequest.setLoan_Terms("0");
             }
 
@@ -1102,7 +1096,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
         // region Address PA
         //   spResidence
-        spResidence.setSelection(getResidencePos(personalLoanApplyAppliEntity.getResidence_Type()) );
+        spResidence.setSelection(getResidencePos(personalLoanApplyAppliEntity.getResidence_Type()));
 
         etAddress1ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address1());
         etAddress2ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address2());
@@ -1354,8 +1348,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
     private String getDDMMYYYPattern(String dateCal, String datePattern) {
 
         String dateSelected = "";
-        if(dateCal.equals(""))
-        {
+        if (dateCal.equals("")) {
             return "";
         }
         long select_milliseconds = 0;
@@ -1378,8 +1371,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
     private String getMMDDYYYPattern(String dateCal) {
 
         String dateSelected = "";
-        if(dateCal.equals(""))
-        {
+        if (dateCal.equals("")) {
             return "";
         }
         long select_milliseconds = 0;
@@ -1556,19 +1548,19 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
         if (MaritalStatus.equals("MARRIED")) {
 
-        if (!isEmpty(etSpouceName)) {
+            if (!isEmpty(etSpouceName)) {
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                etSpouceName.requestFocus();
-                etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSpouceName.setError("Enter Spouce Name");
-                return false;
-            } else {
-                etSpouceName.requestFocus();
-                etSpouceName.setError("Enter Spouce Name");
-                return false;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    etSpouceName.setError("Enter Spouce Name");
+                    return false;
+                } else {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setError("Enter Spouce Name");
+                    return false;
+                }
             }
-        }
         }
 
         if (!isEmpty(etPan)) {
@@ -2031,10 +2023,10 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
 
         if (MaritalStatus.equals("MARRIED")) {
-        if (!isEmpty(etSpouceName)) {
+            if (!isEmpty(etSpouceName)) {
 
-            return false;
-        }
+                return false;
+            }
         }
         if (!isEmpty(etPan)) {
             return false;
@@ -2103,7 +2095,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                 return false;
             }
-        }else{
+        } else {
             if (!isEmpty(etTurnOver)) {
 
                 return false;
@@ -2122,7 +2114,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         if (!isEmpty(etNameOfOrg)) {
 
             return false;
-        }   else if (!isEmpty(etAddress1ED)) {
+        } else if (!isEmpty(etAddress1ED)) {
             return false;
 
         } else if (!isEmpty(etPincodeED)) {
@@ -2247,9 +2239,9 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             case R.id.txtOTH:
                 managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
                 break;
-                //endregion
+            //endregion
 
-                // region PL INFO IDType
+            // region PL INFO IDType
             case R.id.txtPORT:
                 managePL_IDTYPE("P-PORT", txtPORT, txtVOTER, txtDRV);
                 break;
@@ -2412,7 +2404,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                 if (personalLoanApplyAppliEntity != null) {
                     setApplictionData();
-						  manageTaskBar();
+                    manageTaskBar();
                 }
 
             }
@@ -2585,7 +2577,6 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
     }
-
 
 
     //endregion

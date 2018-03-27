@@ -196,6 +196,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
+
                // prefManager.setIsUserLogin(true);
                 if(!prefManager.getSharePushType().equals("")) {
 
@@ -206,6 +207,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }else{
                     startActivity(new Intent(this, HomeActivity.class));
                 }
+
+                finish();
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
