@@ -59,7 +59,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteE
 public class HealthQuoteFragment extends BaseFragment implements IResponseSubcriber, View.OnClickListener, BaseFragment.PopUpListener {
 
     public static final int RESULT_COMPARE = 1000;
-
     private static final String FLOATER = "FLOATER STANDARD";
     private static final String INDIVIDUAL = "INDIVIDUAL STANDARD";
     public static final String HEALTH_COMPARE = "health_compare";
@@ -226,7 +225,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                     if (data.getParcelableExtra("BUY") != null) {
                         redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
                     }
-
                 }
                 break;
             }
@@ -330,12 +328,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
-
-        //String imgURL = "http://www.policyboss.com/Images/insurer_logo/";
         Glide.with(this).load(buyHealthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);
-        //imgInsurerLogo.setImageResource(new DBPersistanceController(getActivity())
-        //        .getInsImage(buyHealthQuoteEntity.getInsurerId()));
         txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());
         txtEstPremium.setText("\u20B9 " + Math.round(buyHealthQuoteEntity.getNetPremium()));
         txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));
@@ -444,12 +438,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
     class AsyncShareJson extends AsyncTask<Void, Void, String> {
-
-
         List<HealthQuoteEntity> shareList = new ArrayList<>();
 
         public AsyncShareJson() {
-
         }
 
         @Override
