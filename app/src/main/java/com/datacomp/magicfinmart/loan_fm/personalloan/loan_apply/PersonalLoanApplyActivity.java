@@ -37,6 +37,7 @@ import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -576,7 +577,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
         double total = netIncome + othIncome;
 
-        etTotalIncome.setText("" + total);
+        etTotalIncome.setText("" +  BigDecimal.valueOf(total).toPlainString());
 
     }
 
