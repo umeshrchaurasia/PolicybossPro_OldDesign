@@ -114,45 +114,52 @@ public class ShareQuoteACtivity extends BaseActivity {
                     carSingleQuote();
                     createJson();
                     setPospDetails();
-                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("CAR_SINGLE_QUOTE : Car Single Quote Share Clicked"), Constants.PRIVATE_CAR), null);
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.PRIVATE_CAR), null);
                     break;
                 case "BIKE_ALL_QUOTE":
                     BikeAllQuote();
                     createJson();
                     setPospDetails();
-                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("CAR_SINGLE_QUOTE : Car Single Quote Share Clicked"), Constants.PRIVATE_CAR), null);
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.TWO_WHEELER), null);
                     break;
                 case "BIKE_SINGLE_QUOTE":
                     BikeSingleQuote();
                     createJson();
                     setPospDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.TWO_WHEELER), null);
                     break;
 
                 case "HEALTH_ALL_QUOTE":
                     HealthAllQuote();
                     createJson();
                     setPospDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.HEALTH_INS), null);
                     break;
                 case "HEALTH_SINGLE_QUOTE":
                     HealthSingleQuote();
                     createJson();
                     setPospDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.HEALTH_INS), null);
                     break;
                 case "HL_ALL_QUOTE":
                     HlAllQuote();
                     setOtherDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.HOME_LOAN), null);
                     break;
                 case "BL_ALL_QUOTE":
                     BlAllQuote();
                     setOtherDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.BALANCE_TRANSFER), null);
                     break;
                 case "PL_ALL_QUOTE":
                     PlAllQuote();
                     setOtherDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.PERSONA_LOAN), null);
                     break;
                 case "LAP_ALL_QUOTE":
                     LapAllQuote();
                     setOtherDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.LAP), null);
                     break;
 
 

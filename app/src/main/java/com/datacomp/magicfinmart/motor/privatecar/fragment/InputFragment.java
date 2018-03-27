@@ -719,7 +719,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 sbNoClaimBonus.setProgress(0);
                 break;
             case R.id.btnGetQuote:
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), "Motor Insurance"), null);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), Constants.PRIVATE_CAR), null);
                 //region validations
                 if (makeModel == null || makeModel.equals("")) {
                     acMakeModel.requestFocus();
@@ -1366,7 +1366,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 etExpDate.setEnabled(true);
                 spPrevIns.setEnabled(true);
                 cvNcb.setVisibility(View.VISIBLE);
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), "Motor Insurance"), null);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "),Constants.PRIVATE_CAR), null);
             } else {
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -1374,7 +1374,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 spPrevIns.setEnabled(false);
                 cvNcb.setVisibility(View.GONE);
                 tvDontKnow.performClick();
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), "Motor Insurance"), null);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.PRIVATE_CAR), null);
             }
         } else if (R.id.swIndividual == compoundButton.getId()) {
             if (!b) {
