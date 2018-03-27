@@ -34,7 +34,9 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
+import com.google.gson.Gson;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -593,7 +595,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         double total =  netIncome + othIncome;
 
-        etTotalIncome.setText("" + total);
+        etTotalIncome.setText("" +  BigDecimal.valueOf(total).toPlainString());
 
     }
 
@@ -765,6 +767,11 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             //endregion
 
             //region  hl
+
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
+
             if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
@@ -908,6 +915,10 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
 
             //endregion
+
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
 
             if (SubmitType == 1) {
                 showDialog("Please wait...");

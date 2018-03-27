@@ -39,6 +39,7 @@ import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -595,7 +596,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         }
 
         double total =  netIncome + othIncome;
-        etTotalIncome.setText("" + total);
+        etTotalIncome.setText("" +  BigDecimal.valueOf(total).toPlainString());
 
     }
 
