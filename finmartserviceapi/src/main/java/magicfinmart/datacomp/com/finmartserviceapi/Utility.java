@@ -21,7 +21,10 @@ import java.util.Enumeration;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -274,6 +277,7 @@ public class Utility {
     }
 
     public static String getMotorUrl(Context context, String Service_Log_Unique_Id) {
+        new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("Motor buy : buy button for motor"), "MOTOR INSURANCE"), null);
         String ssid = "";
         if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
             ssid = new DBPersistanceController(context).getUserData().getPOSPNo();
@@ -283,7 +287,7 @@ public class Utility {
     }
 
     public static String getTwoWheelerUrl(Context context, String Service_Log_Unique_Id) {
-
+        new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("TW buy : buy button for TW"), "TWO WHEELER INSURANCE"), null);
         String ssid = "";
         if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
             ssid = new DBPersistanceController(context).getUserData().getPOSPNo();

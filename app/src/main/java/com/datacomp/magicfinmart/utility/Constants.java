@@ -35,6 +35,41 @@ import static android.content.Context.MODE_PRIVATE;
  */
 
 public class Constants {
+
+    //region Tracking Types
+    public static String LOGIN = "FBA LOGIN";
+    public static String REGISTER = "FBA REGISTER";
+
+    public static String SALES_MATERIAL = "SALES MATERIAL";
+    public static String PENDING_CASES = "PENDING CASES";
+    public static String KNOWLEDGE_GURU = "KNOWLEDGE GURU";
+
+    //navigation
+    public static String MY_ACCOUNT = "MY ACCOUNT";
+    public static String POSP = "POSP ENROLLMENT";
+    public static String OFFLINE_QUOTES = "OFFLINE QUOTES";
+    public static String MY_BUSINESS = "MY BUSINESS";
+    public static String REFER = "REFER A FRIEND";
+    public static String MPS = "MPS";
+    public static String HELP = "HELP_FEEDBACK";
+    public static String WHATSNEW = "WHATS NEW";
+    public static String LOGOUT = "LOGOUT";
+    //endregion
+
+    public static String PRIVATE_CAR = "MOTOR INSURANCE";
+    public static String TWO_WHEELER = "TWO WHEELER INSURANCE";
+    public static String HEALTH_INS = "HEALTH INSURANCE";
+    public static String LIFE_INS = "LIFE INSURANCE";
+    public static String HOME_LOAN = "HOME LOAN";
+    public static String PERSONA_LOAN = "PERSONAL LOAN";
+    public static String LAP = "LAP";
+    public static String CREDIT_CARD = "CREDIT CARD";
+    public static String BALANCE_TRANSFER = "BALANCE TRANSFER";
+    public static String QUICK_LEAD = "QUICK LEAD";
+    public static String FIN_PEACE = "FIN PEACE";
+    public static String HEALTH_CHECKUP = "HEALTH CHECKUP PLANS";
+
+
     public static final Double GST = 0.18;
     public static final String SHARED_PREFERENCE_FINMART = "shared_finmart";
     public static final String EXTERNAL_LPG = "External Fitted LPG";

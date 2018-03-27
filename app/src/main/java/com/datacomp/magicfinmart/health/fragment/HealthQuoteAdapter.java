@@ -11,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
@@ -32,6 +33,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     private LayoutInflater mInflater;
     Fragment mContext;
     List<HealthQuoteEntity> listHealthQuotes;
+    int checkCount = 1;
 
 
     // data is passed into the constructor
@@ -118,15 +120,24 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         @Override
         public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
-            if (b) {
-                HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
-                entity.setCompare(b);
-                ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+            HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
+
+            if (checkCount <= 4) {
+                if (b) {
+                    checkCount = checkCount + 1;
+                    entity.setCompare(b);
+                    ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+                } else {
+                    checkCount = checkCount - 1;
+                    entity.setCompare(b);
+                    ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+                }
             } else {
-                HealthQuoteEntity entity = (HealthQuoteEntity) compoundButton.getTag(R.id.chkCompare);
-                entity.setCompare(b);
-                ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+                Toast.makeText(mContext.getActivity(), "Cannot select more than 4 quotes", Toast.LENGTH_SHORT).show();
+                entity.setCompare(false);
             }
+            updateCheckBox(entity);
+
         }
     };
 
@@ -221,5 +232,15 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         }
 
         removeRefresh(list);
+    }
+
+    private void updateCheckBox(HealthQuoteEntity entity) {
+        for (int i = 0; i < listHealthQuotes.size(); i++) {
+            if (listHealthQuotes.get(i).getPlanID() == entity.getPlanID()) {
+                listHealthQuotes.get(i).setCompare(entity.isCompare());
+            }
+        }
+
+        notifyDataSetChanged();
     }
 }

@@ -35,7 +35,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
@@ -283,8 +286,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
-                // prefManager.setIsUserLogin(true);
-                if (!prefManager.getSharePushType().equals("")) {
+               // prefManager.setIsUserLogin(true);
+                if(!prefManager.getSharePushType().equals("")) {
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
@@ -302,6 +305,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             if (response.getStatusNo() == 0) {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
+            new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Success : " + response.getMessage()), "Login"), null);
         }
     }
 
@@ -309,5 +313,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Failure : " + t.getMessage()), "Login"), null);
     }
 }

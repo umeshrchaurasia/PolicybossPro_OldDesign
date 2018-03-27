@@ -44,7 +44,7 @@ public class HealthCompareActivity extends BaseActivity {
     ArrayList<BenefitsEntity> list9Benefits;
     ArrayAdapter<String> benefitsAdapter;
     HealthNineBenefitsViewAdapter mBenefitsAdapter;
-
+    TextView txtSelectedBenefits;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,7 +158,7 @@ public class HealthCompareActivity extends BaseActivity {
     }
 
     public void updateBenefits(String benefits) {
-
+        txtSelectedBenefits.setText(benefits);
         resetBenefits();
         for (int i = 0; i < listHealthQuote.size(); i++) {
             HealthQuoteEntity entity = listHealthQuote.get(i);
@@ -189,6 +189,7 @@ public class HealthCompareActivity extends BaseActivity {
 
     private void init() {
         btnBack = (Button) findViewById(R.id.btnBack);
+        txtSelectedBenefits = (TextView) findViewById(R.id.txtSelectedBenefits);
         spBenefits = (Spinner) findViewById(R.id.spBenefits);
         rvBenefits = (RecyclerView) findViewById(R.id.rvBenefits);
         rvBenefits.setLayoutManager(new LinearLayoutManager(this));

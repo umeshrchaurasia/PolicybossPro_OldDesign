@@ -68,6 +68,8 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
             holder.txtCRN.setText(String.valueOf(entity.getMotorRequestEntity().getCrn()));
             holder.txtCreatedDate.setText("" + entity.getMotorRequestEntity().getCreated_date());
 
+            if (!(entity.getMotorRequestEntity().getRegistration_no().endsWith("-AA-1234")))
+                holder.txtVehicleNo.setText("" + entity.getMotorRequestEntity().getRegistration_no());
             holder.txtPersonName.setTag(R.id.txtPersonName, entity);
             holder.txtPersonName.setOnClickListener(this);
             holder.ll.setTag(R.id.ll, entity);
