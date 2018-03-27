@@ -595,10 +595,8 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         }
 
         double total =  netIncome + othIncome;
-        if (total > 0) {
-            //   etTotalIncome = Math.round((total));
-            etTotalIncome.setText("" + total);
-        }
+        etTotalIncome.setText("" + total);
+
     }
 
     private void getResAddrToPermAddress() {

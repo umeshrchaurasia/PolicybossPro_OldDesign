@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -20,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -86,6 +88,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
+    Uri imageUri;
     // private String PROFILE = "1", PHOTO = "2", PAN = "3", CANCEL_CHQ = "4", AADHAR = "5";
 
     private int PROFILE = 1, PHOTO = 2, PAN = 3, CANCEL_CHQ = 4, AADHAR = 5;
@@ -166,6 +169,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         etPincode.addTextChangedListener(pincodeTextWatcher);
         etIfscCode.setOnFocusChangeListener(this);
+
+        etAadhaar.setOnFocusChangeListener(acAdhaarFocusChange);
 
     }
 
@@ -338,6 +343,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp);
                         manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP);
                     }
+
                 } else {
                     showDialog();
                     saveMain();
@@ -347,6 +353,18 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
+    View.OnFocusChangeListener acAdhaarFocusChange = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (!b) {
+                if (!isValidAadhar(etAadhaar)) {
+
+                    etAadhaar.setError("Invalid Aadhaar Number");
+                    etAadhaar.setFocusable(true);
+                }
+            }
+        }
+    };
 
     //region textwatcher
     TextWatcher pincodeTextWatcher = new TextWatcher() {
@@ -983,7 +1001,40 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void launchCamera() {
+        //Intent cameraIntent = new Intent(MediaStore.EXTRA_OUTPUT);
+        //startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+        // start default camera
+        //  Uri imageUri = Uri.fromFile(saveImageToStorage(null,PHOTO_File));
+
+        String FileName = "";
+
+        switch (type) {
+            case 1:
+                FileName=PHOTO_File;
+                break;
+            case 2:
+                FileName=PHOTO_File;
+                break;
+            case 3:
+                FileName=PAN_File;
+                break;
+            case 4:
+                FileName=CANCEL_CHQ_File;
+                break;
+            case 5:
+                FileName=AADHAR_File;
+                break;
+
+        }
+        imageUri = FileProvider.getUriForFile(MyAccountActivity.this,
+                getString(R.string.file_provider_authority),
+                saveImageToStorage(null, FileName));
+
+
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
+                imageUri);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 
@@ -1005,7 +1056,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap mphoto = (Bitmap) data.getExtras().get("data");
+            Bitmap mphoto = null;
+            try {
+                mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                mphoto = getResizedBitmap(mphoto, 1200);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            //  Bitmap mphoto = (Bitmap) data.getExtras().get("data");
             switch (type) {
                 case 1:
                     showDialog();
@@ -1049,14 +1107,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
 
 
-        }
-
-        if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
+        } else if (requestCode == SELECT_PICTURE && resultCode == RESULT_OK) {
             Uri selectedImageUri = data.getData();
             Bitmap mphoto = null;
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                mphoto = getResizedBitmap(mphoto, 400);
+                mphoto = getResizedBitmap(mphoto, 1200);
                 switch (type) {
                     case 1:
                         showDialog();
