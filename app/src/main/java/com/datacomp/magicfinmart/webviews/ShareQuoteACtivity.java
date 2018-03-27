@@ -46,10 +46,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
@@ -105,16 +108,19 @@ public class ShareQuoteACtivity extends BaseActivity {
                     CarAllQuote();
                     createJson();
                     setPospDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.PRIVATE_CAR), null);
                     break;
                 case "CAR_SINGLE_QUOTE":
                     carSingleQuote();
                     createJson();
                     setPospDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("CAR_SINGLE_QUOTE : Car Single Quote Share Clicked"), Constants.PRIVATE_CAR), null);
                     break;
                 case "BIKE_ALL_QUOTE":
                     BikeAllQuote();
                     createJson();
                     setPospDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("CAR_SINGLE_QUOTE : Car Single Quote Share Clicked"), Constants.PRIVATE_CAR), null);
                     break;
                 case "BIKE_SINGLE_QUOTE":
                     BikeSingleQuote();

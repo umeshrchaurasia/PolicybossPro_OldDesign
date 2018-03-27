@@ -311,8 +311,9 @@
                             android:layout_weight="3"
                             android:gravity="left|center_vertical"
                             android:padding="8dp"
-                            android:text="dcdvrv"
-                            android:textColor="@color/header_light_text" />
+                            android:text=""
+                            android:textColor="@color/header_light_text"
+                            android:textStyle="bold" />
 
 
                     </LinearLayout>

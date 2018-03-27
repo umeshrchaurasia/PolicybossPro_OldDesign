@@ -114,12 +114,12 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             if (responseEntity.getFinal_premium_without_addon() != null && !responseEntity.getFinal_premium_without_addon().equals("")) {
                 tvTotalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_without_addon()));
                 tvNetPremium.setText(getRupeesRound(responseEntity.getFinal_premium_with_addon()));
-                txtFinalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_without_addon()));
+                txtFinalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_with_addon()));
                 tvGst.setText(getRupeesRound(responseEntity.getTotalGST()));
             } else {
                 tvTotalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
                 tvNetPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
-                txtFinalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
+                txtFinalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
                 tvGst.setText(getRupeesRound(responseEntity.getPremium_Breakup().getService_tax()));
             }
             tvAddonTotal.setText("" + Math.round(addOnTotal));
@@ -396,8 +396,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             if (getIntent().hasExtra("RESPONSE_CAR")) {
                 startActivity(new Intent(this, CommonWebViewActivity.class)
                         .putExtra("URL", Utility.getMotorUrl(this, Service_Log_Unique_Id))
-                        .putExtra("NAME", "CAR INSURANCE")
-                        .putExtra("TITLE", "CAR INSURANCE"));
+                        .putExtra("NAME", "MOTOR INSURANCE")
+                        .putExtra("TITLE", "MOTOR INSURANCE"));
             }
             if (getIntent().hasExtra("RESPONSE_BIKE")) {
                 startActivity(new Intent(this, CommonWebViewActivity.class)

@@ -19,19 +19,18 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
-import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
-
-import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
@@ -117,7 +116,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
                     if (camera && fineLocation && sendSms && readSms && receiveSms && writeExternal && readExternal && callPhone) {
 
-                       // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
                     } else {
 
                         //Permission Denied, You cannot access location data and camera
@@ -179,7 +178,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     etPassword.setError("Enter Password");
                     return;
                 }
-             //   Toast.makeText(this,prefManager.getToken(),Toast.LENGTH_LONG).show();
+                //   Toast.makeText(this,prefManager.getToken(),Toast.LENGTH_LONG).show();
                 loginRequestEntity.setUserName(etEmail.getText().toString());
                 loginRequestEntity.setPassword(etPassword.getText().toString());
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
@@ -196,19 +195,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
-               // prefManager.setIsUserLogin(true);
-                if(!prefManager.getSharePushType().equals("")) {
+                // prefManager.setIsUserLogin(true);
+                if (!prefManager.getSharePushType().equals("")) {
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
                     startActivity(intent);
 
-                }else{
+                } else {
                     startActivity(new Intent(this, HomeActivity.class));
                 }
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
+            new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Success : " + response.getMessage()), "Login"), null);
         }
     }
 
@@ -216,5 +216,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Failure : " + t.getMessage()), "Login"), null);
     }
 }

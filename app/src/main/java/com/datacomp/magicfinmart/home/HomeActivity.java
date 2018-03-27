@@ -20,7 +20,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -46,8 +45,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 
@@ -143,11 +145,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_home:
                         fragment = new DashboardFragment();
                         getSupportActionBar().setTitle("MAGIC FIN-MART");
-                        Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
-
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                         //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         // fragment = new BasFragment();
@@ -161,6 +163,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     }
                     case R.id.nav_pospenrollment: {
                         startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
                         break;
                     }
                     case R.id.nav_homeloanApplication:
@@ -168,24 +171,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_offlineQuotes:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
                         break;
                     case R.id.nav_myBusiness:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My Business : My Business button in menu "), Constants.MY_BUSINESS), null);
                         break;
                     case R.id.nav_referFriend:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
                         break;
                     case R.id.nav_mps:
                         showDialog();
                         new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
                         //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_helpfeedback:
                         startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
                         break;
 
                     case R.id.nav_whatsnew:
                         startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
                         break;
 
                     case R.id.nav_logout:
@@ -195,6 +204,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                         finish();
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Logout : Logout button in menu "), Constants.LOGOUT), null);
                         break;
 
                     default:

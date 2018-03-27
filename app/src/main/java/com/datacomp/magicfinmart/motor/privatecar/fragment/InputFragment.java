@@ -41,9 +41,12 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
@@ -699,6 +702,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     btnGetQuote.setVisibility(View.VISIBLE);
                     showDialog("Fetching Car Details...");
                     new FastLaneController(getActivity()).getVechileDetails(regNo, this);
+
                 }
                 break;
             case R.id.tvClaimNo:
@@ -715,7 +719,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 sbNoClaimBonus.setProgress(0);
                 break;
             case R.id.btnGetQuote:
-
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), "Motor Insurance"), null);
                 //region validations
                 if (makeModel == null || makeModel.equals("")) {
                     acMakeModel.requestFocus();
@@ -1362,6 +1366,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 etExpDate.setEnabled(true);
                 spPrevIns.setEnabled(true);
                 cvNcb.setVisibility(View.VISIBLE);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), "Motor Insurance"), null);
             } else {
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -1369,6 +1374,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 spPrevIns.setEnabled(false);
                 cvNcb.setVisibility(View.GONE);
                 tvDontKnow.performClick();
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), "Motor Insurance"), null);
             }
         } else if (R.id.swIndividual == compoundButton.getId()) {
             if (!b) {

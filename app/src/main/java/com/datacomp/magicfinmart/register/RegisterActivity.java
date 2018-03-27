@@ -462,7 +462,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             cancelDialog();
             trackingRequestEntity.setType("Register");
             trackingRequestEntity.setData(new TrackingData("Submit button for registration Success"));
-            new TrackingController(this).sendData(trackingRequestEntity, RegisterActivity.this);
+            new TrackingController(this).sendData(trackingRequestEntity, null);
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             if (response.getStatusNo() == 0)
                 finish();
@@ -482,7 +482,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
         trackingRequestEntity.setType("Register");
         trackingRequestEntity.setData(new TrackingData(t.getMessage()));
-        new TrackingController(this).sendData(trackingRequestEntity, RegisterActivity.this);
+        new TrackingController(this).sendData(trackingRequestEntity, null);
     }
 
     private String extractDigitFromMessage(String message) {
