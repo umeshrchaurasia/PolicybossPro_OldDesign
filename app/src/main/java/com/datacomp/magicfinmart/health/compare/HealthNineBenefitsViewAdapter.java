@@ -43,8 +43,28 @@ public class HealthNineBenefitsViewAdapter extends RecyclerView.Adapter<HealthNi
 
         holder.txtBenefitsName.setText(listBenefits.get(position).getBeneDesc());
 
+        if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("room rent limit")) {
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.room_rent));
+        } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("icu daily rent limit")) {
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.icu_rent));
+        } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("pre-hospitalization expenses")) {
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.pre_hosp));
+        } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("post hospitalization expenses")) {
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.post_hosp));
+        } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("day care procedure coverage")) {
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.day_care));
+        } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("automatic restoration of sum insured")) {
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.auto_restore));
+        } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("free health checkup")) {
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.health_check));
+        } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("ambulance expenses")) {
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.amulance));
+        } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("no claim bonus")) {
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ncb));
+        }
+
         if (listBenefits.get(position).isSelected()) {
-            holder.txtSelect.setBackgroundResource(R.color.colorAccent);
+            holder.txtSelect.setBackgroundResource(R.color.tab_color);
             //holder.llBenefits.performClick();
         } else {
             holder.txtSelect.setBackgroundResource(R.color.seperator);

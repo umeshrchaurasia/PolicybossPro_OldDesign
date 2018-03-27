@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -117,6 +119,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
+    Uri imageUri;
     private int POSP_PHOTO = 6, POSP_PAN = 7, POSP_AADHAR_FRONT = 8, POSP_AADHAR_BACK = 9, POSP_CANCEL_CHQ = 10, POSP_EDU = 11;
     private String PHOTO_File = "POSPPhotograph", PAN_File = "POSPPanCard", CANCEL_CHQ_File = "POSPCancelledChq", AADHAR_FRONT_File = "POSPAadharCard", AADHAR_BACK_File = "POSPAadharCardBack", EDU_FILE = "POSPHighestEducationProof";
     boolean isAllImageUpload;
@@ -1607,7 +1610,40 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
 
     private void launchCamera() {
+//        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//        startActivityForResult(cameraIntent, CAMERA_REQUEST);
+
+        String FileName = "";
+
+        switch (type) {
+            case 6:
+                FileName=PHOTO_File;
+                break;
+            case 7:
+                FileName=PAN_File;
+                break;
+            case 8:
+                FileName=AADHAR_FRONT_File;
+                break;
+            case 9:
+                FileName=AADHAR_BACK_File;
+                break;
+            case 10:
+                FileName=CANCEL_CHQ_File;
+                break;
+            case 11:
+                FileName=EDU_FILE;
+                break;
+
+        }
+        imageUri = FileProvider.getUriForFile(PospEnrollment.this,
+                getString(R.string.file_provider_authority),
+                saveImageToStorage(null, FileName));
+
+
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT,
+                imageUri);
         startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 
@@ -1625,7 +1661,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
-            Bitmap mphoto = (Bitmap) data.getExtras().get("data");
+            Bitmap mphoto = null;
+           // Bitmap mphoto = (Bitmap) data.getExtras().get("data");
+            try {
+                mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
+                mphoto = getResizedBitmap(mphoto, 1200);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             switch (type) {
 
                 case 6:
@@ -1682,7 +1725,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             Bitmap mphoto = null;
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                mphoto = getResizedBitmap(mphoto, 400);
+                mphoto = getResizedBitmap(mphoto, 1200);
                 switch (type) {
                     case 6:
                         showDialog();
