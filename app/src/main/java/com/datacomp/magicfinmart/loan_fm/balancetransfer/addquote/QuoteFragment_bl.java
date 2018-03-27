@@ -17,7 +17,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -27,6 +26,9 @@ import com.google.gson.Gson;
 import java.math.BigDecimal;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
@@ -61,7 +63,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     GetBLDispalyResponse getblDispalyResponse;
     BLLoanRequest blLoanRequest;
     FmBalanceLoanRequest fmBalanceLoanRequest;
-    LinearLayout ivllEdit, llgraph,llshare;
+    LinearLayout ivllEdit, llgraph, llshare;
 
     List<SavingBLEntity> savingBlList;
     ImageView ivShare;
@@ -155,10 +157,11 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                     .putExtra("BuyLoanQuery", buyLoanQuerystring));
 
         }
-
-       //
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy BL : Buy button for BL"), Constants.BALANCE_TRANSFER), null);
+        //
 
     }
+
     private void bindQuotes() {
 
         if (getblDispalyResponse != null) {
@@ -242,12 +245,12 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
             buyLoanQuerystring.setBankId(entity.getBank_Id());
 
-          buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf(fmBalanceLoanRequest.getBLLoanRequest().getLoanamount()));
+            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf(fmBalanceLoanRequest.getBLLoanRequest().getLoanamount()));
             buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
             buyLoanQuerystring.setQuote_id(QuoteID);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());
             buyLoanQuerystring.setMobileNo(fmBalanceLoanRequest.getBLLoanRequest().getContact());
-          //  buyLoanQuerystring.setCity(fmBalanceLoanRequest.getBLLoanRequest().getCity());
+            //  buyLoanQuerystring.setCity(fmBalanceLoanRequest.getBLLoanRequest().getCity());
 
             if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("5")) {
                 buyLoanQuerystring.setType("HLBT");
@@ -256,7 +259,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                 buyLoanQuerystring.setType("PLBT");
             } else if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("2")) {
                 buyLoanQuerystring.setType("LAPBT");
-           }
+            }
 
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         } catch (Exception ex) {

@@ -23,6 +23,9 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivi
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
@@ -280,7 +283,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     public void redirectToApplyLoan() {
         startActivity(new Intent(getContext(), HomeLoanApplyActivity.class)
                 .putExtra("BuyLoanQuery", buyLoanQuerystring));
-
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy HL : Buy button for hl"), Constants.HOME_LOAN), null);
     }
 
 
