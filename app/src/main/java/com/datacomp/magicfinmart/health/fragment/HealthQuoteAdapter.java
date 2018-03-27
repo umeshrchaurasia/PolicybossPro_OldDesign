@@ -133,7 +133,13 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                     ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
                 }
             } else {
-                Toast.makeText(mContext.getActivity(), "Cannot select more than 4 quotes", Toast.LENGTH_SHORT).show();
+                if (b) {
+                    Toast.makeText(mContext.getActivity(), "Cannot select more than 4 quotes", Toast.LENGTH_SHORT).show();
+                } else {
+                    checkCount = checkCount - 1;
+                    entity.setCompare(b);
+                    ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+                }
                 entity.setCompare(false);
             }
             updateCheckBox(entity);
