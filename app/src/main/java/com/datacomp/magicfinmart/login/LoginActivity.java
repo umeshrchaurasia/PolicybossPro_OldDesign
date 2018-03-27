@@ -9,21 +9,29 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
+
+import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -31,13 +39,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     PrefManager prefManager;
     EditText etEmail, etPassword;
     LoginRequestEntity loginRequestEntity;
-    TextView tvSignUp;
+    TextView tvSignUp, tvForgotPass;
     Button btnSignIn;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
     String[] perms = {
@@ -152,10 +162,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void setListener() {
         tvSignUp.setOnClickListener(this);
         btnSignIn.setOnClickListener(this);
+        tvForgotPass.setOnClickListener(this);
     }
 
     private void initWidgets() {
         tvSignUp = (TextView) findViewById(R.id.tvSignUp);
+        tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -164,6 +176,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tvForgotPass:
+                dialogForgotPassword();
+                break;
             case R.id.tvSignUp:
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
@@ -189,14 +204,90 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+    private void dialogForgotPassword() {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        // builder.setTitle("FORGOT PASSWORD");
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.layout_forgot_password, null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        final EditText etEmail = (EditText) view.findViewById(R.id.etEmail);
+        Button btnReset = (Button) view.findViewById(R.id.btnReset);
+        Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isValideEmailID(etEmail)) {
+                    etEmail.setError("Invalid Email ID");
+                    etEmail.setFocusable(true);
+                    //return;
+                } else {
+                    dialog.dismiss();
+                    forgotPasswrod(etEmail);
+                }
+            }
+        });
+
+//        builder.setPositiveButton("RESET", null)
+//                .setNegativeButton("CANCEL", null);
+
+
+//        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialogInterface) {
+//                ((AlertDialog) dialogInterface).getButton(DialogInterface.BUTTON_POSITIVE)
+//                        .setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                if (!isValideEmailID(etEmail)) {
+//                                    etEmail.setError("Invalid Email ID");
+//                                    etEmail.setFocusable(true);
+//                                    //return;
+//                                } else {
+//                                   // dialog.dismiss();
+//                                    forgotPasswrod(etEmail);
+//                                }
+//                            }
+//                        });
+//
+//                ((AlertDialog) dialogInterface).getButton(DialogInterface.BUTTON_NEGATIVE)
+//                        .setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                              //  dialog.dismiss();
+//                            }
+//                        });
+//            }
+//        });
+
+    }
+
+    private void forgotPasswrod(EditText etEmail) {
+        showDialog("Retrieving password...");
+        new LoginController(LoginActivity.this)
+                .forgotPassword(etEmail.getText().toString(), LoginActivity.this);
+    }
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
-                // prefManager.setIsUserLogin(true);
-                if (!prefManager.getSharePushType().equals("")) {
+               // prefManager.setIsUserLogin(true);
+                if(!prefManager.getSharePushType().equals("")) {
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
@@ -206,6 +297,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     startActivity(new Intent(this, HomeActivity.class));
                 }
             } else {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        } else if (response instanceof ForgotResponse) {
+            if (response.getStatusNo() == 0) {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
             new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Success : " + response.getMessage()), "Login"), null);

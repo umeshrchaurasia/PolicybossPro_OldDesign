@@ -5,11 +5,13 @@ import android.content.Context;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.LoginRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -64,5 +66,34 @@ public class LoginController implements ILogin {
                 }
             }
         });
+    }
+
+    @Override
+    public void forgotPassword(String emailID, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("EmailID", emailID);
+
+        loginNetworkService.forgotPassword(body).enqueue(new Callback<ForgotResponse>() {
+            @Override
+            public void onResponse(Call<ForgotResponse> call, Response<ForgotResponse> response) {
+                if (response != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ForgotResponse> call, Throwable t) {
+
+            }
+        });
+
+
     }
 }
