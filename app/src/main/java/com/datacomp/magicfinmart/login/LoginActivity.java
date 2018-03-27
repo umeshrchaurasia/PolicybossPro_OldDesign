@@ -290,9 +290,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
                     startActivity(intent);
 
-                } else {
+                }else{
                     startActivity(new Intent(this, HomeActivity.class));
                 }
+
+                finish();
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
