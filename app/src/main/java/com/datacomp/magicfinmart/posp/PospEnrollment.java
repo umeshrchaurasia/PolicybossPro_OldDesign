@@ -1665,7 +1665,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
            // Bitmap mphoto = (Bitmap) data.getExtras().get("data");
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                mphoto = getResizedBitmap(mphoto, 1200);
+                mphoto = getResizedBitmap(mphoto, 800);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1725,7 +1725,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             Bitmap mphoto = null;
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                mphoto = getResizedBitmap(mphoto, 1200);
+                mphoto = getResizedBitmap(mphoto, 800);
                 switch (type) {
                     case 6:
                         showDialog();
