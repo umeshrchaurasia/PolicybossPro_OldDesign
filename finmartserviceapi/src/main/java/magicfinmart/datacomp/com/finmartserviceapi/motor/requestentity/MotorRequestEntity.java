@@ -15,44 +15,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEn
 
 public class MotorRequestEntity implements Parcelable {
 
-
-    /**
-     * product_id : 10
-     * vehicle_id : 50783
-     * rto_id : 579
-     * vehicle_insurance_type : renew
-     * vehicle_manf_date : 2016-09-01
-     * vehicle_registration_date : 2016-09-14
-     * policy_expiry_date : 2017-09-12
-     * prev_insurer_id : 9
-     * vehicle_registration_type : individual
-     * vehicle_ncb_current : 0
-     * is_claim_exists : yes
-     * method_type : Premium
-     * execution_async : yes
-     * electrical_accessory : 0
-     * non_electrical_accessory : 0
-     * registration_no : MH-01-AA-1234
-     * is_llpd : no
-     * is_antitheft_fit : no
-     * voluntary_deductible : 0
-     * is_external_bifuel : no
-     * external_bifuel_value : 0
-     * pa_owner_driver_si :
-     * pa_named_passenger_si :
-     * pa_unnamed_passenger_si :
-     * pa_paid_driver_si :
-     * vehicle_expected_idv : 0
-     * first_name : Manish
-     * middle_name :
-     * last_name : Anand
-     * mobile : 9798192909
-     * email : anand.manish92@gmail.com
-     * crn : 91566
-     * ip_address : ::1
-     * secret_key : SECRET-HZ07QRWY-JIBT-XRMQ-ZP95-J0RWP3DYRACW
-     * client_key : CLIENT-CNTP6NYE-CU9N-DUZW-CSPI-SH1IS4DOVHB9
-     */
     private String birth_date;
     private int product_id;
     private int vehicle_id;
@@ -61,7 +23,7 @@ public class MotorRequestEntity implements Parcelable {
     private String vehicle_manf_date;
     private String vehicle_registration_date;
     private String policy_expiry_date;
-    private String prev_insurer_id;
+    private int prev_insurer_id;
     private String vehicle_registration_type;
     private String vehicle_ncb_current;
     private String is_claim_exists;
@@ -91,91 +53,18 @@ public class MotorRequestEntity implements Parcelable {
     private String client_key;
 
 
-    /**
-     * is_aai_member : no
-     * external_bifuel_type :
-     * external_bifuel_value : 0
-     * ss_id : 0
-     * geo_lat : 19.0790426
-     * geo_long : 72.88183590000001
-     */
-
     private String is_aai_member;
     private String external_bifuel_type;
     private int ss_id;
     private double geo_lat;
     private double geo_long;
-    /**
-     * agent_source :
-     */
+
 
     private String agent_source;
     private String app_version;
     private String device_id;
     private String erp_source;
     private String mac_address;
-    /**
-     * app_version : 1.8
-     * client_id : 3
-     * client_name : Finmart
-     * crn : 498669
-     * device_id : 00000000-373e-5fe2-162a-16fe162a16fe
-     * erp_source : POSP-MTR
-     * expected_idv : 0
-     * external_bifuel_value : 0
-     * fba_id : 1976
-     * geo_lat : null
-     * geo_long : null
-     * mac_address : 02:00:00:00:00:00
-     * posp_aadhar : 554411226352
-     * posp_agent_city : Mumbai
-     * posp_category : Datacomp POSP
-     * posp_email_id : live@gmail.com
-     * posp_erp_id : 600076
-     * posp_fba_id : 1976
-     * posp_first_name : Direct
-     * posp_gender : Male
-     * posp_last_name : POSP
-     * posp_middle_name : 0
-     * posp_mobile_no : 9292929292
-     * posp_pan_no : assps9647w
-     * posp_posp_category : GI
-     * posp_posp_id : 1090
-     * posp_reporting_agent_name : Rajesh Ramnivas Verma
-     * posp_reporting_agent_uid : 108132
-     * posp_sm_posp_id : 0
-     * posp_sm_posp_name : 0
-     * posp_sources : 1
-     * posp_ss_id : 2335
-     * product_id : 1
-     * registration_no_1 : MH
-     * registration_no_2 : 4
-     * registration_no_3 : AA
-     * registration_no_4 : 1234
-     * rto_id : 582
-     * ss_id : 2335
-     * vehicle_expected_idv : 0
-     * vehicle_id : 4659
-     * voluntary_deductible : 0
-     */
-
-
-    /**
-     * VehicleRequestID : 171
-     * birth_date : null
-     * fba_id : 35779
-     * prev_insurer_id : 2
-     * registration_no : 0
-     * voluntary_deductible : 0
-     * external_bifuel_type : 0
-     * geo_lat : 0
-     * geo_long : 0
-     * isTwentyfour : null
-     * conversiondate : null
-     * srn : SRN-HQFT4UHK-KHBZ-QCHL-DB7S-W5TKOWIXBWDH
-     * agent_source : null
-     * selectedPrevInsID : 0
-     */
 
     private String PBStatus;
     private int StatusPercent;
@@ -251,16 +140,16 @@ public class MotorRequestEntity implements Parcelable {
     private String created_date;
     private String type;
     private String conversiondate;
-    private String VehicleRequestID;
+    private int VehicleRequestID;
     private int fba_id;
     private String srn;
     private int selectedPrevInsID;
 
-    public String getVehicleRequestID() {
+    public int getVehicleRequestID() {
         return VehicleRequestID;
     }
 
-    public void setVehicleRequestID(String vehicleRequestID) {
+    public void setVehicleRequestID(int vehicleRequestID) {
         VehicleRequestID = vehicleRequestID;
     }
 
@@ -284,7 +173,7 @@ public class MotorRequestEntity implements Parcelable {
         this.vehicle_manf_date = "";
         this.vehicle_registration_date = "";
         this.policy_expiry_date = "";
-        this.prev_insurer_id = "";
+        this.prev_insurer_id = 0;
         this.vehicle_registration_type = "";
         this.vehicle_ncb_current = "";
         this.is_claim_exists = "";
@@ -381,11 +270,11 @@ public class MotorRequestEntity implements Parcelable {
         this.policy_expiry_date = policy_expiry_date;
     }
 
-    public String getPrev_insurer_id() {
+    public int getPrev_insurer_id() {
         return prev_insurer_id;
     }
 
-    public void setPrev_insurer_id(String prev_insurer_id) {
+    public void setPrev_insurer_id(int prev_insurer_id) {
         this.prev_insurer_id = prev_insurer_id;
     }
 
@@ -726,7 +615,7 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.vehicle_manf_date);
         dest.writeString(this.vehicle_registration_date);
         dest.writeString(this.policy_expiry_date);
-        dest.writeString(this.prev_insurer_id);
+        dest.writeInt(this.prev_insurer_id);
         dest.writeString(this.vehicle_registration_type);
         dest.writeString(this.vehicle_ncb_current);
         dest.writeString(this.is_claim_exists);
@@ -772,7 +661,7 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.created_date);
         dest.writeString(this.type);
         dest.writeString(this.conversiondate);
-        dest.writeString(this.VehicleRequestID);
+        dest.writeInt(this.VehicleRequestID);
         dest.writeInt(this.fba_id);
         dest.writeString(this.srn);
         dest.writeInt(this.selectedPrevInsID);
@@ -787,7 +676,7 @@ public class MotorRequestEntity implements Parcelable {
         this.vehicle_manf_date = in.readString();
         this.vehicle_registration_date = in.readString();
         this.policy_expiry_date = in.readString();
-        this.prev_insurer_id = in.readString();
+        this.prev_insurer_id = in.readInt();
         this.vehicle_registration_type = in.readString();
         this.vehicle_ncb_current = in.readString();
         this.is_claim_exists = in.readString();
@@ -833,7 +722,7 @@ public class MotorRequestEntity implements Parcelable {
         this.created_date = in.readString();
         this.type = in.readString();
         this.conversiondate = in.readString();
-        this.VehicleRequestID = in.readString();
+        this.VehicleRequestID = in.readInt();
         this.fba_id = in.readInt();
         this.srn = in.readString();
         this.selectedPrevInsID = in.readInt();

@@ -354,7 +354,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                 openGallery();
                 break;
             case R.id.btnSubmit:
-                if (categoryId.equals("0")) {
+                if (categoryId.equals("")) {
                     Toast.makeText(this, "Select Category", Toast.LENGTH_SHORT).show();
                     return;
                 }
