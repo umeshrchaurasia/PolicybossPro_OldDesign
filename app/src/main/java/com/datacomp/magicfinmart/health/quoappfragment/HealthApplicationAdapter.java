@@ -13,6 +13,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
 import java.util.ArrayList;
@@ -54,9 +55,12 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             holder.txtSumAssured.setText(healthApplication.getHealthRequest().getSumInsured());
 
             try {
-                holder.imgInsurerLogo.setImageResource(
+                Glide.with(fragment).load(healthApplication.getInsImage()).into(holder.imgInsurerLogo);
+
+                /*holder.imgInsurerLogo.setImageResource(
                         new DBPersistanceController(fragment.getContext()).
-                                getInsurerImage(healthApplication.getSelectedPrevInsID()));
+                         getInsurerImage(healthApplication.getSelectedPrevInsID()));
+                */
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -90,10 +94,10 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP ", Toast.LENGTH_SHORT).show();
+                        ((HealthQuoteListFragment) fragment).dialNumber(entity.getHealthRequest().getContactMobile());
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((HealthQuoteListFragment) fragment).sendSms(entity.getHealthRequest().getContactMobile());
                         break;
 
                 }
