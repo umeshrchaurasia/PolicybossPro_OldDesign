@@ -47,7 +47,7 @@ public class MotorRequestEntity implements Parcelable {
     private String last_name;
     private String mobile;
     private String email;
-    private int crn;
+    private String crn;
     private String ip_address;
     private String secret_key;
     private String client_key;
@@ -196,7 +196,7 @@ public class MotorRequestEntity implements Parcelable {
         this.last_name = "";
         this.mobile = "";
         this.email = "";
-        this.crn = 0;
+        this.crn = "";
         this.app_version = Utility.getVersionName(context);
         this.device_id = Utility.getTokenId(context);
         this.fba_id = loginResponseEntity.getFBAId();
@@ -462,11 +462,11 @@ public class MotorRequestEntity implements Parcelable {
         this.email = email;
     }
 
-    public int getCrn() {
+    public String getCrn() {
         return crn;
     }
 
-    public void setCrn(int crn) {
+    public void setCrn(String crn) {
         this.crn = crn;
     }
 
@@ -639,7 +639,7 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.last_name);
         dest.writeString(this.mobile);
         dest.writeString(this.email);
-        dest.writeInt(this.crn);
+        dest.writeString(this.crn);
         dest.writeString(this.ip_address);
         dest.writeString(this.secret_key);
         dest.writeString(this.client_key);
@@ -700,7 +700,7 @@ public class MotorRequestEntity implements Parcelable {
         this.last_name = in.readString();
         this.mobile = in.readString();
         this.email = in.readString();
-        this.crn = in.readInt();
+        this.crn = in.readString();
         this.ip_address = in.readString();
         this.secret_key = in.readString();
         this.client_key = in.readString();

@@ -40,6 +40,7 @@ public class HealthQuoteEntity implements Parcelable {
      * LstbenfitsFive : [{"DisplayName":"","ProdBeneID":0,"BeneID":1,"BeneDesc":"Room Rent Limit","Benefit":"No Limit"}]
      */
 
+    private String servicetaxincl;
     private int CustomerReferenceID;
     private int QuoteId;
     private int PolicyTermYear;
@@ -75,6 +76,15 @@ public class HealthQuoteEntity implements Parcelable {
     //for compare check
     private boolean isCompare;
     private boolean isMore;
+
+
+    public String getServicetaxincl() {
+        return servicetaxincl;
+    }
+
+    public void setServicetaxincl(String servicetaxincl) {
+        this.servicetaxincl = servicetaxincl;
+    }
 
     public boolean getIsMore() {
         return isMore;
@@ -343,7 +353,6 @@ public class HealthQuoteEntity implements Parcelable {
         this.LstbenfitsFive = LstbenfitsFive;
     }
 
-
     @Override
     public int describeContents() {
         return 0;
@@ -351,6 +360,7 @@ public class HealthQuoteEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.servicetaxincl);
         dest.writeInt(this.CustomerReferenceID);
         dest.writeInt(this.QuoteId);
         dest.writeInt(this.PolicyTermYear);
@@ -380,7 +390,7 @@ public class HealthQuoteEntity implements Parcelable {
         dest.writeString(this.ProposerPageUrl);
         dest.writeString(this.pincode);
         dest.writeInt(this.FinalProductID);
-        dest.writeList(this.LstbenfitsFive);
+        dest.writeTypedList(this.LstbenfitsFive);
         dest.writeByte(this.isCompare ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isMore ? (byte) 1 : (byte) 0);
         dest.writeInt(this.totalChilds);
@@ -390,6 +400,7 @@ public class HealthQuoteEntity implements Parcelable {
     }
 
     protected HealthQuoteEntity(Parcel in) {
+        this.servicetaxincl = in.readString();
         this.CustomerReferenceID = in.readInt();
         this.QuoteId = in.readInt();
         this.PolicyTermYear = in.readInt();
@@ -419,8 +430,7 @@ public class HealthQuoteEntity implements Parcelable {
         this.ProposerPageUrl = in.readString();
         this.pincode = in.readString();
         this.FinalProductID = in.readInt();
-        this.LstbenfitsFive = new ArrayList<BenefitsEntity>();
-        in.readList(this.LstbenfitsFive, BenefitsEntity.class.getClassLoader());
+        this.LstbenfitsFive = in.createTypedArrayList(BenefitsEntity.CREATOR);
         this.isCompare = in.readByte() != 0;
         this.isMore = in.readByte() != 0;
         this.totalChilds = in.readInt();

@@ -581,7 +581,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("0");
         setCustomerDetails();
     }
 
@@ -643,7 +643,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("0");
         setCustomerDetails();
 
     }
