@@ -224,7 +224,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 tvCrn.setText("" + bikePremiumResponse.getSummary().getPB_CRN());
                 tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from qa.policyboss.com");
                 if (!bikePremiumResponse.getSummary().getPB_CRN().equals(""))
-                    motorRequestEntity.setCrn(Integer.valueOf(bikePremiumResponse.getSummary().getPB_CRN()));
+                    motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
 
                 boolean isQuoteFetch = false;
                 if (webViewLoader.getVisibility() == View.GONE) {
@@ -250,7 +250,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         //store request and SRN to mySql
         SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
         if (!response.getSummary().getPB_CRN().equals(""))
-            motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
+            motorRequestEntity.setCrn(response.getSummary().getPB_CRN());
 
         entity.setVehicleRequestID(String.valueOf(motorRequestEntity.getVehicleRequestID()));
         entity.setMotorRequestEntity(motorRequestEntity);

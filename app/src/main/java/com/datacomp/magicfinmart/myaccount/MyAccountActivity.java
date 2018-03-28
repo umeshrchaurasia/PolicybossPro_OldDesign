@@ -1059,7 +1059,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             Bitmap mphoto = null;
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
-                mphoto = getResizedBitmap(mphoto, 1200);
+                mphoto = getResizedBitmap(mphoto, 800);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1112,7 +1112,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             Bitmap mphoto = null;
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                mphoto = getResizedBitmap(mphoto, 1200);
+                mphoto = getResizedBitmap(mphoto, 800);
                 switch (type) {
                     case 1:
                         showDialog();
