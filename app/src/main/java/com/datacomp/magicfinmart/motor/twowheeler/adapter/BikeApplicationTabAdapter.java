@@ -110,10 +110,12 @@ public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicat
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
+                        ((BikeApplicationTabFragment) fragment).dialNumber(entity.getMotorRequestEntity().getMobile());
+                        //Toast.makeText(fragment.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((BikeApplicationTabFragment) fragment).sendSms(entity.getMotorRequestEntity().getMobile());
                         break;
 
                 }

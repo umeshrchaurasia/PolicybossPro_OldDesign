@@ -80,12 +80,10 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             public boolean onMenuItemClick(MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.menuCall:
-                        //((HealthQuoteListFragment) mFrament).dialNumber(entity.get());
-                        Toast.makeText(mFrament.getActivity(), "" + entity.getHealthRequest().getContactMobile(), Toast.LENGTH_SHORT).show();
+                        ((HealthQuoteListFragment) mFrament).dialNumber(entity.getHealthRequest().getContactMobile());
                         break;
                     case R.id.menuSms:
-                       // ((HealthQuoteListFragment) mFrament).dialNumber(entity.getMobile());
-                        Toast.makeText(mFrament.getActivity(), "SMS", Toast.LENGTH_SHORT).show();
+                        ((HealthQuoteListFragment) mFrament).sendSms(entity.getHealthRequest().getContactMobile());
                         break;
                     case R.id.menuDelete:
                         ((HealthQuoteListFragment) mFrament).removeQuote(entity);
