@@ -17,7 +17,16 @@ public class HealthApplication implements Parcelable {
     private String agent_source;
     private String crn;
     private int selectedPrevInsID;
+    private String insImage;
     private HealthRequestEntity HealthRequest;
+
+    public String getInsImage() {
+        return insImage;
+    }
+
+    public void setInsImage(String insImage) {
+        this.insImage = insImage;
+    }
 
     public int getSelectedPrevInsID() {
         return selectedPrevInsID;
@@ -79,6 +88,8 @@ public class HealthApplication implements Parcelable {
         dest.writeInt(this.HealthRequestId);
         dest.writeString(this.agent_source);
         dest.writeString(this.crn);
+        dest.writeInt(this.selectedPrevInsID);
+        dest.writeString(this.insImage);
         dest.writeParcelable(this.HealthRequest, flags);
     }
 
@@ -90,6 +101,8 @@ public class HealthApplication implements Parcelable {
         this.HealthRequestId = in.readInt();
         this.agent_source = in.readString();
         this.crn = in.readString();
+        this.selectedPrevInsID = in.readInt();
+        this.insImage = in.readString();
         this.HealthRequest = in.readParcelable(HealthRequestEntity.class.getClassLoader());
     }
 

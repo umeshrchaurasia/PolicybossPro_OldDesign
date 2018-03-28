@@ -155,10 +155,11 @@ public class HealthController implements IHealth {
     }
 
     @Override
-    public void convertQuoteToApp(String healthRequestID, String insurerID, final IResponseSubcriber iResponseSubcriber) {
+    public void convertQuoteToApp(String healthRequestID, String insurerID, String insImage, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("HealthRequestId", healthRequestID);
         body.put("selectedPrevInsID", insurerID);
+        body.put("insImage", insImage);
 
         healthNetworkService.convertHealthQuoteToApp(body).enqueue(new Callback<HealthQuotetoAppResponse>() {
             @Override

@@ -238,10 +238,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
             compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
             compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
-
+            compareRequestEntity.setSelectedPrevInsID(healthQuote.getHealthRequest().getSelectedPrevInsID());
+            compareRequestEntity.setInsImage(entity.getInsurerLogoName());
             showDialog();
             new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
-        }else {
+        } else {
             openPopUp(ivHealthShare, "Message", "Your POSP status is INACTIVE", "OK", true);
 
         }
@@ -316,7 +317,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
     private void buyHealthDialog(final HealthQuoteCompareResponse healthQuoteCompareResponse) {
-
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(false);

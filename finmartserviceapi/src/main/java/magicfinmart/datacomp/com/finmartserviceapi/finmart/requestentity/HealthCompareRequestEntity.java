@@ -10,9 +10,28 @@ public class HealthCompareRequestEntity {
 
     private String HealthRequestId;
     private String PlanID;
+    private String insImage;
+    private int selectedPrevInsID;
 
     public String getPlanID() {
         return PlanID;
+    }
+
+    public int getSelectedPrevInsID() {
+        return selectedPrevInsID;
+    }
+
+    public void setSelectedPrevInsID(int selectedPrevInsID) {
+        this.selectedPrevInsID = selectedPrevInsID;
+    }
+
+    public String getInsImage() {
+
+        return insImage;
+    }
+
+    public void setInsImage(String insImage) {
+        this.insImage = insImage;
     }
 
     public void setPlanID(String planID) {

@@ -2406,8 +2406,9 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         cancelDialog();
         if (response instanceof ERPSaveResponse) {
             if (response.getStatusId() == 0) {
+                int strAppID = ((ERPSaveResponse) response).getResult();
+                Toast.makeText(this, String.valueOf(strAppID), Toast.LENGTH_LONG).show();
                 if (isSubmit) {
-
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
                     if (TypePage.equals("HL")) {
                         startActivity(new Intent(this, HomeLoanDetailActivity.class));
