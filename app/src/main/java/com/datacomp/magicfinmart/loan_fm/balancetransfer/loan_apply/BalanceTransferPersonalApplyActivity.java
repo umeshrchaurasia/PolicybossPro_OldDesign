@@ -900,7 +900,12 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             // erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
             erpLoanRequest.setROI_Id_Type(rbCustomerEntity.getRoi_type());  /// 05
             erpLoanRequest.setProcessing_Fee(rbCustomerEntity.getProcessing_fee());
-            erpLoanRequest.setApplnId(0);
+            if(AppID.trim().equals(""))
+            {
+                erpLoanRequest.setApplnId(0);
+            }else{
+                erpLoanRequest.setApplnId(Integer.valueOf(AppID));
+            }
             erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
             erpLoanRequest.setIs_Confirm(0);
             erpLoanRequest.setAppln_Source("PLBT");
@@ -2388,6 +2393,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         cancelDialog();
         if (response instanceof ERPSaveResponse) {
             if (response.getStatusId() == 0) {
+                AppID  = ""+ ((ERPSaveResponse) response).getResult();
                 if (isSubmit) {
 
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
