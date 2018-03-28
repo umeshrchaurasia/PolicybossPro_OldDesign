@@ -904,7 +904,12 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             erpLoanRequest.setProp_Terms(rbCustomerEntity.getLoanTenure());//
             erpLoanRequest.setProp_Id_Type(rbCustomerEntity.getPropertyID());
             erpLoanRequest.setProp_Processing_Fee(rbCustomerEntity.getProcessing_fee());
-            erpLoanRequest.setApplnId(0);
+            if(AppID.trim().equals(""))
+            {
+                erpLoanRequest.setApplnId(0);
+            }else{
+                erpLoanRequest.setApplnId(Integer.valueOf(AppID));
+            }
             erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
             erpLoanRequest.setIs_Confirm(0);//by default
             erpLoanRequest.setAppln_Source(TypePage);   // ie HL / LAP
@@ -2399,8 +2404,8 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         cancelDialog();
         if (response instanceof ERPSaveResponse) {
             if (response.getStatusId() == 0) {
+                AppID  = ""+ ((ERPSaveResponse) response).getResult();
                 if (isSubmit) {
-
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
                     if (TypePage.equals("HL")) {
                         startActivity(new Intent(this, HomeLoanDetailActivity.class));

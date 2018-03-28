@@ -2417,7 +2417,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         if (response instanceof ERPSaveResponse) {
             if (response.getStatusId() == 0) {
                 AppID  = ""+ ((ERPSaveResponse) response).getResult();
-                Toast.makeText(this, String.valueOf(AppID), Toast.LENGTH_LONG).show();
+               // Toast.makeText(this, String.valueOf(AppID), Toast.LENGTH_LONG).show();
                 if (isSubmit) {
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
                     if (TypePage.equals("HL")) {
