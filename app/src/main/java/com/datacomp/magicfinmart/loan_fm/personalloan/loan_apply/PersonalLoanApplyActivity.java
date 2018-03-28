@@ -1477,6 +1477,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
     private void setRbCustomerData2() {
         etMobNo1ContInfo.setText(buyLoanQuerystring.getMobileNo());
+        etPan.setText(buyLoanQuerystring.getPan());
     }
 
     //endregion

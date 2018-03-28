@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by IN-RB on 08-03-2018.
  */
 
-public class BuyLoanQuerystring implements Parcelable {
+public class BuyLoanQuerystring implements Parcelable  {
 
     private int BankId;
     private int Quote_id;
@@ -20,10 +20,13 @@ public class BuyLoanQuerystring implements Parcelable {
     private String City;
     private String type;
 
+    private String pan;
+
     public BuyLoanQuerystring()
     {
 
     }
+
 
     protected BuyLoanQuerystring(Parcel in) {
         BankId = in.readInt();
@@ -34,6 +37,7 @@ public class BuyLoanQuerystring implements Parcelable {
         MobileNo = in.readString();
         City = in.readString();
         type = in.readString();
+        pan = in.readString();
     }
 
     public static final Creator<BuyLoanQuerystring> CREATOR = new Creator<BuyLoanQuerystring>() {
@@ -112,6 +116,14 @@ public class BuyLoanQuerystring implements Parcelable {
         this.type = type;
     }
 
+    public String getPan() {
+        return pan;
+    }
+
+    public void setPan(String pan) {
+        this.pan = pan;
+    }
+
 
     @Override
     public int describeContents() {
@@ -128,5 +140,6 @@ public class BuyLoanQuerystring implements Parcelable {
         dest.writeString(MobileNo);
         dest.writeString(City);
         dest.writeString(type);
+        dest.writeString(pan);
     }
 }
