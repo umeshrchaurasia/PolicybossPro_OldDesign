@@ -312,7 +312,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         spFuel.setSelection(fuelIndex);*/
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
                 int prevInsurerIndex = 0;
-                String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
+                String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
                 for (int i = 0; i < prevInsurerList.size(); i++) {
                     if (prevInsurerList.get(i).matches(insName)) {
                         prevInsurerIndex = i;
@@ -1124,7 +1124,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
         motorRequestEntity.setPolicy_expiry_date("");
-        motorRequestEntity.setPrev_insurer_id("");
+        motorRequestEntity.setPrev_insurer_id(0);
         motorRequestEntity.setVehicle_registration_type("individual");
         motorRequestEntity.setVehicle_ncb_current("0");
         motorRequestEntity.setIs_claim_exists("yes");
@@ -1197,7 +1197,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
         motorRequestEntity.setPolicy_expiry_date(etExpDate.getText().toString());
-        motorRequestEntity.setPrev_insurer_id("" + dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+        motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
 
         // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(10);

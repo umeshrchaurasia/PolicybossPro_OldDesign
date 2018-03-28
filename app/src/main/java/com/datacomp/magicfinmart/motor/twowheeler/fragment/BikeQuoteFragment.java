@@ -102,8 +102,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         if (getArguments() != null) {
             if (getArguments().getParcelable(BikeAddQuoteActivity.BIKE_QUOTE_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(BikeAddQuoteActivity.BIKE_QUOTE_REQUEST);
-                if (motorRequestEntity.getVehicleRequestID() != null)
-                    saveQuoteEntity.setVehicleRequestID(Integer.parseInt(motorRequestEntity.getVehicleRequestID()));
+                if (motorRequestEntity.getVehicleRequestID() != 0)
+                    saveQuoteEntity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
                 initializeAdapters();
                 setListener();
                 updateHeader();
@@ -240,7 +240,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         if (!response.getSummary().getPB_CRN().equals(""))
             motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
 
-        entity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
+        entity.setVehicleRequestID(String.valueOf(motorRequestEntity.getVehicleRequestID()));
         entity.setMotorRequestEntity(motorRequestEntity);
         entity.setSRN(response.getSummary().getRequest_Unique_Id());
         entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
@@ -298,7 +298,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         } else if (response instanceof SaveQuoteResponse) {
             if (response.getStatusNo() == 0) {
                 saveQuoteEntity = ((SaveQuoteResponse) response).getMasterData().get(0);
-                motorRequestEntity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
+                motorRequestEntity.setVehicleRequestID(saveQuoteEntity.getVehicleRequestID());
             }
         }
     }
@@ -338,7 +338,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                     return true;
                 } else {
                     Toast.makeText(getActivity(), "Please Wait.. Fetching all quotes", Toast.LENGTH_SHORT).show();
-                    return  false;
+                    return false;
                 }
 
 

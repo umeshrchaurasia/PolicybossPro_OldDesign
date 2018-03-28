@@ -102,8 +102,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
-                if (motorRequestEntity.getVehicleRequestID() != null)
-                    saveQuoteEntity.setVehicleRequestID(Integer.parseInt(motorRequestEntity.getVehicleRequestID()));
+                if (motorRequestEntity.getVehicleRequestID() != 0)
+                    saveQuoteEntity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
                 initializeAdapters();
                 setListener();
                 updateHeader();
@@ -252,7 +252,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         if (!response.getSummary().getPB_CRN().equals(""))
             motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
 
-        entity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
+        entity.setVehicleRequestID(String.valueOf(motorRequestEntity.getVehicleRequestID()));
         entity.setMotorRequestEntity(motorRequestEntity);
         entity.setSRN(response.getSummary().getRequest_Unique_Id());
         entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
@@ -310,7 +310,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         } else if (response instanceof SaveQuoteResponse) {
             if (response.getStatusNo() == 0) {
                 saveQuoteEntity = ((SaveQuoteResponse) response).getMasterData().get(0);
-                motorRequestEntity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
+                motorRequestEntity.setVehicleRequestID(saveQuoteEntity.getVehicleRequestID());
             }
         }
     }
