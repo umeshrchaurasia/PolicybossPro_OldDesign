@@ -17,8 +17,8 @@
         android:orientation="vertical">
 
         <ImageView
-            android:layout_width="300dp"
-            android:layout_height="150dp"
+            android:layout_width="200dp"
+            android:layout_height="100dp"
             android:src="@drawable/finmart_logo" />
 
         <TextView
@@ -170,7 +170,6 @@
                         android:gravity="center"
                         android:padding="5dp"
                         android:text="Rajeev Ranjan"
-                        android:textAllCaps="true"
                         android:textAppearance="@style/TextViewStyle.Medium"
                         android:textColor="@color/blue"
                         android:textSize="12sp" />

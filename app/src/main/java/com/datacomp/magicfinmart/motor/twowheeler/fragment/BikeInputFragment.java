@@ -257,6 +257,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     private void bindInputsQuotes() {
 
         int vehicleID = motorRequestEntity.getVehicle_id();
+        if (vehicleID == 0) {
+            vehicleID = motorRequestEntity.getVarid();
+        }
         BikeMasterEntity carMasterEntity = dbController.getBikeVarientDetails(String.valueOf(vehicleID));
         if (carMasterEntity != null) {
 

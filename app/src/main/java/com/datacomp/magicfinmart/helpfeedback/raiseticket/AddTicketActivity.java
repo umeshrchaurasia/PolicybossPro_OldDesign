@@ -60,7 +60,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
     HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
-    String categoryId = "0";
+    String categoryId = "";
     int subCategoryId = 0, classId = 0;
     CreateTicketrequest createTicketrequest;
 

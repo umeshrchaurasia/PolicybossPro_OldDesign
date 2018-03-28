@@ -342,12 +342,16 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 return true;
 
             case R.id.action_home:
-
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                getActivity().finish();
-                return true;
+                if (webViewLoader.getVisibility() == View.GONE) {
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                    return true;
+                } else {
+                    Toast.makeText(getActivity(), "Please Wait.. Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
 
             default:
                 return super.onOptionsItemSelected(item);

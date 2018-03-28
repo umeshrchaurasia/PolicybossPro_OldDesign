@@ -272,6 +272,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     private void bindInputsQuotes() {
 
         int vehicleID = motorRequestEntity.getVehicle_id();
+        if (vehicleID == 0) {
+            vehicleID = motorRequestEntity.getVarid();
+        }
         CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
         if (carMasterEntity != null) {
 
@@ -1366,7 +1369,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 etExpDate.setEnabled(true);
                 spPrevIns.setEnabled(true);
                 cvNcb.setVisibility(View.VISIBLE);
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "),Constants.PRIVATE_CAR), null);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), Constants.PRIVATE_CAR), null);
             } else {
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));

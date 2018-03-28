@@ -22,7 +22,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">Login</string>
     <string name="title_activity_private_car_detail">Motor Insurance</string>
-    <string name="title_activity_register">Register</string>
+    <string name="title_activity_register">Register As Associate</string>
     <string name="title_activity_add_quote">Add Quote</string>
     <string name="title_myaccount">MY ACCOUNT</string>
     <string name="title_pospenrollment">ENROLL FOR IRDA POSP</string>
