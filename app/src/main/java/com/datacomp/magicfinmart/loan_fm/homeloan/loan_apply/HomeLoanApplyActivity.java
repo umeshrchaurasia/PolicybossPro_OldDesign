@@ -131,6 +131,9 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     boolean isAppliction = false;
     String AppID = "0";
 
+
+
+
     String TypePage = "";
     //endregion
 
@@ -905,7 +908,14 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             erpLoanRequest.setProp_Terms(rbCustomerEntity.getLoanTenure());//
             erpLoanRequest.setProp_Id_Type(rbCustomerEntity.getPropertyID());
             erpLoanRequest.setProp_Processing_Fee(rbCustomerEntity.getProcessing_fee());
-            erpLoanRequest.setApplnId(0);
+            if(AppID.trim().equals(""))
+            {
+                erpLoanRequest.setApplnId(0);
+            }else{
+                erpLoanRequest.setApplnId(Integer.valueOf(AppID));
+            }
+
+
             erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
             erpLoanRequest.setIs_Confirm(0);//by default
             erpLoanRequest.setAppln_Source(TypePage);   // ie HL / LAP
@@ -2406,8 +2416,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         cancelDialog();
         if (response instanceof ERPSaveResponse) {
             if (response.getStatusId() == 0) {
-                int strAppID = ((ERPSaveResponse) response).getResult();
-                Toast.makeText(this, String.valueOf(strAppID), Toast.LENGTH_LONG).show();
+                AppID  = ""+ ((ERPSaveResponse) response).getResult();
+                Toast.makeText(this, String.valueOf(AppID), Toast.LENGTH_LONG).show();
                 if (isSubmit) {
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
                     if (TypePage.equals("HL")) {
