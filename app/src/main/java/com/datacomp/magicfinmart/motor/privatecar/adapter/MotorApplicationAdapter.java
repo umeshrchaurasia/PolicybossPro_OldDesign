@@ -110,10 +110,12 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
+                        ((MotorApplicationFragment) fragment).dialNumber(entity.getMotorRequestEntity().getMobile());
+                        //Toast.makeText(fragment.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((MotorApplicationFragment) fragment).sendSms(entity.getMotorRequestEntity().getMobile());
+                        //Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
 
                 }
