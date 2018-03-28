@@ -323,6 +323,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                 intent.putExtra("RESPONSE", getblDispalyResponse);
                 intent.putExtra("NAME", fmBalanceLoanRequest.getBLLoanRequest().getApplicantName());
                 intent.putExtra("LOAN_REQUIRED", "" + fmBalanceLoanRequest.getBLLoanRequest().getLoanamount());
+                intent.putExtra("PRODUCT_ID", fmBalanceLoanRequest.getBLLoanRequest().getProduct_id());
                 startActivity(intent);
             }
 

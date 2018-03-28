@@ -36,7 +36,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -1234,12 +1233,20 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         pospDetailsEntity = ((PospDetailsResponse) response).getMasterData().get(0);
                         if (pospDetailsEntity != null) {
 
-                            /*if (checkAllImageUpload()) {
-                                // all image uploaded
 
+
+                            /*if (checkAllImageUpload()) {
+
+                                // all image uploaded
                                 if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals("")) {
                                     // posp enrollment done , all image uploaded
+                                    if (pospDetailsEntity.getLink() != null && !pospDetailsEntity.getLink().equals("")) {
+                                        // posp enrollment done , all image uploaded  ,payment link generated
+                                        openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
+                                    }else{
+                                        // posp enrollment done , all image uploaded  ,payment link not generated
 
+                                    }
 
                                 } else {
                                     // posp not registered ,all image uploaded
@@ -1249,6 +1256,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                             } else {
                                 // All image not uploaded
+
+
+
                             }*/
 
 
@@ -1617,22 +1627,22 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         switch (type) {
             case 6:
-                FileName=PHOTO_File;
+                FileName = PHOTO_File;
                 break;
             case 7:
-                FileName=PAN_File;
+                FileName = PAN_File;
                 break;
             case 8:
-                FileName=AADHAR_FRONT_File;
+                FileName = AADHAR_FRONT_File;
                 break;
             case 9:
-                FileName=AADHAR_BACK_File;
+                FileName = AADHAR_BACK_File;
                 break;
             case 10:
-                FileName=CANCEL_CHQ_File;
+                FileName = CANCEL_CHQ_File;
                 break;
             case 11:
-                FileName=EDU_FILE;
+                FileName = EDU_FILE;
                 break;
 
         }
@@ -1662,7 +1672,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap mphoto = null;
-           // Bitmap mphoto = (Bitmap) data.getExtras().get("data");
+            // Bitmap mphoto = (Bitmap) data.getExtras().get("data");
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 mphoto = getResizedBitmap(mphoto, 1200);

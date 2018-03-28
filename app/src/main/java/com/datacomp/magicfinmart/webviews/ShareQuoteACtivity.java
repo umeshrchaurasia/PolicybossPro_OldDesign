@@ -340,6 +340,7 @@ public class ShareQuoteACtivity extends BaseActivity {
     }
 
     private void BlAllQuote() {
+        int productId = 0;
         if (getIntent().hasExtra("RESPONSE")) {
             //bike
             getblDispalyResponse = getIntent().getParcelableExtra("RESPONSE");
@@ -353,6 +354,9 @@ public class ShareQuoteACtivity extends BaseActivity {
             //bike
             otherData = getIntent().getStringExtra("LOAN_REQUIRED");
         }
+        if (getIntent().hasExtra("PRODUCT_ID")) {
+            productId = getIntent().getIntExtra("PRODUCT_ID", 0);
+        }
         url = "file:///android_asset/BT.html";
         title = "BALANCE TRANSFER QUOTE";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -361,6 +365,7 @@ public class ShareQuoteACtivity extends BaseActivity {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("NAME", name);
             jsonObject.put("LOAN_REQUIRED", otherData);
+            jsonObject.put("PRODUCT_ID", productId);
             otherData = jsonObject.toString();
         } catch (Exception e) {
             e.printStackTrace();
