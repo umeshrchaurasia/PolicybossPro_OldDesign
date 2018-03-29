@@ -158,7 +158,8 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
                        // Toast.makeText(mFrament.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((BL_QuoteFragment) mFrament).sendSms(entity.getBLLoanRequest().getContact());
+
                         break;
                     case R.id.menuDelete:
                         ((BL_QuoteFragment)mFrament).removeQuoteBL(entity);((BL_QuoteFragment)mFrament).removeQuoteBL(entity);
