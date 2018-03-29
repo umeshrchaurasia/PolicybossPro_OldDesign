@@ -1339,7 +1339,6 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
 
             isSubmit = false;
-            saveData(0);
 
         } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));  //down_arrow
@@ -2170,6 +2169,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
                 // manageTaskBar(1);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2178,6 +2178,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
                 manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo, ivFinancial);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2186,6 +2187,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 manageMainLayouts(llEmployment, llPlInfo, llAddress, llFinancial);
                 manageImages(llEmployment, ivEmploy, ivPLInfo, ivAddress, ivFinancial);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2194,7 +2196,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 manageMainLayouts(llFinancial, llPlInfo, llAddress, llEmployment);
                 manageImages(llFinancial, ivFinancial, ivPLInfo, ivAddress, ivEmploy);
                 manageTaskBar();
-
+                saveData(0);
 
                 break;
 
@@ -2323,6 +2325,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                     }
                 } else {
+                    manageTaskBar();
                     isSubmit = true;
                     saveData(1);
                 }

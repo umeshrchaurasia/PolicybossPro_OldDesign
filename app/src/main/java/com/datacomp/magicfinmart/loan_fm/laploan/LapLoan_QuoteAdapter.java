@@ -134,7 +134,7 @@ public class LapLoan_QuoteAdapter extends RecyclerView.Adapter<LapLoan_QuoteAdap
                       //  Toast.makeText(mFrament.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(mFrament.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((LAP_QuoteFragment) mFrament).sendSms(entity.getHomeLoanRequest().getContact());
                         break;
                     case R.id.menuDelete:
                         ((LAP_QuoteFragment)mFrament).removeQuoteLAP(entity);

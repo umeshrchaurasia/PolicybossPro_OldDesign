@@ -328,10 +328,18 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
+
+        int finalPremium = 0;
+        if (buyHealthQuoteEntity.getServicetaxincl().toLowerCase().equals("e")) {
+            finalPremium = (int) Math.round(buyHealthQuoteEntity.getNetPremium());
+        } else if (buyHealthQuoteEntity.getServicetaxincl().toLowerCase().equals("i")) {
+            finalPremium = (int) Math.round(buyHealthQuoteEntity.getGrossPremium());
+        }
+
         Glide.with(this).load(buyHealthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);
         txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());
-        txtEstPremium.setText("\u20B9 " + Math.round(buyHealthQuoteEntity.getNetPremium()));
+        txtEstPremium.setText("\u20B9 " + finalPremium);
         txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));
 
         builder.setPositiveButton("BUY", new DialogInterface.OnClickListener() {

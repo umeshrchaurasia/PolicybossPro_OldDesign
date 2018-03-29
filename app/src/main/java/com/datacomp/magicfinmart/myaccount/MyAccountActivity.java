@@ -1011,19 +1011,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         switch (type) {
             case 1:
-                FileName=PHOTO_File;
+                FileName = PHOTO_File;
                 break;
             case 2:
-                FileName=PHOTO_File;
+                FileName = PHOTO_File;
                 break;
             case 3:
-                FileName=PAN_File;
+                FileName = PAN_File;
                 break;
             case 4:
-                FileName=CANCEL_CHQ_File;
+                FileName = CANCEL_CHQ_File;
                 break;
             case 5:
-                FileName=AADHAR_File;
+                FileName = AADHAR_File;
                 break;
 
         }

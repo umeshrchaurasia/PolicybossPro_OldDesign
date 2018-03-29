@@ -1359,7 +1359,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
 
             isSubmit = false;
-            saveData(0);
+
 
         } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));  //down_arrow
@@ -2190,6 +2190,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
                 // manageTaskBar(1);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2198,6 +2199,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
                 manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo, ivFinancial);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2206,7 +2208,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageMainLayouts(llEmployment, llPlInfo, llAddress, llFinancial);
                 manageImages(llEmployment, ivEmploy, ivPLInfo, ivAddress, ivFinancial);
                 manageTaskBar();
-
+                saveData(0);
                 break;
 
             case R.id.ivFinancial:
@@ -2214,7 +2216,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageMainLayouts(llFinancial, llPlInfo, llAddress, llEmployment);
                 manageImages(llFinancial, ivFinancial, ivPLInfo, ivAddress, ivEmploy);
                 manageTaskBar();
-
+                saveData(0);
                 break;
 
             case R.id.ivMale:
@@ -2342,6 +2344,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
                     }
                 } else {
+                    manageTaskBar();
                     isSubmit = true;
                     saveData(1);
                 }
