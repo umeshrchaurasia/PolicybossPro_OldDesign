@@ -36,6 +36,7 @@ import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailAc
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
+import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -756,7 +757,9 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
 
             //endregion
-
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
             if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
@@ -914,7 +917,9 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
 
             //endregion
-
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
             if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
