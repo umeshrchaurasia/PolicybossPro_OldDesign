@@ -1349,7 +1349,6 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
 
             isSubmit = false;
-            saveData(0);
 
         } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));  //down_arrow
@@ -2182,7 +2181,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                 manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
                 // manageTaskBar(1);
                 manageTaskBar();
-
+                saveData(0);
                 break;
 
             case R.id.ivAddress:
@@ -2190,7 +2189,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                 manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
                 manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo, ivFinancial);
                 manageTaskBar();
-
+                saveData(0);
                 break;
 
             case R.id.ivEmploy:
@@ -2198,7 +2197,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                 manageMainLayouts(llEmployment, llPlInfo, llAddress, llFinancial);
                 manageImages(llEmployment, ivEmploy, ivPLInfo, ivAddress, ivFinancial);
                 manageTaskBar();
-
+                saveData(0);
                 break;
 
             case R.id.ivFinancial:
@@ -2206,7 +2205,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                 manageMainLayouts(llFinancial, llPlInfo, llAddress, llEmployment);
                 manageImages(llFinancial, ivFinancial, ivPLInfo, ivAddress, ivEmploy);
                 manageTaskBar();
-
+                saveData(0);
                 break;
 
             case R.id.ivMale:
@@ -2330,6 +2329,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
                     }
                 } else {
+                    manageTaskBar();
                     isSubmit = true;
                     saveData(1);
                 }
