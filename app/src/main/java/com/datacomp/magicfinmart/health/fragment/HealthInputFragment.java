@@ -548,6 +548,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     healthQuote.getHealthRequest().setMemberList(memberList);
 
                     //open pop up
+                    btnGetHealthQuote.setEnabled(false);
                     Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
                     intent.putExtra(MEMBER_LIST, healthQuote);
                     startActivityForResult(intent, REQUEST_MEMBER);
@@ -561,6 +562,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        btnGetHealthQuote.setEnabled(true);
         if (requestCode == REQUEST_MEMBER) {
             if (data != null) {
                 healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);

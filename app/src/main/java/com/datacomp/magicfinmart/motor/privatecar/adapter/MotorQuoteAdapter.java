@@ -61,9 +61,18 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
             holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
                     + " " + entity.getMotorRequestEntity().getLast_name());
             try {
-                CarMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity())
-                        .getVarientDetails(
-                                "" + entity.getMotorRequestEntity().getVehicle_id());
+                CarMasterEntity carMasterEntity = null;
+                if (entity.getMotorRequestEntity().getVehicle_id() == 0) {
+
+                    carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+                            .getVarientDetails(
+                                    "" + entity.getMotorRequestEntity().getVarid());
+                } else {
+
+                    carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+                            .getVarientDetails(
+                                    "" + entity.getMotorRequestEntity().getVehicle_id());
+                }
                 holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
 
             } catch (Exception e) {
@@ -72,27 +81,10 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
             holder.txtQuoteDate.setText(entity.getMotorRequestEntity().getCreated_date());
             holder.txtCrnNo.setText("" + entity.getMotorRequestEntity().getCrn());
 
-//            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    openPopUp(view, entity);
-//                }
-//            });
-
-
-            //set tag for sharing entity
-
-    /*        holder.txtCrnNo.setTag(R.id.txtCrnNo, entity);
-            holder.txtQuoteDate.setTag(R.id.txtQuoteDate, entity);
-            holder.txtVehicleName.setTag(R.id.txtVehicleName, entity);*/
             holder.txtPersonName.setTag(R.id.txtPersonName, entity);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
             holder.llDetails.setTag(R.id.llDetails, entity);
 
-            //click listener
- /*           holder.txtCrnNo.setOnClickListener(this);
-            holder.txtQuoteDate.setOnClickListener(this);
-            holder.txtVehicleName.setOnClickListener(this);*/
             holder.txtPersonName.setOnClickListener(this);
             holder.txtOverflowMenu.setOnClickListener(this);
             holder.llDetails.setOnClickListener(this);
