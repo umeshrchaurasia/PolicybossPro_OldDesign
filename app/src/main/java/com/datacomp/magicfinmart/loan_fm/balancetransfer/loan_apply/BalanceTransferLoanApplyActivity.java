@@ -38,6 +38,7 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
+import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -768,6 +769,10 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
             //endregion
 
+
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
             //region  hl
             if(SubmitType == 1)
             {
@@ -919,6 +924,10 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
 
             //endregion
+
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
 
             if(SubmitType == 1)
             {
@@ -2407,12 +2416,8 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                 AppID  = ""+ ((ERPSaveResponse) response).getResult();
                 if (isSubmit) {
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
-                    if (TypePage.equals("HL")) {
-                        startActivity(new Intent(this, HomeLoanDetailActivity.class));
-                    } else {
-                        startActivity(new Intent(this, LapLoanDetailActivity.class));
 
-                    }
+                        startActivity(new Intent(this, BalanceTransferDetailActivity.class));
 
                 }
 
