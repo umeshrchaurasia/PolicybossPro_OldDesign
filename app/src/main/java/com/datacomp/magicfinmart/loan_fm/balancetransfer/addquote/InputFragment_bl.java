@@ -246,13 +246,32 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
                 return;
 
             }
-            if (Double.parseDouble(TenureInYear) > 100) {
+            if (rbimghl.isChecked()) {
+                if (Double.parseDouble(TenureInYear) > 30) {
 
-                ettenureyrs.setError("Please Check Loan Tenure Year.");
-                ettenureyrs.requestFocus();
-                return;
+                    ettenureyrs.setError("Please Check Loan Tenure Year.");
+                    ettenureyrs.requestFocus();
+                    return;
 
+                }
+            } else if (rbimgpl.isChecked()) {
+                if (Double.parseDouble(TenureInYear) > 7) {
+
+                    ettenureyrs.setError("Please Check Loan Tenure Year.");
+                    ettenureyrs.requestFocus();
+                    return;
+
+                }
+            } else if (rbimglap.isChecked()) {
+                if (Double.parseDouble(TenureInYear) > 30) {
+
+                    ettenureyrs.setError("Please Check Loan Tenure Year.");
+                    ettenureyrs.requestFocus();
+                    return;
+
+                }
             }
+
 
             if (rbimghl.isChecked()) {
                 if (Double.parseDouble(Outstanding) < 500000) {
