@@ -55,6 +55,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        registerPopUp(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         accountDtlEntity = dbPersistanceController.getAccountData();
