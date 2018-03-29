@@ -87,7 +87,7 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
 //        startActivity(intent);
       //  HLBT,PLBT,LAPBT
 
-        if (Integer.toString(Type).matches("12")) {
+        if (Integer.toString(Type).matches("5")) {
 //home
 
             Intent intenthl=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
@@ -96,7 +96,7 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
             startActivity(intenthl);
 
 
-        }else if (Integer.toString(Type).matches("9")) {
+        }else if (Integer.toString(Type).matches("14")) {
             //personal
 
             Intent intentpl=new Intent(getActivity(), BalanceTransferPersonalApplyActivity.class);
@@ -104,7 +104,7 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
             intentpl.putExtra("TypePage","PLBT");
             startActivity(intentpl);
 
-        } else if (Integer.toString(Type).matches("7")) {
+        } else if (Integer.toString(Type).matches("2")) {
             //lap
             Intent intenthl=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
             intenthl.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
