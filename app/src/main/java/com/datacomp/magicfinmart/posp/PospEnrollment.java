@@ -121,8 +121,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     Uri imageUri;
     private int POSP_PHOTO = 6, POSP_PAN = 7, POSP_AADHAR_FRONT = 8, POSP_AADHAR_BACK = 9, POSP_CANCEL_CHQ = 10, POSP_EDU = 11;
     private String PHOTO_File = "POSPPhotograph", PAN_File = "POSPPanCard", CANCEL_CHQ_File = "POSPCancelledChq", AADHAR_FRONT_File = "POSPAadharCard", AADHAR_BACK_File = "POSPAadharCardBack", EDU_FILE = "POSPHighestEducationProof";
-    boolean isAllImageUpload;
     LinearLayout llMain;
+    boolean IsAllImageUploaded = false, isPospNoAvailable = false, isPaymentLinkAvailable = false, isPAymentDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -258,16 +258,20 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     }
 
     private boolean checkAllImageUpload() {
+        int count = 0;
         List<DocAvailableEntity> docAvailableEntityList = pospDetailsEntity.getDoc_available();
         for (DocAvailableEntity docAvailableEntity : docAvailableEntityList) {
-            if (docAvailableEntity.getFileName().equals("")) {
+            if (!docAvailableEntity.getFileName().equals("")) {
                 int docType = docAvailableEntity.getDocType();
                 if (docType == 6 || docType == 7 || docType == 8 || docType == 9 || docType == 10 || docType == 11) {
-                    return false;
+                    count++;
                 }
             }
         }
-        return true;
+        if (count >= 6)
+            return true;
+        else
+            return false;
     }
 
     private void bindInputFromeServer(PospDetailsEntity registerRequestEntity) {
@@ -284,10 +288,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             // showDialog();
             new RegisterController(this).getCityState(registerRequestEntity.getPosp_PinCode(), this);
         }
-        if (registerRequestEntity.getPosp_IFSC() != null && !registerRequestEntity.getPosp_IFSC().equals("")) {
+        /*if (registerRequestEntity.getPosp_IFSC() != null && !registerRequestEntity.getPosp_IFSC().equals("")) {
             //showDialog();
             new RegisterController(this).getIFSC(registerRequestEntity.getPosp_IFSC(), this);
-        }
+        }*/
         if (registerRequestEntity.getPosp_DOB() != null && !registerRequestEntity.getPosp_DOB().equals("")) {
             etDob.setText("" + registerRequestEntity.getPosp_DOB());
         }
@@ -531,6 +535,19 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     }
 
+    private void registerPosp() {
+        ivAddress.performClick();
+        ivBankDetail.performClick();
+        ivDocumentUpload.performClick();
+
+        if (isPospInfo && isAddress && isBankDetails) {
+            registerRequestEntity.setFBAID(dbPersistanceController.getUserData().getFBAId());
+            showDialog();
+            new RegisterController(this).enrollPosp(registerRequestEntity, this);
+        } else {
+            Toast.makeText(this, "Please Fill all details.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     public void onClick(View view) {
@@ -941,7 +958,48 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.btnSave:
                 new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : submit button for posp enrollment"), Constants.POSP), null);
-                if (pospDetailsEntity.getPaymStat() == null || pospDetailsEntity.getPaymStat().isEmpty()) {
+
+                IsAllImageUploaded = checkAllImageUpload();
+                if (IsAllImageUploaded) {
+                    if (isPAymentDone) {
+                        llMain.setVisibility(View.GONE);
+                        openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
+                    } else {
+                        if (isPospNoAvailable) {
+
+                            if (isPaymentLinkAvailable) {
+                                openWebView(loginResponseEntity.getPaymentUrl());
+                            } else {
+                                bindInputFromeServer(pospDetailsEntity);
+                                openPopUp(llDocumentUpload, "FAILURE", "Payment Link Not Available !!", "OK", true);
+                            }
+                        } else {
+                            registerPosp();
+                        }
+                    }
+
+                } else {
+                    bindUploadImage();
+                    if (isPAymentDone) {
+                        openPopUp(llDocumentUpload, "MESSAGE", "Upload remaining documents !!", "OK", true);
+                    } else {
+                        if (isPospNoAvailable) {
+
+                            if (isPaymentLinkAvailable) {
+                                openWebView(loginResponseEntity.getPaymentUrl());
+                            } else {
+                                bindInputFromeServer(pospDetailsEntity);
+                                openPopUp(llDocumentUpload, "FAILURE", "Payment Link Not Available !!", "OK", true);
+                            }
+                        } else {
+                            registerPosp();
+                        }
+                    }
+
+                }
+
+
+                /*if (pospDetailsEntity.getPaymStat() == null || pospDetailsEntity.getPaymStat().isEmpty()) {
                     if (loginResponseEntity.getPaymentUrl() != null) {
                         openWebView(loginResponseEntity.getPaymentUrl());
                     } else {
@@ -969,7 +1027,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         openPopUp(llDocumentUpload, "SUCCESS", "Upload Remaining Document !", "OK", true);
                         //showPopUpNew("SUCCESS ", "Upload Remaining Document !", "OK", true);
                     }
-                }
+                }*/
                 break;
 
 
@@ -1233,36 +1291,20 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                         pospDetailsEntity = ((PospDetailsResponse) response).getMasterData().get(0);
                         if (pospDetailsEntity != null) {
 
-
-
-                            /*if (checkAllImageUpload()) {
-
-                                // all image uploaded
-                                if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals("")) {
-                                    // posp enrollment done , all image uploaded
-                                    if (pospDetailsEntity.getLink() != null && !pospDetailsEntity.getLink().equals("")) {
-                                        // posp enrollment done , all image uploaded  ,payment link generated
-                                        openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
-                                    }else{
-                                        // posp enrollment done , all image uploaded  ,payment link not generated
-
-                                    }
-
-                                } else {
-                                    // posp not registered ,all image uploaded
-
-                                }
-
-
-                            } else {
-                                // All image not uploaded
-
-
-
-                            }*/
-
-
-                            if (checkAllImageUpload()) {
+                            IsAllImageUploaded = checkAllImageUpload();
+                            if (pospDetailsEntity.getPaymStat() != null && !pospDetailsEntity.getPaymStat().equals("")) {
+                                isPAymentDone = true;
+                            }
+                            if (pospDetailsEntity.getLink() != null && !pospDetailsEntity.getLink().equals("")) {
+                                isPaymentLinkAvailable = true;
+                                registerRequestEntity.setLink(pospDetailsEntity.getLink());
+                            }
+                            if (pospDetailsEntity.getPOSPNo() != null && !pospDetailsEntity.getPOSPNo().equals("")) {
+                                isPospNoAvailable = true;
+                                registerRequestEntity.setPOSPID(Integer.parseInt(pospDetailsEntity.getPOSPNo()));
+                            }
+                            checkPospStatus();
+                         /*   if (checkAllImageUpload()) {
                                 // all documents uploaded
                                 if (pospDetailsEntity.getPaymStat() == null || pospDetailsEntity.getPaymStat().equals("")) {
                                     // payment   Not done & documents uploaded
@@ -1292,7 +1334,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                                 } else {
                                     setInputParameters();
                                 }
-                            }
+                            }*/
                         }
                     }
                 }
@@ -1301,11 +1343,18 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 if (((EnrollPospResponse) response).getMasterData() != null) {
-                    if (((EnrollPospResponse) response).getMasterData().getPaymentURL() != null && !((EnrollPospResponse) response).getMasterData().getPaymentURL().equals("")) {
-                        pospEnrollEntity = ((EnrollPospResponse) response).getMasterData();
-                        //update login response
-                        updateLoginResponse(pospEnrollEntity);
-                        openWebView(pospEnrollEntity.getPaymentURL());
+
+                    if (((EnrollPospResponse) response).getMasterData().getPOSPNo() != null &&
+                            !((EnrollPospResponse) response).getMasterData().getPOSPNo().equals("")) {
+                        isPospNoAvailable = true;
+                        if (((EnrollPospResponse) response).getMasterData().getPaymentURL() != null &&
+                                !((EnrollPospResponse) response).getMasterData().getPaymentURL().equals("")) {
+                            isPaymentLinkAvailable = true;
+                            pospEnrollEntity = ((EnrollPospResponse) response).getMasterData();
+                            //update login response
+                            updateLoginResponse(pospEnrollEntity);
+                            openWebView(pospEnrollEntity.getPaymentURL());
+                        }
                     }
                 }
             }
@@ -1324,6 +1373,41 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             }
         }
 
+    }
+
+    void checkPospStatus() {
+        bindUploadImage();
+        if (IsAllImageUploaded) {
+            if (isPAymentDone) {
+                llMain.setVisibility(View.GONE);
+                openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
+            } else {
+                if (isPospNoAvailable) {
+                    bindInputFromeServer(pospDetailsEntity);
+                    if (isPaymentLinkAvailable) {
+                        openWebView(loginResponseEntity.getPaymentUrl());
+                    } else {
+
+                        openPopUp(llDocumentUpload, "FAILURE", "Payment Link Not Available !!", "OK", true);
+                    }
+                } else {
+                    setInputParameters();
+                }
+            }
+
+        } else {
+            if (isPAymentDone) {
+                bindInputFromeServer(pospDetailsEntity);
+                openPopUp(llDocumentUpload, "MESSAGE", "Upload remaining documents !!", "OK", true);
+            } else {
+                if (isPospNoAvailable) {
+                    bindInputFromeServer(pospDetailsEntity);
+                } else {
+                    setInputParameters();
+                }
+            }
+
+        }
     }
 
     public void updateLoginResponse(final PospEnrollEntity pospEnrollEntity) {
