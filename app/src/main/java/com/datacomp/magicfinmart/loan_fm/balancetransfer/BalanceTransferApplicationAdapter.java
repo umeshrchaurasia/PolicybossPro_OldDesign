@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.application.BL_ApplicationFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
@@ -150,7 +151,9 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
                     //    Toast.makeText(fragment.getActivity(), "WIP " + entity.getBLLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((BL_ApplicationFragment) fragment).sendSms(entity.getBLLoanRequest().getContact());
+
+                        // Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
 
                 }
@@ -170,10 +173,7 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
         }
     }
 
-    @Override
-    public Filter getFilter() {
-        return null;
-    }
+
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
@@ -193,4 +193,47 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
             lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
         }
     }
+
+    public void refreshAdapter(List<FmBalanceLoanRequest> list) {
+        mAppListFiltered = list;
+    }
+
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mAppListFiltered = mAppList;
+                } else {
+                    try {
+                        List<FmBalanceLoanRequest> filteredList = new ArrayList<>();
+                        for (FmBalanceLoanRequest row : mAppList) {
+                            if (row.getBLLoanRequest().getApplicantName().toLowerCase().contains(charString.toLowerCase())) {
+                                filteredList.add(row);
+                            }
+                        }
+                        mAppListFiltered = filteredList;
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mAppListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mAppListFiltered = (ArrayList<FmBalanceLoanRequest>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 }
