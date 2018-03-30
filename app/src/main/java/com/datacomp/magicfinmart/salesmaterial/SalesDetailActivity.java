@@ -138,7 +138,8 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
             } else {
                 langType = "English";
             }
-            bindDocList(companyLst.get(0).getCompany_id(), langType);
+            companyID = companyLst.get(0).getCompany_id();
+            bindDocList(companyID, langType);
         } else {
             rvCompany.setAdapter(null);
 
