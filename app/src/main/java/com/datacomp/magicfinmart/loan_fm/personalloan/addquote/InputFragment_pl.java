@@ -211,7 +211,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             etNameOfApplicant.setText(personalLoanRequest.getApplicantNme());
 
             int tenureInYear = Integer.parseInt(personalLoanRequest.getLoanTenure());
-            sbTenure.setProgress(tenureInYear);
+            sbTenure.setProgress(tenureInYear-1);
 
             if (personalLoanRequest.getApplicantGender().matches("M")) {
                 setApp_Male_gender();
