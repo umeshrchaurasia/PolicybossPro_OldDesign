@@ -182,6 +182,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             personalLoanRequest.setApplicantObligations(etEMI.getText().toString());
         }
 
+       // personalLoanRequest.setEmi(etEMI.getText().toString());
         personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
         personalLoanRequest.setBrokerId("" + loginEntity.getLoanId());
        // personalLoanRequest.setLoaniD(Integer.parseInt(loginEntity.getLoanId()));
@@ -190,6 +191,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         personalLoanRequest.setEmpcode("");
         personalLoanRequest.setType("PSL");
         personalLoanRequest.setApi_source("Finmart");
+
         personalLoanRequest.setQuote_id(fmPersonalLoanRequest.getPersonalLoanRequest().getQuote_id());
 
     }
@@ -207,6 +209,10 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             etCostOfProp.setText(personalLoanRequest.getLoanRequired());
         if (personalLoanRequest.getLoanTenure() != null)
             etTenureInYear.setText(personalLoanRequest.getLoanTenure());
+
+        if(personalLoanRequest.getApplicantObligations() != null){
+            etEMI.setText(personalLoanRequest.getApplicantObligations());
+        }
         if (personalLoanRequest.getApplicantNme() != null)
             etNameOfApplicant.setText(personalLoanRequest.getApplicantNme());
 
