@@ -278,7 +278,20 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             }
         } else if (response instanceof HealthQuoteCompareResponse) {
-            buyHealthDialog((HealthQuoteCompareResponse) response);
+
+            int finalPremium = 0;
+            if (buyHealthQuoteEntity.getServicetaxincl().toLowerCase().equals("e")) {
+                finalPremium = (int) Math.round(buyHealthQuoteEntity.getNetPremium());
+            } else if (buyHealthQuoteEntity.getServicetaxincl().toLowerCase().equals("i")) {
+                finalPremium = (int) Math.round(buyHealthQuoteEntity.getGrossPremium());
+            }
+
+            if (finalPremium == (int) Math.round(((HealthQuoteCompareResponse) response).getMasterData().getNetPremium()))
+                redirectProposal((HealthQuoteCompareResponse) response);
+            else
+                buyHealthDialog((HealthQuoteCompareResponse) response);
+
+
         }
 
     }
@@ -345,11 +358,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         builder.setPositiveButton("BUY", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 dialog.dismiss();
-                Intent intent = new Intent(getActivity(), CommonWebViewActivity.class);
-                intent.putExtra("URL", healthQuoteCompareResponse.getMasterData().getProposerPageUrl());
-                intent.putExtra("TITLE", "HEALTH INSURANCE");
-                intent.putExtra("NAME", "HEALTH INSURANCE");
-                startActivity(intent);
+                redirectProposal(healthQuoteCompareResponse);
             }
         })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -363,6 +372,14 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         dialog.show();
         TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
         msgTxt.setTextSize(12.0f);
+    }
+
+    private void redirectProposal(HealthQuoteCompareResponse healthQuoteCompareResponse) {
+        Intent intent = new Intent(getActivity(), CommonWebViewActivity.class);
+        intent.putExtra("URL", healthQuoteCompareResponse.getMasterData().getProposerPageUrl());
+        intent.putExtra("TITLE", "HEALTH INSURANCE");
+        intent.putExtra("NAME", "HEALTH INSURANCE");
+        startActivity(intent);
     }
 
     private void prepareChild() {

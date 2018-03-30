@@ -68,8 +68,7 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
         if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("a")) {
             startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_APPLICATION, entity));
         } else {
-            Toast.makeText(getActivity(), "PB Status "
-                    + entity.getMotorRequestEntity().getPBStatus(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Payment link send to your mail id.", Toast.LENGTH_SHORT).show();
         }
     }
 
