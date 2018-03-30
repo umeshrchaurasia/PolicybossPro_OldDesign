@@ -193,7 +193,7 @@
             HTML = HTML + '<table class="table table-bordered tbl2" >';
             HTML = HTML +     '<tbody>';
             HTML = HTML +     '  <tr>';
-            HTML = HTML + '<td style="width:30%;"><img src="' + response.data.bank_data[i].Bank_Logo + '" class="img-responsive center" /><span style="font-size:10px;padding-left: 8px;">' + response.data.bank_data[i].Bank_Code + ' <span></td>';
+            HTML = HTML + '<td style="width:30%;"><img src="' + response.data.bank_data[i].Bank_Logo + '" class="img-responsive center" /><span style="font-size:8px;">' + response.data.bank_data[i].Bank_Code + ' <span></td>';
             HTML = HTML + ' <td style="border-right:0px;width:35%"><p>LOAN AMOUNT</p><h5><b>₹ ' + Math.round(otherReponse.LOAN_REQUIRED) + '</b></h5></td>';
             HTML = HTML + '<td style="border-left:0px;"></td>';
             HTML = HTML + ' <td style="width:35%;"><p>DROP EMI</p><h5><b> ₹ ' + Math.round(response.data.bank_data[i].drop_emi) + '</b></h5></td>';
