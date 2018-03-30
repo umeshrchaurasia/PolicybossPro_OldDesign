@@ -680,7 +680,7 @@ public class DBPersistanceController {
 
     //region insurance image mapping
 
-    public void MapCarInsuranceImage() {
+    /*public void MapCarInsuranceImage() {
 
         hasMapCarInsuranceImage.put(1, R.drawable.carins1);
         hasMapCarInsuranceImage.put(2, R.drawable.carins2);
@@ -721,7 +721,7 @@ public class DBPersistanceController {
             return hasMapCarInsuranceImage.get(insurerID);
         else
             return R.drawable.carins35;
-    }
+    }*/
     //endregion
 
     //region Health Data
