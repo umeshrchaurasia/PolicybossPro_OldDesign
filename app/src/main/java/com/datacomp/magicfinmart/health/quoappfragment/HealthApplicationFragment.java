@@ -120,7 +120,7 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
     }
 
     public void redirectToQuote(HealthApplication entity) {
-        if (entity.getHealthRequest().getQuote_Application_Status().toLowerCase().equals("a")) {
+        if (entity.getHealthRequest().getPBStatus().toLowerCase().equals("a")) {
             HealthQuote healthQuote = new HealthQuote();
             healthQuote.setFba_id(entity.getFba_id());
             healthQuote.setHealthRequest(entity.getHealthRequest());
@@ -129,11 +129,11 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
             Intent intent = new Intent(getActivity(), HealthQuoteBottomTabsActivity.class);
             intent.putExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT, healthQuote);
             startActivity(intent);
-        } else if (entity.getHealthRequest().getQuote_Application_Status().toLowerCase().equals("am")) {
+        } else if (entity.getHealthRequest().getPBStatus().toLowerCase().equals("am")) {
             openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
-        } else if (entity.getHealthRequest().getQuote_Application_Status().toLowerCase().equals("ps")) {
+        } else if (entity.getHealthRequest().getPBStatus().toLowerCase().equals("ps")) {
             openPopUp(etSearch, "Message", "Already payment done for this crn.", "OK", true);
-        } else if (entity.getHealthRequest().getQuote_Application_Status().toLowerCase().equals("pf")) {
+        } else if (entity.getHealthRequest().getPBStatus().toLowerCase().equals("pf")) {
             openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
         } else {
             openPopUp(etSearch, "Message", "Kindly contact customer care.", "OK", true);
