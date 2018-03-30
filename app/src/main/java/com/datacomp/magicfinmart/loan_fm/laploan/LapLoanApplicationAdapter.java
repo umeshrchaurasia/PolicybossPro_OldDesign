@@ -75,7 +75,12 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
 
             if (entity.getHomeLoanRequest().getRBStatus() != null) {
 
-                if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                        || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                        || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                        || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                        || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                {
                     holder.txtApplicationNumber.setVisibility(View.VISIBLE);
 
                 } else {
@@ -93,7 +98,12 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
 
                     if (entity.getHomeLoanRequest().getRBStatus() != null) {
 
-                        if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                        if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                                || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                                || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                                || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                                || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                        {
 
                             Toast.makeText(fragment.getActivity(),"Application Number Already Generated",Toast.LENGTH_SHORT).show();
 
