@@ -226,7 +226,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
             int tenureInYear = Integer.parseInt(homeLoanRequest.getLoanTenure());
-            sbTenure.setProgress(tenureInYear);
+            sbTenure.setProgress(tenureInYear-5);
             if (homeLoanRequest.getCity() != null) {
 
                 acCity.setText(homeLoanRequest.getCity());

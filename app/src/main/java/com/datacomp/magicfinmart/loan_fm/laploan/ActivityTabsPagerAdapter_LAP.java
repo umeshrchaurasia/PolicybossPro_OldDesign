@@ -38,11 +38,10 @@ public class ActivityTabsPagerAdapter_LAP extends FragmentStatePagerAdapter {
     }
 
 
-    @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
-    }
-
+    //    @Override
+//    public int getItemPosition(Object object) {
+//        return POSITION_NONE;
+//    }
 
     @Override
     public Fragment getItem(int index) {

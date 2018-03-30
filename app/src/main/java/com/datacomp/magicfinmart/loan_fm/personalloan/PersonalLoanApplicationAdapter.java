@@ -75,7 +75,13 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
 
             if (entity.getPersonalLoanRequest().getRBStatus() != null) {
 
-                if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                        || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                        || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                        || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                        || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                {
+
                     holder.txtApplicationNumber.setVisibility(View.VISIBLE);
 
                 } else {
@@ -93,7 +99,13 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
 
                     if (entity.getPersonalLoanRequest().getRBStatus() != null) {
 
-                        if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+
+                        if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                                || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                                || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                                || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                                || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                        {
 
                             Toast.makeText(fragment.getActivity(),"Application Number Already Generated",Toast.LENGTH_SHORT).show();
 

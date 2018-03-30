@@ -1,6 +1,8 @@
 package com.datacomp.magicfinmart.health.quoappfragment;
 
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -18,6 +20,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.HealthActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 
 import java.util.ArrayList;
@@ -25,11 +29,12 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthApplication;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HealthApplicationFragment extends BaseFragment implements View.OnClickListener {
+public class HealthApplicationFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
     RecyclerView rvHealthApplicationList;
     HealthApplicationAdapter healthApplicationAdapter;
     List<HealthApplication> mApplicationList;
@@ -51,7 +56,7 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
         initView(view);
         setListener();
         setTextWatcher();
-
+        registerPopUp(this);
         mApplicationList = new ArrayList<>();
 
         if (getArguments().getParcelableArrayList(HealthActivityTabsPagerAdapter.HEALTH_APPLICATION_LIST) != null) {
@@ -114,8 +119,37 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
         });
     }
 
-    public void redirectToQuote(HealthApplication application) {
-        Toast.makeText(getContext(), "Application", Toast.LENGTH_SHORT).show();
+    public void redirectToQuote(HealthApplication entity) {
+        if (entity.getHealthRequest().getQuote_Application_Status().toLowerCase().equals("a")) {
+            HealthQuote healthQuote = new HealthQuote();
+            healthQuote.setFba_id(entity.getFba_id());
+            healthQuote.setHealthRequest(entity.getHealthRequest());
+            healthQuote.setCrn(entity.getCrn());
+            healthQuote.setAgent_source(entity.getAgent_source());
+            Intent intent = new Intent(getActivity(), HealthQuoteBottomTabsActivity.class);
+            intent.putExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT, healthQuote);
+            startActivity(intent);
+        } else if (entity.getHealthRequest().getQuote_Application_Status().toLowerCase().equals("am")) {
+            openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
+        } else if (entity.getHealthRequest().getQuote_Application_Status().toLowerCase().equals("ps")) {
+            openPopUp(etSearch, "Message", "Already payment done for this crn.", "OK", true);
+        } else if (entity.getHealthRequest().getQuote_Application_Status().toLowerCase().equals("pf")) {
+            openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
+        } else {
+            openPopUp(etSearch, "Message", "Kindly contact customer care.", "OK", true);
+        }
+
     }
 
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
 }
+
+

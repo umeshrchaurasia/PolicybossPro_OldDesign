@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
+
+
     defaultConfig {
         applicationId "com.datacomp.magicfinmart"
         minSdkVersion 15
@@ -17,6 +19,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+
     }
 
 
