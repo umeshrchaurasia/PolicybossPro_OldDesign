@@ -60,7 +60,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumRes
 
 import static magicfinmart.datacomp.com.finmartserviceapi.Utility.createShareDirIfNotExists;
 
-public class ShareQuoteACtivity extends BaseActivity {
+public class ShareQuoteActivity extends BaseActivity {
     WebView webView;
     String url;
     String name;
@@ -608,7 +608,7 @@ public class ShareQuoteACtivity extends BaseActivity {
             }
         });
         webView.getSettings().setBuiltInZoomControls(false);
-        webView.addJavascriptInterface(new MyJavaScriptInterface(ShareQuoteACtivity.this), "Android");
+        webView.addJavascriptInterface(new MyJavaScriptInterface(ShareQuoteActivity.this), "Android");
         Log.d("URL", url);
         //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
         //webView.loadUrl("file:///android_asset/VechicleInsurance.html");

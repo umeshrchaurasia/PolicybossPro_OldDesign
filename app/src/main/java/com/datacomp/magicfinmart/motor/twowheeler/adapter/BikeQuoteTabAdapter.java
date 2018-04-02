@@ -68,11 +68,11 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
 
                     carMasterEntity = new DBPersistanceController(mFrament.getActivity())
                             .getBikeVarientDetails(
-                                    "" + entity.getMotorRequestEntity().getVehicle_id());
+                                    "" + entity.getMotorRequestEntity().getVarid());
                 } else {
                     carMasterEntity = new DBPersistanceController(mFrament.getActivity())
                             .getBikeVarientDetails(
-                                    "" + entity.getMotorRequestEntity().getVarid());
+                                    "" + entity.getMotorRequestEntity().getVehicle_id());
                 }
                 holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
 
