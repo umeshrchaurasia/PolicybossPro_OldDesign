@@ -1362,7 +1362,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         } else if (response instanceof DocumentResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
-                if (type == 6 || type == 7) {
+                if (type == 6 ) {
                     String temp = ((DocumentResponse) response).getMasterData().get(0).getPrv_file();
                     if (temp != null && !temp.equals(""))
                         updatePhotoUrl(temp);

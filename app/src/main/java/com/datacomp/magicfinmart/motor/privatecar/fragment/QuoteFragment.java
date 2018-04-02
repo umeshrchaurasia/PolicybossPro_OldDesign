@@ -33,7 +33,7 @@ import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.CarQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -231,7 +231,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                     isQuoteFetch = true;
                 }
 
-                ((InputQuoteBottmActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
+                if (getActivity() != null)
+                    ((InputQuoteBottmActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
             }
         }
     }
@@ -272,31 +273,37 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
             bikePremiumResponse = (BikePremiumResponse) response;
             //save quote to our server.
-            if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == 1) {
-                saveQuoteToServer(bikePremiumResponse);
+            if (getActivity() != null) {
+                if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == 1) {
+                    saveQuoteToServer(bikePremiumResponse);
+                }
             }
 
             rebindAdapter(bikePremiumResponse);
             updateCrn();
 
-            if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
-                    || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
 
-                webViewLoader.setVisibility(View.GONE);
-                updateCrn();
-                new AsyncAddon().execute();
+            if (getActivity() != null) {
+                if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
+                        || Constants.getSharedPreference(getActivity())
+                        .getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
+
+                    webViewLoader.setVisibility(View.GONE);
+                    updateCrn();
+                    new AsyncAddon().execute();
 
 
-                if (((BikePremiumResponse) response).getResponse().size() != 0)
-                    menuAddon.findItem(R.id.add_on).setVisible(true);
-                else {
-                    menuAddon.findItem(R.id.add_on).setVisible(false);
-                    Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
+                    if (((BikePremiumResponse) response).getResponse().size() != 0)
+                        menuAddon.findItem(R.id.add_on).setVisible(true);
+                    else {
+                        menuAddon.findItem(R.id.add_on).setVisible(false);
+                        Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    webViewLoader.setVisibility(View.VISIBLE);
+
                 }
-
-            } else {
-                webViewLoader.setVisibility(View.VISIBLE);
-
             }
         } else if (response instanceof SaveAddOnResponse) {
 
@@ -942,7 +949,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             case R.id.ivShare:
                 if (Utility.checkShareStatus(getActivity()) == 1) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
-                        Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                        Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                         intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_ALL_QUOTE");
                         intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
                         intent.putExtra("CARNAME", carMasterEntity);
@@ -960,6 +967,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
+                .putExtra("VEHICLE_REQUEST_ID",""+ saveQuoteEntity.getVehicleRequestID())
                 .putExtra("RESPONSE_CAR", entity)
                 .putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn)
                 .putExtra("SUMMARY", summaryEntity));

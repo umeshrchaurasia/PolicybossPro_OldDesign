@@ -640,7 +640,7 @@
                 android:value="com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity" />
         </activity>
         <activity
-            android:name=".webviews.ShareQuoteACtivity"
+            android:name=".webviews.ShareQuoteActivity"
             android:label="@string/title_activity_share_quote_activity"
             android:noHistory="true"
             android:parentActivityName=".home.HomeActivity"

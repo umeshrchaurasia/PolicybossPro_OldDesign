@@ -25,7 +25,7 @@ import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAddonAda
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAddonEntity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
@@ -35,10 +35,11 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.AppliedAddonsPremiumBreakup;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.LiabilityEntity;
@@ -48,7 +49,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
 
-public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener, IResponseSubcriber {
+public class PremiumBreakUpActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber {
     ResponseEntity responseEntity;
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
@@ -67,6 +68,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     String jsonShareString, responseJson;
     Gson gson = new Gson();
     Double addOnTotal = 0.0;
+    String vechileRequestId = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,9 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             responseEntity = getIntent().getParcelableExtra("RESPONSE_BIKE");
             bikeMasterEntity = dbPersistanceController.getBikeVarientDetails("" + summaryEntity.getRequest_Core().getVehicle_id());
         }
-
+        if (getIntent().hasExtra("VEHICLE_REQUEST_ID")) {
+            vechileRequestId = getIntent().getStringExtra("VEHICLE_REQUEST_ID");
+        }
         initViews();
 
         damageList = getDamageList();
@@ -305,13 +309,13 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     jsonShareString = getShareData();
                     if (jsonShareString != null && responseJson != null) {
                         if (getIntent().hasExtra("RESPONSE_BIKE")) {
-                            Intent intent = new Intent(this, ShareQuoteACtivity.class);
+                            Intent intent = new Intent(this, ShareQuoteActivity.class);
                             intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_SINGLE_QUOTE");
                             intent.putExtra("RESPONSE", responseJson);
                             intent.putExtra("OTHER", jsonShareString);
                             startActivity(intent);
                         } else if (getIntent().hasExtra("RESPONSE_CAR")) {
-                            Intent intent = new Intent(this, ShareQuoteACtivity.class);
+                            Intent intent = new Intent(this, ShareQuoteActivity.class);
                             intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_SINGLE_QUOTE");
                             intent.putExtra("RESPONSE", responseJson);
                             intent.putExtra("OTHER", jsonShareString);
@@ -393,6 +397,14 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     public void redirectToBuy(String Service_Log_Unique_Id) {
         if (Utility.checkShareStatus(this) == 1) {
+            String imgPath = "http://qa.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name();
+            //convert quote to application server
+            new QuoteApplicationController(this).convertQuoteToApp(
+                    "" + vechileRequestId,
+                    responseEntity.getInsurer_Id(),
+                    imgPath,
+                    this);
+
             if (getIntent().hasExtra("RESPONSE_CAR")) {
                 startActivity(new Intent(this, CommonWebViewActivity.class)
                         .putExtra("URL", Utility.getMotorUrl(this, Service_Log_Unique_Id))
@@ -442,9 +454,15 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     }
 
     @Override
+    public void OnSuccess(magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse response, String message) {
+
+    }
+
+    @Override
     public void OnFailure(Throwable t) {
 
     }
+
 
     class AsyncShareJson extends AsyncTask<Void, Void, String> {
 

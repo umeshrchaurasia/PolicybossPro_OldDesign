@@ -105,10 +105,10 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        ((HealthQuoteListFragment) fragment).dialNumber(entity.getHealthRequest().getContactMobile());
+                        ((HealthApplicationFragment) fragment).dialNumber(entity.getHealthRequest().getContactMobile());
                         break;
                     case R.id.menuSms:
-                        ((HealthQuoteListFragment) fragment).sendSms(entity.getHealthRequest().getContactMobile());
+                        ((HealthApplicationFragment) fragment).sendSms(entity.getHealthRequest().getContactMobile());
                         break;
 
                 }

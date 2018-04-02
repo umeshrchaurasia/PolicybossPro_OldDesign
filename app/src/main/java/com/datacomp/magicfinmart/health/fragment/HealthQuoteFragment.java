@@ -26,7 +26,7 @@ import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsAct
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.SortbyInsurer;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -130,7 +130,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             if (Utility.checkShareStatus(getActivity()) == 1) {
 
                 if (!jsonShareString.equals("")) {
-                    Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                    Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                     intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HEALTH_ALL_QUOTE");
                     intent.putExtra("RESPONSE", jsonShareString);
                     intent.putExtra("NAME", healthQuote.getHealthRequest().getContactName());

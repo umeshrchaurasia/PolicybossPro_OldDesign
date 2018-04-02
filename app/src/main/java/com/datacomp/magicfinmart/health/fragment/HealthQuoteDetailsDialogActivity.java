@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import com.google.gson.Gson;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -103,7 +103,7 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
         if (view.getId() == R.id.imgShare) {
             if (Utility.checkShareStatus(this) == 1) {
                 if (responseJson != null) {
-                    Intent intent = new Intent(this, ShareQuoteACtivity.class);
+                    Intent intent = new Intent(this, ShareQuoteActivity.class);
                     intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HEALTH_SINGLE_QUOTE");
                     intent.putExtra("RESPONSE", responseJson);
                     intent.putExtra("NAME", name);
