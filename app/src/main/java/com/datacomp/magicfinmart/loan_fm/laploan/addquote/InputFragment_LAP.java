@@ -220,7 +220,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 
             int tenureInYear = Integer.parseInt(homeLoanRequest.getLoanTenure());
-            sbTenure.setProgress(tenureInYear);
+            sbTenure.setProgress(tenureInYear-1);
             if (homeLoanRequest.getCity() != null) {
 
                 acCity.setText(homeLoanRequest.getCity());
@@ -1284,21 +1284,32 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
     public void monthlycalc_applicant(long int_etProfitAtTax,long int_etDirecPartRemuntion,long int_etDepreciation)
     {
-        float total = int_etProfitAtTax+int_etDirecPartRemuntion+int_etDepreciation;
+        if (ApplicantSource== "1") {
+
+        } else if (ApplicantSource == "2") {
+
+            double total = int_etProfitAtTax+int_etDirecPartRemuntion+int_etDepreciation;
         if (total > 0) {
             totalmonthlucalc_app = Math.round((total) / 12);
             etMonthlyInc.setText(""+totalmonthlucalc_app);
         }
+
+        }
+
     }
 
     public void monthlycalc_coapplicant(long int_coApp_etDepreciation,long int_coApp_etProfitAtTax,long int_coApp_etDirecPartRemuntion)
     {
+        if (CoApplicantSource == "1") {
 
-        float totalcoapp = int_coApp_etDepreciation+int_coApp_etProfitAtTax+int_coApp_etDirecPartRemuntion;
+            } else if (CoApplicantSource== "2") {
+                double totalcoapp = int_coApp_etDepreciation+int_coApp_etProfitAtTax+int_coApp_etDirecPartRemuntion;
         if (totalcoapp > 0) {
             totalmonthlucalc_coapp = Math.round((totalcoapp) / 12);
             coApp_etMonthlyInc.setText(""+totalmonthlucalc_coapp);
         }
+    }
+
     }
     @Override
     public void afterTextChanged(Editable s) {
@@ -1349,7 +1360,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             }
         }
     };
-
 
 
 }

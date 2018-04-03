@@ -33,7 +33,7 @@ import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -930,7 +930,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             case R.id.ivShare:
                 if (Utility.checkShareStatus(getActivity()) == 1) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
-                        Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                        Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                         intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_ALL_QUOTE");
                         intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
                         intent.putExtra("BIKENAME", carMasterEntity);
@@ -948,6 +948,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
+                .putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID())
                 .putExtra("RESPONSE_BIKE", entity)
                 .putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn)
                 .putExtra("SUMMARY", summaryEntity));

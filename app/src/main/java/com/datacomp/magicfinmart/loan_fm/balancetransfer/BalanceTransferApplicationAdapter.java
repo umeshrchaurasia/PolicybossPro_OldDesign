@@ -73,7 +73,12 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
 
             if (entity.getBLLoanRequest().getRBStatus() != null) {
 
-                if (entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                if (entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                        || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                        || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                        || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                        || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                {
                     holder.txtApplicationNumber.setVisibility(View.VISIBLE);
 
                 } else {
@@ -91,7 +96,14 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
 
                     if (entity.getBLLoanRequest().getRBStatus() != null) {
 
-                        if (entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                        if (entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                                || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                                || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                                || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                                || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                        {
+
+
 
                             Toast.makeText(fragment.getActivity(),"Application Number Already Generated",Toast.LENGTH_SHORT).show();
 

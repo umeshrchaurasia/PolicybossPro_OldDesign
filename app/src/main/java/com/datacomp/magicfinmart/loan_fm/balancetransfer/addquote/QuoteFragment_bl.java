@@ -20,7 +20,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
@@ -318,7 +318,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         } else if (v.getId() == R.id.ivShare) {
 
             if (getblDispalyResponse != null) {
-                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BL_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getblDispalyResponse);
                 intent.putExtra("NAME", fmBalanceLoanRequest.getBLLoanRequest().getApplicantName());

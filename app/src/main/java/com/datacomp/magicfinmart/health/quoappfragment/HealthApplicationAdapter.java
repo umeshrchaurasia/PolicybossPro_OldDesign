@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -55,12 +56,17 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             holder.txtSumAssured.setText(healthApplication.getHealthRequest().getSumInsured());
 
             try {
+
                 Glide.with(fragment).load(healthApplication.getInsImage()).into(holder.imgInsurerLogo);
 
-                /*holder.imgInsurerLogo.setImageResource(
-                        new DBPersistanceController(fragment.getContext()).
-                         getInsurerImage(healthApplication.getSelectedPrevInsID()));
-                */
+                if (healthApplication.getHealthRequest().getStatusPercent() == 25 || healthApplication.getHealthRequest().getStatusPercent() == 0) {
+                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_25));
+                } else if (healthApplication.getHealthRequest().getStatusPercent() == 50) {
+                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_50));
+                } else {
+                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -70,6 +76,9 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             holder.txtSumAssured.setTag(R.id.txtSumAssured, healthApplication);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, healthApplication);
             holder.imgInsurerLogo.setTag(R.id.imgInsurerLogo, healthApplication);
+            holder.llApp.setTag(R.id.llApp, healthApplication);
+            holder.llbottom.setTag(R.id.llbottom, healthApplication);
+
 
             holder.txtCRN.setOnClickListener(this);
             holder.txtCreatedDate.setOnClickListener(this);
@@ -77,6 +86,8 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             holder.txtSumAssured.setOnClickListener(this);
             holder.txtOverflowMenu.setOnClickListener(this);
             holder.imgInsurerLogo.setOnClickListener(this);
+            holder.llApp.setOnClickListener(this);
+            holder.llbottom.setOnClickListener(this);
 
 
         }
@@ -94,10 +105,10 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        ((HealthQuoteListFragment) fragment).dialNumber(entity.getHealthRequest().getContactMobile());
+                        ((HealthApplicationFragment) fragment).dialNumber(entity.getHealthRequest().getContactMobile());
                         break;
                     case R.id.menuSms:
-                        ((HealthQuoteListFragment) fragment).sendSms(entity.getHealthRequest().getContactMobile());
+                        ((HealthApplicationFragment) fragment).sendSms(entity.getHealthRequest().getContactMobile());
                         break;
 
                 }
@@ -117,6 +128,8 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             case R.id.txtPersonName:
             case R.id.txtSumAssured:
             case R.id.imgInsurerLogo:
+            case R.id.llbottom:
+            case R.id.llApp:
                 ((HealthApplicationFragment) fragment).redirectToQuote((HealthApplication) view.getTag(view.getId()));
                 break;
             case R.id.txtOverflowMenu:
@@ -138,7 +151,8 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtSumAssured, txtPersonName;
-        ImageView imgInsurerLogo;
+        ImageView imgInsurerLogo, imgProgressStatus;
+        LinearLayout llbottom, llApp;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -148,6 +162,9 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
             txtSumAssured = (TextView) itemView.findViewById(R.id.txtSumAssured);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
+            imgProgressStatus = (ImageView) itemView.findViewById(R.id.imgProgressStatus);
+            llbottom = (LinearLayout) itemView.findViewById(R.id.llbottom);
+            llApp = (LinearLayout) itemView.findViewById(R.id.llApp);
         }
     }
 

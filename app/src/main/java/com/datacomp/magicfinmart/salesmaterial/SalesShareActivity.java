@@ -140,7 +140,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
                 PospMobNo = accountDtlEntity.getDisplayPhoneNo();
             } else {
                 if (loginResponseEntity.getPOSPMobile() != null && !loginResponseEntity.getPOSPMobile().equals("")) {
-                    PospMobNo = loginResponseEntity.getPOSEmail();
+                    PospMobNo = loginResponseEntity.getPOSPMobile();
                 } else {
                     PospMobNo = "98XXXXXXXX";
                 }

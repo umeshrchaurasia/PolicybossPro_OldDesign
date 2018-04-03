@@ -61,6 +61,24 @@ public class HealthRequestEntity implements Parcelable {
     private List<MemberListEntity> MemberList;
     private int selectedPrevInsID;
     private int pincode;
+    private String PBStatus;
+    private int StatusPercent;
+
+    public int getStatusPercent() {
+        return StatusPercent;
+    }
+
+    public void setStatusPercent(int statusPercent) {
+        StatusPercent = statusPercent;
+    }
+
+    public String getPBStatus() {
+        return PBStatus;
+    }
+
+    public void setPBStatus(String PBStatus) {
+        this.PBStatus = PBStatus;
+    }
 
     public int getPincode() {
         return pincode;
@@ -335,6 +353,8 @@ public class HealthRequestEntity implements Parcelable {
         dest.writeTypedList(this.MemberList);
         dest.writeInt(this.selectedPrevInsID);
         dest.writeInt(this.pincode);
+        dest.writeString(this.PBStatus);
+        dest.writeInt(this.StatusPercent);
     }
 
     protected HealthRequestEntity(Parcel in) {
@@ -365,6 +385,8 @@ public class HealthRequestEntity implements Parcelable {
         this.MemberList = in.createTypedArrayList(MemberListEntity.CREATOR);
         this.selectedPrevInsID = in.readInt();
         this.pincode = in.readInt();
+        this.PBStatus = in.readString();
+        this.StatusPercent = in.readInt();
     }
 
     public static final Parcelable.Creator<HealthRequestEntity> CREATOR = new Parcelable.Creator<HealthRequestEntity>() {

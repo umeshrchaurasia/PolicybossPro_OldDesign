@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.loan_fm.laploan.addquote;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,11 +18,9 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLQuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
-import com.datacomp.magicfinmart.loan_fm.laploan.application.LAPApplyWebView;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
@@ -45,7 +44,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResp
  * Created by IN-RB on 30-01-2018.
  */
 
-public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM {
+public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM,BaseFragment.PopUpListener  {
 
     private static String INPUT_FRAGMENT = "input";
 
@@ -79,6 +78,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.content_home_loan_quote, container, false);
+        registerPopUp(this);
         initialise_widget(view);
 
         if (getArguments() != null) {
@@ -210,7 +210,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
             ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
         }else if(v.getId() == R.id.ivShare){
             if(getQuoteResponse!=null){
-                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "LAP_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getQuoteResponse);
                 intent.putExtra("NAME", homeLoanRequest.getApplicantNme());
@@ -309,5 +309,19 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
+        }
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        if (view.getId() == R.id.ivShare) {
+            dialog.cancel();
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,7 +31,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationList
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MotorApplicationFragment extends BaseFragment implements View.OnClickListener {
+public class MotorApplicationFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
     public static final String FROM_APPLICATION = "from_application";
 
     RecyclerView rvApplicationList;
@@ -53,6 +54,7 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
         initView(view);
         setListener();
         setTextWatcher();
+        registerPopUp(this);
         mApplicationList = new ArrayList<>();
 
         if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST) != null) {
@@ -67,9 +69,14 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
     public void redirectApplication(ApplicationListEntity entity) {
         if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("a")) {
             startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_APPLICATION, entity));
+        } else if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("am")) {
+            openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
+        } else if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("ps")) {
+            openPopUp(etSearch, "Message", "Already payment done for this crn.", "OK", true);
+        } else if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("pf")) {
+            openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
         } else {
-            Toast.makeText(getActivity(), "PB Status "
-                    + entity.getMotorRequestEntity().getPBStatus(), Toast.LENGTH_SHORT).show();
+            openPopUp(etSearch, "Message", "", "OK", true);
         }
     }
 
@@ -123,5 +130,15 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
     }
 }
