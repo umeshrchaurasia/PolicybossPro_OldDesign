@@ -32,12 +32,20 @@ public class AsyncCarMaster extends AsyncTask<Void, Void, Void> {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
-            realm.executeTransactionAsync(new Realm.Transaction() {
+            realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(listCarMaster);
+                    prefManager.setIsCarMasterUpdate(false);
                 }
             });
+
+//            realm.executeTransactionAsync(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                    realm.copyToRealmOrUpdate(listCarMaster);
+//                }
+//            });
 
 
         } catch (Exception e) {
@@ -54,6 +62,6 @@ public class AsyncCarMaster extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
 
         super.onPostExecute(aVoid);
-        prefManager.setIsCarMasterUpdate(false);
+
     }
 }

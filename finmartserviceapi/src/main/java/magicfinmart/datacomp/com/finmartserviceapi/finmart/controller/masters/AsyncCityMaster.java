@@ -2,6 +2,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.util.List;
 
@@ -31,12 +32,31 @@ public class AsyncCityMaster extends AsyncTask<Void, Void, Void> {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
-            realm.executeTransactionAsync(new Realm.Transaction() {
+            realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(listRTOMaster);
+                    prefManager.setIsRtoMasterUpdate(false);
                 }
             });
+
+//            realm.executeTransactionAsync(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                    realm.copyToRealmOrUpdate(listRTOMaster);
+//
+//                }
+//            }, new Realm.Transaction.OnSuccess() {
+//                @Override
+//                public void onSuccess() {
+//                    prefManager.setIsRtoMasterUpdate(false);
+//                }
+//            }, new Realm.Transaction.OnError() {
+//                @Override
+//                public void onError(Throwable error) {
+//                    Log.d("------TAAAG------",error.getMessage());
+//                }
+//            });
 
 
         } catch (Exception e) {
@@ -52,6 +72,5 @@ public class AsyncCityMaster extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        prefManager.setIsRtoMasterUpdate(false);
     }
 }
