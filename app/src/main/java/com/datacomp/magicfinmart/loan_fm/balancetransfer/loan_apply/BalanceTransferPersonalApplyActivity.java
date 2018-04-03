@@ -477,7 +477,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
     }
 
     private void initLayouts() {
-        llPlInfo.setVisibility(View.GONE);
+        llPlInfo.setVisibility(View.VISIBLE);
         llAddress.setVisibility(View.GONE);
         llEmployment.setVisibility(View.GONE);
         llFinancial.setVisibility(View.GONE);

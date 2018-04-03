@@ -499,7 +499,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     }
 
     private void initLayouts() {
-        llPlInfo.setVisibility(View.GONE);
+        llPlInfo.setVisibility(View.VISIBLE);
         llAddress.setVisibility(View.GONE);
         llEmployment.setVisibility(View.GONE);
         llFinancial.setVisibility(View.GONE);
@@ -2471,8 +2471,10 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
                     if (TypePage.equals("HL")) {
                         startActivity(new Intent(this, HomeLoanDetailActivity.class));
+                        finish();
                     } else {
                         startActivity(new Intent(this, LapLoanDetailActivity.class));
+                        finish();
 
                     }
 

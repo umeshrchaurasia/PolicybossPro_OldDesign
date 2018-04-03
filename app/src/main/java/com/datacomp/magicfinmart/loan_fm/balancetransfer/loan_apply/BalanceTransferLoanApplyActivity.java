@@ -497,7 +497,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
     }
 
     private void initLayouts() {
-        llPlInfo.setVisibility(View.GONE);
+        llPlInfo.setVisibility(View.VISIBLE);
         llAddress.setVisibility(View.GONE);
         llEmployment.setVisibility(View.GONE);
         llFinancial.setVisibility(View.GONE);
@@ -814,9 +814,9 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             //endregion
 
 
-//            Gson gson = new Gson();
-//            String result = gson.toJson(erpLoanRequest);
-//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
+            Gson gson = new Gson();
+            String result = gson.toJson(erpLoanRequest);
+            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
             //region  hl
             if(SubmitType == 1)
             {
@@ -2462,6 +2462,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
 
                         startActivity(new Intent(this, BalanceTransferDetailActivity.class));
+                        finish();
 
                 }
 

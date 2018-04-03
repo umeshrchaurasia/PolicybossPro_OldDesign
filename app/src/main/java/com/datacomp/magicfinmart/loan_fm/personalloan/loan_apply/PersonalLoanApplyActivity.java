@@ -478,7 +478,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
     }
 
     private void initLayouts() {
-        llPlInfo.setVisibility(View.GONE);
+        llPlInfo.setVisibility(View.VISIBLE);
         llAddress.setVisibility(View.GONE);
         llEmployment.setVisibility(View.GONE);
         llFinancial.setVisibility(View.GONE);
@@ -2450,6 +2450,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
                 if (isSubmit) {
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(this, PersonalLoanDetailActivity.class));
+                    finish();
                 }
 
             } else {
