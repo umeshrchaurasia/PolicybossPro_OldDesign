@@ -40,12 +40,17 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        tabLayout.setupWithViewPager(viewPager, true);
-//        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
-//        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        prefManager = new PrefManager(this);
+        if (prefManager.IsCarMasterUpdate()) {
+            new MasterController(this).getCarMaster(this);
+        }
 
-        //fetchQuoteApplication();
+        if (prefManager.IsRtoMasterUpdate()) {
+            new MasterController(this).getRTOMaster(this);
+        }
+
+        tabLayout.setupWithViewPager(viewPager, true);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -65,10 +70,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
 
             }
         });
-        prefManager = new PrefManager(this);
-        if (prefManager.IsCarMasterUpdate()) {
-            new MasterController(this).getCarMaster(this);
-        }
+
 
     }
 

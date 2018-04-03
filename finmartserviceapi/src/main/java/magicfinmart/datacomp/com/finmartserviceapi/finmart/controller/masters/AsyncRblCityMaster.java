@@ -32,12 +32,20 @@ public class AsyncRblCityMaster extends AsyncTask<Void, Void, Void> {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
-            realm.executeTransactionAsync(new Realm.Transaction() {
+            realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(listRblCityMaster);
+                    prefManager.setIsRblCityMaster(false);
                 }
             });
+//            realm.executeTransactionAsync(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                    realm.copyToRealmOrUpdate(listRblCityMaster);
+//                    prefManager.setIsRblCityMaster(false);
+//                }
+//            });
 
 
         } catch (Exception e) {
