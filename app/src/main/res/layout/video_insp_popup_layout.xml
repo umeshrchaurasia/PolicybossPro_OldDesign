@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/banckground_with_car"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_marginTop="60dp"
+        android:scrollbarStyle="outsideOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/fab_margin"
+            android:layout_marginRight="10dp"
+            android:gravity="center|left"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="SELF VIDEO INSPECTION"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/etMbNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:digits="0123456789+"
+                android:hint="Enter your mobile no."
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="phone"
+                android:maxLength="10"
+                android:textSize="14dp" />
+
+            <EditText
+                android:id="@+id/etCarNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:hint="Enter your car reg. no."
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="text"
+                android:maxLength="10"
+                android:textAllCaps="true"
+                android:textSize="14dp" />
+
+            <Button
+                android:id="@+id/btnProceed"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:minHeight="35dp"
+                android:paddingLeft="25dp"
+                android:paddingRight="25dp"
+                android:text="PROCEED" />
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

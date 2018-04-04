@@ -13,25 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
-import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
-import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
-
-import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -40,7 +33,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
@@ -58,7 +50,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             "android.permission.RECEIVE_SMS",
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.READ_EXTERNAL_STORAGE",
-            "android.permission.CALL_PHONE"
+            "android.permission.CALL_PHONE",
+            "android.permission.RECORD_AUDIO"
     };
 
     @Override
@@ -93,6 +86,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         int WRITE_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
         int READ_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[6]);
         int callPhone = ContextCompat.checkSelfPermission(getApplicationContext(), perms[7]);
+        int recordAudio = ContextCompat.checkSelfPermission(getApplicationContext(), perms[8]);
         return camera == PackageManager.PERMISSION_GRANTED
                 && fineLocation == PackageManager.PERMISSION_GRANTED
                 && sendSms == PackageManager.PERMISSION_GRANTED
@@ -100,7 +94,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 && receiveSms == PackageManager.PERMISSION_GRANTED
                 && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
                 && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && callPhone == PackageManager.PERMISSION_GRANTED;
+                && callPhone == PackageManager.PERMISSION_GRANTED
+                && recordAudio == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermission() {
@@ -123,8 +118,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     boolean writeExternal = grantResults[5] == PackageManager.PERMISSION_GRANTED;
                     boolean readExternal = grantResults[6] == PackageManager.PERMISSION_GRANTED;
                     boolean callPhone = grantResults[7] == PackageManager.PERMISSION_GRANTED;
+                    boolean recordAudio = grantResults[8] == PackageManager.PERMISSION_GRANTED;
 
-                    if (camera && fineLocation && sendSms && readSms && receiveSms && writeExternal && readExternal && callPhone) {
+                    if (camera && fineLocation && sendSms && readSms && receiveSms && writeExternal && readExternal && callPhone && recordAudio) {
 
                         // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
                     } else {
@@ -286,14 +282,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
-               // prefManager.setIsUserLogin(true);
-                if(!prefManager.getSharePushType().equals("")) {
+                // prefManager.setIsUserLogin(true);
+                if (!prefManager.getSharePushType().equals("")) {
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
                     startActivity(intent);
 
-                }else{
+                } else {
                     startActivity(new Intent(this, HomeActivity.class));
                 }
 
