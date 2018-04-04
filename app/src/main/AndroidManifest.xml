@@ -13,9 +13,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -690,17 +687,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
         </activity>
-        <activity
-            android:name=".lifeinsurance.LifeDetailActivity"
-            android:label="@string/title_activity_life_detail"
-            android:parentActivityName=".home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
-        </activity>
+
         <activity
             android:name=".health.fragment.HealthQuoteDetailsDialogActivity"
             android:noHistory="true"
@@ -712,30 +699,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".health.healthquotetabs.HealthQuoteBottomTabsActivity" />
         </activity>
-        <activity
-            android:name=".lifeinsurance.CompareInsurance.CompareInsDetailActivity"
-            android:label="@string/title_activity_compare_ins_detail"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
-        <activity
-            android:name=".lifeinsurance.CompareInsurance.addquote.CompareInsMainActivity"
-            android:label="@string/title_activity_compare_ins_main"
-            android:parentActivityName=".lifeinsurance.CompareInsurance.CompareInsDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".lifeinsurance.CompareInsurance.CompareInsDetailActivity" />
-        </activity>
+
         <activity
             android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
             android:label="@string/title_activity_balance_transfer_personal_apply"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
 
-        <!--region inspection app activities-->
+        <!-- region inspection app activities -->
 
         <activity
             android:name=".inspection.home.MainActivity"
@@ -743,14 +714,12 @@
             android:noHistory="true"
             android:screenOrientation="landscape"
             android:theme="@style/AppTheme.NoActionBar" />
-
         <activity
             android:name=".inspection.splash.SplashScreen"
             android:label="@string/title_activity_splash_screen"
             android:noHistory="false"
             android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".inspection.selfdeclaration.SelfDeclareActivity"
             android:label="@string/title_activity_self_declare"
@@ -762,11 +731,13 @@
                 android:value=".inspection.home.MainActivity" />
         </activity>
 
-        <!--<receiver android:name=".broadcast.SMSBroadCastReceiver">
+        <!--
+        <receiver android:name=".broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
-        </receiver>-->
+        </receiver>
+        -->
 
         <activity
             android:name=".inspection.home.RCPOLICYActivity"
@@ -778,7 +749,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".inspection.splash.SplashScreen" />
         </activity>
-
         <activity
             android:name=".inspection.home.UploadDocumentActivity"
             android:label="@string/title_activity_upload_document"
@@ -789,7 +759,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".inspection.home.RCPOLICYActivity" />
         </activity>
-
         <activity
             android:name=".inspection.selfdeclaration.PhotoCaptureActivity"
             android:label="@string/title_activity_photo_capture"
@@ -800,7 +769,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".inspection.selfdeclaration.SelfDeclareActivity" />
         </activity>
-
         <activity
             android:name=".inspection.activities.ThankYouActivity"
             android:label="@string/title_activity_thank_you"
@@ -811,7 +779,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".inspection.selfdeclaration.PhotoCaptureActivity" />
         </activity>
-
+        <activity
+            android:name=".term.TermQuoteApplicationActivity"
+            android:label="@string/title_activity_term_quote_application"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

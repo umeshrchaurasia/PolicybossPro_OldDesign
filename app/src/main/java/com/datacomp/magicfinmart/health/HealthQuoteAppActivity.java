@@ -42,7 +42,7 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
 //        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
 //        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setupWithViewPager(viewPager,true);
+        tabLayout.setupWithViewPager(viewPager, true);
 
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
