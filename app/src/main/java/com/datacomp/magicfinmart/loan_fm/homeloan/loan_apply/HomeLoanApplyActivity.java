@@ -11,6 +11,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +35,9 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
+import com.google.gson.Gson;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -110,7 +113,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             txtEmpNatureSalaried, txtEmpNatureSelfEmp;
 
     TextInputLayout textInpLayCurrJob, textInpLayTotalExp,
-            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax;
+            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax,textInpLaySpouseName;
     //endregion
 
     // region Variable Declaration
@@ -128,6 +131,9 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     boolean isAppliction = false;
     String AppID = "0";
+
+
+
 
     String TypePage = "";
     //endregion
@@ -175,6 +181,12 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             isAppliction = true;
 
             TypePage = getIntent().getExtras().getString("TypePage", "");
+			if (TypePage.equals("HL")) {
+                getSupportActionBar().setTitle("HOME LOAN");
+            } else {
+                getSupportActionBar().setTitle("LOAN AGAINST PROPERTY");
+
+            }
 
             if (!AppID.equals("")) {
                 showDialog("Please Wait...");
@@ -347,6 +359,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         textInpLayDepreciation = (TextInputLayout) findViewById(R.id.textInpLayDepreciation);
         textInpLayDirRem = (TextInputLayout) findViewById(R.id.textInpLayDirRem);
         textInpLayProfAftTax = (TextInputLayout) findViewById(R.id.textInpLayProfAftTax);
+        textInpLaySpouseName = (TextInputLayout) findViewById(R.id.textInpLaySpouseName);
 
         etDesig = (EditText) findViewById(R.id.etDesig);
         etCurrJob = (EditText) findViewById(R.id.etCurrJob);
@@ -429,19 +442,64 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         etStateContInfoRAP.setKeyListener(null);
         chkPresent.setOnCheckedChangeListener(this);
 
+
         etPincodeContInfoRAP.addTextChangedListener(pincodeRAPTextWatcher);
         etPincodeContInfoPA.addTextChangedListener(pincodePATextWatcher);
         etPincodeED.addTextChangedListener(pincodeEDTextWatcher);
-
 
         etGrossIncome.addTextChangedListener(grossIncomeTextWatcher);
         etNetIncome.addTextChangedListener(grossIncomeTextWatcher);
         etOtherIncome.addTextChangedListener(grossIncomeTextWatcher);
 
+        // region  CAPS Text
+
+        etFirstName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLastName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etFatherName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etNationality.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etUniversity.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etMoMaidenName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etSpouceName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etNoOfDepen.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etIDNumber.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etAddress1ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress2ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etCountryPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etLandlineNoContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandlineNoContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress1ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress2ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etAddress3ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandmakContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandmakContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etDesig.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etCurrJob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etNameOfOrg.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress1ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etAddress2ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandmakED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etCountryED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        //endregion
+
+
+
     }
 
     private void initLayouts() {
-        llPlInfo.setVisibility(View.GONE);
+        llPlInfo.setVisibility(View.VISIBLE);
         llAddress.setVisibility(View.GONE);
         llEmployment.setVisibility(View.GONE);
         llFinancial.setVisibility(View.GONE);
@@ -555,6 +613,21 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         textView1.setBackgroundResource(R.drawable.customeborder);
         textView1.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
 
+        if(MaritalStatus.equals("MARRIED"))
+        {
+            textInpLaySpouseName.setHint("*Spouse Name");
+            etSpouceName.setEnabled(true);
+
+        }else{
+            textInpLaySpouseName.setHint("Spouse Name");
+            etSpouceName.setText("");
+            etSpouceName.setError(null);
+            etSpouceName.clearFocus();
+            etSpouceName.setEnabled(false);
+
+
+        }
+
     }
 
     private void settotal() {
@@ -570,10 +643,9 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         }
 
         double total =  netIncome + othIncome;
-        if (total > 0) {
-            //   etTotalIncome = Math.round((total));
-            etTotalIncome.setText("" + total);
-        }
+
+        etTotalIncome.setText("" +  BigDecimal.valueOf(total).toPlainString());
+
     }
 
     private void getResAddrToPermAddress() {
@@ -744,6 +816,11 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             //endregion
 
             //region  hl
+
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
+
             if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
@@ -877,7 +954,14 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             erpLoanRequest.setProp_Terms(rbCustomerEntity.getLoanTenure());//
             erpLoanRequest.setProp_Id_Type(rbCustomerEntity.getPropertyID());
             erpLoanRequest.setProp_Processing_Fee(rbCustomerEntity.getProcessing_fee());
-            erpLoanRequest.setApplnId(0);
+            if(AppID.trim().equals(""))
+            {
+                erpLoanRequest.setApplnId(0);
+            }else{
+                erpLoanRequest.setApplnId(Integer.valueOf(AppID));
+            }
+
+
             erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
             erpLoanRequest.setIs_Confirm(0);//by default
             erpLoanRequest.setAppln_Source(TypePage);   // ie HL / LAP
@@ -887,6 +971,10 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
 
             //endregion
+
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
 
             if (SubmitType == 1) {
                 showDialog("Please wait...");
@@ -1169,6 +1257,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         etNetIncome.setText(homeLoanApplyAppliEntity.getNet_Income());
         etOtherIncome.setText(homeLoanApplyAppliEntity.getOther_Income());
         etTotalIncome.setText(homeLoanApplyAppliEntity.getTotal_Income());
+
         //endregion
     }
 
@@ -1316,7 +1405,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
 
             isSubmit = false;
-            saveData(0);
+
 
         } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));  //down_arrow
@@ -1532,18 +1621,22 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             }
         }
 
-        // etDob
-        if (!isEmpty(etSpouceName)) {
+        //
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                etSpouceName.requestFocus();
-                etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSpouceName.setError("Enter Spouce Name");
-                return false;
-            } else {
-                etSpouceName.requestFocus();
-                etSpouceName.setError("Enter Spouce Name");
-                return false;
+        if (MaritalStatus.equals("MARRIED")) {
+
+            if (!isEmpty(etSpouceName)) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    etSpouceName.setError("Enter Spouce Name");
+                    return false;
+                } else {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setError("Enter Spouce Name");
+                    return false;
+                }
             }
         }
 
@@ -2004,10 +2097,14 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         if (!isEmpty(etLastName)) {
             return false;
         }
-        if (!isEmpty(etSpouceName)) {
-            return false;
-        }
 
+
+        if (MaritalStatus.equals("MARRIED")) {
+            if (!isEmpty(etSpouceName)) {
+
+                return false;
+            }
+        }
         if (!isEmpty(etPan)) {
             return false;
         }
@@ -2139,6 +2236,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
                 // manageTaskBar(1);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2147,6 +2245,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
                 manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo, ivFinancial);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2155,7 +2254,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageMainLayouts(llEmployment, llPlInfo, llAddress, llFinancial);
                 manageImages(llEmployment, ivEmploy, ivPLInfo, ivAddress, ivFinancial);
                 manageTaskBar();
-
+                saveData(0);
                 break;
 
             case R.id.ivFinancial:
@@ -2163,8 +2262,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 manageMainLayouts(llFinancial, llPlInfo, llAddress, llEmployment);
                 manageImages(llFinancial, ivFinancial, ivPLInfo, ivAddress, ivEmploy);
                 manageTaskBar();
-
-
+                saveData(0);
                 break;
 
             case R.id.ivMale:
@@ -2177,12 +2275,12 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
             case R.id.txtMarried:
                 seMaritalStatus("MARRIED", txtMarried, txtSingle);
-                etSpouceName.setEnabled(true);
+
                 break;
 
             case R.id.txtSingle:
                 seMaritalStatus("SINGLE", txtSingle, txtMarried);
-                etSpouceName.setEnabled(false);
+
                 break;
             //seMaritalStatus
             //region PL INFO Status
@@ -2218,6 +2316,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.txtOTH:
                 managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
+                break;
                 //endregion
 
                 // region PL INFO IDType
@@ -2247,7 +2346,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                 break;
             case R.id.txteducatOTH:
                 managePL_Common(EducationType, "OTH", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
-
+                break;
                 //endregion
 
             case R.id.txtEmpNatureSalaried:
@@ -2291,6 +2390,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
                     }
                 } else {
+                    manageTaskBar();
                     isSubmit = true;
                     saveData(1);
                 }
@@ -2365,13 +2465,16 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         cancelDialog();
         if (response instanceof ERPSaveResponse) {
             if (response.getStatusId() == 0) {
+                AppID  = ""+ ((ERPSaveResponse) response).getResult();
+               // Toast.makeText(this, String.valueOf(AppID), Toast.LENGTH_LONG).show();
                 if (isSubmit) {
-
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
                     if (TypePage.equals("HL")) {
                         startActivity(new Intent(this, HomeLoanDetailActivity.class));
+                        finish();
                     } else {
                         startActivity(new Intent(this, LapLoanDetailActivity.class));
+                        finish();
 
                     }
 
@@ -2388,6 +2491,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
                 if (homeLoanApplyAppliEntity != null) {
                     setApplictionData();
+                    manageTaskBar();
                 }
 
             }
@@ -2519,10 +2623,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         @Override
         public void afterTextChanged(Editable s) {
 
-            if ((s.length() > 1)) {
-                settotal();
+            settotal();
 
-            }
         }
     };
 

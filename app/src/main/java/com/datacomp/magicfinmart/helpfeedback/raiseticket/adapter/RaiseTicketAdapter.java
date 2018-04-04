@@ -54,7 +54,7 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
 
             holder.txtTicketId.setText("" + entity.getTicketRequestId());
             holder.txtTicketStatus.setText("" + entity.getStatus());
-            holder.txtTicketCategory.setText(entity.getDescription());
+            holder.txtTicketCategory.setText(entity.getCateName());
             holder.txtTicketDesc.setText("" + entity.getMessage());
 
 
@@ -161,11 +161,7 @@ public class RaiseTicketAdapter extends RecyclerView.Adapter<RaiseTicketAdapter.
 
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
-                        if (row.getStatus().toLowerCase().contains(charString.toLowerCase())
-                                || String.valueOf(row.getTicketRequestId()).toLowerCase().contains(charString.toLowerCase())
-                                || row.getCateName().toLowerCase().contains(charString.toLowerCase())
-                                || row.getQuerType().toLowerCase().contains(charString.toLowerCase())
-                                || row.getDescription().toLowerCase().contains(charString.toLowerCase())
+                        if (String.valueOf(row.getTicketRequestId()).toLowerCase().contains(charString.toLowerCase())
                                 || row.getMessage().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }

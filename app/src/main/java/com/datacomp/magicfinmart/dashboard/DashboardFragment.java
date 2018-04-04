@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,21 +21,27 @@ import android.view.ViewGroup;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
+import com.datacomp.magicfinmart.location.ILocationStateListener;
+import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends BaseFragment implements IResponseSubcriber, BaseFragment.PopUpListener {
+public class DashboardFragment extends BaseFragment implements IResponseSubcriber,ILocationStateListener, BaseFragment.PopUpListener {
 
     RecyclerView rvHome;
     DashboardRowAdapter mAdapter;
@@ -43,7 +50,9 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
     View view;
     ConstantEntity constantEntity;
     PrefManager prefManager;
-
+    int forceUpdate;
+    LocationTracker locationTracker;
+    Location location;
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -55,6 +64,19 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        //region init location
+        locationTracker = new LocationTracker(getActivity());
+        //location callback method
+        locationTracker.setLocationStateListener(this);
+
+        //GoogleApiClient initialisation and location update
+        locationTracker.init();
+
+        //GoogleApiclient connect
+        locationTracker.onResume();
+        //endregion
+
         initialise(view);
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
@@ -86,14 +108,17 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
                 case R.id.nav_sales:
                     //redirect to sales
                     startActivity(new Intent(getContext(), SalesMaterialActivity.class));
+                    new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
                     return true;
                 case R.id.nav_pending:
                     //redirect to pending status
                     startActivity(new Intent(getContext(), PendingCasesActivity.class));
+                    new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Pending Cases : Pending Cases From Dashboard "), Constants.PENDING_CASES), null);
                     return true;
                 case R.id.nav_knowledge:
                     //redirect to knowledge guru
                     startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
+                    new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
                     return true;
             }
             return false;
@@ -105,8 +130,10 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
         if (response instanceof ConstantsResponse) {
             constantEntity = ((ConstantsResponse) response).getMasterData();
             if (response.getStatusNo() == 0) {
-                if (pinfo != null && pinfo.versionCode < ((ConstantsResponse) response).getMasterData().getVersionCode()) {
-                    if (((ConstantsResponse) response).getMasterData().getIsForceUpdate() == 1) {
+                int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
+                if (pinfo != null && pinfo.versionCode < serverVersionCode) {
+                    forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
+                    if (forceUpdate == 1) {
                         // forced update app
                         openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", false);
                     } else {
@@ -134,7 +161,8 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-        if (constantEntity.getIsForceUpdate() == 1) {
+
+        if (forceUpdate == 1) {
 
         } else {
             dialog.cancel();
@@ -148,6 +176,21 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
         } catch (android.content.ActivityNotFoundException anfe) {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
         }
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
+    }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnected() {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnectionFailed() {
+        location = null;
     }
 }

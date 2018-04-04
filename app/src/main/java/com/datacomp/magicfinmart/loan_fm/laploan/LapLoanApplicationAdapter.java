@@ -22,6 +22,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanApplicationAdapter;
 import com.datacomp.magicfinmart.loan_fm.laploan.application.LAP_ApplicationFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
@@ -74,7 +75,12 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
 
             if (entity.getHomeLoanRequest().getRBStatus() != null) {
 
-                if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                        || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                        || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                        || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                        || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                {
                     holder.txtApplicationNumber.setVisibility(View.VISIBLE);
 
                 } else {
@@ -92,7 +98,12 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
 
                     if (entity.getHomeLoanRequest().getRBStatus() != null) {
 
-                        if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                        if (entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                                || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                                || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                                || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                                || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                        {
 
                             Toast.makeText(fragment.getActivity(),"Application Number Already Generated",Toast.LENGTH_SHORT).show();
 
@@ -151,7 +162,8 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
                        // Toast.makeText(fragment.getActivity(), "WIP " + entity.getHomeLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((LAP_ApplicationFragment) fragment).sendSms(entity.getHomeLoanRequest().getContact());
+                        //Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
 
                 }
@@ -171,10 +183,6 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
         }
     }
 
-    @Override
-    public Filter getFilter() {
-        return null;
-    }
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
@@ -199,6 +207,47 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
             view3 = (View) itemView.findViewById(R.id.view3);
 
         }
+    }
+
+    public void refreshAdapter(List<FmHomeLoanRequest> list) {
+        mAppListFiltered = list;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mAppListFiltered = mAppList;
+                } else {
+                    try {
+                        List<FmHomeLoanRequest> filteredList = new ArrayList<>();
+                        for (FmHomeLoanRequest row : mAppList) {
+                            if (row.getHomeLoanRequest().getApplicantNme().toLowerCase().contains(charString.toLowerCase())) {
+                                filteredList.add(row);
+                            }
+                        }
+                        mAppListFiltered = filteredList;
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mAppListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mAppListFiltered = (ArrayList<FmHomeLoanRequest>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 
 }

@@ -1,5 +1,7 @@
 package com.datacomp.magicfinmart.motor.twowheeler.fragment;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,10 +13,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeApplicationTabAdapter;
 
 import java.util.ArrayList;
@@ -26,7 +32,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationList
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
-public class BikeApplicationTabFragment extends BaseFragment implements View.OnClickListener {
+public class BikeApplicationTabFragment extends BaseFragment implements View.OnClickListener,BaseFragment.PopUpListener {
+
+    public static final String FROM_BIKE_APPLICATION = "bike_application";
     RecyclerView rvApplicationList;
     BikeApplicationTabAdapter bikeApplicationTabAdapter;
     List<ApplicationListEntity> mApplicationList;
@@ -45,6 +53,7 @@ public class BikeApplicationTabFragment extends BaseFragment implements View.OnC
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bike_fragment_app_tab, container, false);
         initView(view);
+        registerPopUp(this);
         setListener();
         setTextWatcher();
         mApplicationList = new ArrayList<>();
@@ -80,6 +89,20 @@ public class BikeApplicationTabFragment extends BaseFragment implements View.OnC
         tvSearch.setOnClickListener(this);
     }
 
+    public void redirectApplication(ApplicationListEntity entity) {
+        if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("a")) {
+            startActivity(new Intent(getActivity(), BikeAddQuoteActivity.class).putExtra(FROM_BIKE_APPLICATION, entity));
+        } else if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("am")) {
+            openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
+        } else if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("ps")) {
+            openPopUp(etSearch, "Message", "Already payment done for this crn.", "OK", true);
+        } else if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("pf")) {
+            openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
+        } else {
+            openPopUp(etSearch, "Message", "", "OK", true);
+        }
+    }
+
     private void setTextWatcher() {
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -108,5 +131,14 @@ public class BikeApplicationTabFragment extends BaseFragment implements View.OnC
                 }
                 break;
         }
+    }
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
     }
 }

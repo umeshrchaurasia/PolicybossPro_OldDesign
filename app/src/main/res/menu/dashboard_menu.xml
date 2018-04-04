@@ -7,7 +7,7 @@
         android:id="@+id/action_push_notification"
         android:orderInCategory="10"
         android:title="Notificaton"
-        android:visible="false"
+        android:visible="true"
         app:actionLayout="@layout/notification_action_item_layout"
         app:showAsAction="always" />
 

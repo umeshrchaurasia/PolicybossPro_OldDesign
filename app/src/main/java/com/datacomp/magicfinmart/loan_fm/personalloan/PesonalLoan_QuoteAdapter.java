@@ -140,7 +140,8 @@ public class PesonalLoan_QuoteAdapter extends RecyclerView.Adapter<PesonalLoan_Q
                       //  Toast.makeText(mFrament.getActivity(),  entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(mFrament.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        ((PL_QuoteFragment) mFrament).sendSms(entity.getPersonalLoanRequest().getContact());
+                      //  Toast.makeText(mFrament.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
                         ((PL_QuoteFragment)mFrament).removeQuotePL(entity);

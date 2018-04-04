@@ -556,7 +556,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
         motorRequestEntity.setPolicy_expiry_date("");
-        motorRequestEntity.setPrev_insurer_id("");
+        //motorRequestEntity.setPrev_insurer_id("");
         motorRequestEntity.setVehicle_registration_type("individual");
         motorRequestEntity.setVehicle_ncb_current("");
         motorRequestEntity.setIs_claim_exists("yes");
@@ -581,7 +581,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("0");
         setCustomerDetails();
     }
 
@@ -605,7 +605,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
 
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
         motorRequestEntity.setPolicy_expiry_date(etExpDate.getText().toString());
-        motorRequestEntity.setPrev_insurer_id("" + databaseController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+        motorRequestEntity.setPrev_insurer_id(databaseController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
 
         motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
@@ -643,7 +643,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("0");
         setCustomerDetails();
 
     }

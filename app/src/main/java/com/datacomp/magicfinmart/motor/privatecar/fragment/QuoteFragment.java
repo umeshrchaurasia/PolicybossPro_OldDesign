@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +33,7 @@ import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.CarQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,8 +102,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
-                if (motorRequestEntity.getVehicleRequestID() != null)
-                    saveQuoteEntity.setVehicleRequestID(Integer.parseInt(motorRequestEntity.getVehicleRequestID()));
+                if (motorRequestEntity.getVehicleRequestID() != 0)
+                    saveQuoteEntity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
                 initializeAdapters();
                 setListener();
                 updateHeader();
@@ -223,14 +224,15 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 tvCrn.setText("" + bikePremiumResponse.getSummary().getPB_CRN());
                 tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from qa.policyboss.com");
                 if (!bikePremiumResponse.getSummary().getPB_CRN().equals(""))
-                    motorRequestEntity.setCrn(Integer.valueOf(bikePremiumResponse.getSummary().getPB_CRN()));
+                    motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
 
                 boolean isQuoteFetch = false;
                 if (webViewLoader.getVisibility() == View.GONE) {
                     isQuoteFetch = true;
                 }
 
-                ((InputQuoteBottmActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
+                if (getActivity() != null)
+                    ((InputQuoteBottmActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
             }
         }
     }
@@ -249,9 +251,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         //store request and SRN to mySql
         SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
         if (!response.getSummary().getPB_CRN().equals(""))
-            motorRequestEntity.setCrn(Integer.parseInt(response.getSummary().getPB_CRN()));
+            motorRequestEntity.setCrn(response.getSummary().getPB_CRN());
 
-        entity.setVehicleRequestID(motorRequestEntity.getVehicleRequestID());
+        entity.setVehicleRequestID(String.valueOf(motorRequestEntity.getVehicleRequestID()));
         entity.setMotorRequestEntity(motorRequestEntity);
         entity.setSRN(response.getSummary().getRequest_Unique_Id());
         entity.setFba_id(String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()));
@@ -271,31 +273,37 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
             bikePremiumResponse = (BikePremiumResponse) response;
             //save quote to our server.
-            if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == 1) {
-                saveQuoteToServer(bikePremiumResponse);
+            if (getActivity() != null) {
+                if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == 1) {
+                    saveQuoteToServer(bikePremiumResponse);
+                }
             }
 
             rebindAdapter(bikePremiumResponse);
             updateCrn();
 
-            if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
-                    || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
 
-                webViewLoader.setVisibility(View.GONE);
-                updateCrn();
-                new AsyncAddon().execute();
+            if (getActivity() != null) {
+                if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
+                        || Constants.getSharedPreference(getActivity())
+                        .getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
+
+                    webViewLoader.setVisibility(View.GONE);
+                    updateCrn();
+                    new AsyncAddon().execute();
 
 
-                if (((BikePremiumResponse) response).getResponse().size() != 0)
-                    menuAddon.findItem(R.id.add_on).setVisible(true);
-                else {
-                    menuAddon.findItem(R.id.add_on).setVisible(false);
-                    Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
+                    if (((BikePremiumResponse) response).getResponse().size() != 0)
+                        menuAddon.findItem(R.id.add_on).setVisible(true);
+                    else {
+                        menuAddon.findItem(R.id.add_on).setVisible(false);
+                        Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    webViewLoader.setVisibility(View.VISIBLE);
+
                 }
-
-            } else {
-                webViewLoader.setVisibility(View.VISIBLE);
-
             }
         } else if (response instanceof SaveAddOnResponse) {
 
@@ -309,7 +317,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         } else if (response instanceof SaveQuoteResponse) {
             if (response.getStatusNo() == 0) {
                 saveQuoteEntity = ((SaveQuoteResponse) response).getMasterData().get(0);
-                motorRequestEntity.setVehicleRequestID(String.valueOf(saveQuoteEntity.getVehicleRequestID()));
+                motorRequestEntity.setVehicleRequestID(saveQuoteEntity.getVehicleRequestID());
             }
         }
     }
@@ -341,12 +349,16 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 return true;
 
             case R.id.action_home:
-
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-                getActivity().finish();
-                return true;
+                if (webViewLoader.getVisibility() == View.GONE) {
+                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    getActivity().finish();
+                    return true;
+                } else {
+                    Toast.makeText(getActivity(), "Please Wait.. Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -880,7 +892,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     }
 
     public void redirectToBuy(ResponseEntity entity) {
-        if (Utility.checkShareStatus() == 1) {
+        if (Utility.checkShareStatus(getActivity()) == 1) {
             if (webViewLoader.getVisibility() == View.GONE) {
 
 
@@ -893,13 +905,15 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
                 title = "Motor Insurance";
 
+                String imgPath = "http://qa.policyboss.com/Images/insurer_logo/" + entity.getInsurer().getInsurer_Logo_Name();
                 //convert quote to application server
                 new QuoteApplicationController(getActivity()).convertQuoteToApp(
                         "" + saveQuoteEntity.getVehicleRequestID(),
+                        entity.getInsurer_Id(), imgPath,
                         this);
 
                 startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", Utility.getMotorUrl(getActivity(),entity.getService_Log_Unique_Id()))
+                        .putExtra("URL", Utility.getMotorUrl(getActivity(), entity.getService_Log_Unique_Id()))
                         .putExtra("NAME", name)
                         .putExtra("TITLE", title));
             } else {
@@ -933,9 +947,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             case R.id.tvCount:
                 break;
             case R.id.ivShare:
-                if (Utility.checkShareStatus() == 1) {
+                if (Utility.checkShareStatus(getActivity()) == 1) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
-                        Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                        Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                         intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_ALL_QUOTE");
                         intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
                         intent.putExtra("CARNAME", carMasterEntity);
@@ -953,7 +967,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
+                .putExtra("VEHICLE_REQUEST_ID",""+ saveQuoteEntity.getVehicleRequestID())
                 .putExtra("RESPONSE_CAR", entity)
+                .putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn)
                 .putExtra("SUMMARY", summaryEntity));
 
     }
@@ -1565,7 +1581,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     public void onPositiveButtonClick(Dialog dialog, View view) {
         if (view.getId() == R.id.ivShare) {
             dialog.cancel();
-        }else if(view.getId()==R.id.ivEdit){
+        } else if (view.getId() == R.id.ivEdit) {
             dialog.cancel();
         }
     }
@@ -1574,7 +1590,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     public void onCancelButtonClick(Dialog dialog, View view) {
         if (view.getId() == R.id.ivShare) {
             dialog.cancel();
-        }else if(view.getId()==R.id.ivEdit){
+        } else if (view.getId() == R.id.ivEdit) {
             dialog.cancel();
         }
     }

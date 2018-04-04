@@ -31,8 +31,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
@@ -135,7 +138,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -179,6 +182,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             personalLoanRequest.setApplicantObligations(etEMI.getText().toString());
         }
 
+       // personalLoanRequest.setEmi(etEMI.getText().toString());
         personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
         personalLoanRequest.setBrokerId("" + loginEntity.getLoanId());
        // personalLoanRequest.setLoaniD(Integer.parseInt(loginEntity.getLoanId()));
@@ -187,6 +191,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         personalLoanRequest.setEmpcode("");
         personalLoanRequest.setType("PSL");
         personalLoanRequest.setApi_source("Finmart");
+
         personalLoanRequest.setQuote_id(fmPersonalLoanRequest.getPersonalLoanRequest().getQuote_id());
 
     }
@@ -204,11 +209,15 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             etCostOfProp.setText(personalLoanRequest.getLoanRequired());
         if (personalLoanRequest.getLoanTenure() != null)
             etTenureInYear.setText(personalLoanRequest.getLoanTenure());
+
+        if(personalLoanRequest.getApplicantObligations() != null){
+            etEMI.setText(personalLoanRequest.getApplicantObligations());
+        }
         if (personalLoanRequest.getApplicantNme() != null)
             etNameOfApplicant.setText(personalLoanRequest.getApplicantNme());
 
             int tenureInYear = Integer.parseInt(personalLoanRequest.getLoanTenure());
-            sbTenure.setProgress(tenureInYear);
+            sbTenure.setProgress(tenureInYear-1);
 
             if (personalLoanRequest.getApplicantGender().matches("M")) {
                 setApp_Male_gender();
@@ -256,6 +265,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             setApp_FeMale_gender();
         }
         else if (v.getId() == R.id.btnGetQuote) {
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote PL : Get quote button for PL"), Constants.PERSONA_LOAN), null);
             //region Validation
             String NameOfApplicant = etNameOfApplicant.getText().toString();
             String DOB = et_DOB.getText().toString();

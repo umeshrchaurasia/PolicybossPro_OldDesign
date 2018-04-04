@@ -47,7 +47,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
@@ -223,7 +226,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
             int tenureInYear = Integer.parseInt(homeLoanRequest.getLoanTenure());
-            sbTenure.setProgress(tenureInYear);
+            sbTenure.setProgress(tenureInYear-5);
             if (homeLoanRequest.getCity() != null) {
 
                 acCity.setText(homeLoanRequest.getCity());
@@ -470,7 +473,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -490,7 +493,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
@@ -791,7 +794,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
         else if (v.getId() == R.id.btnGetQuote) {
             //region Validation
-
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote HL : Get quote button for hl"), Constants.HOME_LOAN), null);
             //region Property Validation
             String CostOfProp = etCostOfProp.getText().toString();
             String TenureInYear = etTenureInYear.getText().toString();

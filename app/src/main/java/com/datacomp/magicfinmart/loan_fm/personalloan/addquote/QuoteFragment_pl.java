@@ -17,8 +17,11 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
@@ -121,7 +124,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     public void redirectToApplyLoan() {
         startActivity(new Intent(getContext(), PersonalLoanApplyActivity.class)
                 .putExtra("BuyLoanQuery", buyLoanQuerystring));
-
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy PL : Buy button for PL"), Constants.PERSONA_LOAN), null);
     }
 
 
@@ -130,6 +133,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         if (getPersonalLoanResponse != null) {
             txtInputSummary.setVisibility(View.VISIBLE);
             cvInputSummary.setVisibility(View.VISIBLE);
+            ivShare.setVisibility(View.VISIBLE);
 
             mAdapter = new PLQuoteAdapter(this, getPersonalLoanResponse.getData(), getPersonalLoanResponse);
             rvPLQuotes.setAdapter(mAdapter);
@@ -191,7 +195,9 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             buyLoanQuerystring.setQuote_id(QuoteID);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());
             buyLoanQuerystring.setMobileNo(fmPersonalLoanRequest.getPersonalLoanRequest().getContact());
+            buyLoanQuerystring.setPan(fmPersonalLoanRequest.getPersonalLoanRequest().getpanno());
             buyLoanQuerystring.setCity("");
+
 
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         } catch (Exception ex) {
@@ -249,7 +255,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
         } else if (v.getId() == R.id.ivShare) {
             if (getPersonalLoanResponse != null) {
-                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "PL_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getPersonalLoanResponse);
                 intent.putExtra("NAME", personalLoanRequest.getApplicantNme());

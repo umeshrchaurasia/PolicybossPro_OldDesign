@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
@@ -56,6 +55,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        registerPopUp(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         accountDtlEntity = dbPersistanceController.getAccountData();
@@ -123,7 +123,11 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
             if (accountDtlEntity.getDisplayEmail() != null && !accountDtlEntity.getDisplayEmail().equals("")) {
                 pospEmail = accountDtlEntity.getDisplayEmail();
             } else {
-                pospEmail = "XXXXXX@finmart.com";
+                if (loginResponseEntity.getPOSEmail() != null && !loginResponseEntity.getPOSEmail().equals("")) {
+                    pospEmail = loginResponseEntity.getPOSEmail();
+                } else {
+                    pospEmail = "XXXXXX@finmart.com";
+                }
             }
 
             if (accountDtlEntity.getDisplayDesignation() != null && !accountDtlEntity.getDisplayDesignation().equals("")) {
@@ -135,7 +139,12 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
             if (accountDtlEntity.getDisplayPhoneNo() != null && !accountDtlEntity.getDisplayPhoneNo().equals("")) {
                 PospMobNo = accountDtlEntity.getDisplayPhoneNo();
             } else {
-                PospMobNo = "98XXXXXXXX";
+                if (loginResponseEntity.getPOSPMobile() != null && !loginResponseEntity.getPOSPMobile().equals("")) {
+                    PospMobNo = loginResponseEntity.getPOSPMobile();
+                } else {
+                    PospMobNo = "98XXXXXXXX";
+                }
+
             }
         } else {
             pospNAme = "POSP Name";
@@ -153,9 +162,9 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
                 }
             }
         }
-        if(pospPhotoUrl==null){
+        if (pospPhotoUrl == null) {
             try {
-                pospPhotoUrl=new URL("http://qa.mgfm.in/images/profile_pic.png");
+                pospPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -209,9 +218,9 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
                 }
             }
         }
-        if(pospPhotoUrl==null){
+        if (pospPhotoUrl == null) {
             try {
-                pospPhotoUrl=new URL("http://qa.mgfm.in/images/profile_pic.png");
+                pospPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -233,7 +242,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
                 return true;
             case R.id.action_share:
                 if (salesProductEntity.getProduct_Id() == 1 || salesProductEntity.getProduct_Id() == 2) {
-                    if (Utility.checkShareStatus() == 1) {
+                    if (Utility.checkShareStatus(this) == 1) {
                         showShareProduct();
                     } else {
                         openPopUp(ivProduct, "Message", "Your POSP status is INACTIVE", "OK", true);
@@ -313,6 +322,9 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
                 try {
                     networkBitmap = BitmapFactory.decodeStream(
                             pospPhotoUrl.openConnection().getInputStream());
+                    URL salePhotoUrl = new URL(docsEntity.getImage_path());
+                    salesPhoto = BitmapFactory.decodeStream(
+                            salePhotoUrl.openConnection().getInputStream());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -326,7 +338,15 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
 
             try {
                 if (pospPhoto != null) {
-                    salesPhoto = ((GlideBitmapDrawable) ivProduct.getDrawable()).getBitmap();
+                    // salesPhoto = ((GlideBitmapDrawable) ivProduct.getDrawable()).getBitmap();
+                    /*if (salesPhoto == null) {
+                        try {
+                            salesPhoto = BitmapFactory.decodeStream(pospPhotoUrl.openConnection().getInputStream());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+                    }*/
                     //datashareList(BaseActivity.this, result);
                     pospDetails = createBitmap(pospPhoto, pospNAme, pospDesg, PospMobNo, pospEmail);
                     combinedImage = combineImages(salesPhoto, pospDetails);

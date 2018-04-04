@@ -9,23 +9,25 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeApplicationTabFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
  * Created by Rajeev Ranjan on 11/01/2018.
  */
 
-public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicationTabAdapter.ApplicationItem> implements Filterable {
+public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicationTabAdapter.ApplicationItem> implements Filterable, View.OnClickListener {
     Fragment fragment;
     List<ApplicationListEntity> mAppList;
     List<ApplicationListEntity> mAppListFiltered;
@@ -45,6 +47,17 @@ public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicat
     }
 
     @Override
+    public void onClick(View view) {
+
+        switch (view.getId()) {
+            case R.id.ll:
+            case R.id.txtPersonName:
+                ((BikeApplicationTabFragment) fragment).redirectApplication((ApplicationListEntity) view.getTag(view.getId()));
+                break;
+        }
+    }
+
+    @Override
     public void onBindViewHolder(ApplicationItem holder, int position) {
         if (holder instanceof ApplicationItem) {
 
@@ -54,6 +67,13 @@ public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicat
                     + " " + entity.getMotorRequestEntity().getLast_name());
             holder.txtCRN.setText(String.valueOf(entity.getMotorRequestEntity().getCrn()));
             holder.txtCreatedDate.setText("" + entity.getMotorRequestEntity().getCreated_date());
+            if (!(entity.getMotorRequestEntity().getRegistration_no().endsWith("-AA-1234")))
+                holder.txtVehicleNo.setText("" + entity.getMotorRequestEntity().getRegistration_no());
+            holder.txtPersonName.setTag(R.id.txtPersonName, entity);
+            holder.txtPersonName.setOnClickListener(this);
+            holder.ll.setTag(R.id.ll, entity);
+            holder.ll.setOnClickListener(this);
+
             holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -61,9 +81,17 @@ public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicat
                 }
             });
 
+
+            if (entity.getMotorRequestEntity().getStatusPercent() == 25 || entity.getMotorRequestEntity().getStatusPercent() == 0) {
+                holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_25));
+            } else if (entity.getMotorRequestEntity().getStatusPercent() == 50) {
+                holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_50));
+            } else {
+                holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
+            }
             try {
-                holder.imgInsurerLogo.setImageResource(
-                        new DBPersistanceController(fragment.getContext()).getInsurerImage(Integer.parseInt(entity.getMotorRequestEntity().getPrev_insurer_id())));
+                Glide.with(fragment).load(entity.getInsImage())
+                        .into(holder.imgInsurerLogo);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -82,10 +110,12 @@ public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicat
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        Toast.makeText(fragment.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
+                        ((BikeApplicationTabFragment) fragment).dialNumber(entity.getMotorRequestEntity().getMobile());
+                        //Toast.makeText(fragment.getActivity(), "WIP " + entity.getMotorRequestEntity().getMobile(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(fragment.getActivity(), "WIP SMS ", Toast.LENGTH_SHORT).show();
+                        ((BikeApplicationTabFragment) fragment).sendSms(entity.getMotorRequestEntity().getMobile());
                         break;
 
                 }
@@ -147,16 +177,19 @@ public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicat
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtVehicleNo, txtPersonName;
-        ImageView imgInsurerLogo;
+        ImageView imgInsurerLogo, imgProgressStatus;
+        LinearLayout ll;
 
         public ApplicationItem(View itemView) {
             super(itemView);
+            ll = (LinearLayout) itemView.findViewById(R.id.ll);
             txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
             txtCreatedDate = (TextView) itemView.findViewById(R.id.txtCreatedDate);
             txtCRN = (TextView) itemView.findViewById(R.id.txtCRN);
             txtVehicleNo = (TextView) itemView.findViewById(R.id.txtVehicleNo);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
             imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
+            imgProgressStatus = (ImageView) itemView.findViewById(R.id.imgProgressStatus);
         }
     }
 

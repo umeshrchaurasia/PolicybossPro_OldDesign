@@ -21,8 +21,11 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
@@ -123,6 +126,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         if (getQuoteResponse != null) {
             txtInputSummary.setVisibility(View.VISIBLE);
             cvInputSummary.setVisibility(View.VISIBLE);
+            ivShare.setVisibility(View.VISIBLE);
 
             mAdapter = new HLQuoteAdapter(this, getQuoteResponse.getData(), getQuoteResponse);
             rvQuotes.setAdapter(mAdapter);
@@ -206,7 +210,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
         } else if (v.getId() == R.id.ivShare) {
             if (getQuoteResponse != null) {
-                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HL_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getQuoteResponse);
                 intent.putExtra("NAME", homeLoanRequest.getApplicantNme());
@@ -279,7 +283,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     public void redirectToApplyLoan() {
         startActivity(new Intent(getContext(), HomeLoanApplyActivity.class)
                 .putExtra("BuyLoanQuery", buyLoanQuerystring));
-
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy HL : Buy button for hl"), Constants.HOME_LOAN), null);
     }
 
 

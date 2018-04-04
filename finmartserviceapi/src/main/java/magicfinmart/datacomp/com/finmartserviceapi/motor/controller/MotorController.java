@@ -12,11 +12,7 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.IQuoteApp;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder.MotorQuotesRequestBuilder;
@@ -36,16 +32,26 @@ import retrofit2.Response;
 
 public class MotorController implements IMotor {
 
-    public static final long SLEEP_DELAY = 5000; // 5 seconds delay.
-    public static final int NO_OF_SERVER_HITS = 10;
+    public static int SLEEP_DELAY = 5000; // 5 seconds delay.
+    public static int NO_OF_SERVER_HITS = 10;
     MotorQuotesRequestBuilder.MotorQuotesNetworkService motorQuotesNetworkService;
     Context mContext;
     Handler handler;
     IResponseSubcriber iResponseSubcriber;
+    DBPersistanceController dbPersistanceController;
+    ConstantEntity constantEntity;
 
     public MotorController(Context context) {
         motorQuotesNetworkService = new MotorQuotesRequestBuilder().getService();
         mContext = context;
+        dbPersistanceController = new DBPersistanceController(mContext);
+        constantEntity = dbPersistanceController.getConstantsData();
+        try {
+            SLEEP_DELAY = Integer.parseInt(constantEntity.getPBHitTime());
+            NO_OF_SERVER_HITS = Integer.parseInt(constantEntity.getPBNoOfHits());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         handler = new Handler();
     }
 

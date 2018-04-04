@@ -6,21 +6,35 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.itextpdf.xmp.impl.Utils;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.retrobuilder.NodeRetroRequestBuilder;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -34,7 +48,6 @@ import static android.content.Context.WIFI_SERVICE;
 
 public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
-    public static String LOGIN_IP = "";
    /* public static final String HORIZON_URL = "http://qa-horizon.policyboss.com:3000";
     public static final String QUOTE_BASE_URL = "http://qa.policyboss.com/";
     public static final String SECRET_KEY = "SECRET-ODARQ6JP-9V2Q-7BIM-0NNM-DNRTXRWMRTAL";
@@ -43,8 +56,8 @@ public class Utility {
 
     //public static final String HORIZON_URL = "http://horizon.policyboss.com:5000";
     //public static final String QUOTE_BASE_URL = "http://www.policyboss.com/";
-    public static final String HORIZON_URL = "http://qa-horizon.policyboss.com:3000";
-    public static final String QUOTE_BASE_URL = "http://qa.policyboss.com/";
+    //public static final String HORIZON_URL = "http://qa-horizon.policyboss.com:3000";
+    //public static final String QUOTE_BASE_URL = "http://qa.policyboss.com/";
     public static final String SECRET_KEY = "SECRET-VG9N6EVV-MIK3-1GFC-ZRBV-PE7XIQ8DV4GY";
     public static final String CLIENT_KEY = "CLIENT-WF4GWODI-HMEB-Q7M6-CLES-DEJCRF7XLRVI";
     public static final int CLIENT_ID = 3;
@@ -60,8 +73,6 @@ public class Utility {
     public static String PUSH_BROADCAST_ACTION = "Finmart_Push_BroadCast_Action";
     public static String PUSH_NOTIFY = "notifyFlag";
     public static String PUSH_LOGIN_PAGE = "pushloginPage";
-
-
 
 
     public static SharedPreferences getSharedPreference(Context context) {
@@ -142,9 +153,17 @@ public class Utility {
         return file;
     }
 
-    public static int checkShareStatus() {
-        int temp = 1;
-        return temp;
+    public static int checkShareStatus(Context context) {
+        int pospStatus;
+        DBPersistanceController dbPersistanceController = new DBPersistanceController(context);
+        ConstantEntity constantEntity = dbPersistanceController.getConstantsData();
+
+        if (constantEntity != null) {
+            pospStatus = Integer.parseInt(constantEntity.getPOSPStat());
+            if (pospStatus == 6)
+                return 1;
+        }
+        return 0;
     }
 
     public static String getLocalIpAddress(Context context) {
@@ -167,13 +186,12 @@ public class Utility {
         }
 
         if (WIFI == true) {
-            LOGIN_IP = GetDeviceipWiFiData(context);
-            return LOGIN_IP;
+            return GetDeviceipWiFiData(context);
         }
 
         if (MOBILE == true) {
-            LOGIN_IP = GetDeviceipMobileData();
-            return LOGIN_IP;
+            return GetDeviceipMobileData();
+
         }
 
 
@@ -212,6 +230,58 @@ public class Utility {
             Log.e("Current IP", ex.toString());
         }
         return "";
+    }
+
+    public static String getMacAddress(Context context) throws IOException {
+//        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        WifiInfo wInfo = wifiManager.getConnectionInfo();
+//        Toast.makeText(context, "" + wInfo.getMacAddress(), Toast.LENGTH_SHORT).show();
+//        return wInfo.getMacAddress();
+        String address = "";
+        try {
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+            if (wifiManager.isWifiEnabled()) {
+                // WIFI ALREADY ENABLED. GRAB THE MAC ADDRESS HERE
+                WifiInfo info = wifiManager.getConnectionInfo();
+                address = info.getMacAddress();
+            } else {
+
+                try {
+                    // get all the interfaces
+                    List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+
+                    //find network interface wlan0
+                    for (NetworkInterface networkInterface : all) {
+                        if (!networkInterface.getName().equalsIgnoreCase("wlan0")) continue;
+                        //get the hardware address (MAC) of the interface
+                        byte[] macBytes = networkInterface.getHardwareAddress();
+                        if (macBytes == null) {
+                            return "";
+                        }
+
+
+                        StringBuilder res1 = new StringBuilder();
+                        for (byte b : macBytes) {
+                            //gets the last byte of b
+                            res1.append(Integer.toHexString(b & 0xFF) + ":");
+                        }
+
+                        if (res1.length() > 0) {
+                            res1.deleteCharAt(res1.length() - 1);
+                        }
+                        address = res1.toString();
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(context, "" + address, Toast.LENGTH_SHORT).show();
+        return address;
     }
 
     public static String GetDeviceipWiFiData(Context context) {
@@ -267,20 +337,21 @@ public class Utility {
     }
 
     public static String getMotorUrl(Context context, String Service_Log_Unique_Id) {
+        new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("Motor buy : buy button for motor"), "MOTOR INSURANCE"), null);
         String ssid = "";
         if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
             ssid = new DBPersistanceController(context).getUserData().getPOSPNo();
-        String url = Utility.QUOTE_BASE_URL;
+        String url = NodeRetroRequestBuilder.PROPOSAL_BASE_URL;
         url = url + "buynowprivatecar/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }
 
     public static String getTwoWheelerUrl(Context context, String Service_Log_Unique_Id) {
-
+        new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("TW buy : buy button for TW"), "TWO WHEELER INSURANCE"), null);
         String ssid = "";
         if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
             ssid = new DBPersistanceController(context).getUserData().getPOSPNo();
-        String url = Utility.QUOTE_BASE_URL;
+        String url = NodeRetroRequestBuilder.PROPOSAL_BASE_URL;
         url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }

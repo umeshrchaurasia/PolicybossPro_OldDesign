@@ -16,11 +16,10 @@ import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import com.google.gson.Gson;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 
 public class HealthQuoteDetailsDialogActivity extends BaseActivity implements View.OnClickListener, BaseActivity.PopUpListener {
@@ -78,31 +77,33 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
         txtSumAssured.setText("" + Math.round(healthQuoteEntity.getSumInsured()));
         txtDeductible.setText("" + healthQuoteEntity.getDeductible_Amount());
         txtPlanName.setText("" + healthQuoteEntity.getPlanName());
-        txtFinalPremium.setText("\u20B9 " + Math.round(healthQuoteEntity.getNetPremium()) + "/Year");
+
+        int finalPremium = 0;
+        if (healthQuoteEntity.getServicetaxincl().toLowerCase().equals("e")) {
+            finalPremium = (int) Math.round(healthQuoteEntity.getNetPremium());
+        } else if (healthQuoteEntity.getServicetaxincl().toLowerCase().equals("i")) {
+            finalPremium = (int) Math.round(healthQuoteEntity.getGrossPremium());
+        }
+
+        txtFinalPremium.setText("\u20B9 " + finalPremium + "/Year");
+
         txtProductName.setText(healthQuoteEntity.getProductName());
-//        if (healthQuoteEntity.getInsurerLogoName().equals("")) {
+
         Glide.with(this).load(healthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurer);
-
-//        } else {
-//            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" + healthQuoteEntity.getInsurerLogoName();
-//            Glide.with(this).load(imgURL)
-//                    .into(imgInsurer);
-//        }
 
         mAdapter = new HealthSingleBenefitsAdapter(this, healthQuoteEntity.getLstbenfitsFive());
         rvBenefits.setAdapter(mAdapter);
     }
 
 
-
     @Override
     public void onClick(View view) {
 
         if (view.getId() == R.id.imgShare) {
-            if (Utility.checkShareStatus() == 1) {
+            if (Utility.checkShareStatus(this) == 1) {
                 if (responseJson != null) {
-                    Intent intent = new Intent(this, ShareQuoteACtivity.class);
+                    Intent intent = new Intent(this, ShareQuoteActivity.class);
                     intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HEALTH_SINGLE_QUOTE");
                     intent.putExtra("RESPONSE", responseJson);
                     intent.putExtra("NAME", name);
@@ -112,10 +113,14 @@ public class HealthQuoteDetailsDialogActivity extends BaseActivity implements Vi
                 openPopUp(imgShare, "Message", "Your POSP status is INACTIVE", "OK", true);
             }
         } else if (view.getId() == R.id.txtBuy) {
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("BUY", healthQuoteEntity);
-            setResult(HealthQuoteFragment.RESULT_COMPARE, resultIntent);
-            finish();
+            if (Utility.checkShareStatus(this) == 1) {
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("BUY", healthQuoteEntity);
+                setResult(HealthQuoteFragment.RESULT_COMPARE, resultIntent);
+                finish();
+            } else {
+                openPopUp(imgShare, "Message", "Your POSP status is INACTIVE", "OK", true);
+            }
         } else if (view.getId() == R.id.btnBack) {
             finish();
         }

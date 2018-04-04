@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,10 +33,13 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
+import com.google.gson.Gson;
 
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -111,7 +115,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             txtEmpNatureSalaried, txtEmpNatureSelfEmp;
 
     TextInputLayout textInpLayCurrJob, textInpLayTotalExp,
-            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax;
+            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax, textInpLaySpouseName;
     //endregion
 
     // region Variable Declaration
@@ -245,7 +249,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         etMoMaidenName = (EditText) findViewById(R.id.etMoMaidenName);
         etSpouceName = (EditText) findViewById(R.id.etSpouceName);
         etNoOfDepen = (EditText) findViewById(R.id.etNoOfDepen);
-        etIDNumber = (EditText) findViewById(R.id.etNoOfDepen);
+        etIDNumber = (EditText) findViewById(R.id.etIDNumber);
 
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
         // endregion
@@ -335,6 +339,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         textInpLayDepreciation = (TextInputLayout) findViewById(R.id.textInpLayDepreciation);
         textInpLayDirRem = (TextInputLayout) findViewById(R.id.textInpLayDirRem);
         textInpLayProfAftTax = (TextInputLayout) findViewById(R.id.textInpLayProfAftTax);
+        textInpLaySpouseName = (TextInputLayout) findViewById(R.id.textInpLaySpouseName);
 
         etDesig = (EditText) findViewById(R.id.etDesig);
         etCurrJob = (EditText) findViewById(R.id.etCurrJob);
@@ -422,10 +427,57 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         etPincodeED.addTextChangedListener(pincodeEDTextWatcher);
 
 
+        etGrossIncome.addTextChangedListener(grossIncomeTextWatcher);
+        etNetIncome.addTextChangedListener(grossIncomeTextWatcher);
+        etOtherIncome.addTextChangedListener(grossIncomeTextWatcher);
+
+        // region  CAPS Text
+
+        etFirstName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLastName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etFatherName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etNationality.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etUniversity.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etMoMaidenName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etSpouceName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etNoOfDepen.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etIDNumber.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etAddress1ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress2ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etCountryPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etLandlineNoContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandlineNoContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress1ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress2ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etAddress3ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandmakContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandmakContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etDesig.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etCurrJob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etNameOfOrg.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress1ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etAddress2ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandmakED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etCountryED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        //endregion
+
     }
 
     private void initLayouts() {
-        llPlInfo.setVisibility(View.GONE);
+        llPlInfo.setVisibility(View.VISIBLE);
         llAddress.setVisibility(View.GONE);
         llEmployment.setVisibility(View.GONE);
         llFinancial.setVisibility(View.GONE);
@@ -480,8 +532,8 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             textInpLayCurrJob.setHint("Current Job(YRS)");
             textInpLayTotalExp.setHint("Total Exp(YRS)");
 
-            etCurrJob.setText("");
-            etTotalExp.setText("");
+//            etCurrJob.setText("");
+//            etTotalExp.setText("");
 
             etCurrJob.setError(null);
             etTotalExp.setError(null);
@@ -500,10 +552,10 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             textInpLayDirRem.setHint("Directors Remuneration");
             textInpLayProfAftTax.setHint("Profit After Tax");
 
-            etTurnOver.setText("");
-            etDeprec.setText("");
-            etDirRem.setText("");
-            etProfAftTax.setText("");
+//            etTurnOver.setText("");
+//            etDeprec.setText("");
+//            etDirRem.setText("");
+//            etProfAftTax.setText("");
 
             etTurnOver.setError(null);
             etDeprec.setError(null);
@@ -538,6 +590,36 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
         textView1.setBackgroundResource(R.drawable.customeborder);
         textView1.setTextColor(ContextCompat.getColor(BalanceTransferPersonalApplyActivity.this, R.color.description_text));
+        if (MaritalStatus.equals("MARRIED")) {
+            textInpLaySpouseName.setHint("*Spouse Name");
+            etSpouceName.setEnabled(true);
+
+        } else {
+            textInpLaySpouseName.setHint("Spouse Name");
+            etSpouceName.setText("");
+            etSpouceName.setError(null);
+            etSpouceName.clearFocus();
+            etSpouceName.setEnabled(false);
+
+
+        }
+
+    }
+
+    private void settotal() {
+        long netIncome = 0, othIncome = 0;
+
+
+        if (!etNetIncome.getText().toString().trim().equals("")) {
+            netIncome = Long.valueOf(etNetIncome.getText().toString());
+        }
+
+        if (!etOtherIncome.getText().toString().trim().equals("")) {
+            othIncome = Long.valueOf(etOtherIncome.getText().toString());
+        }
+
+        double total = netIncome + othIncome;
+        etTotalIncome.setText("" +  BigDecimal.valueOf(total).toPlainString());
 
     }
 
@@ -572,7 +654,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
     }
 
     private void saveData(int SubmitType) {
-        if(isAppliction) {
+        if (isAppliction) {
             //region PL_INFO
             erpLoanRequest.setTitle(spTitle.getSelectedItem().toString());
 
@@ -619,8 +701,10 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             erpLoanRequest.setAddrsYrs(etNoOfYrsAtOffContInfoRAP.getText().toString().trim());
             //endregion
 
-            // region Address PA
-            //   spResidence..getSelectedItem().toString();                                       // 05
+            // region Address PA  ;
+            // 05
+
+            erpLoanRequest.setResidence_Type(spResidence.getSelectedItem().toString());
             erpLoanRequest.setPer_Address1(etAddress1ContInfoPA.getText().toString().trim());
             erpLoanRequest.setPer_Address2(etAddress2ContInfoPA.getText().toString().trim());
             erpLoanRequest.setPer_Address3(etAddress3ContInfoPA.getText().toString().trim());
@@ -670,8 +754,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
             if (!etNetIncome.getText().toString().equals("")) {
                 erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
-            }else
-            {
+            } else {
                 erpLoanRequest.setNet_Income("0");
 
             }
@@ -690,14 +773,14 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             if (!personalLoanApplyAppliEntity.getLoan_Amount().equals("")) {
                 erpLoanRequest.setLoan_Amount(personalLoanApplyAppliEntity.getLoan_Amount());
 
-            }else {
+            } else {
                 erpLoanRequest.setLoan_Amount("0");
             }
 
             if (!personalLoanApplyAppliEntity.getLoan_Terms().equals("")) {
                 erpLoanRequest.setLoan_Terms(personalLoanApplyAppliEntity.getLoan_Terms());
 
-            }else {
+            } else {
                 erpLoanRequest.setLoan_Terms("0");
             }
 
@@ -718,13 +801,14 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
 
             //endregion
-
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
             if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
             new ErpLoanController(this).saveERPPersonalLoan(erpLoanRequest, BalanceTransferPersonalApplyActivity.this);
-        }
-        else {
+        } else {
 
             //region PL_INFO
             erpLoanRequest.setTitle(spTitle.getSelectedItem().toString());
@@ -733,6 +817,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             erpLoanRequest.setDOB(etDob.getText().toString().trim());
             //  erpLoanRequest.setDOB(getMMDDYYYPattern(etDob.getText().toString().trim()));
             erpLoanRequest.setMiddle_Name(etFatherName.getText().toString().trim());
+            erpLoanRequest.setLast_Name(etLastName.getText().toString().trim());
             erpLoanRequest.setGender(Gender);
 
             erpLoanRequest.setMarital_Status(MaritalStatus);
@@ -772,7 +857,9 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             //endregion
 
             // region Address PA
-            //   spResidence..getSelectedItem().toString();                                       // 05
+            //   spResidence..getSelectedItem().toString();
+            erpLoanRequest.setResidence_Type(spResidence.getSelectedItem().toString());
+
             erpLoanRequest.setPer_Address1(etAddress1ContInfoPA.getText().toString().trim());
             erpLoanRequest.setPer_Address2(etAddress2ContInfoPA.getText().toString().trim());
             erpLoanRequest.setPer_Address3(etAddress3ContInfoPA.getText().toString().trim());
@@ -828,7 +915,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
             erpLoanRequest.setBankId(buyLoanQuerystring.getBankId());//qurystring
             erpLoanRequest.setQuote_id(buyLoanQuerystring.getQuote_id());//qurystring
-            //  erpLoanRequest.setLoan_Requested(buyLoanQuerystring.getProp_Loan_Eligible());//
+
             if (rbCustomerEntity.getBrokerId() != null) {
                 erpLoanRequest.setBrokerId(Integer.valueOf(rbCustomerEntity.getBrokerId()));//Loanid
 
@@ -844,8 +931,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                 erpLoanRequest.setLoan_Amount(buyLoanQuerystring.getProp_Loan_Eligible());
 
-            }else
-            {
+            } else {
                 erpLoanRequest.setLoan_Amount("0");
             }
 
@@ -853,8 +939,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                 erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
 
-            }else
-            {
+            } else {
                 erpLoanRequest.setLoan_Terms("0");
             }
 
@@ -862,7 +947,12 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             // erpLoanRequest.setLoan_Terms(rbCustomerEntity.getLoanTenure());
             erpLoanRequest.setROI_Id_Type(rbCustomerEntity.getRoi_type());  /// 05
             erpLoanRequest.setProcessing_Fee(rbCustomerEntity.getProcessing_fee());
-            erpLoanRequest.setApplnId(0);
+            if(AppID.trim().equals(""))
+            {
+                erpLoanRequest.setApplnId(0);
+            }else{
+                erpLoanRequest.setApplnId(Integer.valueOf(AppID));
+            }
             erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
             erpLoanRequest.setIs_Confirm(0);
             erpLoanRequest.setAppln_Source("PLBT");
@@ -871,7 +961,9 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             erpLoanRequest.setFBA_Reg_Id(String.valueOf(loginEntity.getFBAId()));
 
             //endregion
-
+//            Gson gson = new Gson();
+//            String result = gson.toJson(erpLoanRequest);
+//            Toast.makeText(this,result,Toast.LENGTH_SHORT).show();
             if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
@@ -942,9 +1034,10 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         //region PL_INFO
         etFirstName.setText(personalLoanApplyAppliEntity.getFirst_Name());
         etLastName.setText(personalLoanApplyAppliEntity.getLast_Name());
+
+        etFatherName.setText(personalLoanApplyAppliEntity.getMiddle_Name());
         spTitle.setSelection(getTitlePos(personalLoanApplyAppliEntity.getTitle()));
         etDob.setText(getDDMMYYYPattern(personalLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
-        etFatherName.setText(personalLoanApplyAppliEntity.getMiddle_Name());
 
         if (personalLoanApplyAppliEntity.getGender().equals("Male")) {
             setMale_gender();
@@ -964,11 +1057,72 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         etPan.setText(personalLoanApplyAppliEntity.getPAN_No());
         etNationality.setText(personalLoanApplyAppliEntity.getNationality());
 
-        managePL_Common(StatusType, personalLoanApplyAppliEntity.getStatus_Id(), txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
-        managePL_Common(CategoryType, personalLoanApplyAppliEntity.getCategory_Id(), txtGEN, txtSC, txtST, txtOBC, txtOTH);
-        managePL_Common(EducationType, personalLoanApplyAppliEntity.getEducation_Id(), txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
-        managePL_IDTYPE(personalLoanApplyAppliEntity.getId_Type(), txtPORT, txtVOTER, txtDRV);
+//        managePL_Common(StatusType, personalLoanApplyAppliEntity.getStatus_Id(), txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
+//        managePL_Common(CategoryType, personalLoanApplyAppliEntity.getCategory_Id(), txtGEN, txtSC, txtST, txtOBC, txtOTH);
+//        managePL_Common(EducationType, personalLoanApplyAppliEntity.getEducation_Id(), txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
+//        managePL_IDTYPE(personalLoanApplyAppliEntity.getId_Type(), txtPORT, txtVOTER, txtDRV);
 
+
+        // region PL INFO Status
+        if (personalLoanApplyAppliEntity.getStatus_Id().equals("RES")) {
+            managePL_Common(StatusType, "RES", txtRES, txtNRI, txtPIO, txtOCR, txtFOR);
+        } else if (personalLoanApplyAppliEntity.getStatus_Id().equals("NRI")) {
+            managePL_Common(StatusType, "NRI", txtNRI, txtRES, txtPIO, txtOCR, txtFOR);
+        }
+        if (personalLoanApplyAppliEntity.getStatus_Id().equals("PIO")) {
+            managePL_Common(StatusType, "PIO", txtPIO, txtRES, txtNRI, txtOCR, txtFOR);
+        }
+        if (personalLoanApplyAppliEntity.getStatus_Id().equals("OCR")) {
+            managePL_Common(StatusType, "OCR", txtOCR, txtRES, txtNRI, txtPIO, txtFOR);
+        }
+        if (personalLoanApplyAppliEntity.getStatus_Id().equals("FOR")) {
+            managePL_Common(StatusType, "FOR", txtFOR, txtRES, txtNRI, txtPIO, txtOCR);
+        }
+        //endregion
+
+        // region PL INFO Category
+        if (personalLoanApplyAppliEntity.getCategory_Id().equals("GEN")) {
+            managePL_Common(CategoryType, "GEN", txtGEN, txtSC, txtST, txtOBC, txtOTH);
+        } else if (personalLoanApplyAppliEntity.getCategory_Id().equals("SC")) {
+            managePL_Common(CategoryType, "SC", txtSC, txtGEN, txtST, txtOBC, txtOTH);
+        }
+        if (personalLoanApplyAppliEntity.getCategory_Id().equals("ST")) {
+            managePL_Common(CategoryType, "ST", txtST, txtGEN, txtSC, txtOBC, txtOTH);
+        }
+        if (personalLoanApplyAppliEntity.getCategory_Id().equals("OBC")) {
+            managePL_Common(CategoryType, "OBC", txtOBC, txtGEN, txtSC, txtST, txtOTH);
+        }
+        if (personalLoanApplyAppliEntity.getCategory_Id().equals("OTH")) {
+            managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
+        }
+        //endregion
+
+        // region PL INFO Education
+        if (personalLoanApplyAppliEntity.getEducation_Id().equals("MATR")) {
+            managePL_Common(EducationType, "MATR", txtMATR, txtUGRAD, txtGRAD, txtPGRAD, txteducatOTH);
+        } else if (personalLoanApplyAppliEntity.getEducation_Id().equals("U-GRAD")) {
+            managePL_Common(EducationType, "U-GRAD", txtUGRAD, txtMATR, txtGRAD, txtPGRAD, txteducatOTH);
+        }
+        if (personalLoanApplyAppliEntity.getEducation_Id().equals("GRAD")) {
+            managePL_Common(EducationType, "GRAD", txtGRAD, txtMATR, txtUGRAD, txtPGRAD, txteducatOTH);
+        }
+        if (personalLoanApplyAppliEntity.getEducation_Id().equals("P-GRAD")) {
+            managePL_Common(EducationType, "P-GRAD", txtPGRAD, txtMATR, txtUGRAD, txtGRAD, txteducatOTH);
+        }
+        if (personalLoanApplyAppliEntity.getEducation_Id().equals("OTH")) {
+            managePL_Common(EducationType, "OTH", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
+        }
+        //endregion
+
+        // region ID Type
+        if (personalLoanApplyAppliEntity.getId_Type().equals("P-PORT")) {
+            managePL_IDTYPE("P-PORT", txtPORT, txtVOTER, txtDRV);
+        } else if (personalLoanApplyAppliEntity.getId_Type().equals("VOTER")) {
+            managePL_IDTYPE("VOTER", txtVOTER, txtPORT, txtDRV);
+        } else if (personalLoanApplyAppliEntity.getId_Type().equals("DRV-L")) {
+            managePL_IDTYPE("DRV-L", txtDRV, txtPORT, txtVOTER);
+        }
+        //endregion
         etIDNumber.setText(personalLoanApplyAppliEntity.getId_No());
         etUniversity.setText(personalLoanApplyAppliEntity.getInstitute_University());
         etMoMaidenName.setText(personalLoanApplyAppliEntity.getMothers_Maidan_Name());
@@ -997,7 +1151,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
         // region Address PA
         //   spResidence
-        spResidence.setSelection(getResidencePos(personalLoanApplyAppliEntity.getResidence_Type()) );
+        spResidence.setSelection(getResidencePos(personalLoanApplyAppliEntity.getResidence_Type()));
 
         etAddress1ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address1());
         etAddress2ContInfoPA.setText(personalLoanApplyAppliEntity.getPer_Address2());
@@ -1229,7 +1383,6 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
 
             isSubmit = false;
-            saveData(0);
 
         } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));  //down_arrow
@@ -1249,8 +1402,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
     private String getDDMMYYYPattern(String dateCal, String datePattern) {
 
         String dateSelected = "";
-        if(dateCal.equals(""))
-        {
+        if (dateCal.equals("")) {
             return "";
         }
         long select_milliseconds = 0;
@@ -1273,8 +1425,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
     private String getMMDDYYYPattern(String dateCal) {
 
         String dateSelected = "";
-        if(dateCal.equals(""))
-        {
+        if (dateCal.equals("")) {
             return "";
         }
         long select_milliseconds = 0;
@@ -1321,7 +1472,6 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         } else if (rbCustomerEntity.getApplicantSource().equals("2")) {
             setEmpSalaried("Self-Emp", true, txtEmpNatureSelfEmp, txtEmpNatureSalaried);
         }
-
 
         if (rbCustomerEntity.getApplicantIncome() != null) {
             if (rbCustomerEntity.getApplicantIncome().toString().trim().equals("0")) {
@@ -1447,18 +1597,22 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             }
         }
 
-        // etDob
-        if (!isEmpty(etSpouceName)) {
+        //
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                etSpouceName.requestFocus();
-                etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSpouceName.setError("Enter Spouce Name");
-                return false;
-            } else {
-                etSpouceName.requestFocus();
-                etSpouceName.setError("Enter Spouce Name");
-                return false;
+        if (MaritalStatus.equals("MARRIED")) {
+
+            if (!isEmpty(etSpouceName)) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    etSpouceName.setError("Enter Spouce Name");
+                    return false;
+                } else {
+                    etSpouceName.requestFocus();
+                    etSpouceName.setError("Enter Spouce Name");
+                    return false;
+                }
             }
         }
 
@@ -1919,10 +2073,14 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         if (!isEmpty(etLastName)) {
             return false;
         }
-        if (!isEmpty(etSpouceName)) {
-            return false;
-        }
 
+
+        if (MaritalStatus.equals("MARRIED")) {
+            if (!isEmpty(etSpouceName)) {
+
+                return false;
+            }
+        }
         if (!isEmpty(etPan)) {
             return false;
         }
@@ -1990,7 +2148,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                 return false;
             }
-        }else{
+        } else {
             if (!isEmpty(etTurnOver)) {
 
                 return false;
@@ -2009,7 +2167,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         if (!isEmpty(etNameOfOrg)) {
 
             return false;
-        }   else if (!isEmpty(etAddress1ED)) {
+        } else if (!isEmpty(etAddress1ED)) {
             return false;
 
         } else if (!isEmpty(etPincodeED)) {
@@ -2054,6 +2212,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 manageImages(llPlInfo, ivPLInfo, ivEmploy, ivAddress, ivFinancial);//
                 // manageTaskBar(1);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2062,6 +2221,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 manageMainLayouts(llAddress, llPlInfo, llEmployment, llFinancial);
                 manageImages(llAddress, ivAddress, ivEmploy, ivPLInfo, ivFinancial);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2070,6 +2230,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 manageMainLayouts(llEmployment, llPlInfo, llAddress, llFinancial);
                 manageImages(llEmployment, ivEmploy, ivPLInfo, ivAddress, ivFinancial);
                 manageTaskBar();
+                saveData(0);
 
                 break;
 
@@ -2078,7 +2239,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 manageMainLayouts(llFinancial, llPlInfo, llAddress, llEmployment);
                 manageImages(llFinancial, ivFinancial, ivPLInfo, ivAddress, ivEmploy);
                 manageTaskBar();
-
+                saveData(0);
 
                 break;
 
@@ -2092,10 +2253,12 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
             case R.id.txtMarried:
                 seMaritalStatus("MARRIED", txtMarried, txtSingle);
+
                 break;
 
             case R.id.txtSingle:
                 seMaritalStatus("SINGLE", txtSingle, txtMarried);
+
                 break;
             //seMaritalStatus
             //region PL INFO Status
@@ -2131,9 +2294,10 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                 break;
             case R.id.txtOTH:
                 managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
-                //endregion
+                break;
+            //endregion
 
-                // region PL INFO IDType
+            // region PL INFO IDType
             case R.id.txtPORT:
                 managePL_IDTYPE("P-PORT", txtPORT, txtVOTER, txtDRV);
                 break;
@@ -2170,6 +2334,8 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             case R.id.txtEmpNatureSelfEmp:
                 setEmpSalaried("Self-Emp", true, txtEmpNatureSelfEmp, txtEmpNatureSalaried);
                 break;
+
+
             //setEmpSalaried
             case R.id.btnSubmit:
 
@@ -2202,6 +2368,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                     }
                 } else {
+                    manageTaskBar();
                     isSubmit = true;
                     saveData(1);
                 }
@@ -2277,10 +2444,11 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         cancelDialog();
         if (response instanceof ERPSaveResponse) {
             if (response.getStatusId() == 0) {
+                AppID  = ""+ ((ERPSaveResponse) response).getResult();
                 if (isSubmit) {
 
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(this, PersonalLoanDetailActivity.class));
+                    startActivity(new Intent(this, BalanceTransferDetailActivity.class));
                 }
 
             } else {
@@ -2294,6 +2462,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                 if (personalLoanApplyAppliEntity != null) {
                     setApplictionData();
+                    manageTaskBar();
                 }
 
             }
@@ -2410,6 +2579,27 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         }
     };
 
+    TextWatcher grossIncomeTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+            settotal();
+
+        }
+    };
+
+
     //endregion
 
     // region Back event
@@ -2431,6 +2621,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         }
         return super.onOptionsItemSelected(item);
     }
+
     @Override
     public void onBackPressed() {
         finish();
@@ -2447,5 +2638,6 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
 
     //endregion
+
 
 }

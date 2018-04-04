@@ -17,7 +17,7 @@ public class ERPRetroRequestBuilder {
 
     static Retrofit restAdapter = null;
     // production url
-  //  public static String URL = " http://beta.services.rupeeboss.com/LoginDtls.svc/";
+  //  public static String URL = " http://services.rupeeboss.com/LoginDtls.svc/";
      public static String URL = "http://erp.rupeeboss.com:8063/LoginDtls.svc/";
 
 

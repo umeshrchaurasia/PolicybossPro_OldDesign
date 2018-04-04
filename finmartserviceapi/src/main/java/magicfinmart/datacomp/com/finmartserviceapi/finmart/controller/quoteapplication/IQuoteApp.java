@@ -16,7 +16,7 @@ public interface IQuoteApp {
 
     void saveQuote(SaveMotorRequestEntity entity, IResponseSubcriber iResponseSubcriber);
 
-    void convertQuoteToApp(String vehicleRequestID, IResponseSubcriber iResponseSubcriber);
+    void convertQuoteToApp(String vehicleRequestID, String selectedPrevInsID, String insImage, IResponseSubcriber iResponseSubcriber);
 
     void deleteQuote(String vehicleRequestID, IResponseSubcriber iResponseSubcriber);
 }

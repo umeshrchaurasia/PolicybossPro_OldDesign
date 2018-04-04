@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.motor.twowheeler.fragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.location.ILocationStateListener;
+import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -41,9 +44,12 @@ import java.util.List;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
@@ -58,7 +64,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
-public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener,ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew;
     CardView cvNcb;
@@ -93,11 +99,26 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     String regplace, makeModel = "";
     boolean isClaimExist = true;
 
+    LocationTracker locationTracker;
+    Location location;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bike_fragment_input, container, false);
+
+        //region init location
+        locationTracker = new LocationTracker(getActivity());
+        //location callback method
+        locationTracker.setLocationStateListener(this);
+
+        //GoogleApiClient initialisation and location update
+        locationTracker.init();
+
+        //GoogleApiclient connect
+        locationTracker.onResume();
+        //endregion
+
         dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity(getActivity());
         registerPopUp(this);
@@ -254,6 +275,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     private void bindInputsQuotes() {
 
         int vehicleID = motorRequestEntity.getVehicle_id();
+        if (vehicleID == 0) {
+            vehicleID = motorRequestEntity.getVarid();
+        }
         BikeMasterEntity carMasterEntity = dbController.getBikeVarientDetails(String.valueOf(vehicleID));
         if (carMasterEntity != null) {
 
@@ -306,7 +330,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         spFuel.setSelection(fuelIndex);*/
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
                 int prevInsurerIndex = 0;
-                String insName = dbController.getInsurername(Integer.parseInt(motorRequestEntity.getPrev_insurer_id()));
+                String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
                 for (int i = 0; i < prevInsurerList.size(); i++) {
                     if (prevInsurerList.get(i).matches(insName)) {
                         prevInsurerIndex = i;
@@ -712,7 +736,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 sbNoClaimBonus.setProgress(0);
                 break;
             case R.id.btnGetQuote:
-
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("TW Get quote : get quote button for TW "), Constants.TWO_WHEELER), null);
                 //region validations
                 if (makeModel == null || makeModel.equals("")) {
                     acMakeModel.requestFocus();
@@ -1118,7 +1142,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
         motorRequestEntity.setPolicy_expiry_date("");
-        motorRequestEntity.setPrev_insurer_id("");
+        motorRequestEntity.setPrev_insurer_id(0);
         motorRequestEntity.setVehicle_registration_type("individual");
         motorRequestEntity.setVehicle_ncb_current("0");
         motorRequestEntity.setIs_claim_exists("yes");
@@ -1191,7 +1215,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
         motorRequestEntity.setPolicy_expiry_date(etExpDate.getText().toString());
-        motorRequestEntity.setPrev_insurer_id("" + dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
+        motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
 
         // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(10);
@@ -1259,6 +1283,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     //endregion
 
     void setCustomerDetails() {
+        if (location != null) {
+            motorRequestEntity.setGeo_lat(location.getLatitude());
+            motorRequestEntity.setGeo_long(location.getLongitude());
+        }
         String[] fullName = etCustomerName.getText().toString().split(" ");
 
         if (fullName.length == 1) {
@@ -1370,6 +1398,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 etExpDate.setEnabled(true);
                 spPrevIns.setEnabled(true);
                 cvNcb.setVisibility(View.VISIBLE);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.TWO_WHEELER), null);
             } else {
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
@@ -1377,6 +1406,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 spPrevIns.setEnabled(false);
                 cvNcb.setVisibility(View.GONE);
                 tvDontKnow.performClick();
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.TWO_WHEELER), null);
             }
         } else if (R.id.swIndividual == compoundButton.getId()) {
             if (!b) {
@@ -1404,6 +1434,21 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 dialog.dismiss();
                 break;
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnected() {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnectionFailed() {
+        location = null;
     }
 
 }

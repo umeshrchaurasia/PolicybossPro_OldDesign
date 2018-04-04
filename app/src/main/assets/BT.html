@@ -86,6 +86,7 @@
         }
 
 
+
     </style>
 </head>
 
@@ -94,7 +95,8 @@
     <div class="col-md-12">
         <br>
         <p>Dear <b class="red-txt" id="name">Test User</b></p>
-        <p>Please find below Your Balance Transfer quotations.</p>
+        <p>Please find below Your<b> <span id="LoanType"></span></b> Balance Transfer quotations.
+        </p>
     </div>
 
 
@@ -158,6 +160,15 @@
         userReponse = JSON.parse(userReponse);
         otherReponse = JSON.parse(otherReponse);
         document.getElementById('name').innerHTML = otherReponse.NAME;
+        var productId = otherReponse.PRODUCT_ID;
+        if(productId == "2")
+        {
+        document.getElementById('LoanType').innerHTML = "LAP";
+        }else if(productId == "5"){
+        document.getElementById('LoanType').innerHTML = "HOME LOAN";
+        }else if(productId == "14"){
+        document.getElementById('LoanType').innerHTML = "PERSONAL LOAN";
+        }
 
 
         document.getElementById('pospName').innerHTML = userReponse.pospNAme;
@@ -182,10 +193,10 @@
             HTML = HTML + '<table class="table table-bordered tbl2" >';
             HTML = HTML +     '<tbody>';
             HTML = HTML +     '  <tr>';
-            HTML = HTML + '<td style="width:30%;"><img src="' + response.data.bank_data[i].Bank_Logo + '" class="img-responsive center" /></td>';
+            HTML = HTML + '<td style="width:30%;"><img src="' + response.data.bank_data[i].Bank_Logo + '" class="img-responsive center" /><span style="font-size:8px;">' + response.data.bank_data[i].Bank_Code + ' <span></td>';
             HTML = HTML + ' <td style="border-right:0px;width:35%"><p>LOAN AMOUNT</p><h5><b>₹ ' + Math.round(otherReponse.LOAN_REQUIRED) + '</b></h5></td>';
             HTML = HTML + '<td style="border-left:0px;"></td>';
-            HTML = HTML + ' <td style="width:35%;"><p>' + response.data.bank_data[i].pf + '</p><h5><b> ' + response.data.bank_data[i].pf_type + '</b></h5></td>';
+            HTML = HTML + ' <td style="width:35%;"><p>DROP EMI</p><h5><b> ₹ ' + Math.round(response.data.bank_data[i].drop_emi) + '</b></h5></td>';
             HTML = HTML +     '</tr>';
             HTML = HTML + '<tr><td></td>';
 
@@ -193,12 +204,9 @@
 
 
             HTML = HTML + '<td style="border-left:0px;"></td>';
-            if (response.data.bank_data[i].roi_type == "Floating") {
-                HTML = HTML + '<td><p>FLOATING</p><h5><b> ' + response.data.bank_data[i].roi + '%</b></h5> </td>';
-            }
-            else {
-                HTML = HTML + '<td><p>' + response.data.bank_data[i].roi_type + '</p><h5><b>' + response.data.bank_data[i].roi + '</b></h5> </td>';
-            }
+
+                HTML = HTML + '<td><p>INTEREST</p><h5><b> ' + response.data.bank_data[i].roi + '%</b></h5> </td>';
+
             HTML = HTML +     '</tr>';
             HTML = HTML +     '</tbody>';
             HTML = HTML +     '</table>';
@@ -209,6 +217,7 @@
         document.getElementById('divHL').innerHTML = HTML;
 
     }
+
 
 
 

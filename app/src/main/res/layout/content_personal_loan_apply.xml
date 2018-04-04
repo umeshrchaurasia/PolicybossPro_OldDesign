@@ -267,13 +267,15 @@
                         android:layout_marginTop="4dp">
 
                         <android.support.design.widget.TextInputLayout
+                            android:id="@+id/textInpLaySpouseName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Spouce Name">
+                            android:hint="*Spouse Name">
 
                             <EditText
                                 android:id="@+id/etSpouceName"
+                                android:maxLength="50"
                                 style="@style/Style.edittext"
                                 />
                         </android.support.design.widget.TextInputLayout>
@@ -735,6 +737,7 @@
                                 android:id="@+id/etUniversity"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="50"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -840,6 +843,7 @@
                                 android:id="@+id/etEmailPersContInfo"
                                 style="@style/Style.edittext"
                                 android:inputType="textEmailAddress"
+                                android:maxLength="100"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -854,6 +858,7 @@
                                 android:id="@+id/etEmailOffContInfo"
                                 style="@style/Style.edittext"
                                 android:inputType="textEmailAddress"
+                                android:maxLength="100"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -924,6 +929,7 @@
                                 android:id="@+id/etAddress1ContInfoRAP"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -945,6 +951,7 @@
                                 android:id="@+id/etAddress2ContInfoRAP"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -966,6 +973,7 @@
                                 android:id="@+id/etAddress3ContInfoRAP"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -987,6 +995,7 @@
                                 android:id="@+id/etLandmakContInfoRAP"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="150"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1056,6 +1065,7 @@
                             <EditText
                                 android:id="@+id/etCountryPlRAP"
                                 style="@style/Style.edittext"
+                                android:maxLength="50"
                                 android:text="India" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1249,6 +1259,7 @@
                                 android:id="@+id/etLandmakContInfoPA"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="150"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1316,6 +1327,7 @@
                             <EditText
                                 android:id="@+id/etCountryPA"
                                 style="@style/Style.edittext"
+                                android:maxLength="50"
                                 android:text="India" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1662,6 +1674,7 @@
                                 android:id="@+id/etNameOfOrg"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="50"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1759,6 +1772,7 @@
                                 android:id="@+id/etAddress1ED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1780,6 +1794,7 @@
                                 android:id="@+id/etAddress2ED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1801,6 +1816,7 @@
                                 android:id="@+id/etAddress3ED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1822,6 +1838,7 @@
                                 android:id="@+id/etLandmakED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="150"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1892,6 +1909,7 @@
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLines="1"
+                                android:maxLength="50"
                                 android:text="India" />
                         </android.support.design.widget.TextInputLayout>
 

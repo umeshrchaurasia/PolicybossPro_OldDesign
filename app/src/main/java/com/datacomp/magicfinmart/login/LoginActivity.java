@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,26 +20,26 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
-import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
-
-import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     PrefManager prefManager;
     EditText etEmail, etPassword;
     LoginRequestEntity loginRequestEntity;
-    TextView tvSignUp;
+    TextView tvSignUp, tvForgotPass;
     Button btnSignIn;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
     String[] perms = {
@@ -49,7 +50,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             "android.permission.RECEIVE_SMS",
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.READ_EXTERNAL_STORAGE",
-            "android.permission.CALL_PHONE"
+            "android.permission.CALL_PHONE",
+            "android.permission.RECORD_AUDIO"
     };
 
     @Override
@@ -84,6 +86,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         int WRITE_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
         int READ_EXTERNAL = ContextCompat.checkSelfPermission(getApplicationContext(), perms[6]);
         int callPhone = ContextCompat.checkSelfPermission(getApplicationContext(), perms[7]);
+        int recordAudio = ContextCompat.checkSelfPermission(getApplicationContext(), perms[8]);
         return camera == PackageManager.PERMISSION_GRANTED
                 && fineLocation == PackageManager.PERMISSION_GRANTED
                 && sendSms == PackageManager.PERMISSION_GRANTED
@@ -91,7 +94,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 && receiveSms == PackageManager.PERMISSION_GRANTED
                 && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
                 && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED
-                && callPhone == PackageManager.PERMISSION_GRANTED;
+                && callPhone == PackageManager.PERMISSION_GRANTED
+                && recordAudio == PackageManager.PERMISSION_GRANTED;
     }
 
     private void requestPermission() {
@@ -114,10 +118,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     boolean writeExternal = grantResults[5] == PackageManager.PERMISSION_GRANTED;
                     boolean readExternal = grantResults[6] == PackageManager.PERMISSION_GRANTED;
                     boolean callPhone = grantResults[7] == PackageManager.PERMISSION_GRANTED;
+                    boolean recordAudio = grantResults[8] == PackageManager.PERMISSION_GRANTED;
 
-                    if (camera && fineLocation && sendSms && readSms && receiveSms && writeExternal && readExternal && callPhone) {
+                    if (camera && fineLocation && sendSms && readSms && receiveSms && writeExternal && readExternal && callPhone && recordAudio) {
 
-                       // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(this, "All permission granted", Toast.LENGTH_SHORT).show();
                     } else {
 
                         //Permission Denied, You cannot access location data and camera
@@ -153,10 +158,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void setListener() {
         tvSignUp.setOnClickListener(this);
         btnSignIn.setOnClickListener(this);
+        tvForgotPass.setOnClickListener(this);
     }
 
     private void initWidgets() {
         tvSignUp = (TextView) findViewById(R.id.tvSignUp);
+        tvForgotPass = (TextView) findViewById(R.id.tvForgotPass);
         btnSignIn = (Button) findViewById(R.id.btnSignIn);
         etEmail = (EditText) findViewById(R.id.etEmail);
         etPassword = (EditText) findViewById(R.id.etPassword);
@@ -165,6 +172,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.tvForgotPass:
+                dialogForgotPassword();
+                break;
             case R.id.tvSignUp:
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
@@ -179,6 +189,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     etPassword.setError("Enter Password");
                     return;
                 }
+                //   Toast.makeText(this,prefManager.getToken(),Toast.LENGTH_LONG).show();
                 loginRequestEntity.setUserName(etEmail.getText().toString());
                 loginRequestEntity.setPassword(etPassword.getText().toString());
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
@@ -189,25 +200,108 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+    private void dialogForgotPassword() {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+        // builder.setTitle("FORGOT PASSWORD");
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.layout_forgot_password, null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+        dialog.show();
+
+        final EditText etEmail = (EditText) view.findViewById(R.id.etEmail);
+        Button btnReset = (Button) view.findViewById(R.id.btnReset);
+        Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isValideEmailID(etEmail)) {
+                    etEmail.setError("Invalid Email ID");
+                    etEmail.setFocusable(true);
+                    //return;
+                } else {
+                    dialog.dismiss();
+                    forgotPasswrod(etEmail);
+                }
+            }
+        });
+
+//        builder.setPositiveButton("RESET", null)
+//                .setNegativeButton("CANCEL", null);
+
+
+//        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//            @Override
+//            public void onShow(DialogInterface dialogInterface) {
+//                ((AlertDialog) dialogInterface).getButton(DialogInterface.BUTTON_POSITIVE)
+//                        .setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                                if (!isValideEmailID(etEmail)) {
+//                                    etEmail.setError("Invalid Email ID");
+//                                    etEmail.setFocusable(true);
+//                                    //return;
+//                                } else {
+//                                   // dialog.dismiss();
+//                                    forgotPasswrod(etEmail);
+//                                }
+//                            }
+//                        });
+//
+//                ((AlertDialog) dialogInterface).getButton(DialogInterface.BUTTON_NEGATIVE)
+//                        .setOnClickListener(new View.OnClickListener() {
+//                            @Override
+//                            public void onClick(View view) {
+//                              //  dialog.dismiss();
+//                            }
+//                        });
+//            }
+//        });
+
+    }
+
+    private void forgotPasswrod(EditText etEmail) {
+        showDialog("Retrieving password...");
+        new LoginController(LoginActivity.this)
+                .forgotPassword(etEmail.getText().toString(), LoginActivity.this);
+    }
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof LoginResponse) {
             if (response.getStatusNo() == 0) {
 
-               // prefManager.setIsUserLogin(true);
-                if(!prefManager.getSharePushType().equals("")) {
+                // prefManager.setIsUserLogin(true);
+                if (!prefManager.getSharePushType().equals("")) {
 
                     Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
                     startActivity(intent);
 
-                }else{
+                } else {
                     startActivity(new Intent(this, HomeActivity.class));
                 }
+
+                finish();
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
+        } else if (response instanceof ForgotResponse) {
+            if (response.getStatusNo() == 0) {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Success : " + response.getMessage()), "Login"), null);
         }
     }
 
@@ -215,5 +309,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Login Failure : " + t.getMessage()), "Login"), null);
     }
 }

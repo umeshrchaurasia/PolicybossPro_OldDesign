@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.SortbyAge;
 
 import java.util.ArrayList;
@@ -25,9 +26,12 @@ import java.util.Collections;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
 /**
@@ -347,7 +351,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 break;
 
             case R.id.btnGetHealthQuote:
-
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote health : get quote button for health"), Constants.HEALTH_INS), null);
                 //region validation
                 memberList.clear();
 
@@ -544,6 +548,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     healthQuote.getHealthRequest().setMemberList(memberList);
 
                     //open pop up
+                    btnGetHealthQuote.setEnabled(false);
                     Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
                     intent.putExtra(MEMBER_LIST, healthQuote);
                     startActivityForResult(intent, REQUEST_MEMBER);
@@ -557,6 +562,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        btnGetHealthQuote.setEnabled(true);
         if (requestCode == REQUEST_MEMBER) {
             if (data != null) {
                 healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);

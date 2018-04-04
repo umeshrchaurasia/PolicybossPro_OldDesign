@@ -1,14 +1,18 @@
 package com.datacomp.magicfinmart.loan_fm.balancetransfer.application;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -58,7 +62,7 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_BL.APPLICATION_LIST);
         }
 
-        rvApplicationList.setAdapter(null);
+      // rvApplicationList.setAdapter(null);
         balanceTransferApplicationAdapter = new BalanceTransferApplicationAdapter(BL_ApplicationFragment.this,mApplicationList);
         rvApplicationList.setAdapter(balanceTransferApplicationAdapter);
 
@@ -87,7 +91,7 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
 //        startActivity(intent);
       //  HLBT,PLBT,LAPBT
 
-        if (Integer.toString(Type).matches("12")) {
+        if (Integer.toString(Type).matches("5")) {
 //home
 
             Intent intenthl=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
@@ -96,7 +100,7 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
             startActivity(intenthl);
 
 
-        }else if (Integer.toString(Type).matches("9")) {
+        }else if (Integer.toString(Type).matches("14")) {
             //personal
 
             Intent intentpl=new Intent(getActivity(), BalanceTransferPersonalApplyActivity.class);
@@ -104,7 +108,7 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
             intentpl.putExtra("TypePage","PLBT");
             startActivity(intentpl);
 
-        } else if (Integer.toString(Type).matches("7")) {
+        } else if (Integer.toString(Type).matches("2")) {
             //lap
             Intent intenthl=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
             intenthl.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
@@ -124,12 +128,31 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
 
     private void setTextWatcher() {
 //search
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                balanceTransferApplicationAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
     }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tvSearch:
             case R.id.ivSearch:
+                InputMethodManager inputMethodManager =
+                        (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.toggleSoftInputFromWindow(
+                        etSearch.getApplicationWindowToken(),
+                        InputMethodManager.SHOW_FORCED, 0);
                 if (etSearch.getVisibility() == View.INVISIBLE) {
                     etSearch.setVisibility(View.VISIBLE);
                     etSearch.requestFocus();

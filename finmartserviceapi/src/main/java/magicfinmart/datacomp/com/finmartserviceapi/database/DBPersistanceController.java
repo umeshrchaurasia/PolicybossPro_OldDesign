@@ -458,7 +458,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
-        dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
+       // dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
 
         return dashboardEntities;
     }
@@ -680,7 +680,7 @@ public class DBPersistanceController {
 
     //region insurance image mapping
 
-    public void MapCarInsuranceImage() {
+    /*public void MapCarInsuranceImage() {
 
         hasMapCarInsuranceImage.put(1, R.drawable.carins1);
         hasMapCarInsuranceImage.put(2, R.drawable.carins2);
@@ -721,7 +721,7 @@ public class DBPersistanceController {
             return hasMapCarInsuranceImage.get(insurerID);
         else
             return R.drawable.carins35;
-    }
+    }*/
     //endregion
 
     //region Health Data
@@ -1573,7 +1573,7 @@ public class DBPersistanceController {
             List<ZohoClassificationEntity> zohoClassificationEntities = zohoTicketCategoryEntity.getClassification();
             if (zohoClassificationEntities != null) {
                 for (ZohoClassificationEntity zohoClassificationEntity : zohoClassificationEntities) {
-                    if (zohoClassificationEntity.getID() == QuerID) {
+                    if (zohoClassificationEntity.getQuerID() == QuerID) {
                         list.add(zohoClassificationEntity.getDescription());
                     }
                 }
@@ -1589,7 +1589,7 @@ public class DBPersistanceController {
             if (zohoClassificationEntities != null) {
                 for (ZohoClassificationEntity zohoClassificationEntity : zohoClassificationEntities) {
                     if (zohoClassificationEntity.getDescription().equals(className)) {
-                        return zohoClassificationEntity.getQuerID();
+                        return zohoClassificationEntity.getID();
                     }
                 }
             }

@@ -1,9 +1,11 @@
 package com.datacomp.magicfinmart.helpfeedback.raiseticket;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.widget.Toolbar;
@@ -58,8 +60,8 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
     HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
-    String categoryId;
-    int subCategoryId, classId;
+    String categoryId = "";
+    int subCategoryId = 0, classId = 0;
     CreateTicketrequest createTicketrequest;
 
     @Override
@@ -339,7 +341,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
 
     private void openGallery() {
         Intent intent = new Intent();
-        intent.setType("image/jpg");
+        intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
 
         startActivityForResult(Intent.createChooser(intent, "Select Picture"), SELECT_PICTURE);
@@ -352,6 +354,27 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                 openGallery();
                 break;
             case R.id.btnSubmit:
+                if (categoryId.equals("")) {
+                    Toast.makeText(this, "Select Category", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (subCategoryId == 0) {
+                    Toast.makeText(this, "Select Sub-Category", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (etMessage.getText().toString().isEmpty()){
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        etMessage.requestFocus();
+                        etMessage.setError("Enter Message");
+                        etMessage.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        return;
+                    } else {
+                        etMessage.requestFocus();
+                        etMessage.setError("Enter Message");
+                        return;
+                    }
+                }
+
                 createTicketrequest.setFBAID(loginResponseEntity.getFBAId());
                 createTicketrequest.setCategoryId(Integer.parseInt(categoryId));
                 createTicketrequest.setClassification(classId);
@@ -376,7 +399,7 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                 showDialog();
                 file = saveImageToStorage(mphoto, "" + 12);
                 part = Utility.getMultipartImage(file);
-                body = Utility.getBody(this, loginResponseEntity.getFBAId(), 12,"Tiket");
+                body = Utility.getBody(this, loginResponseEntity.getFBAId(), 12, "Tiket");
                 new RegisterController(this).uploadDocuments(part, body, this);
 
             } catch (IOException e) {

@@ -29,26 +29,36 @@ public class AsyncInsuranceMaster extends AsyncTask<Void, Void, Void> {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
-            realm.executeTransactionAsync(new Realm.Transaction() {
+            realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(listCarMaster.getGeneralinsurance());
-                }
-            });
-            realm.executeTransactionAsync(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(listCarMaster.getHealthinsurance());
-                }
-            });
-
-
-            realm.executeTransactionAsync(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(listCarMaster.getLifeinsurance());
+                    prefManager.setIsInsuranceMasterUpdate(false);
                 }
             });
+
+//            realm.executeTransactionAsync(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                    realm.copyToRealmOrUpdate(listCarMaster.getGeneralinsurance());
+//                }
+//            });
+//            realm.executeTransactionAsync(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                    realm.copyToRealmOrUpdate(listCarMaster.getHealthinsurance());
+//                }
+//            });
+//
+//
+//            realm.executeTransactionAsync(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                    realm.copyToRealmOrUpdate(listCarMaster.getLifeinsurance());
+//                }
+//            });
 
 
         } catch (Exception e) {
@@ -65,6 +75,6 @@ public class AsyncInsuranceMaster extends AsyncTask<Void, Void, Void> {
     protected void onPostExecute(Void aVoid) {
 
         super.onPostExecute(aVoid);
-        prefManager.setIsInsuranceMasterUpdate(false);
+        // prefManager.setIsInsuranceMasterUpdate(false);
     }
 }

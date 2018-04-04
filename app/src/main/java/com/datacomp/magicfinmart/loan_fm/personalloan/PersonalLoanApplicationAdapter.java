@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.application.PL_ApplicationFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
@@ -74,7 +75,13 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
 
             if (entity.getPersonalLoanRequest().getRBStatus() != null) {
 
-                if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+                if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                        || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                        || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                        || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                        || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                {
+
                     holder.txtApplicationNumber.setVisibility(View.VISIBLE);
 
                 } else {
@@ -92,7 +99,13 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
 
                     if (entity.getPersonalLoanRequest().getRBStatus() != null) {
 
-                        if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")) {
+
+                        if (entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("LS")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("DU")
+                                || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("AF") || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("MS")
+                                || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("NE") || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("DP")
+                                || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BL")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BS")
+                                || entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getPersonalLoanRequest().getRBStatus().toUpperCase().equals("BD"))
+                        {
 
                             Toast.makeText(fragment.getActivity(),"Application Number Already Generated",Toast.LENGTH_SHORT).show();
 
@@ -152,7 +165,7 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
                        // Toast.makeText(fragment.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        Toast.makeText(fragment.getActivity(), entity.getPersonalLoanRequest().getContact(), Toast.LENGTH_SHORT).show();
+                        ((PL_ApplicationFragment) fragment).sendSms(entity.getPersonalLoanRequest().getContact());
                         break;
 
                 }
@@ -169,10 +182,6 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
         } else {
             return mAppListFiltered.size();
         }
-    }
-    @Override
-    public Filter getFilter() {
-        return null;
     }
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
@@ -193,4 +202,46 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
             lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
         }
     }
+
+    public void refreshAdapter(List<FmPersonalLoanRequest> list) {
+        mAppListFiltered = list;
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String charString = charSequence.toString();
+                if (charString.isEmpty()) {
+                    mAppListFiltered = mAppList;
+                } else {
+                    try {
+                        List<FmPersonalLoanRequest> filteredList = new ArrayList<>();
+                        for (FmPersonalLoanRequest row : mAppList) {
+                            if (row.getPersonalLoanRequest().getApplicantNme().toLowerCase().contains(charString.toLowerCase())) {
+                                filteredList.add(row);
+                            }
+                        }
+                        mAppListFiltered = filteredList;
+                    }
+                    catch (Exception ex)
+                    {
+                        ex.printStackTrace();
+                    }
+
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mAppListFiltered;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mAppListFiltered = (ArrayList<FmPersonalLoanRequest>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
+    }
+
 }

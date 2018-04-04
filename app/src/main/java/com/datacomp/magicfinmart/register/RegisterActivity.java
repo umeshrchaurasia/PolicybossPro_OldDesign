@@ -237,88 +237,101 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.ivProfessionalInfo:
             case R.id.rlProfessionalInfo:
-                if (!isEmpty(etFirstName)) {
-                    etFirstName.requestFocus();
-                    etFirstName.setError("Enter First Name");
-                    return;
-                }
 
-                if (!isEmpty(etLastName)) {
-                    etLastName.requestFocus();
-                    etLastName.setError("Enter Last Name");
-                    return;
-                }
-                if (!isEmpty(etDob)) {
-                    etDob.requestFocus();
-                    etDob.setError("Enter Dob");
-                    return;
-                }
-                if (!isEmpty(etMobile1)) {
-                    etMobile1.requestFocus();
-                    etMobile1.setError("Enter Mobile ");
-                    return;
-                }
-                if (!isValideEmailID(etEmail)) {
-                    etEmail.requestFocus();
-                    etEmail.setError("Enter Email");
-                    return;
-                }
-                if (!isValideEmailID(etConfirmEmail)) {
-                    etConfirmEmail.requestFocus();
-                    etConfirmEmail.setError("Confirm Email");
-                    return;
-                }
-                if (!etEmail.getText().toString().equals(etConfirmEmail.getText().toString())) {
-                    etConfirmEmail.requestFocus();
-                    etConfirmEmail.setError("Email Mismatch");
-                    return;
-                }
-                if (!isEmpty(etPincode)) {
-                    etPincode.requestFocus();
-                    etPincode.setError("Enter Pincode");
-                    return;
-                }
-                if (!isEmpty(etCity)) {
-                    etCity.requestFocus();
-                    etCity.setError("Enter City");
-                    return;
-                }
-                if (!isEmpty(etState)) {
-                    etState.requestFocus();
-                    etState.setError("Enter State");
-                    return;
-                }
-                if (!isEmpty(etFirstName)) {
-                    etFirstName.requestFocus();
-                    etFirstName.setError("Enter First Name");
-                    return;
-                }
-                setRegisterPersonalRequest();
-                isValidPersonalInfo = true;
+                isValidPersonalInfo = validateRegister();
+                if (isValidPersonalInfo) {
+                    setRegisterPersonalRequest();
 
-                if (!isMobileValid) {
-                    showDialog("Sending otp...");
-                    new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
-                    showOtpAlert();
+                    if (!isMobileValid) {
+                        showDialog("Sending otp...");
+                        new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
+                        showOtpAlert();
+                    } else {
+                        hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
+                        btnSubmit.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    hideAllLayouts(llProfessionalInfo, ivProfessionalInfo);
-                    btnSubmit.setVisibility(View.VISIBLE);
+
                 }
 
 
                 break;
             case R.id.btnSubmit:
-                if (isMobileValid) {
-                    setProfessionInfo();
-                    showDialog();
-                    new RegisterController(this).registerFba(registerRequestEntity, this);
-                } else {
-                    showDialog("Sending otp...");
-                    new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
-                    showOtpAlert();
+                isValidPersonalInfo = validateRegister();
+                if (isValidPersonalInfo) {
+                    setRegisterPersonalRequest();
+                    if (!isMobileValid) {
+                        showDialog("Sending otp...");
+                        new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
+                        showOtpAlert();
+                    } else {
+                        setProfessionInfo();
+                        showDialog();
+                        new RegisterController(this).registerFba(registerRequestEntity, this);
+                    }
                 }
                 break;
         }
+    }
+
+    private Boolean validateRegister() {
+        if (!isEmpty(etFirstName)) {
+            etFirstName.requestFocus();
+            etFirstName.setError("Enter First Name");
+            return false;
+        }
+
+        if (!isEmpty(etLastName)) {
+            etLastName.requestFocus();
+            etLastName.setError("Enter Last Name");
+            return false;
+        }
+        if (!isEmpty(etDob)) {
+            etDob.requestFocus();
+            etDob.setError("Enter Dob");
+            return false;
+        }
+        if (!isValidePhoneNumber(etMobile1)) {
+            etMobile1.requestFocus();
+            etMobile1.setError("Enter Mobile ");
+            return false;
+        }
+        if (!isValideEmailID(etEmail)) {
+            etEmail.requestFocus();
+            etEmail.setError("Enter Email");
+            return false;
+        }
+        if (!isValideEmailID(etConfirmEmail)) {
+            etConfirmEmail.requestFocus();
+            etConfirmEmail.setError("Confirm Email");
+            return false;
+        }
+        if (!etEmail.getText().toString().equals(etConfirmEmail.getText().toString())) {
+            etConfirmEmail.requestFocus();
+            etConfirmEmail.setError("Email Mismatch");
+            return false;
+        }
+        if (!isEmpty(etPincode)) {
+            etPincode.requestFocus();
+            etPincode.setError("Enter Pincode");
+            return false;
+        }
+        if (!isEmpty(etCity)) {
+            etCity.requestFocus();
+            etCity.setError("Enter City");
+            return false;
+        }
+        if (!isEmpty(etState)) {
+            etState.requestFocus();
+            etState.setError("Enter State");
+            return false;
+        }
+        if (!isEmpty(etFirstName)) {
+            etFirstName.requestFocus();
+            etFirstName.setError("Enter First Name");
+            return false;
+        }
+        return true;
     }
 
     private void setProfessionInfo() {
@@ -449,7 +462,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             cancelDialog();
             trackingRequestEntity.setType("Register");
             trackingRequestEntity.setData(new TrackingData("Submit button for registration Success"));
-            new TrackingController(this).sendData(trackingRequestEntity, RegisterActivity.this);
+            new TrackingController(this).sendData(trackingRequestEntity, null);
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             if (response.getStatusNo() == 0)
                 finish();
@@ -469,7 +482,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
         trackingRequestEntity.setType("Register");
         trackingRequestEntity.setData(new TrackingData(t.getMessage()));
-        new TrackingController(this).sendData(trackingRequestEntity, RegisterActivity.this);
+        new TrackingController(this).sendData(trackingRequestEntity, null);
     }
 
     private String extractDigitFromMessage(String message) {

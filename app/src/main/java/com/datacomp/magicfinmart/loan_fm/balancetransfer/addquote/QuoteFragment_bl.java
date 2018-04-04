@@ -17,16 +17,18 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BTLoanApplyWebView;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.ShareQuoteACtivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
@@ -61,7 +63,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     GetBLDispalyResponse getblDispalyResponse;
     BLLoanRequest blLoanRequest;
     FmBalanceLoanRequest fmBalanceLoanRequest;
-    LinearLayout ivllEdit, llgraph,llshare;
+    LinearLayout ivllEdit, llgraph, llshare;
 
     List<SavingBLEntity> savingBlList;
     ImageView ivShare;
@@ -139,26 +141,27 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
     public void redirectToApplyLoanBT(FmBalanceLoanRequest entity) {
 
-        if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("12")) {
+        if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("5")) {
 //home
             startActivity(new Intent(getContext(), BalanceTransferLoanApplyActivity.class)
                     .putExtra("BuyLoanQuery", buyLoanQuerystring));
 
-        } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("9")) {
+        } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("14")) {
             //personal
             startActivity(new Intent(getContext(), BalanceTransferPersonalApplyActivity.class)
                     .putExtra("BuyLoanQuery", buyLoanQuerystring));
 
-        } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("7")) {
+        } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("2")) {
             //lap
             startActivity(new Intent(getContext(), BalanceTransferLoanApplyActivity.class)
                     .putExtra("BuyLoanQuery", buyLoanQuerystring));
 
         }
-
-       //
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy BL : Buy button for BL"), Constants.BALANCE_TRANSFER), null);
+        //
 
     }
+
     private void bindQuotes() {
 
         if (getblDispalyResponse != null) {
@@ -185,11 +188,11 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                     txtLoanAmnt.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
                     txtLoanTenure.setText("" + blLoanRequest.getLoanterm() + " Years");
 
-                    if (Integer.toString(blLoanRequest.getProduct_id()).matches("12")) {
+                    if (Integer.toString(blLoanRequest.getProduct_id()).matches("5")) {
                         txtType.setText("HOME LOAN");
-                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("9")) {
+                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("14")) {
                         txtType.setText("PERSONAL LOAN");
-                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("7")) {
+                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("2")) {
                         txtType.setText("LAP");
                     }
 
@@ -204,7 +207,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                         txtcurrloanemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getAmount()));
                         txtdropemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getDrop_emi()));
                         txtnewemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getNew_amount()));
-                        txtdropinterestrate.setText("" + "\u20B9" + savingBlList.get(0).getDrop_in_int() + " %");
+                        txtdropinterestrate.setText("" + savingBlList.get(0).getDrop_in_int() + " %");
                         txtreducedintrest.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getSavings()));
 
                     }
@@ -242,21 +245,21 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
             buyLoanQuerystring.setBankId(entity.getBank_Id());
 
-          buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf(fmBalanceLoanRequest.getBLLoanRequest().getLoanamount()));
+            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf(fmBalanceLoanRequest.getBLLoanRequest().getLoanamount()));
             buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
             buyLoanQuerystring.setQuote_id(QuoteID);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());
             buyLoanQuerystring.setMobileNo(fmBalanceLoanRequest.getBLLoanRequest().getContact());
-          //  buyLoanQuerystring.setCity(fmBalanceLoanRequest.getBLLoanRequest().getCity());
+            //  buyLoanQuerystring.setCity(fmBalanceLoanRequest.getBLLoanRequest().getCity());
 
-            if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("12")) {
+            if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("5")) {
                 buyLoanQuerystring.setType("HLBT");
 
-            } else if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("9")) {
+            } else if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("14")) {
                 buyLoanQuerystring.setType("PLBT");
-            } else if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("7")) {
+            } else if (Integer.toString(fmBalanceLoanRequest.getBLLoanRequest().getProduct_id()).matches("2")) {
                 buyLoanQuerystring.setType("LAPBT");
-           }
+            }
 
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         } catch (Exception ex) {
@@ -315,11 +318,12 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         } else if (v.getId() == R.id.ivShare) {
 
             if (getblDispalyResponse != null) {
-                Intent intent = new Intent(getActivity(), ShareQuoteACtivity.class);
+                Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BL_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getblDispalyResponse);
                 intent.putExtra("NAME", fmBalanceLoanRequest.getBLLoanRequest().getApplicantName());
                 intent.putExtra("LOAN_REQUIRED", "" + fmBalanceLoanRequest.getBLLoanRequest().getLoanamount());
+                intent.putExtra("PRODUCT_ID", fmBalanceLoanRequest.getBLLoanRequest().getProduct_id());
                 startActivity(intent);
             }
 

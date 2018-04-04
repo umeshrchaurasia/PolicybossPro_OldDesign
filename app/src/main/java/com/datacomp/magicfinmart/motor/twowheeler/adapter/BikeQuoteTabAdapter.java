@@ -24,6 +24,7 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 
 /**
@@ -62,23 +63,25 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
             holder.txtPersonName.setText(entity.getMotorRequestEntity().getFirst_name()
                     + " " + entity.getMotorRequestEntity().getLast_name());
             try {
-                BikeMasterEntity carMasterEntity = new DBPersistanceController(mFrament.getActivity())
-                        .getBikeVarientDetails(
-                                "" + entity.getMotorRequestEntity().getVehicle_id());
+                BikeMasterEntity carMasterEntity = null;
+                if (entity.getMotorRequestEntity().getVehicle_id() == 0) {
+
+                    carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+                            .getBikeVarientDetails(
+                                    "" + entity.getMotorRequestEntity().getVarid());
+                } else {
+                    carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+                            .getBikeVarientDetails(
+                                    "" + entity.getMotorRequestEntity().getVehicle_id());
+                }
                 holder.txtVehicleName.setText(carMasterEntity.getMake_Name() + "," + carMasterEntity.getModel_Name());
 
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
+
             holder.txtQuoteDate.setText(entity.getMotorRequestEntity().getCreated_date());
             holder.txtCrnNo.setText("" + entity.getMotorRequestEntity().getCrn());
-
-//            holder.txtOverflowMenu.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    openPopUp(view, entity);
-//                }
-//            });
 
 
             //set tag for sharing entity

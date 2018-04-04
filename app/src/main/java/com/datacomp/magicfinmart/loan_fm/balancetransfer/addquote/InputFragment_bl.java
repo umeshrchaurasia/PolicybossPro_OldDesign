@@ -2,49 +2,40 @@ package com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SeekBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-
+import com.datacomp.magicfinmart.utility.Constants;
 
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
-
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.personalloan.PersonalLoanController;
-
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
 
-public class InputFragment_bl extends BaseFragment implements View.OnClickListener{
+public class InputFragment_bl extends BaseFragment implements View.OnClickListener {
 
 
     DBPersistanceController databaseController;
 
-    EditText etOutstanding, etCurrInc, ettenureyrs,etNameOfApplicant,etcontact;
+    EditText etOutstanding, etCurrInc, ettenureyrs, etNameOfApplicant, etcontact;
     RadioGroup rgloantype;
-    RadioButton rbimghl, rbimgpl,rbimglap;
+    RadioButton rbimghl, rbimgpl, rbimglap;
 
     LoginResponseEntity loginEntity;
     GetBLDispalyResponse getblDispalyLoanResponse;
@@ -55,7 +46,7 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
     Button btnGetQuote;
 
     Context mContext;
-    double  ROIHLBL=0,ROILABL=0,ROIPLBL=0;
+    double ROIHLBL = 0, ROILABL = 0, ROIPLBL = 0;
 
     public InputFragment_bl() {
         // Required empty public constructor
@@ -71,10 +62,13 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
         init_widgets(view);
         databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
-
-        ROIHLBL= databaseController.getConstantsData().getROIHLBL();
-        ROILABL= databaseController.getConstantsData().getROILABL();
-        ROIPLBL= databaseController.getConstantsData().getROIPLBL();
+        try {
+            ROIHLBL = Double.parseDouble(databaseController.getConstantsData().getROIHLBL());
+            ROILABL = Double.parseDouble(databaseController.getConstantsData().getROILABL());
+            ROIPLBL = Double.parseDouble(databaseController.getConstantsData().getROIPLBL());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         setListener();
 
         if (getArguments() != null) {
@@ -123,7 +117,7 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
         // region  HomeLoanRequest Binding
 
         blLoanRequest = fmBalanceLoanRequest.getBLLoanRequest();
-        blLoanRequest.setLoanamount( Double.parseDouble(etOutstanding.getText().toString()));
+        blLoanRequest.setLoanamount(Double.parseDouble(etOutstanding.getText().toString()));
         blLoanRequest.setLoanterm(Double.parseDouble(ettenureyrs.getText().toString()));
         blLoanRequest.setLoaninterest(Double.parseDouble(etCurrInc.getText().toString()));
         blLoanRequest.setApplicantName(etNameOfApplicant.getText().toString());
@@ -132,13 +126,13 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
 
         if (rbimghl.isChecked()) {
-            blLoanRequest.setProduct_id(12);//hl
+            blLoanRequest.setProduct_id(5);//hl
             blLoanRequest.setType("HLBT");
         } else if (rbimgpl.isChecked()) {
-            blLoanRequest.setProduct_id(9);//pl
+            blLoanRequest.setProduct_id(14);//pl
             blLoanRequest.setType("PLBT");
-        }else if (rbimglap.isChecked()) {
-            blLoanRequest.setProduct_id(7);//lap
+        } else if (rbimglap.isChecked()) {
+            blLoanRequest.setProduct_id(2);//lap
             blLoanRequest.setType("LAPBT");
         }
         blLoanRequest.setbrokerid(Integer.parseInt(loginEntity.getLoanId()));
@@ -185,21 +179,21 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
     private void setListener() {
         btnGetQuote.setOnClickListener(this);
-}
-
+    }
 
 
     @Override
     public void onClick(View v) {
 
         if (v.getId() == R.id.btnGetQuote) {
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote BL : Get quote button for BL"), Constants.BALANCE_TRANSFER), null);
             //region Validation
             //region Property Validation
             String Outstanding = etOutstanding.getText().toString();
             String CurrInc = etCurrInc.getText().toString();
             String TenureInYear = ettenureyrs.getText().toString();
             String Name = etNameOfApplicant.getText().toString();
-            String Contact  = etcontact.getText().toString();
+            String Contact = etcontact.getText().toString();
             if (TextUtils.isEmpty(Name)) {
 
                 etNameOfApplicant.setError("Please Enter Name Of Applicant.");
@@ -210,9 +204,8 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
             if (TextUtils.isEmpty(Contact)) {
 
 
-            }
-            else {
-                if (Contact.length()<10) {
+            } else {
+                if (Contact.length() < 10) {
 
                     etcontact.setError("Please Enter 10 digit Mobile Number.");
                     etcontact.requestFocus();
@@ -253,13 +246,32 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
                 return;
 
             }
-            if (Double.parseDouble(TenureInYear) > 100) {
+            if (rbimghl.isChecked()) {
+                if (Double.parseDouble(TenureInYear) > 30) {
 
-                ettenureyrs.setError("Please Check Loan Tenure Year.");
-                ettenureyrs.requestFocus();
-                return;
+                    ettenureyrs.setError("Please Check Loan Tenure Year.");
+                    ettenureyrs.requestFocus();
+                    return;
 
+                }
+            } else if (rbimgpl.isChecked()) {
+                if (Double.parseDouble(TenureInYear) > 7) {
+
+                    ettenureyrs.setError("Please Check Loan Tenure Year.");
+                    ettenureyrs.requestFocus();
+                    return;
+
+                }
+            } else if (rbimglap.isChecked()) {
+                if (Double.parseDouble(TenureInYear) > 30) {
+
+                    ettenureyrs.setError("Please Check Loan Tenure Year.");
+                    ettenureyrs.requestFocus();
+                    return;
+
+                }
             }
+
 
             if (rbimghl.isChecked()) {
                 if (Double.parseDouble(Outstanding) < 500000) {
@@ -269,9 +281,9 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
                     return;
 
                 }
-                if (ROIHLBL >=Double.parseDouble(etCurrInc.getText().toString()) ) {
+                if (ROIHLBL >= Double.parseDouble(etCurrInc.getText().toString())) {
 
-                    etCurrInc.setError("INTEREST SHOULD BE GREATER THAN "+ROIHLBL+"");
+                    etCurrInc.setError("INTEREST SHOULD BE GREATER THAN " + ROIHLBL + "");
                     etCurrInc.requestFocus();
                     return;
 
@@ -285,14 +297,14 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
                     return;
 
                 }
-                if (ROILABL >=Double.parseDouble(etCurrInc.getText().toString()) ) {
+                if (ROILABL >= Double.parseDouble(etCurrInc.getText().toString())) {
 
-                    etCurrInc.setError("INTEREST SHOULD BE GREATER THAN (OR)EQUAL TO "+ROILABL+" ");
+                    etCurrInc.setError("INTEREST SHOULD BE GREATER THAN (OR)EQUAL TO " + ROILABL + " ");
                     etCurrInc.requestFocus();
                     return;
 
                 }
-            }else if (rbimgpl.isChecked()) {
+            } else if (rbimgpl.isChecked()) {
 
                 if (Double.parseDouble(Outstanding) < 100000) {
 
@@ -302,9 +314,9 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
                 }
 
-                if (ROIPLBL >=Double.parseDouble(etCurrInc.getText().toString())  ) {
+                if (ROIPLBL >= Double.parseDouble(etCurrInc.getText().toString())) {
 
-                    etCurrInc.setError("INTEREST SHOULD BE GREATER THAN (OR)EQUAL TO "+ROIPLBL+" ");
+                    etCurrInc.setError("INTEREST SHOULD BE GREATER THAN (OR)EQUAL TO " + ROIPLBL + " ");
                     etCurrInc.requestFocus();
                     return;
 
@@ -315,8 +327,8 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
             // endregion
             setApplicantDetails();
-           // showDialog();
-          //  new PersonalLoanController(getActivity()).getBLQuote(blLoanRequest, this);
+            // showDialog();
+            //  new PersonalLoanController(getActivity()).getBLQuote(blLoanRequest, this);
             ((BLMainActivity) getActivity()).getQuoteParameterBundle(fmBalanceLoanRequest);
 
         }
@@ -329,7 +341,6 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
         super.onAttach(context);
         mContext = context;
     }
-
 
 
 }

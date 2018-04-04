@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.loan_fm.homeloan;
 
 
-
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -26,15 +25,25 @@ public class ActivityTabsPagerAdapter_HL extends FragmentStatePagerAdapter {
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     HomeLoanRequestMainEntity mMasterData;
+
+    private String[] tabTitles = new String[]{"QUOTES", "APPLICATION"};
+
     public ActivityTabsPagerAdapter_HL(FragmentManager fm, HomeLoanRequestMainEntity masterData) {
         super(fm);
         mMasterData = masterData;
     }
 
     @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
+    public CharSequence getPageTitle(int position) {
+        //return super.getPageTitle(position);
+        return tabTitles[position];
     }
+
+
+    //    @Override
+//    public int getItemPosition(Object object) {
+//        return POSITION_NONE;
+//    }
 
     @Override
     public Fragment getItem(int index) {
@@ -49,7 +58,7 @@ public class ActivityTabsPagerAdapter_HL extends FragmentStatePagerAdapter {
                 if (mMasterData == null) {
                     bundle.putParcelableArrayList(QUOTE_LIST, null);
 
-                }else{
+                } else {
                     bundle.putParcelableArrayList(QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getQuote());
                 }
                 Qfragment.setArguments(bundle);
@@ -72,6 +81,7 @@ public class ActivityTabsPagerAdapter_HL extends FragmentStatePagerAdapter {
 
         return null;
     }
+
     @Override
     public int getCount() {
         return TOTAL;

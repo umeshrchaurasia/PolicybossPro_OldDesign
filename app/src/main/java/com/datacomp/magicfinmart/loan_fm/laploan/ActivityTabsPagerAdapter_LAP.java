@@ -23,17 +23,25 @@ public class ActivityTabsPagerAdapter_LAP extends FragmentStatePagerAdapter {
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     HomeLoanRequestMainEntity mMasterData;
+
+    private String[] tabTitles = new String[]{"QUOTES", "APPLICATION"};
+
     public ActivityTabsPagerAdapter_LAP(FragmentManager fm, HomeLoanRequestMainEntity masterData) {
         super(fm);
         mMasterData = masterData;
     }
 
-
     @Override
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
+    public CharSequence getPageTitle(int position) {
+        //return super.getPageTitle(position);
+        return tabTitles[position];
     }
 
+
+    //    @Override
+//    public int getItemPosition(Object object) {
+//        return POSITION_NONE;
+//    }
 
     @Override
     public Fragment getItem(int index) {

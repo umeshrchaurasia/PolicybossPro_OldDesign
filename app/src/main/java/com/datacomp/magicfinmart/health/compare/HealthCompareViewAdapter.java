@@ -48,22 +48,14 @@ public class HealthCompareViewAdapter extends RecyclerView.Adapter<HealthCompare
         holder.txtInsurerName.setText(healthQuoteEntity.getInsurerName());
         holder.txtPlanName.setText(healthQuoteEntity.getPlanName());
 
-//        if (healthQuoteEntity.getInsurerLogoName().equals("")) {
         Glide.with(mContext).load(healthQuoteEntity.getInsurerLogoName())
                 .into(holder.imgInsurerLogo);
-//        } else {
-//            String imgURL = "http://www.policyboss.com/Images/insurer_logo/" +
-//                    healthQuoteEntity.getInsurerLogoName();
-//            Glide.with(mContext).load(imgURL)
-//                    .into(holder.imgInsurerLogo);
-//        }
-
 
         for (int i = 0; i < healthQuoteEntity.getLstbenfitsFive().size(); i++) {
             BenefitsEntity entity = healthQuoteEntity.getLstbenfitsFive().get(i);
             if (entity.isSelected()) {
-
-                holder.txtBenefitsName.setText("* " + entity.getBenefit());
+                String benefitsName = entity.getBenefit().replace("\n", "");
+                holder.txtBenefitsName.setText("* " + benefitsName);
             }
         }
 

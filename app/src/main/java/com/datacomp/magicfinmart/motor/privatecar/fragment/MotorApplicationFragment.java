@@ -1,6 +1,8 @@
 package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,9 +15,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorApplicationAdapter;
 
@@ -27,7 +31,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationList
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MotorApplicationFragment extends BaseFragment implements View.OnClickListener {
+public class MotorApplicationFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
+    public static final String FROM_APPLICATION = "from_application";
+
     RecyclerView rvApplicationList;
     MotorApplicationAdapter motorApplicationAdapter;
     List<ApplicationListEntity> mApplicationList;
@@ -48,6 +54,7 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
         initView(view);
         setListener();
         setTextWatcher();
+        registerPopUp(this);
         mApplicationList = new ArrayList<>();
 
         if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter.APPLICATION_LIST) != null) {
@@ -58,6 +65,21 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
         rvApplicationList.setAdapter(motorApplicationAdapter);
         return view;
     }
+
+    public void redirectApplication(ApplicationListEntity entity) {
+        if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("a")) {
+            startActivity(new Intent(getActivity(), InputQuoteBottmActivity.class).putExtra(FROM_APPLICATION, entity));
+        } else if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("am")) {
+            openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
+        } else if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("ps")) {
+            openPopUp(etSearch, "Message", "Already payment done for this crn.", "OK", true);
+        } else if (entity.getMotorRequestEntity().getPBStatus().toLowerCase().equals("pf")) {
+            openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
+        } else {
+            openPopUp(etSearch, "Message", "", "OK", true);
+        }
+    }
+
 
     private void initView(View view) {
         ivSearch = (ImageView) view.findViewById(R.id.ivSearch);
@@ -108,5 +130,15 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+        dialog.cancel();
     }
 }
