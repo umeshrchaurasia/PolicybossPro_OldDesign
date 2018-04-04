@@ -45,7 +45,7 @@
             android:id="@+id/nav_selfinspection"
             android:icon="@drawable/enrollment_ic"
             android:title="INSPECTION"
-            android:visible="false" />
+            android:visible="true" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout_ic"
