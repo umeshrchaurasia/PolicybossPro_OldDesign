@@ -409,9 +409,9 @@
         BalanceTransferPersonalApplyActivity
     </string>
 
-  <!--region inspect-->
+    <!--region inspect-->
     <string name="title_activity_splash_screen">Policyboss-Inspect</string>
-   <!-- <string name="title_activity_home">HomeActivity</string>-->
+    <!-- <string name="title_activity_home">HomeActivity</string>-->
     <string name="title_activity_video_preview">VideoPreviewActivity</string>
     <string name="title_activity_self_declare">Self Declare</string>
     <string-array name="inspectionDetails">
@@ -430,6 +430,7 @@
     <string name="title_activity_upload_document">Upload Document</string>
     <string name="title_activity_photo_capture">Upload Pictures</string>
     <string name="title_activity_thank_you">Thank You</string>
+    <string name="title_activity_term_quote_application">Life Insurance</string>
 
 
 </resources>

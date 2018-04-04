@@ -15,7 +15,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
-import com.datacomp.magicfinmart.lifeinsurance.LifeDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
@@ -23,6 +22,7 @@ import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
+import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
@@ -154,12 +154,12 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         case 11:
                             //health check up
                             mContext.startActivity(new Intent(mContext.getActivity(), HealthCheckUpPlansActivity.class));
-                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"),  Constants.HEALTH_CHECKUP), null);
+                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
                             break;
 
                         case 12:
                             //Life Insurance
-                            mContext.startActivity(new Intent(mContext.getActivity(), LifeDetailActivity.class));
+                            mContext.startActivity(new Intent(mContext.getActivity(), TermQuoteApplicationActivity.class));
                             new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
                             break;
                         default:

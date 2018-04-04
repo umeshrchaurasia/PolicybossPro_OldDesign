@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.lifeinsurance.CompareInsurance.quote_application;
+package com.datacomp.magicfinmart.term.quoteapp;
 
 
 import android.os.Bundle;
@@ -7,15 +7,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class CompareIns_ApplicationFragment extends Fragment {
+public class TermApplicationListFragment extends BaseFragment {
 
 
-    public CompareIns_ApplicationFragment() {
+    public TermApplicationListFragment() {
         // Required empty public constructor
     }
 
@@ -24,7 +25,10 @@ public class CompareIns_ApplicationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_compare_ins__application, container, false);
+        View view = inflater.inflate(R.layout.fragment_health_application, container, false);
+        return view;
     }
 
 }
+
+
