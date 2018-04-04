@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,6 +21,8 @@ import android.view.ViewGroup;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
+import com.datacomp.magicfinmart.location.ILocationStateListener;
+import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -38,7 +41,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsRes
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends BaseFragment implements IResponseSubcriber, BaseFragment.PopUpListener {
+public class DashboardFragment extends BaseFragment implements IResponseSubcriber,ILocationStateListener, BaseFragment.PopUpListener {
 
     RecyclerView rvHome;
     DashboardRowAdapter mAdapter;
@@ -48,7 +51,8 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
     ConstantEntity constantEntity;
     PrefManager prefManager;
     int forceUpdate;
-
+    LocationTracker locationTracker;
+    Location location;
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -60,6 +64,19 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
+
+        //region init location
+        locationTracker = new LocationTracker(getActivity());
+        //location callback method
+        locationTracker.setLocationStateListener(this);
+
+        //GoogleApiClient initialisation and location update
+        locationTracker.init();
+
+        //GoogleApiclient connect
+        locationTracker.onResume();
+        //endregion
+
         initialise(view);
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
@@ -160,5 +177,20 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
         }
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnected() {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnectionFailed() {
+        location = null;
     }
 }

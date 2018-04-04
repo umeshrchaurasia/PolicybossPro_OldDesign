@@ -409,5 +409,27 @@
         BalanceTransferPersonalApplyActivity
     </string>
 
+  <!--region inspect-->
+    <string name="title_activity_splash_screen">Policyboss-Inspect</string>
+   <!-- <string name="title_activity_home">HomeActivity</string>-->
+    <string name="title_activity_video_preview">VideoPreviewActivity</string>
+    <string name="title_activity_self_declare">Self Declare</string>
+    <string-array name="inspectionDetails">
+        <item>FRONT / REAR</item>
+        <item>LEFT</item>
+        <item>RIGHT</item>
+        <item>GLASS/OTHERS</item>
+    </string-array>
+    <string-array name="insValues">
+        <item>SAFE</item>
+        <item>SCRATCH</item>
+        <item>INTACT</item>
+    </string-array>
+    <string name="title_activity_otpverify">"Verify "</string>
+    <string name="title_activity_rcpolicy">Documents Upload</string>
+    <string name="title_activity_upload_document">Upload Document</string>
+    <string name="title_activity_photo_capture">Upload Pictures</string>
+    <string name="title_activity_thank_you">Thank You</string>
+
 
 </resources>
