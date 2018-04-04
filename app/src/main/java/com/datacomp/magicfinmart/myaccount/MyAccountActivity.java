@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -1049,9 +1051,18 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void setProfilePhoto(Bitmap mphoto) {
-        bitmapPhoto = mphoto;
+
+//        ExifInterface ei = new ExifInterface(mphoto);
+//        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+//                ExifInterface.ORIENTATION_UNDEFINED);
+        bitmapPhoto = mphoto;        //original
     }
 
+//    public static Bitmap rotateImage(Bitmap source, float angle) {
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(angle);
+//        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+//    }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
