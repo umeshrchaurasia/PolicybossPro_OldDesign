@@ -59,5 +59,8 @@
     <color name="edittext_border">#cfcfcf</color>
     <color name="icons">#FFFFFF</color>
     <color name="uvv_titlebar_bg">#7f000000</color>
+    <color name="colorPrimary_inspect">#3F51B5</color>
+    <color name="colorPrimaryDark_inspect">#303F9F</color>
+    <color name="colorAccent_inspect">#FF4081</color>
 </resources>
 
