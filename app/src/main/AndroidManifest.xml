@@ -726,7 +726,15 @@
         <activity
             android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
             android:label="@string/title_activity_balance_transfer_personal_apply"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+        <activity
+            android:name=".onlineexpressloan.AppliedOnlineLoanListActivity"
+            android:label="@string/title_activity_applied_online_loan_list"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".onlineexpressloan.BanklistActivity"
+            android:label="@string/title_activity_banklist"
             android:theme="@style/AppTheme"></activity>
     </application>
 
