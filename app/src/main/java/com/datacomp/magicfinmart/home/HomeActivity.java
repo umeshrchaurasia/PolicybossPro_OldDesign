@@ -36,6 +36,7 @@ import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
+import java.io.IOException;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -104,6 +105,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionNAme = pinfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            Utility.getMacAddress(this);
+        } catch (IOException e) {
             e.printStackTrace();
         }
         db = new DBPersistanceController(this);

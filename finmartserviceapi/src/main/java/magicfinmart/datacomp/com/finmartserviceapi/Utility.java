@@ -6,19 +6,28 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.itextpdf.xmp.impl.Utils;
+
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -221,6 +230,58 @@ public class Utility {
             Log.e("Current IP", ex.toString());
         }
         return "";
+    }
+
+    public static String getMacAddress(Context context) throws IOException {
+//        WifiManager wifiManager = (WifiManager) context.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+//        WifiInfo wInfo = wifiManager.getConnectionInfo();
+//        Toast.makeText(context, "" + wInfo.getMacAddress(), Toast.LENGTH_SHORT).show();
+//        return wInfo.getMacAddress();
+        String address = "";
+        try {
+            WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+
+            if (wifiManager.isWifiEnabled()) {
+                // WIFI ALREADY ENABLED. GRAB THE MAC ADDRESS HERE
+                WifiInfo info = wifiManager.getConnectionInfo();
+                address = info.getMacAddress();
+            } else {
+
+                try {
+                    // get all the interfaces
+                    List<NetworkInterface> all = Collections.list(NetworkInterface.getNetworkInterfaces());
+
+                    //find network interface wlan0
+                    for (NetworkInterface networkInterface : all) {
+                        if (!networkInterface.getName().equalsIgnoreCase("wlan0")) continue;
+                        //get the hardware address (MAC) of the interface
+                        byte[] macBytes = networkInterface.getHardwareAddress();
+                        if (macBytes == null) {
+                            return "";
+                        }
+
+
+                        StringBuilder res1 = new StringBuilder();
+                        for (byte b : macBytes) {
+                            //gets the last byte of b
+                            res1.append(Integer.toHexString(b & 0xFF) + ":");
+                        }
+
+                        if (res1.length() > 0) {
+                            res1.deleteCharAt(res1.length() - 1);
+                        }
+                        address = res1.toString();
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(context, "" + address, Toast.LENGTH_SHORT).show();
+        return address;
     }
 
     public static String GetDeviceipWiFiData(Context context) {
