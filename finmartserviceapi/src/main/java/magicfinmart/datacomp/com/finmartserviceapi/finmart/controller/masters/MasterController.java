@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -48,8 +49,11 @@ public class MasterController implements IMasterFetch {
             public void onResponse(Call<CarMasterResponse> call, Response<CarMasterResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-                        new AsyncCarMaster(mContext, response.body().getMasterData()).execute();
+                        if (response.body().getMasterData() != null || response.body().getMasterData().size() != 0)
+                            new AsyncCarMaster(mContext, response.body().getMasterData()).execute();
+
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                     }
@@ -87,7 +91,9 @@ public class MasterController implements IMasterFetch {
 
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-                        new AsyncBikeMaster(mContext, response.body().getMasterData()).execute();
+                        if (response.body().getMasterData() != null && response.body().getMasterData().size() != 0)
+                            new AsyncBikeMaster(mContext, response.body().getMasterData()).execute();
+
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
@@ -123,7 +129,9 @@ public class MasterController implements IMasterFetch {
 
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-                        new AsyncCityMaster(mContext, response.body().getMasterData()).execute();
+                        if (response.body().getMasterData() != null && response.body().getMasterData().size() != 0)
+                            new AsyncCityMaster(mContext, response.body().getMasterData()).execute();
+
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
@@ -159,7 +167,12 @@ public class MasterController implements IMasterFetch {
 
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-                        new AsyncInsuranceMaster(mContext, response.body().getMasterData()).execute();
+                        if (response.body().getMasterData() != null
+                                && response.body().getMasterData().getGeneralinsurance().size() != 0
+                                && response.body().getMasterData().getHealthinsurance().size() != 0
+                                && response.body().getMasterData().getLifeinsurance().size() != 0)
+                            new AsyncInsuranceMaster(mContext, response.body().getMasterData()).execute();
+
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));

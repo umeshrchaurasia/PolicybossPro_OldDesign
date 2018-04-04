@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -430,10 +431,53 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         etNetIncome.addTextChangedListener(grossIncomeTextWatcher);
         etOtherIncome.addTextChangedListener(grossIncomeTextWatcher);
 
+        // region  CAPS Text
+
+        etFirstName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLastName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etFatherName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etNationality.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etUniversity.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etMoMaidenName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etSpouceName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etNoOfDepen.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etIDNumber.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etAddress1ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress2ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etCountryPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etLandlineNoContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandlineNoContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress1ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress2ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etAddress3ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandmakContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandmakContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etDesig.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etCurrJob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etNameOfOrg.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress1ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        etAddress2ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etLandmakED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etCountryED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        //endregion
+
     }
 
     private void initLayouts() {
-        llPlInfo.setVisibility(View.GONE);
+        llPlInfo.setVisibility(View.VISIBLE);
         llAddress.setVisibility(View.GONE);
         llEmployment.setVisibility(View.GONE);
         llFinancial.setVisibility(View.GONE);
@@ -1428,7 +1472,6 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
         } else if (rbCustomerEntity.getApplicantSource().equals("2")) {
             setEmpSalaried("Self-Emp", true, txtEmpNatureSelfEmp, txtEmpNatureSalaried);
         }
-
 
         if (rbCustomerEntity.getApplicantIncome() != null) {
             if (rbCustomerEntity.getApplicantIncome().toString().trim().equals("0")) {

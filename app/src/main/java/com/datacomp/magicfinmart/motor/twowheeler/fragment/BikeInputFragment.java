@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.motor.twowheeler.fragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.location.ILocationStateListener;
+import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -61,7 +64,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
-public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener,ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew;
     CardView cvNcb;
@@ -96,11 +99,26 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     String regplace, makeModel = "";
     boolean isClaimExist = true;
 
+    LocationTracker locationTracker;
+    Location location;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.bike_fragment_input, container, false);
+
+        //region init location
+        locationTracker = new LocationTracker(getActivity());
+        //location callback method
+        locationTracker.setLocationStateListener(this);
+
+        //GoogleApiClient initialisation and location update
+        locationTracker.init();
+
+        //GoogleApiclient connect
+        locationTracker.onResume();
+        //endregion
+
         dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity(getActivity());
         registerPopUp(this);
@@ -1265,6 +1283,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     //endregion
 
     void setCustomerDetails() {
+        if (location != null) {
+            motorRequestEntity.setGeo_lat(location.getLatitude());
+            motorRequestEntity.setGeo_long(location.getLongitude());
+        }
         String[] fullName = etCustomerName.getText().toString().split(" ");
 
         if (fullName.length == 1) {
@@ -1412,6 +1434,21 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 dialog.dismiss();
                 break;
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnected() {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnectionFailed() {
+        location = null;
     }
 
 }

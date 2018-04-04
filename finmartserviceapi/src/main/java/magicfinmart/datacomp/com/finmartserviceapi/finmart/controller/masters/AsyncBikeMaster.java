@@ -31,12 +31,20 @@ public class AsyncBikeMaster extends AsyncTask<Void, Void, Void> {
         Realm realm = null;
         try {
             realm = Realm.getDefaultInstance();
-            realm.executeTransactionAsync(new Realm.Transaction() {
+            realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
                     realm.copyToRealmOrUpdate(listCarMaster);
+                    prefManager.setIsBikeMasterUpdate(false);
                 }
             });
+//            realm.executeTransactionAsync(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                    realm.copyToRealmOrUpdate(listCarMaster);
+//                    prefManager.setIsBikeMasterUpdate(false);
+//                }
+//            });
 
 
         } catch (Exception e) {
@@ -52,6 +60,6 @@ public class AsyncBikeMaster extends AsyncTask<Void, Void, Void> {
     @Override
     protected void onPostExecute(Void aVoid) {
         super.onPostExecute(aVoid);
-        prefManager.setIsBikeMasterUpdate(false);
+        //prefManager.setIsBikeMasterUpdate(false);
     }
 }

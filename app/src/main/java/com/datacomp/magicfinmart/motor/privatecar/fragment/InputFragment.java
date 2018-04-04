@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.motor.privatecar.fragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
@@ -25,6 +26,8 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.location.ILocationStateListener;
+import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -61,7 +64,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew;
@@ -97,10 +100,26 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     String regplace, makeModel = "";
     boolean isClaimExist = true;
 
+    LocationTracker locationTracker;
+    Location location;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_add_new_quote, container, false);
+
+        //region init location
+        locationTracker = new LocationTracker(getActivity());
+        //location callback method
+        locationTracker.setLocationStateListener(this);
+
+        //GoogleApiClient initialisation and location update
+        locationTracker.init();
+
+        //GoogleApiclient connect
+        locationTracker.onResume();
+        //endregion
+
         dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity(getActivity());
         registerPopUp(this);
@@ -1111,6 +1130,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private void setInputParametersNewCAR() {
         // motorRequestEntity.setBirth_date("1992-01-01");
+
+
         motorRequestEntity.setProduct_id(1);
         varientId = dbController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
@@ -1257,6 +1278,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     //endregion
 
     void setCustomerDetails() {
+        if (location != null) {
+            motorRequestEntity.setGeo_lat(location.getLatitude());
+            motorRequestEntity.setGeo_long(location.getLongitude());
+        }
         String[] fullName = etCustomerName.getText().toString().split(" ");
 
         if (fullName.length == 1) {
@@ -1406,5 +1431,20 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 dialog.dismiss();
                 break;
         }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnected() {
+        location = locationTracker.mLocation;
+    }
+
+    @Override
+    public void onConnectionFailed() {
+        location = null;
     }
 }

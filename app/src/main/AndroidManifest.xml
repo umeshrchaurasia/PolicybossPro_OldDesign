@@ -14,6 +14,12 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+
+
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -727,15 +733,85 @@
             android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
             android:label="@string/title_activity_balance_transfer_personal_apply"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
+
+        <!--region inspection app activities-->
+
         <activity
-            android:name=".onlineexpressloan.AppliedOnlineLoanListActivity"
-            android:label="@string/title_activity_applied_online_loan_list"
-            android:theme="@style/AppTheme" />
+            android:name=".inspection.home.MainActivity"
+            android:label="@string/app_name"
+            android:noHistory="true"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
-            android:name=".onlineexpressloan.BanklistActivity"
-            android:label="@string/title_activity_banklist"
-            android:theme="@style/AppTheme"></activity>
+            android:name=".inspection.splash.SplashScreen"
+            android:label="@string/title_activity_splash_screen"
+            android:noHistory="false"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+
+        <activity
+            android:name=".inspection.selfdeclaration.SelfDeclareActivity"
+            android:label="@string/title_activity_self_declare"
+            android:parentActivityName=".inspection.home.MainActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".inspection.home.MainActivity" />
+        </activity>
+
+        <!--<receiver android:name=".broadcast.SMSBroadCastReceiver">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>-->
+
+        <activity
+            android:name=".inspection.home.RCPOLICYActivity"
+            android:label="@string/title_activity_rcpolicy"
+            android:parentActivityName=".inspection.splash.SplashScreen"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".inspection.splash.SplashScreen" />
+        </activity>
+
+        <activity
+            android:name=".inspection.home.UploadDocumentActivity"
+            android:label="@string/title_activity_upload_document"
+            android:parentActivityName=".inspection.home.RCPOLICYActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".inspection.home.RCPOLICYActivity" />
+        </activity>
+
+        <activity
+            android:name=".inspection.selfdeclaration.PhotoCaptureActivity"
+            android:label="@string/title_activity_photo_capture"
+            android:parentActivityName=".inspection.selfdeclaration.SelfDeclareActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".inspection.selfdeclaration.SelfDeclareActivity" />
+        </activity>
+
+        <activity
+            android:name=".inspection.activities.ThankYouActivity"
+            android:label="@string/title_activity_thank_you"
+            android:parentActivityName=".inspection.selfdeclaration.PhotoCaptureActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".inspection.selfdeclaration.PhotoCaptureActivity" />
+        </activity>
+
     </application>
 
 </manifest>

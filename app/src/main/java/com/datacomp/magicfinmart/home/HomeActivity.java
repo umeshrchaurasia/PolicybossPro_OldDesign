@@ -25,6 +25,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
+import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
 import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
@@ -36,6 +37,7 @@ import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
+import java.io.IOException;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -104,6 +106,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionNAme = pinfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
+            Utility.getMacAddress(this);
+        } catch (IOException e) {
             e.printStackTrace();
         }
         db = new DBPersistanceController(this);
@@ -190,6 +199,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     case R.id.nav_helpfeedback:
                         startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+                        break;
+                    case R.id.nav_selfinspection:
+                        startActivity(new Intent(HomeActivity.this, SplashScreen.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.HELP), null);
                         break;
 
                     case R.id.nav_whatsnew:

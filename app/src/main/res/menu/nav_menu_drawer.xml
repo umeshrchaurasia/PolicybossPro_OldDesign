@@ -17,10 +17,10 @@
             android:title="MY BUSINESS"
             android:visible="false" />
         <item
-            android:visible="false"
             android:id="@+id/nav_referFriend"
             android:icon="@drawable/refer_ic"
-            android:title="REFER A FRIEND" />
+            android:title="REFER A FRIEND"
+            android:visible="false" />
         <item
             android:id="@+id/nav_myaccount"
             android:icon="@drawable/my_account_ic"
@@ -41,6 +41,11 @@
             android:id="@+id/nav_helpfeedback"
             android:icon="@drawable/help_ic"
             android:title="HELP &amp; FEEDBACK" />
+        <item
+            android:id="@+id/nav_selfinspection"
+            android:icon="@drawable/enrollment_ic"
+            android:title="INSPECTION"
+            android:visible="true" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout_ic"

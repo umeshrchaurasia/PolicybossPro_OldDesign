@@ -4,6 +4,8 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.IOException;
+
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -200,9 +202,15 @@ public class MotorRequestEntity implements Parcelable {
         this.app_version = Utility.getVersionName(context);
         this.device_id = Utility.getTokenId(context);
         this.fba_id = loginResponseEntity.getFBAId();
+        try {
+            this.mac_address = Utility.getMacAddress(context);
+        } catch (IOException e) {
+            this.mac_address = "0";
+        }
+
         if (loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
             this.ss_id = Integer.parseInt(loginResponseEntity.getPOSPNo());
-        this.ip_address = Utility.LOGIN_IP;
+        this.ip_address = Utility.getLocalIpAddress(context);
     }
 
 
