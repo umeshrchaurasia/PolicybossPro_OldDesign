@@ -8,7 +8,7 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".inspection.splash.SplashScreen"
-    tools:showIn="@layout/activity_splash_screen">
+    tools:showIn="@layout/activity_splash_screen_inspect">
 
     <ImageView
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
 
     <Button
         android:id="@+id/btnStart"
-        style="@style/ButtonStyle"
+        style="@style/ButtonStyleInspect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="100dp"
