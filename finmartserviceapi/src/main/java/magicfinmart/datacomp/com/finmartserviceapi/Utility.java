@@ -25,6 +25,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.retrobuilder.NodeRetroRequestBuilder;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -38,7 +39,6 @@ import static android.content.Context.WIFI_SERVICE;
 
 public class Utility {
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 123;
-    public static String LOGIN_IP = "";
    /* public static final String HORIZON_URL = "http://qa-horizon.policyboss.com:3000";
     public static final String QUOTE_BASE_URL = "http://qa.policyboss.com/";
     public static final String SECRET_KEY = "SECRET-ODARQ6JP-9V2Q-7BIM-0NNM-DNRTXRWMRTAL";
@@ -47,8 +47,8 @@ public class Utility {
 
     //public static final String HORIZON_URL = "http://horizon.policyboss.com:5000";
     //public static final String QUOTE_BASE_URL = "http://www.policyboss.com/";
-    public static final String HORIZON_URL = "http://qa-horizon.policyboss.com:3000";
-    public static final String QUOTE_BASE_URL = "http://qa.policyboss.com/";
+    //public static final String HORIZON_URL = "http://qa-horizon.policyboss.com:3000";
+    //public static final String QUOTE_BASE_URL = "http://qa.policyboss.com/";
     public static final String SECRET_KEY = "SECRET-VG9N6EVV-MIK3-1GFC-ZRBV-PE7XIQ8DV4GY";
     public static final String CLIENT_KEY = "CLIENT-WF4GWODI-HMEB-Q7M6-CLES-DEJCRF7XLRVI";
     public static final int CLIENT_ID = 3;
@@ -177,13 +177,12 @@ public class Utility {
         }
 
         if (WIFI == true) {
-            LOGIN_IP = GetDeviceipWiFiData(context);
-            return LOGIN_IP;
+            return GetDeviceipWiFiData(context);
         }
 
         if (MOBILE == true) {
-            LOGIN_IP = GetDeviceipMobileData();
-            return LOGIN_IP;
+            return GetDeviceipMobileData();
+
         }
 
 
@@ -281,7 +280,7 @@ public class Utility {
         String ssid = "";
         if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
             ssid = new DBPersistanceController(context).getUserData().getPOSPNo();
-        String url = Utility.QUOTE_BASE_URL;
+        String url = NodeRetroRequestBuilder.PROPOSAL_BASE_URL;
         url = url + "buynowprivatecar/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }
@@ -291,7 +290,7 @@ public class Utility {
         String ssid = "";
         if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
             ssid = new DBPersistanceController(context).getUserData().getPOSPNo();
-        String url = Utility.QUOTE_BASE_URL;
+        String url = NodeRetroRequestBuilder.PROPOSAL_BASE_URL;
         url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }

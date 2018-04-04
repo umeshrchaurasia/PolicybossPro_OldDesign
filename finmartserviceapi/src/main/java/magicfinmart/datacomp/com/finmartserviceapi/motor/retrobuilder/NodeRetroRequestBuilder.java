@@ -15,12 +15,15 @@ public abstract class NodeRetroRequestBuilder {
 
     //protected String url = "http://services.rupeeboss.com/LoginDtls.svc/";
     static Retrofit restAdapter = null;
+
     // test url
-    public static String URL = "http://qa-horizon.policyboss.com:3000";
+//    public static String URL = "http://qa-horizon.policyboss.com:3000";
+//    public static String PROPOSAL_BASE_URL = "http://qa.policyboss.com/";
+
 
     // live url
-    //public static String URL = "http://horizon.policyboss.com:5000";
-    public final static String SUB_URL = "/api";
+     public static String URL = "http://horizon.policyboss.com:5000";
+     public static String PROPOSAL_BASE_URL = "http://www.policyboss.com/";
 
 
     protected Retrofit build() {
@@ -40,7 +43,7 @@ public abstract class NodeRetroRequestBuilder {
                     .build();
 
             restAdapter = new Retrofit.Builder()
-                    .baseUrl(Utility.HORIZON_URL)
+                    .baseUrl(URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
