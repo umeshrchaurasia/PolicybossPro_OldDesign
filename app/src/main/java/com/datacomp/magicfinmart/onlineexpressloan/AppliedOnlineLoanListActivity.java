@@ -3,8 +3,7 @@ package com.datacomp.magicfinmart.onlineexpressloan;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
+
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,18 +17,18 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.creditcard.AppliedCreditCardsAdapter;
-import com.datacomp.magicfinmart.creditcard.CreditCardActivity;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller.ExpressLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ExpressQuoteEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressQuoteListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcard.CreditCardController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AppliedCreditCardEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AppliedCreditCardResponse;
+
 
 public class AppliedOnlineLoanListActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
@@ -38,8 +37,8 @@ public class AppliedOnlineLoanListActivity extends BaseActivity implements View.
     EditText etSearch;
     ImageView ivSearch;
     FloatingActionButton fbAddCreditCard;
-    List<AppliedCreditCardEntity> mCreditCardEntityList;
-    AppliedCreditCardsAdapter mAdapter;
+    List<ExpressQuoteEntity> mExpressQuoteEntityList;
+    AppliedOnlineAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +48,19 @@ public class AppliedOnlineLoanListActivity extends BaseActivity implements View.
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (new PrefManager(this).getIsRblCityMaster()) {
-            new CreditCardController(this).getRblCityMaster(null);
-        }
+//        if (new PrefManager(this).getIsRblCityMaster()) {
+//            new ExpressLoanController(this).getRblCityMaster(null);
+//        }
 
         init();
         setListener();
         setTextWatcher();
-        mCreditCardEntityList = new ArrayList<>();
+        mExpressQuoteEntityList = new ArrayList<>();
     }
 
     private void fetchCreditCards() {
         showDialog();
-        new CreditCardController(this).getAppliedCreditCards(this);
+        new ExpressLoanController(this).getExpressQuoteList("",this);
     }
 
     @Override
@@ -117,7 +116,7 @@ public class AppliedOnlineLoanListActivity extends BaseActivity implements View.
         switch (view.getId()) {
             case R.id.tvAdd:
             case R.id.fbAddCreditCard:
-                startActivity(new Intent(this, CreditCardActivity.class));
+                startActivity(new Intent(this, BanklistActivity.class));
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
@@ -132,10 +131,10 @@ public class AppliedOnlineLoanListActivity extends BaseActivity implements View.
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
-        if (response instanceof AppliedCreditCardResponse) {
+        if (response instanceof ExpressQuoteListResponse) {
             if (response.getStatusNo() == 0) {
-                mCreditCardEntityList = ((AppliedCreditCardResponse) response).getMasterData();
-                mAdapter = new AppliedCreditCardsAdapter(this, mCreditCardEntityList);
+                mExpressQuoteEntityList = ((ExpressQuoteListResponse) response).getMasterData();
+                mAdapter = new AppliedOnlineAdapter(this, mExpressQuoteEntityList);
                 rvAppliedCreditCards.setAdapter(mAdapter);
             }
         }

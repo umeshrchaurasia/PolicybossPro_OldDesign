@@ -5,30 +5,31 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.creditcard.AppliedCreditCardsAdapter;
+
 
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AppliedCreditCardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ExpressQuoteEntity;
 
 /**
  * Created by IN-RB on 03-04-2018.
  */
 
-public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedCreditCardsAdapter.ViewHolder> implements Filterable {
+public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedOnlineAdapter.ViewHolder> implements Filterable {
     private LayoutInflater mInflater;
     Context mContext;
-    List<AppliedCreditCardEntity> listCreditCards;
-    List<AppliedCreditCardEntity> mCreditCardFiltered;
+    List<ExpressQuoteEntity> listCreditCards;
+    List<ExpressQuoteEntity> mCreditCardFiltered;
 
     // data is passed into the constructor
-    AppliedOnlineAdapter(Context context, List<AppliedCreditCardEntity> list) {
+    AppliedOnlineAdapter(Context context, List<ExpressQuoteEntity> list) {
         mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
         listCreditCards = list;
@@ -38,27 +39,27 @@ public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedCreditCard
 
     // inflates the cell layout from xml when needed
     @Override
-    public AppliedOnlineAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.layout_applied_onlineadapter_item, parent, false);
         return new AppliedOnlineAdapter.ViewHolder(view);
     }
 
     // binds the data to the textview in each cell
     @Override
-    public void onBindViewHolder(final AppliedCreditCardsAdapter.ViewHolder holder, final int position) {
-        AppliedCreditCardsAdapter.ViewHolder hold = (AppliedCreditCardsAdapter.ViewHolder) holder;
-        AppliedCreditCardEntity entity = mCreditCardFiltered.get(position);
+    public void onBindViewHolder(final AppliedOnlineAdapter.ViewHolder holder, final int position) {
+        AppliedOnlineAdapter.ViewHolder hold = (AppliedOnlineAdapter.ViewHolder) holder;
+        ExpressQuoteEntity entity = mCreditCardFiltered.get(position);
 
-        hold.txtAppNo.setText(entity.getApplicationNo());
-        hold.txtBankName.setText(entity.getCardType());
-        hold.txtCreditType.setText(entity.getCreditCardName());
-        hold.txtEmail.setText(entity.getEmail());
+        hold.txtAppNo.setText(entity.getApplicationID());
+        hold.txtBankName.setText(entity.getBank_Code());
+        hold.txtCreditType.setText(entity.getFullName());
+       // hold.txtEmail.setText(entity.get());
         hold.txtName.setText(entity.getFullName());
         hold.txtMobile.setText(entity.getMobileNo());
-        hold.txtStatus.setText(entity.getStatusX());
+        hold.txtloantype.setText(entity.getLoanType());
     }
 
-    public void refreshAdapter(List<AppliedCreditCardEntity> list) {
+    public void refreshAdapter(List<ExpressQuoteEntity> list) {
         mCreditCardFiltered = list;
         notifyDataSetChanged();
     }
@@ -81,12 +82,12 @@ public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedCreditCard
                 if (charString.isEmpty()) {
                     mCreditCardFiltered = listCreditCards;
                 } else {
-                    List<AppliedCreditCardEntity> filerList = new ArrayList<>();
+                    List<ExpressQuoteEntity> filerList = new ArrayList<>();
 
-                    for (AppliedCreditCardEntity row : listCreditCards) {
+                    for (ExpressQuoteEntity row : listCreditCards) {
                         if (row.getFullName().toLowerCase().contains(charString.toLowerCase())
                                 || row.getMobileNo().toLowerCase().contains(charString.toLowerCase())
-                                || row.getEmail().toLowerCase().contains(charSequence.toString())) {
+                                || row.getApplicationID().toLowerCase().contains(charSequence.toString())) {
                             filerList.add(row);
                         }
                     }
@@ -102,7 +103,7 @@ public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedCreditCard
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                mCreditCardFiltered = (ArrayList<AppliedCreditCardEntity>) filterResults.values;
+                mCreditCardFiltered = (ArrayList<ExpressQuoteEntity>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
@@ -111,7 +112,7 @@ public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedCreditCard
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName, txtEmail, txtMobile, txtBankName, txtCreditType, txtAppNo, txtStatus;
+        TextView txtName, txtEmail, txtMobile, txtBankName, txtCreditType, txtAppNo, txtloantype;
 
         ViewHolder(View v) {
             super(v);
@@ -121,7 +122,7 @@ public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedCreditCard
             txtBankName = (TextView) v.findViewById(R.id.txtBankName);
             txtCreditType = (TextView) v.findViewById(R.id.txtCreditType);
             txtAppNo = (TextView) v.findViewById(R.id.txtAppNo);
-            txtStatus = (TextView) v.findViewById(R.id.txtStatus);
+            txtloantype = (TextView) v.findViewById(R.id.txtloantype);
         }
     }
 

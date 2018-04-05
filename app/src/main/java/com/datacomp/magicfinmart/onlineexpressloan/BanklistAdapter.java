@@ -19,6 +19,9 @@ import com.datacomp.magicfinmart.creditcard.CreditCardsAdapter;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ExpressLoanEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.PersonalLoanEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ShortTermPersonalLoanEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntity;
 
 /**
@@ -28,9 +31,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntit
 public class BanklistAdapter   extends RecyclerView.Adapter<BanklistAdapter.ViewHolder> {
     private LayoutInflater mInflater;
     Context mContext;
-    List<CreditCardEntity> listCreditCards;
+    List<ExpressLoanEntity> listCreditCards;
 
-    public BanklistAdapter(Context context, List<CreditCardEntity> list) {
+    public BanklistAdapter(Context context, List<ExpressLoanEntity> list) {
         mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
         listCreditCards = list;
@@ -43,42 +46,50 @@ public class BanklistAdapter   extends RecyclerView.Adapter<BanklistAdapter.View
         return new BanklistAdapter.ViewHolder(view);
     }
 
+
+
     @Override
-    public void onBindViewHolder(final CreditCardsAdapter.ViewHolder holder, final int position) {
-        CreditCardsAdapter.ViewHolder hold = (CreditCardsAdapter.ViewHolder) holder;
-        final CreditCardEntity entity = listCreditCards.get(position);
-        hold.txtCardbankName.setText("" + entity.getBankName());
-        hold.txtCardType.setText(entity.getCreditCardType());
-        if (entity.getDisplaycardname() == null) {
-            hold.txtDisplayCardName.setVisibility(View.GONE);
-        } else {
-            hold.txtDisplayCardName.setVisibility(View.VISIBLE);
-            hold.txtDisplayCardName.setText(entity.getDisplaycardname());
-        }
-        if (entity.getImagePath() != null) {
-            Glide.with(mContext).load(entity.getImagePath()).into(hold.imgCard);
-        }
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        ViewHolder hold = (ViewHolder) holder;
+        final ExpressLoanEntity entity = listCreditCards.get(position);
 
-        String desc[] = entity.getDescription().split("\\|");
-        final StringBuilder sb = new StringBuilder();
-        for (String s : desc) {
-            sb.append("*  " + s.trim() + "\n");
-        }
-        hold.txtCCDesc.setText("" + sb.toString());
+        List<PersonalLoanEntity> personalLoanEntityList = entity.getPersonalLoan();
+        List<ShortTermPersonalLoanEntity> shortTermPersonalLoanEntityList = entity.getShortTermPersonalLoan();
 
-        hold.btnInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogMessage(sb.toString(), entity.getDisplaycardname());
-            }
-        });
 
-        hold.btnApply.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((CreditCardActivity) mContext).redirectToApply(entity);
-            }
-        });
+//
+//        hold.txtbankName.setText("" + entity.getPersonalLoan().get(0).getBank_Name());
+//        hold.txtCardType.setText(entity.getCreditCardType());
+//        if (entity.getDisplaycardname() == null) {
+//            hold.txtDisplayCardName.setVisibility(View.GONE);
+//        } else {
+//            hold.txtDisplayCardName.setVisibility(View.VISIBLE);
+//            hold.txtDisplayCardName.setText(entity.getDisplaycardname());
+//        }
+//        if (entity.getImagePath() != null) {
+//            Glide.with(mContext).load(entity.getImagePath()).into(hold.imgCard);
+//        }
+//
+//        String desc[] = entity.getDescription().split("\\|");
+//        final StringBuilder sb = new StringBuilder();
+//        for (String s : desc) {
+//            sb.append("*  " + s.trim() + "\n");
+//        }
+//        hold.txtCCDesc.setText("" + sb.toString());
+//
+//        hold.btnInfo.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                dialogMessage(sb.toString(), entity.getDisplaycardname());
+//            }
+//        });
+//
+//        hold.btnApply.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                ((CreditCardActivity) mContext).redirectToApply(entity);
+//            }
+//        });
     }
 
 
@@ -90,26 +101,25 @@ public class BanklistAdapter   extends RecyclerView.Adapter<BanklistAdapter.View
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtCCDesc, txtCardType, txtCardbankName, txtDisplayCardName;
+        TextView txtbankName, txtCardType;
         ImageView imgCard;
         CardView cvCCItem;
         Button btnApply, btnInfo;
 
         ViewHolder(View v) {
             super(v);
-            txtCCDesc = (TextView) v.findViewById(R.id.txtCCDesc);
+            txtbankName = (TextView) v.findViewById(R.id.txtbankName);
             txtCardType = (TextView) v.findViewById(R.id.txtCardType);
-            txtCardbankName = (TextView) v.findViewById(R.id.txtCardbankName);
-            txtDisplayCardName = (TextView) v.findViewById(R.id.txtDisplayCardName);
+
             imgCard = (ImageView) v.findViewById(R.id.imgCard);
-            cvCCItem = (CardView) v.findViewById(R.id.cvCCItem);
+
             btnInfo = (Button) v.findViewById(R.id.btnInfo);
             btnApply = (Button) v.findViewById(R.id.btnApply);
 
         }
     }
 
-    public void refreshCreditCards(List<CreditCardEntity> list) {
+    public void refreshCreditCards(List<ExpressLoanEntity> list) {
         listCreditCards = list;
         notifyDataSetChanged();
     }
