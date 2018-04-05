@@ -20,7 +20,6 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 public class TermQuoteApplicationActivity extends BaseActivity {
     ViewPager viewPager;
     Toolbar toolbar;
-    TabLayout tab_layout;
     TermActivityTabsPagerAdapter mAdapter;
 
     @Override
