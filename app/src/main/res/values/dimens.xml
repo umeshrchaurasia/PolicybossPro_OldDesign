@@ -33,4 +33,6 @@
 
     <!-- Selectable Items -->
     <dimen name="selectable_rounded_rect_corner_radius">3dp</dimen>
+
+    <dimen name="gap">10dp</dimen>
 </resources>
