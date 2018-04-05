@@ -23,6 +23,7 @@ import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActiv
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
+import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
@@ -159,7 +160,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                         case 12:
                             //Life Insurance
-                            mContext.startActivity(new Intent(mContext.getActivity(), TermQuoteApplicationActivity.class));
+                            mContext.startActivity(new Intent(mContext.getActivity(), TermSelectionActivity.class));
                             new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
                             break;
                         default:
