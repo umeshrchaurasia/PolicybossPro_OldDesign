@@ -51,6 +51,8 @@ public class Constants {
     public static String MY_BUSINESS = "MY BUSINESS";
     public static String REFER = "REFER A FRIEND";
     public static String MPS = "MPS";
+    public static String INSPECTION = "INSPECTION";
+    public static String POSP_TRAINING = "POPS TRAINING";
     public static String HELP = "HELP_FEEDBACK";
     public static String WHATSNEW = "WHATS NEW";
     public static String LOGOUT = "LOGOUT";

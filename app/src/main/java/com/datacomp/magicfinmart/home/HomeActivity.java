@@ -200,9 +200,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
                         break;
+                    case R.id.nav_posptraining:
+                        startActivity(new Intent(HomeActivity.this, com.datacomp.magicfinmart.pospapp.splashscreen.SplashScreenActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.POSP_TRAINING), null);
+                        break;
                     case R.id.nav_selfinspection:
                         startActivity(new Intent(HomeActivity.this, SplashScreen.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.HELP), null);
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.INSPECTION), null);
                         break;
 
                     case R.id.nav_whatsnew:
