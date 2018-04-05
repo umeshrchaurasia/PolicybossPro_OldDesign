@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".pospapp.login.LoginActivity"
+    tools:showIn="@layout/activity_login_posp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/gap"
+        app:cardCornerRadius="10dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/gap"
+                    android:src="@drawable/logo" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:gravity="bottom"
+                    app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Medium">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/tieEmail"
+                        style="@style/JEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:drawableRight="@drawable/user"
+                        android:ellipsize="end"
+                        android:hint="User Name"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="65dp"
+                    android:layout_marginTop="@dimen/gap"
+                    android:gravity="bottom"
+                    app:hintTextAppearance="@style/Base.TextAppearance.AppCompat.Medium">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/tiePassword"
+                        style="@style/JEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:drawableRight="@drawable/key"
+                        android:hint="Password"
+                        android:inputType="textPassword" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <Button
+                    android:id="@+id/btnLogin"
+                    style="@style/GreenButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/gap"
+                    android:text="Login"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/txtForgotPass"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap"
+                    android:gravity="center"
+                    android:text="@string/forgot_password"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap"
+                    android:gravity="center"
+                    android:text="@string/new_user"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/txtMessage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap"
+                    android:gravity="center"
+                    android:text="@string/new_user"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:visibility="gone" />
+
+                <TextView
+
+                    android:id="@+id/tvRqstAdmin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/gap"
+                    android:gravity="center"
+                    android:text="@string/request"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+        </ScrollView>
+
+
+    </android.support.v7.widget.CardView>
+
+
+</LinearLayout>

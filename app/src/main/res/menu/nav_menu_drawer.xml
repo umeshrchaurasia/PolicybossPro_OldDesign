@@ -42,6 +42,11 @@
             android:icon="@drawable/help_ic"
             android:title="HELP &amp; FEEDBACK" />
         <item
+            android:id="@+id/nav_posptraining"
+            android:icon="@drawable/enrollment_ic"
+            android:title="POSP TRAINING"
+            android:visible="true" />
+        <item
             android:id="@+id/nav_selfinspection"
             android:icon="@drawable/enrollment_ic"
             android:title="INSPECTION"
