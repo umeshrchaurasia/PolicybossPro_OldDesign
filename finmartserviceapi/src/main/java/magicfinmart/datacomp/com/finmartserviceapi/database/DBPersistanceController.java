@@ -31,6 +31,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPac
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 /**
  * Created by Rajeev Ranjan on 04/01/2018.
@@ -451,6 +452,20 @@ public class DBPersistanceController {
 
     //endregion
 
+    //region term selection
+    public List<TermSelectionEntity> getTermCompanyList() {
+
+        List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
+        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1, ""));
+        term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANE", 43, ""));
+        term.add(new TermSelectionEntity("HDFC LIFE INSURANE", 28, ""));
+        term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANE", 39, ""));
+        term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
+
+        return term;
+    }
+    //endregion
+
     //region Dashboard list
 
     public List<DashboardEntity> getInsurProductList() {
@@ -458,7 +473,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
-       // dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
 
         return dashboardEntities;
     }

@@ -178,6 +178,18 @@ public class BaseActivity extends AppCompatActivity {
         return outFile;
     }
 
+    public File createFile(String name) {
+        FileOutputStream outStream = null;
+
+        File dir = Utility.createDirIfNotExists();
+        String fileName = name + ".jpg";
+        fileName = fileName.replaceAll("\\s+", "");
+        File outFile = new File(dir, fileName);
+
+        return outFile;
+    }
+
+
     public Bitmap createBitmap(Bitmap pospPhoto, String pospName, String pospDesg, String pospMob, String pospEmail) {
 
         pospPhoto = Bitmap.createScaledBitmap(pospPhoto, height - 20, height - 20, false);

@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.myaccount;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -38,6 +39,7 @@ import com.datacomp.magicfinmart.utility.Constants;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
@@ -89,8 +91,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     HashMap<String, String> body;
     MultipartBody.Part part;
+    File Docfile;
     File file;
     Uri imageUri;
+    InputStream inputStream;
+    ExifInterface ei;
     // private String PROFILE = "1", PHOTO = "2", PAN = "3", CANCEL_CHQ = "4", AADHAR = "5";
 
     private int PROFILE = 1, PHOTO = 2, PAN = 3, CANCEL_CHQ = 4, AADHAR = 5;
@@ -1029,9 +1034,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 break;
 
         }
+        Docfile =  createFile(FileName);
         imageUri = FileProvider.getUriForFile(MyAccountActivity.this,
-                getString(R.string.file_provider_authority),
-                saveImageToStorage(null, FileName));
+                getString(R.string.file_provider_authority), Docfile);
 
 
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -1052,17 +1057,68 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private void setProfilePhoto(Bitmap mphoto) {
 
-//        ExifInterface ei = new ExifInterface(mphoto);
-//        int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
-//                ExifInterface.ORIENTATION_UNDEFINED);
         bitmapPhoto = mphoto;        //original
     }
 
-//    public static Bitmap rotateImage(Bitmap source, float angle) {
-//        Matrix matrix = new Matrix();
-//        matrix.postRotate(angle);
-//        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
-//    }
+    public  Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+
+    }
+
+    private  Bitmap rotateImageIfRequired(Context context, Bitmap bitmap, File file)
+    {
+        Bitmap rotatedBitmap = null;
+        try {
+
+            // region Handling Default Rotation Of Image
+            Uri uri = Uri.fromFile(file);
+            inputStream = context.getContentResolver().openInputStream(uri);
+
+            if (Build.VERSION.SDK_INT > 23) {
+                ei = new ExifInterface(inputStream);
+            }
+            else {
+
+               // ei = new ExifInterface("/storage/emulated/0/FINMART/FBAPhotograph.jpg");
+                ei = new ExifInterface(file.getAbsolutePath());
+            }
+
+
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+
+            switch(orientation) {
+
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotatedBitmap = rotateImage(bitmap, 90);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotatedBitmap = rotateImage(bitmap, 180);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotatedBitmap = rotateImage(bitmap, 270);
+                    break;
+
+                case ExifInterface.ORIENTATION_NORMAL:
+                default:
+                    rotatedBitmap = bitmap;
+
+            }
+            //endregion
+
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return rotatedBitmap;
+    }
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -1071,15 +1127,16 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 mphoto = getResizedBitmap(mphoto, 800);
+                mphoto =rotateImageIfRequired(this,mphoto,Docfile);
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            //  Bitmap mphoto = (Bitmap) data.getExtras().get("data");
             switch (type) {
                 case 1:
                     showDialog();
-                    setProfilePhoto(mphoto);
                     file = saveImageToStorage(mphoto, PHOTO_File);
+                    setProfilePhoto(mphoto);
                     part = Utility.getMultipartImage(file);
                     body = Utility.getBody(this, loginEntity.getFBAId(), PROFILE, PHOTO_File);
 
