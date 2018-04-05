@@ -20,9 +20,6 @@
     <color name="progress_grey">#cecece</color>
 
 
-
-
-
     <!--mintpro-->
     <color name="background">#FFEFF3F6</color>
     <color name="header_dark_text">#5D5C5D</color>
@@ -62,5 +59,16 @@
     <color name="colorPrimary_inspect">#3F51B5</color>
     <color name="colorPrimaryDark_inspect">#303F9F</color>
     <color name="colorAccent_inspect">#FF4081</color>
+
+
+    <!--region posp-->
+    <color name="colorPrimary_posp">#a91111</color>
+    <color name="colorPrimaryDark_posp">#be2513</color>
+    <color name="primary_light">#D0991000</color>
+    <color name="colorAccent_posp">#00796B</color>
+    <!--<color name="application_primary_text_color">#212121</color>-->
+    <color name="application_secondary_text_color">#757575</color>
+    <!--<color name="icons">#FFFFFF</color>
+    <color name="divider">#BDBDBD</color>-->
 </resources>
 
