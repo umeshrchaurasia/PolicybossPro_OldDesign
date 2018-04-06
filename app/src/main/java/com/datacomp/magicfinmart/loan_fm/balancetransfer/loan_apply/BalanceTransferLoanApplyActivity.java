@@ -1247,7 +1247,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         etCityED.setText(homeLoanApplyAppliEntity.getOrganize_City());
         etStateED.setText(homeLoanApplyAppliEntity.getOrganize_State());
         etCountryED.setText(homeLoanApplyAppliEntity.getOrganize_Country());
-        etLandlineNoED.setText(homeLoanApplyAppliEntity.getCo_Organize_LandlineNo());
+        etLandlineNoED.setText(homeLoanApplyAppliEntity.getOrganize_LandlineNo());
         //endregion
 
         //region Financial INFO
@@ -2340,7 +2340,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                 break;
             case R.id.txteducatOTH:
                 managePL_Common(EducationType, "OTH", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
-
+                break;
                 //endregion
 
             case R.id.txtEmpNatureSalaried:

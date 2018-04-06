@@ -1196,6 +1196,7 @@
                                 android:id="@+id/etAddress1ContInfoPA"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1217,6 +1218,7 @@
                                 android:id="@+id/etAddress2ContInfoPA"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1238,6 +1240,7 @@
                                 android:id="@+id/etAddress3ContInfoPA"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1698,7 +1701,8 @@
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
                                 android:inputType="number"
-                                android:maxLength="10" />
+                                android:maxLength="10"
+                                android:maxLines="1"/>
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -1714,7 +1718,8 @@
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
                                 android:inputType="number"
-                                android:maxLength="10" />
+                                android:maxLength="10"
+                                android:maxLines="1"/>
                         </android.support.design.widget.TextInputLayout>
 
                     </TableRow>
@@ -1736,7 +1741,8 @@
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
                                 android:inputType="number"
-                                android:maxLength="10" />
+                                android:maxLength="10"
+                                android:maxLines="1"/>
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -1752,7 +1758,8 @@
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
                                 android:inputType="number"
-                                android:maxLength="10" />
+                                android:maxLength="10"
+                                android:maxLines="1"/>
                         </android.support.design.widget.TextInputLayout>
 
                     </TableRow>
