@@ -13,6 +13,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -449,6 +451,12 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
         <activity
+            android:name=".loan_fm.homeloan.application.HomeLoanApplicationActivity"
+            android:label="@string/title_activity_home_loan_application"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+        <activity
             android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
             android:label="@string/title_activity_knowledge_guru_webview"
             android:parentActivityName=".knowledgeguru.KnowledgeGuruActivity"
@@ -801,6 +809,11 @@
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".term.icici.TermICICIActivity"
+            android:label="@string/title_activity_term_icici"
+            android:theme="@style/AppTheme"></activity>
+
         <!-- posp app -->
 
         <activity
@@ -967,6 +980,8 @@
                 android:value=".pospapp.studymaterial.StudyMaterialAvailable" />
         </activity>
 
+        <activity android:name=".onlineexpressloan.rblpersonalloanActivity" />
+        <activity android:name=".onlineexpressloan.kotakpersonalloanActivity"></activity>
     </application>
 
 </manifest>
