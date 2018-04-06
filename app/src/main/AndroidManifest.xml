@@ -13,8 +13,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
-
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
@@ -451,12 +449,6 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".loan_fm.homeloan.application.HomeLoanApplicationActivity"
-            android:label="@string/title_activity_home_loan_application"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
-        <activity
             android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
             android:label="@string/title_activity_knowledge_guru_webview"
             android:parentActivityName=".knowledgeguru.KnowledgeGuruActivity"
@@ -800,28 +792,32 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
 
-
+        <activity
+            android:name=".onlineexpressloan.BankLoanListActivity"
+            android:label="@string/title_activity_bank_loan_list"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
         <!-- posp app -->
-
 
         <activity
             android:name=".pospapp.splashscreen.SplashScreenActivity"
             android:label="@string/app_name"
             android:noHistory="true"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".pospapp.login.LoginActivity"
             android:label="@string/title_activity_login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".pospapp.register.RegisterActivity"
             android:label="@string/title_activity_register"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".pospapp.forgotpassword.ForgotPasswordActivity"
             android:label="@string/title_activity_forgot_password"
@@ -832,13 +828,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.login.LoginActivity" />
         </activity>
-
         <activity
             android:name=".pospapp.home.MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-
         <activity
             android:name=".pospapp.exam.StartExamActivity"
             android:label="@string/title_activity_start_exam"
@@ -849,19 +843,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.home.HomeActivity" />
         </activity>
-
         <activity
-            android:theme="@style/AppTheme"
             android:name=".pospapp.exam.QuestionsActivity"
             android:label="@string/title_activity_questions"
             android:noHistory="true"
             android:parentActivityName=".pospapp.exam.QuestionsActivity"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.exam.QuestionsActivity" />
         </activity>
-
         <activity
             android:name=".pospapp.webviews.studymaterial.StudyMaterialActivity"
             android:label="@string/title_activity_study_material"
@@ -871,7 +863,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.studymaterial.StudyMaterialAvailable" />
         </activity>
-
         <activity
             android:name=".pospapp.exam.ExamResultActivity"
             android:label="@string/title_activity_exam_result"
@@ -882,7 +873,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.home.MainActivity" />
         </activity>
-
         <activity
             android:name=".pospapp.aboutus.AboutUsActivity"
             android:label="@string/title_activity_about_us"
@@ -893,7 +883,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.home.MainActivity" />
         </activity>
-
         <activity
             android:name=".pospapp.certificates.CertificateActivity"
             android:label="@string/title_activity_certificate"
@@ -904,7 +893,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.home.MainActivity" />
         </activity>
-
         <activity
             android:name=".pospapp.home.HomeActivity"
             android:label="@string/title_activity_home"
@@ -915,7 +903,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.home.MainActivity" />
         </activity>
-
         <activity
             android:name=".pospapp.studymaterial.StudyMaterialAvailable"
             android:label="@string/title_activity_study_material_available"
@@ -926,7 +913,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.home.HomeActivity" />
         </activity>
-
         <activity
             android:name=".pospapp.studymaterial.ModulePracticeActivity"
             android:label="@string/title_activity_module_practice"
@@ -937,7 +923,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.studymaterial.StudyMaterialAvailable" />
         </activity>
-
         <activity
             android:name=".pospapp.studymaterial.ModuleResultActivity"
             android:label="@string/title_activity_module_result"
@@ -971,7 +956,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.login.LoginActivity" />
         </activity>
-
         <activity
             android:name=".pospapp.studymaterial.ViewAnswerActivity"
             android:label="@string/title_activity_view_answer"
@@ -982,7 +966,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".pospapp.studymaterial.StudyMaterialAvailable" />
         </activity>
-
 
     </application>
 

@@ -269,7 +269,7 @@
 
     </style>
 
-   <!-- region posp-->
+    <!-- region posp-->
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

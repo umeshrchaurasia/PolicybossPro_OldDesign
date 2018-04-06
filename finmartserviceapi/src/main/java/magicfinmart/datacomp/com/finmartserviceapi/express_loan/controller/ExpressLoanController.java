@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestbuilder.ExpressLoanRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.SaveExpressLoanRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressLoanListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressQuoteListResponse;
 
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressSaveResponse;
@@ -76,9 +77,9 @@ public class ExpressLoanController implements IExpressLoan {
     @Override
     public void getExpressLoanList( final IResponseSubcriber iResponseSubcriber) {
 
-        expressNetworkService.getExpressLoanList().enqueue(new Callback<ExpressQuoteListResponse>() {
+        expressNetworkService.getExpressLoanList().enqueue(new Callback<ExpressLoanListResponse>() {
             @Override
-            public void onResponse(Call<ExpressQuoteListResponse> call, Response<ExpressQuoteListResponse> response) {
+            public void onResponse(Call<ExpressLoanListResponse> call, Response<ExpressLoanListResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
 
@@ -92,7 +93,7 @@ public class ExpressLoanController implements IExpressLoan {
             }
 
             @Override
-            public void onFailure(Call<ExpressQuoteListResponse> call, Throwable t) {
+            public void onFailure(Call<ExpressLoanListResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {
