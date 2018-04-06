@@ -434,6 +434,7 @@
     <string name="title_activity_thank_you">Thank You</string>
     <string name="title_activity_term_quote_application">Life Insurance</string>
     <string name="title_activity_term_selection">LIFE INSURANCE</string>
+    <string name="title_activity_term_icici">ICICI PRUDENTIAL</string>
 
 
     <!-- region posp-->
@@ -483,4 +484,27 @@
     <string name="title_activity_request_admin">Request Admin</string>
     <string name="title_activity_view_answer">Answers</string>
 
+
+    <!--Term icici-->
+    <string-array name="icici_options">
+        <item>Option</item>
+        <item>Life</item>
+        <item>Life plus</item>
+        <item>Life and health</item>
+        <item>All in one</item>
+    </string-array>
+
+    <string-array name="icici_premium_frequency">
+        <item>Premium Frequency</item>
+        <item>Yearly</item>
+        <item>Half Yearly</item>
+        <item>Monthly</item>
+    </string-array>
+
+    <string-array name="icici_payment_term">
+        <item>Payment Term</item>
+        <item>Regular Pay</item>
+        <item>Single Pay</item>
+        <item>Limited Pay</item>
+    </string-array>
 </resources>
