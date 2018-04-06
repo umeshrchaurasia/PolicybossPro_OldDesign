@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:visibility="visible">
 
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +25,105 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/bg"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Email">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Option"
+                        android:textSize="10sp" />
+
+                    <Spinner
+                        android:id="@+id/spOptions"
+                        style="@style/SpinnerStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/icici_options" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Permium term">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Permium term"
+                        android:textSize="10sp" />
+
+                    <Spinner
+                        android:id="@+id/spPremiumTerm"
+                        style="@style/SpinnerStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/icici_payment_term" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Permium term">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Permium frequency"
+                        android:textSize="10sp" />
+
+                    <Spinner
+                        android:id="@+id/spPremiumFrequency"
+                        style="@style/SpinnerStyle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:entries="@array/icici_premium_frequency" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Permium term"
+                    android:visibility="invisible">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="left"
+                        android:text="Permium term"
+                        android:textSize="10sp" />
+
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@color/header_light_text"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -32,7 +131,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:padding="12dp"
+                    android:padding="8dp"
                     android:text="Choose death benefit payout"
                     android:textAllCaps="true"
                     android:textColor="@color/white" />
@@ -103,9 +202,9 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
-                    android:background="@null"
+                    android:background="@drawable/customeborder_blue"
                     android:gravity="center"
                     android:text="-" />
 
@@ -119,7 +218,7 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
                     android:background="@drawable/customeborder_blue"
                     android:gravity="center"
@@ -145,9 +244,9 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
-                    android:background="@null"
+                    android:background="@drawable/customeborder_blue"
                     android:gravity="center"
                     android:text="-" />
 
@@ -161,7 +260,7 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
                     android:background="@drawable/customeborder_blue"
                     android:gravity="center"
@@ -187,9 +286,9 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
-                    android:background="@null"
+                    android:background="@drawable/customeborder_blue"
                     android:gravity="center"
                     android:text="-" />
 
@@ -203,7 +302,7 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
                     android:background="@drawable/customeborder_blue"
                     android:gravity="center"
@@ -229,9 +328,9 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
-                    android:background="@null"
+                    android:background="@drawable/customeborder_blue"
                     android:gravity="center"
                     android:text="-" />
 
@@ -245,7 +344,7 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
                     android:background="@drawable/customeborder_blue"
                     android:gravity="center"
@@ -270,9 +369,9 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
-                    android:background="@null"
+                    android:background="@drawable/customeborder_blue"
                     android:gravity="center"
                     android:text="-" />
 
@@ -286,7 +385,7 @@
 
                 <Button
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_weight="10"
                     android:background="@drawable/customeborder_blue"
                     android:gravity="center"
