@@ -2,10 +2,13 @@ package com.datacomp.magicfinmart.posp;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +46,7 @@ import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -118,6 +122,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     HashMap<String, String> body;
     MultipartBody.Part part;
     File file;
+    File Docfile;
+    InputStream inputStream;
+    ExifInterface ei;
     Uri imageUri;
     private int POSP_PHOTO = 6, POSP_PAN = 7, POSP_AADHAR_FRONT = 8, POSP_AADHAR_BACK = 9, POSP_CANCEL_CHQ = 10, POSP_EDU = 11;
     private String PHOTO_File = "POSPPhotograph", PAN_File = "POSPPanCard", CANCEL_CHQ_File = "POSPCancelledChq", AADHAR_FRONT_File = "POSPAadharCard", AADHAR_BACK_File = "POSPAadharCardBack", EDU_FILE = "POSPHighestEducationProof";
@@ -1730,9 +1737,9 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 break;
 
         }
+        Docfile =  createFile(FileName);
         imageUri = FileProvider.getUriForFile(PospEnrollment.this,
-                getString(R.string.file_provider_authority),
-                saveImageToStorage(null, FileName));
+                getString(R.string.file_provider_authority), Docfile);
 
 
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -1760,6 +1767,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 mphoto = getResizedBitmap(mphoto, 800);
+                mphoto =rotateImageIfRequired(this,mphoto,Docfile);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1928,4 +1936,65 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 break;
         }
     }
+
+    public  Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
+
+    }
+
+    private  Bitmap rotateImageIfRequired(Context context, Bitmap bitmap, File file)
+    {
+        Bitmap rotatedBitmap = null;
+        try {
+
+            // region Handling Default Rotation Of Image
+            Uri uri = Uri.fromFile(file);
+            inputStream = context.getContentResolver().openInputStream(uri);
+
+            if (Build.VERSION.SDK_INT > 23) {
+                ei = new ExifInterface(inputStream);
+            }
+            else {
+
+                // ei = new ExifInterface("/storage/emulated/0/FINMART/FBAPhotograph.jpg");
+                ei = new ExifInterface(file.getAbsolutePath());
+            }
+
+
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+
+
+            switch(orientation) {
+
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    rotatedBitmap = rotateImage(bitmap, 90);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    rotatedBitmap = rotateImage(bitmap, 180);
+                    break;
+
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    rotatedBitmap = rotateImage(bitmap, 270);
+                    break;
+
+                case ExifInterface.ORIENTATION_NORMAL:
+                default:
+                    rotatedBitmap = bitmap;
+
+            }
+            //endregion
+
+        }catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
+
+        return rotatedBitmap;
+    }
+
+
+
 }

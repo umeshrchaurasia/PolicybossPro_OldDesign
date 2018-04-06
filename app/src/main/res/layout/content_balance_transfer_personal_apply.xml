@@ -1264,6 +1264,7 @@
                                 android:id="@+id/etLandmakContInfoPA"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="150"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1331,6 +1332,7 @@
                             <EditText
                                 android:id="@+id/etCountryPA"
                                 style="@style/Style.edittext"
+                                android:maxLength="50"
                                 android:text="India" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1916,6 +1918,7 @@
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLines="1"
+                                android:maxLength="50"
                                 android:text="India" />
                         </android.support.design.widget.TextInputLayout>
 

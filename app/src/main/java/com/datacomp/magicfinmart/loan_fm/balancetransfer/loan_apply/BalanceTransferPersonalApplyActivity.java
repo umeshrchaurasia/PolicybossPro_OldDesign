@@ -1520,6 +1520,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
     private void setRbCustomerData2() {
         etMobNo1ContInfo.setText(buyLoanQuerystring.getMobileNo());
+        etPan.setText(buyLoanQuerystring.getPan());
     }
 
     //endregion
