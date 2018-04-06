@@ -275,6 +275,7 @@
 
                             <EditText
                                 android:id="@+id/etSpouceName"
+                                android:maxLength="20"
                                 style="@style/Style.edittext"
                                  />
                         </android.support.design.widget.TextInputLayout>
@@ -1772,6 +1773,7 @@
                                 android:id="@+id/etAddress1ED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1793,6 +1795,7 @@
                                 android:id="@+id/etAddress2ED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1814,6 +1817,7 @@
                                 android:id="@+id/etAddress3ED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="200"
                                 android:maxLines="2" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1835,6 +1839,7 @@
                                 android:id="@+id/etLandmakED"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="150"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -2090,10 +2095,9 @@
                             <EditText
                                 android:id="@+id/etTotalIncome"
                                 style="@style/Style.edittext"
-                                android:enabled="false"
-                               android:inputType="text"
-                                android:maxLines="1"
-                                android:maxLength="15" />
+                                android:digits="0123456789"
+                                android:inputType="number"
+                                android:maxLength="10" />
 
                         </android.support.design.widget.TextInputLayout>
 
