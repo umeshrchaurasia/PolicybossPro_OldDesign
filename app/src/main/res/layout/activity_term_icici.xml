@@ -21,9 +21,29 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_term_header" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="90">
 
-    <include layout="@layout/content_term_icici" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
+            <include layout="@layout/content_term_header" />
+
+            <include layout="@layout/content_term_icici" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnGetQuote"
+        style="@style/ButtonStyle.Colored"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:text="Get quote" />
 
 </LinearLayout>
