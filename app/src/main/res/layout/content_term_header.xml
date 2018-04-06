@@ -78,20 +78,26 @@
                         android:orientation="horizontal"
                         android:weightSum="100">
 
-                        <RadioButton
-                            android:id="@+id/rbMale"
-                            android:layout_width="0dp"
+                        <RadioGroup
+                            android:id="@+id/rgGender"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
-                            android:text="Male" />
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/rbFeMale"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="50"
-                            android:checked="true"
-                            android:text="Female" />
+                            <RadioButton
+                                android:id="@+id/rbmale"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:checked="true"
+                                android:text="Male" />
+
+                            <RadioButton
+                                android:id="@+id/rbfemale"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="Female" />
+                        </RadioGroup>
                     </LinearLayout>
                 </android.support.design.widget.TextInputLayout>
 
@@ -102,7 +108,7 @@
                     android:hint="Date of Birth">
 
                     <EditText
-                        android:id="@+id/etDob"
+                        android:id="@+id/etDateofBirth"
                         style="@style/Style.edittext"
                         android:drawableRight="@drawable/vector_date"
                         android:focusable="false" />
@@ -150,24 +156,31 @@
                         android:orientation="horizontal"
                         android:weightSum="100">
 
-                        <RadioButton
-                            android:id="@+id/rbYesSmoker"
-                            android:layout_width="0dp"
+                        <RadioGroup
+                            android:id="@+id/rgSmoker"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="50"
-                            android:text="YES" />
+                            android:orientation="horizontal">
 
-                        <RadioButton
-                            android:id="@+id/rbNoSmoker"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="50"
-                            android:checked="true"
-                            android:text="NO" />
+                            <RadioButton
+                                android:id="@+id/rbYesSmoker"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="50"
+                                android:text="YES" />
+
+                            <RadioButton
+                                android:id="@+id/rbNoSmoker"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="50"
+                                android:checked="true"
+                                android:text="NO" />
+                        </RadioGroup>
                     </LinearLayout>
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
-
 
 
         </LinearLayout>
