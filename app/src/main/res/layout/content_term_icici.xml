@@ -25,6 +25,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
@@ -46,6 +47,7 @@
                         style="@style/SpinnerStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:dropDownWidth="200dp"
                         android:entries="@array/icici_options" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -68,6 +70,7 @@
                         style="@style/SpinnerStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:dropDownWidth="200dp"
                         android:entries="@array/icici_payment_term" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -76,6 +79,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
@@ -97,6 +101,7 @@
                         style="@style/SpinnerStyle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:dropDownWidth="200dp"
                         android:entries="@array/icici_premium_frequency" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -146,6 +151,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/txtLumpSum"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -158,6 +164,7 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:id="@+id/txtRegularIncome"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -170,6 +177,7 @@
                     android:textSize="10sp" />
 
                 <TextView
+                    android:id="@+id/txtIncreasingIncome"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="2dp"
@@ -187,6 +195,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="4dp"
                 android:weightSum="100">
@@ -201,6 +210,7 @@
                     android:textSize="12dp" />
 
                 <Button
+                    android:id="@+id/minusSum"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
@@ -210,13 +220,16 @@
 
                 <EditText
                     android:id="@+id/etSumAssured"
+                    style="@style/Style.edittext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="45"
+                    android:gravity="center"
                     android:inputType="number"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <Button
+                    android:id="@+id/plusSum"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
@@ -229,6 +242,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="4dp"
                 android:weightSum="100">
@@ -243,6 +257,7 @@
                     android:textSize="12dp" />
 
                 <Button
+                    android:id="@+id/minusPTerm"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
@@ -252,13 +267,16 @@
 
                 <EditText
                     android:id="@+id/etPolicyTerm"
+                    style="@style/Style.edittext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="45"
+                    android:gravity="center"
                     android:inputType="number"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <Button
+                    android:id="@+id/plusPTerm"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
@@ -271,6 +289,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="4dp"
                 android:weightSum="100">
@@ -285,6 +304,7 @@
                     android:textSize="12dp" />
 
                 <Button
+                    android:id="@+id/minusPreTerm"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
@@ -294,13 +314,16 @@
 
                 <EditText
                     android:id="@+id/etPremiumTerm"
+                    style="@style/Style.edittext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="45"
+                    android:gravity="center"
                     android:inputType="number"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <Button
+                    android:id="@+id/plusPreTerm"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
@@ -313,6 +336,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="4dp"
                 android:weightSum="100">
@@ -327,6 +351,7 @@
                     android:textSize="12dp" />
 
                 <Button
+                    android:id="@+id/minusCritical"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
@@ -336,13 +361,16 @@
 
                 <EditText
                     android:id="@+id/etCriticalIllness"
+                    style="@style/Style.edittext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="45"
+                    android:gravity="center"
                     android:inputType="number"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <Button
+                    android:id="@+id/plusCritical"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
@@ -355,6 +383,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:padding="4dp"
                 android:weightSum="100">
@@ -368,6 +397,7 @@
                     android:textSize="12dp" />
 
                 <Button
+                    android:id="@+id/minusAcc"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
@@ -377,13 +407,16 @@
 
                 <EditText
                     android:id="@+id/etAccidentalBenefits"
+                    style="@style/Style.edittext"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="45"
+                    android:gravity="center"
                     android:inputType="number"
-                    android:textSize="12sp" />
+                    android:textSize="14sp" />
 
                 <Button
+                    android:id="@+id/plusAcc"
                     android:layout_width="0dp"
                     android:layout_height="32dp"
                     android:layout_weight="10"
