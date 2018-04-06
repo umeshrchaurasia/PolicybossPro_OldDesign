@@ -450,12 +450,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-        <activity
-            android:name=".loan_fm.homeloan.application.HomeLoanApplicationActivity"
-            android:label="@string/title_activity_home_loan_application"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
+
         <activity
             android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
             android:label="@string/title_activity_knowledge_guru_webview"
@@ -799,20 +794,31 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
-        <activity
-            android:name=".onlineexpressloan.BankLoanListActivity"
-            android:label="@string/title_activity_bank_loan_list"
-            android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.datacomp.magicfinmart.home.HomeActivity" />
-        </activity>
         <activity
             android:name=".term.icici.TermICICIActivity"
             android:label="@string/title_activity_term_icici"
             android:theme="@style/AppTheme"></activity>
+
+        <activity
+            android:name=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
+            android:label="Express Loan"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:label="@string/title_activity_bank_loan_list"
+            android:parentActivityName=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
+        </activity>
 
         <!-- posp app -->
 

@@ -39,8 +39,8 @@ public class ExpressLoanController implements IExpressLoan {
     @Override
     public void getExpressQuoteList(String FBAID, final IResponseSubcriber iResponseSubcriber) {
 
-        HashMap<String, String> body = new HashMap<String, String>();
-        body.put("FBAID", FBAID);
+        HashMap<String, String> body = new HashMap<>();
+        body.put("FBAID",FBAID);
 
         expressNetworkService.getExpressQuoteList(body).enqueue(new Callback<ExpressQuoteListResponse>() {
             @Override

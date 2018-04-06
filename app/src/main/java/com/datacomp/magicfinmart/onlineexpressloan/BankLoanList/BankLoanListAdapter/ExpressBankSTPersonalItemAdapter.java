@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.onlineexpressloan.BankLoanListAdapter;
+package com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListAdapter;
 
 import android.app.Activity;
 import android.support.v7.widget.CardView;
@@ -16,32 +16,32 @@ import com.datacomp.magicfinmart.R;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.PersonalLoanEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ShortTermPersonalLoanEntity;
 
 /**
  * Created by IN-RB on 05-04-2018.
  */
 
-public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ExpressBankSTPersonalItemAdapter  extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
 
     Activity mContext;
     DBPersistanceController dbPersistanceController;
 
-    List<PersonalLoanEntity> personalLoanEntityList;
+    List<ShortTermPersonalLoanEntity> stPersonalLoanEntityList;
 
-    public ExpressBankPersonalItemAdapter(Activity mContext, List<PersonalLoanEntity> temppersonalLoanEntityList) {
+    public ExpressBankSTPersonalItemAdapter(Activity mContext, List<ShortTermPersonalLoanEntity> tempstPersonalLoanEntityList) {
         this.mContext = mContext;
-        this.personalLoanEntityList = temppersonalLoanEntityList;
+        this.stPersonalLoanEntityList = tempstPersonalLoanEntityList;
         dbPersistanceController = new DBPersistanceController(mContext);
     }
 
-    public class PersonLoanItemHolder extends RecyclerView.ViewHolder {
+    public class STPersonLoanItemHolder extends RecyclerView.ViewHolder {
         TextView txtbankName, txtCardType;
         ImageView imgCard;
         CardView cvCCItem;
         Button btnApply, btnInfo;
 
-        public PersonLoanItemHolder(View itemView) {
+        public STPersonLoanItemHolder(View itemView) {
             super(itemView);
             txtbankName = (TextView) itemView.findViewById(R.id.txtbankName);
             txtCardType = (TextView) itemView.findViewById(R.id.txtCardType);
@@ -60,7 +60,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
 
         view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.layout_banlist_onlineexp_item, parent, false);
-        return new ExpressBankPersonalItemAdapter.PersonLoanItemHolder(view);
+        return new ExpressBankSTPersonalItemAdapter.STPersonLoanItemHolder(view);
 
 
         //layout_banlist_onlineexp_item
@@ -69,14 +69,14 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
-        if(holder instanceof PersonLoanItemHolder){
-            final PersonalLoanEntity plEntity = personalLoanEntityList.get(position);
-            ((PersonLoanItemHolder) holder).txtbankName.setText(plEntity.getBank_Name());
+        if(holder instanceof ExpressBankSTPersonalItemAdapter.STPersonLoanItemHolder){
+            final ShortTermPersonalLoanEntity shortPLEntity = stPersonalLoanEntityList.get(position);
+            ((ExpressBankSTPersonalItemAdapter.STPersonLoanItemHolder) holder).txtbankName.setText(shortPLEntity.getBank_Name());
 
             Glide.with(mContext)
-                    .load(plEntity.getDocument1())
+                    .load(shortPLEntity.getDocument1())
                     .placeholder(R.drawable.finmart_placeholder) // can also be a drawable
-                    .into(((PersonLoanItemHolder) holder).imgCard);
+                    .into(((ExpressBankSTPersonalItemAdapter.STPersonLoanItemHolder) holder).imgCard);
 
         }
 
@@ -84,6 +84,6 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
 
     @Override
     public int getItemCount() {
-        return personalLoanEntityList.size();
+        return stPersonalLoanEntityList.size();
     }
 }

@@ -30,8 +30,8 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivi
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
-import com.datacomp.magicfinmart.onlineexpressloan.BankLoanListActivity;
-import com.datacomp.magicfinmart.onlineexpressloan.BanklistActivity;
+
+import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
@@ -217,7 +217,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_expressloan:
-                        startActivity(new Intent(HomeActivity.this, BankLoanListActivity.class));
+                        startActivity(new Intent(HomeActivity.this, AppliedOnlineLoanListActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Express Loan : Express Loan button in menu "), Constants.WHATSNEW), null);
                         break;
 

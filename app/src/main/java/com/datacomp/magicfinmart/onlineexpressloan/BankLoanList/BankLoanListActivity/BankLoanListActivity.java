@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.onlineexpressloan;
+package com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity;
 
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,7 +8,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.onlineexpressloan.BankLoanListAdapter.ExpressBankRowAdapter;
+import com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListAdapter.ExpressBankRowAdapter;
 
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller.ExpressLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ExpressLoanEntity;

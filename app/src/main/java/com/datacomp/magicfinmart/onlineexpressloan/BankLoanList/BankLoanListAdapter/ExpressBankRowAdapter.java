@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.onlineexpressloan.BankLoanListAdapter;
+package com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListAdapter;
 
 import android.app.Activity;
 import android.support.v7.widget.LinearLayoutManager;
