@@ -1,18 +1,32 @@
 package com.datacomp.magicfinmart.term.compareterm;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 
 /**
  * Created by Rajeev Ranjan on 06/04/2018.
  */
 
-public class CompareQuoteFragment extends BaseFragment {
+public class CompareQuoteFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
+    TermFinmartRequest termFinmartRequest;
+    TermRequestEntity termRequestEntity;
+    TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,23 +38,77 @@ public class CompareQuoteFragment extends BaseFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_term_compare_quote, container, false);
-        /*registerPopUp(this);
+        registerPopUp(this);
         initView(view);
         setListener();
-        listCompare = new ArrayList<>();
-        listDataHeader = new ArrayList<>();
-        listDataChild = new HashMap<Integer, List<HealthQuoteEntity>>();
-        txtCompareCount.setVisibility(View.GONE);
-
         if (getArguments() != null) {
-            if (getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA) != null) {
-                healthQuote = new HealthQuote();
-                healthQuote = getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA);
+            if (getArguments().getParcelable(CompareTiACtivity.QUOTE_DATA) != null) {
+                termFinmartRequest = new TermFinmartRequest();
+                termFinmartRequest = getArguments().getParcelable(CompareTiACtivity.QUOTE_DATA);
+                termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 bindHeaders();
                 fetchQuotes();
             }
-        }*/
+        }
 
         return view;
+    }
+
+    private void initView(View view) {
+
+        tvSum = (TextView) view.findViewById(R.id.tvSum);
+        tvGender = (TextView) view.findViewById(R.id.tvGender);
+        tvSmoker = (TextView) view.findViewById(R.id.tvSmoker);
+        tvAge = (TextView) view.findViewById(R.id.tvAge);
+        tvPolicyTerm = (TextView) view.findViewById(R.id.tvPolicyTerm);
+        tvCrn = (TextView) view.findViewById(R.id.tvCrn);
+    }
+
+    private void setListener() {
+    }
+
+    private void bindHeaders() {
+        if (termRequestEntity != null) {
+            tvSum.setText("" + termRequestEntity.getSumAssured());
+            tvGender.setText("" + termRequestEntity.getSumAssured());
+            tvSmoker.setText("" + termRequestEntity.getSumAssured());
+            tvAge.setText("" + termRequestEntity.getSumAssured());
+            tvPolicyTerm.setText("" + termRequestEntity.getPolicyTerm() + " YEARS");
+            tvCrn.setText("" + termRequestEntity.getSumAssured());
+        }
+    }
+
+    private void fetchQuotes() {
+        showDialog();
+        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
+    }
+
+    @Override
+    public void onClick(View view) {
+
+    }
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof TermCompareQuoteResponse) {
+            cancelDialog();
+        }
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
