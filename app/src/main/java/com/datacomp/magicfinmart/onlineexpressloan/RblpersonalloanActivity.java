@@ -23,7 +23,7 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
 
-public class rblpersonalloanActivity extends AppCompatActivity {
+public class RblpersonalloanActivity extends AppCompatActivity {
     CardView ccPersonal, ccCompantDetail, ccCurrentAddress, ccContactDetail;
     CheckBox chkTermsCondition, chkSameAsAbove;
     Button btnICICINext;

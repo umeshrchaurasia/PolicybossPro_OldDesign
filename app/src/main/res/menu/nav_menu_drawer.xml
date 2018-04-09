@@ -53,11 +53,6 @@
             android:visible="true" />
 
         <item
-            android:id="@+id/nav_expressloan"
-            android:icon="@drawable/enrollment_ic"
-            android:title="Express Loan"
-            android:visible="true" />
-        <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout_ic"
             android:title="LOG-OUT" />

@@ -38,11 +38,12 @@ public class ExpressBankSTPersonalItemAdapter  extends RecyclerView.Adapter<Recy
     public class STPersonLoanItemHolder extends RecyclerView.ViewHolder {
         TextView txtbankName, txtCardType;
         ImageView imgCard;
-        CardView cvCCItem;
+        CardView card_view;
         Button btnApply, btnInfo;
 
         public STPersonLoanItemHolder(View itemView) {
             super(itemView);
+            card_view = (CardView) itemView.findViewById(R.id.card_view);
             txtbankName = (TextView) itemView.findViewById(R.id.txtbankName);
             txtCardType = (TextView) itemView.findViewById(R.id.txtCardType);
 
@@ -72,11 +73,12 @@ public class ExpressBankSTPersonalItemAdapter  extends RecyclerView.Adapter<Recy
         if(holder instanceof ExpressBankSTPersonalItemAdapter.STPersonLoanItemHolder){
             final ShortTermPersonalLoanEntity shortPLEntity = stPersonalLoanEntityList.get(position);
             ((ExpressBankSTPersonalItemAdapter.STPersonLoanItemHolder) holder).txtbankName.setText(shortPLEntity.getBank_Name());
-
             Glide.with(mContext)
                     .load(shortPLEntity.getDocument1())
                     .placeholder(R.drawable.finmart_placeholder) // can also be a drawable
                     .into(((ExpressBankSTPersonalItemAdapter.STPersonLoanItemHolder) holder).imgCard);
+
+
 
         }
 

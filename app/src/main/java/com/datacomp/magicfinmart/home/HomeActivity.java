@@ -216,12 +216,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
                         break;
 
-                    case R.id.nav_expressloan:
-                        startActivity(new Intent(HomeActivity.this, AppliedOnlineLoanListActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Express Loan : Express Loan button in menu "), Constants.WHATSNEW), null);
-                        break;
-
-
                     case R.id.nav_logout:
                         new DBPersistanceController(HomeActivity.this).logout();
                         new PrefManager(HomeActivity.this).clearAll();

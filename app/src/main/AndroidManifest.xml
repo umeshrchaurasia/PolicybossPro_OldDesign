@@ -801,7 +801,7 @@
 
         <activity
             android:name=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
-            android:label="Express Loan"
+            android:label="EXPRESS LOAN"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -986,8 +986,8 @@
                 android:value=".pospapp.studymaterial.StudyMaterialAvailable" />
         </activity>
 
-        <activity android:name=".onlineexpressloan.rblpersonalloanActivity" />
-        <activity android:name=".onlineexpressloan.kotakpersonalloanActivity"></activity>
+        <activity android:name=".onlineexpressloan.RblpersonalloanActivity" />
+        <activity android:name=".onlineexpressloan.KotakpersonalloanActivity"></activity>
     </application>
 
 </manifest>
