@@ -30,7 +30,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
 
-public class kotakpersonalloanActivity extends BaseActivity implements View.OnClickListener,IResponseSubcriber {
+public class KotakpersonalloanActivity extends BaseActivity implements View.OnClickListener,IResponseSubcriber {
 
 
     CardView ccPersonal, ccCompantDetail, ccCurrentAddress, ccContactDetail;
@@ -126,6 +126,7 @@ public class kotakpersonalloanActivity extends BaseActivity implements View.OnCl
 
 
         spNoOfDependents = (Spinner) findViewById(R.id.spNoOfDependents);
+
         spSupplementaryCard = (Spinner) findViewById(R.id.spSupplementaryCard);
         spMailingAddress = (Spinner) findViewById(R.id.spMailingAddress);
 

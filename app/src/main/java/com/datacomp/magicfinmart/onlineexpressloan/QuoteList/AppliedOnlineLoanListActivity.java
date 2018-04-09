@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.onlineexpressloan;
+package com.datacomp.magicfinmart.onlineexpressloan.QuoteList;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,12 +17,13 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller.ExpressLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ExpressQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressQuoteListResponse;
@@ -39,6 +40,7 @@ public class AppliedOnlineLoanListActivity extends BaseActivity implements View.
     FloatingActionButton fbAddCreditCard;
     List<ExpressQuoteEntity> mExpressQuoteEntityList;
     AppliedOnlineAdapter mAdapter;
+    DBPersistanceController dbPersistanceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +49,7 @@ public class AppliedOnlineLoanListActivity extends BaseActivity implements View.
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-//        if (new PrefManager(this).getIsRblCityMaster()) {
-//            new ExpressLoanController(this).getRblCityMaster(null);
-//        }
-
+        dbPersistanceController = new DBPersistanceController(this);
         init();
         setListener();
         setTextWatcher();
@@ -60,7 +58,7 @@ public class AppliedOnlineLoanListActivity extends BaseActivity implements View.
 
     private void fetchCreditCards() {
         showDialog();
-        new ExpressLoanController(this).getExpressQuoteList("",this);
+        new ExpressLoanController(this).getExpressQuoteList(String.valueOf(dbPersistanceController.getUserData().getFBAId()),this);
     }
 
     @Override
@@ -116,7 +114,7 @@ public class AppliedOnlineLoanListActivity extends BaseActivity implements View.
         switch (view.getId()) {
             case R.id.tvAdd:
             case R.id.fbAddCreditCard:
-                startActivity(new Intent(this, BanklistActivity.class));
+                startActivity(new Intent(this, BankLoanListActivity.class));
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:

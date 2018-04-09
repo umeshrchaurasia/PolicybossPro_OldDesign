@@ -2,17 +2,17 @@ package magicfinmart.datacomp.com.finmartserviceapi.express_loan.model;
 
 public  class ExpressQuoteEntity {
         /**
-         * ExpressLoanRequestId : 24
-         * FullName : test abc test
-         * MobileNo : 9822945446
+         * ExpressLoanRequestId : 78
+         * FullName : Test
+         * MobileNo : 8647777546
          * City : Mumbai
          * LoanAmount : 500000
          * BankId : 1
          * LoanType : car loan
-         * CreatedDate : 03/04/2018
+         * CreatedDate : 06/04/2018
          * FBAID : 12
          * IsActive : 1
-         * ApplicationID : 0
+         * ApplicationID : 796295
          * Bank_Id : 1
          * Bank_Name : ADITYA BIRLA FINANCE LIMITED
          * Bank_Code : ADITYA BIRLA
