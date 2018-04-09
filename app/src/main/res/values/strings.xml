@@ -483,6 +483,7 @@
     <string name="title_activity_module_result">Result</string>
     <string name="title_activity_request_admin">Request Admin</string>
     <string name="title_activity_view_answer">Answers</string>
+    <string name="title_activity_bank_loan_list">Bank Loan</string>
 
 
     <!--Term icici-->
@@ -507,4 +508,5 @@
         <item>Single Pay</item>
         <item>Limited Pay</item>
     </string-array>
+    <string name="title_activity_compare_ti_activity">COMPARE TERM INSURANCE</string>
 </resources>

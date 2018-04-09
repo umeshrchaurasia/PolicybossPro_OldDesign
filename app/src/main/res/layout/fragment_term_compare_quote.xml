@@ -6,7 +6,6 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -38,31 +37,60 @@
                         android:weightSum="100">
 
 
-                        <ImageView
-                            android:layout_width="0dp"
-                            android:layout_height="48dp"
-                            android:layout_weight="15"
-                            android:scaleType="centerInside"
-                            android:src="@mipmap/two_wheeler" />
-
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="65"
-                            android:orientation="vertical">
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:layout_weight="80"
+                            android:orientation="horizontal"
+                            android:padding="5dp"
+                            android:weightSum="2">
 
-                            <TextView
-                                android:id="@+id/tvMakeModel"
-                                style="@style/TextViewStyle.Medium"
-                                android:gravity="center"
-                                android:textAllCaps="true"
-                                android:textStyle="bold" />
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
 
-                            <TextView
-                                android:id="@+id/tvRtoName"
-                                style="@style/TextViewStyle.Small"
-                                android:gravity="center"
-                                android:textAllCaps="true" />
+                                <TextView
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:text="sum insured"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/header_text_color"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvSum"
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:textAllCaps="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvGender"
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:text="female"
+                                    android:textAllCaps="true"
+                                    android:textColor="@color/header_text_color"
+                                    android:textStyle="bold" />
+
+                                <TextView
+                                    android:id="@+id/tvSmoker"
+                                    style="@style/TextViewStyle.Medium"
+                                    android:gravity="center"
+                                    android:text="SMOKER"
+                                    android:textAllCaps="true"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
 
@@ -99,13 +127,13 @@
                             <TextView
                                 style="@style/TextViewStyle.Medium"
                                 android:gravity="center"
-                                android:text="fuel type"
+                                android:text="age"
                                 android:textAllCaps="true"
                                 android:textColor="@color/header_text_color"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/tvFuel"
+                                android:id="@+id/tvAge"
                                 style="@style/TextViewStyle.Medium"
                                 android:gravity="center"
                                 android:textAllCaps="true" />
@@ -120,13 +148,13 @@
                             <TextView
                                 style="@style/TextViewStyle.Medium"
                                 android:gravity="center"
-                                android:text="Variant"
+                                android:text="term"
                                 android:textAllCaps="true"
                                 android:textColor="@color/header_text_color"
                                 android:textStyle="bold" />
 
                             <TextView
-                                android:id="@+id/tvPolicyExp"
+                                android:id="@+id/tvPolicyTerm"
                                 style="@style/TextViewStyle.Medium"
                                 android:gravity="center"
                                 android:textAllCaps="true" />
@@ -163,7 +191,7 @@
                 android:layout_below="@+id/cvInputDetails"
                 android:layout_marginLeft="8dp"
                 android:layout_marginRight="8dp"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:cardCornerRadius="2dp">
 
                 <LinearLayout
@@ -236,15 +264,9 @@
                 </LinearLayout>
             </android.support.v7.widget.CardView>
 
-            <ImageView
-                android:id="@+id/webViewLoader"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:layout_below="@+id/card_view"
-                android:scaleType="fitCenter" />
 
             <android.support.v7.widget.RecyclerView
-                android:id="@+id/bikeQuoteRecycler"
+                android:id="@+id/rvTerm"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/filter"
@@ -271,6 +293,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="ADDITIONAL INFORMATION &amp; OPTIONS" />
+        android:text="BACK TO INPUT" />
 
 </RelativeLayout>

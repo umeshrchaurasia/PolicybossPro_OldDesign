@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BenefitsListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
@@ -11,6 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteC
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -31,8 +33,8 @@ public class TermRequestBuilder extends FinmartRetroRequestBuilder {
     public interface TermNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/get-smart-health")
-        Call<HealthQuoteAppResponse> getQuoteApplicationList(@Body HashMap<String, String> body);
+        @POST("/api/smart-term-life")
+        Call<TermCompareQuoteResponse> getTermCompareQuotes(@Body TermFinmartRequest body);
 
         /*@Headers("token:" + token)
         @POST("/api/smart-health")
