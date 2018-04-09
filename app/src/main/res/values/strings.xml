@@ -507,4 +507,5 @@
         <item>Single Pay</item>
         <item>Limited Pay</item>
     </string-array>
+    <string name="title_activity_compare_ti_activity">COMPARE TERM INSURANCE</string>
 </resources>

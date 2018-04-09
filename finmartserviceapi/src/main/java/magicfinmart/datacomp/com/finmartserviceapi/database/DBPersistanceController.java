@@ -44,7 +44,7 @@ public class DBPersistanceController {
     Map<String, Integer> hashMapInsurence;
     HashMap<String, String> hashMapAddons;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
-    HashMap<String, Integer> hashmapCity;
+    HashMap<String, Integer> hashmapCity, hashmapPremTerm;
     Context mContext;
     Realm realm;
 
@@ -456,7 +456,7 @@ public class DBPersistanceController {
     public List<TermSelectionEntity> getTermCompanyList() {
 
         List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
-        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1, ""));
+        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 0, ""));
         term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANE", 43, ""));
         term.add(new TermSelectionEntity("HDFC LIFE INSURANE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANE", 39, ""));
@@ -1620,6 +1620,86 @@ public class DBPersistanceController {
             return entity;
         else
             return null;
+    }
+    //endregion
+
+
+    //region term
+
+    public List<String> getPremYearList() {
+        hashmapPremTerm = new HashMap<String, Integer>();
+        MapPolicyTerm();
+        return new ArrayList<String>(hashmapPremTerm.keySet());
+    }
+
+    public int getPremYearID(String cityName) {
+        hashmapPremTerm = new HashMap<String, Integer>();
+        MapPolicyTerm();
+        if (hashmapPremTerm.get(cityName) != null) {
+            return hashmapPremTerm.get(cityName);
+        } else {
+            return 0;
+        }
+
+    }
+
+    public String getPremYearName(int cityID) {
+        hashmapPremTerm = new HashMap<String, Integer>();
+        MapPolicyTerm();
+        String HealthCityName = "";
+        for (Map.Entry<String, Integer> item : hashmapPremTerm.entrySet()) {
+            if (item.getValue() == cityID) {
+                HealthCityName = item.getKey();
+                break;
+            }
+        }
+
+        return HealthCityName;
+    }
+
+    public void MapPolicyTerm() {
+        hashmapPremTerm.put("5 YEARS", 5);
+        hashmapPremTerm.put("6 YEARS", 6);
+        hashmapPremTerm.put("7 YEARS", 7);
+        hashmapPremTerm.put("8 YEARS", 8);
+        hashmapPremTerm.put("9 YEARS", 9);
+        hashmapPremTerm.put("10 YEARS", 10);
+
+        hashmapPremTerm.put("11 YEARS", 11);
+        hashmapPremTerm.put("12 YEARS", 12);
+        hashmapPremTerm.put("13 YEARS", 13);
+        hashmapPremTerm.put("14 YEARS", 14);
+        hashmapPremTerm.put("15 YEARS", 15);
+        hashmapPremTerm.put("16 YEARS", 16);
+        hashmapPremTerm.put("17 YEARS", 17);
+        hashmapPremTerm.put("18 YEARS", 18);
+        hashmapPremTerm.put("19 YEARS", 19);
+        hashmapPremTerm.put("20 YEARS", 20);
+
+        hashmapPremTerm.put("21 YEARS", 21);
+        hashmapPremTerm.put("22 YEARS", 22);
+        hashmapPremTerm.put("23 YEARS", 23);
+        hashmapPremTerm.put("24 YEARS", 24);
+        hashmapPremTerm.put("25 YEARS", 25);
+        hashmapPremTerm.put("26 YEARS", 26);
+        hashmapPremTerm.put("27 YEARS", 27);
+        hashmapPremTerm.put("28 YEARS", 28);
+        hashmapPremTerm.put("29 YEARS", 29);
+        hashmapPremTerm.put("30 YEARS", 30);
+
+        hashmapPremTerm.put("31 YEARS", 31);
+        hashmapPremTerm.put("32 YEARS", 32);
+        hashmapPremTerm.put("33 YEARS", 33);
+        hashmapPremTerm.put("34 YEARS", 34);
+        hashmapPremTerm.put("35 YEARS", 35);
+        hashmapPremTerm.put("36 YEARS", 36);
+        hashmapPremTerm.put("37 YEARS", 37);
+        hashmapPremTerm.put("38 YEARS", 38);
+        hashmapPremTerm.put("39 YEARS", 39);
+        hashmapPremTerm.put("40 YEARS", 40);
+        hashmapPremTerm.put("MAx POLICY TERM", 40);
+
+
     }
     //endregion
 }

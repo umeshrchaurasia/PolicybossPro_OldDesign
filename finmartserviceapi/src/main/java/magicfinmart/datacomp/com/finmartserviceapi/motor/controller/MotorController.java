@@ -148,7 +148,7 @@ public class MotorController implements IMotor {
         motorQuotesNetworkService.getPremiumList(entity).enqueue(new Callback<BikePremiumResponse>() {
             @Override
             public void onResponse(Call<BikePremiumResponse> call, Response<BikePremiumResponse> response) {
-                if (response.body() != null) {
+                if (response.body() != null && response.body().getResponse() != null) {
 
                     BikePremiumResponse bikePremiumResponse = new BikePremiumResponse();
                     if (response.body() != null) {
