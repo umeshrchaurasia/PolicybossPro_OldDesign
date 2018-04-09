@@ -126,6 +126,7 @@ public class kotakpersonalloanActivity extends BaseActivity implements View.OnCl
 
 
         spNoOfDependents = (Spinner) findViewById(R.id.spNoOfDependents);
+
         spSupplementaryCard = (Spinner) findViewById(R.id.spSupplementaryCard);
         spMailingAddress = (Spinner) findViewById(R.id.spMailingAddress);
 
