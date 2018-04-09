@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.onlineexpressloan;
+package com.datacomp.magicfinmart.onlineexpressloan.QuoteList;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -47,8 +47,11 @@ public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedOnlineAdap
     // binds the data to the textview in each cell
     @Override
     public void onBindViewHolder(final AppliedOnlineAdapter.ViewHolder holder, final int position) {
-        AppliedOnlineAdapter.ViewHolder hold = (AppliedOnlineAdapter.ViewHolder) holder;
+
         ExpressQuoteEntity entity = mCreditCardFiltered.get(position);
+
+        AppliedOnlineAdapter.ViewHolder hold = (AppliedOnlineAdapter.ViewHolder) holder;
+
 
         hold.txtAppNo.setText(entity.getApplicationID());
         hold.txtBankName.setText(entity.getBank_Code());

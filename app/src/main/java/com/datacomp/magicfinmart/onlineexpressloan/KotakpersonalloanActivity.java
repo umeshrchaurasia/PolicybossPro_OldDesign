@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.onlineexpressloan;
 
+import android.app.DatePickerDialog;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,19 +12,27 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
 
-public class rblpersonalloanActivity extends AppCompatActivity {
+public class KotakpersonalloanActivity extends BaseActivity implements View.OnClickListener,IResponseSubcriber {
+
+
     CardView ccPersonal, ccCompantDetail, ccCurrentAddress, ccContactDetail;
     CheckBox chkTermsCondition, chkSameAsAbove;
     Button btnICICINext;
@@ -78,11 +87,11 @@ public class rblpersonalloanActivity extends AppCompatActivity {
 
     CCICICIRequestEntity requestEntity;
     CreditCardEntity creditCardEntity;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rblpersonalloan);
+        setContentView(R.layout.activity_kotakpersonalloan);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -90,7 +99,7 @@ public class rblpersonalloanActivity extends AppCompatActivity {
 
         requestEntity = new CCICICIRequestEntity();
         init();
-
+        setListener();
     }
 
     private void init() {
@@ -106,7 +115,7 @@ public class rblpersonalloanActivity extends AppCompatActivity {
         chkTermsCondition = (CheckBox) findViewById(R.id.chkTermsCondition);
         chkSameAsAbove = (CheckBox) findViewById(R.id.chkSameAsAbove);
         btnICICINext = (Button) findViewById(R.id.btnICICINext);
-      //  btnICICINext.setOnClickListener(this);
+        btnICICINext.setOnClickListener(this);
 
         //region personal detail
         etFirstName = (EditText) findViewById(R.id.etFirstName);
@@ -117,6 +126,7 @@ public class rblpersonalloanActivity extends AppCompatActivity {
 
 
         spNoOfDependents = (Spinner) findViewById(R.id.spNoOfDependents);
+
         spSupplementaryCard = (Spinner) findViewById(R.id.spSupplementaryCard);
         spMailingAddress = (Spinner) findViewById(R.id.spMailingAddress);
 
@@ -187,5 +197,61 @@ public class rblpersonalloanActivity extends AppCompatActivity {
 
         rbHaveCC = (RadioButton) findViewById(R.id.rbHaveCC);
         //endregion
+    }
+
+    private void setListener() {
+        etDOB.setOnClickListener(datePickerDialog);
+        btnICICINext.setOnClickListener(this);
+    }
+
+    //region datepicker
+
+    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            if (view.getId() == R.id.etDOB) {
+                DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etDOB.setText(currentDay);
+                        }
+                    }
+                });
+            } else if (view.getId() == R.id.etMemberSince) {
+                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etMemberSince.setText(currentDay);
+                        }
+                    }
+                });
+            }
+
+        }
+    };
+
+    //endregion
+    @Override
+    public void onClick(View v) {
+
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
     }
 }

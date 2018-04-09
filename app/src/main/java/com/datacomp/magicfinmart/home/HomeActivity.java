@@ -26,10 +26,12 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
-import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
+
+import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
@@ -176,7 +178,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     }
                     case R.id.nav_homeloanApplication:
-                        startActivity(new Intent(HomeActivity.this, HomeLoanApplicationActivity.class));
+                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
                     case R.id.nav_offlineQuotes:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));

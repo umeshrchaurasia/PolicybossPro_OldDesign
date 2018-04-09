@@ -21,6 +21,7 @@ import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
+import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
@@ -129,21 +130,19 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                             new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
                             break;
                         case 9:
-                            //Other loan
-//                            String brokerId = "";
-//                            if (dbPersistanceController.getUserData().getLoanId() != null) {
-//                                brokerId = dbPersistanceController.getUserData().getLoanId();
-//                            }
-//                            String source = "DC";
-//                            mContext.startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
-//                                    .putExtra("URL", "http://www.rupeeboss.com/other-loans?brokerId=" + brokerId + "&Source=" + source)
-//                                    .putExtra("NAME", "MAGIC FIN-MART")
-//                                    .putExtra("TITLE", "MAGIC FIN-MART"));
 
                             mContext.startActivity(new Intent(mContext.getActivity(), QuickLeadActivity.class));
                             new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
 
                             break;
+                        case 13:
+
+                            mContext.startActivity(new Intent(mContext.getActivity(), AppliedOnlineLoanListActivity.class));
+                            new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
+
+                            break;
+
+
                         case 2:
                             //fin peace
                             mContext.startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
