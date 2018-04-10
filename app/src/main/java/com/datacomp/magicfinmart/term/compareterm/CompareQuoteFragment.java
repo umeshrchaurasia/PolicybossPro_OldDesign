@@ -70,9 +70,15 @@ public class CompareQuoteFragment extends BaseFragment implements View.OnClickLi
     private void bindHeaders() {
         if (termRequestEntity != null) {
             tvSum.setText("" + termRequestEntity.getSumAssured());
-            tvGender.setText("" + termRequestEntity.getSumAssured());
-            tvSmoker.setText("" + termRequestEntity.getSumAssured());
-            tvAge.setText("" + termRequestEntity.getSumAssured());
+            if (termRequestEntity.getInsuredGender().equals("M"))
+                tvGender.setText("MALE");
+            else
+                tvGender.setText("FEMALE");
+            if (termRequestEntity.getIs_TabaccoUser().equals("true"))
+                tvSmoker.setText("SMOKER");
+            else
+                tvSmoker.setText("NON-SMOKER");
+            tvAge.setText("" + termRequestEntity.getInsuredDOB());
             tvPolicyTerm.setText("" + termRequestEntity.getPolicyTerm() + " YEARS");
             tvCrn.setText("" + termRequestEntity.getSumAssured());
         }
