@@ -103,10 +103,10 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        //((HealthApplicationFragment) fragment).dialNumber(entity.getHealthRequest().getContactMobile());
+                        ((TermApplicationListFragment) fragment).dialNumber(entity.getTermRequestEntity().getContactMobile());
                         break;
                     case R.id.menuSms:
-                        //((HealthApplicationFragment) fragment).sendSms(entity.getHealthRequest().getContactMobile());
+                        ((TermApplicationListFragment) fragment).sendSms(entity.getTermRequestEntity().getContactMobile());
                         break;
 
                 }

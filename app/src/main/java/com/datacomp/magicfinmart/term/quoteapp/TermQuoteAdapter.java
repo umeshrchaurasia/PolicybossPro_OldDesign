@@ -83,13 +83,13 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
                 switch (menuItem.getItemId()) {
                     case R.id.menuCall:
 
-                        // ((HealthQuoteListFragment) mFrament).dialNumber(entity.getHealthRequest().getContactMobile());
+                        ((TermQuoteListFragment) mFrament).dialNumber(entity.getTermRequestEntity().getContactMobile());
                         break;
                     case R.id.menuSms:
-                        // ((HealthQuoteListFragment) mFrament).sendSms(entity.getHealthRequest().getContactMobile());
+                        ((TermQuoteListFragment) mFrament).sendSms(entity.getTermRequestEntity().getContactMobile());
                         break;
                     case R.id.menuDelete:
-                        // ((HealthQuoteListFragment) mFrament).removeQuote(entity);
+                        ((TermQuoteListFragment) mFrament).removeQuote(entity);
                         break;
                 }
                 return false;
@@ -112,7 +112,8 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
             case R.id.txtCustRefNo:
             case R.id.txtPersonName:
             case R.id.txtQuoteDate:
-                //((HealthQuoteListFragment) mFrament).quoteItemClick((HealthQuote) view.getTag(view.getId()));
+                TermFinmartRequest request = (TermFinmartRequest) view.getTag(view.getId());
+                ((TermQuoteListFragment) mFrament).callInputTerm(request.getTermRequestEntity().getInsurerId(), request);
                 break;
             case R.id.txtOverflowMenu:
                 openPopUp(view, (TermFinmartRequest) view.getTag(view.getId()));
