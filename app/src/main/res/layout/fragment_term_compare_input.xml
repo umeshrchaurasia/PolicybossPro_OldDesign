@@ -15,7 +15,7 @@
             android:orientation="vertical">
 
             <include
-                android:id="@+id/layout"
+                android:id="@+id/layoutCompare"
                 layout="@layout/content_term_header" />
 
             <LinearLayout
@@ -24,7 +24,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:background="@color/white"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -112,7 +113,8 @@
 
             <include
                 android:id="@+id/layoutICICI"
-                layout="@layout/content_term_icici" />
+                layout="@layout/content_term_icici"
+                android:visibility="gone" />
 
         </LinearLayout>
     </ScrollView>

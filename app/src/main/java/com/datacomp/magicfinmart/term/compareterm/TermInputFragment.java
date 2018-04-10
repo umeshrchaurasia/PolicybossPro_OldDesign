@@ -14,11 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -50,6 +52,15 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+
+    LinearLayout llCompareAll;
+    View lllayoutICICI;
+
+
+    //region icici form
+    Spinner spOptions, spPremiumTerm, spPremiumFrequency;
+    //endregion
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,10 +78,46 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         adapter_listener();
         if (getArguments() != null) {
             termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
+            enableInputs(getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT));
             bindInput(termFinmartRequest);
         }
         return view;
     }
+
+    private void enableInputs(int insurerId) {
+        switch (insurerId) {
+            case 1001://compare term
+            case 43://edelwise
+            case 28://hdfc
+            case 39://icici
+            case 1://tata aig
+                enableCompareInputs(insurerId);
+                break;
+        }
+    }
+
+    private void enableCompareInputs(int insID) {
+        switch (insID) {
+            case 0://compare term
+                llCompareAll.setVisibility(View.VISIBLE);
+                lllayoutICICI.setVisibility(View.GONE);
+                break;
+            case 43://edelwise
+                break;
+            case 28://hdfc
+                break;
+            case 39://icici
+                llCompareAll.setVisibility(View.GONE);
+                lllayoutICICI.setVisibility(View.VISIBLE);
+                break;
+            case 1://tata aig
+                break;
+            default:
+                break;
+        }
+
+    }
+
 
     private void bindInput(TermFinmartRequest termFinmartRequest) {
         try {
@@ -135,6 +182,11 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         etSumAssured = (EditText) view.findViewById(R.id.etSumAssured);
         spPolicyTerm = (Spinner) view.findViewById(R.id.spPolicyTerm);
         spPremTerm = (Spinner) view.findViewById(R.id.spPremTerm);
+
+
+        //Compare All
+        llCompareAll = (LinearLayout) view.findViewById(R.id.llCompareAll);
+        lllayoutICICI = (View) view.findViewById(R.id.layoutICICI);
     }
 
     @Override
