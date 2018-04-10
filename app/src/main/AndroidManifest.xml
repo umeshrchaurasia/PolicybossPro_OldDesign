@@ -1003,8 +1003,17 @@
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
 
-        <activity android:name=".onlineexpressloan.RblpersonalloanActivity" />
+        <activity android:name=".onlineexpressloan.RblpersonalloanActivity"
+            android:label="RBL PERSONAL LOAN"
+            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
+       </activity>
         <activity android:name=".onlineexpressloan.KotakpersonalloanActivity"></activity>
+
+
     </application>
 
 </manifest>
