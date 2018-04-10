@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -41,10 +42,10 @@ public class DBPersistanceController {
 
     private static final String EXTERNAL_LPG = "External Fitted LPG";
     private static final String EXTERNAL_CNG = "External Fitted CNG";
-    Map<String, Integer> hashMapInsurence;
+    Map<String, Integer> hashMapInsurence,hashmapPremTerm;
     HashMap<String, String> hashMapAddons;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
-    HashMap<String, Integer> hashmapCity, hashmapPremTerm;
+    HashMap<String, Integer> hashmapCity;
     Context mContext;
     Realm realm;
 
@@ -1629,13 +1630,13 @@ public class DBPersistanceController {
     //region term
 
     public List<String> getPremYearList() {
-        hashmapPremTerm = new HashMap<String, Integer>();
+        hashmapPremTerm = new LinkedHashMap<String, Integer>();
         MapPolicyTerm();
         return new ArrayList<String>(hashmapPremTerm.keySet());
     }
 
     public int getPremYearID(String cityName) {
-        hashmapPremTerm = new HashMap<String, Integer>();
+        hashmapPremTerm = new LinkedHashMap<String, Integer>();
         MapPolicyTerm();
         if (hashmapPremTerm.get(cityName) != null) {
             return hashmapPremTerm.get(cityName);
@@ -1646,7 +1647,7 @@ public class DBPersistanceController {
     }
 
     public String getPremYearName(int cityID) {
-        hashmapPremTerm = new HashMap<String, Integer>();
+        hashmapPremTerm = new LinkedHashMap<String, Integer>();
         MapPolicyTerm();
         String HealthCityName = "";
         for (Map.Entry<String, Integer> item : hashmapPremTerm.entrySet()) {
@@ -1699,7 +1700,7 @@ public class DBPersistanceController {
         hashmapPremTerm.put("38 YEARS", 38);
         hashmapPremTerm.put("39 YEARS", 39);
         hashmapPremTerm.put("40 YEARS", 40);
-        hashmapPremTerm.put("MAx POLICY TERM", 40);
+        hashmapPremTerm.put("MAX POLICY TERM", 41);
 
 
     }

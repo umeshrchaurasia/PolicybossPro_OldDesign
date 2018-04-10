@@ -1,16 +1,25 @@
 package com.datacomp.magicfinmart.term.icici;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,7 +31,13 @@ import com.datacomp.magicfinmart.utility.DateTimePicker;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class TermICICIActivity extends BaseActivity implements View.OnClickListener {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
+
+public class TermICICIActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     Button btnGetQuote;
     EditText etFirstName, etLastName, etMobile;
     RadioButton rbMale, rbNoSmoker;
@@ -34,6 +49,11 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+    ArrayAdapter<String> policyOptionsAdapter, policyTermAdapter, premiumFrequencyAdapter;
+
+    LinearLayout llAccidental, llCritical;
+
+    TermFinmartRequest iciciRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +62,169 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        iciciRequest = new TermFinmartRequest();
         init();
         setListener();
         setTextWatcher();
+        bindSpinner();
+
+        llCritical.setVisibility(View.GONE);
+        llAccidental.setVisibility(View.GONE);
+
         etSumAssured.setText("10000000");
+        etCriticalIllness.setText("10000000");
         etPolicyTerm.setText("20");
         etPremiumTerm.setText("20");
 
         etPolicyTerm.setFilters(new InputFilter[]{new InputFilterMinMax("1", "99")});
         etPremiumTerm.setFilters(new InputFilter[]{new InputFilterMinMax("1", "99")});
+    }
+
+    private void bindSpinner() {
+
+        policyTermAdapter = new
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.icici_payment_term)) {
+
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        if (convertView == null) {
+                            LayoutInflater inflater = LayoutInflater.from(TermICICIActivity.this);
+                            convertView = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
+                        }
+                        // android.R.id.text1 is default text view in resource of the android.
+                        // android.R.layout.simple_spinner_item is default layout in resources of android.
+
+                        TextView tv = (TextView) convertView.findViewById(android.R.id.text1);
+                        String[] items = getResources().getStringArray(R.array.icici_payment_term);
+                        tv.setText(items[position]);
+                        tv.setTextColor(Color.BLACK);
+                        tv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                        return convertView;
+                    }
+
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
+        spPremiumTerm.setAdapter(policyTermAdapter);
+
+        policyOptionsAdapter = new
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.icici_options)) {
+
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        if (convertView == null) {
+                            LayoutInflater inflater = LayoutInflater.from(TermICICIActivity.this);
+                            convertView = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
+                        }
+                        // android.R.id.text1 is default text view in resource of the android.
+                        // android.R.layout.simple_spinner_item is default layout in resources of android.
+
+                        TextView tv = (TextView) convertView.findViewById(android.R.id.text1);
+                        String[] items = getResources().getStringArray(R.array.icici_options);
+                        tv.setText(items[position]);
+                        tv.setTextColor(Color.BLACK);
+                        tv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                        return convertView;
+                    }
+
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
+        spOptions.setAdapter(policyOptionsAdapter);
+
+        premiumFrequencyAdapter = new
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.icici_premium_frequency)) {
+
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        if (convertView == null) {
+                            LayoutInflater inflater = LayoutInflater.from(TermICICIActivity.this);
+                            convertView = inflater.inflate(android.R.layout.simple_spinner_item, parent, false);
+                        }
+                        // android.R.id.text1 is default text view in resource of the android.
+                        // android.R.layout.simple_spinner_item is default layout in resources of android.
+
+                        TextView tv = (TextView) convertView.findViewById(android.R.id.text1);
+                        String[] items = getResources().getStringArray(R.array.icici_premium_frequency);
+                        tv.setText(items[position]);
+                        tv.setTextColor(Color.BLACK);
+                        tv.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+                        return convertView;
+                    }
+
+                    @Override
+                    public boolean isEnabled(int position) {
+                        if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        if (position == 0) {
+                            // Set the hint text color gray
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
+                        return view;
+                    }
+                };
+        spPremiumFrequency.setAdapter(premiumFrequencyAdapter);
     }
 
     private void setTextWatcher() {
@@ -62,6 +236,9 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void init() {
+        llAccidental = (LinearLayout) findViewById(R.id.llAccidental);
+        llCritical = (LinearLayout) findViewById(R.id.llCritical);
+
         btnGetQuote = (Button) findViewById(R.id.btnGetQuote);
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
@@ -94,6 +271,10 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
 
     private void setListener() {
         btnGetQuote.setOnClickListener(this);
+        txtLumpSum.setOnClickListener(this);
+        txtRegularIncome.setOnClickListener(this);
+        txtIncreasingIncome.setOnClickListener(this);
+
         etDOB.setOnClickListener(datePickerDialog);
         minusSum.setOnClickListener(this);
         plusSum.setOnClickListener(this);
@@ -106,6 +287,43 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
         minusAcc.setOnClickListener(this);
         plusAcc.setOnClickListener(this);
 
+        spOptions.setOnItemSelectedListener(optionSelected);
+
+    }
+
+    AdapterView.OnItemSelectedListener optionSelected = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            manipulateInputs(spOptions.getSelectedItem().toString());
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private void manipulateInputs(String s) {
+        switch (s.toLowerCase()) {
+            case "life":
+                llCritical.setVisibility(View.GONE);
+                llAccidental.setVisibility(View.GONE);
+                break;
+            case "life plus":
+                llCritical.setVisibility(View.GONE);
+                llAccidental.setVisibility(View.VISIBLE);
+                break;
+            case "life and health":
+                llCritical.setVisibility(View.VISIBLE);
+                llAccidental.setVisibility(View.GONE);
+                break;
+            case "all in one":
+                llCritical.setVisibility(View.VISIBLE);
+                llAccidental.setVisibility(View.VISIBLE);
+                break;
+
+
+        }
     }
 
     class GenericTextWatcher implements TextWatcher {
@@ -152,12 +370,75 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
         }
     };
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnGetQuote:
+
+                //region validation
+
+                if (!isEmpty(etFirstName)) {
+                    etFirstName.setError("Enter First name");
+                    etFirstName.setFocusable(true);
+                    return;
+                } else {
+                    etFirstName.setError(null);
+                }
+
+                if (!isEmpty(etLastName)) {
+                    etLastName.setError("Enter Last name");
+                    etLastName.setFocusable(true);
+                    return;
+                } else {
+                    etLastName.setError(null);
+                }
+
+                if (!isValidePhoneNumber(etMobile)) {
+                    etMobile.setError("Invalid Mobile Number");
+                    etMobile.setFocusable(true);
+                    return;
+                } else {
+                    etMobile.setError(null);
+                }
+
+
+                if (!isEmpty(etDOB)) {
+                    etDOB.setError("Invalid birth date");
+                    etDOB.setFocusable(true);
+                    return;
+                } else {
+                    etDOB.setError(null);
+                }
+
+                //endregion
+                iciciRequest.setTermRequestId(0);
+                TermRequestEntity entity = new TermRequestEntity();
+                entity.setContactName(etFirstName.getText().toString() + " " + etLastName.getText().toString());
+                entity.setContactMobile(etMobile.getText().toString());
+                entity.setSumAssured(etSumAssured.getText().toString());
+                entity.setFrequency(spPremiumFrequency.getSelectedItem().toString());
+                entity.setPlanTaken(spOptions.getSelectedItem().toString());
+                showDialog("Please wait..Fetching quote");
+                new TermInsuranceController(this).getTermInsurer(iciciRequest, this);
+
                 break;
+
+            case R.id.txtLumpSum:
+            case R.id.txtRegularIncome:
+            case R.id.txtIncreasingIncome:
+                incomeSelection(((TextView) v).getText().toString());
+                break;
+
             case R.id.plusSum:
                 changeSumAssured(true);
                 break;
@@ -186,6 +467,28 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+    private void incomeSelection(String s) {
+        switch (s) {
+            case "LUMP SUM":
+                txtLumpSum.setBackgroundResource(R.drawable.customeborder_blue);
+                txtIncreasingIncome.setBackgroundResource(R.drawable.customeborder);
+                txtRegularIncome.setBackgroundResource(R.drawable.customeborder);
+                break;
+            case "REGULAR INCOME":
+                txtLumpSum.setBackgroundResource(R.drawable.customeborder);
+                txtIncreasingIncome.setBackgroundResource(R.drawable.customeborder);
+                txtRegularIncome.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+            case "INCREASING INCOME":
+                txtLumpSum.setBackgroundResource(R.drawable.customeborder);
+                txtIncreasingIncome.setBackgroundResource(R.drawable.customeborder_blue);
+                txtRegularIncome.setBackgroundResource(R.drawable.customeborder);
+                break;
+
+
+        }
     }
 
     private void changePolicyTerm(boolean b) {
