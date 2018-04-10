@@ -1,106 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/layout"
-        layout="@layout/content_term_header" />
-
-    <LinearLayout
-        android:id="@+id/llkfla"
-        style="@style/CardStyle.Home"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="90">
 
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Pin Code">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/etPincode"
-                style="@style/Style.edittext"
-                android:inputType="number"
-                android:maxLength="6" />
+            <include
+                android:id="@+id/layout"
+                layout="@layout/content_term_header" />
 
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Sum Assured">
-
-            <EditText
-                android:id="@+id/etSumAssured"
-                style="@style/Style.edittext"
-                android:inputType="number"
-                android:maxLength="12" />
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
-    <!--MAKE and FUEL-->
-    <LinearLayout
-        style="@style/CardStyle.Home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/llkfla"
-        android:gravity="bottom"
-        android:orientation="horizontal">
-
-        <android.support.design.widget.TextInputLayout
-            style="@style/TextInputLayoutStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Fuel">
-
-            <TextView
+            <LinearLayout
+                android:id="@+id/llCompareAll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Policy Term"
-                android:textColor="@color/blue" />
+                android:layout_margin="8dp"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-            <Spinner
-                android:id="@+id/spPolicyTerm"
-                style="@style/SpinnerStyle.Underlined"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:dropDownWidth="250dp" />
-        </android.support.design.widget.TextInputLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
-        <android.support.design.widget.TextInputLayout
-            style="@style/TextInputLayoutStyle"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Fuel">
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Pin Code">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Premium Term"
-                android:textColor="@color/blue" />
+                        <EditText
+                            android:id="@+id/etPincode"
+                            style="@style/Style.edittext"
+                            android:inputType="number"
+                            android:maxLength="6" />
 
-            <Spinner
-                android:id="@+id/spPremTerm"
-                style="@style/SpinnerStyle.Underlined"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:dropDownWidth="250dp" />
-        </android.support.design.widget.TextInputLayout>
-    </LinearLayout>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Sum Assured">
+
+                        <EditText
+                            android:id="@+id/etSumAssured"
+                            style="@style/Style.edittext"
+                            android:inputType="number"
+                            android:maxLength="12" />
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Fuel">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Policy Term"
+                            android:textColor="@color/blue" />
+
+                        <Spinner
+                            android:id="@+id/spPolicyTerm"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:dropDownWidth="250dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Fuel">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Premium Term"
+                            android:textColor="@color/blue" />
+
+                        <Spinner
+                            android:id="@+id/spPremTerm"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:dropDownWidth="250dp" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/layoutICICI"
+                layout="@layout/content_term_icici" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/btnGetQuote"
         style="@style/ButtonStyle.Colored"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="0dp"
+        android:layout_weight="10"
         android:text="Get quote" />
-</RelativeLayout>
+</LinearLayout>

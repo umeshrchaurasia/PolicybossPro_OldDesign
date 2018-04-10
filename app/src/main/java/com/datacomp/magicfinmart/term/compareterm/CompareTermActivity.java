@@ -18,7 +18,7 @@ import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 
-public class CompareTiACtivity extends BaseActivity {
+public class CompareTermActivity extends BaseActivity {
     private static String INPUT_FRAGMENT = "input_term";
     private static String QUOTE_FRAGMENT = "quote_term";
 
@@ -81,7 +81,7 @@ public class CompareTiACtivity extends BaseActivity {
 //                        loadFragment(inputFragment, INPUT_FRAGMENT);
 //                    }
 
-                    CompareInputFragment inputFragment = new CompareInputFragment();
+                    TermInputFragment inputFragment = new TermInputFragment();
                     inputFragment.setArguments(quoteBundle);
                     loadFragment(inputFragment, INPUT_FRAGMENT);
 
@@ -102,16 +102,16 @@ public class CompareTiACtivity extends BaseActivity {
                     } else {
                         if (quoteBundle != null) {
                             if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
-                                CompareQuoteFragment quoteFragment = new CompareQuoteFragment();
+                                TermQuoteFragment quoteFragment = new TermQuoteFragment();
                                 quoteFragment.setArguments(quoteBundle);
                                 loadFragment(quoteFragment, QUOTE_FRAGMENT);
                             } else {
 
-                                Toast.makeText(CompareTiACtivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CompareTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                             }
                         } else {
 
-                            Toast.makeText(CompareTiACtivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CompareTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -136,7 +136,7 @@ public class CompareTiACtivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        CompareTiACtivity.this.finish();
+        CompareTermActivity.this.finish();
     }
 
     @Override
