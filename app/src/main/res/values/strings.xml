@@ -29,12 +29,12 @@
     <string name="title_activity_add_quote_bottom">Add Quote</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">NOTIFICATION</string>
     <string name="title_activity_add_new_quote">Add Quote</string>
     <string name="title_activity_quote">Quotes</string>
     <string name="title_activity_common_web_view">Web View</string>
     <string name="title_activity_premium_break_up">Premium Details</string>
-    <string name="title_activity_personal_loan_detail">Personal Loan</string>
+    <string name="title_activity_personal_loan_detail">PERSONAL LOAN</string>
     <string name="title_activity_add_quote__pl">Add Quote</string>
     <string name="title_activity_add_plquote">Add Quote</string>
 

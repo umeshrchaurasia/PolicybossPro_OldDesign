@@ -86,9 +86,8 @@ public class RblpersonalloanActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        creditCardEntity = new CreditCardEntity();
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        requestEntity = new CCICICIRequestEntity();
         init();
 
     }

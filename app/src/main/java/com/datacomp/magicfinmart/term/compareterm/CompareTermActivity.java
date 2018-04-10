@@ -152,7 +152,8 @@ public class CompareTermActivity extends BaseActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
     }
 
-    public void redirectToInput() {
+    public void redirectToInput(TermFinmartRequest termFinmartRequest) {
+        this.termFinmartRequest = termFinmartRequest;
         quoteBundle = new Bundle();
         quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
