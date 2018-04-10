@@ -26,13 +26,18 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.creditcard.ICICICreditApplyActivity;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class TermICICIActivity extends BaseActivity implements View.OnClickListener {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
+
+public class TermICICIActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     Button btnGetQuote;
     EditText etFirstName, etLastName, etMobile;
     RadioButton rbMale, rbNoSmoker;
@@ -48,6 +53,8 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
 
     LinearLayout llAccidental, llCritical;
 
+    TermFinmartRequest iciciRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +62,7 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        iciciRequest = new TermFinmartRequest();
         init();
         setListener();
         setTextWatcher();
@@ -64,6 +72,7 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
         llAccidental.setVisibility(View.GONE);
 
         etSumAssured.setText("10000000");
+        etCriticalIllness.setText("10000000");
         etPolicyTerm.setText("20");
         etPremiumTerm.setText("20");
 
@@ -262,6 +271,10 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
 
     private void setListener() {
         btnGetQuote.setOnClickListener(this);
+        txtLumpSum.setOnClickListener(this);
+        txtRegularIncome.setOnClickListener(this);
+        txtIncreasingIncome.setOnClickListener(this);
+
         etDOB.setOnClickListener(datePickerDialog);
         minusSum.setOnClickListener(this);
         plusSum.setOnClickListener(this);
@@ -357,12 +370,75 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
         }
     };
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
+    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnGetQuote:
+
+                //region validation
+
+                if (!isEmpty(etFirstName)) {
+                    etFirstName.setError("Enter First name");
+                    etFirstName.setFocusable(true);
+                    return;
+                } else {
+                    etFirstName.setError(null);
+                }
+
+                if (!isEmpty(etLastName)) {
+                    etLastName.setError("Enter Last name");
+                    etLastName.setFocusable(true);
+                    return;
+                } else {
+                    etLastName.setError(null);
+                }
+
+                if (!isValidePhoneNumber(etMobile)) {
+                    etMobile.setError("Invalid Mobile Number");
+                    etMobile.setFocusable(true);
+                    return;
+                } else {
+                    etMobile.setError(null);
+                }
+
+
+                if (!isEmpty(etDOB)) {
+                    etDOB.setError("Invalid birth date");
+                    etDOB.setFocusable(true);
+                    return;
+                } else {
+                    etDOB.setError(null);
+                }
+
+                //endregion
+                iciciRequest.setTermRequestId(0);
+                TermRequestEntity entity = new TermRequestEntity();
+                entity.setContactName(etFirstName.getText().toString() + " " + etLastName.getText().toString());
+                entity.setContactMobile(etMobile.getText().toString());
+                entity.setSumAssured(etSumAssured.getText().toString());
+                entity.setFrequency(spPremiumFrequency.getSelectedItem().toString());
+                entity.setPlanTaken(spOptions.getSelectedItem().toString());
+                showDialog("Please wait..Fetching quote");
+                new TermInsuranceController(this).getTermInsurer(iciciRequest, this);
+
                 break;
+
+            case R.id.txtLumpSum:
+            case R.id.txtRegularIncome:
+            case R.id.txtIncreasingIncome:
+                incomeSelection(((TextView) v).getText().toString());
+                break;
+
             case R.id.plusSum:
                 changeSumAssured(true);
                 break;
@@ -391,6 +467,28 @@ public class TermICICIActivity extends BaseActivity implements View.OnClickListe
                 break;
         }
 
+    }
+
+    private void incomeSelection(String s) {
+        switch (s) {
+            case "LUMP SUM":
+                txtLumpSum.setBackgroundResource(R.drawable.customeborder_blue);
+                txtIncreasingIncome.setBackgroundResource(R.drawable.customeborder);
+                txtRegularIncome.setBackgroundResource(R.drawable.customeborder);
+                break;
+            case "REGULAR INCOME":
+                txtLumpSum.setBackgroundResource(R.drawable.customeborder);
+                txtIncreasingIncome.setBackgroundResource(R.drawable.customeborder);
+                txtRegularIncome.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+            case "INCREASING INCOME":
+                txtLumpSum.setBackgroundResource(R.drawable.customeborder);
+                txtIncreasingIncome.setBackgroundResource(R.drawable.customeborder_blue);
+                txtRegularIncome.setBackgroundResource(R.drawable.customeborder);
+                break;
+
+
+        }
     }
 
     private void changePolicyTerm(boolean b) {
