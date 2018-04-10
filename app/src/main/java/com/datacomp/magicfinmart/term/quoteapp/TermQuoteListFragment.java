@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
-import com.datacomp.magicfinmart.term.compareterm.CompareTiACtivity;
+import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.icici.TermICICIActivity;
 
 /**
@@ -53,7 +53,7 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
         if (v.getId() == R.id.fbAddQuote) {
             switch (compId) {
                 case 0://compare term
-                    startActivity(new Intent(getActivity(), CompareTiACtivity.class));
+                    startActivity(new Intent(getActivity(), CompareTermActivity.class));
                     break;
                 case 43://edelwise
                     startActivity(new Intent(getActivity(), TermICICIActivity.class));

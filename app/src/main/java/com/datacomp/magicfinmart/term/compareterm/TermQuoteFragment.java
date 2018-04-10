@@ -22,7 +22,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQ
  * Created by Rajeev Ranjan on 06/04/2018.
  */
 
-public class CompareQuoteFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
+public class TermQuoteFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
     TermFinmartRequest termFinmartRequest;
     TermRequestEntity termRequestEntity;
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
@@ -42,9 +42,9 @@ public class CompareQuoteFragment extends BaseFragment implements View.OnClickLi
         initView(view);
         setListener();
         if (getArguments() != null) {
-            if (getArguments().getParcelable(CompareTiACtivity.QUOTE_DATA) != null) {
+            if (getArguments().getParcelable(CompareTermActivity.QUOTE_DATA) != null) {
                 termFinmartRequest = new TermFinmartRequest();
-                termFinmartRequest = getArguments().getParcelable(CompareTiACtivity.QUOTE_DATA);
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.QUOTE_DATA);
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 bindHeaders();
                 fetchQuotes();
