@@ -22,7 +22,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQ
  * Created by Rajeev Ranjan on 06/04/2018.
  */
 
-public class CompareQuoteFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
+public class TermQuoteFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
     TermFinmartRequest termFinmartRequest;
     TermRequestEntity termRequestEntity;
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
@@ -42,9 +42,9 @@ public class CompareQuoteFragment extends BaseFragment implements View.OnClickLi
         initView(view);
         setListener();
         if (getArguments() != null) {
-            if (getArguments().getParcelable(CompareTiACtivity.QUOTE_DATA) != null) {
+            if (getArguments().getParcelable(CompareTermActivity.QUOTE_DATA) != null) {
                 termFinmartRequest = new TermFinmartRequest();
-                termFinmartRequest = getArguments().getParcelable(CompareTiACtivity.QUOTE_DATA);
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.QUOTE_DATA);
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 bindHeaders();
                 fetchQuotes();
@@ -70,9 +70,15 @@ public class CompareQuoteFragment extends BaseFragment implements View.OnClickLi
     private void bindHeaders() {
         if (termRequestEntity != null) {
             tvSum.setText("" + termRequestEntity.getSumAssured());
-            tvGender.setText("" + termRequestEntity.getSumAssured());
-            tvSmoker.setText("" + termRequestEntity.getSumAssured());
-            tvAge.setText("" + termRequestEntity.getSumAssured());
+            if (termRequestEntity.getInsuredGender().equals("M"))
+                tvGender.setText("MALE");
+            else
+                tvGender.setText("FEMALE");
+            if (termRequestEntity.getIs_TabaccoUser().equals("true"))
+                tvSmoker.setText("SMOKER");
+            else
+                tvSmoker.setText("NON-SMOKER");
+            tvAge.setText("" + termRequestEntity.getInsuredDOB());
             tvPolicyTerm.setText("" + termRequestEntity.getPolicyTerm() + " YEARS");
             tvCrn.setText("" + termRequestEntity.getSumAssured());
         }

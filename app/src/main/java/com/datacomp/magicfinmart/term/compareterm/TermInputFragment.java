@@ -34,7 +34,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermReq
  * Created by Rajeev Ranjan on 06/04/2018.
  */
 
-public class CompareInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
+public class TermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
 
     Button btnGetQuote;
     EditText etFirstName, etLastName, etMobile;
@@ -66,7 +66,7 @@ public class CompareInputFragment extends BaseFragment implements View.OnClickLi
 
         adapter_listener();
         if (getArguments() != null) {
-            termFinmartRequest = getArguments().getParcelable(CompareTiACtivity.INPUT_DATA);
+            termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
             bindInput(termFinmartRequest);
         }
         return view;
@@ -144,7 +144,7 @@ public class CompareInputFragment extends BaseFragment implements View.OnClickLi
 
                 if (isValidInput()) {
                     setTermRequest();
-                    ((CompareTiACtivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 }
                 break;
         }

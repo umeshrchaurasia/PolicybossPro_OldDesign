@@ -280,7 +280,7 @@ public class Utility {
             e.printStackTrace();
         }
 
-        Toast.makeText(context, "" + address, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "" + address, Toast.LENGTH_SHORT).show();
         return address;
     }
 
