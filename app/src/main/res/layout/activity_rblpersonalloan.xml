@@ -80,10 +80,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Last Name">
+                            android:hint="Middle Name">
 
                             <EditText
-                                android:id="@+id/etLastName"
+                                android:id="@+id/etMiddleName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
                                 android:inputType="text"
@@ -100,7 +100,23 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:hint="Last Name">
+
+                            <EditText
+                                android:id="@+id/etLastName"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_person"
+                                android:inputType="text"
+                                android:maxLines="1" />
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:hint="Date of Birth">
+
+
 
                             <EditText
                                 android:id="@+id/etDOB"
@@ -110,6 +126,14 @@
 
                         </android.support.design.widget.TextInputLayout>
 
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="0dp">
                         <RadioGroup
                             android:id="@+id/rgGender"
                             android:layout_width="0dp"
@@ -129,7 +153,36 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:text="Female" />
+
+                            <RadioButton
+                                android:id="@+id/rbOther"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:text="Third Gender" />
                         </RadioGroup>
+
+
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="0dp">
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+
+                            android:hint="*E-mail (Personal)">
+
+                            <EditText
+                                android:id="@+id/etEmailPersContInfo"
+                                style="@style/Style.edittext"
+                                android:inputType="textEmailAddress"
+                                android:maxLength="100"
+                                android:maxLines="1" />
+                        </android.support.design.widget.TextInputLayout>
+
 
                     </TableRow>
 
