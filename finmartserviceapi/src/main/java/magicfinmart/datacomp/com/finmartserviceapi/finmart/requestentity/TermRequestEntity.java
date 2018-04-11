@@ -67,7 +67,6 @@ public class TermRequestEntity implements Parcelable {
     }
 
 
-
     private String PolicyCommencementDate;
     private String CityName;
     private String State;
@@ -109,6 +108,26 @@ public class TermRequestEntity implements Parcelable {
     private String ContactEmail;
     private String ContactMobile;
     private String SupportsAgentID;
+
+    private String created_date;
+    private String crn;
+
+
+    public String getCrn() {
+        return crn;
+    }
+
+    public void setCrn(String crn) {
+        this.crn = crn;
+    }
+
+    public String getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(String created_date) {
+        this.created_date = created_date;
+    }
 
     public String getPolicyTerm() {
         return PolicyTerm;
@@ -422,6 +441,7 @@ public class TermRequestEntity implements Parcelable {
         this.SupportsAgentID = SupportsAgentID;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -469,6 +489,8 @@ public class TermRequestEntity implements Parcelable {
         dest.writeString(this.ContactEmail);
         dest.writeString(this.ContactMobile);
         dest.writeString(this.SupportsAgentID);
+        dest.writeString(this.created_date);
+        dest.writeString(this.crn);
     }
 
     public TermRequestEntity() {
@@ -515,6 +537,8 @@ public class TermRequestEntity implements Parcelable {
         this.ContactEmail = in.readString();
         this.ContactMobile = in.readString();
         this.SupportsAgentID = in.readString();
+        this.created_date = in.readString();
+        this.crn = in.readString();
     }
 
     public static final Parcelable.Creator<TermRequestEntity> CREATOR = new Parcelable.Creator<TermRequestEntity>() {

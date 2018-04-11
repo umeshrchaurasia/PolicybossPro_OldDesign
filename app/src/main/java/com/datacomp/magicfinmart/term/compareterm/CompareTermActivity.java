@@ -46,13 +46,22 @@ public class CompareTermActivity extends BaseActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        if (getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT) != null) {
-            termFinmartRequest = getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT);
-            quoteBundle = new Bundle();
-            quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
+        //1. which insurer for enable input
+        //2, check request
+        quoteBundle = new Bundle();
+        if (getIntent().getIntExtra(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT, 0) != 0) {
+            int insurerID = getIntent().getIntExtra(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT, 0);
+            quoteBundle.putInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT, insurerID);
         }
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        if (getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT) != null) {
+            termFinmartRequest = getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT);
+            quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
+        } else {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        }
+
+
     }
 
 
@@ -71,15 +80,6 @@ public class CompareTermActivity extends BaseActivity {
                         quoteBundle = new Bundle();
                         quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
                     }
-
-//                    if (tabFragment != null) {
-//                        tabFragment.setArguments(quoteBundle);
-//                        loadFragment(tabFragment, INPUT_FRAGMENT);
-//                    } else {
-//                        HealthInputFragment inputFragment = new HealthInputFragment();
-//                        inputFragment.setArguments(quoteBundle);
-//                        loadFragment(inputFragment, INPUT_FRAGMENT);
-//                    }
 
                     TermInputFragment inputFragment = new TermInputFragment();
                     inputFragment.setArguments(quoteBundle);

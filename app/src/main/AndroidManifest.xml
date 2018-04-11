@@ -805,7 +805,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".term.termselection.TermSelectionActivity" />
         </activity>
-            android:theme="@style/AppTheme" />
+        android:theme="@style/AppTheme" />
 
         <activity
             android:name=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
@@ -824,8 +824,8 @@
             android:parentActivityName=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
             android:theme="@style/AppTheme">
             <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
         </activity>
 
         <!-- posp app -->
@@ -997,7 +997,9 @@
             android:name=".term.compareterm.CompareTermActivity"
             android:label="@string/title_activity_compare_ti_activity"
             android:parentActivityName=".term.termselection.TermSelectionActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
