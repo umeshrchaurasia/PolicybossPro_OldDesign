@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
@@ -41,7 +42,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsRes
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends BaseFragment implements IResponseSubcriber,ILocationStateListener, BaseFragment.PopUpListener {
+public class DashboardFragment extends BaseFragment implements IResponseSubcriber, ILocationStateListener, BaseFragment.PopUpListener {
 
     RecyclerView rvHome;
     DashboardRowAdapter mAdapter;
@@ -53,6 +54,7 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
     int forceUpdate;
     LocationTracker locationTracker;
     Location location;
+
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -130,6 +132,8 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
         if (response instanceof ConstantsResponse) {
             constantEntity = ((ConstantsResponse) response).getMasterData();
             if (response.getStatusNo() == 0) {
+
+                //region check for new vwesion
                 int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
                 if (pinfo != null && pinfo.versionCode < serverVersionCode) {
                     forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
@@ -144,6 +148,9 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
                         }
                     }
                 }
+                //endregion
+
+                ((HomeActivity) getActivity()).hideNavigationItem();
             }
         }
     }

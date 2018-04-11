@@ -30,8 +30,6 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivi
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
-
-import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
@@ -506,5 +504,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
 
         }
+    }
+
+    public void hideNavigationItem() {
+        Menu nav_Menu = navigationView.getMenu();
+        if (Utility.checkPospTrainingStatus(this) == 1)
+            nav_Menu.findItem(R.id.nav_posptraining).setVisible(true);
+        else
+            nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
     }
 }
