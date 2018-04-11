@@ -40,7 +40,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
     Button btnGetQuote;
     EditText etFirstName, etLastName, etMobile;
-    RadioButton rbMale, rbNoSmoker;
+    RadioButton rbMale, rbfemale, rbNoSmoker, rbYesSmoker;
     EditText etDOB;
 
     EditText etPincode, etSumAssured;
@@ -132,6 +132,15 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPolicyTerm()) - 5));
                 spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPPT()) - 5));
                 etPincode.setText("" + termRequestEntity.getPincode());
+                if (termRequestEntity.getIs_TabaccoUser().equals("true"))
+                    rbYesSmoker.setChecked(true);
+                else
+                    rbNoSmoker.setChecked(true);
+
+                if (termRequestEntity.getInsuredGender().equals("M"))
+                    rbMale.setChecked(true);
+                else
+                    rbfemale.setChecked(true);
             }
 
         } catch (Exception e) {
@@ -175,7 +184,9 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         etLastName = (EditText) view.findViewById(R.id.etLastName);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etDOB = (EditText) view.findViewById(R.id.etDateofBirth);
-        rbMale = (RadioButton) view.findViewById(R.id.rbMale);
+        rbMale = (RadioButton) view.findViewById(R.id.rbmale);
+        rbfemale = (RadioButton) view.findViewById(R.id.rbfemale);
+        rbYesSmoker = (RadioButton) view.findViewById(R.id.rbYesSmoker);
         rbNoSmoker = (RadioButton) view.findViewById(R.id.rbNoSmoker);
 
         etPincode = (EditText) view.findViewById(R.id.etPincode);
@@ -204,8 +215,17 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
     private void setTermRequest() {
         termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
-        termRequestEntity.setInsuredGender("M");
-        termRequestEntity.setIs_TabaccoUser("false");
+
+        if (rbMale.isChecked())
+            termRequestEntity.setInsuredGender("M");
+        else
+            termRequestEntity.setInsuredGender("F");
+
+        if (rbNoSmoker.isChecked())
+            termRequestEntity.setIs_TabaccoUser("false");
+        else
+            termRequestEntity.setIs_TabaccoUser("true");
+
         termRequestEntity.setSumAssured(etSumAssured.getText().toString());
         termRequestEntity.setInsuredDOB(etDOB.getText().toString());
         termRequestEntity.setPaymentModeValue("1");
