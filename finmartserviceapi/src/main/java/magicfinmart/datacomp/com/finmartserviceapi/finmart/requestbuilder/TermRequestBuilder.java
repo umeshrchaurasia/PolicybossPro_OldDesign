@@ -6,6 +6,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BenefitsListResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DeleteTermQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
@@ -32,6 +33,11 @@ public class TermRequestBuilder extends FinmartRetroRequestBuilder {
     }
 
     public interface TermNetworkService {
+
+
+        @Headers("token:" + token)
+        @POST("/api/delete-smart-term-life")
+        Call<DeleteTermQuoteResponse> deleteTermInsurance(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
         @POST("/api/smart-term-life")

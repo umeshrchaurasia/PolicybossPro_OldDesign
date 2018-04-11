@@ -12,4 +12,6 @@ public interface ITermInsurance {
     void getTermQuoteApplicationList(int insurerID, IResponseSubcriber iResponseSubcriber);
 
     void getTermInsurer(TermFinmartRequest termRequestEntity, IResponseSubcriber iResponseSubcriber);
+
+    void deleteTermQuote(String termRequestId, IResponseSubcriber iResponseSubcriber);
 }

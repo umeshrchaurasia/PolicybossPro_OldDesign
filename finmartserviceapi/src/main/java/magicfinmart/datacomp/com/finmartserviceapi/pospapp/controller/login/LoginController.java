@@ -166,4 +166,34 @@ public class LoginController implements ILogin {
             }
         });
     }
+
+    @Override
+    public void loginByFBAId(LoginRequestEntity loginRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+        loginNetworkService.LoginByFBAId(loginRequestEntity).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                try {
+
+                    new LoginFacade(mContext).storeUser(response.body().getResult());
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } catch (InterruptedException e) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(e.getMessage()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
 }
