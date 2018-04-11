@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +26,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFin
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TermApplicationListFragment extends BaseFragment {
+public class TermApplicationListFragment extends BaseFragment implements View.OnClickListener{
 
     List<TermFinmartRequest> listApplication;
     TermApplicationAdapter mAdapter;
@@ -45,6 +47,8 @@ public class TermApplicationListFragment extends BaseFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_term_application, container, false);
         initView(view);
+        setListener();
+        setTextWatcher();
         listApplication = new ArrayList<>();
         if (getArguments().getParcelableArrayList(TermActivityTabsPagerAdapter.TERM_APPLICATION_LIST) != null) {
             listApplication = getArguments().getParcelableArrayList(TermActivityTabsPagerAdapter.TERM_APPLICATION_LIST);
@@ -69,6 +73,42 @@ public class TermApplicationListFragment extends BaseFragment {
         rvTermApplication.setLayoutManager(layoutManager);
     }
 
+    private void setListener() {
+        ivSearch.setOnClickListener(this);
+        ivAdd.setOnClickListener(this);
+        tvAdd.setOnClickListener(this);
+        tvSearch.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.tvSearch:
+            case R.id.ivSearch:
+                if (etSearch.getVisibility() == View.INVISIBLE) {
+                    etSearch.setVisibility(View.VISIBLE);
+                    etSearch.requestFocus();
+                }
+                break;
+        }
+    }
+
+    private void setTextWatcher() {
+        etSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mAdapter.getFilter().filter(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+    }
 }
 
 

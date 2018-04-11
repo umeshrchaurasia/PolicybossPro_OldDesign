@@ -88,7 +88,6 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
 
     private void initView(View view) {
         ivSearch = (ImageView) view.findViewById(R.id.ivSearch);
-
         tvAdd = (TextView) view.findViewById(R.id.tvAdd);
         tvSearch = (TextView) view.findViewById(R.id.tvSearch);
         etSearch = (EditText) view.findViewById(R.id.etSearch);
