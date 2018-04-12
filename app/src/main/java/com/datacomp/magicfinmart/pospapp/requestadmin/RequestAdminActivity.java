@@ -63,7 +63,13 @@ public class RequestAdminActivity extends BaseActivity implements View.OnClickLi
                 loginRequestEntity.setDeviceId(new ReadDeviceID(RequestAdminActivity.this).getAndroidID());
                 loginRequestEntity.setDeviceToken("DEVICE_TOKEN");
                 loginRequestEntity.setIP("");
-                loginRequestEntity.setFBAId(new DBPersistanceController(this).getUserData().getFBAId());
+                try {
+                    loginRequestEntity.setFBAId(Integer.parseInt(new DBPersistanceController(this).getUserData().getPOSPNo()));
+                    //loginRequestEntity.setFBAId(2335);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+               // loginRequestEntity.setFBAId(new DBPersistanceController(this).getUserData().getFBAId());
                 //loginRequestEntity.setFBAId(2335);
                 new LoginController(RequestAdminActivity.this).loginByFBAId(loginRequestEntity, this);
             }
