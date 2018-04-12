@@ -64,6 +64,7 @@ public class RequestAdminActivity extends BaseActivity implements View.OnClickLi
                 loginRequestEntity.setDeviceToken("DEVICE_TOKEN");
                 loginRequestEntity.setIP("");
                 loginRequestEntity.setFBAId(new DBPersistanceController(this).getUserData().getFBAId());
+                //loginRequestEntity.setFBAId(2335);
                 new LoginController(RequestAdminActivity.this).loginByFBAId(loginRequestEntity, this);
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();

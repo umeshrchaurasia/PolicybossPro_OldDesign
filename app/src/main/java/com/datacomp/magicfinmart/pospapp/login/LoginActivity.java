@@ -153,6 +153,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 loginRequestEntity.setDeviceToken("DEVICE_TOKEN");
                 loginRequestEntity.setIP("");
                 loginRequestEntity.setFBAId(new DBPersistanceController(this).getUserData().getFBAId());
+                //loginRequestEntity.setFBAId(2335);
                 txtMessage.setVisibility(View.GONE);
                 tvRqstAdmin.setVisibility(View.GONE);
                 showProgressDialog();
@@ -251,6 +252,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        finish();
                     }
                 });
         AlertDialog alert11 = builder.create();

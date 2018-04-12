@@ -171,7 +171,7 @@ public class Utility {
             if (pospStatus == 6)
                 return 1;
         }
-        return 0;
+        return 1;
     }
 
     public static String getLocalIpAddress(Context context) {
