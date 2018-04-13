@@ -100,7 +100,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
         damageList = getDamageList();
         liabilityList = getLiabilityList();
-        addonList = getAddonList();
+        //addonList = getAddonList();
         addonListNew = getAddonListNew();
         initrecyclers();
         setListeners();
@@ -150,14 +150,14 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         liabilityAdapter = new PremiumBreakUpAdapter(this, liabilityList);
         rvLiability.setAdapter(liabilityAdapter);
 
-        if (addonList != null && addonList.size() > 0) {
+       /* if (addonList != null && addonList.size() > 0) {
             cvAddon.setVisibility(View.VISIBLE);
             rvAddonPremium.setLayoutManager(new LinearLayoutManager(this));
             addonAdapter = new PremiumBreakUpAdapter(this, addonList);
             rvAddonPremium.setAdapter(addonAdapter);
         } else {
             cvAddon.setVisibility(View.GONE);
-        }
+        }*/
 
         if (addonListNew != null && addonListNew.size() > 0) {
             cvAddon.setVisibility(View.VISIBLE);
