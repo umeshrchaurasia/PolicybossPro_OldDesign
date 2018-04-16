@@ -22,7 +22,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.TermActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
-import com.datacomp.magicfinmart.term.icici.TermICICIActivity;
 
 import java.util.ArrayList;
 import java.util.List;
