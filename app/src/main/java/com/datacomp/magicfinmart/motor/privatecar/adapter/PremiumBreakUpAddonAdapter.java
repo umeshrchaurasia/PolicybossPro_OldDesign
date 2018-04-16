@@ -71,11 +71,24 @@ public class PremiumBreakUpAddonAdapter extends RecyclerView.Adapter<PremiumBrea
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    mobileAddOn.setSelected(true);
+                    for (int i = 0; i < listMobileAddOn.size(); i++) {
+                        if (premiumBreakUpAdapterEntity.getName().toLowerCase()
+                                .equals(listMobileAddOn.get(i).getAddonName().toLowerCase())) {
+                            listMobileAddOn.get(i).setSelected(true);
+                        }
+                    }
+
+                    //mobileAddOn.setSelected(true);
                     ((PremiumBreakUpActivity) context).applyPositiveAddons(listMobileAddOn);
                     ((PremiumBreakUpActivity) context).updateAddonToserver(listMobileAddOn);
                 } else {
-                    mobileAddOn.setSelected(false);
+                    for (int i = 0; i < listMobileAddOn.size(); i++) {
+                        if (premiumBreakUpAdapterEntity.getName().toLowerCase()
+                                .equals(listMobileAddOn.get(i).getAddonName().toLowerCase())) {
+                            listMobileAddOn.get(i).setSelected(false);
+                        }
+                    }
+                    //mobileAddOn.setSelected(false);
                     ((PremiumBreakUpActivity) context).applyPositiveAddons(listMobileAddOn);
                     ((PremiumBreakUpActivity) context).updateAddonToserver(listMobileAddOn);
 

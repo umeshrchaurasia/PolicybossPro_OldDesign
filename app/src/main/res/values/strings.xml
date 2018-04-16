@@ -104,6 +104,14 @@
     <!-- Modify Car-->
     <string-array name="pa_cover_car">
         <item>0</item>
+        <item>50000</item>
+        <item>100000</item>
+        <item>150000</item>
+        <item>200000</item>
+    </string-array>
+
+    <string-array name="pa_cover_bike">
+        <item>0</item>
         <item>10000</item>
         <item>20000</item>
         <item>30000</item>
@@ -112,8 +120,15 @@
         <item>100000</item>
         <item>200000</item>
     </string-array>
-
     <string-array name="voluntary_car">
+        <item>0</item>
+        <item>2500</item>
+        <item>5000</item>
+        <item>7500</item>
+        <item>15000</item>
+    </string-array>
+
+    <string-array name="voluntary_bike">
         <item>0</item>
         <item>500</item>
         <item>750</item>

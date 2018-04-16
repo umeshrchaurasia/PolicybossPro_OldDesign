@@ -27,6 +27,11 @@ public class ConstantEntity extends RealmObject {
     private String ROILABL;
     private String POSPNo;
     private String POSPStat;
+    /**
+     * POSPTraining : 1
+     */
+
+    private String POSPTraining;
 
     public String getVersionCode() {
         return VersionCode;
@@ -98,5 +103,13 @@ public class ConstantEntity extends RealmObject {
 
     public void setPOSPStat(String POSPStat) {
         this.POSPStat = POSPStat;
+    }
+
+    public String getPOSPTraining() {
+        return POSPTraining;
+    }
+
+    public void setPOSPTraining(String POSPTraining) {
+        this.POSPTraining = POSPTraining;
     }
 }
