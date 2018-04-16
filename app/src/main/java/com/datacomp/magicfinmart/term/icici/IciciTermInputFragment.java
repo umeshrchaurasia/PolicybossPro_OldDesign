@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.compareterm;
+package com.datacomp.magicfinmart.term.icici;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -17,14 +17,18 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -32,7 +36,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
 
-public class TermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
+public class IciciTermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
 
     Button btnGetQuote;
     EditText etFirstName, etLastName, etMobile;
@@ -49,13 +53,28 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     LinearLayout llCompareAll;
+
+    //region icici form
+    Spinner spICICIOptions, spICICIPremiumTerm, spICICIPremiumFrequency;
+    TextView txtICICILumpSum, txtICICIRegularIncome, txtICICIIncreasingIncome;
+    EditText etSumICICIAssured, etICICIPolicyTerm, etICICIPremiumTerm, etICICICriticalIllness, etICICIAccidentalBenefits;
+    Button minusICICISum, plusICICISum, minusICICIPTerm, plusICICIPTerm,
+            minusICICIPreTerm, plusICICIPreTerm, minusICICICritical, plusICICICritical, minusICICIAcc, plusICICIAcc;
+
+
+    ArrayAdapter<String> policyOptionsAdapter, policyTermAdapter, premiumFrequencyAdapter;
+
+
+    LinearLayout llICICIAccidental, llICICICritical;
+    //endregion
+
     int insurerID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_term_compare_input, container, false);
+        View view = inflater.inflate(R.layout.fragment_icici_term_input, container, false);
         init(view);
         setListener();
         // set initial values
@@ -63,18 +82,115 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         policyYear = dbPersistanceController.getPremYearList();
         termRequestEntity = new TermRequestEntity();
         termFinmartRequest = new TermFinmartRequest();
-        init_adapters();
+        //init_adapters();
 
-        adapter_listener();
+        //adapter_listener();
         if (getArguments() != null) {
-            if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null)
-                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
+            termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
             insurerID = getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT);
+            bindICICI();
             bindInput(termFinmartRequest);
         }
         return view;
     }
 
+    private void bindICICI() {
+        etSumICICIAssured.setText("10000000");
+        etICICICriticalIllness.setText("10000000");
+        etICICIPolicyTerm.setText("20");
+        etICICIPremiumTerm.setText("20");
+
+        //by default Regular pay selected.
+        spICICIPremiumTerm.setSelection(0);
+    }
+
+    AdapterView.OnItemSelectedListener optionSelected = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (parent.getId() == R.id.spICICIOptions) {
+                manipulateInputs(spICICIOptions.getSelectedItem().toString());
+
+            } else if (parent.getId() == R.id.spICICIPremiumTerm) {
+
+                String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
+                String[] listPremiumFrequency = getActivity().getResources()
+                        .getStringArray(R.array.icici_premium_frequency);
+
+                final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
+                final List<String> premiumFreqList = new ArrayList<>(Arrays.asList(listPremiumFrequency));
+
+                switch (spICICIPremiumTerm.getSelectedItemPosition()) {
+                    case 0:
+                    case 2://show all
+                        break;
+                    case 1:
+                        optionsList.remove("LIFE AND HEALTH");
+                        optionsList.remove("ALL IN ONE");
+
+                        premiumFreqList.remove("HALF YEARLY");
+                        premiumFreqList.remove("MONTHLY");
+
+                        break;
+
+                }
+
+                ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
+                        , android.R.layout.simple_spinner_item
+                        , optionsList);
+
+                spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spICICIOptions.setAdapter(spAdapterOptions);
+
+                ArrayAdapter<String> spAdapterPremiumFreq = new ArrayAdapter<String>(getActivity()
+                        , android.R.layout.simple_spinner_item
+                        , premiumFreqList);
+
+                spAdapterPremiumFreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spICICIPremiumFrequency.setAdapter(spAdapterPremiumFreq);
+
+
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    private void manipulateInputs(String s) {
+        switch (s.toLowerCase()) {
+            case "LIFE":
+                llICICICritical.setVisibility(View.GONE);
+                llICICIAccidental.setVisibility(View.GONE);
+                break;
+            case "LIFE PLUS":
+                llICICICritical.setVisibility(View.GONE);
+                llICICIAccidental.setVisibility(View.VISIBLE);
+                break;
+            case "LIFE AND HEALTH":
+                llICICICritical.setVisibility(View.VISIBLE);
+                llICICIAccidental.setVisibility(View.GONE);
+                setDefaultValues("LIFE AND HEALTH");
+                break;
+            case "ALL IN ONE":
+                llICICICritical.setVisibility(View.VISIBLE);
+                llICICIAccidental.setVisibility(View.VISIBLE);
+                break;
+
+
+        }
+    }
+
+    private void setDefaultValues(String strOptions) {
+        if (strOptions.equals("LIFE AND HEALTH")) {
+            etICICICriticalIllness.setText("100000");
+        } else if (strOptions.equals("LIFE PLUS")) {
+
+        } else if (strOptions.equals("ALL IN ONE")) {
+
+        }
+    }
 
     private void bindInput(TermFinmartRequest termFinmartRequest) {
         try {
@@ -87,7 +203,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 etLastName.setText("" + splitStr[1]);
                 etMobile.setText("" + termRequestEntity.getContactMobile());
                 spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPolicyTerm()) - 5));
-                spPremTerm.setSelection((Integer.parseInt(termRequestEntity.getPPT()) - 5));
+                spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPPT()) - 5));
                 etPincode.setText("" + termRequestEntity.getPincode());
                 if (termRequestEntity.getIs_TabaccoUser().equals("true"))
                     rbYesSmoker.setChecked(true);
@@ -109,6 +225,23 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     private void setListener() {
         btnGetQuote.setOnClickListener(this);
         etDOB.setOnClickListener(datePickerDialog);
+
+        txtICICILumpSum.setOnClickListener(this);
+        txtICICIRegularIncome.setOnClickListener(this);
+        txtICICIIncreasingIncome.setOnClickListener(this);
+
+        minusICICISum.setOnClickListener(this);
+        plusICICISum.setOnClickListener(this);
+        minusICICIPTerm.setOnClickListener(this);
+        plusICICIPTerm.setOnClickListener(this);
+        minusICICIPreTerm.setOnClickListener(this);
+        plusICICIPreTerm.setOnClickListener(this);
+        minusICICICritical.setOnClickListener(this);
+        plusICICICritical.setOnClickListener(this);
+        minusICICIAcc.setOnClickListener(this);
+        plusICICIAcc.setOnClickListener(this);
+        spICICIOptions.setOnItemSelectedListener(optionSelected);
+        spICICIPremiumTerm.setOnItemSelectedListener(optionSelected);
     }
 
     private void adapter_listener() {
@@ -154,7 +287,34 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
         //Compare All
         llCompareAll = (LinearLayout) view.findViewById(R.id.llCompareAll);
+        //lllayoutICICI = (View) view.findViewById(R.id.layoutICICI);
 
+        //region icici id
+        llICICIAccidental = (LinearLayout) view.findViewById(R.id.llAccidental);
+        llICICICritical = (LinearLayout) view.findViewById(R.id.llCritical);
+        spICICIOptions = (Spinner) view.findViewById(R.id.spICICIOptions);
+        spICICIPremiumTerm = (Spinner) view.findViewById(R.id.spICICIPremiumTerm);
+        spICICIPremiumFrequency = (Spinner) view.findViewById(R.id.spICICIPremiumFrequency);
+
+        txtICICILumpSum = (TextView) view.findViewById(R.id.txtICICILumpSum);
+        txtICICIRegularIncome = (TextView) view.findViewById(R.id.txtICICIRegularIncome);
+        txtICICIIncreasingIncome = (TextView) view.findViewById(R.id.txtICICIIncreasingIncome);
+        etSumICICIAssured = (EditText) view.findViewById(R.id.etICICISumAssured);
+        etICICIPolicyTerm = (EditText) view.findViewById(R.id.etICICIPolicyTerm);
+        etICICIPremiumTerm = (EditText) view.findViewById(R.id.etICICIPremiumTerm);
+        etICICICriticalIllness = (EditText) view.findViewById(R.id.etICICICriticalIllness);
+        etICICIAccidentalBenefits = (EditText) view.findViewById(R.id.etICICIAccidentalBenefits);
+        minusICICISum = (Button) view.findViewById(R.id.minusICICISum);
+        plusICICISum = (Button) view.findViewById(R.id.plusICICISum);
+        minusICICIPTerm = (Button) view.findViewById(R.id.minusICICIPTerm);
+        plusICICIPTerm = (Button) view.findViewById(R.id.plusICICIPTerm);
+        minusICICIPreTerm = (Button) view.findViewById(R.id.minusICICIPreTerm);
+        plusICICIPreTerm = (Button) view.findViewById(R.id.plusICICIPreTerm);
+        minusICICICritical = (Button) view.findViewById(R.id.minusICICICritical);
+        plusICICICritical = (Button) view.findViewById(R.id.plusICICICritical);
+        minusICICIAcc = (Button) view.findViewById(R.id.minusICICIAcc);
+        plusICICIAcc = (Button) view.findViewById(R.id.plusICICIAcc);
+        //end region
     }
 
     @Override
@@ -167,9 +327,119 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                     ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 }
                 break;
+            case R.id.txtICICILumpSum:
+            case R.id.txtICICIRegularIncome:
+            case R.id.txtICICIIncreasingIncome:
+                incomeSelection(((TextView) view).getText().toString());
+                break;
+            case R.id.plusICICISum:
+                changeSumAssured(true);
+                break;
+            case R.id.minusICICISum:
+                changeSumAssured(false);
+                break;
+            case R.id.plusICICIPTerm:
+                changePolicyTerm(true);
+                break;
+            case R.id.minusICICIPTerm:
+                changePolicyTerm(false);
+                break;
+            case R.id.plusICICIPreTerm:
+                changePremiumTerm(true);
+                break;
+            case R.id.minusICICIPreTerm:
+                changePremiumTerm(false);
+                break;
+
+            case R.id.plusICICICritical:
+                changeCriticalIllness(true);
+                break;
+            case R.id.minusICICICritical:
+                changeCriticalIllness(false);
+                break;
         }
     }
 
+    private void changeCriticalIllness(boolean b) {
+        long ccIllness = Integer.parseInt(etICICICriticalIllness.getText().toString());
+
+        if (b) {
+            ccIllness = ccIllness + 100000;
+            if (ccIllness >= 10000000) {
+                if (ccIllness >= Integer.parseInt(etSumICICIAssured.getText().toString())) {
+                    ccIllness = Integer.parseInt(etSumICICIAssured.getText().toString());
+                }
+            }
+        } else {
+
+        }
+
+        etICICICriticalIllness.setText("" + ccIllness);
+    }
+
+    private void changePolicyTerm(boolean b) {
+        int policyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString());
+        if (b) {
+            policyTerm = policyTerm + 1;
+        } else {
+            if (policyTerm > 1)
+                policyTerm = policyTerm - 1;
+            else
+                policyTerm = 1;
+        }
+
+        etICICIPolicyTerm.setText("" + policyTerm);
+    }
+
+    private void changePremiumTerm(boolean b) {
+        int premiumTerm = Integer.parseInt(etICICIPremiumTerm.getText().toString());
+        if (b) {
+            premiumTerm = premiumTerm + 1;
+        } else {
+            if (premiumTerm > 1)
+                premiumTerm = premiumTerm - 1;
+            else
+                premiumTerm = 1;
+        }
+
+        etICICIPremiumTerm.setText("" + premiumTerm);
+    }
+
+    private void changeSumAssured(boolean b) {
+        int sumAssured = Integer.parseInt(etSumICICIAssured.getText().toString());
+        if (b) {
+            sumAssured = sumAssured + 500000;
+        } else {
+            if (sumAssured > 2500000)
+                sumAssured = sumAssured - 500000;
+            else
+                sumAssured = 2500000;
+        }
+
+        etSumICICIAssured.setText("" + sumAssured);
+    }
+
+    private void incomeSelection(String s) {
+        switch (s) {
+            case "LUMP SUM":
+                txtICICILumpSum.setBackgroundResource(R.drawable.customeborder_blue);
+                txtICICIIncreasingIncome.setBackgroundResource(R.drawable.customeborder);
+                txtICICIRegularIncome.setBackgroundResource(R.drawable.customeborder);
+                break;
+            case "REGULAR INCOME":
+                txtICICILumpSum.setBackgroundResource(R.drawable.customeborder);
+                txtICICIIncreasingIncome.setBackgroundResource(R.drawable.customeborder);
+                txtICICIRegularIncome.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+            case "INCREASING INCOME":
+                txtICICILumpSum.setBackgroundResource(R.drawable.customeborder);
+                txtICICIIncreasingIncome.setBackgroundResource(R.drawable.customeborder_blue);
+                txtICICIRegularIncome.setBackgroundResource(R.drawable.customeborder);
+                break;
+
+
+        }
+    }
 
     private void setTermRequest() {
         termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
@@ -211,12 +481,12 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
-        dialog.cancel();
+
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-        dialog.cancel();
+
     }
 
     public boolean isValidInput() {

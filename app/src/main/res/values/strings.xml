@@ -503,22 +503,23 @@
 
     <!--Term icici-->
     <string-array name="icici_options">
-        <item>Life</item>
-        <item>Life plus</item>
-        <item>Life and health</item>
-        <item>All in one</item>
+        <item>LIFE</item>
+        <item>LIFE PLUS</item>
+        <item>LIFE AND HEALTH</item>
+        <item>ALL IN ONE</item>
     </string-array>
 
     <string-array name="icici_premium_frequency">
-        <item>Yearly</item>
-        <item>Half Yearly</item>
-        <item>Monthly</item>
+        <item>YEARLY</item>
+        <item>HALF YEARLY</item>
+        <item>MONTHLY</item>
     </string-array>
 
     <string-array name="icici_payment_term">
-        <item>Regular Pay</item>
-        <item>Single Pay</item>
-        <item>Limited Pay</item>
+        <item>REGULAR PAY</item>
+        <item>SINGLE PAY</item>
+        <item>LIMITED PAY</item>
     </string-array>
     <string name="title_activity_compare_ti_activity">COMPARE TERM INSURANCE</string>
+    <string name="title_activity_icici_term">ICICI TERM</string>
 </resources>

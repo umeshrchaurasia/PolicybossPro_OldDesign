@@ -6,185 +6,167 @@
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <android.support.v7.widget.CardView
-        android:id="@+id/llPersonalInfo"
-        style="@style/CardStyle.Home"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible">
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:animateLayoutChanges="true"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:layout_weight="1"
+            android:hint="First Name">
+
+            <EditText
+                android:id="@+id/etFirstName"
+                style="@style/Style.edittext"
+                android:drawableRight="@drawable/vector_person" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Last Name">
+
+            <EditText
+                android:id="@+id/etLastName"
+                style="@style/Style.edittext"
+                android:drawableRight="@drawable/vector_person" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="top"
+        android:orientation="horizontal"
+        android:weightSum="100">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:hint="Smoker">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Gender"
+                android:textSize="10sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="First Name">
-
-                    <EditText
-                        android:id="@+id/etFirstName"
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_person" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Last Name">
-
-                    <EditText
-                        android:id="@+id/etLastName"
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_person" />
-                </android.support.design.widget.TextInputLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="top"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:weightSum="100">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
+                <RadioGroup
+                    android:id="@+id/rgGender"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
-                    android:hint="Smoker">
+                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Gender"
-                        android:textSize="10sp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <RadioButton
+                        android:id="@+id/rbmale"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="100">
+                        android:checked="true"
+                        android:text="Male" />
 
-                        <RadioGroup
-                            android:id="@+id/rgGender"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="50"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/rbmale"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:checked="true"
-                                android:text="Male" />
-
-                            <RadioButton
-                                android:id="@+id/rbfemale"
-                                android:layout_width="wrap_content"
-                                android:layout_height="match_parent"
-                                android:text="Female" />
-                        </RadioGroup>
-                    </LinearLayout>
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="50"
-                    android:hint="Date of Birth">
-
-                    <EditText
-                        android:id="@+id/etDateofBirth"
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_date"
-                        android:focusable="false" />
-                </android.support.design.widget.TextInputLayout>
-
+                    <RadioButton
+                        android:id="@+id/rbfemale"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="Female" />
+                </RadioGroup>
             </LinearLayout>
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="50"
+            android:hint="Date of Birth">
+
+            <EditText
+                android:id="@+id/etDateofBirth"
+                style="@style/Style.edittext"
+                android:drawableRight="@drawable/vector_date"
+                android:focusable="false" />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Mobile">
+
+            <EditText
+                android:id="@+id/etMobile"
+                style="@style/Style.edittext"
+                android:drawableRight="@drawable/vector_mobile"
+                android:inputType="number"
+                android:maxLength="10" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Smoker">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Smoker"
+                android:textSize="10sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="100">
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
+                <RadioGroup
+                    android:id="@+id/rgSmoker"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Mobile">
+                    android:layout_weight="50"
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/etMobile"
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_mobile"
-                        android:inputType="number"
-                        android:maxLength="10" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="Smoker">
-
-                    <TextView
-                        android:layout_width="match_parent"
+                    <RadioButton
+                        android:id="@+id/rbYesSmoker"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Smoker"
-                        android:textSize="10sp" />
+                        android:layout_weight="50"
+                        android:text="YES" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal"
-                        android:weightSum="100">
-
-                        <RadioGroup
-                            android:id="@+id/rgSmoker"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="50"
-                            android:orientation="horizontal">
-
-                            <RadioButton
-                                android:id="@+id/rbYesSmoker"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="50"
-                                android:text="YES" />
-
-                            <RadioButton
-                                android:id="@+id/rbNoSmoker"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="50"
-                                android:checked="true"
-                                android:text="NO" />
-                        </RadioGroup>
-                    </LinearLayout>
-                </android.support.design.widget.TextInputLayout>
+                    <RadioButton
+                        android:id="@+id/rbNoSmoker"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:checked="true"
+                        android:text="NO" />
+                </RadioGroup>
             </LinearLayout>
-
-
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
 
 
 </LinearLayout>
