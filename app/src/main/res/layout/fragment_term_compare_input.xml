@@ -18,18 +18,21 @@
                 android:id="@+id/layoutCompare"
                 layout="@layout/content_term_header" />
 
+            <!--Compare UI-->
             <LinearLayout
                 android:id="@+id/llCompareAll"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:background="@color/white"
+                android:background="@drawable/linearcardview_style"
                 android:orientation="vertical"
                 android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -53,11 +56,11 @@
                         android:hint="Sum Assured">
 
                         <EditText
-                            android:text="10000000"
                             android:id="@+id/etSumAssured"
                             style="@style/Style.edittext"
                             android:inputType="number"
-                            android:maxLength="12" />
+                            android:maxLength="12"
+                            android:text="10000000" />
                     </android.support.design.widget.TextInputLayout>
 
                 </LinearLayout>
@@ -73,11 +76,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Fuel">
+                        android:hint="">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
                             android:text="Policy Term"
                             android:textColor="@color/blue" />
 
@@ -99,6 +103,7 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
                             android:text="Premium Term"
                             android:textColor="@color/blue" />
 
@@ -112,10 +117,11 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <!--Compare ICICI-->
             <include
                 android:id="@+id/layoutICICI"
                 layout="@layout/content_term_icici"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
         </LinearLayout>
     </ScrollView>

@@ -503,7 +503,6 @@
 
     <!--Term icici-->
     <string-array name="icici_options">
-        <item>Option</item>
         <item>Life</item>
         <item>Life plus</item>
         <item>Life and health</item>
@@ -511,14 +510,12 @@
     </string-array>
 
     <string-array name="icici_premium_frequency">
-        <item>Premium Frequency</item>
         <item>Yearly</item>
         <item>Half Yearly</item>
         <item>Monthly</item>
     </string-array>
 
     <string-array name="icici_payment_term">
-        <item>Payment Term</item>
         <item>Regular Pay</item>
         <item>Single Pay</item>
         <item>Limited Pay</item>
