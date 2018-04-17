@@ -805,7 +805,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".term.termselection.TermSelectionActivity" />
         </activity>
-            android:theme="@style/AppTheme" />
 
         <activity
             android:name=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
@@ -826,6 +825,16 @@
             <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value="com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
+        </activity>
+
+        <activity android:name=".onlineexpressloan.RblpersonalloanActivity"
+            android:label="RBL PERSONAL LOAN"
+            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
 
         <!-- posp app -->
@@ -1003,14 +1012,7 @@
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
 
-        <activity android:name=".onlineexpressloan.RblpersonalloanActivity"
-            android:label="RBL PERSONAL LOAN"
-            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
-       </activity>
+
         <activity android:name=".onlineexpressloan.KotakpersonalloanActivity"></activity>
 
 

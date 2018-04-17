@@ -4,9 +4,12 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.RBLPesonalLoanReqEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.SaveExpressLoanRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressLoanListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressQuoteListResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressRbPersonalResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressRblCalResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder.MotorQuotesRequestBuilder;
@@ -45,6 +48,16 @@ public class ExpressLoanRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/save-loan")
         Call<ExpressSaveResponse> saveExpressLoan(@Body SaveExpressLoanRequestEntity body);
+
+         // RBL Personal Loan
+
+        @Headers("token:" + token)
+        @POST("/api/rb-personal-loan")
+        Call<ExpressRbPersonalResponse> saveRblPersonalLoan(@Body RBLPesonalLoanReqEntity body);
+
+        @Headers("token:" + token)
+        @POST("/api/get-rbl-pl-calc")
+        Call<ExpressRblCalResponse> getRblCalc (@Body HashMap<String, String> body);
 
 
 //        @POST("/quote/premium_list_db")
