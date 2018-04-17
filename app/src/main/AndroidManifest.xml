@@ -448,7 +448,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
         <activity
             android:name=".knowledgeguru.KnowledgeGuruWebviewActivity"
             android:label="@string/title_activity_knowledge_guru_webview"
@@ -789,7 +788,6 @@
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -800,13 +798,11 @@
             android:parentActivityName=".term.termselection.TermSelectionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".term.termselection.TermSelectionActivity" />
         </activity>
-            android:theme="@style/AppTheme" />
-
+        android:theme="@style/AppTheme" />
         <activity
             android:name=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
             android:label="EXPRESS LOAN"
@@ -816,16 +812,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
-
         <activity
             android:name=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:label="@string/title_activity_bank_loan_list"
             android:parentActivityName=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
             android:theme="@style/AppTheme">
             <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value="com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
         </activity>
 
         <!-- posp app -->
@@ -1002,18 +996,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
-
-        <activity android:name=".onlineexpressloan.RblpersonalloanActivity"
+        <activity
+            android:name=".onlineexpressloan.RblpersonalloanActivity"
             android:label="RBL PERSONAL LOAN"
             android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
-       </activity>
-        <activity android:name=".onlineexpressloan.KotakpersonalloanActivity"></activity>
-
-
+        </activity>
+        <activity android:name=".onlineexpressloan.KotakpersonalloanActivity" />
+        <activity android:name=".onlineexpressloan.HdfcpersonalloanActivity"></activity>
     </application>
 
 </manifest>

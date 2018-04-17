@@ -509,4 +509,12 @@
         <item>Limited Pay</item>
     </string-array>
     <string name="title_activity_compare_ti_activity">COMPARE TERM INSURANCE</string>
+
+    <string-array name="educationList">
+        <item>Under Graduate</item>
+        <item>Professional</item>
+        <item>Graduate/Diploma</item>
+        <item>Post Graduate</item>
+    </string-array>
+
 </resources>
