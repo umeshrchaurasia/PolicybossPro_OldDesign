@@ -110,7 +110,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="25"
                 android:minHeight="0dp"
-                android:text="Info"
+                android:text=""
+
                 android:textAllCaps="true"
                 android:textColor="@color/description_text" />
 
