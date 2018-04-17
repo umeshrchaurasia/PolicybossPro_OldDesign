@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/FM-ANDROID.iml" filepath="$PROJECT_DIR$/FM-ANDROID.iml" />
+      <module fileurl="file://D:\Rajeev\AndroidProjects\FM-ANDROID\FM-ANDROID.iml" filepath="D:\Rajeev\AndroidProjects\FM-ANDROID\FM-ANDROID.iml" />
       <module fileurl="file://D:\MaginFinmart\FM-ANDROID.iml" filepath="D:\MaginFinmart\FM-ANDROID.iml" />
       <module fileurl="file://D:\MaginFinmart\.idea\FM-ANDROID.iml" filepath="D:\MaginFinmart\.idea\FM-ANDROID.iml" />
       <module fileurl="file://C:\Umesh\FM-ANDROID\MaginFinmart.iml" filepath="C:\Umesh\FM-ANDROID\MaginFinmart.iml" />

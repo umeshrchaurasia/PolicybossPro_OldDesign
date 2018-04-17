@@ -19,6 +19,9 @@
         <LinearLayout
             android:id="@+id/rlPersonalInfo"
             style="@style/HeaderLayout"
+            android:layout_marginLeft="@dimen/view_spacing_small"
+            android:layout_marginRight="@dimen/view_spacing_small"
+            android:layout_marginTop="@dimen/view_spacing_small"
             android:gravity="center"
             android:paddingLeft="@dimen/view_spacing_small"
             android:weightSum="100">
@@ -30,16 +33,16 @@
                 android:layout_weight="90"
                 android:text="Personal Information"
                 android:textAllCaps="true"
-                android:textAppearance="@style/TextStyle.Body1"
+                android:textAppearance="@style/TextStyle.TextMedium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/ivPersonalInfo"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="10"
-                android:padding="2dp"
+                android:padding="8dp"
                 android:src="@drawable/down_arrow" />
 
 
@@ -50,6 +53,7 @@
             style="@style/CardStyle.Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="0dp"
             android:visibility="visible">
 
             <LinearLayout
@@ -62,6 +66,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -93,6 +98,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:gravity="top"
                     android:orientation="horizontal"
                     android:weightSum="100">
@@ -110,26 +116,85 @@
                             android:focusable="false" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <ImageView
-                        android:id="@+id/ivMale"
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="25"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/male_selected" />
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="50"
+                        android:orientation="vertical">
 
-                    <ImageView
-                        android:id="@+id/ivFemale"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="25"
-                        android:scaleType="centerInside"
-                        android:src="@drawable/female" />
+                        <TextView
+                            android:id="@+id/textView3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            style="@style/TextStyle.TextMedium"
+                            android:text="Gender" />
+
+
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:weightSum="100">
+
+                            <TextView
+                                android:id="@+id/txtMale"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                android:layout_weight="50"
+                                android:background="@drawable/customeborder_blue"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="Male"
+                                android:textColor="@color/colorPrimary" />
+
+                            <TextView
+
+                                android:id="@+id/txtFemale"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="50"
+                                android:background="@drawable/customeborder"
+                                android:gravity="center"
+                                android:padding="5dp"
+                                android:text="Female"
+                                android:textColor="@color/description_text" />
+
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/ivMale"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_weight="25"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/male_selected" />-->
+
+                    <!--<ImageView-->
+                        <!--android:id="@+id/ivFemale"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_height="match_parent"-->
+                        <!--android:layout_weight="25"-->
+                        <!--android:scaleType="centerInside"-->
+                        <!--android:src="@drawable/female" />-->
+
+
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -166,6 +231,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:hint="Email">
 
                     <EditText
@@ -179,6 +245,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:hint="Confirm Email">
 
                     <EditText
@@ -192,6 +259,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -211,6 +279,7 @@
 
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="0dp"
+
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="City">
@@ -226,6 +295,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
                     android:hint="State">
 
                     <EditText
@@ -241,6 +311,8 @@
         <LinearLayout
             android:id="@+id/rlProfessionalInfo"
             style="@style/HeaderLayout"
+            android:layout_marginLeft="@dimen/view_spacing_small"
+            android:layout_marginRight="@dimen/view_spacing_small"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:paddingLeft="@dimen/view_spacing_small"
@@ -253,16 +325,16 @@
                 android:layout_weight="90"
                 android:text="Professional Information"
                 android:textAllCaps="true"
-                android:textAppearance="@style/TextStyle.Body1"
+                android:textAppearance="@style/TextStyle.TextMedium"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/ivProfessionalInfo"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="10"
-                android:padding="2dp"
+                android:padding="8dp"
                 android:src="@drawable/down_arrow" />
 
 
@@ -273,10 +345,11 @@
             style="@style/CardStyle.Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible">
+            android:layout_marginTop="4dp"
+            android:visibility="visible"
+            app:cardCornerRadius="0dp">
 
             <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
@@ -366,6 +439,7 @@
                         android:text="Bonds/CFDs" />
                 </LinearLayout>
 
+
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -373,11 +447,13 @@
             android:id="@+id/btnSubmit"
             style="@style/ButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/view_spacing_small"
+            android:layout_marginRight="@dimen/view_spacing_small"
             android:layout_marginTop="8dp"
-            android:layout_weight="8"
             android:text="SUBMIT"
             android:visibility="visible" />
+
     </LinearLayout>
 
 

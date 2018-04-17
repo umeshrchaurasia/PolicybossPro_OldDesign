@@ -115,13 +115,13 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
         } else if (holder instanceof LoanHolder) {
             List<DashboardEntity> listLoan = mReal.getLoanProductList();
-            ((LoanHolder) holder).txtTypeName.setText("LOAN");
+            ((LoanHolder) holder).txtTypeName.setText("LOANS");
             ((LoanHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((LoanHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listLoan));
 
         } else if (holder instanceof MoreServiceHolder) {
             List<DashboardEntity> listMore = mReal.getMoreProductList();
-            ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICE");
+            ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
             ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore));
         }
