@@ -788,6 +788,7 @@
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -991,7 +992,9 @@
             android:name=".term.compareterm.CompareTermActivity"
             android:label="@string/title_activity_compare_ti_activity"
             android:parentActivityName=".term.termselection.TermSelectionActivity"
-            android:theme="@style/AppTheme">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
@@ -1006,6 +1009,16 @@
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
         <activity android:name=".onlineexpressloan.KotakpersonalloanActivity" />
+        <activity
+            android:name=".term.icici.IciciTermActivity"
+            android:label="@string/title_activity_icici_term"
+            android:parentActivityName=".term.termselection.TermSelectionActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
+        </activity>
+
         <activity android:name=".onlineexpressloan.HdfcpersonalloanActivity"></activity>
     </application>
 

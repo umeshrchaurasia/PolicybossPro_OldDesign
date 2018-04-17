@@ -104,6 +104,14 @@
     <!-- Modify Car-->
     <string-array name="pa_cover_car">
         <item>0</item>
+        <item>50000</item>
+        <item>100000</item>
+        <item>150000</item>
+        <item>200000</item>
+    </string-array>
+
+    <string-array name="pa_cover_bike">
+        <item>0</item>
         <item>10000</item>
         <item>20000</item>
         <item>30000</item>
@@ -112,8 +120,15 @@
         <item>100000</item>
         <item>200000</item>
     </string-array>
-
     <string-array name="voluntary_car">
+        <item>0</item>
+        <item>2500</item>
+        <item>5000</item>
+        <item>7500</item>
+        <item>15000</item>
+    </string-array>
+
+    <string-array name="voluntary_bike">
         <item>0</item>
         <item>500</item>
         <item>750</item>
@@ -488,25 +503,22 @@
 
     <!--Term icici-->
     <string-array name="icici_options">
-        <item>Option</item>
-        <item>Life</item>
-        <item>Life plus</item>
-        <item>Life and health</item>
-        <item>All in one</item>
+        <item>LIFE</item>
+        <item>LIFE PLUS</item>
+        <item>LIFE AND HEALTH</item>
+        <item>ALL IN ONE</item>
     </string-array>
 
     <string-array name="icici_premium_frequency">
-        <item>Premium Frequency</item>
-        <item>Yearly</item>
-        <item>Half Yearly</item>
-        <item>Monthly</item>
+        <item>YEARLY</item>
+        <item>HALF YEARLY</item>
+        <item>MONTHLY</item>
     </string-array>
 
     <string-array name="icici_payment_term">
-        <item>Payment Term</item>
-        <item>Regular Pay</item>
-        <item>Single Pay</item>
-        <item>Limited Pay</item>
+        <item>REGULAR PAY</item>
+        <item>SINGLE PAY</item>
+        <item>LIMITED PAY</item>
     </string-array>
     <string name="title_activity_compare_ti_activity">COMPARE TERM INSURANCE</string>
 
@@ -517,4 +529,5 @@
         <item>Post Graduate</item>
     </string-array>
 
+    <string name="title_activity_icici_term">ICICI TERM</string>
 </resources>

@@ -9,6 +9,8 @@ import android.os.Parcelable;
 
 public class TermFinmartRequest implements Parcelable {
     int termRequestId;
+    String insImage;
+    int statusProgress;
 
     TermRequestEntity termRequestEntity;
 
@@ -28,6 +30,22 @@ public class TermFinmartRequest implements Parcelable {
         this.termRequestEntity = termRequestEntity;
     }
 
+    public String getInsImage() {
+        return insImage;
+    }
+
+    public void setInsImage(String insImage) {
+        this.insImage = insImage;
+    }
+
+    public int getStatus_progress() {
+        return statusProgress;
+    }
+
+    public void setStatus_progress(int status_progress) {
+        this.statusProgress = status_progress;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -36,6 +54,8 @@ public class TermFinmartRequest implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.termRequestId);
+        dest.writeString(this.insImage);
+        dest.writeInt(this.statusProgress);
         dest.writeParcelable(this.termRequestEntity, flags);
     }
 
@@ -44,6 +64,8 @@ public class TermFinmartRequest implements Parcelable {
 
     protected TermFinmartRequest(Parcel in) {
         this.termRequestId = in.readInt();
+        this.insImage = in.readString();
+        this.statusProgress = in.readInt();
         this.termRequestEntity = in.readParcelable(TermRequestEntity.class.getClassLoader());
     }
 

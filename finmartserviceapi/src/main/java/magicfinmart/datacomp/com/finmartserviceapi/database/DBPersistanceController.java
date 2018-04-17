@@ -186,7 +186,7 @@ public class DBPersistanceController {
 
         List<String> listCarVariant = new ArrayList<>();
         List<CarMasterEntity> list = new ArrayList<>();
-        listCarVariant.add("Varient");
+        listCarVariant.add("Variant");
         if (fuelname.equals("Petrol") || fuelname.equals("Diesel") || fuelname.equals("CNG")) {
 
             list = realm.where(CarMasterEntity.class)
@@ -215,7 +215,7 @@ public class DBPersistanceController {
     public List<String> getVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
-        listCarVariant.add("Varient");
+        listCarVariant.add("Variant");
         List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");
@@ -356,7 +356,7 @@ public class DBPersistanceController {
     public List<String> getBikeVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
-        listCarVariant.add("Varient");
+        listCarVariant.add("Variant");
         List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");
@@ -457,7 +457,7 @@ public class DBPersistanceController {
     public List<TermSelectionEntity> getTermCompanyList() {
 
         List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
-        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 0, ""));
+        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1001, ""));
         term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANE", 43, ""));
         term.add(new TermSelectionEntity("HDFC LIFE INSURANE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANE", 39, ""));

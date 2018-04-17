@@ -1335,6 +1335,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (t.getMessage().contains("manually")) {
+            llVerifyCarDetails.setVisibility(View.GONE);
+        }
     }
 
     //endregion
