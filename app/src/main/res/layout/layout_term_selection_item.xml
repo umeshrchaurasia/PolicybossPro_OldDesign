@@ -42,7 +42,7 @@
                 android:layout_weight="75"
                 android:gravity="center_vertical"
                 android:textAllCaps="true"
-                android:textAppearance="@style/TextStyle.Body1"
+                android:textAppearance="@style/TextStyle.TextMedium"
                 android:textColor="@color/header_dark_text"
                 android:textStyle="bold" />
         </LinearLayout>

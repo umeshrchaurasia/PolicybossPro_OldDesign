@@ -85,7 +85,7 @@
                     android:gravity="center"
                     android:lines="2"
                     android:textAllCaps="true"
-                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textAppearance="@style/TextStyle.TextMedium"
 
                     android:textColor="@color/header_dark_text"
                     android:textStyle="bold" />
@@ -128,7 +128,7 @@
                         android:gravity="center"
                         android:text="App number"
                         android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textAppearance="@style/TextStyle.TextMedium"
                         android:textColor="@color/header_light_text"
                         android:textSize="9sp" />
 
@@ -138,7 +138,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textAppearance="@style/TextStyle.TextMedium"
                         android:textColor="@color/header_dark_text" />
                 </LinearLayout>
 
@@ -154,7 +154,7 @@
                         android:gravity="center"
                         android:text="App date"
                         android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textAppearance="@style/TextStyle.TextMedium"
                         android:textColor="@color/header_light_text"
                         android:textSize="9sp" />
 
@@ -164,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:textAllCaps="true"
-                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textAppearance="@style/TextStyle.TextMedium"
                         android:textColor="@color/header_dark_text" />
                 </LinearLayout>
 

@@ -12,7 +12,7 @@
         style="@style/CardStyle.Home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cardElevation="2dp">
+        app:cardElevation="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,8 +24,8 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="300dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="30dp"
+                android:layout_height="130dp"
+                android:layout_marginTop="16dp"
                 android:src="@drawable/finmart_logo" />
 
             <TextView
@@ -35,17 +35,18 @@
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
                 android:text="ONE STOP FINANCIAL SOLUTION"
-                android:textAppearance="@style/TextStyle.Body1" />
+                android:textAppearance="@style/TextStyle.Title" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/til"
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="32dp"
                 android:hint="Email">
 
                 <EditText
+
                     android:id="@+id/etEmail"
                     style="@style/Style.edittext"
                     android:drawableRight="@drawable/vector_email"
@@ -58,7 +59,8 @@
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password">
+                android:hint="Password"
+                app:passwordToggleEnabled="true">
 
                 <EditText
                     android:id="@+id/etPassword"
@@ -76,22 +78,33 @@
                 android:layout_marginTop="8dp"
                 android:text="SIGN IN" />
 
-            <TextView
-                android:id="@+id/tvSignUp"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="@string/signup"
-                android:textAppearance="@style/TextStyle.Body1" />
+                android:orientation="horizontal"
+                android:padding="4dp">
 
-            <TextView
-                android:id="@+id/tvForgotPass"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:text="forgot password?"
-                android:textAllCaps="true"
-                android:textAppearance="@style/TextStyle.Body1" />
+                <TextView
+                    android:id="@+id/tvSignUp"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="0.6"
+                    android:gravity="left"
+                    android:text="@string/signup"
+                    android:textAppearance="@style/TextStyle.TextMedium" />
+
+                <TextView
+                    android:id="@+id/tvForgotPass"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_weight="0.4"
+                    android:gravity="right"
+                    android:text="@string/forgot_password"
+                    android:textAppearance="@style/TextStyle.TextMedium" />
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tvdsfs"
@@ -101,7 +114,7 @@
                 android:drawableBottom="@drawable/google_sign_icon"
                 android:gravity="center"
                 android:text="Sign in with"
-                android:textAppearance="@style/TextStyle.Body1"
+                android:textAppearance="@style/TextStyle.TextMedium"
                 android:visibility="gone" />
 
             <View

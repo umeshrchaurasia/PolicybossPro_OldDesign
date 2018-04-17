@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/txtProductName"
-            style="@style/TextStyle.Body1"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
@@ -45,7 +45,7 @@
 
         <TextView
             android:id="@+id/txtCount"
-            style="@style/TextStyle.Body1"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="28dp"
             android:layout_height="28dp"
             android:background="@drawable/compare_roundshape"

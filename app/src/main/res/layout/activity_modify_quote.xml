@@ -105,7 +105,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="PA COVER TO PAX"
-                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textAppearance="@style/TextStyle.TextMedium"
                         android:textColor="@color/colorAccent" />
 
 
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="VOLUNTARY DEDUCTIBLE"
-                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textAppearance="@style/TextStyle.TextMedium"
                         android:textColor="@color/colorAccent" />
 
                     <Spinner
@@ -178,7 +178,7 @@
                             android:gravity="center"
                             android:padding="3dp"
                             android:text="YES"
-                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -191,7 +191,7 @@
                             android:gravity="center"
                             android:padding="3dp"
                             android:text="NO"
-                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
@@ -230,7 +230,7 @@
                             android:gravity="center"
                             android:padding="3dp"
                             android:text="YES"
-                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
 
                         <TextView
@@ -243,7 +243,7 @@
                             android:gravity="center"
                             android:padding="3dp"
                             android:text="NO"
-                            android:textAppearance="@style/TextStyle.Body1"
+                            android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
                     </LinearLayout>
 
@@ -258,7 +258,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="EXPECTED IDV"
-                android:textAppearance="@style/TextStyle.Body1"
+                android:textAppearance="@style/TextStyle.TextMedium"
                 android:textColor="@color/colorAccent" />
 
             <EditText
@@ -297,7 +297,7 @@
                     android:layout_weight="1"
                     android:gravity="left"
                     android:text="0"
-                    android:textAppearance="@style/TextStyle.Body1" />
+                    android:textAppearance="@style/TextStyle.TextMedium" />
 
                 <TextView
                     android:id="@+id/tvProgress"
@@ -306,7 +306,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="0"
-                    android:textAppearance="@style/TextStyle.Body1"
+                    android:textAppearance="@style/TextStyle.TextMedium"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -317,7 +317,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="50"
-                    android:textAppearance="@style/TextStyle.Body1" />
+                    android:textAppearance="@style/TextStyle.TextMedium" />
             </LinearLayout>
         </LinearLayout>
 
