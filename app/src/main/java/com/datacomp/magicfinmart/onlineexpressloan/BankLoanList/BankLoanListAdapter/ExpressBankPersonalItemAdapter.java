@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
+import com.datacomp.magicfinmart.onlineexpressloan.HdfcpersonalloanActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.KotakpersonalloanActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.RblpersonalloanActivity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -111,7 +112,8 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                                 }
                             }
                             else if (plEntity.getBank_Code().toUpperCase().contains("HDFC")) {
-                                Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                                mContext.startActivity(new Intent(mContext, HdfcpersonalloanActivity.class));
                             }
                             break;
 
