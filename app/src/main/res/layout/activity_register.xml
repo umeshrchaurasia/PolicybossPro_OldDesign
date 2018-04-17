@@ -17,8 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
+            android:gravity="center"
+            app:titleTextAppearance="@style/TextStyle.Toolbar"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextAppearance="@style/TextStyle.Toolbar" />
+            />
 
     </android.support.design.widget.AppBarLayout>
 
