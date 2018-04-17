@@ -4,6 +4,7 @@ import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -41,7 +42,8 @@ public class DBPersistanceController {
 
     private static final String EXTERNAL_LPG = "External Fitted LPG";
     private static final String EXTERNAL_CNG = "External Fitted CNG";
-    Map<String, Integer> hashMapInsurence;
+    Map<String, Integer> hashMapInsurence,hashmapPremTerm, hashmapKotakPLCity;
+
     HashMap<String, String> hashMapAddons;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
     HashMap<String, Integer> hashmapCity;
@@ -456,7 +458,7 @@ public class DBPersistanceController {
     public List<TermSelectionEntity> getTermCompanyList() {
 
         List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
-        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1, ""));
+        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1001, ""));
         term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANE", 43, ""));
         term.add(new TermSelectionEntity("HDFC LIFE INSURANE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANE", 39, ""));
@@ -485,7 +487,9 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Offer loans against property at attractive rates to your customers", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get lowest rate loan on your Credit Card from wide range of banks.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Save huge money for your customers on their existing loans.", R.drawable.balance_transfer));
+        dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "QUICK LEAD SUBMISSION", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
+
 
         return dashboardEntities;
     }
@@ -1620,6 +1624,141 @@ public class DBPersistanceController {
             return entity;
         else
             return null;
+    }
+    //endregion
+
+
+    //region term
+
+    public List<String> getPremYearList() {
+        hashmapPremTerm = new LinkedHashMap<String, Integer>();
+        MapPolicyTerm();
+        return new ArrayList<String>(hashmapPremTerm.keySet());
+    }
+
+    public int getPremYearID(String cityName) {
+        hashmapPremTerm = new LinkedHashMap<String, Integer>();
+        MapPolicyTerm();
+        if (hashmapPremTerm.get(cityName) != null) {
+            return hashmapPremTerm.get(cityName);
+        } else {
+            return 0;
+        }
+
+    }
+
+    public String getPremYearName(int cityID) {
+        hashmapPremTerm = new LinkedHashMap<String, Integer>();
+        MapPolicyTerm();
+        String HealthCityName = "";
+        for (Map.Entry<String, Integer> item : hashmapPremTerm.entrySet()) {
+            if (item.getValue() == cityID) {
+                HealthCityName = item.getKey();
+                break;
+            }
+        }
+
+        return HealthCityName;
+    }
+
+    public void MapPolicyTerm() {
+        hashmapPremTerm.put("5 YEARS", 5);
+        hashmapPremTerm.put("6 YEARS", 6);
+        hashmapPremTerm.put("7 YEARS", 7);
+        hashmapPremTerm.put("8 YEARS", 8);
+        hashmapPremTerm.put("9 YEARS", 9);
+        hashmapPremTerm.put("10 YEARS", 10);
+
+        hashmapPremTerm.put("11 YEARS", 11);
+        hashmapPremTerm.put("12 YEARS", 12);
+        hashmapPremTerm.put("13 YEARS", 13);
+        hashmapPremTerm.put("14 YEARS", 14);
+        hashmapPremTerm.put("15 YEARS", 15);
+        hashmapPremTerm.put("16 YEARS", 16);
+        hashmapPremTerm.put("17 YEARS", 17);
+        hashmapPremTerm.put("18 YEARS", 18);
+        hashmapPremTerm.put("19 YEARS", 19);
+        hashmapPremTerm.put("20 YEARS", 20);
+
+        hashmapPremTerm.put("21 YEARS", 21);
+        hashmapPremTerm.put("22 YEARS", 22);
+        hashmapPremTerm.put("23 YEARS", 23);
+        hashmapPremTerm.put("24 YEARS", 24);
+        hashmapPremTerm.put("25 YEARS", 25);
+        hashmapPremTerm.put("26 YEARS", 26);
+        hashmapPremTerm.put("27 YEARS", 27);
+        hashmapPremTerm.put("28 YEARS", 28);
+        hashmapPremTerm.put("29 YEARS", 29);
+        hashmapPremTerm.put("30 YEARS", 30);
+
+        hashmapPremTerm.put("31 YEARS", 31);
+        hashmapPremTerm.put("32 YEARS", 32);
+        hashmapPremTerm.put("33 YEARS", 33);
+        hashmapPremTerm.put("34 YEARS", 34);
+        hashmapPremTerm.put("35 YEARS", 35);
+        hashmapPremTerm.put("36 YEARS", 36);
+        hashmapPremTerm.put("37 YEARS", 37);
+        hashmapPremTerm.put("38 YEARS", 38);
+        hashmapPremTerm.put("39 YEARS", 39);
+        hashmapPremTerm.put("40 YEARS", 40);
+        hashmapPremTerm.put("MAX POLICY TERM", 41);
+
+
+    }
+    //endregion
+
+    //region KotakPL
+
+    public List<String> getKotakPLCityList() {
+        hashmapKotakPLCity = new LinkedHashMap<String, Integer>();
+        MapKotakPLCityList();
+        return new ArrayList<String>(hashmapKotakPLCity.keySet());
+    }
+
+    public int getKotakPLCityCode(String cityName) {
+        hashmapKotakPLCity = new LinkedHashMap<String, Integer>();
+        MapKotakPLCityList();
+        if (hashmapKotakPLCity.get(cityName) != null) {
+            return hashmapKotakPLCity.get(cityName);
+        } else {
+            return 0;
+        }
+
+    }
+
+    public String getKotakPLCityName(int cityID) {
+        hashmapKotakPLCity = new LinkedHashMap<String, Integer>();
+        MapKotakPLCityList();
+        String HealthCityName = "";
+        for (Map.Entry<String, Integer> item : hashmapKotakPLCity.entrySet()) {
+            if (item.getValue() == cityID) {
+                HealthCityName = item.getKey();
+                break;
+            }
+        }
+
+        return HealthCityName;
+    }
+
+    public void MapKotakPLCityList() {
+        hashmapKotakPLCity.put("Office City", 0);
+        hashmapKotakPLCity.put("Ahmedabad", 2002);
+        hashmapKotakPLCity.put("Bangalore", 2004);
+        hashmapKotakPLCity.put("Baroda", 707);
+        hashmapKotakPLCity.put("Kolkata", 64);
+        hashmapKotakPLCity.put("Chandigarh", 9);
+        hashmapKotakPLCity.put("Chennai", 21);
+        hashmapKotakPLCity.put("Cochin", 241);
+        hashmapKotakPLCity.put("Gurgaon", 7);
+        hashmapKotakPLCity.put("New Delhi", 318);
+        hashmapKotakPLCity.put("Hyderabad", 15);
+        hashmapKotakPLCity.put("Jaipur", 100);
+        hashmapKotakPLCity.put("Mumbai", 25);
+        hashmapKotakPLCity.put("Pune", 26);
+        hashmapKotakPLCity.put("Nagpur", 135);
+        hashmapKotakPLCity.put("Surat", 190);
+
+
     }
     //endregion
 }

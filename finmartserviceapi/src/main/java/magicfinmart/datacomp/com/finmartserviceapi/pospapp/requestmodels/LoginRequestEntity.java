@@ -21,6 +21,11 @@ public class LoginRequestEntity {
      */
 
     private String IP;
+    /**
+     * FBAId : 0
+     */
+
+    private int FBAId;
 
     public String getDeviceId() {
         return DeviceId;
@@ -60,5 +65,13 @@ public class LoginRequestEntity {
 
     public void setIP(String IP) {
         this.IP = IP;
+    }
+
+    public int getFBAId() {
+        return FBAId;
+    }
+
+    public void setFBAId(int FBAId) {
+        this.FBAId = FBAId;
     }
 }

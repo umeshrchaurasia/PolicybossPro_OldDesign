@@ -1,10 +1,13 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Nilesh Birhade on 05-04-2018.
  */
 
-public class TermRequestEntity {
+public class TermRequestEntity implements Parcelable {
 
     /**
      * PolicyTerm : 20
@@ -47,13 +50,23 @@ public class TermRequestEntity {
      * ContactMobile :
      * SupportsAgentID : 1682
      */
-
+    private String pincode;
     private String PolicyTerm;
     private String InsuredGender;
     private String Is_TabaccoUser;
     private String SumAssured;
     private String InsuredDOB;
     private String PaymentModeValue;
+
+    public String getPincode() {
+        return pincode;
+    }
+
+    public void setPincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+
     private String PolicyCommencementDate;
     private String CityName;
     private String State;
@@ -95,6 +108,26 @@ public class TermRequestEntity {
     private String ContactEmail;
     private String ContactMobile;
     private String SupportsAgentID;
+
+    private String created_date;
+    private String crn;
+
+
+    public String getCrn() {
+        return crn;
+    }
+
+    public void setCrn(String crn) {
+        this.crn = crn;
+    }
+
+    public String getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(String created_date) {
+        this.created_date = created_date;
+    }
 
     public String getPolicyTerm() {
         return PolicyTerm;
@@ -407,4 +440,116 @@ public class TermRequestEntity {
     public void setSupportsAgentID(String SupportsAgentID) {
         this.SupportsAgentID = SupportsAgentID;
     }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.pincode);
+        dest.writeString(this.PolicyTerm);
+        dest.writeString(this.InsuredGender);
+        dest.writeString(this.Is_TabaccoUser);
+        dest.writeString(this.SumAssured);
+        dest.writeString(this.InsuredDOB);
+        dest.writeString(this.PaymentModeValue);
+        dest.writeString(this.PolicyCommencementDate);
+        dest.writeString(this.CityName);
+        dest.writeString(this.State);
+        dest.writeString(this.PlanTaken);
+        dest.writeString(this.Frequency);
+        dest.writeString(this.DeathBenefitOption);
+        dest.writeString(this.PPT);
+        dest.writeString(this.IncomeTerm);
+        dest.writeString(this.MonthlyIncome);
+        dest.writeString(this.LumpsumAmount);
+        dest.writeString(this.IncreaseIncomePercentage);
+        dest.writeString(this.IncreaseSAPercentage);
+        dest.writeString(this.ADBPercentage);
+        dest.writeString(this.CISA);
+        dest.writeString(this.LumpsumBSAProp);
+        dest.writeString(this.ADBSA);
+        dest.writeString(this.TypeOfLife);
+        dest.writeString(this.ATPDSA);
+        dest.writeString(this.HCBSA);
+        dest.writeString(this.WOP);
+        dest.writeString(this.PaymentOptn);
+        dest.writeString(this.MaritalStatus);
+        dest.writeString(this.PremiumPaymentOption);
+        dest.writeString(this.ServiceTaxNotApplicable);
+        dest.writeString(this.CIBenefit);
+        dest.writeString(this.ADHB);
+        dest.writeInt(this.InsurerId);
+        dest.writeString(this.SessionID);
+        dest.writeString(this.Existing_ProductInsuranceMapping_Id);
+        dest.writeString(this.ContactName);
+        dest.writeString(this.ContactEmail);
+        dest.writeString(this.ContactMobile);
+        dest.writeString(this.SupportsAgentID);
+        dest.writeString(this.created_date);
+        dest.writeString(this.crn);
+    }
+
+    public TermRequestEntity() {
+    }
+
+    protected TermRequestEntity(Parcel in) {
+        this.pincode = in.readString();
+        this.PolicyTerm = in.readString();
+        this.InsuredGender = in.readString();
+        this.Is_TabaccoUser = in.readString();
+        this.SumAssured = in.readString();
+        this.InsuredDOB = in.readString();
+        this.PaymentModeValue = in.readString();
+        this.PolicyCommencementDate = in.readString();
+        this.CityName = in.readString();
+        this.State = in.readString();
+        this.PlanTaken = in.readString();
+        this.Frequency = in.readString();
+        this.DeathBenefitOption = in.readString();
+        this.PPT = in.readString();
+        this.IncomeTerm = in.readString();
+        this.MonthlyIncome = in.readString();
+        this.LumpsumAmount = in.readString();
+        this.IncreaseIncomePercentage = in.readString();
+        this.IncreaseSAPercentage = in.readString();
+        this.ADBPercentage = in.readString();
+        this.CISA = in.readString();
+        this.LumpsumBSAProp = in.readString();
+        this.ADBSA = in.readString();
+        this.TypeOfLife = in.readString();
+        this.ATPDSA = in.readString();
+        this.HCBSA = in.readString();
+        this.WOP = in.readString();
+        this.PaymentOptn = in.readString();
+        this.MaritalStatus = in.readString();
+        this.PremiumPaymentOption = in.readString();
+        this.ServiceTaxNotApplicable = in.readString();
+        this.CIBenefit = in.readString();
+        this.ADHB = in.readString();
+        this.InsurerId = in.readInt();
+        this.SessionID = in.readString();
+        this.Existing_ProductInsuranceMapping_Id = in.readString();
+        this.ContactName = in.readString();
+        this.ContactEmail = in.readString();
+        this.ContactMobile = in.readString();
+        this.SupportsAgentID = in.readString();
+        this.created_date = in.readString();
+        this.crn = in.readString();
+    }
+
+    public static final Parcelable.Creator<TermRequestEntity> CREATOR = new Parcelable.Creator<TermRequestEntity>() {
+        @Override
+        public TermRequestEntity createFromParcel(Parcel source) {
+            return new TermRequestEntity(source);
+        }
+
+        @Override
+        public TermRequestEntity[] newArray(int size) {
+            return new TermRequestEntity[size];
+        }
+    };
 }

@@ -12,14 +12,9 @@ import android.os.Environment;
 import android.provider.Settings;
 import android.text.format.Formatter;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.itextpdf.xmp.impl.Utils;
-
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.text.SimpleDateFormat;
@@ -166,6 +161,19 @@ public class Utility {
         return 0;
     }
 
+    public static int checkPospTrainingStatus(Context context) {
+        int pospStatus;
+        DBPersistanceController dbPersistanceController = new DBPersistanceController(context);
+        ConstantEntity constantEntity = dbPersistanceController.getConstantsData();
+
+        if (constantEntity != null) {
+            pospStatus = Integer.parseInt(constantEntity.getPOSPStat());
+            if (pospStatus == 6)
+                return 1;
+        }
+        return 1;
+    }
+
     public static String getLocalIpAddress(Context context) {
         String IPaddress;
 
@@ -280,7 +288,7 @@ public class Utility {
             e.printStackTrace();
         }
 
-        Toast.makeText(context, "" + address, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context, "" + address, Toast.LENGTH_SHORT).show();
         return address;
     }
 

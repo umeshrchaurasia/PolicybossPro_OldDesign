@@ -26,7 +26,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
-import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplicationActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
@@ -176,7 +176,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     }
                     case R.id.nav_homeloanApplication:
-                        startActivity(new Intent(HomeActivity.this, HomeLoanApplicationActivity.class));
+                        startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
                     case R.id.nav_offlineQuotes:
                         startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
@@ -201,8 +201,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
                         break;
                     case R.id.nav_posptraining:
-                        startActivity(new Intent(HomeActivity.this, com.datacomp.magicfinmart.pospapp.splashscreen.SplashScreenActivity.class));
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.POSP_TRAINING), null);
+                        startActivity(new Intent(HomeActivity.this, com.datacomp.magicfinmart.pospapp.login.LoginActivity.class));
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("POPS TRAINING : POPS TRAINING button in menu "), Constants.POSP_TRAINING), null);
                         break;
                     case R.id.nav_selfinspection:
                         startActivity(new Intent(HomeActivity.this, SplashScreen.class));
@@ -504,5 +504,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
 
         }
+    }
+
+    public void hideNavigationItem() {
+        Menu nav_Menu = navigationView.getMenu();
+        if (Utility.checkPospTrainingStatus(this) == 1)
+            nav_Menu.findItem(R.id.nav_posptraining).setVisible(true);
+        else
+            nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
     }
 }

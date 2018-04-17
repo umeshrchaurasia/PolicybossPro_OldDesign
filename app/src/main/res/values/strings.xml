@@ -18,6 +18,7 @@
         <item>50</item>
     </string-array>
 
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">Login</string>
@@ -29,12 +30,12 @@
     <string name="title_activity_add_quote_bottom">Add Quote</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_notifications">NOTIFICATION</string>
     <string name="title_activity_add_new_quote">Add Quote</string>
     <string name="title_activity_quote">Quotes</string>
     <string name="title_activity_common_web_view">Web View</string>
     <string name="title_activity_premium_break_up">Premium Details</string>
-    <string name="title_activity_personal_loan_detail">Personal Loan</string>
+    <string name="title_activity_personal_loan_detail">PERSONAL LOAN</string>
     <string name="title_activity_add_quote__pl">Add Quote</string>
     <string name="title_activity_add_plquote">Add Quote</string>
 
@@ -483,6 +484,7 @@
     <string name="title_activity_module_result">Result</string>
     <string name="title_activity_request_admin">Request Admin</string>
     <string name="title_activity_view_answer">Answers</string>
+    <string name="title_activity_bank_loan_list">Bank Loan</string>
 
 
     <!--Term icici-->
@@ -506,5 +508,65 @@
         <item>Regular Pay</item>
         <item>Single Pay</item>
         <item>Limited Pay</item>
+    </string-array>
+    <string name="title_activity_compare_ti_activity">COMPARE TERM INSURANCE</string>
+
+    <string-array name="ExistingCustomerKotakPL">
+        <item>Are You Existing Customer</item>
+        <item>Yes</item>
+        <item>No</item>
+
+    </string-array>
+    <string-array name="QualificationKotakPL">
+        <item>Qualification</item>
+        <item>Post Graduate</item>
+        <item>Graduate</item>
+        <item>Professional</item>
+        <item>Under Graduate</item>
+        <item>Vocational</item>
+    </string-array>
+
+    <string-array name="EmploymentTypeKotakPL">
+        <item>Employment Type</item>
+        <item>Salaried</item>
+
+    </string-array>
+
+    <string-array name="PreferredMailingAddressKotakPL">
+        <item>Preferred Mailing Address</item>
+        <item>Residence Address</item>
+        <item>Office Address</item>
+
+    </string-array>
+    <string-array name="ResidenceTypeKotakPL">
+        <item>Owned by self/spouse</item>
+        <item>Owned by parents</item>
+        <item>Rented - With Family </item>
+        <item>Rented - With Friends </item>
+        <item>Rented - Bachelor Staying Alone </item>
+        <item>Owned by parents</item>
+        <item>Paying Guest </item>
+        <item>Hostel/Guest House/Hotel </item>
+        <item>Company Provided - Staying Alone</item>
+        <item>Company Provided - Staying With Family</item>
+    </string-array>
+
+    <string-array name="RequestedLoanTenureKotakPL">
+        <item>Requested Loan Tenure </item>
+        <item>12 Months</item>
+        <item>24 Months</item>
+        <item>36 Months</item>
+        <item>48 Months</item>
+        <item>60 Months</item>
+    </string-array>
+
+    <string-array name="RelationshipWithCoAppKotakPL">
+        <item>Relationship With Co-applicant</item>
+        <item>Spouse</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Brother</item>
+        <item>Son</item>
+        <item>Daughter</item>
     </string-array>
 </resources>

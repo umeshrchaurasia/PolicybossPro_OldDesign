@@ -65,7 +65,7 @@
                 android:layout_height="48dp"
                 android:layout_weight="20"
                 android:scaleType="centerInside"
-                android:src="@mipmap/edit_icon" />
+                android:src="@drawable/edit_icon" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

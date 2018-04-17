@@ -27,6 +27,7 @@ import com.datacomp.magicfinmart.pospapp.utility.BaseActivity;
 import com.datacomp.magicfinmart.pospapp.utility.MyAdminReceiver;
 import com.datacomp.magicfinmart.pospapp.utility.ReadDeviceID;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.pospapp.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.pospapp.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.pospapp.controller.login.LoginController;
@@ -68,6 +69,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         setListeners();
         if (!checkPermission()) {
             requestPermission();
+        } else {
+            btnLogin.performClick();
         }
     }
 
@@ -101,6 +104,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     @Override
     protected void onResume() {
         super.onResume();
+
     }
 
     private void setListeners() {
@@ -131,7 +135,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         switch (v.getId()) {
             case R.id.btnLogin:
 
-                if (tieEmail.getText().toString().equals("")) {
+                /*if (tieEmail.getText().toString().equals("")) {
                     tieEmail.setError("ENTER USER NAME");
                     tieEmail.requestFocus();
                     return;
@@ -140,18 +144,20 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     tiePassword.setError("ENTER CORRECT PASSWORD");
                     tiePassword.requestFocus();
                     return;
-                }
+                }*/
 
                 LoginRequestEntity loginRequestEntity = new LoginRequestEntity();
-                loginRequestEntity.setEmail(tieEmail.getText().toString().trim());
-                loginRequestEntity.setPassword(tiePassword.getText().toString().trim());
+                loginRequestEntity.setEmail("");
+                loginRequestEntity.setPassword("");
                 loginRequestEntity.setDeviceId(new ReadDeviceID(LoginActivity.this).getAndroidID());
                 loginRequestEntity.setDeviceToken("DEVICE_TOKEN");
                 loginRequestEntity.setIP("");
+                loginRequestEntity.setFBAId(new DBPersistanceController(this).getUserData().getFBAId());
+                //loginRequestEntity.setFBAId(2335);
                 txtMessage.setVisibility(View.GONE);
                 tvRqstAdmin.setVisibility(View.GONE);
                 showProgressDialog();
-                new LoginController(LoginActivity.this).login(loginRequestEntity, this);
+                new LoginController(LoginActivity.this).loginByFBAId(loginRequestEntity, this);
 
                 break;
             case R.id.txtForgotPass:
@@ -246,6 +252,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
+                        finish();
                     }
                 });
         AlertDialog alert11 = builder.create();

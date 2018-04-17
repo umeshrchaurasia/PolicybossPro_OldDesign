@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:weightSum="100"
-    tools:context="com.datacomp.magicfinmart.onlineexpressloan.kotakpersonalloanActivity">
+    tools:context="com.datacomp.magicfinmart.onlineexpressloan.KotakpersonalloanActivity">
 
 
     <android.support.design.widget.AppBarLayout
@@ -71,7 +71,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/NoOfDependents"
+                            android:entries="@array/ExistingCustomerKotakPL"
                             android:gravity="center" />
 
                         <Spinner
@@ -181,7 +181,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/NoOfDependents"
+                            android:entries="@array/QualificationKotakPL"
                             android:gravity="center" />
 
                     </TableRow>
@@ -392,7 +392,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/NoOfDependents"
+                            android:entries="@array/EmploymentTypeKotakPL"
                             android:gravity="center" />
 
                         <android.support.design.widget.TextInputLayout
@@ -557,7 +557,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/NoOfDependents"
+                            android:entries="@array/PreferredMailingAddressKotakPL"
                             android:gravity="center" />
 
 
@@ -946,7 +946,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/NoOfDependents"
+                            android:entries="@array/RequestedLoanTenureKotakPL"
                             android:gravity="center" />
 
 
@@ -961,7 +961,7 @@
                         android:layout_height="fill_parent">
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/tlMemberSince"
+                            android:id="@+id/tlPLRateOff"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -976,7 +976,7 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/tlCreditLimit"
+                            android:id="@+id/tlProcessingFees"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -1033,7 +1033,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/NoOfDependents"
+                            android:entries="@array/RelationshipWithCoAppKotakPL"
                             android:gravity="center" />
 
 
@@ -1065,7 +1065,7 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/NoOfDependents"
+                            android:entries="@array/EmploymentTypeKotakPL"
                             android:gravity="center" />
 
 
@@ -1134,7 +1134,7 @@
     </ScrollView>
 
     <Button
-        android:id="@+id/btnICICINext"
+        android:id="@+id/btnKotakplNext"
         style="@style/ButtonStyle.Colored"
         android:layout_width="match_parent"
         android:layout_height="0dp"
