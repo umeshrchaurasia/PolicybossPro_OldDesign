@@ -29,9 +29,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategory
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoTicketCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
+import magicfinmart.datacomp.com.finmartserviceapi.model.AccountEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.EmploymentEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
+import magicfinmart.datacomp.com.finmartserviceapi.model.OrganizationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.model.QualificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 /**
@@ -1705,6 +1709,42 @@ public class DBPersistanceController {
 
     }
     //endregion
+
+    public List<AccountEntity> getExLoanAccountList() {
+        List<AccountEntity> accountEntityList = new ArrayList<AccountEntity>();
+        accountEntityList.add(new AccountEntity(1, "Property Identified & ready to occupy"));
+        accountEntityList.add(new AccountEntity(2, "In Search Of Property"));
+        accountEntityList.add(new AccountEntity(3, "Resale Property"));
+        accountEntityList.add(new AccountEntity(4, "For Construction"));
+        accountEntityList.add(new AccountEntity(5, "Property identified - Under Construction"));
+        accountEntityList.add(new AccountEntity(6, "LAP"));
+        return accountEntityList;
+    }
+
+    public List<EmploymentEntity> getExEmploymentList() {
+        List<EmploymentEntity> EmploymentEntityList = new ArrayList<EmploymentEntity>();
+        EmploymentEntityList.add(new EmploymentEntity(0,"Select Employment &amp; Mode of Credit"));
+        EmploymentEntityList.add(new EmploymentEntity(1, "Salaried: Account Transfer"));
+        EmploymentEntityList.add(new EmploymentEntity(2, "Salaried: By Cheque"));
+        EmploymentEntityList.add(new EmploymentEntity(3, "Salaried: By Cash"));
+        EmploymentEntityList.add(new EmploymentEntity(4, "Self employed"));
+        EmploymentEntityList.add(new EmploymentEntity(5, "Others"));
+        return EmploymentEntityList;
+    }
+
+    public List<OrganizationEntity> getExOrganizationList() {
+        List<OrganizationEntity> OrganizationtList = new ArrayList<OrganizationEntity>();
+        OrganizationtList.add(new OrganizationEntity(1, "Public Ltd"));
+        OrganizationtList.add(new OrganizationEntity(2, "Private Ltd"));
+        OrganizationtList.add(new OrganizationEntity(3, "MNC"));
+        OrganizationtList.add(new OrganizationEntity(4, "Central/State Govt"));
+        OrganizationtList.add(new OrganizationEntity(5, "Proprietorship"));
+        OrganizationtList.add(new OrganizationEntity(6, "LLP"));
+        OrganizationtList.add(new OrganizationEntity(7, "Partnership firm"));
+        OrganizationtList.add(new OrganizationEntity(8, "Others including Society/Trust/AOP"));
+        return OrganizationtList;
+    }
+
 
     //region HDFC personal loan bank
 
