@@ -42,7 +42,7 @@
 
 
                 <TextView
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -52,7 +52,7 @@
 
                 <TextView
                     android:id="@+id/txtSumAssured"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -68,7 +68,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -78,7 +78,7 @@
 
                 <TextView
                     android:id="@+id/txtDeductible"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -127,7 +127,7 @@
 
                 <TextView
                     android:id="@+id/txtProductName"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
@@ -138,7 +138,7 @@
 
                 <TextView
                     android:id="@+id/txtPlanName"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""

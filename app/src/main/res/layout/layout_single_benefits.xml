@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/txtBenefitsDesc"
-        style="@style/TextStyle.Body1"
+        style="@style/TextStyle.TextMedium"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/seperator"
@@ -34,7 +34,7 @@
 
         <TextView
             android:id="@+id/txtBenefitsName"
-            style="@style/TextStyle.Body1"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"

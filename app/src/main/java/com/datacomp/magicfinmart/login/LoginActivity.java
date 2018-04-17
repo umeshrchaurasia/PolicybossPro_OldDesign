@@ -58,9 +58,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         loginRequestEntity = new LoginRequestEntity();
         initWidgets();
         setListener();
@@ -235,38 +235,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
             }
         });
-
-//        builder.setPositiveButton("RESET", null)
-//                .setNegativeButton("CANCEL", null);
-
-
-//        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-//            @Override
-//            public void onShow(DialogInterface dialogInterface) {
-//                ((AlertDialog) dialogInterface).getButton(DialogInterface.BUTTON_POSITIVE)
-//                        .setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                if (!isValideEmailID(etEmail)) {
-//                                    etEmail.setError("Invalid Email ID");
-//                                    etEmail.setFocusable(true);
-//                                    //return;
-//                                } else {
-//                                   // dialog.dismiss();
-//                                    forgotPasswrod(etEmail);
-//                                }
-//                            }
-//                        });
-//
-//                ((AlertDialog) dialogInterface).getButton(DialogInterface.BUTTON_NEGATIVE)
-//                        .setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                              //  dialog.dismiss();
-//                            }
-//                        });
-//            }
-//        });
 
     }
 
