@@ -10,6 +10,5 @@
         android:background="@drawable/sumassured_border"
         android:layout_margin="3dp"
         android:padding="5dp"
-        android:text="200000"
         android:textAlignment="center" />
 </LinearLayout>

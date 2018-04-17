@@ -33,6 +33,7 @@
                     android:src="@drawable/logo" />
 
                 <android.support.design.widget.TextInputLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
                     android:gravity="bottom"
@@ -52,6 +53,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="65dp"
                     android:layout_marginTop="@dimen/gap"
@@ -70,6 +72,7 @@
                 </android.support.design.widget.TextInputLayout>
 
                 <Button
+                    android:visibility="gone"
                     android:id="@+id/btnLogin"
                     style="@style/GreenButton"
                     android:layout_width="match_parent"

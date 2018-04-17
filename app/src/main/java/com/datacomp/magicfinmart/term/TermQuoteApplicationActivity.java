@@ -7,13 +7,19 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
-public class TermQuoteApplicationActivity extends BaseActivity {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
+
+public class TermQuoteApplicationActivity extends BaseActivity implements IResponseSubcriber {
     ViewPager viewPager;
     Toolbar toolbar;
     TermActivityTabsPagerAdapter mAdapter;
@@ -51,15 +57,14 @@ public class TermQuoteApplicationActivity extends BaseActivity {
 
             }
         });
-        mAdapter = new TermActivityTabsPagerAdapter(getSupportFragmentManager(), null);
-        viewPager.setAdapter(mAdapter);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         //viewPager.setAdapter(null);
-        //fetchQuoteApplication(compId);
+        fetchQuoteApplication(compId);
 
     }
 
@@ -69,12 +74,8 @@ public class TermQuoteApplicationActivity extends BaseActivity {
 
     private void fetchQuoteApplication(int compId) {
 
-       /* showDialog("Fetching.., Please wait.!");
-        new QuoteApplicationController(this).getQuoteAppList("", "",
-                new DBPersistanceController(this).getUserData().getFBAId(),
-                10,
-                "",
-                this);*/
+        showDialog("Fetching.., Please wait.!");
+        new TermInsuranceController(this).getTermQuoteApplicationList(compId, this);
     }
 
     @Override
@@ -98,5 +99,28 @@ public class TermQuoteApplicationActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof TermQuoteApplicationResponse) {
+            if (((TermQuoteApplicationResponse) response).getMasterData() != null) {
+
+                mAdapter = new TermActivityTabsPagerAdapter(getSupportFragmentManager(),
+                        ((TermQuoteApplicationResponse) response));
+                viewPager.setAdapter(mAdapter);
+            }
+
+        }
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        mAdapter = new TermActivityTabsPagerAdapter(getSupportFragmentManager(), null);
+        viewPager.setAdapter(mAdapter);
     }
 }

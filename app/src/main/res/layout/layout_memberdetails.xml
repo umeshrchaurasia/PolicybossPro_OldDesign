@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="4dp"
                 android:text="Single"
-                android:textAppearance="@style/TextStyle.Body1" />
+                android:textAppearance="@style/TextStyle.TextMedium" />
 
             <Switch
                 android:id="@+id/swUnMarried"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:text="Married"
-                android:textAppearance="@style/TextStyle.Body1" />
+                android:textAppearance="@style/TextStyle.TextMedium" />
 
         </LinearLayout>
 

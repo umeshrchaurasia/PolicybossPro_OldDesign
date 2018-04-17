@@ -1,6 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller;
 
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.RBLPesonalLoanReqEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.HdfcPers_SaveRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.SaveExpressLoanRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRequestEntity;
@@ -22,4 +23,7 @@ public interface IExpressLoan {
     void saveRblPersonalLoan(RBLPesonalLoanReqEntity rblPesonalLoanReqEntity, IResponseSubcriber iResponseSubcriber);
 
     void getRblCalc(String LnAmt, String TnrMths, IResponseSubcriber iResponseSubcriber);
+    //HDFC Personal
+
+    void saveHDFCPersonalLoan(HdfcPers_SaveRequestEntity hdfcPers_SaveRequestEntity, IResponseSubcriber iResponseSubcriber);
 }

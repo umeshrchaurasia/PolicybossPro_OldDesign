@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <TextView
-        style="@style/TextStyle.Body1"
+        style="@style/TextStyle.TextMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/tab_color"
@@ -33,7 +33,7 @@
 
         <TextView
             android:id="@+id/txtPlanName"
-            style="@style/TextStyle.Body1"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -58,7 +58,7 @@
         android:gravity="center">
 
         <TextView
-            style="@style/TextStyle.Body1"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -70,7 +70,7 @@
 
         <TextView
             android:id="@+id/txtEstPremium"
-            style="@style/TextStyle.Body1"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -96,7 +96,7 @@
         android:gravity="center">
 
         <TextView
-            style="@style/TextStyle.Body1"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -108,7 +108,7 @@
 
         <TextView
             android:id="@+id/txtInsPremium"
-            style="@style/TextStyle.Body1"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -14,11 +14,13 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -30,15 +32,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
 
-/**
- * Created by Rajeev Ranjan on 06/04/2018.
- */
-
 public class TermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
 
     Button btnGetQuote;
     EditText etFirstName, etLastName, etMobile;
-    RadioButton rbMale, rbNoSmoker;
+    RadioButton rbMale, rbfemale, rbNoSmoker, rbYesSmoker;
     EditText etDOB;
 
     EditText etPincode, etSumAssured;
@@ -49,6 +47,9 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     TermRequestEntity termRequestEntity;
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+    LinearLayout llCompareAll;
+    int insurerID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,11 +67,14 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
         adapter_listener();
         if (getArguments() != null) {
-            termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
+            if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null)
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
+            insurerID = getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT);
             bindInput(termFinmartRequest);
         }
         return view;
     }
+
 
     private void bindInput(TermFinmartRequest termFinmartRequest) {
         try {
@@ -83,8 +87,17 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 etLastName.setText("" + splitStr[1]);
                 etMobile.setText("" + termRequestEntity.getContactMobile());
                 spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPolicyTerm()) - 5));
-                spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPPT()) - 5));
+                spPremTerm.setSelection((Integer.parseInt(termRequestEntity.getPPT()) - 5));
                 etPincode.setText("" + termRequestEntity.getPincode());
+                if (termRequestEntity.getIs_TabaccoUser().equals("true"))
+                    rbYesSmoker.setChecked(true);
+                else
+                    rbNoSmoker.setChecked(true);
+
+                if (termRequestEntity.getInsuredGender().equals("M"))
+                    rbMale.setChecked(true);
+                else
+                    rbfemale.setChecked(true);
             }
 
         } catch (Exception e) {
@@ -128,13 +141,20 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         etLastName = (EditText) view.findViewById(R.id.etLastName);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etDOB = (EditText) view.findViewById(R.id.etDateofBirth);
-        rbMale = (RadioButton) view.findViewById(R.id.rbMale);
+        rbMale = (RadioButton) view.findViewById(R.id.rbmale);
+        rbfemale = (RadioButton) view.findViewById(R.id.rbfemale);
+        rbYesSmoker = (RadioButton) view.findViewById(R.id.rbYesSmoker);
         rbNoSmoker = (RadioButton) view.findViewById(R.id.rbNoSmoker);
 
         etPincode = (EditText) view.findViewById(R.id.etPincode);
         etSumAssured = (EditText) view.findViewById(R.id.etSumAssured);
         spPolicyTerm = (Spinner) view.findViewById(R.id.spPolicyTerm);
         spPremTerm = (Spinner) view.findViewById(R.id.spPremTerm);
+
+
+        //Compare All
+        llCompareAll = (LinearLayout) view.findViewById(R.id.llCompareAll);
+
     }
 
     @Override
@@ -150,10 +170,20 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
+
     private void setTermRequest() {
         termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
-        termRequestEntity.setInsuredGender("M");
-        termRequestEntity.setIs_TabaccoUser("false");
+
+        if (rbMale.isChecked())
+            termRequestEntity.setInsuredGender("M");
+        else
+            termRequestEntity.setInsuredGender("F");
+
+        if (rbNoSmoker.isChecked())
+            termRequestEntity.setIs_TabaccoUser("false");
+        else
+            termRequestEntity.setIs_TabaccoUser("true");
+
         termRequestEntity.setSumAssured(etSumAssured.getText().toString());
         termRequestEntity.setInsuredDOB(etDOB.getText().toString());
         termRequestEntity.setPaymentModeValue("1");
@@ -181,12 +211,12 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
-
+        dialog.cancel();
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-
+        dialog.cancel();
     }
 
     public boolean isValidInput() {

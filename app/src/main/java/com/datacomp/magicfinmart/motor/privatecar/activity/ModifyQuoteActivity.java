@@ -53,15 +53,18 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         this.setFinishOnTouchOutside(true);
         if (getIntent().hasExtra("CAR_REQUEST")) {
             motorRequestEntity = getIntent().getParcelableExtra("CAR_REQUEST");
+            volAccess = getResources().getStringArray(R.array.voluntary_car);
+            cover = getResources().getStringArray(R.array.pa_cover_car);
         }
         if (getIntent().hasExtra("BIKE_REQUEST")) {
             motorRequestEntity = getIntent().getParcelableExtra("BIKE_REQUEST");
+            volAccess = getResources().getStringArray(R.array.voluntary_bike);
+            cover = getResources().getStringArray(R.array.pa_cover_bike);
         }
         if (getIntent().hasExtra("SUMMARY")) {
             summaryEntity = getIntent().getParcelableExtra("SUMMARY");
         }
-        volAccess = getResources().getStringArray(R.array.voluntary_car);
-        cover = getResources().getStringArray(R.array.pa_cover_car);
+
         initWidgets();
         bindAdapters();
         setListener();
@@ -307,12 +310,12 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
         if (!etIdv.getText().toString().isEmpty())
             motorRequestEntity.setVehicle_expected_idv(Integer.parseInt(etIdv.getText().toString()));
-        if (spVolExcessAmt.getSelectedItemPosition() != 0) {
-            motorRequestEntity.setVoluntary_deductible(Integer.parseInt(spVolExcessAmt.getSelectedItem().toString()));
-        }
-        if (spPaCover.getSelectedItemPosition() != 0) {
-            motorRequestEntity.setPa_unnamed_passenger_si(spPaCover.getSelectedItem().toString());
-        }
+
+        motorRequestEntity.setVoluntary_deductible(Integer.parseInt(spVolExcessAmt.getSelectedItem().toString()));
+
+
+        motorRequestEntity.setPa_unnamed_passenger_si(spPaCover.getSelectedItem().toString());
+
 
         /*if (swMemAto.isChecked()) {
             motorRequestEntity.setIs_aai_member("yes");

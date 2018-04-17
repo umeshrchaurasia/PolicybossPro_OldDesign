@@ -5,7 +5,6 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,8 +21,8 @@ public abstract class NodeRetroRequestBuilder {
 
 
     // live url
-     public static String URL = "http://horizon.policyboss.com:5000";
-     public static String PROPOSAL_BASE_URL = "http://www.policyboss.com/";
+    public static String URL = "http://horizon.policyboss.com:5000";
+    public static String PROPOSAL_BASE_URL = "http://www.policyboss.com/";
 
 
     protected Retrofit build() {

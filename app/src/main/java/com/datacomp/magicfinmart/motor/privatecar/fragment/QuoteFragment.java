@@ -222,7 +222,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         if (bikePremiumResponse != null) {
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
                 tvCrn.setText("" + bikePremiumResponse.getSummary().getPB_CRN());
-                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from qa.policyboss.com");
+                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
                 if (!bikePremiumResponse.getSummary().getPB_CRN().equals(""))
                     motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
 

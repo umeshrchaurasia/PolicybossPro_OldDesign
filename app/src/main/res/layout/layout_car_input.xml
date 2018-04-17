@@ -39,7 +39,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="4dp"
                         android:text="COMPANY"
-                        android:textAppearance="@style/TextStyle.Body1" />
+                        android:textAppearance="@style/TextStyle.TextMedium" />
 
                     <Switch
                         android:id="@+id/swIndividual"
@@ -52,7 +52,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
                         android:text="INDIVIDUAL"
-                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textAppearance="@style/TextStyle.TextMedium"
                         android:textColor="@color/colorAccent" />
                 </LinearLayout>
 
@@ -69,7 +69,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="VERIFY YOUR CAR DETAILS FOR "
-                        android:textAppearance="@style/TextStyle.Body1" />
+                        android:textAppearance="@style/TextStyle.TextMedium" />
 
                     <TextView
                         android:id="@+id/tvCarNo"
@@ -77,7 +77,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="3dp"
                         android:text=""
-                        android:textAppearance="@style/TextStyle.Body1"
+                        android:textAppearance="@style/TextStyle.TextMedium"
                         android:textColor="@color/tab_color"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -114,9 +114,9 @@
                         android:hint="Make, Model">
 
                         <AutoCompleteTextView
-                            android:dropDownWidth="250dp"
                             android:id="@+id/acMakeModel"
-                            style="@style/Style.edittext" />
+                            style="@style/Style.edittext"
+                            android:dropDownWidth="250dp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -127,11 +127,11 @@
                         android:hint="Fuel">
 
                         <Spinner
-                            android:dropDownWidth="250dp"
                             android:id="@+id/spFuel"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:dropDownWidth="250dp" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
@@ -149,11 +149,11 @@
                         android:layout_weight="1">
                         <!-- varient -->
                         <Spinner
-                            android:dropDownWidth="250dp"
                             android:id="@+id/spVarient"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_height="wrap_content"
+                            android:dropDownWidth="250dp" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -273,7 +273,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="CLAIM THIS YEAR :  "
-                                android:textAppearance="@style/TextStyle.Body1" />
+                                android:textAppearance="@style/TextStyle.TextMedium" />
 
                             <TextView
                                 android:id="@+id/tvClaimYes"
@@ -284,7 +284,7 @@
                                 android:gravity="center"
                                 android:padding="3dp"
                                 android:text="YES"
-                                android:textAppearance="@style/TextStyle.Body1"
+                                android:textAppearance="@style/TextStyle.TextMedium"
                                 android:textColor="@color/black" />
 
                             <TextView
@@ -296,7 +296,7 @@
                                 android:gravity="center"
                                 android:padding="3dp"
                                 android:text="NO"
-                                android:textAppearance="@style/TextStyle.Body1"
+                                android:textAppearance="@style/TextStyle.TextMedium"
                                 android:textColor="@color/black" />
                         </LinearLayout>
 
@@ -313,7 +313,7 @@
                                 android:layout_marginTop="8dp"
                                 android:gravity="center"
                                 android:text="EXISTING NO CLAIM BONUS"
-                                android:textAppearance="@style/TextStyle.Body1"
+                                android:textAppearance="@style/TextStyle.TextMedium"
                                 android:textColor="@color/black" />
 
                             <LinearLayout
@@ -328,7 +328,7 @@
                                     android:layout_weight="1"
                                     android:gravity="left"
                                     android:text="0"
-                                    android:textAppearance="@style/TextStyle.Body1" />
+                                    android:textAppearance="@style/TextStyle.TextMedium" />
 
                                 <TextView
                                     android:id="@+id/tvProgress"
@@ -337,7 +337,7 @@
                                     android:layout_weight="1"
                                     android:gravity="center"
                                     android:text="0"
-                                    android:textAppearance="@style/TextStyle.Body1"
+                                    android:textAppearance="@style/TextStyle.TextMedium"
                                     android:textColor="@color/black" />
 
                                 <TextView
@@ -347,7 +347,7 @@
                                     android:layout_weight="1"
                                     android:gravity="right"
                                     android:text="50"
-                                    android:textAppearance="@style/TextStyle.Body1" />
+                                    android:textAppearance="@style/TextStyle.TextMedium" />
                             </LinearLayout>
 
                             <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
@@ -425,6 +425,7 @@
                         <EditText
                             android:id="@+id/etCustomerName"
                             style="@style/Style.edittext"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                             android:drawableRight="@drawable/vector_person" />
                     </android.support.design.widget.TextInputLayout>
 

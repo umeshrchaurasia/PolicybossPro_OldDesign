@@ -42,7 +42,7 @@
 
                 <TextView
                     android:id="@+id/txtCoverType"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
@@ -51,7 +51,7 @@
 
                 <TextView
                     android:id="@+id/txtCoverAmount"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"

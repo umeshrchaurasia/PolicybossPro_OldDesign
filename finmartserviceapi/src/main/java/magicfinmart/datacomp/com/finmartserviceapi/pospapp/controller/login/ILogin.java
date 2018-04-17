@@ -16,4 +16,6 @@ public interface ILogin {
     void requestAdmin(String email, IResponseSubcriber iResponseSubcriber);
 
     void getCertificate(IResponseSubcriber iResponseSubcriber);
+
+    void loginByFBAId(LoginRequestEntity loginRequestEntity, IResponseSubcriber iResponseSubcriber);
 }

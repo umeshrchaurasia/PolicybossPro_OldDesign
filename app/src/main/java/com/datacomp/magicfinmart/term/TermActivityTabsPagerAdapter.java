@@ -6,24 +6,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.datacomp.magicfinmart.health.quoappfragment.HealthApplicationFragment;
-import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
 import com.datacomp.magicfinmart.term.quoteapp.TermApplicationListFragment;
 import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 
 import java.util.ArrayList;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 
 
 public class TermActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
 
     public final static String TERM_QUOTE_LIST = "TERM_LIST_QUOTE";
     public final static String TERM_APPLICATION_LIST = "TERM_LIST_APPLICATION";
-    HealthQuoteAppResponse mMasterData;
+    TermQuoteApplicationResponse mMasterData;
     private String[] pageTitle = new String[]{"QUOTES", "APPLICATION"};
 
-    public TermActivityTabsPagerAdapter(FragmentManager fm, HealthQuoteAppResponse masterData) {
+    public TermActivityTabsPagerAdapter(FragmentManager fm, TermQuoteApplicationResponse masterData) {
         super(fm);
         mMasterData = masterData;
     }
@@ -39,10 +37,27 @@ public class TermActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
         switch (index) {
             case 0:
 
-                return new TermQuoteListFragment();
+                TermQuoteListFragment fragment = new TermQuoteListFragment();
+                Bundle bundle = new Bundle();
+                if (mMasterData == null) {
+                    bundle.putParcelableArrayList(TERM_QUOTE_LIST, null);
+                } else {
+                    bundle.putParcelableArrayList(TERM_QUOTE_LIST, (ArrayList<? extends Parcelable>) mMasterData.getMasterData().getQuote());
+                }
+                fragment.setArguments(bundle);
+                return fragment;
+
             case 1:
 
-                return new TermApplicationListFragment();
+                TermApplicationListFragment Afragment = new TermApplicationListFragment();
+                Bundle Abundle = new Bundle();
+                if (mMasterData == null) {
+                    Abundle.putParcelableArrayList(TERM_APPLICATION_LIST, null);
+                } else {
+                    Abundle.putParcelableArrayList(TERM_APPLICATION_LIST, (ArrayList<? extends Parcelable>) mMasterData.getMasterData().getApplication());
+                }
+                Afragment.setArguments(Abundle);
+                return Afragment;
         }
 
         return null;

@@ -26,6 +26,9 @@ public class LoginRequestBuilder extends PospRetroRequestBuilder {
 
     public interface LoginNetworkService {
 
+        @POST(PospRetroRequestBuilder.secondaryUrl + "/LoginByFBAId")
+        Call<LoginResponse> LoginByFBAId(@Body LoginRequestEntity loginRequestEntity);
+
         @POST(PospRetroRequestBuilder.secondaryUrl + "/Login")
         Call<LoginResponse> login(@Body LoginRequestEntity loginRequestEntity);
 

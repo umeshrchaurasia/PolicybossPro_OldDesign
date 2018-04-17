@@ -37,9 +37,9 @@ public class FinmartRetroRequestBuilder {
                     .create();
 
             okhttp3.OkHttpClient okHttpClient = new okhttp3.OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.MINUTES)
-                    .writeTimeout(10, TimeUnit.MINUTES)
-                    .readTimeout(10, TimeUnit.MINUTES)
+                    .connectTimeout(2, TimeUnit.MINUTES)
+                    .writeTimeout(2, TimeUnit.MINUTES)
+                    .readTimeout(2, TimeUnit.MINUTES)
                     .addInterceptor(interceptor)
                     .build();
 
