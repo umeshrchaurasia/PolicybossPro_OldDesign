@@ -43,7 +43,7 @@ public class DBPersistanceController {
     private static final String EXTERNAL_LPG = "External Fitted LPG";
     private static final String EXTERNAL_CNG = "External Fitted CNG";
     Map<String, Integer> hashMapInsurence,hashmapPremTerm;
-    HashMap<String, String> hashMapAddons;
+    HashMap<String, String> hashMapAddons,hdfcpersonalloanbankbranch;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
     HashMap<String, Integer> hashmapCity;
     Context mContext;
@@ -186,7 +186,7 @@ public class DBPersistanceController {
 
         List<String> listCarVariant = new ArrayList<>();
         List<CarMasterEntity> list = new ArrayList<>();
-        listCarVariant.add("Varient");
+        listCarVariant.add("Variant");
         if (fuelname.equals("Petrol") || fuelname.equals("Diesel") || fuelname.equals("CNG")) {
 
             list = realm.where(CarMasterEntity.class)
@@ -215,7 +215,7 @@ public class DBPersistanceController {
     public List<String> getVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
-        listCarVariant.add("Varient");
+        listCarVariant.add("Variant");
         List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");
@@ -356,7 +356,7 @@ public class DBPersistanceController {
     public List<String> getBikeVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
-        listCarVariant.add("Varient");
+        listCarVariant.add("Variant");
         List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");
@@ -1705,4 +1705,67 @@ public class DBPersistanceController {
 
     }
     //endregion
+
+    //region HDFC personal loan bank
+
+
+
+    public String gethdfcplbankbranchrList(String addonName) {
+        hdfcpersonalloanbankbranch = new LinkedHashMap<String, String>();
+        Maphdfcpersonalloanbankbranch();
+        return hdfcpersonalloanbankbranch.get(addonName);
+    }
+
+
+    public String gethdfcplbankbranchrListName(String bankName) {
+        hdfcpersonalloanbankbranch = new HashMap<String, String>();
+        Maphdfcpersonalloanbankbranch();
+        String AddOnName = "";
+        for (Map.Entry<String, String> item : hdfcpersonalloanbankbranch.entrySet()) {
+            if (item.getValue().matches(bankName)) {
+                AddOnName = item.getKey();
+                break;
+            }
+        }
+
+        return AddOnName;
+    }
+
+    public List<String> gethdfcpersonalloanbankbranchlist() {
+        hdfcpersonalloanbankbranch = new LinkedHashMap<String, String>();
+        Maphdfcpersonalloanbankbranch();
+        return new ArrayList<String>(hdfcpersonalloanbankbranch.keySet());
+    }
+
+    public void Maphdfcpersonalloanbankbranch() {
+        hdfcpersonalloanbankbranch.put("Select Branch Location","");
+        hdfcpersonalloanbankbranch.put("AHMEDABAD","AhmedabadOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Bangalore-PL","BangaloreOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Bangalore-BL","BangaloreOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Bhuvaneshwar","bhubeneswaropen-beu");
+        hdfcpersonalloanbankbranch.put("Chandigarh","chandigarhopen_beu");
+        hdfcpersonalloanbankbranch.put("Chennai","Chennai Open BEU");
+        hdfcpersonalloanbankbranch.put("Chennai-BL","Chennai Open BEU");
+        hdfcpersonalloanbankbranch.put("Cochin","CochinOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Coimbatore","Coimbatore open- BEU");
+        hdfcpersonalloanbankbranch.put("DELHI-PL","Delhiopen1-beu");
+        hdfcpersonalloanbankbranch.put("Delhi-BL","DelhiOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Hyderabad","HyderabadOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Hyderabad-BL","HyderabadOpen - BEU");
+        hdfcpersonalloanbankbranch.put("INDORE","Indore Open - BEU");
+        hdfcpersonalloanbankbranch.put("Jaipur","JaipurOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Kolkata","kolkattaopen-beu");
+        hdfcpersonalloanbankbranch.put("Lucknow","Lucknow_openbeu");
+        hdfcpersonalloanbankbranch.put("MUMBAI","MumbaiOpen - BEU");
+        hdfcpersonalloanbankbranch.put("MUMBAI-BL","MumbaiOpen - BEU");
+        hdfcpersonalloanbankbranch.put("NAGPUR","Nagpur Open - BEU");
+        hdfcpersonalloanbankbranch.put("Nellore","Nellore Open - BEU");
+        hdfcpersonalloanbankbranch.put("PUNE","PuneOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Rajahmundry","Rajahmundry Open - BEU");
+        hdfcpersonalloanbankbranch.put("Vijaywada","Vijayawadaopen-BEU");
+        hdfcpersonalloanbankbranch.put("Vizag","Vizagopen-BEU");
+
+
+    }
+
 }

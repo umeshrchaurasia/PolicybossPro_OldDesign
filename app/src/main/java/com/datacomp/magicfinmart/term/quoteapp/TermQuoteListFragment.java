@@ -22,6 +22,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.TermActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,12 +117,14 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
                 case 1001://compare term
                 case 43://edelwise
                 case 28://hdfc
-                case 39://icici
                 case 1://tata aig
                     callInputTerm(compId, null);
                     break;
-                default:
-                    callInputTerm(0, null); //compare term
+                case 39://icici
+                    Intent intent = new Intent(getActivity(), IciciTermActivity.class);
+                    intent.putExtra(TERM_FOR_INPUT_FRAGMENT, 39);
+                    //intent.putExtra(TERM_INPUT_FRAGMENT, null);
+                    startActivity(intent);
                     break;
             }
         } else if (v.getId() == R.id.tvSearch
