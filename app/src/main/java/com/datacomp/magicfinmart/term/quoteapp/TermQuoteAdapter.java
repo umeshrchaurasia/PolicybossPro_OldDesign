@@ -59,7 +59,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
             holder.txtQuoteDate.setText(quote.getTermRequestEntity().getCreated_date());
             holder.llBottom.setTag(R.id.llBottom, quote);
             holder.txtPersonName.setTag(R.id.txtPersonName, quote);
-            holder.txtCustRefNo.setTag(R.id.txtSumAssured, quote);
+            holder.txtCustRefNo.setTag(R.id.txtCustRefNo, quote);
             holder.txtQuoteDate.setTag(R.id.txtQuoteDate, quote);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, quote);
 

@@ -51,17 +51,18 @@ public class FastLaneController implements IFastLane {
 
             @Override
             public void onFailure(Call<FastLaneDataResponse> call, Throwable t) {
-                if (t instanceof ConnectException) {
+                iResponseSubcriber.OnFailure(new RuntimeException("data not found pls enter manually"));
+               /* if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    iResponseSubcriber.OnFailure(new RuntimeException("data not found pls enter manually"));
                 } else if (t instanceof UnknownHostException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    iResponseSubcriber.OnFailure(new RuntimeException("data not found pls enter manually"));
                 } else if (t instanceof NumberFormatException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    iResponseSubcriber.OnFailure(new RuntimeException("data not found pls enter manually"));
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
-                }
+                    iResponseSubcriber.OnFailure(new RuntimeException("data not found pls enter manually"));
+                }*/
             }
         });
         new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fastlane : Go button on fastlane "), "Motor Insurance"), null);

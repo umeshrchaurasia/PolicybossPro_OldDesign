@@ -187,7 +187,7 @@ public class DBPersistanceController {
 
         List<String> listCarVariant = new ArrayList<>();
         List<CarMasterEntity> list = new ArrayList<>();
-        listCarVariant.add("Varient");
+        listCarVariant.add("Variant");
         if (fuelname.equals("Petrol") || fuelname.equals("Diesel") || fuelname.equals("CNG")) {
 
             list = realm.where(CarMasterEntity.class)
@@ -216,7 +216,7 @@ public class DBPersistanceController {
     public List<String> getVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
-        listCarVariant.add("Varient");
+        listCarVariant.add("Variant");
         List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");
@@ -357,7 +357,7 @@ public class DBPersistanceController {
     public List<String> getBikeVariantbyModelID(String modelID) {
 
         List<String> listCarVariant = new ArrayList<>();
-        listCarVariant.add("Varient");
+        listCarVariant.add("Variant");
         List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class)
                 .equalTo("Model_ID", modelID)
                 .distinct("Variant_ID");

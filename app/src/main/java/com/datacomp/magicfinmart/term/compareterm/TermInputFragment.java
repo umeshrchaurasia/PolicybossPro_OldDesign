@@ -32,10 +32,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
 
-/**
- * Created by Rajeev Ranjan on 06/04/2018.
- */
-
 public class TermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
 
     Button btnGetQuote;
@@ -52,14 +48,8 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-
     LinearLayout llCompareAll;
-    View lllayoutICICI;
-
-
-    //region icici form
-    Spinner spOptions, spPremiumTerm, spPremiumFrequency;
-    //endregion
+    int insurerID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,45 +67,12 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
         adapter_listener();
         if (getArguments() != null) {
-            termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
-            enableInputs(getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT));
+            if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null)
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
+            insurerID = getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT);
             bindInput(termFinmartRequest);
         }
         return view;
-    }
-
-    private void enableInputs(int insurerId) {
-        switch (insurerId) {
-            case 1001://compare term
-            case 43://edelwise
-            case 28://hdfc
-            case 39://icici
-            case 1://tata aig
-                enableCompareInputs(insurerId);
-                break;
-        }
-    }
-
-    private void enableCompareInputs(int insID) {
-        switch (insID) {
-            case 0://compare term
-                llCompareAll.setVisibility(View.VISIBLE);
-                lllayoutICICI.setVisibility(View.GONE);
-                break;
-            case 43://edelwise
-                break;
-            case 28://hdfc
-                break;
-            case 39://icici
-                llCompareAll.setVisibility(View.GONE);
-                lllayoutICICI.setVisibility(View.VISIBLE);
-                break;
-            case 1://tata aig
-                break;
-            default:
-                break;
-        }
-
     }
 
 
@@ -130,7 +87,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 etLastName.setText("" + splitStr[1]);
                 etMobile.setText("" + termRequestEntity.getContactMobile());
                 spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPolicyTerm()) - 5));
-                spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPPT()) - 5));
+                spPremTerm.setSelection((Integer.parseInt(termRequestEntity.getPPT()) - 5));
                 etPincode.setText("" + termRequestEntity.getPincode());
                 if (termRequestEntity.getIs_TabaccoUser().equals("true"))
                     rbYesSmoker.setChecked(true);
@@ -197,7 +154,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
         //Compare All
         llCompareAll = (LinearLayout) view.findViewById(R.id.llCompareAll);
-        lllayoutICICI = (View) view.findViewById(R.id.layoutICICI);
+
     }
 
     @Override
@@ -212,6 +169,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 break;
         }
     }
+
 
     private void setTermRequest() {
         termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
@@ -253,12 +211,12 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
-
+        dialog.cancel();
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-
+        dialog.cancel();
     }
 
     public boolean isValidInput() {

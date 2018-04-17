@@ -167,11 +167,11 @@ public class Utility {
         ConstantEntity constantEntity = dbPersistanceController.getConstantsData();
 
         if (constantEntity != null) {
-            pospStatus = Integer.parseInt(constantEntity.getPOSPStat());
-            if (pospStatus == 6)
+            pospStatus = Integer.parseInt(constantEntity.getPOSPTraining());
+            if (pospStatus == 1)
                 return 1;
         }
-        return 1;
+        return 0;
     }
 
     public static String getLocalIpAddress(Context context) {

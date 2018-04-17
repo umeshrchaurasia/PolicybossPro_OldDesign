@@ -152,8 +152,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 loginRequestEntity.setDeviceId(new ReadDeviceID(LoginActivity.this).getAndroidID());
                 loginRequestEntity.setDeviceToken("DEVICE_TOKEN");
                 loginRequestEntity.setIP("");
-                loginRequestEntity.setFBAId(new DBPersistanceController(this).getUserData().getFBAId());
-                //loginRequestEntity.setFBAId(2335);
+                try {
+                    loginRequestEntity.setFBAId(Integer.parseInt(new DBPersistanceController(this).getUserData().getPOSPNo()));
+                    //loginRequestEntity.setFBAId(2335);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 txtMessage.setVisibility(View.GONE);
                 tvRqstAdmin.setVisibility(View.GONE);
                 showProgressDialog();

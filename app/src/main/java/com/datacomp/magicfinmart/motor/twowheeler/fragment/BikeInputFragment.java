@@ -64,7 +64,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
-public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener,ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew;
     CardView cvNcb;
@@ -101,6 +101,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     LocationTracker locationTracker;
     Location location;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -1335,6 +1336,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (t.getMessage().contains("manually")) {
+            llVerifyCarDetails.setVisibility(View.GONE);
+        }
     }
 
     //endregion
