@@ -57,6 +57,11 @@ public class TermRequestEntity implements Parcelable {
     private String SumAssured;
     private String InsuredDOB;
     private String PaymentModeValue;
+    /**
+     * LumpsumPercentage : 0
+     */
+
+
 
     public String getPincode() {
         return pincode;
@@ -100,6 +105,7 @@ public class TermRequestEntity implements Parcelable {
     private String ServiceTaxNotApplicable;
     private String CIBenefit;
     private String ADHB;
+    private String LumpsumPercentage;
 
     private int InsurerId;
     private String SessionID;
@@ -440,7 +446,13 @@ public class TermRequestEntity implements Parcelable {
     public void setSupportsAgentID(String SupportsAgentID) {
         this.SupportsAgentID = SupportsAgentID;
     }
+    public String getLumpsumPercentage() {
+        return LumpsumPercentage;
+    }
 
+    public void setLumpsumPercentage(String LumpsumPercentage) {
+        this.LumpsumPercentage = LumpsumPercentage;
+    }
 
     @Override
     public int describeContents() {
@@ -482,6 +494,7 @@ public class TermRequestEntity implements Parcelable {
         dest.writeString(this.ServiceTaxNotApplicable);
         dest.writeString(this.CIBenefit);
         dest.writeString(this.ADHB);
+        dest.writeString(this.LumpsumPercentage);
         dest.writeInt(this.InsurerId);
         dest.writeString(this.SessionID);
         dest.writeString(this.Existing_ProductInsuranceMapping_Id);
@@ -530,6 +543,7 @@ public class TermRequestEntity implements Parcelable {
         this.ServiceTaxNotApplicable = in.readString();
         this.CIBenefit = in.readString();
         this.ADHB = in.readString();
+        this.LumpsumPercentage = in.readString();
         this.InsurerId = in.readInt();
         this.SessionID = in.readString();
         this.Existing_ProductInsuranceMapping_Id = in.readString();

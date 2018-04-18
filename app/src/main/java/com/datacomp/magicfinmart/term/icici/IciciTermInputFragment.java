@@ -62,16 +62,18 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     //region icici form
     Spinner spICICIOptions, spICICIPremiumTerm, spICICIPremiumFrequency;
-    TextView txtICICILumpSum, txtICICIRegularIncome, txtICICIIncreasingIncome;
-    EditText etSumICICIAssured, etICICIPolicyTerm, etICICIPremiumTerm, etICICICriticalIllness, etICICIAccidentalBenefits;
+    TextView txtICICILumpSum, txtICICIRegularIncome, txtICICIIncreasingIncome, txtICICILumpSumRegular;
+    EditText etSumICICIAssured, etICICIPolicyTerm, etICICIPremiumTerm,
+            etICICICriticalIllness, etICICIAccidentalBenefits, etICICILumpSumpPerc;
     Button minusICICISum, plusICICISum, minusICICIPTerm, plusICICIPTerm,
-            minusICICIPreTerm, plusICICIPreTerm, minusICICICritical, plusICICICritical, minusICICIAcc, plusICICIAcc;
+            minusICICIPreTerm, plusICICIPreTerm, minusICICICritical, plusICICICritical,
+            minusICICIAcc, plusICICIAcc, minusICICILumpSumpPerc, plusICICILumpSumpPerc;
 
 
     ArrayAdapter<String> policyOptionsAdapter, policyTermAdapter, premiumFrequencyAdapter;
 
 
-    LinearLayout llICICIAccidental, llICICICritical;
+    LinearLayout llICICIAccidental, llICICICritical, llICICILumpSumpPerc;
     //endregion
 
     int insurerID;
@@ -94,7 +96,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         //adapter_listener();
         if (getArguments() != null) {
-            termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
+            if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null)
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
             insurerID = getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT);
             bindICICI();
             bindInput(termFinmartRequest);
@@ -108,6 +111,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         etICICIAccidentalBenefits.setText("1,000,000");
         etICICIPolicyTerm.setText("20");
         etICICIPremiumTerm.setText("20");
+        etICICILumpSumpPerc.setText("50");
 
         //by default Regular pay selected.
         spICICIPremiumTerm.setSelection(0);
@@ -118,6 +122,19 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (parent.getId() == R.id.spICICIOptions) {
                 manipulateInputs(spICICIOptions.getSelectedItem().toString());
+
+            } else if (parent.getId() == R.id.spICICIPremiumFrequency) {
+                switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
+                    case 0:
+                        termRequestEntity.setFrequency("Annual");
+                        break;
+                    case 1:
+                        termRequestEntity.setFrequency("Half Yearly");
+                        break;
+                    case 2:
+                        termRequestEntity.setFrequency("Monthly");
+                        break;
+                }
 
             } else if (parent.getId() == R.id.spICICIPremiumTerm) {
 
@@ -131,8 +148,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 switch (spICICIPremiumTerm.getSelectedItemPosition()) {
                     case 0://regular pay
                         canChangePremiumTerm = true;
+                        termRequestEntity.setPremiumPaymentOption("Regular Pay");
                         break;
                     case 1:// single pay
+                        termRequestEntity.setPremiumPaymentOption("Single Pay");
                         optionsList.remove("LIFE AND HEALTH");
                         optionsList.remove("ALL IN ONE");
 
@@ -144,6 +163,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                         setPolicyTerm((75 - age));
                         break;
                     case 2://limited pay
+                        termRequestEntity.setPremiumPaymentOption("Limited Pay");
                         canChangePremiumTerm = true;
                         setPolicyTerm((75 - age));
                         if ((75 - age) > 30) {
@@ -181,19 +201,23 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     private void manipulateInputs(String s) {
         switch (s) {
             case "LIFE":
+                termRequestEntity.setPlanTaken("Life");
                 llICICICritical.setVisibility(View.GONE);
                 llICICIAccidental.setVisibility(View.GONE);
                 break;
             case "LIFE PLUS":
+                termRequestEntity.setPlanTaken("Life Plus");
                 llICICICritical.setVisibility(View.GONE);
                 llICICIAccidental.setVisibility(View.VISIBLE);
                 break;
             case "LIFE AND HEALTH":
+                termRequestEntity.setPlanTaken("Life and Health");
                 llICICICritical.setVisibility(View.VISIBLE);
                 llICICIAccidental.setVisibility(View.GONE);
                 setDefaultValues("LIFE AND HEALTH");
                 break;
             case "ALL IN ONE":
+                termRequestEntity.setPlanTaken("All in One");
                 llICICICritical.setVisibility(View.VISIBLE);
                 llICICIAccidental.setVisibility(View.VISIBLE);
                 break;
@@ -247,6 +271,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         etDOB.setOnClickListener(datePickerDialog);
 
         txtICICILumpSum.setOnClickListener(this);
+        txtICICILumpSumRegular.setOnClickListener(this);
         txtICICIRegularIncome.setOnClickListener(this);
         txtICICIIncreasingIncome.setOnClickListener(this);
 
@@ -260,6 +285,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         plusICICICritical.setOnClickListener(this);
         minusICICIAcc.setOnClickListener(this);
         plusICICIAcc.setOnClickListener(this);
+        minusICICILumpSumpPerc.setOnClickListener(this);
+        plusICICILumpSumpPerc.setOnClickListener(this);
         spICICIOptions.setOnItemSelectedListener(optionSelected);
         spICICIPremiumTerm.setOnItemSelectedListener(optionSelected);
     }
@@ -300,7 +327,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         rbNoSmoker = (RadioButton) view.findViewById(R.id.rbNoSmoker);
 
         etPincode = (EditText) view.findViewById(R.id.etPincode);
-        etSumAssured = (EditText) view.findViewById(R.id.etSumAssured);
+        etSumAssured = (EditText) view.findViewById(R.id.etICICISumAssured);
         spPolicyTerm = (Spinner) view.findViewById(R.id.spPolicyTerm);
         spPremTerm = (Spinner) view.findViewById(R.id.spPremTerm);
 
@@ -312,6 +339,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         //region icici id
         llICICIAccidental = (LinearLayout) view.findViewById(R.id.llAccidental);
         llICICICritical = (LinearLayout) view.findViewById(R.id.llCritical);
+        llICICILumpSumpPerc = (LinearLayout) view.findViewById(R.id.llICICILumpSumpPerc);
         spICICIOptions = (Spinner) view.findViewById(R.id.spICICIOptions);
         spICICIPremiumTerm = (Spinner) view.findViewById(R.id.spICICIPremiumTerm);
         spICICIPremiumFrequency = (Spinner) view.findViewById(R.id.spICICIPremiumFrequency);
@@ -319,11 +347,13 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         txtICICILumpSum = (TextView) view.findViewById(R.id.txtICICILumpSum);
         txtICICIRegularIncome = (TextView) view.findViewById(R.id.txtICICIRegularIncome);
         txtICICIIncreasingIncome = (TextView) view.findViewById(R.id.txtICICIIncreasingIncome);
+        txtICICILumpSumRegular = (TextView) view.findViewById(R.id.txtICICILumpSumRegular);
         etSumICICIAssured = (EditText) view.findViewById(R.id.etICICISumAssured);
         etICICIPolicyTerm = (EditText) view.findViewById(R.id.etICICIPolicyTerm);
         etICICIPremiumTerm = (EditText) view.findViewById(R.id.etICICIPremiumTerm);
         etICICICriticalIllness = (EditText) view.findViewById(R.id.etICICICriticalIllness);
         etICICIAccidentalBenefits = (EditText) view.findViewById(R.id.etICICIAccidentalBenefits);
+        etICICILumpSumpPerc = (EditText) view.findViewById(R.id.etICICILumpSumpPerc);
         minusICICISum = (Button) view.findViewById(R.id.minusICICISum);
         plusICICISum = (Button) view.findViewById(R.id.plusICICISum);
         minusICICIPTerm = (Button) view.findViewById(R.id.minusICICIPTerm);
@@ -334,6 +364,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         plusICICICritical = (Button) view.findViewById(R.id.plusICICICritical);
         minusICICIAcc = (Button) view.findViewById(R.id.minusICICIAcc);
         plusICICIAcc = (Button) view.findViewById(R.id.plusICICIAcc);
+        minusICICILumpSumpPerc = (Button) view.findViewById(R.id.minusICICILumpSumpPerc);
+        plusICICILumpSumpPerc = (Button) view.findViewById(R.id.plusICICILumpSumpPerc);
         //end region
     }
 
@@ -344,12 +376,13 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
                 if (isValidInput()) {
                     setTermRequest();
-                    ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    ((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
                 }
                 break;
             case R.id.txtICICILumpSum:
             case R.id.txtICICIRegularIncome:
             case R.id.txtICICIIncreasingIncome:
+            case R.id.txtICICILumpSumRegular:
                 incomeSelection(((TextView) view).getText().toString());
                 break;
             case R.id.plusICICISum:
@@ -384,7 +417,32 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             case R.id.minusICICIAcc:
                 changeAccidentalDeath(false);
                 break;
+
+            case R.id.plusICICILumpSumpPerc:
+                changeLumpsumPercent(true);
+                break;
+            case R.id.minusICICILumpSumpPerc:
+                changeLumpsumPercent(false);
+                break;
         }
+    }
+
+    private void changeLumpsumPercent(boolean b) {
+        int maxLumpsumPercent = 95;
+        int minLumpsumPercent = 5;
+        int step = 5;
+        int LumpsumPercent = Integer.parseInt(etICICILumpSumpPerc.getText().toString());
+
+        if (b) {
+            if (LumpsumPercent < maxLumpsumPercent) {
+                LumpsumPercent += step;
+            }
+        } else {
+            if (LumpsumPercent > minLumpsumPercent) {
+                LumpsumPercent -= step;
+            }
+        }
+        etICICILumpSumpPerc.setText("" + LumpsumPercent);
     }
 
     private void changeCriticalIllness(boolean b) {
@@ -548,16 +606,33 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 txtICICILumpSum.setBackgroundResource(R.drawable.customeborder_blue);
                 txtICICIIncreasingIncome.setBackgroundResource(R.drawable.customeborder);
                 txtICICIRegularIncome.setBackgroundResource(R.drawable.customeborder);
+                txtICICILumpSumRegular.setBackgroundResource(R.drawable.customeborder);
+                llICICILumpSumpPerc.setVisibility(View.GONE);
+                termRequestEntity.setDeathBenefitOption("Lump-Sum");
                 break;
             case "REGULAR INCOME":
                 txtICICILumpSum.setBackgroundResource(R.drawable.customeborder);
                 txtICICIIncreasingIncome.setBackgroundResource(R.drawable.customeborder);
                 txtICICIRegularIncome.setBackgroundResource(R.drawable.customeborder_blue);
+                txtICICILumpSumRegular.setBackgroundResource(R.drawable.customeborder);
+                llICICILumpSumpPerc.setVisibility(View.GONE);
+                termRequestEntity.setDeathBenefitOption("income");
                 break;
             case "INCREASING INCOME":
                 txtICICILumpSum.setBackgroundResource(R.drawable.customeborder);
                 txtICICIIncreasingIncome.setBackgroundResource(R.drawable.customeborder_blue);
                 txtICICIRegularIncome.setBackgroundResource(R.drawable.customeborder);
+                txtICICILumpSumRegular.setBackgroundResource(R.drawable.customeborder);
+                llICICILumpSumpPerc.setVisibility(View.GONE);
+                termRequestEntity.setDeathBenefitOption("increasing income");
+                break;
+            case "LUMP SUM + REGULAR INCOME":
+                txtICICILumpSum.setBackgroundResource(R.drawable.customeborder);
+                txtICICIIncreasingIncome.setBackgroundResource(R.drawable.customeborder);
+                txtICICIRegularIncome.setBackgroundResource(R.drawable.customeborder);
+                txtICICILumpSumRegular.setBackgroundResource(R.drawable.customeborder_blue);
+                llICICILumpSumpPerc.setVisibility(View.VISIBLE);
+                termRequestEntity.setDeathBenefitOption("lump-sum-income");
                 break;
 
 
@@ -587,7 +662,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         // termRequestEntity.setFrequency("Annual");
         //termRequestEntity.setDeathBenefitOption("Lump-Sum");
         //termRequestEntity.setPPT("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
-        termRequestEntity.setIncomeTerm("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
+        //termRequestEntity.setIncomeTerm("" + dbPersistanceController.getPremYearID(spPremTerm.getSelectedItem().toString()));
 
         //termRequestEntity.setInsurerId(0);
         termRequestEntity.setSessionID("");
@@ -598,22 +673,29 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         termRequestEntity.setSupportsAgentID("1682");
         termRequestEntity.setPincode(etPincode.getText().toString());
 
+
         //icici specific
         termRequestEntity.setMaritalStatus("");
-        termRequestEntity.setPremiumPaymentOption("");
-        termRequestEntity.setServiceTaxNotApplicable("");
+        //termRequestEntity.setPremiumPaymentOption(""); //set in optionSelected
+        termRequestEntity.setServiceTaxNotApplicable("");// not known
+
         if (llICICICritical.getVisibility() == View.VISIBLE)
             termRequestEntity.setCIBenefit("" + etICICICriticalIllness.getText().toString().replaceAll("\\,", ""));
+
         if (llICICIAccidental.getVisibility() == View.VISIBLE)
             termRequestEntity.setADHB("" + etICICIAccidentalBenefits.getText().toString().replaceAll("\\,", ""));
+
+        if (llICICILumpSumpPerc.getVisibility() == View.VISIBLE)
+            termRequestEntity.setLumpsumPercentage("" + etICICILumpSumpPerc.getText().toString());
 
 
         termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
         termRequestEntity.setInsurerId(39);
-        termRequestEntity.setPlanTaken("Life");
-        termRequestEntity.setFrequency("Annual");
-        termRequestEntity.setDeathBenefitOption("Lump-Sum");
+        //termRequestEntity.setPlanTaken("Life");// set in manipulateInputs()
+        //termRequestEntity.setFrequency("Annual"); //set in optionSelected
+        //termRequestEntity.setDeathBenefitOption("Lump-Sum"); //set in incomeSelection()
         termRequestEntity.setPPT("" + etICICIPremiumTerm.getText().toString());
+
 
         termFinmartRequest.setTermRequestId(0);
         termFinmartRequest.setTermRequestEntity(termRequestEntity);

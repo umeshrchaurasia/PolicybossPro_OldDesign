@@ -3,8 +3,7 @@ package com.datacomp.magicfinmart.term.icici;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +13,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.compareterm.adapters.TermQuoteAdapter;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -35,9 +33,12 @@ public class IciciTermQuoteFragment extends BaseFragment implements View.OnClick
     TermRequestEntity termRequestEntity;
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn, filter;
     ImageView ivEdit;
-    TermQuoteAdapter mAdapter;
+    //TermQuoteAdapter mAdapter;
     TermCompareQuoteResponse termCompareQuoteResponse;
-    RecyclerView rvTerm;
+    // RecyclerView rvTerm;
+
+    private final Handler handler = new Handler();
+    private Runnable runPager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,7 +50,7 @@ public class IciciTermQuoteFragment extends BaseFragment implements View.OnClick
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_term_compare_quote, container, false);
+        View view = inflater.inflate(R.layout.fragment_term_icici_quote, container, false);
         registerPopUp(this);
         initView(view);
         setListener();
@@ -67,9 +68,9 @@ public class IciciTermQuoteFragment extends BaseFragment implements View.OnClick
     }
 
     private void initView(View view) {
-        rvTerm = (RecyclerView) view.findViewById(R.id.rvTerm);
-        rvTerm.setLayoutManager(new LinearLayoutManager(getActivity()));
-        rvTerm.setHasFixedSize(true);
+        //rvTerm = (RecyclerView) view.findViewById(R.id.rvTerm);
+        //rvTerm.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //rvTerm.setHasFixedSize(true);
         tvSum = (TextView) view.findViewById(R.id.tvSum);
         tvGender = (TextView) view.findViewById(R.id.tvGender);
         tvSmoker = (TextView) view.findViewById(R.id.tvSmoker);
@@ -119,12 +120,12 @@ public class IciciTermQuoteFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
-
+        dialog.cancel();
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-
+        dialog.cancel();
     }
 
     public void redirectToBuy(TermCompareResponseEntity entity) {
@@ -153,8 +154,8 @@ public class IciciTermQuoteFragment extends BaseFragment implements View.OnClick
         if (response instanceof TermCompareQuoteResponse) {
             cancelDialog();
             this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
-            mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
-            rvTerm.setAdapter(mAdapter);
+            //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
+            //rvTerm.setAdapter(mAdapter);
             tvCrn.setText("" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID());
         }
 
@@ -165,4 +166,5 @@ public class IciciTermQuoteFragment extends BaseFragment implements View.OnClick
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
 }
