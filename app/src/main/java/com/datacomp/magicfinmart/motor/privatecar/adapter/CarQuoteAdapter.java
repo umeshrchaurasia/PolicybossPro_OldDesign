@@ -55,16 +55,16 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
         // holder.txtIDV.setText(responseEntity);
         if (responseEntity.getPremium_Breakup() != null) {
             if (responseEntity.isAddonApplied()) {
-                holder.txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
+                holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
             } else {
-                holder.txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium())));
+                holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium())));
             }
 
         } else {
             holder.txtFinalPremium.setText("");
         }
 
-        holder.txtIDV.setText("\u20B9 " + String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
+        holder.txtIDV.setText("\u20B9" + String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
         //holder.imgInsurerLogo.setImageResource(dbPersistanceController.getInsImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
         Glide.with(mContext)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))

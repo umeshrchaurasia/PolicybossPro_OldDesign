@@ -132,7 +132,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     private void bindInput() {
 
         resetonClick();
-        selectCoverFor(healthRequestEntity.getPolicyFor().toLowerCase());
+        if (healthRequestEntity.getPolicyFor() != null)
+            selectCoverFor(healthRequestEntity.getPolicyFor().toLowerCase());
 
         etAmount.setText(healthRequestEntity.getSumInsured());
         etMobile.setText(healthRequestEntity.getContactMobile());
