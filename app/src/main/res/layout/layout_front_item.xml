@@ -28,7 +28,7 @@
                 android:id="@+id/spValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/SpinnerStyle.Underlined"
+                android:background="@drawable/spinner_background_inspect"
                 android:minWidth="130dp"></Spinner>
         </LinearLayout>
 
