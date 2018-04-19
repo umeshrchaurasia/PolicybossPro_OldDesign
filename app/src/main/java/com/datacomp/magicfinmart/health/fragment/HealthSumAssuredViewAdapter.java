@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.health.fragment;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.List;
@@ -52,13 +54,16 @@ public class HealthSumAssuredViewAdapter extends RecyclerView.Adapter<HealthSumA
         holder.txtSumAssured.setText(listSumAssured.get(position).getDisplayValue());
         if (listSumAssured.get(position).isSelected()) {
             holder.txtSumAssured.setBackgroundResource(R.drawable.sumassuredborder_blue);
+            holder.txtSumAssured.setTextColor(ContextCompat.getColor( mContext.getActivity(), R.color.white));
         } else {
             holder.txtSumAssured.setBackgroundResource(R.drawable.sumassured_border);
+            holder.txtSumAssured.setTextColor(ContextCompat.getColor( mContext.getActivity(), R.color.search_gray));
         }
         holder.txtSumAssured.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 holder.txtSumAssured.setBackgroundResource(R.drawable.sumassuredborder_blue);
+                holder.txtSumAssured.setTextColor(ContextCompat.getColor( mContext.getActivity(), R.color.white));
                 for (int i = 0; i < listSumAssured.size(); i++) {
                     listSumAssured.get(i).setSelected(false);
                 }

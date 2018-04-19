@@ -46,8 +46,8 @@ public class DBPersistanceController {
 
     private static final String EXTERNAL_LPG = "External Fitted LPG";
     private static final String EXTERNAL_CNG = "External Fitted CNG";
-    Map<String, Integer> hashMapInsurence,hashmapPremTerm;
-    HashMap<String, String> hashMapAddons,hdfcpersonalloanbankbranch;
+    Map<String, Integer> hashMapInsurence, hashmapPremTerm;
+    HashMap<String, String> hashMapAddons, hdfcpersonalloanbankbranch;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
     HashMap<String, Integer> hashmapCity;
     Context mContext;
@@ -496,6 +496,8 @@ public class DBPersistanceController {
 
         return dashboardEntities;
     }
+
+
 
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
@@ -1481,18 +1483,18 @@ public class DBPersistanceController {
 
     public List<HealthSumAssured> getSumAssured() {
         List<HealthSumAssured> list = new ArrayList<HealthSumAssured>();
-        list.add(new HealthSumAssured("1 Lac", 100000, false));
-        list.add(new HealthSumAssured("2 Lac", 200000, false));
-        list.add(new HealthSumAssured("3 Lac", 300000, false));
-        list.add(new HealthSumAssured("5 Lac", 500000, false));
-        list.add(new HealthSumAssured("6 Lac", 600000, false));
-        list.add(new HealthSumAssured("8 Lac", 800000, false));
-        list.add(new HealthSumAssured("10 Lac", 1000000, false));
-        list.add(new HealthSumAssured("15 Lac", 1500000, false));
-        list.add(new HealthSumAssured("20 Lac", 2000000, false));
-        list.add(new HealthSumAssured("25 Lac", 2500000, false));
-        list.add(new HealthSumAssured("50 Lac", 5000000, false));
-        list.add(new HealthSumAssured("100 Lac", 10000000, false));
+        list.add(new HealthSumAssured("1 LAC", 100000, false));
+        list.add(new HealthSumAssured("2 LACS", 200000, false));
+        list.add(new HealthSumAssured("3 LACS", 300000, false));
+        list.add(new HealthSumAssured("5 LACS", 500000, false));
+        list.add(new HealthSumAssured("6 LACS", 600000, false));
+        list.add(new HealthSumAssured("8 LACS", 800000, false));
+        list.add(new HealthSumAssured("10 LACS", 1000000, false));
+        list.add(new HealthSumAssured("15 LACS", 1500000, false));
+        list.add(new HealthSumAssured("20 LACS", 2000000, false));
+        list.add(new HealthSumAssured("25 LACS", 2500000, false));
+        list.add(new HealthSumAssured("50 LACS", 5000000, false));
+        list.add(new HealthSumAssured("100 LACS", 10000000, false));
         return list;
     }
 
@@ -1723,7 +1725,7 @@ public class DBPersistanceController {
 
     public List<EmploymentEntity> getExEmploymentList() {
         List<EmploymentEntity> EmploymentEntityList = new ArrayList<EmploymentEntity>();
-        EmploymentEntityList.add(new EmploymentEntity(0,"Select Employment &amp; Mode of Credit"));
+        EmploymentEntityList.add(new EmploymentEntity(0, "Select Employment &amp; Mode of Credit"));
         EmploymentEntityList.add(new EmploymentEntity(1, "Salaried: Account Transfer"));
         EmploymentEntityList.add(new EmploymentEntity(2, "Salaried: By Cheque"));
         EmploymentEntityList.add(new EmploymentEntity(3, "Salaried: By Cash"));
@@ -1747,7 +1749,6 @@ public class DBPersistanceController {
 
 
     //region HDFC personal loan bank
-
 
 
     public String gethdfcplbankbranchrList(String addonName) {
@@ -1778,32 +1779,32 @@ public class DBPersistanceController {
     }
 
     public void Maphdfcpersonalloanbankbranch() {
-        hdfcpersonalloanbankbranch.put("Select Branch Location","");
-        hdfcpersonalloanbankbranch.put("AHMEDABAD","AhmedabadOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Bangalore-PL","BangaloreOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Bangalore-BL","BangaloreOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Bhuvaneshwar","bhubeneswaropen-beu");
-        hdfcpersonalloanbankbranch.put("Chandigarh","chandigarhopen_beu");
-        hdfcpersonalloanbankbranch.put("Chennai","Chennai Open BEU");
-        hdfcpersonalloanbankbranch.put("Chennai-BL","Chennai Open BEU");
-        hdfcpersonalloanbankbranch.put("Cochin","CochinOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Coimbatore","Coimbatore open- BEU");
-        hdfcpersonalloanbankbranch.put("DELHI-PL","Delhiopen1-beu");
-        hdfcpersonalloanbankbranch.put("Delhi-BL","DelhiOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Hyderabad","HyderabadOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Hyderabad-BL","HyderabadOpen - BEU");
-        hdfcpersonalloanbankbranch.put("INDORE","Indore Open - BEU");
-        hdfcpersonalloanbankbranch.put("Jaipur","JaipurOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Kolkata","kolkattaopen-beu");
-        hdfcpersonalloanbankbranch.put("Lucknow","Lucknow_openbeu");
-        hdfcpersonalloanbankbranch.put("MUMBAI","MumbaiOpen - BEU");
-        hdfcpersonalloanbankbranch.put("MUMBAI-BL","MumbaiOpen - BEU");
-        hdfcpersonalloanbankbranch.put("NAGPUR","Nagpur Open - BEU");
-        hdfcpersonalloanbankbranch.put("Nellore","Nellore Open - BEU");
-        hdfcpersonalloanbankbranch.put("PUNE","PuneOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Rajahmundry","Rajahmundry Open - BEU");
-        hdfcpersonalloanbankbranch.put("Vijaywada","Vijayawadaopen-BEU");
-        hdfcpersonalloanbankbranch.put("Vizag","Vizagopen-BEU");
+        hdfcpersonalloanbankbranch.put("Select Branch Location", "");
+        hdfcpersonalloanbankbranch.put("AHMEDABAD", "AhmedabadOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Bangalore-PL", "BangaloreOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Bangalore-BL", "BangaloreOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Bhuvaneshwar", "bhubeneswaropen-beu");
+        hdfcpersonalloanbankbranch.put("Chandigarh", "chandigarhopen_beu");
+        hdfcpersonalloanbankbranch.put("Chennai", "Chennai Open BEU");
+        hdfcpersonalloanbankbranch.put("Chennai-BL", "Chennai Open BEU");
+        hdfcpersonalloanbankbranch.put("Cochin", "CochinOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Coimbatore", "Coimbatore open- BEU");
+        hdfcpersonalloanbankbranch.put("DELHI-PL", "Delhiopen1-beu");
+        hdfcpersonalloanbankbranch.put("Delhi-BL", "DelhiOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Hyderabad", "HyderabadOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Hyderabad-BL", "HyderabadOpen - BEU");
+        hdfcpersonalloanbankbranch.put("INDORE", "Indore Open - BEU");
+        hdfcpersonalloanbankbranch.put("Jaipur", "JaipurOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Kolkata", "kolkattaopen-beu");
+        hdfcpersonalloanbankbranch.put("Lucknow", "Lucknow_openbeu");
+        hdfcpersonalloanbankbranch.put("MUMBAI", "MumbaiOpen - BEU");
+        hdfcpersonalloanbankbranch.put("MUMBAI-BL", "MumbaiOpen - BEU");
+        hdfcpersonalloanbankbranch.put("NAGPUR", "Nagpur Open - BEU");
+        hdfcpersonalloanbankbranch.put("Nellore", "Nellore Open - BEU");
+        hdfcpersonalloanbankbranch.put("PUNE", "PuneOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Rajahmundry", "Rajahmundry Open - BEU");
+        hdfcpersonalloanbankbranch.put("Vijaywada", "Vijayawadaopen-BEU");
+        hdfcpersonalloanbankbranch.put("Vizag", "Vizagopen-BEU");
 
 
     }

@@ -162,27 +162,5 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         healthQuote.setHealthRequestId(healthRequestID);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.home_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case R.id.action_home:
-
-                Intent intent = new Intent(this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
 }
