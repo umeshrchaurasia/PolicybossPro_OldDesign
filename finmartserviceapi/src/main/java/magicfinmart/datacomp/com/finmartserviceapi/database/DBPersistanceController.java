@@ -111,6 +111,18 @@ public class DBPersistanceController {
 
     }
 
+    public String getRTOName(String VehicleCity_Id) {
+
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity.getRTO_City();
+        else
+            return "";
+
+    }
+
     public String getRTOCityName(String VehicleCity_Id) {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
@@ -209,7 +221,7 @@ public class DBPersistanceController {
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name();
+            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
             listCarVariant.add(variant);
         }
         return listCarVariant;
@@ -226,7 +238,7 @@ public class DBPersistanceController {
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name();
+            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
             listCarVariant.add(variant);
         }
 
@@ -497,8 +509,6 @@ public class DBPersistanceController {
         return dashboardEntities;
     }
 
-
-
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
@@ -515,7 +525,7 @@ public class DBPersistanceController {
     public List<String> getInsurerList() {
         MapInsurence();
         ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
-        insurenceList.add(0, "Prev Insurer");
+        insurenceList.add(0, "Present Insurer");
         return insurenceList;
 
     }
@@ -1749,6 +1759,7 @@ public class DBPersistanceController {
 
 
     //region HDFC personal loan bank
+
 
 
     public String gethdfcplbankbranchrList(String addonName) {
