@@ -137,23 +137,26 @@
 
                 <TextView
                     android:id="@+id/txtProductName"
-                    style="@style/TextStyle.TextMedium"
+                    style="@style/TextStyle.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
+                    android:textAlignment="gravity"
                     android:textAllCaps="true"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                     android:textStyle="bold"
+                    android:layout_marginLeft="3dp"
+                    />
 
                 <TextView
                     android:id="@+id/txtPlanName"
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:textSize="9sp" />
+                    
+                    android:textAlignment="gravity"
+                    android:layout_marginLeft="3dp"
+                    android:inputType="textCapWords"
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout

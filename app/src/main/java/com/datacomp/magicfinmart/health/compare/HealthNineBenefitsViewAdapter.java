@@ -58,7 +58,7 @@ public class HealthNineBenefitsViewAdapter extends RecyclerView.Adapter<HealthNi
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("free health checkup")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.health_check));
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("ambulance expenses")) {
-            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.amulance));
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ambulance));
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("no claim bonus")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ncb));
         }
