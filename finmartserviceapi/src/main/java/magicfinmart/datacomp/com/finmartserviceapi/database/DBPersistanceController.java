@@ -509,6 +509,8 @@ public class DBPersistanceController {
         return dashboardEntities;
     }
 
+
+
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
