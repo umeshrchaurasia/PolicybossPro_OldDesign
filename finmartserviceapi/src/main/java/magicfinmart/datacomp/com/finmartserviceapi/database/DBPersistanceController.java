@@ -44,8 +44,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 public class DBPersistanceController {
 
-    private static final String EXTERNAL_LPG = "External Fitted LPG";
-    private static final String EXTERNAL_CNG = "External Fitted CNG";
+    private static final String EXTERNAL_LPG = "External LPG";
+    private static final String EXTERNAL_CNG = "External CNG";
     Map<String, Integer> hashMapInsurence, hashmapPremTerm;
     HashMap<String, String> hashMapAddons, hdfcpersonalloanbankbranch;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
@@ -1759,7 +1759,6 @@ public class DBPersistanceController {
 
 
     //region HDFC personal loan bank
-
 
 
     public String gethdfcplbankbranchrList(String addonName) {

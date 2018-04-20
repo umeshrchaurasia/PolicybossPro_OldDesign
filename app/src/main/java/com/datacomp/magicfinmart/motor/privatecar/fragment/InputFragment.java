@@ -75,7 +75,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     CardView cvNcb;
     LinearLayout llNoClaim, llVerifyCarDetails;
     DiscreteSeekBar sbNoClaimBonus;
-    CardView cvNewRenew, cvRegNo;
+    CardView cvNewRenew, cvRegNo, cvIndividual;
     View cvInput;
     Button btnGetQuote, btnGo;
     TextView tvDontKnow;
@@ -760,6 +760,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         cvNcb = (CardView) view.findViewById(R.id.cvNcb);
         llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
+        cvIndividual = (CardView) view.findViewById(R.id.cvIndividual);
         cvRegNo = (CardView) view.findViewById(R.id.cvRegNo);
         cvInput = (View) view.findViewById(R.id.cvInput);
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
@@ -955,6 +956,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             case R.id.tvDontKnow:
                 cvInput.setVisibility(View.VISIBLE);
                 cvNewRenew.setVisibility(View.GONE);
+                cvIndividual.setVisibility(View.GONE);
                 cvRegNo.setVisibility(View.GONE);
                 btnGetQuote.setVisibility(View.VISIBLE);
                 break;

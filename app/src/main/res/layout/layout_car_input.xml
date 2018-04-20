@@ -170,7 +170,7 @@
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:dropDownWidth="250dp" />
+                            android:dropDownWidth="300dp" />
                     </android.support.design.widget.TextInputLayout>
 
 
