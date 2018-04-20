@@ -2,9 +2,13 @@ package com.datacomp.magicfinmart.health.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -18,6 +22,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.SortbyAge;
 
@@ -356,32 +361,55 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 //region validation
                 memberList.clear();
 
-                if (etAmount.getText().toString().length() == 0) {
-                    etAmount.setError("Select cover required.");
-                    etAmount.setFocusable(true);
+                if((!et1.isEnabled()) && (!et2.isEnabled()) && (!et3.isEnabled()) && (!et4.isEnabled()) && (!et5.isEnabled()) &&(!et6.isEnabled()) )
+                {
+
+                    showAlert("Please Select Member");
+                    return;
+                }
+
+                if(validateMemberAge() == false)
+                {
+                    return;
+                }
+
+
+
+                if (etAmount.getText().toString().trim().length() == 0) {
+
+                    //Toast.makeText(getActivity(), "Select cover required.", Toast.LENGTH_SHORT).show();
+                    showAlert("Select cover required.");
                     return;
                 }
 
                 if (acCity.getText().toString().length() == 0) {
-                    acCity.setError("Select city.");
+                    acCity.setError("Select City.");
                     acCity.setFocusable(true);
                     return;
                 }
 
 
-                if (etName.getText().toString().length() == 0) {
-                    etName.setError("Enter name");
+                if (etName.getText().toString().trim().length() == 0) {
+                    etName.setError("Enter Name");
+                    etName.requestFocus();
                     etName.setFocusable(true);
                     return;
                 }
-                if (etMobile.getText().toString().length() < 10) {
-                    etMobile.setError("Invalid mobile");
-                    etMobile.setFocusable(true);
+//                if (etMobile.getText().toString().length() < 10) {
+//                    etMobile.setError("Invalid mobile");
+//                    etMobile.setFocusable(true);
+//                    return;
+//                }
+
+                if (etPincode.getText().toString().trim().length() == 0) {
+                    etPincode.setError("Enter Pincode");
+                    etPincode.requestFocus();
+                    etPincode.setFocusable(true);
                     return;
                 }
-
                 if (etPincode.getText().toString().length() < 6) {
                     etPincode.setError("Invalid Pincode");
+                    etPincode.requestFocus();
                     etPincode.setFocusable(true);
                     return;
                 }
@@ -791,5 +819,92 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     //endregion
 
+    private boolean validateMemberAge()
+    {
+//        if((et1.isEnabled() && et1.getText().toString().length() ==0)  || (et2.isEnabled() && et2.getText().toString().length() ==0) || (et3.isEnabled() && et3.getText().toString().length() ==0) ||
+//                (et4.isEnabled() && et4.getText().toString().length() ==0)  || (et5.isEnabled() && et5.getText().toString().length() ==0) || (et6.isEnabled() && et6.getText().toString().length() ==0)   )
+//        {
+//            showAlert("Please Select Age");
+//            return;
+//        }
+
+        if((et1.isEnabled() && et1.getText().toString().length() ==0))
+        {
+            showAlert("Please Select Age");
+            et1.requestFocus();
+            return false;
+        }
+        else if(et2.isEnabled() && et2.getText().toString().length() ==0)
+        {
+            showAlert("Please Select Age");
+            et2.requestFocus();
+            return false;
+        }
+        else if(et3.isEnabled() && et3.getText().toString().length() ==0)
+        {
+            showAlert("Please Select Age");
+            et3.requestFocus();
+            return false;
+        }
+        else if(et4.isEnabled() && et4.getText().toString().length() ==0)
+        {
+            showAlert("Please Select Age");
+            et4.requestFocus();
+            return false;
+        }
+        else if(et5.isEnabled() && et5.getText().toString().length() ==0)
+        {
+            showAlert("Please Select Age");
+            et5.requestFocus();
+            return false;
+        }
+        else if(et6.isEnabled() && et6.getText().toString().length() ==0)
+        {
+            showAlert("Please Select Age");
+            et6.requestFocus();
+            return false;
+        }
+
+
+        return  true;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.home_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                getActivity().finish();
+                return true;
+
+
+            case R.id.action_home:
+
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                getActivity().finish();
+                return true;
+
+
+        }
+        return super.onOptionsItemSelected(item);
+
+    }
 
 }

@@ -33,7 +33,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="4dp"
-
+                        android:textStyle="bold"
                         android:text="Who do you wish to cover ?"
                         android:textAllCaps="true"
                         android:textColor="@color/header_dark_text" />
@@ -95,13 +95,13 @@
                     android:orientation="vertical">
 
                     <TextView
-                        style="@style/TextStyle.TextMedium"
+                        style="@style/TextStyle.Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="No. of members"
                         android:textAlignment="center"
                         android:textAllCaps="true"
-                        android:textColor="@color/header_dark_text" />
+                      />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -253,14 +253,14 @@
 
 
                     <TextView
-                        style="@style/TextStyle.TextMedium"
+                        style="@style/TextStyle.Title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
-                        android:paddingLeft="4dp"
                         android:text="Cover required"
+                        android:gravity="center"
                         android:textAllCaps="true"
-                        android:textSize="11sp" />
+                        />
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/rvSumAssured"
@@ -316,7 +316,9 @@
 
                             <EditText
                                 android:id="@+id/etName"
-                                style="@style/Style.edittext" />
+                                style="@style/Style.edittext"
+                                android:digits="abcdefghijklmnopqrstuvwxyz ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                                android:inputType="textCapWords"/>
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout

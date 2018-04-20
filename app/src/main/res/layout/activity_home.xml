@@ -30,7 +30,9 @@
                 android:gravity="center"
                 app:layout_scrollFlags="enterAlwaysCollapsed|enterAlways|snap"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:titleTextAppearance="@style/TextStyle.Toolbar" />
+                app:titleTextAppearance="@style/TextStyle.Toolbar"
+                app:titleTextColor="@color/white"
+                />
 
         </android.support.design.widget.AppBarLayout>
 
