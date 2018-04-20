@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.motor.privatecar.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -309,6 +310,9 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 redirectToBuy(responseEntity.getService_Log_Unique_Id());
                 break;
             case R.id.btnBackToQuote:
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("PREMIUM", responseEntity);
+                setResult(Activity.RESULT_OK, resultIntent);
                 finish();
                 break;
             case R.id.ivShare:
@@ -959,6 +963,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             double finalPremWithGST = finalPremWithoutGST + (finalPremWithoutGST * Constants.GST);
             entity.setFinal_premium_with_addon("" + finalPremWithGST);
             entity.setListAppliedAddons(listAppliedAddonPremium);
+
+
             //endregion
         }
 

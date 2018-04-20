@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,7 +38,6 @@ import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Case;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -332,12 +330,12 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                     new AsyncAddon().execute();
 
 
-                    if (((BikePremiumResponse) response).getResponse().size() != 0)
-                        menuAddon.findItem(R.id.add_on).setVisible(true);
-                    else {
-                        menuAddon.findItem(R.id.add_on).setVisible(false);
-                        Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
-                    }
+//                    if (((BikePremiumResponse) response).getResponse().size() != 0)
+//                        menuAddon.findItem(R.id.add_on).setVisible(true);
+//                    else {
+//                        menuAddon.findItem(R.id.add_on).setVisible(false);
+//                        Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
+//                    }
 
                 } else {
                     webViewLoader.setVisibility(View.VISIBLE);
@@ -383,9 +381,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             case android.R.id.home:
                 getActivity().finish();
                 return true;
-            case R.id.add_on:
-                openAddonPopUp();
-                return true;
+//            case R.id.add_on:
+//                openAddonPopUp();
+//                return true;
             case R.id.share:
                 sharePDF();
                 return true;
@@ -542,9 +540,10 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         new MotorController(getActivity()).saveAddOn(entity, this);
     }
 
+
     private void applyPositiveAddons(List<MobileAddOn> addOnList) {
 
-        for (ResponseEntity entity : bikePremiumResponse.getResponse()) { // itrate for each quote
+        for (ResponseEntity entity : bikePremiumResponse.getResponse()) { // iterate for each quote
             double addonValue = 0;
             entity.setAddonApplied(false);
             entity.setListAppliedAddons(null);
@@ -1010,11 +1009,19 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
-        startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
+
+        Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
+        intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
+        intent.putExtra("RESPONSE_CAR", entity);
+        intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
+        intent.putExtra("SUMMARY", summaryEntity);
+        startActivityForResult(intent, 00000);
+
+       /* startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
                 .putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID())
                 .putExtra("RESPONSE_CAR", entity)
                 .putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn)
-                .putExtra("SUMMARY", summaryEntity));
+                .putExtra("SUMMARY", summaryEntity));*/
 
     }
 
@@ -1242,6 +1249,28 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 }
                 break;
             }
+            case 00000:
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data.getParcelableExtra("PREMIUM") != null) {
+                        ResponseEntity entity = (ResponseEntity) data.getParcelableExtra("PREMIUM");
+
+                        //1 apply final values
+                        //2 change add on list
+                        //3 rebind list
+                        for (int i = 0; i < bikePremiumResponse.getResponse().size(); i++) {
+                            ResponseEntity responseEntity = bikePremiumResponse.getResponse().get(i);
+                            if (responseEntity.getInsurer_Id().equalsIgnoreCase(entity.getInsurer_Id())) {
+                                responseEntity.setFinal_premium_with_addon(entity.getFinal_premium_with_addon());
+                                responseEntity.setFinal_premium_without_addon(entity.getFinal_premium_without_addon());
+                                responseEntity.setTotalGST(entity.getTotalGST());
+                                bikePremiumResponse.getResponse().set(i, responseEntity);
+                            }
+                        }
+
+                        rebindAdapter(bikePremiumResponse);
+                    }
+                }
+                break;
         }
     }
 
