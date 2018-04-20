@@ -128,8 +128,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         initLayouts();
 
 
-        showDialog("Fetching Detail...");
-        new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
+       // showDialog("Fetching Detail...");
+        //new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
 
 
     }

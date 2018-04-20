@@ -275,12 +275,12 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 updateCrn();
                 new BikeQuoteFragment.AsyncAddon().execute();
 
-                if (((BikePremiumResponse) response).getResponse().size() != 0)
-                    menuAddon.findItem(R.id.add_on).setVisible(true);
-                else {
-                    menuAddon.findItem(R.id.add_on).setVisible(false);
-                    Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
-                }
+//                if (((BikePremiumResponse) response).getResponse().size() != 0)
+//                    menuAddon.findItem(R.id.add_on).setVisible(true);
+//                else {
+//                    menuAddon.findItem(R.id.add_on).setVisible(false);
+//                    Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
+//                }
 
             } else {
                 webViewLoader.setVisibility(View.VISIBLE);
@@ -325,9 +325,9 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             case android.R.id.home:
                 getActivity().finish();
                 return true;
-            case R.id.add_on:
-                openPopUp();
-                return true;
+//            case R.id.add_on:
+//                openPopUp();
+//                return true;
 
             case R.id.action_home:
                 if (webViewLoader.getVisibility() != View.VISIBLE) {

@@ -470,7 +470,7 @@
                     style="@style/TextStyle.TextSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="GST @18%"
+                    android:text="GST"
                     android:textAllCaps="true"
                     android:textColor="@color/header_dark_text"
                     android:textStyle="bold" />

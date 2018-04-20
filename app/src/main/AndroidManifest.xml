@@ -83,7 +83,7 @@
             android:label="@string/title_activity_login"
             android:parentActivityName=".splashscreen.SplashScreenActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme"
+            android:theme="@style/Theme.Login"
             android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -824,11 +824,12 @@
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
         </activity>
 
-        <activity android:name=".onlineexpressloan.RblpersonalloanActivity"
+        <activity
+            android:name=".onlineexpressloan.RblpersonalloanActivity"
             android:label="RBL PERSONAL LOAN"
             android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
@@ -1021,8 +1022,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
-
-
 
 
         <activity android:name=".onlineexpressloan.HdfcpersonalloanActivity"></activity>
