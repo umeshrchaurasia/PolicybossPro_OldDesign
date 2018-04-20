@@ -27,7 +27,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="8dp"
-        android:text="Magic Finmart is a single platform from where you can sell various financial products and services to your customers like insurance, loans, Health Check-up plans and more ."
+        android:text="Magic Finmart Is a Single Platform From Where You Can Sell Various Financial Products And Services To Your Customers Like Insurance, Loans, Health Check-up Plans And More ."
         android:textAppearance="@style/TextStyle.TextMedium" />
 
     <TextView
