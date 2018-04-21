@@ -77,7 +77,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_premium_break_up);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        this.setFinishOnTouchOutside(true);
+        this.setFinishOnTouchOutside(false);
         dbPersistanceController = new DBPersistanceController(this);
         registerPopUp(this);
         if (getIntent().hasExtra("SUMMARY")) {
@@ -115,19 +115,19 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     private void bindData() {
         if (responseEntity != null) {
-            txtIDV.setText("" + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            txtIDV.setText("\u20B9 " + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Code());
             if (responseEntity.getFinal_premium_without_addon() != null && !responseEntity.getFinal_premium_without_addon().equals("")) {
-                tvTotalPremium.setText(String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getFinal_premium_without_addon()))));
-                tvGst.setText(String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getTotalGST()))));
+                tvTotalPremium.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getFinal_premium_without_addon()))));
+                tvGst.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getTotalGST()))));
                 tvNetPremium.setText(getRupeesRound(responseEntity.getFinal_premium_with_addon()));
                 txtFinalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_with_addon()));
                 //tvTotalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_without_addon()));
                 //tvGst.setText(getRupeesRound(responseEntity.getTotalGST()));
             } else {
 
-                tvTotalPremium.setText(String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium()))));
-                tvGst.setText(String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getPremium_Breakup().getService_tax()))));
+                tvTotalPremium.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium()))));
+                tvGst.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getPremium_Breakup().getService_tax()))));
                 tvNetPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
 
                 //tvTotalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
