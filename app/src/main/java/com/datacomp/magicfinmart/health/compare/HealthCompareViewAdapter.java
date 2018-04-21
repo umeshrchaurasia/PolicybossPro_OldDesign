@@ -55,7 +55,7 @@ public class HealthCompareViewAdapter extends RecyclerView.Adapter<HealthCompare
             BenefitsEntity entity = healthQuoteEntity.getLstbenfitsFive().get(i);
             if (entity.isSelected()) {
                 String benefitsName = entity.getBenefit().replace("\n", "");
-                holder.txtBenefitsName.setText("* " + benefitsName);
+                holder.txtBenefitsName.setText(benefitsName);
             }
         }
 

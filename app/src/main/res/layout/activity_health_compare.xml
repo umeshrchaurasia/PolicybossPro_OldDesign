@@ -74,7 +74,7 @@
 
         <Button
             android:id="@+id/btnBack"
-            style="@style/ButtonStyle.Colored"
+            style="@style/ButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Back to quote" />

@@ -31,7 +31,6 @@
             android:gravity="left"
             android:padding="6dp"
             android:src="@drawable/selected_dot" />
-
         <TextView
             android:id="@+id/txtBenefitsName"
             style="@style/TextStyle.TextMedium"

@@ -2,13 +2,14 @@
 <resources>
     <!--<color name="colorPrimary">#009EE3</color>-->
     <!--<color name="colorPrimaryDark">#01579B</color>-->
-    <color name="colorPrimary">#009ee2</color>
+    <color name="colorPrimary">#009fe3</color>
     <color name="colorPrimaryDark">#00476f</color>
     <color name="colorAccent">#0288D1</color>
     <color name="divider">#F1F1F1</color>
     <color name="bg">#c9c5c5</color>
     <color name="dashboard_bg">#e3e3e3</color>
     <color name="bg1">#ededed</color>
+    <color name="bg2">#c9c9c9</color>
     <color name="header_text_color">#6c747c</color>
     <color name="secondary_text_color">#9ba0a6</color>
     <color name="tab_color">#00476f</color>
