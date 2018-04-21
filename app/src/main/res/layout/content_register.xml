@@ -125,13 +125,11 @@
 
                         <TextView
                             android:id="@+id/textView3"
+                            style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            style="@style/TextStyle.TextMedium"
                             android:text="Gender" />
-
-
 
 
                         <LinearLayout
@@ -148,7 +146,7 @@
                                 android:layout_weight="50"
                                 android:background="@drawable/customeborder_blue"
                                 android:gravity="center"
-                                android:padding="5dp"
+                                android:padding="2dp"
                                 android:text="Male"
                                 android:textColor="@color/colorPrimary" />
 
@@ -161,7 +159,7 @@
                                 android:layout_weight="50"
                                 android:background="@drawable/customeborder"
                                 android:gravity="center"
-                                android:padding="5dp"
+                                android:padding="2dp"
                                 android:text="Female"
                                 android:textColor="@color/description_text" />
 
@@ -173,20 +171,20 @@
 
 
                     <!--<ImageView-->
-                        <!--android:id="@+id/ivMale"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="25"-->
-                        <!--android:scaleType="centerInside"-->
-                        <!--android:src="@drawable/male_selected" />-->
+                    <!--android:id="@+id/ivMale"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="25"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/male_selected" />-->
 
                     <!--<ImageView-->
-                        <!--android:id="@+id/ivFemale"-->
-                        <!--android:layout_width="0dp"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:layout_weight="25"-->
-                        <!--android:scaleType="centerInside"-->
-                        <!--android:src="@drawable/female" />-->
+                    <!--android:id="@+id/ivFemale"-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="25"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/female" />-->
 
 
                 </LinearLayout>

@@ -3,12 +3,15 @@ package com.datacomp.magicfinmart.motor.privatecar.fragment;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -75,7 +78,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     CardView cvNcb;
     LinearLayout llNoClaim, llVerifyCarDetails;
     DiscreteSeekBar sbNoClaimBonus;
-    CardView cvNewRenew, cvRegNo;
+    CardView cvNewRenew, cvRegNo, cvIndividual;
     View cvInput;
     Button btnGetQuote, btnGo;
     TextView tvDontKnow;
@@ -662,7 +665,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         || fuelList.get(pos).equals(Constants.EXTERNAL_CNG)) {
                     etExtValue.setEnabled(true);
                 } else {
+                    etExtValue.setText("");
                     etExtValue.setEnabled(false);
+                    acMakeModel.requestFocus();
                 }
 
                 variantList.clear();
@@ -735,9 +740,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             @Override
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 if (fromUser) {
-                    tvProgress.setText("Existing NCB (" + getPercentFromProgress(value) + "%)");
-                    //tvProgress.setText("" + getPercentFromProgress(value));
-                    //sbNoClaimBonus.
+                    String ncbBold = "(" + String.valueOf(getPercentFromProgress(value)) + "%)";
+                    SpannableString ss1 = new SpannableString(ncbBold);
+                    ss1.setSpan(new StyleSpan(Typeface.BOLD), 0, ss1.length(), 0);
+                    String normalText = "Existing NCB ";
+                    tvProgress.setText("");
+                    tvProgress.append(normalText);
+                    tvProgress.append(ss1);
                 }
             }
 
@@ -760,6 +769,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         cvNcb = (CardView) view.findViewById(R.id.cvNcb);
         llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
+        cvIndividual = (CardView) view.findViewById(R.id.cvIndividual);
         cvRegNo = (CardView) view.findViewById(R.id.cvRegNo);
         cvInput = (View) view.findViewById(R.id.cvInput);
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
@@ -828,6 +838,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder_blue);
                 sbNoClaimBonus.setEnabled(false);
+                tvProgress.setText("Existing NCB");
                 sbNoClaimBonus.setProgress(0);
                 break;
             case R.id.btnGetQuote:
@@ -955,6 +966,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             case R.id.tvDontKnow:
                 cvInput.setVisibility(View.VISIBLE);
                 cvNewRenew.setVisibility(View.GONE);
+                cvIndividual.setVisibility(View.GONE);
                 cvRegNo.setVisibility(View.GONE);
                 btnGetQuote.setVisibility(View.VISIBLE);
                 break;
