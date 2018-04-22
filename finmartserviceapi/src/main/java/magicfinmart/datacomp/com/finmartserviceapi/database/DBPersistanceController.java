@@ -1778,7 +1778,7 @@ public class DBPersistanceController {
     }
 
     public void Maphdfcpersonalloanbankbranch() {
-        hdfcpersonalloanbankbranch.put("Select Branch Location","");
+        hdfcpersonalloanbankbranch.put("Select Branch","");
         hdfcpersonalloanbankbranch.put("AHMEDABAD","AhmedabadOpen - BEU");
         hdfcpersonalloanbankbranch.put("Bangalore-PL","BangaloreOpen - BEU");
         hdfcpersonalloanbankbranch.put("Bangalore-BL","BangaloreOpen - BEU");
