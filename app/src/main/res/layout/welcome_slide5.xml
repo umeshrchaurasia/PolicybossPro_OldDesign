@@ -10,10 +10,11 @@
         style="@style/TextStyle.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:gravity="center"
-        android:text="open the dooR to a world of opportunities"
+        android:lines="2"
+        android:text="open the dooR to a world of  opportunities"
         android:textAllCaps="true" />
 
     <ImageView
@@ -29,9 +30,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="10dp"
-        android:text="Become your customer’s"
-        android:textAlignment="center"
-        android:textAllCaps="true" />
+        android:text="Become Your Customer’s"
+        android:textAlignment="center" />
 
     <TextView
         style="@style/TextStyle.TextMedium"
@@ -52,7 +52,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
-        android:text="And stay ahead of competition "
+        android:text="And Stay Ahead Of Competition "
         android:textAlignment="center"
         android:textAllCaps="true" />
 

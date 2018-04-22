@@ -19,7 +19,8 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:gravity="center_horizontal|end"
-            app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay">
+            app:popupTheme="@style/AppTheme.NoActionBar.PopupOverlay"
+            >
 
             <TextView
                 android:id="@+id/tvTimer"

@@ -535,6 +535,7 @@
     <string name="title_activity_icici_term">ICICI TERM</string>
     <string name="skin_walkthrogh">Already have an account? <b>Login</b></string>
     <string name="sell_everything_digitally">Sell everything <b>DIGITALLY!!</b></string>
+    <string name="welcome_slide_1_text">India’s First And Most Comprehensive Business Enabling Platform For Financial Advisors</string>
 
 
     <string-array name="exp_employment_salaried">
@@ -603,9 +604,6 @@
         <item>Property identified - Under Construction</item>
         <item>LAP</item>
     </string-array>
-
-
-
 
 
 </resources>

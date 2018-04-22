@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.motor.privatecar.activity;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -30,6 +31,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,7 +104,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         liabilityList = getLiabilityList();
         //addonList = getAddonList();
         addonListNew = getAddonListNew();
-        initrecyclers();
+        initRecyclers();
         setListeners();
         if (listMobileAddOn != null)
             addOnTotal = applyPositiveAddons(listMobileAddOn);
@@ -113,18 +115,24 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     private void bindData() {
         if (responseEntity != null) {
-            txtIDV.setText("" + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            txtIDV.setText("\u20B9 " + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Code());
             if (responseEntity.getFinal_premium_without_addon() != null && !responseEntity.getFinal_premium_without_addon().equals("")) {
-                tvTotalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_without_addon()));
+                tvTotalPremium.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getFinal_premium_without_addon()))));
+                tvGst.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getTotalGST()))));
                 tvNetPremium.setText(getRupeesRound(responseEntity.getFinal_premium_with_addon()));
                 txtFinalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_with_addon()));
-                tvGst.setText(getRupeesRound(responseEntity.getTotalGST()));
+                //tvTotalPremium.setText(getRupeesRound(responseEntity.getFinal_premium_without_addon()));
+                //tvGst.setText(getRupeesRound(responseEntity.getTotalGST()));
             } else {
-                tvTotalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
+
+                tvTotalPremium.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium()))));
+                tvGst.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getPremium_Breakup().getService_tax()))));
                 tvNetPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
+
+                //tvTotalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
+                //tvGst.setText(getRupeesRound(responseEntity.getPremium_Breakup().getService_tax()));
                 txtFinalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
-                tvGst.setText(getRupeesRound(responseEntity.getPremium_Breakup().getService_tax()));
             }
             tvAddonTotal.setText("" + Math.round(addOnTotal));
         }
@@ -137,7 +145,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         ivShare.setOnClickListener(this);
     }
 
-    private void initrecyclers() {
+    private void initRecyclers() {
         rvOwnDamage.setHasFixedSize(true);
         rvLiability.setHasFixedSize(true);
         rvAddonPremium.setHasFixedSize(true);
@@ -302,6 +310,9 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 redirectToBuy(responseEntity.getService_Log_Unique_Id());
                 break;
             case R.id.btnBackToQuote:
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("PREMIUM", responseEntity);
+                setResult(Activity.RESULT_OK, resultIntent);
                 finish();
                 break;
             case R.id.ivShare:
@@ -446,6 +457,10 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     private String getRupeesRound(String strText) {
         return "\u20B9 " + Math.round(Double.parseDouble(strText));
+    }
+
+    private double getDigitPrecision(double value) {
+        return Double.parseDouble(new DecimalFormat("##.##").format(value));
     }
 
     @Override
@@ -948,6 +963,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             double finalPremWithGST = finalPremWithoutGST + (finalPremWithoutGST * Constants.GST);
             entity.setFinal_premium_with_addon("" + finalPremWithGST);
             entity.setListAppliedAddons(listAppliedAddonPremium);
+
+
             //endregion
         }
 

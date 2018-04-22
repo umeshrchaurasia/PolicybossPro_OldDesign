@@ -45,29 +45,40 @@ public class HealthNineBenefitsViewAdapter extends RecyclerView.Adapter<HealthNi
 
         if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("room rent limit")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.room_rent));
+            holder.txtBenefitsName.setText("ROOM RENT");
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("icu daily rent limit")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.icu_rent));
+            holder.txtBenefitsName.setText("ICU RENT");
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("pre-hospitalization expenses")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.pre_hosp));
+            holder.txtBenefitsName.setText("PRE-HOSP");
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("post hospitalization expenses")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.post_hosp));
+            holder.txtBenefitsName.setText("POST-HOSP");
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("day care procedure coverage")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.day_care));
+            holder.txtBenefitsName.setText("DAY-CARE");
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("automatic restoration of sum insured")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.auto_restore));
+            holder.txtBenefitsName.setText("AUTO-RESTORE");
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("free health checkup")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.health_check));
+            holder.txtBenefitsName.setText("HEALTH CHECK");
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("ambulance expenses")) {
-            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.amulance));
+            holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ambulance));
+            holder.txtBenefitsName.setText("AMBULANCE");
         } else if (listBenefits.get(position).getBeneDesc().trim().toLowerCase().equals("no claim bonus")) {
             holder.imgBenefits.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ncb));
+            holder.txtBenefitsName.setText("NCB");
         }
 
         if (listBenefits.get(position).isSelected()) {
             holder.txtSelect.setBackgroundResource(R.color.tab_color);
+            holder.imgBenefits.setBackgroundResource(R.color.colorPrimary);
             //holder.llBenefits.performClick();
         } else {
             holder.txtSelect.setBackgroundResource(R.color.seperator);
+            holder.imgBenefits.setBackgroundResource(R.color.bg2);
         }
 
         holder.llBenefits.setOnClickListener(new View.OnClickListener() {

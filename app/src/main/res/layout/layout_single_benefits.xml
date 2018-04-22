@@ -11,7 +11,7 @@
         style="@style/TextStyle.TextMedium"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/seperator"
+        android:background="@color/dashboard_bg"
         android:gravity="left"
         android:padding="6dp"
         android:textColor="@color/black" />
@@ -31,7 +31,6 @@
             android:gravity="left"
             android:padding="6dp"
             android:src="@drawable/selected_dot" />
-
         <TextView
             android:id="@+id/txtBenefitsName"
             style="@style/TextStyle.TextMedium"

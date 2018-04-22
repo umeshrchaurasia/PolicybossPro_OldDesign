@@ -45,9 +45,10 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Sum Assured"
                     android:textAllCaps="true"
+                    android:layout_marginLeft="2dp"
                     android:textSize="11sp" />
 
                 <TextView
@@ -55,8 +56,9 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:textAllCaps="true"
+                    android:layout_marginLeft="2dp"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -71,9 +73,10 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Deductible"
                     android:textAllCaps="true"
+                    android:layout_marginLeft="2dp"
                     android:textSize="11sp" />
 
                 <TextView
@@ -81,8 +84,9 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:textAllCaps="true"
+                    android:layout_marginLeft="2dp"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -133,23 +137,26 @@
 
                 <TextView
                     android:id="@+id/txtProductName"
-                    style="@style/TextStyle.TextMedium"
+                    style="@style/TextStyle.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAlignment="center"
+                    android:textAlignment="gravity"
                     android:textAllCaps="true"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
+                    android:textSize="10sp"
+                     android:textStyle="bold"
+                    android:layout_marginLeft="3dp"
+                    />
 
                 <TextView
                     android:id="@+id/txtPlanName"
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text=""
-                    android:textAlignment="center"
-                    android:textAllCaps="true"
-                    android:textSize="9sp" />
+                    
+                    android:textAlignment="gravity"
+                    android:layout_marginLeft="3dp"
+                    android:inputType="textCapWords"
+                    android:textSize="10sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -165,7 +172,7 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|top"
+                    android:gravity="left|top"
                     android:text="Premium"
                     android:textAllCaps="true"
                     android:textColor="#ff5c61" />
@@ -179,6 +186,7 @@
                     android:background="#ff5c61"
                     android:gravity="center"
                     android:minHeight="30dp"
+                   android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
 
@@ -234,7 +242,7 @@
             android:id="@+id/llBenefits"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/divider"
+            android:background="@color/bg1"
             android:orientation="horizontal"
             android:weightSum="100">
 
@@ -264,6 +272,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textSize="11sp" />
 
                 <TextView
@@ -284,6 +294,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -291,7 +303,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="40"
-                android:background="@color/divider"
+                android:background="@color/bg1"
                 android:orientation="vertical"
                 android:padding="4dp">
 
@@ -313,6 +325,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textSize="11sp" />
 
                 <TextView
@@ -333,6 +347,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -349,7 +365,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:textColor="@android:color/holo_red_dark"
+                    android:textColor="@color/red_text"
                     android:textStyle="bold" />
 
                 <ImageView

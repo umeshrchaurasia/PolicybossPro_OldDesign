@@ -185,12 +185,12 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
 
                 new AsyncAddon().execute();
 
-                if (((BikePremiumResponse) response).getResponse().size() != 0)
-                    menuAddon.findItem(R.id.add_on).setVisible(true);
-                else {
-                    menuAddon.findItem(R.id.add_on).setVisible(false);
-                    Toast.makeText(this, "No quotes found.., try later", Toast.LENGTH_SHORT).show();
-                }
+//                if (((BikePremiumResponse) response).getResponse().size() != 0)
+//                    menuAddon.findItem(R.id.add_on).setVisible(true);
+//                else {
+//                    menuAddon.findItem(R.id.add_on).setVisible(false);
+//                    Toast.makeText(this, "No quotes found.., try later", Toast.LENGTH_SHORT).show();
+//                }
 
             } else {
                 webViewLoader.setVisibility(View.VISIBLE);
@@ -233,9 +233,9 @@ public class QuoteActivity extends BaseActivity implements IResponseSubcriber, V
             case android.R.id.home:
                 finish();
                 return true;
-            case R.id.add_on:
-                openPopUp();
-                return true;
+//            case R.id.add_on:
+//                openPopUp();
+//                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

@@ -2,18 +2,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!--<item-->
+        <!--android:id="@+id/add_on"-->
+        <!--android:orderInCategory="10"-->
+        <!--android:title="Add-on"-->
+        <!--android:visible="false"-->
+        <!--app:showAsAction="always" />-->
+
     <item
-        android:id="@+id/add_on"
-        android:title="Add-on"
+        android:id="@+id/share"
+        android:icon="@drawable/ic_menu_share"
         android:orderInCategory="10"
+        android:title="Share"
         app:showAsAction="always" />
 
     <item
         android:id="@+id/action_home"
 
+        android:icon="@drawable/home_ic"
         android:orderInCategory="20"
         android:title="Notificaton"
-        android:icon="@drawable/home_ic"
         app:showAsAction="always" />
 
 </menu>

@@ -4,7 +4,7 @@
     android:id="@+id/card_view_spinner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
+    android:layout_margin="2dp"
     app:cardCornerRadius="0dp"
     app:cardElevation="0dp">
 
@@ -16,29 +16,32 @@
 
         <TextView
             android:id="@+id/tvName"
-            style="@style/TextViewStyle.Large"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="7"
             android:gravity="left|center_vertical"
-            android:padding="8dp"
-            android:text="dcdvrv" />
+            android:paddingBottom="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp" />
 
         <View
-
             android:layout_width="1dp"
             android:layout_height="match_parent"
             android:background="@color/divider" />
 
         <TextView
             android:id="@+id/tvValue"
-            style="@style/TextViewStyle.Large"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
-            android:gravity="left|center_vertical"
-            android:padding="8dp"
-            android:text="dcdvrv"
+            android:gravity="right|center_vertical"
+            android:paddingBottom="2dp"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp"
             android:textColor="@color/header_light_text" />
 
 
