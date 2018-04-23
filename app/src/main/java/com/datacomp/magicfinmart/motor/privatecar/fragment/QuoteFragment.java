@@ -258,8 +258,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     private void updateCrn() {
         if (bikePremiumResponse != null) {
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
+
                 txtCrn.setText("CRN :" + bikePremiumResponse.getSummary().getPB_CRN());
-                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
+
                 if (!bikePremiumResponse.getSummary().getPB_CRN().equals(""))
                     motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
 
@@ -271,6 +272,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 if (getActivity() != null)
                     ((InputQuoteBottmActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
             }
+
+            tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
         }
     }
 
@@ -976,12 +979,16 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 ((InputQuoteBottmActivity) getActivity()).redirectInput(motorRequestEntity);
                 break;
             case R.id.filter:
-                if (webViewLoader.getVisibility() != View.VISIBLE) {
-                    startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
-                            .putExtra("SUMMARY", bikePremiumResponse.getSummary())
-                            .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
+                if (bikePremiumResponse.getResponse() != null && bikePremiumResponse.getResponse().size() != 0) {
+                    if (webViewLoader.getVisibility() != View.VISIBLE) {
+                        startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
+                                .putExtra("SUMMARY", bikePremiumResponse.getSummary())
+                                .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
+                    } else {
+                        Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "No quotes found..", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
