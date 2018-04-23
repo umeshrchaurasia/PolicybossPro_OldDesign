@@ -364,7 +364,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             //region make model
             acMakeModel.setText(makeModel);
             acMakeModel.performCompletion();
-
+            acMakeModel.performClick();
             //endregion
 
             //region varient list
@@ -882,7 +882,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     etCustomerName.setError("Enter Name");
                     return;
                 } else {
-                    String[] fullName = etCustomerName.getText().toString().split(" ");
+                    String[] fullName = etCustomerName.getText().toString().trim().split(" ");
                     if (fullName.length == 1) {
                         if (fullName[0].length() < 2) {
                             etCustomerName.requestFocus();

@@ -46,17 +46,17 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
         TextView txtbankName, txtCardType;
         ImageView imgCard;
         CardView card_view;
-        Button btnApply, btnInfo;
+        Button btnApply;
 
         public PersonLoanItemHolder(View itemView) {
             super(itemView);
             card_view = (CardView) itemView.findViewById(R.id.card_view);
             txtbankName = (TextView) itemView.findViewById(R.id.txtbankName);
-            txtCardType = (TextView) itemView.findViewById(R.id.txtCardType);
+          //  txtCardType = (TextView) itemView.findViewById(R.id.txtCardType);
 
             imgCard = (ImageView) itemView.findViewById(R.id.imgCard);
 
-            btnInfo = (Button) itemView.findViewById(R.id.btnInfo);
+         //   btnInfo = (Button) itemView.findViewById(R.id.btnInfo);
             btnApply = (Button) itemView.findViewById(R.id.btnApply);
 
         }
@@ -113,6 +113,50 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             }
                             else if (plEntity.getBank_Code().toUpperCase().contains("HDFC")) {
                                // Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                                mContext.startActivity(new Intent(mContext, HdfcpersonalloanActivity.class));
+                            }
+                            break;
+
+                        case "SPL":
+                            if (plEntity.getBank_Code().toUpperCase().contains("STPL")) {
+                                Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                            }
+                            break;
+
+                    }
+
+
+                }
+            });
+
+
+            ((PersonLoanItemHolder) holder).btnApply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    switch (plEntity.getProductType().toUpperCase()) {
+
+                        case "PL":
+
+                            if (plEntity.getBank_Code().toUpperCase().contains("RBL")) {
+                                mContext.startActivity(new Intent(mContext, RblpersonalloanActivity.class));
+                            }
+                            else if (plEntity.getBank_Code().toUpperCase().contains("KOTAK")) {
+                                mContext.startActivity(new Intent(mContext, KotakpersonalloanActivity.class));
+                            }
+                            else if (plEntity.getBank_Code().toUpperCase().contains("IIFL")) {
+                                if(plEntity.getWebView() == 1)
+                                {
+                                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                                            .putExtra("URL", "http://www.rupeeboss.com/apply-iifl-loan")
+                                            .putExtra("NAME", "IIFL")
+                                            .putExtra("TITLE", "IIFL"));
+                                }else {
+                                    Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            else if (plEntity.getBank_Code().toUpperCase().contains("HDFC")) {
+                                // Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
                                 mContext.startActivity(new Intent(mContext, HdfcpersonalloanActivity.class));
                             }
                             break;
