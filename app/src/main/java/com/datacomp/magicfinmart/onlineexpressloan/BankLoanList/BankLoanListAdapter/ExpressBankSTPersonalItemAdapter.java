@@ -39,17 +39,17 @@ public class ExpressBankSTPersonalItemAdapter  extends RecyclerView.Adapter<Recy
         TextView txtbankName, txtCardType;
         ImageView imgCard;
         CardView card_view;
-        Button btnApply, btnInfo;
+        Button btnApply;
 
         public STPersonLoanItemHolder(View itemView) {
             super(itemView);
             card_view = (CardView) itemView.findViewById(R.id.card_view);
             txtbankName = (TextView) itemView.findViewById(R.id.txtbankName);
-            txtCardType = (TextView) itemView.findViewById(R.id.txtCardType);
+          //  txtCardType = (TextView) itemView.findViewById(R.id.txtCardType);
 
             imgCard = (ImageView) itemView.findViewById(R.id.imgCard);
 
-            btnInfo = (Button) itemView.findViewById(R.id.btnInfo);
+          //  btnInfo = (Button) itemView.findViewById(R.id.btnInfo);
             btnApply = (Button) itemView.findViewById(R.id.btnApply);
 
         }

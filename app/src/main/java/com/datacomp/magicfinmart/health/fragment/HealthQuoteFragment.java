@@ -450,6 +450,12 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         if (listCompare.size() == 0) {
             txtCompareCount.setVisibility(View.INVISIBLE);
         } else {
+            if(listCompare.size() == 1)
+            {
+                txtCompareCount.setBackgroundResource(R.drawable.compare_roundshape_gray);
+            }else{
+                txtCompareCount.setBackgroundResource(R.drawable.compare_roundshape);
+            }
             txtCompareCount.setVisibility(View.VISIBLE);
             txtCompareCount.setText("" + listCompare.size());
         }

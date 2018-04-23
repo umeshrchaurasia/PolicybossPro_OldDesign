@@ -8,13 +8,13 @@
 
     <TextView
         android:id="@+id/txtBenefitsDesc"
-        style="@style/TextStyle.TextMedium"
+        style="@style/TextStyle.Title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dashboard_bg"
         android:gravity="left"
         android:padding="6dp"
-        android:textColor="@color/black" />
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,21 +23,23 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="5dp"
-            android:layout_height="5dp"
-            android:layout_marginTop="13dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginTop="5dp"
             android:layout_marginLeft="4dp"
-            android:background="@color/red_descent"
+
             android:gravity="left"
             android:padding="6dp"
-            android:src="@drawable/selected_dot" />
+            android:src="@drawable/red_dot" />
+        <!--android:background="@color/red_descent"-->
         <TextView
             android:id="@+id/txtBenefitsName"
             style="@style/TextStyle.TextMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="left"
-            android:padding="6dp" />
+            android:textColor="@color/black"
+            android:padding="5dp" />
     </LinearLayout>
 </LinearLayout>
 
