@@ -322,7 +322,10 @@ ul li {margin:2px; padding:4px !important;}
         document.getElementById('name').innerHTML = otherReponse.NAME;
         document.getElementById('lblvehiclename').innerHTML = otherReponse.VECHILE_NAME;
         document.getElementById('polexpiringdate').innerHTML = otherReponse.MFG_DATE;
-
+         var pomfgdate = otherReponse.MFG_DATE.split("-");
+         var polymfdate = "";
+         polymfdate = pomfgdate[2] + '-' + pomfgdate[1] + '-' + pomfgdate[0];
+         document.getElementById('polexpiringdate').innerHTML = polymfdate;
 
         document.getElementById('polexpdate').innerHTML = otherReponse.POLICY_EXP;
          var POLICYEXP = otherReponse.POLICY_EXP.split("-");

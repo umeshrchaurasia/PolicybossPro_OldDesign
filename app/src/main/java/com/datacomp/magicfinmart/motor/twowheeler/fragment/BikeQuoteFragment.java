@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -74,13 +75,13 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     ImageView webViewLoader;
     List<MobileAddOn> listMobileAddOn;
     TextView tvPolicyExp, tvMakeModel, tvFuel, tvCrn, tvCount, tvRtoName;
-    Switch swAddon;
-    TextView filter, tvWithoutAddon, tvWithAddon;
+    TextView filter;
     ImageView ivEdit;
     BikeMasterEntity carMasterEntity;
     Realm realm;
     SaveQuoteResponse.SaveQuoteEntity saveQuoteEntity;
-    ImageView ivShare;
+
+    CheckBox chkAddon;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,24 +119,19 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
 
     private void setListener() {
-        ivShare.setOnClickListener(this);
         ivEdit.setOnClickListener(this);
         filter.setOnClickListener(this);
-        swAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        chkAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (webViewLoader.getVisibility() == View.GONE) {
                     if (b) {
-                        tvWithAddon.setTextColor(getResources().getColor(R.color.colorAccent));
-                        tvWithoutAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
                         applyAllAddon();
                     } else {
-                        tvWithoutAddon.setTextColor(getResources().getColor(R.color.colorAccent));
-                        tvWithAddon.setTextColor(getResources().getColor(R.color.header_dark_text));
                         removeAllAddon();
                     }
                 } else {
-                    swAddon.setChecked(false);
+                    chkAddon.setChecked(false);
                     Toast.makeText(getActivity(), "Please Wait.. Fetching all quotes", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -162,14 +158,12 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         tvRtoName = (TextView) view.findViewById(R.id.tvRtoName);
         tvMakeModel = (TextView) view.findViewById(R.id.tvMakeModel);
         tvFuel = (TextView) view.findViewById(R.id.tvFuel);
-        tvCrn = (TextView) view.findViewById(R.id.tvCrn);
+        tvCrn = (TextView) view.findViewById(R.id.txtCrn);
         tvCount = (TextView) view.findViewById(R.id.tvCount);
-        swAddon = (Switch) view.findViewById(R.id.swAddon);
+        chkAddon = (CheckBox) view.findViewById(R.id.chkAddon);
         ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
         filter = (TextView) view.findViewById(R.id.filter);
-        tvWithAddon = (TextView) view.findViewById(R.id.tvWithAddon);
-        tvWithoutAddon = (TextView) view.findViewById(R.id.tvWithoutAddon);
-        ivShare = (ImageView) view.findViewById(R.id.ivShare);
+
     }
 
     private void initializeAdapters() {
@@ -186,31 +180,45 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
     private void updateHeader() {
         if (motorRequestEntity != null) {
-            carMasterEntity = databaseController.getBikeVarientDetails("" + motorRequestEntity.getVehicle_id());
 
+            String fuelType = "";
+
+            carMasterEntity = databaseController.getBikeVarientDetails(
+                    "" + motorRequestEntity.getVehicle_id());
+
+            fuelType = carMasterEntity.getFuel_Name();
+            String rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
+
+            rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
             if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {
-                tvRtoName.setText("" + new DBPersistanceController(getActivity())
-                        .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id())));
+                rtoName = rtoName + " | RTO : " + new DBPersistanceController(getActivity())
+                        .getBikeRTOName(String.valueOf(motorRequestEntity.getRto_id()));
             } else {
-                String s = new DBPersistanceController(getActivity()).getRTOCityName(String.valueOf(motorRequestEntity.getRto_id()));
-                s = s + " | ";
-                s = s + motorRequestEntity.getRegistration_no();
-                tvRtoName.setText(s);
+                //rtoName = rtoName + new DBPersistanceController(getActivity())
+                //        .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id()));
+
+                rtoName = rtoName + " | " + motorRequestEntity.getRegistration_no();
+
             }
+            tvRtoName.setText(rtoName);
+            tvCrn.setText("CRN :" + motorRequestEntity.getCrn());
         }
+
 
         if (carMasterEntity != null) {
             tvPolicyExp.setText("" + carMasterEntity.getVariant_Name());
             tvFuel.setText(carMasterEntity.getFuel_Name());
-            tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + "(" + carMasterEntity.getCubic_Capacity() + "CC)");
+            tvMakeModel.setText(carMasterEntity.getMake_Name()
+                    + " , " + carMasterEntity.getModel_Name()
+                    + "\n(" + carMasterEntity.getVariant_Name() + ")");
         }
     }
 
     private void updateCrn() {
         if (bikePremiumResponse != null) {
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
-                tvCrn.setText("" + bikePremiumResponse.getSummary().getPB_CRN());
-                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
+                tvCrn.setText("CRN :" + bikePremiumResponse.getSummary().getPB_CRN());
+
                 if (!bikePremiumResponse.getSummary().getPB_CRN().equals(""))
                     motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
 
@@ -221,6 +229,10 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
                 ((BikeAddQuoteActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
             }
+            if (bikePremiumResponse.getResponse() != null)
+                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
+            else
+                tvCount.setText("0 results from policyboss.com");
         }
     }
 
@@ -237,7 +249,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     private void saveQuoteToServer(BikePremiumResponse response) {
         //store request and SRN to mySql
         SaveMotorRequestEntity entity = new SaveMotorRequestEntity();
-        if (!response.getSummary().getPB_CRN().equals(""))
+        if (response.getSummary().getPB_CRN() != null && !response.getSummary().getPB_CRN().equals(""))
             motorRequestEntity.setCrn(response.getSummary().getPB_CRN());
 
         entity.setVehicleRequestID(String.valueOf(motorRequestEntity.getVehicleRequestID()));
@@ -319,15 +331,32 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    private void sharePDF() {
+        if (Utility.checkShareStatus(getActivity()) == 1) {
+            if (webViewLoader.getVisibility() != View.VISIBLE) {
+                Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
+                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_ALL_QUOTE");
+                intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
+                intent.putExtra("CARNAME", carMasterEntity);
+                startActivity(intent);
+            } else {
+                Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            openPopUp(ivEdit, "Message", "Your POSP status is INACTIVE", "OK", true);
+        }
+    }
+
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
             case android.R.id.home:
                 getActivity().finish();
                 return true;
-//            case R.id.add_on:
-//                openPopUp();
-//                return true;
+
+            case R.id.share:
+                sharePDF();
+                return true;
 
             case R.id.action_home:
                 if (webViewLoader.getVisibility() != View.VISIBLE) {
@@ -842,13 +871,17 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 //endregion
 
                 //region update response entity
-                double finalPremWithoutGST = addonValue + Double.parseDouble(entity.getPremium_Breakup().getNet_premium());
-                entity.setFinal_premium_without_addon("" + finalPremWithoutGST);
-                entity.setTotalGST("" + finalPremWithoutGST * Constants.GST);
-                entity.setTotalAddonAplied("" + addonValue);
-                double finalPremWithGST = finalPremWithoutGST + (finalPremWithoutGST * Constants.GST);
-                entity.setFinal_premium_with_addon("" + finalPremWithGST);
-                entity.setListAppliedAddons(listAppliedAddonPremium);
+                try {
+                    double finalPremWithoutGST = addonValue + Double.parseDouble(entity.getPremium_Breakup().getNet_premium());
+                    entity.setFinal_premium_without_addon("" + finalPremWithoutGST);
+                    entity.setTotalGST("" + finalPremWithoutGST * Constants.GST);
+                    entity.setTotalAddonAplied("" + addonValue);
+                    double finalPremWithGST = finalPremWithoutGST + (finalPremWithoutGST * Constants.GST);
+                    entity.setFinal_premium_with_addon("" + finalPremWithGST);
+                    entity.setListAppliedAddons(listAppliedAddonPremium);
+                } catch (Exception e) {
+
+                }
                 //endregion
             }
         }
@@ -919,39 +952,38 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 ((BikeAddQuoteActivity) getActivity()).redirectInput(motorRequestEntity);
                 break;
             case R.id.filter:
-                if (webViewLoader.getVisibility() != View.VISIBLE) {
-                    startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
-                            .putExtra("SUMMARY", bikePremiumResponse.getSummary())
-                            .putExtra("BIKE_REQUEST", motorRequestEntity), 1000);
-                } else {
-                    Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
-                }
-                break;
-            case R.id.ivShare:
-                if (Utility.checkShareStatus(getActivity()) == 1) {
+                if (bikePremiumResponse.getResponse() != null && bikePremiumResponse.getResponse().size() != 0) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
-                        Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
-                        intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_ALL_QUOTE");
-                        intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
-                        intent.putExtra("BIKENAME", carMasterEntity);
-                        startActivity(intent);
+                        startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
+                                .putExtra("SUMMARY", bikePremiumResponse.getSummary())
+                                .putExtra("BIKE_REQUEST", motorRequestEntity), 1000);
                     } else {
                         Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    openPopUp(ivShare, "Message", "Your POSP status is INACTIVE", "OK", true);
+                    Toast.makeText(getActivity(), "No quotes found..", Toast.LENGTH_SHORT).show();
                 }
                 break;
+
         }
     }
 
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
+
+        Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
+        intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
+        intent.putExtra("RESPONSE_CAR", entity);
+        intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
+        intent.putExtra("SUMMARY", summaryEntity);
+        startActivityForResult(intent, 00000);
+        /*
+
         startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
                 .putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID())
                 .putExtra("RESPONSE_BIKE", entity)
                 .putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn)
-                .putExtra("SUMMARY", summaryEntity));
+                .putExtra("SUMMARY", summaryEntity));*/
 
     }
 
@@ -1179,6 +1211,28 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 }
                 break;
             }
+            case 00000:
+                if (resultCode == Activity.RESULT_OK) {
+                    if (data.getParcelableExtra("PREMIUM") != null) {
+                        ResponseEntity entity = (ResponseEntity) data.getParcelableExtra("PREMIUM");
+
+                        //1 apply final values
+                        //2 change add on list
+                        //3 rebind list
+                        for (int i = 0; i < bikePremiumResponse.getResponse().size(); i++) {
+                            ResponseEntity responseEntity = bikePremiumResponse.getResponse().get(i);
+                            if (responseEntity.getInsurer_Id().equalsIgnoreCase(entity.getInsurer_Id())) {
+                                responseEntity.setFinal_premium_with_addon(entity.getFinal_premium_with_addon());
+                                responseEntity.setFinal_premium_without_addon(entity.getFinal_premium_without_addon());
+                                responseEntity.setTotalGST(entity.getTotalGST());
+                                bikePremiumResponse.getResponse().set(i, responseEntity);
+                            }
+                        }
+
+                        rebindAdapter(bikePremiumResponse);
+                    }
+                }
+                break;
         }
     }
 

@@ -167,21 +167,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         makeModelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, makeModelList);
         acMakeModel.setAdapter(makeModelAdapter);
         acMakeModel.setThreshold(2);
-       /* acMakeModel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    String makeModel = acMakeModel.getText().toString();
-                    String make = getMake(makeModel);
-                    String model = getModel(makeModel);
 
-                    if (make == "" && model == "") {
-                        acMakeModel.setError("Invalid Make model");
-                        acMakeModel.setFocusable(true);
-                    }
-                }
-            }
-        });*/
         //endregion
 
         //region Autocomplete RTO
@@ -1560,26 +1546,5 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         location = null;
     }
 
-    private String getYYYYMMDDPattern(String dateCal) {
 
-        String dateSelected = "";
-        if (dateCal.equals("")) {
-            return "";
-        }
-        long select_milliseconds = 0;
-        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
-
-        Date d = null;
-        try {
-            d = f.parse(dateCal);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        select_milliseconds = d.getTime();
-
-        Date date = new Date(select_milliseconds); //Another date Formate ie yyyy-mm-dd
-        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
-        dateSelected = df2.format(date);
-        return dateSelected;
-    }
 }

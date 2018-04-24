@@ -27,7 +27,7 @@
 
             <TextView
                 android:id="@+id/txtPersonName"
-                style="@style/TextStyle.Title"
+                style="@style/TextStyle.TextMedium"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
