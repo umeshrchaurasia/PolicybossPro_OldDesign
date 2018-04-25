@@ -415,7 +415,18 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             }
 
             if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
+                etExpDate.setEnabled(true);
                 etExpDate.setText(displayFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
+
+                String currDate = displayFormat.format(Calendar.getInstance().getTime());
+
+                String expDate = displayFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date()));
+
+                if (getDaysDiff(expDate, currDate) < 90) {
+                    cvNcb.setVisibility(View.VISIBLE);
+                } else {
+                    cvNcb.setVisibility(View.GONE);
+                }
                 //etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
             }
 
@@ -799,7 +810,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     }
                     if (spPrevIns.getSelectedItemPosition() == 0) {
                         spPrevIns.requestFocus();
-                        Toast.makeText(getActivity(), "Select Prev Insurer", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Select Previous Insurer", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -846,6 +857,18 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     return;
                 }*/
 
+
+                if (spFuel.getSelectedItemPosition() == 0) {
+                    Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
+                    spFuel.requestFocus();
+                    return;
+                }
+
+                if (spVarient.getSelectedItemPosition() == 0) {
+                    Toast.makeText(getActivity(), "Select Varient", Toast.LENGTH_SHORT).show();
+                    spVarient.requestFocus();
+                    return;
+                }
 
                 if (dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()),
                         getModel(acMakeModel.getText().toString()),
@@ -1000,7 +1023,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     private long getDaysDiff(String firstDay, String lastDay) {
         try {
-            return getDiffDays(simpleDateFormat.parse(firstDay), simpleDateFormat.parse(lastDay));
+            return getDiffDays(displayFormat.parse(firstDay), displayFormat.parse(lastDay));
         } catch (Exception e) {
             e.printStackTrace();
         }

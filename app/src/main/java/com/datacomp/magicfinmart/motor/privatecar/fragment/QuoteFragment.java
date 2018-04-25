@@ -1016,13 +1016,16 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
-
-        Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
-        intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
-        intent.putExtra("RESPONSE_CAR", entity);
-        intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
-        intent.putExtra("SUMMARY", summaryEntity);
-        startActivityForResult(intent, 00000);
+        if (webViewLoader.getVisibility() != View.VISIBLE) {
+            Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
+            intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
+            intent.putExtra("RESPONSE_CAR", entity);
+            intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
+            intent.putExtra("SUMMARY", summaryEntity);
+            startActivityForResult(intent, 00000);
+        } else {
+            Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+        }
     }
 
     class AsyncAddon extends AsyncTask<Void, Void, Boolean> {
