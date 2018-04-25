@@ -57,7 +57,7 @@ public class HealthSumAssuredViewAdapter extends RecyclerView.Adapter<HealthSumA
             holder.txtSumAssured.setTextColor(ContextCompat.getColor( mContext.getActivity(), R.color.white));
         } else {
             holder.txtSumAssured.setBackgroundResource(R.drawable.sumassured_border);
-            holder.txtSumAssured.setTextColor(ContextCompat.getColor( mContext.getActivity(), R.color.search_gray));
+            holder.txtSumAssured.setTextColor(ContextCompat.getColor( mContext.getActivity(), R.color.black));
         }
         holder.txtSumAssured.setOnClickListener(new View.OnClickListener() {
             @Override
