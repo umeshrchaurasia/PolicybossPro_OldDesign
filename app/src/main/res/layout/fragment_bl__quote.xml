@@ -69,7 +69,7 @@ tools:context=".loan_fm.balancetransfer.quote.BL_QuoteFragment">
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
                 android:padding="5dp"
-                android:src="@drawable/file_search2" />
+                android:src="@drawable/file_search" />
 
             <TextView
                 android:id="@+id/tvSearch"

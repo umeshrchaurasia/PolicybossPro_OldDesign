@@ -111,6 +111,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<Integer, List<HealthQuoteEntity>>();
         txtCompareCount.setVisibility(View.INVISIBLE);
+        ivHealthCompare.setVisibility(View.INVISIBLE);
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA) != null) {
@@ -449,6 +450,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         if (listCompare.size() == 0) {
             txtCompareCount.setVisibility(View.INVISIBLE);
+            ivHealthCompare.setVisibility(View.INVISIBLE);
         } else {
             if(listCompare.size() == 1)
             {
@@ -457,6 +459,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 txtCompareCount.setBackgroundResource(R.drawable.compare_roundshape);
             }
             txtCompareCount.setVisibility(View.VISIBLE);
+            ivHealthCompare.setVisibility(View.VISIBLE);
             txtCompareCount.setText("" + listCompare.size());
         }
     }

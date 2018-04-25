@@ -211,7 +211,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical|left"
                     android:scaleType="centerInside"
-                    android:src="@drawable/edit_ic" />
+                    android:src="@drawable/edit_icon" />
             </LinearLayout>
 
 

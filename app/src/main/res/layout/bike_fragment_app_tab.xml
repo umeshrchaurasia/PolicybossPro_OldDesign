@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="8dp"
                 android:padding="5dp"
-                android:src="@drawable/file_search2" />
+                android:src="@drawable/file_search" />
 
             <TextView
                 android:id="@+id/tvSearch"
