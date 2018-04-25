@@ -142,8 +142,8 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="gravity"
                     android:textAllCaps="true"
-                    android:textSize="10sp"
-                     android:textStyle="bold"
+                    android:textSize="12sp"
+                    android:textColor="@color/dashboard_title"
                     android:layout_marginLeft="3dp"
                     />
 
@@ -156,7 +156,7 @@
                     android:textAlignment="gravity"
                     android:layout_marginLeft="3dp"
                     android:inputType="textCapWords"
-                    android:textSize="10sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout

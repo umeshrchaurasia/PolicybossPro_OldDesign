@@ -136,10 +136,9 @@
                     android:text=""
                     android:textAlignment="gravity"
                     android:textAllCaps="true"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
+                    android:textColor="@color/dashboard_title"
                     android:layout_marginLeft="3dp"
-                    android:textSize="10sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/txtPlanName"
@@ -151,7 +150,7 @@
                     android:textAllCaps="true"
                     android:layout_marginLeft="3dp"
                     android:inputType="textCapWords"
-                    android:textSize="10sp" />
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -235,10 +234,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:minHeight="20dp"
+            android:textSize="15sp"
             android:text="Policy benefits"
             android:textAllCaps="true"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
+            android:textColor="@color/dashboard_title" />
 
         <View
             android:layout_width="match_parent"

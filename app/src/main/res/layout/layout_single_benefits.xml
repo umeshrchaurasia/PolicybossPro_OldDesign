@@ -12,6 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/dashboard_bg"
+        android:textColor="@color/dashboard_title"
         android:gravity="left"
         android:padding="6dp"
         />

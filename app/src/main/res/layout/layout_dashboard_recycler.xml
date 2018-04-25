@@ -19,7 +19,7 @@
             style="@style/TextStyle.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/header_text_color"
+            android:background="@color/dashboard_header"
             android:padding="12dp"
             android:textAllCaps="true"
             android:textColor="@color/white"

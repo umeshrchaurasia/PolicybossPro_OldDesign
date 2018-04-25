@@ -8,6 +8,8 @@
     <color name="divider">#F1F1F1</color>
     <color name="bg">#c9c5c5</color>
     <color name="dashboard_bg">#e3e3e3</color>
+    <color name="dashboard_header">#696969</color>
+    <color name="dashboard_title">#3a4147</color>
     <color name="bg1">#ededed</color>
     <color name="bg2">#c9c9c9</color>
     <color name="header_text_color">#6c747c</color>
