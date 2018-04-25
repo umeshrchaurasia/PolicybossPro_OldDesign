@@ -203,7 +203,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     private void initializeAdapters() {
         listMobileAddOn = new ArrayList<MobileAddOn>();
         bikePremiumResponse = new BikePremiumResponse();
-
         bikeQuoteRecycler.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         bikeQuoteRecycler.setLayoutManager(mLayoutManager);
@@ -1024,13 +1023,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
         intent.putExtra("SUMMARY", summaryEntity);
         startActivityForResult(intent, 00000);
-
-       /* startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
-                .putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID())
-                .putExtra("RESPONSE_CAR", entity)
-                .putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn)
-                .putExtra("SUMMARY", summaryEntity));*/
-
     }
 
     class AsyncAddon extends AsyncTask<Void, Void, Boolean> {

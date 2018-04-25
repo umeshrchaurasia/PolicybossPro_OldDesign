@@ -319,6 +319,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         TextView tv = (TextView) convertView
                                 .findViewById(android.R.id.text1);
                         tv.setText(prevInsurerList.get(position));
+                        if (!spPrevIns.isEnabled()) {
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
                         tv.setTextColor(Color.BLACK);
                         tv.setTextSize(Constants.SPINNER_FONT_SIZE);
                         return convertView;
@@ -835,6 +840,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     acMakeModel.setError("Enter Make,Model");
                     return;
                 }
+
                 if (!isEmpty(etRegDate)) {
                     etRegDate.requestFocus();
                     etRegDate.setError("Enter Reg Date");
@@ -905,6 +911,18 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     etMobile.setError("Enter Mobile");
                     return;
                 }*/
+
+                if (spFuel.getSelectedItemPosition() == 0) {
+                    Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
+                    spFuel.requestFocus();
+                    return;
+                }
+
+                if (spVarient.getSelectedItemPosition() == 0) {
+                    Toast.makeText(getActivity(), "Select Varient", Toast.LENGTH_SHORT).show();
+                    spVarient.requestFocus();
+                    return;
+                }
 
                 if (dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()),
                         getModel(acMakeModel.getText().toString()),

@@ -284,8 +284,13 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                         TextView tv = (TextView) convertView
                                 .findViewById(android.R.id.text1);
+
                         tv.setText(prevInsurerList.get(position));
-                        tv.setTextColor(Color.BLACK);
+                        if (!spPrevIns.isEnabled()) {
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
                         tv.setTextSize(Constants.SPINNER_FONT_SIZE);
                         return convertView;
                     }
