@@ -102,7 +102,7 @@ public class RblpersonalloanActivity extends AppCompatActivity {
         ccCompantDetail = (CardView) findViewById(R.id.ccCompantDetail);
         ccQuoteDetail = (CardView) findViewById(R.id.ccQuoteDetail);
 
-        accCity = (AutoCompleteTextView) findViewById(R.id.accCity);
+      //  accCity = (AutoCompleteTextView) findViewById(R.id.accCity);
         acOffCity = (AutoCompleteTextView) findViewById(R.id.acOffCity);
 
         //region personal detail
