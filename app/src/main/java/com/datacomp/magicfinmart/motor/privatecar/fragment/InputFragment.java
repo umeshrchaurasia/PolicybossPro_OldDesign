@@ -167,21 +167,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         makeModelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, makeModelList);
         acMakeModel.setAdapter(makeModelAdapter);
         acMakeModel.setThreshold(2);
-       /* acMakeModel.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (!b) {
-                    String makeModel = acMakeModel.getText().toString();
-                    String make = getMake(makeModel);
-                    String model = getModel(makeModel);
 
-                    if (make == "" && model == "") {
-                        acMakeModel.setError("Invalid Make model");
-                        acMakeModel.setFocusable(true);
-                    }
-                }
-            }
-        });*/
         //endregion
 
         //region Autocomplete RTO
@@ -333,6 +319,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         TextView tv = (TextView) convertView
                                 .findViewById(android.R.id.text1);
                         tv.setText(prevInsurerList.get(position));
+                        if (!spPrevIns.isEnabled()) {
+                            tv.setTextColor(Color.GRAY);
+                        } else {
+                            tv.setTextColor(Color.BLACK);
+                        }
                         tv.setTextColor(Color.BLACK);
                         tv.setTextSize(Constants.SPINNER_FONT_SIZE);
                         return convertView;
@@ -722,7 +713,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         tvDontKnow.setOnClickListener(this);
         etreg1.addTextChangedListener(new GenericTextWatcher(etreg1, this));
         etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
-        etreg3.addTextChangedListener(new GenericTextWatcher(etreg3, this));
+        etreg3.addTextChangedListener(new GenericTextWatcher(etreg1, etreg3, this));
         etreg4.addTextChangedListener(new GenericTextWatcher(etreg4, this));
 //        acMakeModel.addTextChangedListener(new GenericTextWatcher(acMakeModel, this));
 //        acRto.addTextChangedListener(new GenericTextWatcher(acRto, this));
@@ -785,7 +776,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         etreg2 = (EditText) view.findViewById(R.id.etreg2);
         etreg2.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(2)});
         etreg3 = (EditText) view.findViewById(R.id.etreg3);
-        etreg3.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(2)});
+        etreg3.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(3)});
         etreg4 = (EditText) view.findViewById(R.id.etreg4);
         etreg4.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(4)});
 
@@ -849,6 +840,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     acMakeModel.setError("Enter Make,Model");
                     return;
                 }
+
                 if (!isEmpty(etRegDate)) {
                     etRegDate.requestFocus();
                     etRegDate.setError("Enter Reg Date");
@@ -919,6 +911,18 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     etMobile.setError("Enter Mobile");
                     return;
                 }*/
+
+                if (spFuel.getSelectedItemPosition() == 0) {
+                    Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
+                    spFuel.requestFocus();
+                    return;
+                }
+
+                if (spVarient.getSelectedItemPosition() == 0) {
+                    Toast.makeText(getActivity(), "Select Varient", Toast.LENGTH_SHORT).show();
+                    spVarient.requestFocus();
+                    return;
+                }
 
                 if (dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()),
                         getModel(acMakeModel.getText().toString()),
@@ -1086,7 +1090,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private String getManufacturingDate(String manufac) {
         //final Calendar calendar = Calendar.getInstance();
-        return "" + manufac.charAt(0) + manufac.charAt(1) + manufac.charAt(2) + manufac.charAt(3) + manufac.charAt(4) + manufac.charAt(5) + manufac.charAt(6) + manufac.charAt(7) + "01";
+        //01-04-2017
+        return "01" + manufac.charAt(2) + manufac.charAt(3) + manufac.charAt(4) + manufac.charAt(5) + manufac.charAt(6) + manufac.charAt(7) + manufac.charAt(8) + manufac.charAt(9);
+        //return  manufac.charAt(0) + manufac.charAt(1) + manufac.charAt(2) + manufac.charAt(3) + manufac.charAt(4) + manufac.charAt(5) + manufac.charAt(6) + manufac.charAt(7) + "01";
         //return manufac + "-" + calendar.getTime().getMonth() + "-" + calendar.getTime().getDate();
 
     }
@@ -1235,16 +1241,16 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
 
         motorRequestEntity.setProduct_id(1);
-        varientId = dbController.getVariantID(spVarient.getSelectedItem().toString(), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+        varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
         motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(regplace))));
         //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
         //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
         motorRequestEntity.setExecution_async("yes");
         motorRequestEntity.setVehicle_insurance_type("new");
-        motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
+        motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
         try {
-            motorRequestEntity.setVehicle_registration_date(simpleDateFormat.format(simpleDateFormat.parse(etRegDate.getText().toString())));
+            motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
         } catch (Exception e) {
 
         }
@@ -1311,31 +1317,26 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
             motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
             motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
-            motorRequestEntity.setVehicle_manf_date(getManufacturingDate(etMfgDate.getText().toString()));
+            try {
+
+                motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
+                motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
+                motorRequestEntity.setPolicy_expiry_date(getYYYYMMDDPattern(etExpDate.getText().toString()));
+            } catch (Exception e) {
+
+            }
+
             if (regNo.equals(""))
                 motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
             else
                 motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
         }
 
-
-        try {
-            motorRequestEntity.setVehicle_registration_date(simpleDateFormat.format(simpleDateFormat.parse(etRegDate.getText().toString())));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        //motorRequestEntity.setVehicle_registration_date(etRegDate.getText().toString());
-        //motorRequestEntity.setPolicy_expiry_date(etExpDate.getText().toString());
         motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
-
         // motorRequestEntity.setBirth_date("1992-01-01");
         motorRequestEntity.setProduct_id(1);
-        //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
-        //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
         motorRequestEntity.setExecution_async("yes");
         motorRequestEntity.setVehicle_insurance_type("renew");
-
-
         motorRequestEntity.setVehicle_registration_type("individual");
         motorRequestEntity.setMethod_type("Premium");
 
@@ -1562,4 +1563,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     public void onConnectionFailed() {
         location = null;
     }
+
+
 }

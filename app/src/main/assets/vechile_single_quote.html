@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Quotation for Insurance</title>
+    <title>Quotation for Insurers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Latest compiled and minified CSS -->
@@ -41,7 +41,15 @@ ul li {margin:2px; padding:4px !important;}
 @media only screen and (max-width: 768px) {
  .floating-lft {float:left;}
 }
-
+ .red-txt {
+            color: #b60d2a;
+        }
+  .blue-txt {
+            color: #4FB4E9;font-size:19px;
+        }
+.posp-txt {
+            font-size:14px;
+        }
 
     </style>
 </head>
@@ -50,7 +58,7 @@ ul li {margin:2px; padding:4px !important;}
 <div class="container">
     <div class="col-md-12">
         <h3 class="blu-heading text-center">Quotation for Insurance of your Vehicle</h3>
-        <p>Dear <b class="red-txt" id="name">Test User</b></p>
+        <p>Dear <b class="red-txt" id="name">Test User</b>,</p>
         <p>Please find below our best quotations for renewal of insurance of your vehicle</p>
     </div>
 
@@ -64,12 +72,12 @@ ul li {margin:2px; padding:4px !important;}
 
                 <tr>
 
-                    <td>MFG Date. <br><span id="polexpiringdate">21-03-2017</span></td>
-                    <td>Policy Exp.<br><span id="polexpdate">21-03-2018</span></td>
+                    <td>Policy Expiring on <br><span id="polexpiringdate">21-03-2017</span></td>
+                    <td>Policy Exp. Date<br><span id="polexpdate">21-03-2018</span></td>
                 </tr>
                 <tr>
                     <td>Present NCB: <span id="NCB">0</span>%</td>
-                    <td>Claim in Present Year no. <span id="PYN"></span></td>
+                    <td>Claim in Present Year no. : <span id="PYN"></span></td>
 
                 </tr>
             </table>
@@ -241,10 +249,10 @@ ul li {margin:2px; padding:4px !important;}
                     <td><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
                              onerror=this.src="file:///android_asset/profile_pic.png" width="100"
                              class="img-responsive"/></td>
-                    <td><h4 id="pospName">Test User</h4>
-                        <p id="deg">Landmark POSP</p>
-                        <p id="phone">98XXXXXXXX</p>
-                        <p id="email">XXXXX@gmail.com</p></td>
+                    <td><h4 id="pospName"  class="red-txt">Test User</h4>
+                        <p id="deg"  class="posp-txt">Landmark POSP</p>
+                        <p id="phone"  class="blue-txt">98XXXXXXXX</p>
+                        <p id="email"  class="posp-txt">XXXXX@gmail.com</p></td>
                 </tr>
             </table>
         </div>
@@ -286,12 +294,12 @@ ul li {margin:2px; padding:4px !important;}
     var liability_list = {
         'tp_basic': 'Basic OD Premium',
         'tp_cng_lpg': 'Bi Fuel Kit Liability',
-        'tp_cover_named_passenger_pa': 'Named PA Cover for Passenger',       
+        'tp_cover_named_passenger_pa': 'Named PA Cover for Passenger',
         'tp_cover_owner_driver_pa': 'PA to Owner Driver',
-        'tp_cover_paid_driver_ll': 'LL to Paid Driver',            
+        'tp_cover_paid_driver_ll': 'LL to Paid Driver',
         'tp_cover_paid_driver_pa': 'PA Cover for Paid Driver',
         'tp_cover_unnamed_passenger_pa': 'PA to Pax (2,00,000)',
-        'tp_final_premium': 'Total Liab Prem.'            
+        'tp_final_premium': 'Total Liab Prem.'
     };
 
     var owndamage_list = {
@@ -314,7 +322,17 @@ ul li {margin:2px; padding:4px !important;}
         document.getElementById('name').innerHTML = otherReponse.NAME;
         document.getElementById('lblvehiclename').innerHTML = otherReponse.VECHILE_NAME;
         document.getElementById('polexpiringdate').innerHTML = otherReponse.MFG_DATE;
+         var pomfgdate = otherReponse.MFG_DATE.split("-");
+         var polymfdate = "";
+         polymfdate = pomfgdate[2] + '-' + pomfgdate[1] + '-' + pomfgdate[0];
+         document.getElementById('polexpiringdate').innerHTML = polymfdate;
+
         document.getElementById('polexpdate').innerHTML = otherReponse.POLICY_EXP;
+         var POLICYEXP = otherReponse.POLICY_EXP.split("-");
+         var polyexpdate = "";
+         polyexpdate = POLICYEXP[2] + '-' + POLICYEXP[1] + '-' + POLICYEXP[0];
+
+        document.getElementById('polexpdate').innerHTML = polyexpdate;
         document.getElementById('NCB').innerHTML = otherReponse.NCB;
         document.getElementById('PYN').innerHTML = otherReponse.CLAIM;
 
@@ -326,9 +344,9 @@ ul li {margin:2px; padding:4px !important;}
 
         var response = JSON.parse(bikeReponse);
 
-     
+
         document.getElementById('lblImg').src = "http://www.policyboss.com/Images/insurer_logo/" + response.Insurer.Insurer_Logo_Name;
-        document.getElementById('IDV').innerHTML = response.LM_Custom_Request.vehicle_expected_idv;
+        document.getElementById('IDV').innerHTML = "₹ " + response.LM_Custom_Request.vehicle_expected_idv;
         document.getElementById('PREM').innerHTML =   "₹ " +  Math.round(response.Premium_Breakup.final_premium)  ;
         var WithOutAddOn = ""
         var HTML = "";
@@ -483,7 +501,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
              DispPrem = Math.round(response.Premium_Breakup.final_premium) + Math.round(TotalAddOn);
              TotalPrem = Math.round(response.Premium_Breakup.final_premium) + Math.round(TotalAddOn) + Math.round(TotalAddOnTax);;
              TotalPrem = Math.round(TotalPrem);
-             document.getElementById('PREM').innerHTML = TotalPrem + "";
+             document.getElementById('PREM').innerHTML =  "₹ " + TotalPrem + "";
 
         }
 
@@ -593,7 +611,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
 
 
 
-            if (response.Premium_Breakup.liability != null) {           
+            if (response.Premium_Breakup.liability != null) {
 
                 if (response.Premium_Breakup.liability.hasOwnProperty('tp_basic') && response.Premium_Breakup.liability.tp_basic != 0) {
 
@@ -742,7 +760,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
 
                 }
                 if (response.Addon_List.hasOwnProperty('addon_invoice_price_cover') && response.Addon_List.addon_invoice_price_cover != 0) {
-                 
+
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_invoice_price_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_invoice_price_cover * 100) / 100 + '</td>';
                     AddOnHTml = AddOnHTml + '</tr>';
@@ -750,7 +768,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 }
 
                 if (response.Addon_List.hasOwnProperty('addon_losstime_protection_cover') && response.Addon_List.addon_losstime_protection_cover != 0) {
-                  
+
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_losstime_protection_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_losstime_protection_cover * 100) / 100 + '</td>';
                     AddOnHTml = AddOnHTml + '</tr>';
@@ -758,7 +776,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 }
 
                 if (response.Addon_List.hasOwnProperty('addon_key_lock_cover') && response.Addon_List.addon_key_lock_cover != 0) {
-                   
+
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_key_lock_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_key_lock_cover * 100) / 100 + '</td>';
                     AddOnHTml = AddOnHTml + '</tr>';
@@ -766,7 +784,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 }
 
                 if (response.Addon_List.hasOwnProperty('addon_medical_expense_cover') && response.Addon_List.addon_medical_expense_cover != 0) {
-                   
+
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_medical_expense_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_medical_expense_cover * 100) / 100 + '</td>';
                     AddOnHTml = AddOnHTml + '</tr>';
@@ -774,7 +792,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 }
 
                 if (response.Addon_List.hasOwnProperty('addon_ncb_protection_cover') && response.Addon_List.addon_ncb_protection_cover != 0) {
-                   
+
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_ncb_protection_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_ncb_protection_cover * 100) / 100 + '</td>';
                     AddOnHTml = AddOnHTml + '</tr>';
@@ -782,7 +800,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 }
 
                 if (response.Addon_List.hasOwnProperty('addon_passenger_assistance_cover') && response.Addon_List.addon_passenger_assistance_cover != 0) {
-                    
+
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_passenger_assistance_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_passenger_assistance_cover * 100) / 100 + '</td>';
                     AddOnHTml = AddOnHTml + '</tr>';
@@ -790,7 +808,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 }
 
                 if (response.Addon_List.hasOwnProperty('addon_personal_belonging_loss_cover') && response.Addon_List.addon_personal_belonging_loss_cover != 0) {
-                  
+
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_personal_belonging_loss_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_personal_belonging_loss_cover * 100) / 100 + '</td>';
                     AddOnHTml = AddOnHTml + '</tr>';
@@ -798,7 +816,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 }
 
                 if (response.Addon_List.hasOwnProperty('addon_road_assist_cover') && response.Addon_List.addon_road_assist_cover != 0) {
-                
+
 
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_road_assist_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_road_assist_cover * 100) / 100 + '</td>';
@@ -806,7 +824,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
 
                 }
                 if (response.Addon_List.hasOwnProperty('addon_rodent_bite_cover') && response.Addon_List.addon_rodent_bite_cover != 0) {
-                
+
 
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_rodent_bite_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_rodent_bite_cover * 100) / 100 + '</td>';
@@ -814,7 +832,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
 
                 }
                 if (response.Addon_List.hasOwnProperty('addon_tyre_coverage_cover') && response.Addon_List.addon_tyre_coverage_cover != 0) {
-                 
+
 
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_tyre_coverage_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_tyre_coverage_cover * 100) / 100 + '</td>';
@@ -822,7 +840,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
 
                 }
                 if (response.Addon_List.hasOwnProperty('addon_windshield_cover') && response.Addon_List.addon_windshield_cover != 0) {
-                 
+
                     AddOnHTml = AddOnHTml + '<tr>';
                     AddOnHTml = AddOnHTml + ' <td style="width:70%">' + addon_list.addon_windshield_cover + '</td> <td style="width:30%"> ' + Math.round(response.Addon_List.addon_windshield_cover * 100) / 100 + '</td>';
                     AddOnHTml = AddOnHTml + '</tr>';
@@ -830,7 +848,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 }
 
 
-             
+
             }
 
         }
@@ -852,10 +870,14 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
             document.getElementById('spnGST').innerHTML = Math.round(DispTax * 100) / 100;
             document.getElementById('spnNetPrem').innerHTML = Math.round(TotalPrem * 100) / 100;
         }
-       
+         else
+        {
+            document.getElementById("tblAddOn").style.display = "none";
+        }
+
     }
 
-   
+
 
 
 </script>

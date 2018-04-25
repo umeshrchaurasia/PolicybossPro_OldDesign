@@ -82,7 +82,6 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="7777777"
                     android:textColor="@color/black" />
 
 

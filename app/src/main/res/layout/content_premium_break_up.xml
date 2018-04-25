@@ -110,7 +110,7 @@
                             android:id="@+id/ivCross"
                             android:layout_width="0dp"
                             android:layout_height="60dp"
-                            android:layout_weight="30"
+                            android:layout_weight="25"
                             android:gravity="center"
                             android:padding="6dp"
                             android:scaleType="fitCenter" />
@@ -125,7 +125,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="8dp"
-                            android:layout_weight="20"
+                            android:layout_weight="25"
                             android:gravity="top"
                             android:orientation="vertical">
 
@@ -418,7 +418,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/ll"
-       android:layout_margin="4dp"
+        android:layout_margin="4dp"
         app:cardCornerRadius="1dp"
         app:cardElevation="2dp">
 

@@ -203,7 +203,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     private void initializeAdapters() {
         listMobileAddOn = new ArrayList<MobileAddOn>();
         bikePremiumResponse = new BikePremiumResponse();
-
         bikeQuoteRecycler.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         bikeQuoteRecycler.setLayoutManager(mLayoutManager);
@@ -214,7 +213,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
     private void updateHeader() {
         if (motorRequestEntity != null) {
-            carMasterEntity = databaseController.getVarientDetails("" + motorRequestEntity.getVehicle_id());
+            carMasterEntity = databaseController.getVarientDetails(""
+                    + motorRequestEntity.getVehicle_id());
 
             //car name + variant
             if (carMasterEntity != null) {
@@ -258,8 +258,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     private void updateCrn() {
         if (bikePremiumResponse != null) {
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
+
                 txtCrn.setText("CRN :" + bikePremiumResponse.getSummary().getPB_CRN());
-                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
+
                 if (!bikePremiumResponse.getSummary().getPB_CRN().equals(""))
                     motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
 
@@ -271,6 +272,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 if (getActivity() != null)
                     ((InputQuoteBottmActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
             }
+
+            tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
         }
     }
 
@@ -976,12 +979,16 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 ((InputQuoteBottmActivity) getActivity()).redirectInput(motorRequestEntity);
                 break;
             case R.id.filter:
-                if (webViewLoader.getVisibility() != View.VISIBLE) {
-                    startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
-                            .putExtra("SUMMARY", bikePremiumResponse.getSummary())
-                            .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
+                if (bikePremiumResponse.getResponse() != null && bikePremiumResponse.getResponse().size() != 0) {
+                    if (webViewLoader.getVisibility() != View.VISIBLE) {
+                        startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
+                                .putExtra("SUMMARY", bikePremiumResponse.getSummary())
+                                .putExtra("CAR_REQUEST", motorRequestEntity), 1000);
+                    } else {
+                        Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "No quotes found..", Toast.LENGTH_SHORT).show();
                 }
 
                 break;
@@ -1016,13 +1023,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
         intent.putExtra("SUMMARY", summaryEntity);
         startActivityForResult(intent, 00000);
-
-       /* startActivity(new Intent(getActivity(), PremiumBreakUpActivity.class)
-                .putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID())
-                .putExtra("RESPONSE_CAR", entity)
-                .putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn)
-                .putExtra("SUMMARY", summaryEntity));*/
-
     }
 
     class AsyncAddon extends AsyncTask<Void, Void, Boolean> {

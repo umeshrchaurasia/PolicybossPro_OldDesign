@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
@@ -53,15 +54,20 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
 
         holder.txtInsurerName.setText(responseEntity.getInsurer().getInsurer_Name());
         // holder.txtIDV.setText(responseEntity);
-        if (responseEntity.getPremium_Breakup() != null) {
-            if (responseEntity.isAddonApplied()) {
-                holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
+        try {
+            if (responseEntity.getPremium_Breakup() != null) {
+                if (responseEntity.isAddonApplied()) {
+                    holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
+                } else {
+                    holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium())));
+                }
+
             } else {
-                holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium())));
+                holder.txtFinalPremium.setText("");
             }
 
-        } else {
-            holder.txtFinalPremium.setText("");
+        } catch (Exception e) {
+            Toast.makeText(mContext.getActivity(), "Magna Insurer final premium Null", Toast.LENGTH_SHORT).show();
         }
 
         holder.txtIDV.setText("\u20B9" + String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));

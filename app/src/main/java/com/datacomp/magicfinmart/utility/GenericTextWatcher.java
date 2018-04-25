@@ -1,9 +1,11 @@
 package com.datacomp.magicfinmart.utility;
 
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 
 import com.datacomp.magicfinmart.R;
 
@@ -16,6 +18,8 @@ public class GenericTextWatcher implements TextWatcher {
     View view;
     iVehicle ivehicle;
 
+    View stateCode;
+
     public interface iVehicle {
 
         void getVehicleNumber(View view, String vehicleNo);
@@ -25,6 +29,12 @@ public class GenericTextWatcher implements TextWatcher {
 
     public GenericTextWatcher(View view, iVehicle vehicle) {
         this.view = view;
+        this.ivehicle = vehicle;
+    }
+
+    public GenericTextWatcher(View stateCode, View view, iVehicle vehicle) {
+        this.view = view;
+        this.stateCode = stateCode;
         this.ivehicle = vehicle;
     }
 
@@ -54,6 +64,11 @@ public class GenericTextWatcher implements TextWatcher {
             case R.id.etreg3:
                 if (charSequence.length() == 0) {
                     ivehicle.cancelVehicleNumber(view);
+                } else if (((EditText) stateCode).getText().toString().toLowerCase().equalsIgnoreCase("dl")) {
+                    InputFilter[] FilterArray = new InputFilter[2];
+                    FilterArray[0] = new InputFilter.LengthFilter(3);
+                    FilterArray[1] = new InputFilter.AllCaps();
+                    ((EditText) view).setFilters(FilterArray);
                 } else if (charSequence.length() == 2) {
                     ivehicle.getVehicleNumber(view, charSequence.toString());
                 }
