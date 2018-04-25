@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.home;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
@@ -15,6 +16,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -215,13 +217,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_logout:
-                        new DBPersistanceController(HomeActivity.this).logout();
-                        new PrefManager(HomeActivity.this).clearAll();
-                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Logout : Logout button in menu "), Constants.LOGOUT), null);
+                        dialogLogout();
                         break;
 
                     default:
@@ -264,6 +260,41 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
     // endregion
+
+
+    private void dialogLogout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setMessage("Do you really want to logout?");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton(
+                "LOGOUT",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        new DBPersistanceController(HomeActivity.this).logout();
+                        new PrefManager(HomeActivity.this).clearAll();
+                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Logout : Logout button in menu "), Constants.LOGOUT), null);
+
+                    }
+                });
+
+        builder.setNegativeButton(
+                "CANCEL",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+                    }
+                });
+        AlertDialog alert11 = builder.create();
+        alert11.show();
+    }
 
     private void init_headers() {
         View headerView = navigationView.getHeaderView(0);

@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,12 +57,13 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             holder.txtPersonName.setText(quote.getHealthRequest().getContactName());
             holder.txtSumAssured.setText(quote.getHealthRequest().getSumInsured());
             holder.txtQuoteDate.setText(quote.getHealthRequest().getCreated_date());
-
+            holder.llFooter.setTag(R.id.llFooter, quote);
             holder.txtPersonName.setTag(R.id.txtPersonName, quote);
             holder.txtSumAssured.setTag(R.id.txtSumAssured, quote);
             holder.txtQuoteDate.setTag(R.id.txtQuoteDate, quote);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, quote);
 
+            holder.llFooter.setOnClickListener(this);
             holder.txtOverflowMenu.setOnClickListener(this);
             holder.txtPersonName.setOnClickListener(this);
             holder.txtQuoteDate.setOnClickListener(this);
@@ -105,6 +107,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     public void onClick(View view) {
 
         switch (view.getId()) {
+            case R.id.llFooter:
             case R.id.txtSumAssured:
             case R.id.txtPersonName:
             case R.id.txtQuoteDate:
@@ -121,10 +124,11 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
         //  public ImageView ivTripleDot;
         public TextView txtQuoteDate, txtSumAssured, txtPersonName, txtOverflowMenu;
-
+        LinearLayout llFooter;
 
         public QuoteItem(View itemView) {
             super(itemView);
+            llFooter = (LinearLayout) itemView.findViewById(R.id.llFooter);
             txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
             txtSumAssured = (TextView) itemView.findViewById(R.id.txtSumAssured);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);

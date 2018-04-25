@@ -21,11 +21,13 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -74,7 +76,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        dialogLogout();
+    }
 
+    private void dialogLogout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Exit");
+        builder.setMessage("Do you really want to close application?");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton(
+                "EXIT",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "CANCEL",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog exitdialog = builder.create();
+        exitdialog.show();
+
+        Button negative = exitdialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button positive = exitdialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        negative.setTextColor(getResources().getColor(R.color.header_light_text));
+        positive.setTextColor(getResources().getColor(R.color.header_dark_text));
+    }
     //region permission
 
     private boolean checkPermission() {
