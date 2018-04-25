@@ -321,7 +321,9 @@
                         <AutoCompleteTextView
                             android:id="@+id/acRto"
                             style="@style/Style.edittext"
-                            android:dropDownWidth="250dp" />
+                            android:dropDownWidth="250dp"
+                            android:imeOptions="actionNext"
+                            android:inputType="text" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout

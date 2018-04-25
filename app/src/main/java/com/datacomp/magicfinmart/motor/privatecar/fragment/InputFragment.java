@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -171,7 +172,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         //endregion
 
         //region Autocomplete RTO
-        cityAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, cityList);
+        cityAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, cityList) {
+
+        };
         acRto.setAdapter(cityAdapter);
         //endregion
 
@@ -642,6 +645,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 regplace = cityAdapter.getItem(position).toString();
                 Constants.hideKeyBoard(acRto, getActivity());
             }
+
         });
 
         //endregion
