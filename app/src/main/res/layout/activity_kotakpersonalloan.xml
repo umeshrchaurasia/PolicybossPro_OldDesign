@@ -80,9 +80,9 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
-                            android:entries="@array/NoOfDependents"
+                            android:entries="@array/ExistingCustomerTypeKotakPL"
                             android:gravity="center"
-                            android:visibility="visible"/>
+                            android:visibility="gone"/>
 
                     </TableRow>
 
@@ -96,7 +96,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="Party ID"
-                            android:visibility="invisible">
+                           >
 
                             <EditText
                                 android:id="@+id/etPartyId"
@@ -112,7 +112,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:hint="CRN Number"
-                            android:visibility="invisible">
+                           >
 
                             <EditText
                                 android:id="@+id/etCRNNumber"
@@ -241,8 +241,8 @@
                             <EditText
                                 android:id="@+id/etMobileNumber"
                                 style="@style/Style.edittext"
-
-                                android:inputType="text"
+                                android:maxLength="10"
+                                android:inputType="number"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -277,7 +277,7 @@
                             <EditText
                                 android:id="@+id/etAadharNumber"
                                 style="@style/Style.edittext"
-                                android:inputType="text"
+                                android:inputType="number"
                                 android:maxLines="1" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -300,61 +300,7 @@
                     </TableRow>
 
 
-                    <!--<TableRow-->
-                        <!--android:layout_width="fill_parent"-->
-                        <!--android:layout_height="fill_parent"-->
-                        <!--android:layout_marginTop="8dp">-->
 
-                        <!--<RadioGroup-->
-                            <!--android:id="@+id/rgNationality"-->
-                            <!--android:layout_width="0dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:orientation="horizontal">-->
-
-                            <!--<RadioButton-->
-                                <!--android:id="@+id/rbIndian"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:checked="true"-->
-                                <!--android:text="Indian   " />-->
-
-                            <!--<RadioButton-->
-                                <!--android:id="@+id/rbNri"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:text="NRI/Foreign National" />-->
-                        <!--</RadioGroup>-->
-
-                    <!--</TableRow>-->
-
-                    <!--<TableRow-->
-                        <!--android:layout_width="fill_parent"-->
-                        <!--android:layout_height="fill_parent"-->
-                        <!--android:layout_marginTop="8dp">-->
-
-                        <!--<RadioGroup-->
-                            <!--android:id="@+id/rgEmpType"-->
-                            <!--android:layout_width="0dp"-->
-                            <!--android:layout_height="wrap_content"-->
-                            <!--android:layout_weight="1"-->
-                            <!--android:orientation="horizontal">-->
-
-                            <!--<RadioButton-->
-                                <!--android:id="@+id/rbSalaried"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:checked="true"-->
-                                <!--android:text="Salaried" />-->
-
-                            <!--<RadioButton-->
-                                <!--android:id="@+id/rbSelfEmployed"-->
-                                <!--android:layout_width="wrap_content"-->
-                                <!--android:layout_height="wrap_content"-->
-                                <!--android:text="Self Emp." />-->
-                        <!--</RadioGroup>-->
-
-                    <!--</TableRow>-->
                 </TableLayout>
             </android.support.v7.widget.CardView>
 
@@ -437,7 +383,7 @@
                             <EditText
                                 android:id="@+id/etTotalWorkExp"
                                 style="@style/Style.edittext"
-                                android:inputType="text"
+                                android:inputType="number"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -458,7 +404,7 @@
                             <EditText
                                 android:id="@+id/etOfficeAddress1"
                                 style="@style/Style.edittext"
-                                android:inputType="number"
+                                android:inputType="text"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -471,7 +417,7 @@
                             <EditText
                                 android:id="@+id/etOfficeAddress2"
                                 style="@style/Style.edittext"
-                                android:inputType="number"
+                                android:inputType="text"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -491,7 +437,7 @@
                             <EditText
                                 android:id="@+id/etOfficeAddress3"
                                 style="@style/Style.edittext"
-                                android:inputType="number"
+                                android:inputType="text"
                                 android:maxLength="5"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -524,7 +470,7 @@
                                 android:id="@+id/etOfficePincode"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
-                                android:maxLength="2"
+                                android:maxLength="6"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -538,7 +484,7 @@
                                 android:id="@+id/etOfficePhone"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
-                                android:maxLength="2"
+                                android:maxLength="10"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -642,14 +588,14 @@
                                 android:hint="Address 3">
 
                                 <EditText
-                                    android:id="@+id/etArea"
+                                    android:id="@+id/etAdd3"
                                     style="@style/Style.edittext"
                                     android:inputType="text"
                                     android:maxLines="1" />
                             </android.support.design.widget.TextInputLayout>
 
                             <Spinner
-                                android:id="@+id/spCity"
+                                android:id="@+id/spCurrentAddressCity"
                                 style="@style/SpinnerStyle.Underlined"
                                 android:layout_width="0dp"
                                 android:layout_height="match_parent"
@@ -719,7 +665,7 @@
                                     android:id="@+id/etResidencePhnNo"
                                     style="@style/Style.edittext"
                                     android:inputType="number"
-                                    android:maxLength="6"
+                                    android:maxLength="10"
                                     android:maxLines="1" />
                             </android.support.design.widget.TextInputLayout>
 
@@ -799,7 +745,7 @@
                                 android:hint="Per Address 3">
 
                                 <EditText
-                                    android:id="@+id/etPerArea"
+                                    android:id="@+id/etPerAdd3"
                                     style="@style/Style.edittext"
                                     android:inputType="text"
                                     android:maxLines="1" />
@@ -846,7 +792,7 @@
                                     android:id="@+id/etPerResidencePhnNo"
                                     style="@style/Style.edittext"
                                     android:inputType="number"
-                                    android:maxLength="6"
+                                    android:maxLength="10"
                                     android:maxLines="1" />
                             </android.support.design.widget.TextInputLayout>
 
@@ -970,8 +916,8 @@
                             <EditText
                                 android:id="@+id/etPLRateOff"
                                 style="@style/Style.edittext"
-                                android:drawableRight="@drawable/vector_date"
-                                android:focusable="false"
+                                android:inputType="number"
+
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -1022,6 +968,12 @@
             android:text="No" />
     </RadioGroup>
 </TableRow>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:id="@+id/llCoApplicantDetail"
+                       >
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
@@ -1047,7 +999,8 @@
                                 android:id="@+id/etCoAppDOB"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_date"
-                                android:focusable="false" />
+
+                                android:focusable="false"/>
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -1078,8 +1031,8 @@
                             <EditText
                                 android:id="@+id/etCoAppEmployerName"
                                 style="@style/Style.edittext"
-
-                                android:focusable="false" />
+                                android:inputType="text"
+                                />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -1101,8 +1054,8 @@
                             <EditText
                                 android:id="@+id/etCoAppNrtMonthlyIncome"
                                 style="@style/Style.edittext"
-
-                                android:focusable="false" />
+                                android:inputType="number"
+                               />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -1115,20 +1068,26 @@
                             <EditText
                                 android:id="@+id/etCoAppEMICurrentlyPay"
                                 style="@style/Style.edittext"
-
-                                android:focusable="false" />
+                                android:inputType="number"
+                                />
 
                         </android.support.design.widget.TextInputLayout>
 
                     </TableRow>
 
-
+                    </LinearLayout>
 
 
 
                 </TableLayout>
             </android.support.v7.widget.CardView>
-
+            <CheckBox
+                android:id="@+id/chkTermsCondition"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="top"
+                android:padding="4dp"
+                android:text="@string/icici_terms_con" />
 
         </LinearLayout>
     </ScrollView>
@@ -1139,5 +1098,5 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
-        android:text="Next" />
+        android:text="Submit" />
 </LinearLayout>

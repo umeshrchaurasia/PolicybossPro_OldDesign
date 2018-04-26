@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Quotation for Insurance</title>
+    <title>Quotation for Insurers</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- Latest compiled and minified CSS -->
@@ -41,7 +41,15 @@ ul li {margin:2px; padding:4px !important;}
 @media only screen and (max-width: 768px) {
  .floating-lft {float:left;}
 }
-
+ .red-txt {
+            color: #b60d2a;
+        }
+  .blue-txt {
+            color: #4FB4E9;font-size:19px;
+        }
+.posp-txt {
+            font-size:14px;
+        }
 
     </style>
 </head>
@@ -50,7 +58,7 @@ ul li {margin:2px; padding:4px !important;}
 <div class="container">
     <div class="col-md-12">
         <h3 class="blu-heading text-center">Quotation for Insurance of your Vehicle</h3>
-        <p>Dear <b class="red-txt" id="name">Test User</b></p>
+        <p>Dear <b class="red-txt" id="name">Test User</b>,</p>
         <p>Please find below our best quotations for renewal of insurance of your vehicle</p>
     </div>
 
@@ -64,12 +72,12 @@ ul li {margin:2px; padding:4px !important;}
 
                 <tr>
 
-                    <td>MFG Date. <br><span id="polexpiringdate">21-03-2017</span></td>
-                    <td>Policy Exp.<br><span id="polexpdate">21-03-2018</span></td>
+                    <td>Policy Expiring on <br><span id="polexpiringdate">21-03-2017</span></td>
+                    <td>Policy Exp. Date<br><span id="polexpdate">21-03-2018</span></td>
                 </tr>
                 <tr>
                     <td>Present NCB: <span id="NCB">0</span>%</td>
-                    <td>Claim in Present Year no. <span id="PYN"></span></td>
+                    <td>Claim in Present Year no. : <span id="PYN"></span></td>
 
                 </tr>
             </table>
@@ -241,10 +249,10 @@ ul li {margin:2px; padding:4px !important;}
                     <td><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
                              onerror=this.src="file:///android_asset/profile_pic.png" width="100"
                              class="img-responsive"/></td>
-                    <td><h4 id="pospName">Test User</h4>
-                        <p id="deg">Landmark POSP</p>
-                        <p id="phone">98XXXXXXXX</p>
-                        <p id="email">XXXXX@gmail.com</p></td>
+                    <td><h4 id="pospName"  class="red-txt">Test User</h4>
+                        <p id="deg"  class="posp-txt">Landmark POSP</p>
+                        <p id="phone"  class="blue-txt">98XXXXXXXX</p>
+                        <p id="email"  class="posp-txt">XXXXX@gmail.com</p></td>
                 </tr>
             </table>
         </div>
@@ -314,7 +322,17 @@ ul li {margin:2px; padding:4px !important;}
         document.getElementById('name').innerHTML = otherReponse.NAME;
         document.getElementById('lblvehiclename').innerHTML = otherReponse.VECHILE_NAME;
         document.getElementById('polexpiringdate').innerHTML = otherReponse.MFG_DATE;
+        var pomfgdate = otherReponse.MFG_DATE.split("-");
+         var polymfdate = "";
+         polymfdate = pomfgdate[2] + '-' + pomfgdate[1] + '-' + pomfgdate[0];
+         document.getElementById('polexpiringdate').innerHTML = polymfdate;
+
         document.getElementById('polexpdate').innerHTML = otherReponse.POLICY_EXP;
+         var POLICYEXP = otherReponse.POLICY_EXP.split("-");
+         var polyexpdate = "";
+         polyexpdate = POLICYEXP[2] + '-' + POLICYEXP[1] + '-' + POLICYEXP[0];
+
+        document.getElementById('polexpdate').innerHTML = polyexpdate;
         document.getElementById('NCB').innerHTML = otherReponse.NCB;
         document.getElementById('PYN').innerHTML = otherReponse.CLAIM;
 
@@ -851,6 +869,10 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
             document.getElementById('spnTotPrem').innerHTML = Math.round(DispPrem * 100) / 100;
             document.getElementById('spnGST').innerHTML = Math.round(DispTax * 100) / 100;
             document.getElementById('spnNetPrem').innerHTML = Math.round(TotalPrem * 100) / 100;
+        }
+         else
+        {
+            document.getElementById("tblAddOn").style.display = "none";
         }
        
     }

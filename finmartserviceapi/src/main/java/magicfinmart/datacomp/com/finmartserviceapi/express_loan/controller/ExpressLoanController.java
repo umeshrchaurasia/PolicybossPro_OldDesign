@@ -10,12 +10,14 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestbuilder.ExpressLoanRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.HdfcPers_SaveRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.KotakPersonalSaveRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.SaveExpressLoanRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressLoanListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressQuoteListResponse;
 
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.HdfcPers_SaveResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.kotakPers_SaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -166,6 +168,39 @@ public class ExpressLoanController implements IExpressLoan {
 
             @Override
             public void onFailure(Call<HdfcPers_SaveResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void savekotakPersonalLoan(KotakPersonalSaveRequestEntity kotakPersonalSaveRequestEntity,final IResponseSubcriber iResponseSubcriber) {
+        expressNetworkService.savekotakPersonalLoan(kotakPersonalSaveRequestEntity).enqueue(new Callback<kotakPers_SaveResponse>() {
+            @Override
+            public void onResponse(Call<kotakPers_SaveResponse> call, Response<kotakPers_SaveResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<kotakPers_SaveResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

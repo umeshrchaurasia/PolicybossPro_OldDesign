@@ -42,9 +42,9 @@ public class DBPersistanceController {
 
     private static final String EXTERNAL_LPG = "External Fitted LPG";
     private static final String EXTERNAL_CNG = "External Fitted CNG";
-    Map<String, Integer> hashMapInsurence,hashmapPremTerm, hashmapKotakPLCity;
+    Map<String, Integer> hashmapKotakPLCity;
 
-    HashMap<String, String> hashMapAddons;
+    //HashMap<String, String> hashMapAddons;
     Map<String, Integer> hashMapInsurence,hashmapPremTerm;
     HashMap<String, String> hashMapAddons,hdfcpersonalloanbankbranch;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;

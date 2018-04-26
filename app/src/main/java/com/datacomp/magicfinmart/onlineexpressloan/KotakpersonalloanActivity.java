@@ -1,92 +1,96 @@
 package com.datacomp.magicfinmart.onlineexpressloan;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller.ExpressLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.KotakPersonalSaveRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.kotakPers_SaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
 
 public class KotakpersonalloanActivity extends BaseActivity implements View.OnClickListener,IResponseSubcriber {
 
-
+    LinearLayout llCoApplicantDetail ;
     CardView ccPersonal, ccCompantDetail, ccCurrentAddress, ccContactDetail;
-    CheckBox chkTermsCondition, chkSameAsAbove;
+    CheckBox  chkSameAsAbove,chkTermsCondition;
     Button btnKotakplNext;
 
-    TextInputLayout tlProcessingFees, tlPLRateOff, tlBank;
+    TextInputLayout tlProcessingFees, tlPLRateOff;
 
     //personal detail
-    EditText etFirstName, etLastName, etDOB, etMotherName, etCardName,etPartyId,etMiddleName;
-    Spinner spNoOfDependents, spSupplementaryCard, spMailingAddress,spExistingCustomer,spCustomerTypeMaster;
-    RadioButton rbmale, rbSingle, rbIndian, rbSalaried;
+    EditText etFirstName, etLastName, etDOB,etPartyId,etMiddleName,etMobileNumber,etEmail,etAadharNumber,etPanCard,etCRNNumber;
+    Spinner  spExistingCustomer,spCustomerTypeMaster,spQualif;
+    RadioButton rbmale,rbfemale;
+    RadioGroup rgGender,rgCoApp;
 
     //Company detail
-    EditText etCompany, etDesignation, etWorkEmail, etIncome, etAreaCode, etPhoneNumber, etTotalExp;
-    Spinner spQualification, spICICIRelationShip, spTypeCompany;
-    RadioButton rbSavingAccYes;
-    EditText etICICINumber;
+    EditText   etPhoneNumber, etTotalExp,etJoiningDate,etTotalWorkExp,etOfficeAddress1,etOfficeAddress2,etOfficeAddress3,etOfficePincode,etOfficePhone;
+    Spinner spEmployementType,spPreferredMailingAddress;
+    AutoCompleteTextView acEmployerName;
+
 
     //current address
-    EditText etFlatNo, etBuildingName, etArea, etPincode;
-    AutoCompleteTextView acCity, acState;
-    Spinner spResidenceType;
+    EditText  etAdd1,etAdd2,etAdd3,etCurrentResidence,etResidencePhnNo,etPincode;
 
     //permanent address
-    EditText etPerFlatNo, etPerBuildingName, etPerArea, etPerPincode;
-    AutoCompleteTextView acPerCity, acPerState;
+    EditText etPerAdd1,etPerAdd2,etPerAdd3,etPerPincode,etPerResidencePhnNo;
+
     Spinner spPerResidenceType;
 
     //contact detail
-    EditText etStdCode, etTelephoneNo, etMobileNo, etBankName;
-    EditText etMemberSince, etCreditLimit, etPancard;
-    Spinner spSalaryAccountType;
-    RadioButton rbHaveCC;
+    EditText etNetMonthIncome,etTotalEMIperMonth,etReqLoanAmnt,etPLRateOff,etProcessingFees;
+    EditText etMemberSince, etPancard;
+    Spinner spSalaryAccountType,spReqLoanTenure;
+    RadioButton rbYes,rbNo;
 
+    //Co-Applicant
+    EditText etCoAppEmployerName,etCoAppNrtMonthlyIncome,etCoAppEMICurrentlyPay,etCoAppDOB;
+    Spinner spRelationshipWithCoApp,spCoAppEmpType;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+    Spinner spResidenceType,spCurrentAddressCity,spOfficeCity,spPerCity;
 
     //spinner Adapters
-    ArrayAdapter<String> noOfDependentsAdapter, supplemetryCardAdapter, mailingAddressAdapter;
-
-    ArrayAdapter<String> qualificationAdapter, iciciRelationshipAdapter, typeCompanyAdapter;
-    ArrayAdapter<String> residenceTypeAdapter, perResidenceTypeAdapter, salaryAccountTypeAdapter;
+    ArrayAdapter<String> CurrentAddressCityAdapter, OfficeCityAdapter, PerCityAdapter;
 
 
-    String[] stateList = {"ANDAMAN-NICOBAR", "ANDHRA PRADESH", "ARUNACHAL PRADESH", "ASSAM", "BIHAR", "CHANDIGARH", "CHHATTISGARH", "DADRA & NAGAR HAVELI", "DAMAN & DIU", "DELHI", "GOA", "GUJARAT", "HARYANA",
-            "HIMACHAL PRADESH", "JAMMU KASHMIR", "JHARKHAND", "KARNATAKA", "KERALA", "LAKSHADWEEP", "MADHYA PRADESH", "MAHARASHTRA", "MANIPUR", "MEGHALAYA", "MIZORAM", "NAGALAND", "ORISSA",
-            "PONDICHERRY", "PUNJAB", "RAJASTHAN", "SIKKIM", "TAMILNADU", "TRIPURA", "UTTAR PRADESH", "UTTARAKHAND", "WEST BENGAL"};
+    List<String> CurrentAddressCityList,OfficecityList,PercityList;
 
-    ArrayAdapter<String> cityAdapter;
-    List<String> cityList;
-    ArrayAdapter<String> stateAdapter;
-
-    CCICICIRequestEntity requestEntity;
-    CreditCardEntity creditCardEntity;
+    KotakPersonalSaveRequestEntity requestEntity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,24 +99,38 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        creditCardEntity = new CreditCardEntity();
+        requestEntity = new KotakPersonalSaveRequestEntity();
 
-        requestEntity = new CCICICIRequestEntity();
+
         init();
         setListener();
+
+
+        CurrentAddressCityList = new ArrayList<>();
+        CurrentAddressCityList = new DBPersistanceController(this).getKotakPLCityList();
+
+        OfficecityList = new ArrayList<>();
+        OfficecityList = new DBPersistanceController(this).getKotakPLCityList();
+
+        PercityList = new ArrayList<>();
+        PercityList = new DBPersistanceController(this).getKotakPLCityList();
+
+        branchBinding();
     }
 
     private void init() {
 
         tlProcessingFees = (TextInputLayout) findViewById(R.id.tlProcessingFees);
         tlPLRateOff = (TextInputLayout) findViewById(R.id.tlPLRateOff);
-        tlBank = (TextInputLayout) findViewById(R.id.tlBank);
 
+         llCoApplicantDetail = (LinearLayout)findViewById(R.id.llCoApplicantDetail);
+        llCoApplicantDetail.setVisibility(View.GONE);
         ccPersonal = (CardView) findViewById(R.id.ccPersonal);
         ccCompantDetail = (CardView) findViewById(R.id.ccCompantDetail);
         ccCurrentAddress = (CardView) findViewById(R.id.ccCurrentAddress);
         ccContactDetail = (CardView) findViewById(R.id.ccContactDetail);
-        chkTermsCondition = (CheckBox) findViewById(R.id.chkTermsCondition);
+
+        chkTermsCondition  = (CheckBox) findViewById(R.id.chkTermsCondition);
         chkSameAsAbove = (CheckBox) findViewById(R.id.chkSameAsAbove);
         btnKotakplNext = (Button) findViewById(R.id.btnKotakplNext);
         btnKotakplNext.setOnClickListener(this);
@@ -121,89 +139,235 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
         etDOB = (EditText) findViewById(R.id.etDOB);
-        etMotherName = (EditText) findViewById(R.id.etMotherName);
-        etCardName = (EditText) findViewById(R.id.etCardName);
-
-
-        spNoOfDependents = (Spinner) findViewById(R.id.spNoOfDependents);
-
-        spSupplementaryCard = (Spinner) findViewById(R.id.spSupplementaryCard);
-        spMailingAddress = (Spinner) findViewById(R.id.spMailingAddress);
-
+        etPartyId = (EditText)findViewById(R.id.etPartyId);
+        etPartyId.setVisibility(View.GONE);
+        etMiddleName= (EditText)findViewById(R.id.etMiddleName);
+        etMobileNumber = (EditText)findViewById(R.id.etMobileNumber);
+        etEmail =(EditText)findViewById(R.id.etEmail);
+                etAadharNumber = (EditText)findViewById(R.id.etAadharNumber);
+                etPanCard = (EditText)findViewById(R.id.etpancard);
+                etCRNNumber = (EditText)findViewById(R.id.etCRNNumber);
+        etCRNNumber.setVisibility(View.GONE);
+        rgGender =   (RadioGroup) findViewById(R.id.rgGender);
+        rgCoApp =   (RadioGroup) findViewById(R.id.rgCoApp);
         rbmale = (RadioButton) findViewById(R.id.rbmale);
-        rbSingle = (RadioButton) findViewById(R.id.rbSingle);
-        rbIndian = (RadioButton) findViewById(R.id.rbIndian);
-        rbSalaried = (RadioButton) findViewById(R.id.rbSalaried);
+
+        rbfemale = (RadioButton) findViewById(R.id.rbfemale);
+        spExistingCustomer = (Spinner) findViewById(R.id.spExistingCustomer);
+        spCustomerTypeMaster = (Spinner) findViewById(R.id.spCustomerTypeMaster);
         //endregion
 
         //region company detail
-        etCompany = (EditText) findViewById(R.id.etCompany);
-        etDesignation = (EditText) findViewById(R.id.etDesignation);
-        etWorkEmail = (EditText) findViewById(R.id.etWorkEmail);
-        etIncome = (EditText) findViewById(R.id.etIncome);
-        etAreaCode = (EditText) findViewById(R.id.etAreaCode);
+
         etPhoneNumber = (EditText) findViewById(R.id.etPhoneNumber);
         etTotalExp = (EditText) findViewById(R.id.etTotalExp);
-        etICICINumber = (EditText) findViewById(R.id.etICICINumber);
-        etICICINumber.setVisibility(View.GONE);
-        spQualification = (Spinner) findViewById(R.id.spQualification);
-        spICICIRelationShip = (Spinner) findViewById(R.id.spICICIRelationShip);
-        spTypeCompany = (Spinner) findViewById(R.id.spTypeCompany);
 
-        rbSavingAccYes = (RadioButton) findViewById(R.id.rbSavingAccYes);
+        acEmployerName = (AutoCompleteTextView) findViewById(R.id.acEmployerName);
+        etJoiningDate = (EditText) findViewById(R.id.etJoiningDate);
+        etTotalWorkExp = (EditText) findViewById(R.id.etTotalWorkExp);
+        etOfficeAddress1 = (EditText) findViewById(R.id.etOfficeAddress1);
+        etOfficeAddress2 = (EditText) findViewById(R.id.etOfficeAddress2);
+        etOfficeAddress3 = (EditText) findViewById(R.id.etOfficeAddress3);
+        etOfficePincode = (EditText) findViewById(R.id.etOfficePincode);
+        etOfficePhone = (EditText) findViewById(R.id.etOfficePhone);
+        spEmployementType = (Spinner) findViewById(R.id.spEmployementType);
+        spOfficeCity = (Spinner) findViewById(R.id.spOfficeCity);
+        spPreferredMailingAddress = (Spinner) findViewById(R.id.spPreferredMailingAddress);
+
+
+
         //endregion
 
         //region current address
 
-        etFlatNo = (EditText) findViewById(R.id.etFlatNo);
-        etBuildingName = (EditText) findViewById(R.id.etBuildingName);
-        etArea = (EditText) findViewById(R.id.etArea);
-        etPincode = (EditText) findViewById(R.id.etPincode);
 
-        acCity = (AutoCompleteTextView) findViewById(R.id.acCity);
-        acState = (AutoCompleteTextView) findViewById(R.id.acState);
+        etPincode = (EditText) findViewById(R.id.etPincode);
+        etAdd1 = (EditText) findViewById(R.id.etAdd1);
+        etAdd2 = (EditText) findViewById(R.id.etAdd2);
+        etAdd3 = (EditText) findViewById(R.id.etAdd3);
+        etCurrentResidence = (EditText) findViewById(R.id.etCurrentResidence);
+        etResidencePhnNo = (EditText) findViewById(R.id.etResidencePhnNo);
+
+       // acCity = (AutoCompleteTextView) findViewById(R.id.acCity);
+      //  acState = (AutoCompleteTextView) findViewById(R.id.acState);
         spResidenceType = (Spinner) findViewById(R.id.spResidenceType);
         //endregion
 
         //region permanent address
 
-        etPerFlatNo = (EditText) findViewById(R.id.etPerFlatNo);
-        etPerBuildingName = (EditText) findViewById(R.id.etPerBuildingName);
-        etPerArea = (EditText) findViewById(R.id.etPerArea);
-        etPerPincode = (EditText) findViewById(R.id.etPerPincode);
 
-        acPerCity = (AutoCompleteTextView) findViewById(R.id.acPerCity);
-        acPerState = (AutoCompleteTextView) findViewById(R.id.acPerState);
+        etPerAdd1 = (EditText) findViewById(R.id.etPerAdd1);
+        etPerAdd2 = (EditText) findViewById(R.id.etPerAdd2);
+        etPerAdd3 = (EditText) findViewById(R.id.etPerAdd3);
+        etPerPincode = (EditText) findViewById(R.id.etPerPincode);
+        etPerResidencePhnNo = (EditText) findViewById(R.id.etPerResidencePhnNo);
+
+
+
+     //   acPerCity = (AutoCompleteTextView) findViewById(R.id.acPerCity);
+    //    acPerState = (AutoCompleteTextView) findViewById(R.id.acPerState);
         spPerResidenceType = (Spinner) findViewById(R.id.spPerResidenceType);
 
         //endregion
 
         //region contact detail
 
-        etStdCode = (EditText) findViewById(R.id.etStdCode);
-        etTelephoneNo = (EditText) findViewById(R.id.etTelephoneNo);
-        etMobileNo = (EditText) findViewById(R.id.etMobileNo);
-        etBankName = (EditText) findViewById(R.id.etBankName);
-        etMemberSince = (EditText) findViewById(R.id.etMemberSince);
-        etCreditLimit = (EditText) findViewById(R.id.etCreditLimit);
-        etPancard = (EditText) findViewById(R.id.etPancard);
-        etPancard.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
 
-        etBankName.setVisibility(View.GONE);
-        etMemberSince.setVisibility(View.GONE);
-        etCreditLimit.setVisibility(View.GONE);
+        etNetMonthIncome = (EditText) findViewById(R.id.etNetMonthIncome);
+        etTotalEMIperMonth = (EditText) findViewById(R.id.etTotalEMIperMonth);
+        etReqLoanAmnt = (EditText) findViewById(R.id.etReqLoanAmnt);
+        etPLRateOff = (EditText) findViewById(R.id.etPLRateOff);
+        etProcessingFees = (EditText) findViewById(R.id.etProcessingFees);
+        etPancard = (EditText) findViewById(R.id.etPancard);
+
+
+
+        rbYes = (RadioButton) findViewById(R.id.rbYes);
+
+        rbNo = (RadioButton) findViewById(R.id.rbNo);
+
+
 
         spSalaryAccountType = (Spinner) findViewById(R.id.spSalaryAccountType);
 
-        rbHaveCC = (RadioButton) findViewById(R.id.rbHaveCC);
+
         //endregion
+        //region Co-Applicant
+
+
+        etCoAppEmployerName = (EditText) findViewById(R.id.etCoAppEmployerName);
+        etCoAppNrtMonthlyIncome = (EditText) findViewById(R.id.etCoAppNrtMonthlyIncome);
+        etCoAppEMICurrentlyPay = (EditText) findViewById(R.id.etCoAppEMICurrentlyPay);
+        spRelationshipWithCoApp = (Spinner) findViewById(R.id.spRelationshipWithCoApp);
+        spCoAppEmpType = (Spinner) findViewById(R.id.spCoAppEmpType);
+        etCoAppDOB = (EditText) findViewById(R.id.etCoAppDOB);
+        spCurrentAddressCity= (Spinner) findViewById(R.id.spCurrentAddressCity);
+        spPerCity= (Spinner) findViewById(R.id.spPerCity);
     }
+
 
     private void setListener() {
         etDOB.setOnClickListener(datePickerDialog);
+        etJoiningDate.setOnClickListener(datePickerDialog);
+        etCurrentResidence.setOnClickListener(datePickerDialog);
+        etCoAppDOB.setOnClickListener(datePickerDialog);
         btnKotakplNext.setOnClickListener(this);
+        spExistingCustomer.setOnItemSelectedListener(onItemSelectedListener);
+        spCustomerTypeMaster.setOnItemSelectedListener(onItemSelectedListener);
+
+        chkSameAsAbove.setOnCheckedChangeListener(addressSameAsAbove);
+        rbYes.setOnCheckedChangeListener(haveCC);
     }
 
+    private void branchBinding() {
+        CurrentAddressCityAdapter = new
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, CurrentAddressCityList);
+        spCurrentAddressCity.setAdapter(CurrentAddressCityAdapter);
+
+        OfficeCityAdapter = new
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, OfficecityList);
+        spOfficeCity.setAdapter(OfficeCityAdapter);
+
+
+        PerCityAdapter = new
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, PercityList);
+        spPerCity.setAdapter(PerCityAdapter);
+
+    }
+    AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+            if (adapterView.getId() == R.id.spExistingCustomer) {
+                if (position == 1) {
+                 //   etICICINumber.setVisibility(View.VISIBLE);
+                    spCustomerTypeMaster.setVisibility(View.VISIBLE);
+                    etCRNNumber.setVisibility(View.GONE);
+                    etPartyId.setVisibility(View.GONE);
+                } else {
+                  //  etICICINumber.setVisibility(View.GONE);
+                    spCustomerTypeMaster.setVisibility(View.GONE);
+                    etCRNNumber.setVisibility(View.GONE);
+                    etPartyId.setVisibility(View.GONE);
+                }
+            }else   if (adapterView.getId() == R.id.spCustomerTypeMaster) {
+                if (position == 1) {
+                   etCRNNumber.setVisibility(View.VISIBLE);
+                   etPartyId.setVisibility(View.GONE);
+                } else if(position == 2) {
+                    etCRNNumber.setVisibility(View.GONE);
+                    etPartyId.setVisibility(View.VISIBLE);
+                }
+                else{
+                    etCRNNumber.setVisibility(View.GONE);
+                    etPartyId.setVisibility(View.GONE);
+                }
+            }
+
+
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+
+        }
+    };
+    CompoundButton.OnCheckedChangeListener addressSameAsAbove = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (b) {
+                bindAddress();
+            } else {
+                emptyAddress();
+
+            }
+        }
+    };
+    CompoundButton.OnCheckedChangeListener haveCC = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            if (b) {
+                etCoAppEMICurrentlyPay.setFocusable(true);
+                llCoApplicantDetail.setVisibility(View.VISIBLE);
+
+            } else {
+
+                llCoApplicantDetail.setVisibility(View.GONE);
+            }
+        }
+    };
+
+    protected void bindAddress() {
+        etPerAdd1.setText(etAdd1.getText().toString());
+        etPerAdd2.setText(etAdd2.getText().toString());
+        etPerAdd3.setText(etAdd3.getText().toString());
+        spPerCity.setSelection(spCurrentAddressCity.getSelectedItemPosition());
+
+        etPerResidencePhnNo.setText(etResidencePhnNo.getText().toString());
+        etPerPincode.setText(etPincode.getText().toString());
+
+       // acPerCity.setText(acCity.getText().toString());
+       // acPerCity.performCompletion();
+      //  acPerState.setText(acState.getText().toString());
+      //  acPerState.performCompletion();
+
+
+    }
+    protected void emptyAddress() {
+        etPerAdd1.setText("");
+        etPerAdd2.setText("");
+        etPerAdd3.setText("");
+        spPerCity.setSelection(0);
+
+        etPerResidencePhnNo.setText("");
+        etPerPincode.setText("");
+
+        // acPerCity.setText(acCity.getText().toString());
+        // acPerCity.performCompletion();
+        //  acPerState.setText(acState.getText().toString());
+        //  acPerState.performCompletion();
+
+
+    }
     //region datepicker
 
     protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
@@ -222,7 +386,47 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                         }
                     }
                 });
-            } else if (view.getId() == R.id.etMemberSince) {
+            }
+            else if (view.getId() == R.id.etCurrentResidence) {
+                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etCurrentResidence.setText(currentDay);
+                        }
+                    }
+                });
+            }
+            else if (view.getId() == R.id.etJoiningDate) {
+                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etJoiningDate.setText(currentDay);
+                        }
+                    }
+                });
+            }
+            else if (view.getId() == R.id.etCoAppDOB) {
+                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etCoAppDOB.setText(currentDay);
+                        }
+                    }
+                });
+            }
+            else if (view.getId() == R.id.etMemberSince) {
                 DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
@@ -242,16 +446,654 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
     //endregion
     @Override
     public void onClick(View v) {
+        if (v.getId() == R.id.btnKotakplNext) {
+
+            if (chkTermsCondition.isChecked()) {
+
+                //region validation personal
+
+                if (spExistingCustomer.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(this, "Select Existing Customer", Toast.LENGTH_SHORT).show();
+                   return;
+               }
+                if (spCustomerTypeMaster.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(this, "Select Existing Customer Type", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (spQualif.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(this, "Select  Qualification", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (spEmployementType.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(this, "Select  Employee", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (spCoAppEmpType.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(this, "Select  Employee", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                if (!isEmpty(etFirstName)) {
+                    etFirstName.setError("Enter First name");
+                    etFirstName.setFocusable(true);
+                    return;
+                } else {
+                    etFirstName.setError(null);
+                }
+
+                if (!isEmpty(etMiddleName)) {
+                    etMiddleName.setError("Enter tMiddle name");
+                    etMiddleName.setFocusable(true);
+                    return;
+                } else {
+                    etMiddleName.setError(null);
+                }
+
+                if (!isEmpty(etLastName)) {
+                    etLastName.setError("Enter Last name");
+                    etLastName.setFocusable(true);
+                    return;
+                } else {
+                    etLastName.setError(null);
+                }
+
+                if (!isEmpty(etDOB)) {
+                    etDOB.setError("Invalid birth date");
+                    etDOB.setFocusable(true);
+                    return;
+                } else {
+                    etDOB.setError(null);
+                }
+
+                if (!isEmpty(etMobileNumber)) {
+                    etMobileNumber.setError("Invalid mobile number");
+                    etMobileNumber.setFocusable(true);
+                    return;
+                } else {
+                    etMobileNumber.setError(null);
+                }
+
+                if (etMobileNumber.getText().toString().length() < 10) {
+                    etMobileNumber.setError("Invalid mobile number");
+                    etMobileNumber.setFocusable(true);
+                    return;
+                } else {
+                    etMobileNumber.setError(null);
+                }
+
+                if (!isEmpty(etEmail)) {
+                    etEmail.setError("Invalid email id");
+                    etEmail.setFocusable(true);
+                    return;
+                } else {
+                    etEmail.setError(null);
+                }
+
+                if (!isEmpty(etAadharNumber)) {
+                    etAadharNumber.setError("Invalid aadhar no");
+                    etAadharNumber.setFocusable(true);
+                    return;
+                } else {
+                    etAadharNumber.setError(null);
+                }
+
+                if (!isEmpty(etPanCard)) {
+                    etPanCard.setError("Invalid  pancard");
+                    etPanCard.setFocusable(true);
+                    return;
+                } else {
+                    etPanCard.setError(null);
+                }
+
+
+
+
+                if (!isEmpty(etJoiningDate)) {
+                    etJoiningDate.setError("Invalid Date");
+                    etJoiningDate.setFocusable(true);
+                    return;
+                } else {
+                    etJoiningDate.setError(null);
+                }
+
+
+                if (!isEmpty(etTotalWorkExp)) {
+                    etTotalWorkExp.setError("Enter work experience");
+                    etTotalWorkExp.setFocusable(true);
+                    return;
+                } else {
+                    etTotalWorkExp.setError(null);
+                }
+
+
+                if (!isEmpty(etOfficeAddress1)) {
+                    etOfficeAddress1.setError("Enter address");
+                    etOfficeAddress1.setFocusable(true);
+                    return;
+                } else {
+                    etOfficeAddress1.setError(null);
+                }
+                if (!isEmpty(etOfficeAddress2)) {
+                    etOfficeAddress2.setError("Enter address");
+                    etOfficeAddress2.setFocusable(true);
+                    return;
+                } else {
+                    etOfficeAddress2.setError(null);
+                }
+                if (!isEmpty(etOfficeAddress3)) {
+                    etOfficeAddress3.setError("Enter address");
+                    etOfficeAddress3.setFocusable(true);
+                    return;
+                } else {
+                    etOfficeAddress3.setError(null);
+                }
+
+                if (spOfficeCity.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(this, "Select  Office City", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (etOfficePincode.getText().toString().length() < 6) {
+                    etOfficePincode.setError("Invalid Pincode");
+                    etOfficePincode.setFocusable(true);
+                    return;
+                } else {
+                    etOfficePincode.setError(null);
+                }
+
+                if (!isEmpty(etOfficePincode)) {
+                    etOfficePincode.setError("Invalid  pincode");
+                    etOfficePincode.setFocusable(true);
+                    return;
+                } else {
+                    etOfficePincode.setError(null);
+                }
+
+                if (!isEmpty(etOfficePhone)) {
+                    etOfficePhone.setError("Invalid office number");
+                    etOfficePhone.setFocusable(true);
+                    return;
+                } else {
+                    etOfficePhone.setError(null);
+                }
+                if (spPreferredMailingAddress.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(this, "Select mailing address", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                if (!isEmpty(etAdd1)) {
+                    etAdd1.setError("Enter address");
+                    etAdd1.setFocusable(true);
+                    return;
+                } else {
+                    etAdd1.setError(null);
+                }
+                if (!isEmpty(etAdd2)) {
+                    etAdd2.setError("Enter address");
+                    etAdd2.setFocusable(true);
+                    return;
+                } else {
+                    etAdd2.setError(null);
+                }
+                if (!isEmpty(etAdd3)) {
+                    etAdd3.setError("Enter address");
+                    etAdd3.setFocusable(true);
+                    return;
+                } else {
+                    etAdd3.setError(null);
+                }
+
+                if (spCurrentAddressCity.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(this, "Select city", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
+                if (etPincode.getText().toString().length() < 6) {
+                    etPincode.setError("Invalid Pincode");
+                    etPincode.setFocusable(true);
+                    return;
+                } else {
+                    etPincode.setError(null);
+                }
+
+                if (spResidenceType.getSelectedItemPosition() == 0) {
+
+                    Toast.makeText(this, "Select Residence Type", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isEmpty(etPincode)) {
+                    etPincode.setError("Invalid  pincode");
+                    etPincode.setFocusable(true);
+                    return;
+                } else {
+                    etPincode.setError(null);
+                }
+
+                if (!isEmpty(etCurrentResidence)) {
+                    etCurrentResidence.setError("Invalid  date");
+                    etCurrentResidence.setFocusable(true);
+                    return;
+                } else {
+                    etCurrentResidence.setError(null);
+                }
+
+                if (!isEmpty(etResidencePhnNo)) {
+                    etResidencePhnNo.setError("Invalid  phone no");
+                    etResidencePhnNo.setFocusable(true);
+                    return;
+                } else {
+                    etResidencePhnNo.setError(null);
+                }
+
+
+//
+//                if (spTypeCompany.getSelectedItemPosition() == 0) {
+//                    Toast.makeText(this, "Select Mailing address", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+                //endregion
+
+                //region validation company
+
+
+
+                if (etPhoneNumber.getText().toString().length() < 10) {
+                    etPhoneNumber.setError("Invalid Phone number");
+                    etPhoneNumber.setFocusable(true);
+                    return;
+                } else {
+                    etPhoneNumber.setError(null);
+                }
+
+                if (etOfficePhone.getText().toString().length() < 10) {
+                    etOfficePhone.setError("Invalid Phone number");
+                    etOfficePhone.setFocusable(true);
+                    return;
+                } else {
+                    etOfficePhone.setError(null);
+                }
+
+                if (etPerResidencePhnNo.getText().toString().length() < 10) {
+                    etPerResidencePhnNo.setError("Invalid Phone number");
+                    etPerResidencePhnNo.setFocusable(true);
+                    return;
+                } else {
+                    etPerResidencePhnNo.setError(null);
+                }
+
+                if (etResidencePhnNo.getText().toString().length() < 10) {
+                    etResidencePhnNo.setError("Invalid Phone number");
+                    etResidencePhnNo.setFocusable(true);
+                    return;
+                } else {
+                    etResidencePhnNo.setError(null);
+                }
+
+
+                if (!isEmpty(etPerAdd1)) {
+                    etPerAdd1.setError("Enter address");
+                    etPerAdd1.setFocusable(true);
+                    return;
+                } else {
+                    etPerAdd1.setError(null);
+                }
+                if (!isEmpty(etPerAdd2)) {
+                    etPerAdd2.setError("Enter address");
+                    etPerAdd2.setFocusable(true);
+                    return;
+                } else {
+                    etPerAdd2.setError(null);
+                }
+                if (!isEmpty(etPerAdd3)) {
+                    etPerAdd3.setError("Enter address");
+                    etPerAdd3.setFocusable(true);
+                    return;
+                } else {
+                    etPerAdd3.setError(null);
+                }
+
+
+                if (spPerCity.getSelectedItemPosition() == 0) {
+                    Toast.makeText(this, "Select city", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isEmpty(etPerPincode)) {
+                    etPerPincode.setError("Invalid  pincode");
+                    etPerPincode.setFocusable(true);
+                    return;
+                } else {
+                    etPerPincode.setError(null);
+                }
+
+                if (etPerPincode.getText().toString().length() < 6) {
+                    etPerPincode.setError("Invalid pan number");
+                    etPerPincode.setFocusable(true);
+                    return;
+                } else {
+                    etPerPincode.setError(null);
+                }
+
+
+                if (!isEmpty(etPerResidencePhnNo)) {
+                    etPerResidencePhnNo.setError("Invalid residence phone no");
+                    etPerResidencePhnNo.setFocusable(true);
+                    return;
+                } else {
+                    etPerResidencePhnNo.setError(null);
+                }
+
+                if (etPerResidencePhnNo.getText().toString().length() < 10) {
+                    etPerResidencePhnNo.setError("Invalid residence phone no");
+                    etPerResidencePhnNo.setFocusable(true);
+                    return;
+                } else {
+                    etPerResidencePhnNo.setError(null);
+                }
+
+                if (!isEmpty(etNetMonthIncome)) {
+                    etNetMonthIncome.setError("Invalid monthly income");
+                    etNetMonthIncome.setFocusable(true);
+                    return;
+                } else {
+                    etNetMonthIncome.setError(null);
+                }
+
+                if (!isEmpty(etTotalEMIperMonth)) {
+                    etTotalEMIperMonth.setError("Invalid emi per month");
+                    etTotalEMIperMonth.setFocusable(true);
+                    return;
+                } else {
+                    etTotalEMIperMonth.setError(null);
+                }
+
+                if (!isEmpty(etReqLoanAmnt)) {
+                    etReqLoanAmnt.setError("Invalid amount");
+                    etReqLoanAmnt.setFocusable(true);
+                    return;
+                } else {
+                    etReqLoanAmnt.setError(null);
+                }
+
+
+                if (spReqLoanTenure.getSelectedItemPosition() == 0) {
+                   Toast.makeText(this, "Select Tenure", Toast.LENGTH_SHORT).show();
+                   return;
+                }
+
+                if (!isEmpty(etPLRateOff)) {
+                    etPLRateOff.setError("Invalid amount");
+                    etPLRateOff.setFocusable(true);
+                    return;
+                } else {
+                    etPLRateOff.setError(null);
+                }
+
+                if (!isEmpty(etReqLoanAmnt)) {
+                    etReqLoanAmnt.setError("Invalid amount");
+                    etReqLoanAmnt.setFocusable(true);
+                    return;
+                } else {
+                    etReqLoanAmnt.setError(null);
+                }
+
+                if (spRelationshipWithCoApp.getSelectedItemPosition() == 0) {
+                    Toast.makeText(this, "Select relationship with co-applicant", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isEmpty(etCoAppDOB)) {
+                    etCoAppDOB.setError("Invalid date");
+                    etCoAppDOB.setFocusable(true);
+                    return;
+                } else {
+                    etCoAppDOB.setError(null);
+                }
+
+                if (spCoAppEmpType.getSelectedItemPosition() == 0) {
+                    Toast.makeText(this, "Select  employee type", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!isEmpty(etCoAppEmployerName)) {
+                    etCoAppEmployerName.setError("Invalid date");
+                    etCoAppEmployerName.setFocusable(true);
+                    return;
+                } else {
+                    etCoAppEmployerName.setError(null);
+                }
+
+                if (!isEmpty(etNetMonthIncome)) {
+                    etNetMonthIncome.setError("Invalid date");
+                    etNetMonthIncome.setFocusable(true);
+                    return;
+                } else {
+                    etNetMonthIncome.setError(null);
+                }
+                if (!isEmpty(etCoAppEMICurrentlyPay)) {
+                    etCoAppEMICurrentlyPay.setError("Invalid date");
+                    etCoAppEMICurrentlyPay.setFocusable(true);
+                    return;
+                } else {
+                    etCoAppEMICurrentlyPay.setError(null);
+                }
+
+                if (acEmployerName.getText().toString().length() == 0) {
+                    acEmployerName.setError("Invalid Company");
+                    acEmployerName.setFocusable(true);
+                    return;
+                } else {
+                    acEmployerName.setError(null);
+                }
+                //endregion
+
+                //region validation permanent address
+
+
+                //endregion
+
+                //region creating request
+
+                requestEntity.setIsExstCust(spExistingCustomer.getSelectedItem().toString());
+                requestEntity.setExstCustType(spCustomerTypeMaster.getSelectedItem().toString());
+
+                if(etCRNNumber.getText().toString().length() > 0)
+                {
+                    requestEntity.setCRN(etCRNNumber.getText().toString());
+                }else
+                {
+                    requestEntity.setCRN("0");
+                }
+
+                if(etPartyId.getText().toString().length() > 0)
+                {
+                    requestEntity.setPartyID(etPartyId.getText().toString());
+                }else
+                {
+                    requestEntity.setPartyID("0");
+                }
+
+                requestEntity.setFirstName(etFirstName.getText().toString());
+                requestEntity.setMiddleName(etMiddleName.getText().toString());
+                requestEntity.setLastName(etLastName.getText().toString());
+                if (rbmale.isChecked()) {
+                    requestEntity.setGender("1");
+                } else {
+                    requestEntity.setGender("2");
+                }
+
+                requestEntity.setQualification(spQualif.getSelectedItem().toString());
+                requestEntity.setDOB(etDOB.getText().toString());
+
+                requestEntity.setMobile(etMobileNumber.getText().toString());
+
+                requestEntity.setEmail(etEmail.getText().toString());
+
+                requestEntity.setAadhar(etAadharNumber.getText().toString());
+                requestEntity.setPAN(etPanCard.getText().toString());
+
+                requestEntity.setEmpType(spEmployementType.getSelectedItem().toString());
+
+                requestEntity.setCompany_Cat(acEmployerName.getText().toString());
+
+                requestEntity.setOrganization(acEmployerName.getText().toString());
+
+                requestEntity.setCurCmpnyJoinDt(etJoiningDate.getText().toString());
+                requestEntity.setTotWrkExp(etTotalWorkExp.getText().toString());
+                requestEntity.setTotWrkExp(etOfficeAddress1.getText().toString());
+                requestEntity.setTotWrkExp(etOfficeAddress2.getText().toString());
+                requestEntity.setTotWrkExp(etOfficeAddress3.getText().toString());
+
+                requestEntity.setOffCity(spOfficeCity.getSelectedItem().toString());
+
+                requestEntity.setOffPin(etOfficePincode.getText().toString());
+                requestEntity.setOffPhone(etOfficePhone.getText().toString());
+
+
+
+                requestEntity.setPrefMailAdd(spPreferredMailingAddress.getSelectedItem().toString());
+
+                requestEntity.setResAddress1(etAdd1.getText().toString());
+                requestEntity.setResAddress2(etAdd2.getText().toString());
+                requestEntity.setResAddress3(etAdd3.getText().toString());
+
+                requestEntity.setPrefMailAdd(spPreferredMailingAddress.getSelectedItem().toString());
+                ;
+                requestEntity.setResCity(spCurrentAddressCity.getSelectedItem().toString());
+                requestEntity.setResPin(etPincode.getText().toString());
+                requestEntity.setResType(spResidenceType.getSelectedItem().toString());
+                requestEntity.setCurResSince(etCurrentResidence.getText().toString());
+                requestEntity.setResPhNo(etResidencePhnNo.getText().toString());
+                requestEntity.setResAddress3(etAdd3.getText().toString());
+                requestEntity.setResAddress3(etAdd3.getText().toString());
+                requestEntity.setSame("on");
+                requestEntity.setPerAddress1(etPerAdd1.getText().toString());
+                requestEntity.setPerAddress2(etPerAdd2.getText().toString());
+                requestEntity.setPerAddress3(etPerAdd3.getText().toString());
+
+                requestEntity.setPerCity(spPerCity.getSelectedItem().toString());
+                requestEntity.setPerPin(etPerPincode.getText().toString());
+               ;
+                requestEntity.setPerResPhNo(etPerResidencePhnNo.getText().toString());
+
+                requestEntity.setNMI(etNetMonthIncome.getText().toString());
+                requestEntity.setEmiCurPay(etTotalEMIperMonth.getText().toString());
+                requestEntity.setLnAmt(etReqLoanAmnt.getText().toString());
+                requestEntity.setTnrMths(spReqLoanTenure.getSelectedItem().toString());
+                requestEntity.setIRR(etPLRateOff.getText().toString());
+                requestEntity.setProcFee(etProcessingFees.getText().toString());
+                requestEntity.setPerResPhNo(etPerResidencePhnNo.getText().toString());
+                requestEntity.setPerResPhNo(etPerResidencePhnNo.getText().toString());
+                requestEntity.setPerResPhNo(etPerResidencePhnNo.getText().toString());
+                requestEntity.setPerResPhNo(etPerResidencePhnNo.getText().toString());
+                requestEntity.setPerResPhNo(etPerResidencePhnNo.getText().toString());
+                requestEntity.setPerResPhNo(etPerResidencePhnNo.getText().toString());
+                requestEntity.setPerResPhNo(etPerResidencePhnNo.getText().toString());
+
+                if (chkSameAsAbove.isChecked()) {
+                    requestEntity.setIsCoApp("Y");
+                } else {
+                    requestEntity.setIsCoApp("N");
+                }
+
+                requestEntity.setCoAppReltn(spRelationshipWithCoApp.getSelectedItem().toString());
+                requestEntity.setCoAppDOB(etCoAppDOB.getText().toString());
+                requestEntity.setCoAppEmpType(spCoAppEmpType.getSelectedItem().toString());
+                requestEntity.setCoAppOrg(etCoAppEmployerName.getText().toString());
+                requestEntity.setCoAppNMI(etCoAppNrtMonthlyIncome.getText().toString());
+                requestEntity.setCoAppEmiCurPay(etCoAppEMICurrentlyPay.getText().toString());
+
+
+                requestEntity.setVersion("1");
+                requestEntity.setFBAID(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
+                requestEntity.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId());
+                requestEntity.setEmpid("");
+
+                requestEntity.setCampaignName("KOTAK PL");
+                requestEntity.setSource("");
+                requestEntity.setLoanType("Personal Loan");
+
+                //personal detail
+
+
+
+                //endregion
+
+                showDialog();
+                new ExpressLoanController(this).savekotakPersonalLoan(requestEntity,this);
+
+            } else {
+                Toast.makeText(this, "Accept Terms and Condtion", Toast.LENGTH_SHORT).show();
+            }
+
+
+        }
 
     }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof kotakPers_SaveResponse) {
+            if (response.getStatusNo() == 0) {
+                dialogMessage(true, ((kotakPers_SaveResponse) response).getMessage(), response.getMessage());
 
+            }
+        }
     }
 
     @Override
     public void OnFailure(Throwable t) {
-
+        cancelDialog();
+        dialogMessage(false, t.getMessage(), "");
     }
+    private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+
+        StringBuilder Message = new StringBuilder();
+        if (isSuccess) {
+            builder.setTitle("Applied Successfully..!");
+            String strMessage = "Application No:" + AppNo + "\n\n";
+            String success = displayMessage;
+            Message.append(strMessage + success);
+
+        } else {
+            builder.setTitle("Failed ");
+            String failure = AppNo;
+            Message.append(failure);
+        }
+        builder.setMessage(Message.toString())
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        if (isSuccess) {
+                            finish();
+                        }
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
+        msgTxt.setTextSize(12.0f);
+    }
+
 }

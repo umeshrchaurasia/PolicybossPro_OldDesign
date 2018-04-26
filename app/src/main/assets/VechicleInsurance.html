@@ -38,9 +38,15 @@ ul li {margin:2px; padding:4px !important;}
 .no-padding {padding : 1px !important;margin:0px;}
 h4 {padding:0px;margin:2px;}
 p {padding:0px;margin:2px;}
-
-
-
+ .red-txt {
+            color: #b60d2a;
+        }
+  .blue-txt {
+            color: #4FB4E9;font-size:19px;
+        }
+.posp-txt {
+            font-size:14px;
+        }
     </style>
 </head>
 
@@ -49,7 +55,7 @@ p {padding:0px;margin:2px;}
 
     <div class="col-md-12">
         <h3 class="blu-heading text-center">Quotation for Insurance of your Vehicle</h3>
-        <p>Dear <b class="red-txt" id="name">Joel Jangam</b></p>
+        <p>Dear <b class="red-txt" id="name">Joel Jangam</b>,</p>
         <p>Please find below our best quotations for renewal of insurance of your vehicle</p>
     </div>
 
@@ -106,7 +112,7 @@ p {padding:0px;margin:2px;}
     </div>
 
     <div class="col-md-12">
-        <p>P.S: The about Quotations are subject to verification by respective insurance</p>
+        <p>P.S: The about Quotations are subject to verification by respective insurers</p>
         <h5><b>
             Please feel free to contact me for more details and renewal</b></h5>
     </div>
@@ -116,10 +122,10 @@ p {padding:0px;margin:2px;}
             <table class="table table-striped">
                 <tr>
                     <td><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found" onerror=this.src="file:///android_asset/profile_pic.png" width="100" class="img-responsive"/></td>
-                    <td><h4 id="pospName">Test User</h4>
-                        <p id="deg">Landmark POSP</p>
-                        <p id="phone">98XXXXXXXX</p>
-                        <p id="email">XXXXX@gmail.com</p></td>
+                    <td><h4 id="pospName" class="red-txt">Test User</h4>
+                        <p id="deg" class="posp-txt">Landmark POSP</p>
+                        <p id="phone" class="blue-txt">98XXXXXXXX</p>
+                        <p id="email" class="posp-txt">XXXXX@gmail.com</p></td>
                 </tr>
             </table>
         </div>
@@ -175,7 +181,13 @@ p {padding:0px;margin:2px;}
       document.getElementById('deg').innerHTML = otherDetails.pospDesg;
       document.getElementById('phone').innerHTML = otherDetails.PospMobNo;;
       document.getElementById('email').innerHTML = otherDetails.pospEmail;;
+       var Policyexp = response.Summary.Request_Core.policy_expiry_date;
+       Policyexp = Policyexp.split("-");
+           var polyexpdate = "";
 
+                polyexpdate = Policyexp[2] + '-' + Policyexp[1] + '-' + Policyexp[0];
+
+        document.getElementById('expDate').innerHTML = polyexpdate;
 
 
         var HTML = "";
@@ -230,7 +242,7 @@ p {padding:0px;margin:2px;}
                     HTML = HTML + '</tr>';
                     HTML = HTML + '<tr>';
                     HTML = HTML + ' <td>' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
-                    HTML = HTML + ' <td><a href="#" class="amount">₹ ' +  response.Response[i].final_premium_with_addon + '</a></td>';
+                    HTML = HTML + ' <td><a href="#" class="amount">₹ ' +  Math.round( response.Response[i].final_premium_with_addon) + '</a></td>';
                     HTML = HTML + '</tr>';
                     HTML = HTML + '</tbody>';
                     HTML = HTML + '</table>';

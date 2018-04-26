@@ -5,11 +5,13 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.HdfcPers_SaveRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.KotakPersonalSaveRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.SaveExpressLoanRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressLoanListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressQuoteListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.HdfcPers_SaveResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.kotakPers_SaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder.MotorQuotesRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.BikePremiumRequestEntity;
@@ -53,6 +55,9 @@ public class ExpressLoanRequestBuilder extends FinmartRetroRequestBuilder {
         Call<HdfcPers_SaveResponse> saveHDFCPersonalLoan(@Body HdfcPers_SaveRequestEntity body);
 
 
+        @Headers("token:" + token)
+        @POST("/api/kotak-personal-loan")
+        Call<kotakPers_SaveResponse> savekotakPersonalLoan(@Body KotakPersonalSaveRequestEntity body);
 
 //        @POST("/quote/premium_list_db")
 //        Call<BikePremiumResponse> getPremiumList(@Body BikePremiumRequestEntity body);

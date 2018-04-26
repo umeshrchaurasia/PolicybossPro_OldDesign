@@ -538,6 +538,13 @@
         <item>No</item>
 
     </string-array>
+
+    <string-array name="ExistingCustomerTypeKotakPL">
+        <item>Existing Customer Type Master</item>
+        <item>Bank</item>
+        <item>Loan</item>
+
+    </string-array>
     <string-array name="QualificationKotakPL">
         <item>Qualification</item>
         <item>Post Graduate</item>
