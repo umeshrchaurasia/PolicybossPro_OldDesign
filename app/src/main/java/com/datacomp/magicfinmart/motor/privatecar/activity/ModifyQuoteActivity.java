@@ -109,7 +109,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
         if (motorRequestEntity.getVehicle_expected_idv() > 0) {
             etIdv.setText("" + motorRequestEntity.getVehicle_expected_idv());
             sbIdv.setProgress(motorRequestEntity.getVehicle_expected_idv() / 1000);
-            tvProgress.setText("" + motorRequestEntity.getVehicle_expected_idv());
+            tvProgress.setText("EXPECTED IDV (" + motorRequestEntity.getVehicle_expected_idv() + ")");
         }
     }
 
@@ -165,7 +165,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
             public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
                 if (fromUser) {
                     etIdv.setText("" + getPercentFromProgress(value));
-                    tvProgress.setText("" + getPercentFromProgress(value));
+                    tvProgress.setText("EXPECTED IDV (" + getPercentFromProgress(value) + ")");
                 }
             }
 

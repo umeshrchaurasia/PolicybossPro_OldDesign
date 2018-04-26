@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -20,11 +21,13 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.register.RegisterActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.ReadDeviceID;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
@@ -58,9 +61,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
         loginRequestEntity = new LoginRequestEntity();
         initWidgets();
         setListener();
@@ -73,7 +76,41 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        dialogLogout();
+    }
 
+    private void dialogLogout() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Exit");
+        builder.setMessage("Do you really want to close application?");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton(
+                "EXIT",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "CANCEL",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog exitdialog = builder.create();
+        exitdialog.show();
+
+        Button negative = exitdialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button positive = exitdialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        negative.setTextColor(getResources().getColor(R.color.header_light_text));
+        positive.setTextColor(getResources().getColor(R.color.header_dark_text));
+    }
     //region permission
 
     private boolean checkPermission() {
@@ -181,12 +218,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
             case R.id.btnSignIn:
                 if (!isValideEmailID(etEmail)) {
                     etEmail.requestFocus();
-                    etEmail.setError("Enter Valid Email");
+                    Toast.makeText(this, "Enter Valid Email", Toast.LENGTH_SHORT).show();
+                    //etEmail.setError("Enter Valid Email");
                     return;
                 }
                 if (!isEmpty(etPassword)) {
                     etPassword.requestFocus();
-                    etPassword.setError("Enter Password");
+                    Toast.makeText(this, "Enter Password", Toast.LENGTH_SHORT).show();
+                    //etPassword.setError("Enter Password");
                     return;
                 }
                 //   Toast.makeText(this,prefManager.getToken(),Toast.LENGTH_LONG).show();
@@ -235,38 +274,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 }
             }
         });
-
-//        builder.setPositiveButton("RESET", null)
-//                .setNegativeButton("CANCEL", null);
-
-
-//        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
-//            @Override
-//            public void onShow(DialogInterface dialogInterface) {
-//                ((AlertDialog) dialogInterface).getButton(DialogInterface.BUTTON_POSITIVE)
-//                        .setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                                if (!isValideEmailID(etEmail)) {
-//                                    etEmail.setError("Invalid Email ID");
-//                                    etEmail.setFocusable(true);
-//                                    //return;
-//                                } else {
-//                                   // dialog.dismiss();
-//                                    forgotPasswrod(etEmail);
-//                                }
-//                            }
-//                        });
-//
-//                ((AlertDialog) dialogInterface).getButton(DialogInterface.BUTTON_NEGATIVE)
-//                        .setOnClickListener(new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View view) {
-//                              //  dialog.dismiss();
-//                            }
-//                        });
-//            }
-//        });
 
     }
 

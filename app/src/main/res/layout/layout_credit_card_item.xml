@@ -43,7 +43,7 @@
 
                 <TextView
                     android:id="@+id/txtCardbankName"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -51,7 +51,7 @@
 
                 <TextView
                     android:id="@+id/txtDisplayCardName"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:lines="1"
@@ -59,7 +59,7 @@
 
                 <TextView
                     android:id="@+id/txtCardType"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="11sp" />

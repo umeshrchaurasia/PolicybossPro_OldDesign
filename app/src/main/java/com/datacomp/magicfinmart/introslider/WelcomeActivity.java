@@ -23,7 +23,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     private LinearLayout dotsLayout;
     private TextView[] dots;
     private int[] layouts;
-    private Button btnSkip, btnNext;
+    private Button btnNext;
+    TextView btnSkip;
     ImageView dot1, dot2, dot3, dot4, dot5;
     int current = 0;
 
@@ -59,7 +60,7 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         dotsLayout = (LinearLayout) findViewById(R.id.layoutDots);
-        btnSkip = (Button) findViewById(R.id.btn_skip);
+        btnSkip = (TextView) findViewById(R.id.btn_skip);
         btnNext = (Button) findViewById(R.id.btn_next);
     }
 
@@ -92,8 +93,8 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
             // changing the next button text 'NEXT' / 'GOT IT'
             if (position == layouts.length - 1) {
                 // last page. make button text to GOT IT
-                btnNext.setText("START");
-                btnSkip.setVisibility(View.GONE);
+                btnNext.setText("GET STARTED");
+                btnSkip.setVisibility(View.VISIBLE);
             } else {
                 // still pages are left
                 btnNext.setText("NEXT");

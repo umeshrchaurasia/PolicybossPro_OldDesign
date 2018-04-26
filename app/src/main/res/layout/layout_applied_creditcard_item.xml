@@ -31,7 +31,7 @@
 
                 <TextView
                     android:id="@+id/txtName"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Nilesh Birhade"
@@ -39,7 +39,7 @@
 
                 <TextView
                     android:id="@+id/txtEmail"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="nileshbirhade@gmail.com"
@@ -47,7 +47,7 @@
 
                 <TextView
                     android:id="@+id/txtMobile"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="9930089092"
@@ -70,7 +70,7 @@
 
                 <TextView
                     android:id="@+id/txtBankName"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Bank"
@@ -78,7 +78,7 @@
 
                 <TextView
                     android:id="@+id/txtCreditType"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="nileshbirhade@gmail.com"
@@ -108,7 +108,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="App No"
@@ -116,7 +116,7 @@
 
                 <TextView
                     android:id="@+id/txtAppNo"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="55555"
@@ -132,7 +132,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Status"
@@ -140,7 +140,7 @@
 
                 <TextView
                     android:id="@+id/txtStatus"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Pre sactioned"

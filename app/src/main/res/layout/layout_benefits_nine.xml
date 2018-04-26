@@ -21,7 +21,7 @@
             android:id="@+id/imgBenefits"
             android:layout_width="76dp"
             android:layout_height="54dp"
-            android:background="@color/button_color"
+            android:background="@color/bg2"
             android:padding="3dp" />
 
         <TextView

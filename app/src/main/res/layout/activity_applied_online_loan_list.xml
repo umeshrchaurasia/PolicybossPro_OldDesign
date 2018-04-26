@@ -19,7 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/TextStyle.Toolbar"
+            app:titleTextColor="@color/white"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -84,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:padding="5dp"
-                    android:src="@drawable/file_search2" />
+                    android:src="@drawable/file_search" />
 
                 <TextView
                     android:id="@+id/tvSearch"

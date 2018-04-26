@@ -373,16 +373,16 @@
             HTML = HTML + '</table>';
             HTML = HTML + '</div>';
             HTML = HTML + '</div>';
-           
 
-        
+
+
             document.getElementById('divHealth').innerHTML = HTML;
             document.getElementById('divBeneFits').innerHTML = "";
             var Benefits = "";
             Benefits = Benefits + '<table class="table table-striped">';
-           
+
             for (var i = 0; i < response.LstbenfitsFive.length; i++) {
-              
+
                 Benefits = Benefits + '<tr>';
                 Benefits = Benefits + '<td><b>' + response.LstbenfitsFive[i].BeneDesc + '</b></td>';
                 Benefits = Benefits + '</tr>';

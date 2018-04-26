@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +32,29 @@ public class BaseFragment extends Fragment {
 
     public BaseFragment() {
 
+    }
+
+    public String getYYYYMMDDPattern(String dateCal) {
+
+        String dateSelected = "";
+        if (dateCal.equals("")) {
+            return "";
+        }
+        long select_milliseconds = 0;
+        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+
+        Date d = null;
+        try {
+            d = f.parse(dateCal);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        select_milliseconds = d.getTime();
+
+        Date date = new Date(select_milliseconds); //Another date Formate ie yyyy-mm-dd
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+        dateSelected = df2.format(date);
+        return dateSelected;
     }
 
     public void registerPopUp(PopUpListener popUpListener) {
@@ -212,6 +237,30 @@ public class BaseFragment extends Fragment {
             });
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void showAlert(String strBody) {
+        try {
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
+            builder.setTitle("Finmart");
+
+            builder.setMessage(strBody);
+            String positiveText = "Ok";
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+
+                        }
+                    });
+            final android.support.v7.app.AlertDialog dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        } catch (Exception ex) {
+            Toast.makeText(getActivity(), "Please try again..", Toast.LENGTH_SHORT).show();
         }
     }
 }

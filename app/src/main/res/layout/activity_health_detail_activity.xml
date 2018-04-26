@@ -42,21 +42,23 @@
 
 
                 <TextView
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Sum Assured"
                     android:textAllCaps="true"
+                    android:layout_marginLeft="2dp"
                     android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/txtSumAssured"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:textAllCaps="true"
+                    android:layout_marginLeft="2dp"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -68,21 +70,22 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:text="Deductible"
                     android:textAllCaps="true"
                     android:textSize="11sp" />
 
                 <TextView
                     android:id="@+id/txtDeductible"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="left"
                     android:textAllCaps="true"
+                    android:layout_marginLeft="2dp"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -127,24 +130,27 @@
 
                 <TextView
                     android:id="@+id/txtProductName"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textAlignment="center"
+                    android:textAlignment="gravity"
                     android:textAllCaps="true"
-                    android:textColor="@color/black"
-                    android:textSize="10sp" />
+                    android:textColor="@color/dashboard_title"
+                    android:layout_marginLeft="3dp"
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/txtPlanName"
-                    style="@style/TextStyle.Body1"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text=""
-                    android:textAlignment="center"
+                    android:textAlignment="gravity"
                     android:textAllCaps="true"
-                    android:textSize="10sp" />
+                    android:layout_marginLeft="3dp"
+                    android:inputType="textCapWords"
+                    android:textSize="11sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -160,7 +166,7 @@
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center|top"
+                    android:gravity="left|top"
                     android:text="Premium"
                     android:textAllCaps="true"
                     android:textColor="#ff5c61" />
@@ -174,6 +180,7 @@
                     android:background="#ff5c61"
                     android:gravity="center"
                     android:minHeight="30dp"
+                    android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
 
@@ -227,9 +234,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:minHeight="20dp"
+            android:textSize="15sp"
             android:text="Policy benefits"
             android:textAllCaps="true"
-            android:textColor="@color/black" />
+            android:textColor="@color/dashboard_title" />
 
         <View
             android:layout_width="match_parent"
@@ -242,6 +250,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>
+
 
     <Button
         android:id="@+id/btnBack"

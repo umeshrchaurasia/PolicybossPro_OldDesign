@@ -34,7 +34,9 @@
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="snap|enterAlways|enterAlwaysCollapsed"
-                app:popupTheme="@style/AppTheme.PopupOverlay" />
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:titleTextAppearance="@style/TextStyle.Toolbar"
+                app:titleTextColor="@color/white"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
 

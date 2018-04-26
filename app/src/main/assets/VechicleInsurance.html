@@ -92,7 +92,7 @@ p {padding:0px;margin:2px;}
                 </tr>
                 <tr>
                     <td>7857457</td>
-                    <td><a href="#" class="amount">₹ 13949</a></td>
+                    <td><a href="#" class="amount">? 13949</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -209,7 +209,7 @@ p {padding:0px;margin:2px;}
                 HTML = HTML + '<td>PREMIIUM</td>';
                 HTML = HTML + '</tr>';
                 HTML = HTML + '<tr>';
-                HTML = HTML + ' <td>' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
+                HTML = HTML + ' <td>₹ ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                 HTML = HTML + ' <td><span class="amount">₹ ' + Math.round(response.Response [i].Premium_Breakup.final_premium) + '</span></td>';
                 HTML = HTML + '</tr>';
                 HTML = HTML + '</tbody>';
@@ -241,7 +241,7 @@ p {padding:0px;margin:2px;}
                     HTML = HTML + '<td>PREMIIUM</td>';
                     HTML = HTML + '</tr>';
                     HTML = HTML + '<tr>';
-                    HTML = HTML + ' <td>' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
+                    HTML = HTML + ' <td>₹ ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                     HTML = HTML + ' <td><a href="#" class="amount">₹ ' +  Math.round( response.Response[i].final_premium_with_addon) + '</a></td>';
                     HTML = HTML + '</tr>';
                     HTML = HTML + '</tbody>';

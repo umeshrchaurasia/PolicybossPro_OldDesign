@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
@@ -61,7 +62,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     LinearLayout rlPersonalInfo, rlProfessionalInfo;
     EditText etFirstName, etLastName, etDob, etMobile1, etMobile2, etEmail, etConfirmEmail,
             etPincode, etCity, etState, etOtp;
-    ImageView ivMale, ivFemale;
+   // ImageView ivMale, ivFemale;
     Dialog dialog;
     ArrayList<String> healthList, generalList, lifeList;
     DBPersistanceController dbPersistanceController;
@@ -70,7 +71,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     Button btnSubmit;
     RegisterRequestEntity registerRequestEntity;
     Boolean isValidPersonalInfo = false, isMobileValid = false;
-    TextView tvOk;
+    TextView tvOk ,txtMale ,txtFemale;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     SimpleDateFormat passdateFormat = new SimpleDateFormat("ddMMyyyy");
     boolean isMale = false, isFemale = false;
@@ -174,8 +175,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         chbxLife.setOnCheckedChangeListener(this);
         btnSubmit.setOnClickListener(this);
         etDob.setOnClickListener(datePickerDialog);
-        ivMale.setOnClickListener(this);
-        ivFemale.setOnClickListener(this);
+        txtMale.setOnClickListener(this);
+        txtFemale.setOnClickListener(this);
     }
 
     private void initWidgets() {
@@ -201,8 +202,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         etPincode = (EditText) findViewById(R.id.etPincode);
         etCity = (EditText) findViewById(R.id.etCity);
         etState = (EditText) findViewById(R.id.etState);
-        ivMale = (ImageView) findViewById(R.id.ivMale);
-        ivFemale = (ImageView) findViewById(R.id.ivFemale);
+        txtMale = (TextView) findViewById(R.id.txtMale);
+        txtFemale = (TextView) findViewById(R.id.txtFemale);
 
 
         chbxLife = (CheckBox) findViewById(R.id.chbxLife);
@@ -219,17 +220,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.ivMale:
+            case R.id.txtMale:
                 isFemale = false;
                 isMale = true;
-                ivFemale.setImageDrawable(getResources().getDrawable(R.drawable.female));
-                ivMale.setImageDrawable(getResources().getDrawable(R.drawable.male_selected));
+                setGender(txtMale,txtFemale);
                 break;
-            case R.id.ivFemale:
+            case R.id.txtFemale:
                 isFemale = true;
                 isMale = false;
-                ivMale.setImageDrawable(getResources().getDrawable(R.drawable.male));
-                ivFemale.setImageDrawable(getResources().getDrawable(R.drawable.female_selected));
+                setGender(txtFemale,txtMale);
                 break;
             case R.id.ivPersonalInfo:
             case R.id.rlPersonalInfo:
@@ -660,5 +659,19 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     };
     //endregion
+
+    private void setGender( TextView clickedText, TextView textView1) {
+
+
+        clickedText.setBackgroundResource(R.drawable.customeborder_blue);
+        clickedText.setTextColor(ContextCompat.getColor(RegisterActivity.this, R.color.colorPrimary));
+
+        textView1.setBackgroundResource(R.drawable.customeborder);
+        textView1.setTextColor(ContextCompat.getColor(RegisterActivity.this, R.color.description_text));
+
+
+
+    }
+
 
 }

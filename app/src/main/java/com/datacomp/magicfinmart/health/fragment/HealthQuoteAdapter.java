@@ -94,7 +94,8 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         holder.chkCompare.setOnCheckedChangeListener(checkedChangeListener);
 
         if (!entity.getIsMore() && entity.getTotalChilds() > 0) {
-            holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " \nMore"));
+          //  holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " \nMore"));
+            holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " More"));
             holder.imgDropDown.setVisibility(View.VISIBLE);
             holder.txtNoOfInsurer.setOnClickListener(this);
         } else if (!entity.getIsMore() && entity.getTotalChilds() == 0) {
