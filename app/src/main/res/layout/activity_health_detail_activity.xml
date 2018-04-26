@@ -45,10 +45,10 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
                     android:gravity="left"
                     android:text="Sum Assured"
                     android:textAllCaps="true"
-                    android:layout_marginLeft="2dp"
                     android:textSize="11sp" />
 
                 <TextView
@@ -56,9 +56,9 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
                     android:gravity="left"
                     android:textAllCaps="true"
-                    android:layout_marginLeft="2dp"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -83,9 +83,9 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
                     android:gravity="left"
                     android:textAllCaps="true"
-                    android:layout_marginLeft="2dp"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -133,11 +133,11 @@
                     style="@style/TextStyle.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
                     android:text=""
                     android:textAlignment="gravity"
                     android:textAllCaps="true"
                     android:textColor="@color/dashboard_title"
-                    android:layout_marginLeft="3dp"
                     android:textSize="12sp" />
 
                 <TextView
@@ -145,11 +145,11 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:inputType="textCapWords"
                     android:text=""
                     android:textAlignment="gravity"
                     android:textAllCaps="true"
-                    android:layout_marginLeft="3dp"
-                    android:inputType="textCapWords"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -173,10 +173,10 @@
 
                 <TextView
                     android:id="@+id/txtFinalPremium"
-                    style="@style/ButtonStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
+                    style="@style/TextStyle.TextMedium"
                     android:background="#ff5c61"
                     android:gravity="center"
                     android:minHeight="30dp"
@@ -207,13 +207,13 @@
 
                 <TextView
                     android:id="@+id/txtBuy"
-                    style="@style/ButtonStyle"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="#f38d1e"
-                    android:drawableLeft="@drawable/vector_cart"
-                    android:drawablePadding="4dp"
+                    android:drawableLeft="@mipmap/buy"
+                    android:drawablePadding="8dp"
                     android:gravity="center"
                     android:minHeight="30dp"
                     android:text="BUY NOW"
@@ -234,10 +234,10 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:minHeight="20dp"
-            android:textSize="15sp"
             android:text="Policy benefits"
             android:textAllCaps="true"
-            android:textColor="@color/dashboard_title" />
+            android:textColor="@color/dashboard_title"
+            android:textSize="15sp" />
 
         <View
             android:layout_width="match_parent"

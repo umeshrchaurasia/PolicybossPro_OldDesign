@@ -131,7 +131,7 @@
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="30"
+                android:layout_weight="40"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 
@@ -164,7 +164,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_weight="35"
+                android:layout_weight="30"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 
@@ -197,7 +197,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:layout_weight="35"
+                android:layout_weight="30"
+
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 
@@ -213,12 +214,12 @@
 
                 <TextView
                     android:id="@+id/txtBuy"
-                    style="@style/ButtonStyle"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:background="#f38d1e"
-                    android:drawableLeft="@drawable/vector_cart"
+                    android:drawableLeft="@mipmap/buy"
                     android:drawablePadding="4dp"
                     android:gravity="center"
                     android:minHeight="30dp"
