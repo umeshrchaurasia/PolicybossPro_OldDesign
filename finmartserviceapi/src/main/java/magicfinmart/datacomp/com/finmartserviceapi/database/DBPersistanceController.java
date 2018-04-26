@@ -716,6 +716,11 @@ public class DBPersistanceController {
         realm.commitTransaction();
     }
 
+    public void checkCountDocList()
+    {
+
+    }
+
     public List<DocsEntity> getDocList(String compId, String lang) {
         List<DocsEntity> docsEntityList = realm.where(DocsEntity.class).equalTo("company_id", compId).equalTo("language", lang.trim(), Case.INSENSITIVE).findAll();
         if (docsEntityList != null)

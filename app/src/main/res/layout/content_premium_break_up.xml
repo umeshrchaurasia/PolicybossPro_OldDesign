@@ -43,7 +43,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:padding="5dp"
-            android:src="@drawable/share_icon_white" />
+            app:srcCompat="@drawable/vector_share_white" />
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -190,7 +190,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="#f38d1e"
-                                android:drawableLeft="@mipmap/buy"
+                                android:drawableLeft="@drawable/vector_share_white"
                                 android:gravity="center"
                                 android:minHeight="30dp"
                                 android:text="BUY"
