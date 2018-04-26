@@ -190,7 +190,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="#f38d1e"
-                                android:drawableLeft="@drawable/vector_share_white"
+                                android:drawableLeft="@mipmap/buy"
                                 android:gravity="center"
                                 android:minHeight="30dp"
                                 android:text="BUY"
