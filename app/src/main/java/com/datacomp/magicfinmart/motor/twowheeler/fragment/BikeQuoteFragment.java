@@ -227,7 +227,9 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                     isQuoteFetch = true;
                 }
 
-                ((BikeAddQuoteActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
+                if (getActivity() != null) {
+                    ((BikeAddQuoteActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
+                }
             }
             if (bikePremiumResponse.getResponse() != null)
                 tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
