@@ -981,6 +981,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             case R.id.filter:
                 if (bikePremiumResponse.getResponse() != null && bikePremiumResponse.getResponse().size() != 0) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
+                        chkAddon.setChecked(false);
                         startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
                                 .putExtra("SUMMARY", bikePremiumResponse.getSummary())
                                 .putExtra("CAR_REQUEST", motorRequestEntity), 1000);

@@ -810,7 +810,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     }
                     if (spPrevIns.getSelectedItemPosition() == 0) {
                         spPrevIns.requestFocus();
-                        Toast.makeText(getActivity(), "Select Previous Insurer", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -865,7 +865,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 }
 
                 if (spVarient.getSelectedItemPosition() == 0) {
-                    Toast.makeText(getActivity(), "Select Varient", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
                     spVarient.requestFocus();
                     return;
                 }
@@ -1048,15 +1048,19 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
     private String getRtoCity(String city) {
-        String[] parts = city.split("-");
-        if (parts.length > 2) {
-            String s = parts[1].trim();
-            for (int i = 2; i < parts.length; i++) {
-                s = s + "-" + parts[i].trim();
+        if (city.length() != 0) {
+            String[] parts = city.split("-");
+            if (parts.length > 2) {
+                String s = parts[1].trim();
+                for (int i = 2; i < parts.length; i++) {
+                    s = s + "-" + parts[i].trim();
+                }
+                return s;
+            } else {
+                return parts[1].trim();
             }
-            return s;
         } else {
-            return parts[1].trim();
+            return "";
         }
     }
     //endregion

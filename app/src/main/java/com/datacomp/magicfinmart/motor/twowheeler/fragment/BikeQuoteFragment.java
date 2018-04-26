@@ -273,19 +273,23 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             bikePremiumResponse = (BikePremiumResponse) response;
 
             //save quote to our server.
-            if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == 1) {
-                saveQuoteToServer(bikePremiumResponse);
+            if (getActivity() != null) {
+                if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == 1) {
+                    saveQuoteToServer(bikePremiumResponse);
+
+                }
             }
 
             rebindAdapter(bikePremiumResponse);
             updateCrn();
 
-            if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
-                    || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
+            if (getActivity() != null) {
+                if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
+                        || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
 
-                webViewLoader.setVisibility(View.GONE);
-                updateCrn();
-                new BikeQuoteFragment.AsyncAddon().execute();
+                    webViewLoader.setVisibility(View.GONE);
+                    updateCrn();
+                    new BikeQuoteFragment.AsyncAddon().execute();
 
 //                if (((BikePremiumResponse) response).getResponse().size() != 0)
 //                    menuAddon.findItem(R.id.add_on).setVisible(true);
@@ -294,9 +298,10 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 //                    Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
 //                }
 
-            } else {
-                webViewLoader.setVisibility(View.VISIBLE);
+                } else {
+                    webViewLoader.setVisibility(View.VISIBLE);
 
+                }
             }
         } else if (response instanceof SaveAddOnResponse) {
 
@@ -335,9 +340,9 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         if (Utility.checkShareStatus(getActivity()) == 1) {
             if (webViewLoader.getVisibility() != View.VISIBLE) {
                 Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
-                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_ALL_QUOTE");
+                intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_ALL_QUOTE");
                 intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
-                intent.putExtra("CARNAME", carMasterEntity);
+                intent.putExtra("BIKENAME", carMasterEntity);
                 startActivity(intent);
             } else {
                 Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
@@ -954,6 +959,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             case R.id.filter:
                 if (bikePremiumResponse.getResponse() != null && bikePremiumResponse.getResponse().size() != 0) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
+                        chkAddon.setChecked(false);
                         startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
                                 .putExtra("SUMMARY", bikePremiumResponse.getSummary())
                                 .putExtra("BIKE_REQUEST", motorRequestEntity), 1000);
@@ -973,7 +979,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         if (webViewLoader.getVisibility() == View.GONE) {
             Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
             intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
-            intent.putExtra("RESPONSE_CAR", entity);
+            intent.putExtra("RESPONSE_BIKE", entity);
             intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
             intent.putExtra("SUMMARY", summaryEntity);
             startActivityForResult(intent, 00000);

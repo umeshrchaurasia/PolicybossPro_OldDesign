@@ -868,7 +868,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     }
                     if (spPrevIns.getSelectedItemPosition() == 0) {
                         spPrevIns.requestFocus();
-                        Toast.makeText(getActivity(), "Select Prev Insurer", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -923,7 +923,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 }
 
                 if (spVarient.getSelectedItemPosition() == 0) {
-                    Toast.makeText(getActivity(), "Select Varient", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
                     spVarient.requestFocus();
                     return;
                 }
