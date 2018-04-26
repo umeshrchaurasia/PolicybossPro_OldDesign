@@ -165,7 +165,7 @@
 
                             <TextView
                                 android:id="@+id/txtFinalPremium"
-                                style="@style/TextStyle.Title"
+                                style="@style/TextStyle.TextMedium"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
@@ -186,11 +186,11 @@
 
                             <TextView
                                 android:id="@+id/btnBuy"
-                                style="@style/TextStyle.Title"
+                                style="@style/TextStyle.TextMedium"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:background="#f38d1e"
-                                android:drawableLeft="@drawable/vector_cart"
+                                android:drawableLeft="@mipmap/buy"
                                 android:gravity="center"
                                 android:minHeight="30dp"
                                 android:text="BUY"
@@ -202,6 +202,7 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center|top"
                                 android:text="Premium"
+                                android:drawablePadding="8dp"
                                 android:textAllCaps="true"
                                 android:textColor="#ff5c61"
                                 android:visibility="gone" />

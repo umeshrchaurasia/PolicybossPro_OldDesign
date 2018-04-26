@@ -247,9 +247,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="#f38d1e"
-                    android:drawableLeft="@drawable/vector_cart"
+                    android:drawableLeft="@mipmap/buy"
+                    android:drawablePadding="8dp"
                     android:minHeight="30dp"
-                    android:padding="2dp"
+                    android:gravity="center"
                     android:text="BUY"
                     android:textColor="@android:color/white" />
 
