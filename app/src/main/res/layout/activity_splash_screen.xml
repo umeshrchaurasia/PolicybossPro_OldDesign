@@ -12,8 +12,9 @@
         android:id="@+id/imageView3"
         android:layout_width="300dp"
         android:layout_height="150dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="122dp"
         android:src="@drawable/finmart_logo" />
 
     <TextView

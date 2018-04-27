@@ -51,6 +51,7 @@ ul li {margin:2px; padding:4px !important;}
             font-size:14px;
         }
 
+
     </style>
 </head>
 
@@ -77,7 +78,7 @@ ul li {margin:2px; padding:4px !important;}
                 </tr>
                 <tr>
                     <td>Present NCB: <span id="NCB">0</span>%</td>
-                    <td>Claim in Present Year no. : <span id="PYN"></span></td>
+                    <td>Claim in Present Year  : <span id="PYN"></span></td>
 
                 </tr>
             </table>
@@ -223,7 +224,7 @@ ul li {margin:2px; padding:4px !important;}
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <tr>
-                    <td><b>TOTAL PREMIUM</b></td>
+                    <td><b>GROSS PREMIUM</b></td>
                     <td><b>GST</b></td>
                     <td><b>NET PREMIUM</b></td>
                 </tr>
@@ -249,10 +250,10 @@ ul li {margin:2px; padding:4px !important;}
                     <td><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
                              onerror=this.src="file:///android_asset/profile_pic.png" width="100"
                              class="img-responsive"/></td>
-                    <td><h4 id="pospName"  class="red-txt">Test User</h4>
-                        <p id="deg"  class="posp-txt">Landmark POSP</p>
-                        <p id="phone"  class="blue-txt">98XXXXXXXX</p>
-                        <p id="email"  class="posp-txt">XXXXX@gmail.com</p></td>
+                    <td><h4 id="pospName" class="red-txt">Test User</h4>
+                        <p id="deg" class="posp-txt">Landmark POSP</p>
+                        <p id="phone" class="blue-txt">98XXXXXXXX</p>
+                        <p id="email" class="posp-txt">XXXXX@gmail.com</p></td>
                 </tr>
             </table>
         </div>
@@ -319,7 +320,9 @@ ul li {margin:2px; padding:4px !important;}
     function init(bikeReponse, userReponse, otherReponse) {
         otherReponse = JSON.parse(otherReponse);
         userReponse = JSON.parse(userReponse);
-        document.getElementById('name').innerHTML = otherReponse.NAME;
+
+
+        document.getElementById('name').innerHTML =  otherReponse.NAME;
         document.getElementById('lblvehiclename').innerHTML = otherReponse.VECHILE_NAME;
         document.getElementById('polexpiringdate').innerHTML = otherReponse.MFG_DATE;
          var pomfgdate = otherReponse.MFG_DATE.split("-");
@@ -876,6 +879,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
         }
 
     }
+
 
 
 

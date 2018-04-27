@@ -45,10 +45,10 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
                     android:gravity="left"
                     android:text="Sum Assured"
                     android:textAllCaps="true"
-                    android:layout_marginLeft="2dp"
                     android:textSize="11sp" />
 
                 <TextView
@@ -56,10 +56,11 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
                     android:gravity="left"
                     android:textAllCaps="true"
-                    android:layout_marginLeft="2dp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -73,10 +74,10 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
                     android:gravity="left"
                     android:text="Deductible"
                     android:textAllCaps="true"
-                    android:layout_marginLeft="2dp"
                     android:textSize="11sp" />
 
                 <TextView
@@ -84,9 +85,10 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="left"
-                    android:textAllCaps="true"
                     android:layout_marginLeft="2dp"
+                    android:gravity="left"
+                    android:textStyle="bold"
+                    android:textAllCaps="true"
                     android:textColor="@color/black" />
             </LinearLayout>
 
@@ -140,22 +142,21 @@
                     style="@style/TextStyle.Title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
                     android:textAlignment="gravity"
                     android:textAllCaps="true"
-                    android:textSize="12sp"
                     android:textColor="@color/dashboard_title"
-                    android:layout_marginLeft="3dp"
-                    />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/txtPlanName"
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    
-                    android:textAlignment="gravity"
+
                     android:layout_marginLeft="3dp"
                     android:inputType="textCapWords"
+                    android:textAlignment="gravity"
                     android:textSize="11sp" />
             </LinearLayout>
 
@@ -186,7 +187,7 @@
                     android:background="#ff5c61"
                     android:gravity="center"
                     android:minHeight="30dp"
-                   android:textAllCaps="false"
+                    android:textAllCaps="false"
                     android:textColor="@android:color/white" />
 
 

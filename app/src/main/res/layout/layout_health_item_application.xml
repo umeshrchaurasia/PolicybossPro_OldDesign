@@ -54,8 +54,7 @@
                     android:lines="2"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.TextMedium"
-
-                    android:textColor="@color/header_dark_text"
+                    android:textColor="@color/black"
                     android:textStyle="bold" />
 
                 <TextView
@@ -107,7 +106,7 @@
                         android:gravity="center"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextStyle.TextMedium"
-                        android:textColor="@color/header_dark_text" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
 
@@ -156,7 +155,7 @@
                         android:gravity="center"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextStyle.TextMedium"
-                        android:textColor="@color/header_dark_text" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -182,7 +181,7 @@
                         android:gravity="center"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextStyle.TextMedium"
-                        android:textColor="@color/header_dark_text" />
+                        android:textColor="@color/black" />
                 </LinearLayout>
             </LinearLayout>
 

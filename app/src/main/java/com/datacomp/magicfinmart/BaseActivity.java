@@ -19,14 +19,20 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.login.LoginActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -34,7 +40,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 
 /**
  * Created by Rohit on 12/12/15.
@@ -44,10 +55,75 @@ public class BaseActivity extends AppCompatActivity {
     public Realm realm;
     ProgressDialog dialog;
     int height = 200;
-    int textSize = 25 ;
+    int textSize = 25;
     int textMargin = 10;
     int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
     PopUpListener popUpListener;
+
+    public void dialogLogout(final Context context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("");
+        builder.setMessage("Do you really want to logout?");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton(
+                "LOGOUT",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        new DBPersistanceController(context).logout();
+                        new PrefManager(context).clearAll();
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                        new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("Logout : Logout button in menu "), Constants.LOGOUT), null);
+
+                    }
+                });
+
+        builder.setNegativeButton(
+                "CANCEL",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+
+                    }
+                });
+        AlertDialog alert11 = builder.create();
+        alert11.show();
+    }
+
+    public void dialogExit() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Exit");
+        builder.setMessage("Do you really want to close application?");
+        builder.setCancelable(false);
+
+        builder.setPositiveButton(
+                "EXIT",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "CANCEL",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog exitdialog = builder.create();
+        exitdialog.show();
+
+        Button negative = exitdialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button positive = exitdialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        negative.setTextColor(getResources().getColor(R.color.header_light_text));
+        positive.setTextColor(getResources().getColor(R.color.black));
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -476,7 +552,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-    public void showAlert( String strBody) {
+    public void showAlert(String strBody) {
         try {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
             builder.setTitle("Finmart");
