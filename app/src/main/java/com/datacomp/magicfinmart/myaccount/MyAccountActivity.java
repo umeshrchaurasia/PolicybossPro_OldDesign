@@ -128,8 +128,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         initLayouts();
 
 
-       // showDialog("Fetching Detail...");
-        //new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
+        showDialog("Fetching Detail...");
+        new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
 
 
     }
@@ -1034,7 +1034,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 break;
 
         }
-        Docfile =  createFile(FileName);
+        Docfile = createFile(FileName);
         imageUri = FileProvider.getUriForFile(MyAccountActivity.this,
                 getString(R.string.file_provider_authority), Docfile);
 
@@ -1060,15 +1060,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         bitmapPhoto = mphoto;        //original
     }
 
-    public  Bitmap rotateImage(Bitmap source, float angle) {
+    public Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
 
     }
 
-    private  Bitmap rotateImageIfRequired(Context context, Bitmap bitmap, File file)
-    {
+    private Bitmap rotateImageIfRequired(Context context, Bitmap bitmap, File file) {
         Bitmap rotatedBitmap = null;
         try {
 
@@ -1078,10 +1077,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             if (Build.VERSION.SDK_INT > 23) {
                 ei = new ExifInterface(inputStream);
-            }
-            else {
+            } else {
 
-               // ei = new ExifInterface("/storage/emulated/0/FINMART/FBAPhotograph.jpg");
+                // ei = new ExifInterface("/storage/emulated/0/FINMART/FBAPhotograph.jpg");
                 ei = new ExifInterface(file.getAbsolutePath());
             }
 
@@ -1089,7 +1087,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
 
-            switch(orientation) {
+            switch (orientation) {
 
                 case ExifInterface.ORIENTATION_ROTATE_90:
                     rotatedBitmap = rotateImage(bitmap, 90);
@@ -1110,14 +1108,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
             //endregion
 
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         return rotatedBitmap;
     }
-
 
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -1127,7 +1123,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 mphoto = getResizedBitmap(mphoto, 800);
-                mphoto =rotateImageIfRequired(this,mphoto,Docfile);
+                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
 
             } catch (Exception e) {
                 e.printStackTrace();
