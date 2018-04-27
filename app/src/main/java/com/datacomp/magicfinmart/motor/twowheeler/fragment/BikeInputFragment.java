@@ -408,11 +408,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             etMfgDate.setText(manfDate);
 
             if (motorRequestEntity.getIs_claim_exists().equals("no")) {
-                //tvClaimNo.performClick();
+                tvClaimNo.performClick();
                 setSeekbarProgress(Integer.parseInt(motorRequestEntity.getVehicle_ncb_current()));
                 //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
             } else {
-                //tvClaimYes.performClick();
+                tvClaimYes.performClick();
                 setSeekbarProgress(Integer.parseInt(motorRequestEntity.getVehicle_ncb_current()));
             }
 
@@ -767,7 +767,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     Constants.hideKeyBoard(etreg4, getActivity());
                     tvDontKnow.performClick();
                     btnGetQuote.setVisibility(View.VISIBLE);
-                    showDialog("Fetching Car Details...");
+                    showDialog("Fetching Details...");
                     new FastLaneController(getActivity()).getVechileDetails(regNo, this);
                 }
                 break;
