@@ -76,7 +76,7 @@ ul li {margin:2px; padding:4px !important;}
 
 
     <div class="col-md-12">
-        <p>P.S: The about Quotations are subject to verification by respective insurance</p>
+        <p>P.S: The about Quotations are subject to verification by respective insurers</p>
         <h5><b>
             Please feel free to contact me for more details and renewal</b></h5>
     </div>
@@ -123,10 +123,10 @@ ul li {margin:2px; padding:4px !important;}
 
          HTML = HTML + '<div class="table-responsive box-shadow"><table class="table table-bordered tbl2"><tbody><tr><td style="width:40%;"><img  alt="No Image" src="' + quotes[i].InsurerLogoName + '" class="img-responsive center" /></td><td><p>SUM ASSURED</p><h5><b>₹ ' + quotes[i].SumInsured + '</b></h5></td><td><p>DEDUCTIBLE</p><h5><b>₹ ' + quotes[i].Deductible_Amount + '</b></h5></td></tr><tr><td><b style="font-size:14px;">' + quotes[i].ProductName + '</b><h5><b style="font-size:12px;">' + quotes[i].PlanName + ' </b></h5></td>';
             if (quotes[i].servicetaxincl.toLowerCase() == "e") {
-                HTML = HTML + '<td colspan="2"><p class="text-center">PREMIUM</p> <span  class="amount" > ₹ ' + quotes[i].NetPremium + '/Year</span></td>';
+                HTML = HTML + '<td colspan="2"><p class="text-center" style="color:#f95f67">PREMIUM</p> <span  class="amount" > ₹ ' + quotes[i].NetPremium + '/Year</span></td>';
             }
             else if (quotes[i].servicetaxincl.toLowerCase() == "i") {
-                HTML = HTML + '<td colspan="2"><p class="text-center">PREMIUM</p> <span  class="amount" > ₹ ' + quotes[i].GrossPremium + '/Year</span></td>';
+                HTML = HTML + '<td colspan="2"><p class="text-center" style="color:#f95f67">PREMIUM</p> <span  class="amount" > ₹ ' + quotes[i].GrossPremium + '/Year</span></td>';
             }
 
         }

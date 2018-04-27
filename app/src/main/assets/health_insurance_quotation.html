@@ -140,7 +140,7 @@
     </div>
 
     <div class="col-md-12">
-        <h3>POLICY BENEFITS</h3>
+        <h4>POLICY BENEFITS</h4>
         <p><b id="lblPlanName"></b> is a perfect family plan that shields you from all
             medical
             expenses and gives you protection
@@ -363,10 +363,10 @@
             HTML = HTML + ' <td><b>' + response.ProductName + '</b><h5><b>' + response.PlanName + ' </b></h5> </td>';
 
              if (response.servicetaxincl.toLowerCase() == "e") {
-                HTML = HTML + '<td colspan="2"><p class="text-center">PREMIUM</p> <span  class="amount" > ₹ ' + response.NetPremium + '/Year</span></td>';
+                HTML = HTML + '<td colspan="2"><p class="text-center" style="color:#f95f67">PREMIUM</p> <span  class="amount" > ₹ ' + response.NetPremium + '/Year</span></td>';
             }
             else if (response.servicetaxincl.toLowerCase() == "i") {
-                HTML = HTML + '<td colspan="2"><p class="text-center">PREMIUM</p> <span  class="amount" > ₹ ' + response.GrossPremium + '/Year</span></td>';
+                HTML = HTML + '<td colspan="2"><p class="text-center" style="color:#f95f67">PREMIUM</p> <span  class="amount" > ₹ ' + response.GrossPremium + '/Year</span></td>';
             }
             HTML = HTML + ' </tr>';
             HTML = HTML + '</tbody>';

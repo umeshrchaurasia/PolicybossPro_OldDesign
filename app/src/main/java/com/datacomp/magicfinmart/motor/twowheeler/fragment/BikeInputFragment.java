@@ -137,6 +137,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
         bind_init_binders();
 
+        adapter_listeners();
+
         if (getArguments() != null) {
             if (getArguments().getParcelable(BikeAddQuoteActivity.BIKE_INPUT_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(BikeAddQuoteActivity.BIKE_INPUT_REQUEST);
@@ -145,7 +147,6 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             }
         }
 
-        adapter_listeners();
 
         return view;
     }
@@ -322,6 +323,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     private void bindInputsQuotes() {
 
+        int varientIndex = 0;
+        int prevInsurerIndex = 0;
         int vehicleID = motorRequestEntity.getVehicle_id();
         if (vehicleID == 0) {
             vehicleID = motorRequestEntity.getVarid();
@@ -350,7 +353,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             //region spinner selection
 
-            int varientIndex = 0;
+
             String variantName = carMasterEntity.getVariant_Name() + " (" + carMasterEntity.getCubic_Capacity() + "cc)";
             for (int i = 0; i < variantList.size(); i++) {
 
@@ -360,11 +363,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     break;
                 }
             }
-            spVarient.setSelection(varientIndex);
 
 
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
-                int prevInsurerIndex = 0;
+
                 String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
                 for (int i = 0; i < prevInsurerList.size(); i++) {
                     if (prevInsurerList.get(i).equalsIgnoreCase(insName)) {
@@ -372,7 +374,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                         break;
                     }
                 }
-                spPrevIns.setSelection(prevInsurerIndex);
+
             }
 
 
@@ -406,11 +408,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             etMfgDate.setText(manfDate);
 
             if (motorRequestEntity.getIs_claim_exists().equals("no")) {
-                tvClaimNo.performClick();
+                //tvClaimNo.performClick();
                 setSeekbarProgress(Integer.parseInt(motorRequestEntity.getVehicle_ncb_current()));
                 //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
             } else {
-                tvClaimYes.performClick();
+                //tvClaimYes.performClick();
                 setSeekbarProgress(Integer.parseInt(motorRequestEntity.getVehicle_ncb_current()));
             }
 
@@ -429,6 +431,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 }
                 //etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
             }
+
+            spVarient.setSelection(varientIndex);
+            spPrevIns.setSelection(prevInsurerIndex);
 
 
         } catch (ParseException e) {
@@ -485,6 +490,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
 
                 etMfgDate.setText(changeDateFormat(masterData.getPurchase_Date()));
+
+                etExpDate.setEnabled(true);
 
                 etCC.setText("" + masterData.getCubic_Capacity() + "CC");
                 //  setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
