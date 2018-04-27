@@ -35,7 +35,7 @@
             android:title="POSP ENROLLMENT" />
         <item
             android:id="@+id/nav_whatsnew"
-            android:icon="@drawable/help_ic"
+            android:icon="@drawable/whats_new"
             android:title="WHATS NEW" />
         <item
             android:id="@+id/nav_helpfeedback"
