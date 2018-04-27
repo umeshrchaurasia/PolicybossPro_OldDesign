@@ -4,32 +4,34 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class SalesProductEntity extends RealmObject implements Parcelable {
+
     /**
      * Product_Id : 1
      * Product_Name : Health Insurance
      * Product_image : api.magicfinmart.com/images/salesmaterial/health.png
      * Count : 7
      */
-
+    @PrimaryKey
     private int Product_Id;
     private String Product_Name;
     private String Product_image;
     private int Count;
+    private boolean blnHide;
+    private boolean blnCountVisibility;
+    private int OldCount;
 
-
-    private boolean blnShow;
-
-    public SalesProductEntity() {
-    }
 
     protected SalesProductEntity(Parcel in) {
         Product_Id = in.readInt();
         Product_Name = in.readString();
         Product_image = in.readString();
         Count = in.readInt();
-        blnShow = in.readByte() != 0;
+        blnHide = in.readByte() != 0;
+        blnCountVisibility = in.readByte() != 0;
+        OldCount = in.readInt();
     }
 
     public static final Creator<SalesProductEntity> CREATOR = new Creator<SalesProductEntity>() {
@@ -44,44 +46,64 @@ public class SalesProductEntity extends RealmObject implements Parcelable {
         }
     };
 
+    public SalesProductEntity() {
+    }
+
     public int getProduct_Id() {
         return Product_Id;
     }
 
-    public void setProduct_Id(int Product_Id) {
-        this.Product_Id = Product_Id;
+    public void setProduct_Id(int product_Id) {
+        Product_Id = product_Id;
     }
 
     public String getProduct_Name() {
         return Product_Name;
     }
 
-    public void setProduct_Name(String Product_Name) {
-        this.Product_Name = Product_Name;
+    public void setProduct_Name(String product_Name) {
+        Product_Name = product_Name;
     }
 
     public String getProduct_image() {
         return Product_image;
     }
 
-    public void setProduct_image(String Product_image) {
-        this.Product_image = Product_image;
+    public void setProduct_image(String product_image) {
+        Product_image = product_image;
     }
 
     public int getCount() {
         return Count;
     }
 
-    public void setCount(int Count) {
-        this.Count = Count;
+    public void setCount(int count) {
+        Count = count;
     }
 
-    public boolean getBlnShow() {
-        return blnShow;
+    public boolean getblnHide() {
+        return blnHide;
     }
 
-    public void setBlnShow(boolean blnShow) {
-        this.blnShow = blnShow;
+    public void setblnHide(boolean blnHide) {
+        this.blnHide = blnHide;
+    }
+
+    public boolean getblnCountVisibility() {
+        return blnCountVisibility;
+    }
+
+    public void setblnCountVisibility(boolean blnCountVisibility) {
+        this.blnCountVisibility = blnCountVisibility;
+    }
+
+
+    public int getOldCount() {
+        return OldCount;
+    }
+
+    public void setOldCount(int oldCount) {
+        OldCount = oldCount;
     }
 
 
@@ -96,6 +118,8 @@ public class SalesProductEntity extends RealmObject implements Parcelable {
         dest.writeString(Product_Name);
         dest.writeString(Product_image);
         dest.writeInt(Count);
-        dest.writeByte((byte) (blnShow ? 1 : 0));
+        dest.writeByte((byte) (blnHide ? 1 : 0));
+        dest.writeByte((byte) (blnCountVisibility ? 1 : 0));
+        dest.writeInt(OldCount);
     }
 }
