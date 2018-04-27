@@ -16,6 +16,7 @@ import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
@@ -27,7 +28,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     RecyclerView rvSalesMaterial;
     SalesMaterialAdapter mAdapter;
     List<SalesProductEntity> mlistSalesProduct;
-
+    DBPersistanceController dbPersistanceController;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        dbPersistanceController = new DBPersistanceController(SalesMaterialActivity.this);
         init();
         fetchProducts();
 
@@ -58,6 +59,25 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         cancelDialog();
         if (response instanceof SalesMaterialProductResponse) {
             mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
+
+            List<SalesProductEntity> compLst = dbPersistanceController.getCompanyList();
+           if(compLst != null )
+           {
+               if(compLst.size() >0) {
+                  for (int i = 0; i < mlistSalesProduct.size(); i++) {
+                      for (SalesProductEntity oldComEntiy : compLst) {
+                          if (mlistSalesProduct.get(i).getProduct_Id() == oldComEntiy.getProduct_Id()) {
+                              if (mlistSalesProduct.get(i).getCount() == oldComEntiy.getCount()) {
+                                  mlistSalesProduct.get(i).setBlnShow(false);
+                              }
+                          }
+                      }
+                  }
+              }
+           }
+
+            dbPersistanceController.storeCompanyList(mlistSalesProduct);
+
             mAdapter = new SalesMaterialAdapter(this, mlistSalesProduct);
             rvSalesMaterial.setAdapter(mAdapter);
         }

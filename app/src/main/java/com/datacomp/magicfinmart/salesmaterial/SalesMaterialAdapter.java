@@ -41,7 +41,7 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
     public void onBindViewHolder(SalesMaterialItem holder, int position) {
         SalesMaterialItem item = (SalesMaterialItem) holder;
         final SalesProductEntity entity = mlistSalesProduct.get(position);
-        if (entity.getCount() != 0) {
+        if (entity.getCount() != 0 ) {
             item.txtCount.setText(String.valueOf(entity.getCount()));
         } else {
             item.txtCount.setVisibility(View.INVISIBLE);

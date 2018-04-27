@@ -23,6 +23,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.Healthinsurance
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
@@ -716,10 +717,6 @@ public class DBPersistanceController {
         realm.commitTransaction();
     }
 
-    public void checkCountDocList()
-    {
-
-    }
 
     public List<DocsEntity> getDocList(String compId, String lang) {
         List<DocsEntity> docsEntityList = realm.where(DocsEntity.class).equalTo("company_id", compId).equalTo("language", lang.trim(), Case.INSENSITIVE).findAll();
@@ -728,6 +725,24 @@ public class DBPersistanceController {
         else
             return null;
     }
+
+
+    public void storeCompanyList(List<SalesProductEntity> salesProductList) {
+        realm.beginTransaction();
+        realm.delete(SalesProductEntity.class);
+        realm.copyToRealm(salesProductList);
+        realm.commitTransaction();
+    }
+
+    public List<SalesProductEntity> getCompanyList()
+    {
+        List<SalesProductEntity> salesProductList = realm.where(SalesProductEntity.class).findAll();
+        if (salesProductList != null)
+            return salesProductList;
+        else
+            return null;
+    }
+
     //endregion
 
     //region insurance image mapping
