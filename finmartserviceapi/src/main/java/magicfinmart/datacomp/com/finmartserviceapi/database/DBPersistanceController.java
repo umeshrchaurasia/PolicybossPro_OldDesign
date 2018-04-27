@@ -743,6 +743,12 @@ public class DBPersistanceController {
             return null;
     }
 
+    public void UpdateCompanyList(List<SalesProductEntity> salesCompList) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(salesCompList);
+        realm.commitTransaction();
+    }
+
     //endregion
 
     //region insurance image mapping

@@ -11,9 +11,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.notification.NotificationAdapter;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
 
 /**
@@ -25,9 +27,13 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
     Context mContex;
     List<SalesProductEntity> mlistSalesProduct;
 
-    public SalesMaterialAdapter(Context context, List<SalesProductEntity> list) {
+    DBPersistanceController dbPersistanceController;
+
+    public SalesMaterialAdapter(Context context, List<SalesProductEntity> list ) {
         this.mContex = context;
         mlistSalesProduct = list;
+
+        dbPersistanceController = new DBPersistanceController(context);
     }
 
     @Override
@@ -38,11 +44,16 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
     }
 
     @Override
-    public void onBindViewHolder(SalesMaterialItem holder, int position) {
+    public void onBindViewHolder(SalesMaterialItem holder, final int position) {
         SalesMaterialItem item = (SalesMaterialItem) holder;
         final SalesProductEntity entity = mlistSalesProduct.get(position);
-        if (entity.getCount() != 0 ) {
-            item.txtCount.setText(String.valueOf(entity.getCount()));
+
+        if (entity.getblnCountVisibility() == false) {
+            if (entity.getCount() != 0 && (entity.getblnHide() == false)) {
+                item.txtCount.setText(String.valueOf(entity.getCount()));
+            } else {
+                item.txtCount.setVisibility(View.INVISIBLE);
+            }
         } else {
             item.txtCount.setVisibility(View.INVISIBLE);
         }
@@ -54,12 +65,24 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
             @Override
             public void onClick(View v) {
 
-                ((SalesMaterialActivity)mContex).redirectToApplyMain(entity);
+                ((SalesMaterialActivity) mContex).redirectToApplyMain(entity);
+                updateList(entity, position);
+
             }
 
         });
     }
 
+
+    public void updateList(SalesProductEntity salesProductEntity, int pos) {
+        mlistSalesProduct.get(pos).setblnHide(true);
+        notifyItemChanged(pos, salesProductEntity);
+
+        mlistSalesProduct.get(pos).setOldCount(salesProductEntity.getCount());
+
+
+        dbPersistanceController.UpdateCompanyList(mlistSalesProduct);
+    }
 
     @Override
     public int getItemCount() {
