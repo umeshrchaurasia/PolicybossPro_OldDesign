@@ -64,6 +64,7 @@ public class ShareDataFragment extends BaseFragment implements IResponseSubcribe
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
         if (response instanceof ShareMessageResponse) {
             if (((ShareMessageResponse) response).getStatus_Id() == 0) {
                 if (((ShareMessageResponse) response).getResult().getLstMsgLnkDtls() != null) {
