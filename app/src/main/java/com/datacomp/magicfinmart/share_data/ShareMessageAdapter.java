@@ -37,7 +37,7 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtName, txtStatus, txtRemark;
         ImageView btnCall;
-        LinearLayout linearLayout;
+        //LinearLayout linearLayout;
 
 
         public MyViewHolder(View view) {
@@ -46,7 +46,7 @@ public class ShareMessageAdapter extends RecyclerView.Adapter<ShareMessageAdapte
             txtStatus = (TextView) itemView.findViewById(R.id.txtFollowupStatus);
             txtRemark = (TextView) itemView.findViewById(R.id.txtFollowupRemark);
             btnCall = (ImageView) itemView.findViewById(R.id.btnCall);
-            linearLayout = (LinearLayout) itemView.findViewById(R.id.ll_followup_item);
+            //linearLayout = (LinearLayout) itemView.findViewById(R.id.ll_followup_item);
 
         }
     }

@@ -169,7 +169,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         getSupportActionBar().setTitle("CHANGE PASSWORD");
                         break;
                     // For rest of the options we just show a toast on click .
-                    case R.id.nav_myaccount: {
+                    case R.id.nav_myaccount:
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                         //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
@@ -181,12 +181,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                         break;
-                    }
-                    case R.id.nav_pospenrollment: {
+
+                    case R.id.nav_pospenrollment:
                         startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
                         break;
-                    }
+
                     case R.id.nav_homeloanApplication:
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
