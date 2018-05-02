@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
@@ -33,6 +34,7 @@ import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
+import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -157,6 +159,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         fragment = new DashboardFragment();
                         getSupportActionBar().setTitle("MAGIC FIN-MART");
                         //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.nav_sharedata:
+                        fragment = new ShareDataFragment();
+                        getSupportActionBar().setTitle("SHARE DATA");
+                        break;
+                    case R.id.nav_changepassword:
+                        fragment = new ChangePasswordFragment();
+                        getSupportActionBar().setTitle("CHANGE PASSWORD");
                         break;
                     // For rest of the options we just show a toast on click .
                     case R.id.nav_myaccount: {
