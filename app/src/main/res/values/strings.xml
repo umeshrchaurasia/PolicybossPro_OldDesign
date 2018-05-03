@@ -603,4 +603,57 @@
         <item>Son</item>
         <item>Daughter</item>
     </string-array>
+
+    <string-array name="exp_organization">
+        <item>Organization Category</item>
+        <item>Public Ltd</item>
+        <item>Private Ltd</item>
+        <item>MNC</item>
+        <item>Central/State Govt</item>
+        <item>Proprietorship</item>
+        <item>LLP</item>
+        <item>Partnership firm</item>
+        <item>Others including Society/Trust/AOP</item>
+    </string-array>
+    <string-array name="exp_employment_salaried">
+        <item>Select Employment &amp; Mode OF Credit</item>
+        <item>Salaried: Account Transfer</item>
+        <item>Salaried: By Cheque</item>
+        <item>Salaried: By Cash</item>
+        <item>Self employed</item>
+        <item>Others</item>
+
+    </string-array>
+    <string-array name="exp_residence_type">
+        <item>Residence Type</item>
+        <item>Owned by Self-Spouce</item>
+        <item>Owned by Parents/Sibling</item>
+        <item>Owned by Relative</item>
+        <item>Rented with Family</item>
+        <item>Rented with Friends</item>
+        <item>Rented- Staying Alone</item>
+        <item>Hostel</item>
+        <item>Company Lease</item>
+
+        <item>Resale Property</item>
+        <item>For Construction</item>
+        <item>Property identified - Under Construction</item>
+        <item>LAP</item>
+    </string-array>
+    <string-array name="exp_qualification">
+        <item>Qualificaion</item>
+        <item>Under Graduate</item>
+        <item>Graduate</item>
+        <item>Post Graduate</item>
+        <item>Professional</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="exp_tenure">
+        <item>Tenure</item>
+        <item>12 months</item>
+        <item>24 months</item>
+        <item>36 months</item>
+        <item>48 months</item>
+        <item>60 months</item>
+    </string-array>
 </resources>

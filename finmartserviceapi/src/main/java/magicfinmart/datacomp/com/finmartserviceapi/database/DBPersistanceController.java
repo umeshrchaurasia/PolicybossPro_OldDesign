@@ -97,6 +97,29 @@ public class DBPersistanceController {
         }
         return listCity;
     }
+    public String getBikeRTOName(String VehicleCity_Id) {
+
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity.getRTO_City();
+        else
+            return "";
+
+    }
+
+    public String getRTOName(String VehicleCity_Id) {
+
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity.getRTO_City();
+        else
+            return "";
+    }
+
 
 
     public String getCityID(String cityName) {
