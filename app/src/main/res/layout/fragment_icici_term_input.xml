@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -19,9 +20,381 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvInputDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    app:cardElevation="2dp">
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="80"
+                            android:orientation="vertical">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:orientation="horizontal"
+                                android:paddingBottom="5dp"
+                                android:paddingTop="5dp"
+                                android:weightSum="5">
+
+                                <TextView
+                                    android:id="@+id/tvSum"
+                                    style="@style/TextViewStyle.Small"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:gravity="left"
+                                    android:textAllCaps="true" />
+
+                                <TextView
+                                    android:id="@+id/tvAge"
+                                    style="@style/TextViewStyle.Small"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:gravity="center"
+                                    android:textAllCaps="true" />
+
+                                <TextView
+                                    android:id="@+id/tvCrn"
+                                    style="@style/TextViewStyle.Small"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="2"
+                                    android:gravity="right"
+                                    android:textAllCaps="true" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical|center_horizontal"
+                                android:orientation="horizontal"
+                                android:paddingBottom="5dp"
+                                android:paddingTop="5dp"
+                                android:weightSum="3">
+
+                                <TextView
+                                    android:id="@+id/tvPolicyTerm"
+                                    style="@style/TextViewStyle.Small"
+                                    android:layout_width="0dp"
+                                    android:layout_weight="1"
+                                    android:gravity="left"
+                                    android:textAllCaps="true" />
+
+                                <TextView
+                                    android:id="@+id/tvGender"
+                                    style="@style/TextViewStyle.Small"
+                                    android:layout_width="0dp"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_weight="1"
+                                    android:gravity="right"
+                                    android:textAllCaps="true" />
+
+                                <TextView
+                                    android:id="@+id/tvSmoker"
+                                    style="@style/TextViewStyle.Small"
+                                    android:layout_width="0dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_weight="1"
+                                    android:gravity="left"
+                                    android:textAllCaps="true"
+                                    android:textStyle="bold" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                        <ImageView
+                            android:id="@+id/ivEdit"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="20"
+                            android:scaleType="centerInside"
+                            android:src="@drawable/edit_icon" />
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/cvQuoteDetails"
+                    style="@style/CardViewStyle"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    app:cardElevation="2dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:layout_marginTop="4dp"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="horizontal"
+                            android:weightSum="4">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <ImageView
+                                    android:id="@+id/imgInsurerLogo"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="60dp"
+                                    android:gravity="center"
+                                    android:padding="6dp"
+                                    android:scaleType="fitCenter"
+                                    android:src="@drawable/finmart_logo" />
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.6dp"
+                                    android:background="@color/search_gray" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:minHeight="60dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        style="@style/TextViewStyle.Small"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="COVER"
+                                        android:textAllCaps="true" />
+
+                                    <TextView
+                                        android:id="@+id/txtCover"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="5dp"
+                                        android:text="1000000"
+                                        android:textColor="@color/header_text_color"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="0.6dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/search_gray" />
+
+                            <LinearLayout
+
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="2"
+                                android:orientation="vertical">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:minHeight="60dp"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:id="@+id/txtPlanNAme"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="IProtectSmart"
+                                        android:textColor="@color/header_text_color"
+                                        android:textSize="13sp"
+                                        android:textStyle="bold" />
+
+
+                                </LinearLayout>
+
+                                <View
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0.6dp"
+                                    android:background="@color/search_gray" />
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center_vertical|center_horizontal"
+                                    android:minHeight="60dp"
+                                    android:orientation="horizontal">
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_vertical|center_horizontal"
+                                        android:minHeight="60dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            style="@style/TextViewStyle.Small"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="POLICY TERM"
+                                            android:textAllCaps="true" />
+
+                                        <TextView
+                                            android:id="@+id/txtPolicyTerm"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="5dp"
+                                            android:text="20 Yrs."
+                                            android:textColor="@color/header_text_color"
+                                            android:textSize="13sp"
+                                            android:textStyle="bold" />
+
+
+                                    </LinearLayout>
+
+                                    <View
+                                        android:layout_width="0.6dp"
+                                        android:layout_height="match_parent"
+                                        android:background="@color/search_gray" />
+
+                                    <LinearLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="wrap_content"
+                                        android:layout_weight="1"
+                                        android:gravity="center_vertical|center_horizontal"
+                                        android:minHeight="60dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            style="@style/TextViewStyle.Small"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="UP TO AGE"
+                                            android:textAllCaps="true" />
+
+                                        <TextView
+                                            android:id="@+id/txtAge"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginTop="5dp"
+                                            android:text="38 Yrs."
+                                            android:textColor="@color/header_text_color"
+                                            android:textSize="13sp"
+                                            android:textStyle="bold" />
+
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="0.6dp"
+                                android:layout_height="match_parent"
+                                android:background="@color/search_gray" />
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center_horizontal|center_vertical"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/txtFinalPremium"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:background="#ff5c61"
+                                    android:gravity="center"
+                                    android:minHeight="30dp"
+                                    android:text="103890/year"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="10sp" />
+
+                                <TextView
+                                    android:id="@+id/txtRiders"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@color/search_gray"
+                                    android:gravity="center"
+                                    android:minHeight="30dp"
+                                    android:text="+RIDERS"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="10sp"
+                                    android:visibility="gone" />
+
+                                <TextView
+                                    android:id="@+id/txtCustomise"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
+                                    android:layout_marginTop="5dp"
+                                    android:background="@color/progress_blue"
+                                    android:gravity="center"
+                                    android:minHeight="30dp"
+                                    android:text="CUSTOMISE"
+                                    android:textColor="@android:color/white"
+                                    android:textSize="10sp"
+                                    android:visibility="gone" />
+
+                                <ImageView
+                                    android:layout_width="25dp"
+                                    android:layout_height="25dp"
+                                    android:src="@drawable/vector_cart_black" />
+                            </LinearLayout>
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:id="@+id/llAddon"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/bordertbl"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/rvAddOn"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/divider" />
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
                 <include
                     android:id="@+id/layoutCompare"
-                    layout="@layout/content_term_header" />
+                    layout="@layout/content_term_header"
+                    android:visibility="visible" />
 
                 <!--Compare ICICI-->
                 <LinearLayout
