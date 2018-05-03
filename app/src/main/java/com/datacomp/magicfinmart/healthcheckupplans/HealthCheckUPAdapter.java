@@ -107,9 +107,7 @@ public class HealthCheckUPAdapter extends RecyclerView.Adapter<HealthCheckUPAdap
             holder.ivShare.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Constants.shareToWhatsApp(context, "Dear Rajeev\n" +
-                            " Hi. I am pleased to bring to you a Health Checkup package best suited for you, at discounted price from the best labs in India. What’s more the sample can be collected from your home and an accurate report delivered on your e-mail. You also get a doctor consultation FREE with every health checkup done Click on the below link to book your test and make payment online \n" +
-                            "https://goo.gl/kcFfgf");
+                    ((HealthCheckUpPlansActivity) context).shareWhatsApp();
                 }
             });
 

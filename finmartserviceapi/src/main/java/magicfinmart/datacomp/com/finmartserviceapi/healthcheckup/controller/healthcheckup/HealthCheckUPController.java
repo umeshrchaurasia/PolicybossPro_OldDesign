@@ -5,13 +5,16 @@ import android.content.Context;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestbuilder.HealthCheckUpRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksDetailsRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthShortLinkResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -28,6 +31,7 @@ public class HealthCheckUPController implements IHealthCheckUp {
         healthCheckNetworkService = new HealthCheckUpRequestBuilder().getService();
         mContext = context;
     }
+
 
     @Override
     public void getHealthPacks(HealthPacksRequestEntity healthPacksRequestEntity, final IResponseSubcriber iResponseSubcriber) {
@@ -73,7 +77,7 @@ public class HealthCheckUPController implements IHealthCheckUp {
 
                 if (response.body() != null) {
                     if (response.body().getD().getStatus().equals("Success")) {
-                        if(healthPacksDetailsRequestEntity!=null)
+                        if (healthPacksDetailsRequestEntity != null)
                             response.body().getD().setPackcode(healthPacksDetailsRequestEntity.getPack_param().getPackcode());
                         new AsyncHealthPacksDetails(mContext, response.body().getD()).execute();
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getD().getMessage());
