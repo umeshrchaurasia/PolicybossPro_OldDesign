@@ -244,6 +244,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             buyHealthQuoteEntity = new HealthQuoteEntity();
             buyHealthQuoteEntity = entity;
             HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
+            compareRequestEntity.setProdID(String.valueOf(entity.getProdID()));
             compareRequestEntity.setPlanID(String.valueOf(buyHealthQuoteEntity.getPlanID()));
             compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
             compareRequestEntity.setSelectedPrevInsID(healthQuote.getHealthRequest().getSelectedPrevInsID());
@@ -452,10 +453,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             txtCompareCount.setVisibility(View.INVISIBLE);
             ivHealthCompare.setVisibility(View.INVISIBLE);
         } else {
-            if(listCompare.size() == 1)
-            {
+            if (listCompare.size() == 1) {
                 txtCompareCount.setBackgroundResource(R.drawable.compare_roundshape_gray);
-            }else{
+            } else {
                 txtCompareCount.setBackgroundResource(R.drawable.compare_roundshape);
             }
             txtCompareCount.setVisibility(View.VISIBLE);

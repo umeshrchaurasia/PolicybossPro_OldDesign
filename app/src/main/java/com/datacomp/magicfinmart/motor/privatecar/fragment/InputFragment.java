@@ -1089,7 +1089,15 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     private String formatRegistrationNo(String regNo) {
-        return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
+        if (!regNo.contains("AA1234")) {
+            return etreg1.getText().toString() + "-"
+                    + etreg2.getText().toString() + "-"
+                    + etreg3.getText().toString() + "-"
+                    + etreg4.getText().toString();
+        } else {
+            return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
+        }
+
     }
 
     private String getManufacturingDate(String manufac) {

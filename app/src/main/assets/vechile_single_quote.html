@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+﻿﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -51,6 +51,7 @@ ul li {margin:2px; padding:4px !important;}
             font-size:14px;
         }
 
+
     </style>
 </head>
 
@@ -72,12 +73,12 @@ ul li {margin:2px; padding:4px !important;}
 
                 <tr>
 
-                    <td>Policy Expiring on <br><b><span id="polexpiringdate">21-03-2017</span></b></td>
-                    <td>Policy Exp. Date<br><b><span id="polexpdate">21-03-2018</span></b></td>
+                    <td>Policy Expiring on <br><span id="polexpiringdate">21-03-2017</span></td>
+                    <td>Policy Exp. Date<br><span id="polexpdate">21-03-2018</span></td>
                 </tr>
                 <tr>
-                    <td>Present NCB : <span id="NCB">0</span>%</td>
-                    <td>Claim in Present Year : <b><span id="PYN"></span></b></td>
+                    <td>Present NCB: <span id="NCB">0</span>%</td>
+                    <td>Claim in Present Year  : <span id="PYN"></span></td>
 
                 </tr>
             </table>
@@ -223,7 +224,7 @@ ul li {margin:2px; padding:4px !important;}
         <div class="table-responsive">
             <table class="table table-bordered table-striped">
                 <tr>
-                    <td><b>TOTAL PREMIUM</b></td>
+                    <td><b>GROSS PREMIUM</b></td>
                     <td><b>GST</b></td>
                     <td><b>NET PREMIUM</b></td>
                 </tr>
@@ -249,10 +250,10 @@ ul li {margin:2px; padding:4px !important;}
                     <td><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
                              onerror=this.src="file:///android_asset/profile_pic.png" width="100"
                              class="img-responsive"/></td>
-                    <td><h4 id="pospName"  class="red-txt">Test User</h4>
-                        <p id="deg"  class="posp-txt">Landmark POSP</p>
-                        <p id="phone"  class="blue-txt">98XXXXXXXX</p>
-                        <p id="email"  class="posp-txt">XXXXX@gmail.com</p></td>
+                    <td><h4 id="pospName" class="red-txt">Test User</h4>
+                        <p id="deg" class="posp-txt">Landmark POSP</p>
+                        <p id="phone" class="blue-txt">98XXXXXXXX</p>
+                        <p id="email" class="posp-txt">XXXXX@gmail.com</p></td>
                 </tr>
             </table>
         </div>
@@ -319,7 +320,9 @@ ul li {margin:2px; padding:4px !important;}
     function init(bikeReponse, userReponse, otherReponse) {
         otherReponse = JSON.parse(otherReponse);
         userReponse = JSON.parse(userReponse);
-        document.getElementById('name').innerHTML = otherReponse.NAME;
+
+
+        document.getElementById('name').innerHTML =  otherReponse.NAME;
         document.getElementById('lblvehiclename').innerHTML = otherReponse.VECHILE_NAME;
         document.getElementById('polexpiringdate').innerHTML = otherReponse.MFG_DATE;
          var pomfgdate = otherReponse.MFG_DATE.split("-");
@@ -355,7 +358,6 @@ ul li {margin:2px; padding:4px !important;}
         var AddOnHTml = "";
         var TotalAddOn = 0;
         var TotalPrem = 0;
-         var TotalPremDisp = 0;
         var TotalAddOnTax = 0;
         var DispPrem = 0;
         document.getElementById('tblAddOn').innerHTML = HTML;
@@ -499,9 +501,8 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
         {
              TotalPrem = 0;
              TotalAddOnTax = (TotalAddOn * 18 / 100);
-             DispPrem = parseFloat(response.Premium_Breakup.final_premium) + parseFloat(TotalAddOn);
-             TotalPrem = parseFloat(response.Premium_Breakup.final_premium) + parseFloat(TotalAddOn) + parseFloat(TotalAddOnTax);
-             TotalPremDisp = TotalPrem;
+             DispPrem = Math.round(response.Premium_Breakup.final_premium) + Math.round(TotalAddOn);
+             TotalPrem = Math.round(response.Premium_Breakup.final_premium) + Math.round(TotalAddOn) + Math.round(TotalAddOnTax);;
              TotalPrem = Math.round(TotalPrem);
              document.getElementById('PREM').innerHTML =  "₹ " + TotalPrem + "";
 
@@ -856,20 +857,20 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
         }
 
 
+
         document.getElementById('tblAdd').innerHTML = AddOnHTml;
-         var DispWithoutAddTotPrem = parseFloat(response.Premium_Breakup.net_premium);
-         var DispWithoutAddTax = parseFloat(response.Premium_Breakup.service_tax);
-        var DispWithoutAddNet = parseFloat(response.Premium_Breakup.final_premium);
-        document.getElementById('spnTotPrem').innerHTML = parseFloat(response.Premium_Breakup.net_premium).toFixed(2);
-        document.getElementById('spnGST').innerHTML = parseFloat(response.Premium_Breakup.service_tax).toFixed(2) ;
+         var DispWithoutAddTotPrem = Math.round(response.Premium_Breakup.net_premium * 100) /100;
+         var DispWithoutAddTax = Math.round(response.Premium_Breakup.service_tax * 100) / 100;
+        var DispWithoutAddNet = Math.round(response.Premium_Breakup.final_premium * 100) / 100;
+        document.getElementById('spnTotPrem').innerHTML = Math.round(DispWithoutAddTotPrem) ;
+        document.getElementById('spnGST').innerHTML = Math.round(DispWithoutAddTax);
         document.getElementById('spnNetPrem').innerHTML = Math.round(DispWithoutAddNet);
-        if(TotalAddOn != 0)
+ if(TotalAddOn != 0)
         {
-            var addTax = response.Premium_Breakup.service_tax;
-            var DispTax = parseFloat(addTax) + parseFloat(TotalAddOnTax);
-            DispPrem = parseFloat(TotalPremDisp) - parseFloat(DispTax);
-            document.getElementById('spnTotPrem').innerHTML = parseFloat(DispPrem).toFixed(2);
-            document.getElementById('spnGST').innerHTML = parseFloat(DispTax).toFixed(2);
+            var DispTax = Math.round(response.Premium_Breakup.service_tax) + Math.round(TotalAddOnTax);
+            DispPrem = Math.round(TotalPrem) - Math.round(DispTax);
+            document.getElementById('spnTotPrem').innerHTML = Math.round(DispPrem * 100) / 100;
+            document.getElementById('spnGST').innerHTML = Math.round(DispTax * 100) / 100;
             document.getElementById('spnNetPrem').innerHTML = Math.round(TotalPrem * 100) / 100;
         }
          else
@@ -878,6 +879,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
         }
 
     }
+
 
 
 

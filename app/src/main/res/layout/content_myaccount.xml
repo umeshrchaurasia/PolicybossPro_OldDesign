@@ -851,8 +851,8 @@
                 android:layout_marginTop="10dp"
                 android:text="PROFILE PICTURE"
                 android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textColor="@color/dashboard_title"
+                 />
 
             <RelativeLayout
                 android:layout_width="match_parent"

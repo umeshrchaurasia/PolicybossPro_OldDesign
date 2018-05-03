@@ -3,50 +3,109 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-public class SalesProductEntity implements Parcelable {
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
+public class SalesProductEntity extends RealmObject implements Parcelable {
+
     /**
      * Product_Id : 1
      * Product_Name : Health Insurance
      * Product_image : api.magicfinmart.com/images/salesmaterial/health.png
      * Count : 7
      */
-
+    @PrimaryKey
     private int Product_Id;
     private String Product_Name;
     private String Product_image;
     private int Count;
+    private boolean blnHide;
+    private boolean blnCountVisibility;
+    private int OldCount;
+
+
+    protected SalesProductEntity(Parcel in) {
+        Product_Id = in.readInt();
+        Product_Name = in.readString();
+        Product_image = in.readString();
+        Count = in.readInt();
+        blnHide = in.readByte() != 0;
+        blnCountVisibility = in.readByte() != 0;
+        OldCount = in.readInt();
+    }
+
+    public static final Creator<SalesProductEntity> CREATOR = new Creator<SalesProductEntity>() {
+        @Override
+        public SalesProductEntity createFromParcel(Parcel in) {
+            return new SalesProductEntity(in);
+        }
+
+        @Override
+        public SalesProductEntity[] newArray(int size) {
+            return new SalesProductEntity[size];
+        }
+    };
+
+    public SalesProductEntity() {
+    }
 
     public int getProduct_Id() {
         return Product_Id;
     }
 
-    public void setProduct_Id(int Product_Id) {
-        this.Product_Id = Product_Id;
+    public void setProduct_Id(int product_Id) {
+        Product_Id = product_Id;
     }
 
     public String getProduct_Name() {
         return Product_Name;
     }
 
-    public void setProduct_Name(String Product_Name) {
-        this.Product_Name = Product_Name;
+    public void setProduct_Name(String product_Name) {
+        Product_Name = product_Name;
     }
 
     public String getProduct_image() {
         return Product_image;
     }
 
-    public void setProduct_image(String Product_image) {
-        this.Product_image = Product_image;
+    public void setProduct_image(String product_image) {
+        Product_image = product_image;
     }
 
     public int getCount() {
         return Count;
     }
 
-    public void setCount(int Count) {
-        this.Count = Count;
+    public void setCount(int count) {
+        Count = count;
     }
+
+    public boolean getblnHide() {
+        return blnHide;
+    }
+
+    public void setblnHide(boolean blnHide) {
+        this.blnHide = blnHide;
+    }
+
+    public boolean getblnCountVisibility() {
+        return blnCountVisibility;
+    }
+
+    public void setblnCountVisibility(boolean blnCountVisibility) {
+        this.blnCountVisibility = blnCountVisibility;
+    }
+
+
+    public int getOldCount() {
+        return OldCount;
+    }
+
+    public void setOldCount(int oldCount) {
+        OldCount = oldCount;
+    }
+
 
     @Override
     public int describeContents() {
@@ -55,31 +114,12 @@ public class SalesProductEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.Product_Id);
-        dest.writeString(this.Product_Name);
-        dest.writeString(this.Product_image);
-        dest.writeInt(this.Count);
+        dest.writeInt(Product_Id);
+        dest.writeString(Product_Name);
+        dest.writeString(Product_image);
+        dest.writeInt(Count);
+        dest.writeByte((byte) (blnHide ? 1 : 0));
+        dest.writeByte((byte) (blnCountVisibility ? 1 : 0));
+        dest.writeInt(OldCount);
     }
-
-    public SalesProductEntity() {
-    }
-
-    protected SalesProductEntity(Parcel in) {
-        this.Product_Id = in.readInt();
-        this.Product_Name = in.readString();
-        this.Product_image = in.readString();
-        this.Count = in.readInt();
-    }
-
-    public static final Parcelable.Creator<SalesProductEntity> CREATOR = new Parcelable.Creator<SalesProductEntity>() {
-        @Override
-        public SalesProductEntity createFromParcel(Parcel source) {
-            return new SalesProductEntity(source);
-        }
-
-        @Override
-        public SalesProductEntity[] newArray(int size) {
-            return new SalesProductEntity[size];
-        }
-    };
 }

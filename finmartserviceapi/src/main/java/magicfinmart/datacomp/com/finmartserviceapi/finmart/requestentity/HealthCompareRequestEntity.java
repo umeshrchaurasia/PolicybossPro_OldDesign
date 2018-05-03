@@ -12,6 +12,15 @@ public class HealthCompareRequestEntity {
     private String PlanID;
     private String insImage;
     private int selectedPrevInsID;
+    private String ProdID;
+
+    public String getProdID() {
+        return ProdID;
+    }
+
+    public void setProdID(String prodID) {
+        ProdID = prodID;
+    }
 
     public String getPlanID() {
         return PlanID;

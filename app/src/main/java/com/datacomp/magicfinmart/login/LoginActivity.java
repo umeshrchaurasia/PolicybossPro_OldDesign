@@ -78,39 +78,10 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
-        dialogLogout();
+        dialogLogout(this);
     }
 
-    private void dialogLogout() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Exit");
-        builder.setMessage("Do you really want to close application?");
-        builder.setCancelable(false);
 
-        builder.setPositiveButton(
-                "EXIT",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                        finish();
-                    }
-                });
-
-        builder.setNegativeButton(
-                "CANCEL",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.cancel();
-                    }
-                });
-        AlertDialog exitdialog = builder.create();
-        exitdialog.show();
-
-        Button negative = exitdialog.getButton(DialogInterface.BUTTON_NEGATIVE);
-        Button positive = exitdialog.getButton(DialogInterface.BUTTON_POSITIVE);
-        negative.setTextColor(getResources().getColor(R.color.header_light_text));
-        positive.setTextColor(getResources().getColor(R.color.header_dark_text));
-    }
     //region permission
 
     private boolean checkPermission() {

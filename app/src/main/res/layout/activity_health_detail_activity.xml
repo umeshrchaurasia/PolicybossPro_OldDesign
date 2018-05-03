@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -101,7 +102,7 @@
                     android:id="@+id/imgShare"
                     android:layout_width="32dp"
                     android:layout_height="32dp"
-                    android:src="@drawable/ic_menu_share"
+                    app:srcCompat="@drawable/vector_share_grey"
                     android:textAlignment="center" />
 
 
@@ -125,6 +126,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="35"
+                android:layout_marginRight="2dp"
                 android:gravity="center|bottom"
                 android:orientation="vertical">
 
@@ -232,12 +234,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            style="@style/TextStyle.Title"
             android:gravity="center"
-            android:minHeight="20dp"
             android:text="Policy benefits"
             android:textAllCaps="true"
-            android:textColor="@color/dashboard_title"
-            android:textSize="15sp" />
+           />
 
         <View
             android:layout_width="match_parent"
@@ -254,7 +255,7 @@
 
     <Button
         android:id="@+id/btnBack"
-        style="@style/ButtonStyle.Colored"
+        style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"

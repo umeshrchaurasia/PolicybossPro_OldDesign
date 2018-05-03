@@ -43,7 +43,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"
             android:padding="5dp"
-            android:src="@drawable/share_icon_white" />
+            app:srcCompat="@drawable/vector_share_white" />
     </RelativeLayout>
 
     <android.support.v4.widget.NestedScrollView

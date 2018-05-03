@@ -25,13 +25,15 @@
             <TextView
                 android:id="@+id/tvAdd"
                 style="@style/TextStyle.TextMedium"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
                 android:drawableLeft="@drawable/file_add"
                 android:drawablePadding="0dp"
-                android:gravity="center"
+                android:gravity="center_vertical|left"
                 android:padding="2dp"
+                android:textColor="#474747"
+                android:textStyle="bold"
                 android:text="ADD QUOTE" />
         </LinearLayout>
 
@@ -68,6 +70,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="10dp"
                 android:gravity="center"
+                android:textStyle="bold"
+                android:textColor="#474747"
                 android:text="SEARCH" />
         </LinearLayout>
     </LinearLayout>

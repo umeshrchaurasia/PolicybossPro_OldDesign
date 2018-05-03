@@ -39,19 +39,17 @@ public class FastLaneController implements IFastLane {
             @Override
             public void onResponse(Call<FastLaneDataResponse> call, Response<FastLaneDataResponse> response) {
                 if (response.body() != null) {
-
                     //callback of data
                     iResponseSubcriber.OnSuccess(response.body(), "");
-
                 } else {
                     //failure
-                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                    iResponseSubcriber.OnFailure(new RuntimeException("Vehicle not found, Please enter manually"));
                 }
             }
 
             @Override
             public void onFailure(Call<FastLaneDataResponse> call, Throwable t) {
-                iResponseSubcriber.OnFailure(new RuntimeException("data not found pls enter manually"));
+                iResponseSubcriber.OnFailure(new RuntimeException("Your vehicle detail not found.. Please enter manually"));
                /* if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

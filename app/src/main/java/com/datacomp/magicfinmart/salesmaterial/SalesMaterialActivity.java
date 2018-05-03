@@ -14,8 +14,10 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
@@ -27,6 +29,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     RecyclerView rvSalesMaterial;
     SalesMaterialAdapter mAdapter;
     List<SalesProductEntity> mlistSalesProduct;
+    DBPersistanceController dbPersistanceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +38,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        dbPersistanceController = new DBPersistanceController(SalesMaterialActivity.this);
         init();
         fetchProducts();
 
@@ -58,6 +61,37 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         cancelDialog();
         if (response instanceof SalesMaterialProductResponse) {
             mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
+
+            List<SalesProductEntity> compLst = dbPersistanceController.getCompanyList();
+            if (compLst != null) {
+                if (compLst.size() > 0) {
+                    for (int i = 0; i < mlistSalesProduct.size(); i++) {
+                        for (SalesProductEntity oldComEntiy : compLst) {
+                            if (mlistSalesProduct.get(i).getProduct_Id() == oldComEntiy.getProduct_Id()) {
+                                if (mlistSalesProduct.get(i).getCount() == oldComEntiy.getOldCount()) {
+                                    mlistSalesProduct.get(i).setblnCountVisibility(true);
+                                } else {
+                                    mlistSalesProduct.get(i).setblnCountVisibility(false);
+                                }
+
+
+                            }
+                        }
+                    }
+                }
+
+
+            }
+
+            if (compLst.size() == 0) {
+                for (int i = 0; i < mlistSalesProduct.size(); i++) {
+
+                    mlistSalesProduct.get(i).setOldCount(0);
+                }
+
+                dbPersistanceController.storeCompanyList(mlistSalesProduct);
+            }
+
             mAdapter = new SalesMaterialAdapter(this, mlistSalesProduct);
             rvSalesMaterial.setAdapter(mAdapter);
         }
@@ -69,9 +103,10 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    public void redirectToApplyMain(SalesProductEntity prdID) {
+    public void redirectToApplyMain(SalesProductEntity salesProductEntity) {
+
         Intent intent = new Intent(this, SalesDetailActivity.class);
-        intent.putExtra(Constants.PRODUCT_ID, prdID);
+        intent.putExtra(Constants.PRODUCT_ID, salesProductEntity);
         startActivity(intent);
     }
 
