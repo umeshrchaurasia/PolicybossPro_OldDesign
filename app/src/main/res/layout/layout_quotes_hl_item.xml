@@ -271,13 +271,13 @@
                             style="@style/ButtonStyle"
                             android:layout_width="wrap_content"
                             android:background="#f38d1e"
-                            android:drawableLeft="@drawable/vector_cart"
+                            android:drawableLeft="@mipmap/buy"
                             android:gravity="center_vertical|center_horizontal"
                             android:minHeight="0dp"
                             android:minWidth="90dp"
+                            android:drawablePadding="8dp"
                             android:paddingBottom="5dp"
-                            android:paddingLeft="12dp"
-                            android:paddingRight="12dp"
+
                             android:paddingTop="5dp"
                             android:text="BUY"
                             android:textColor="@android:color/white" />

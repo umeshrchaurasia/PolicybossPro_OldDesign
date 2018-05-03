@@ -225,7 +225,7 @@ public class HealthCompareActivity extends BaseActivity {
                     }
                 }
 
-                listBenefits.add(0, "Select other benefits");
+                listBenefits.add(0, "Select Other Benefits");
 
                 mBenefitsAdapter = new HealthNineBenefitsViewAdapter(this, list9Benefits);
                 rvBenefitsOptions.setAdapter(mBenefitsAdapter);

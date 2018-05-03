@@ -36,7 +36,7 @@
                 <RelativeLayout
                     android:id="@+id/rlMyProfile"
                     style="@style/HeaderLayout"
-                    android:padding="15dp">
+                    android:padding="8dp">
 
                     <ImageView
                         android:id="@+id/ivMyProfile"
@@ -49,7 +49,7 @@
                         android:src="@drawable/down_arrow" />
 
                     <TextView
-                        style="@style/TextViewStyle.Large"
+                        style="@style/TextStyle.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -135,7 +135,7 @@
                 <RelativeLayout
                     android:id="@+id/rlAddress"
                     style="@style/HeaderLayout"
-                    android:padding="15dp">
+                    android:padding="8dp">
 
                     <ImageView
                         android:id="@+id/ivAddress"
@@ -148,7 +148,7 @@
                         android:src="@drawable/down_arrow" />
 
                     <TextView
-                        style="@style/TextViewStyle.Large"
+                        style="@style/TextStyle.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -277,7 +277,7 @@
                 <RelativeLayout
                     android:id="@+id/rlBankDetail"
                     style="@style/HeaderLayout"
-                    android:padding="15dp">
+                    android:padding="8dp">
 
                     <ImageView
                         android:id="@+id/ivBankDetail"
@@ -290,7 +290,7 @@
                         android:src="@drawable/down_arrow" />
 
                     <TextView
-                        style="@style/TextViewStyle.Large"
+                        style="@style/TextStyle.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -313,18 +313,20 @@
                     android:id="@+id/llBankDetail"
                     style="@style/LinearLayoutStyle"
                     android:animateLayoutChanges="true"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="15dp"
                         android:orientation="horizontal">
 
                         <TextView
+                            style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:gravity="center"
                             android:text="Enter the details of bank account to which all commissions have to be credited" />
                     </LinearLayout>
 
@@ -373,9 +375,9 @@
 
                             <EditText
                                 android:id="@+id/etAadhaar"
+                                style="@style/Style.edittext"
                                 android:inputType="number"
-                                android:maxLength="12"
-                                style="@style/Style.edittext" />
+                                android:maxLength="12" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
 
@@ -401,17 +403,20 @@
 
                         <LinearLayout
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginLeft="1dp"
                             android:layout_weight="1"
                             android:orientation="vertical">
 
                             <TextView
                                 android:id="@+id/textView39"
-                                style="@style/TextViewStyle.Medium"
+                                style="@style/TextStyle.TextSmall"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
                                 android:text="ACCOUNT TYPE" />
 
                             <LinearLayout
+                                android:layout_marginTop="2dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
@@ -425,8 +430,9 @@
                                     android:layout_weight="50"
                                     android:background="@drawable/customeborder_blue"
                                     android:gravity="center"
-                                    android:padding="5dp"
-                                    android:text="SAVING"
+                                    android:textAllCaps="true"
+                                    android:padding="2dp"
+                                    android:text="SAVINGs"
                                     android:textColor="@color/colorPrimary" />
 
                                 <TextView
@@ -438,7 +444,7 @@
                                     android:layout_weight="50"
                                     android:background="@drawable/customeborder"
                                     android:gravity="center"
-                                    android:padding="5dp"
+                                    android:padding="2dp"
                                     android:text="CURRENT"
                                     android:textColor="@color/description_text" />
 
@@ -531,7 +537,7 @@
                 <RelativeLayout
                     android:id="@+id/rlDocumentUpload"
                     style="@style/HeaderLayout"
-                    android:padding="15dp">
+                    android:padding="8dp">
 
                     <ImageView
                         android:id="@+id/ivDocumentUpload"
@@ -544,7 +550,7 @@
                         android:src="@drawable/down_arrow" />
 
                     <TextView
-                        style="@style/TextViewStyle.Large"
+                        style="@style/TextStyle.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -738,7 +744,7 @@
                 <RelativeLayout
                     android:id="@+id/rlPOSP"
                     style="@style/HeaderLayout"
-                    android:padding="15dp">
+                    android:padding="8dp">
 
                     <ImageView
                         android:id="@+id/ivPOSP"
@@ -751,7 +757,7 @@
                         android:src="@drawable/down_arrow" />
 
                     <TextView
-                        style="@style/TextViewStyle.Large"
+                        style="@style/TextStyle.Title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
@@ -839,42 +845,42 @@
 
 
             <TextView
-                style="@style/TextViewStyle.Large"
-
+                style="@style/TextStyle.Title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="PROFILE PICTURE"
                 android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+                android:textColor="@color/dashboard_title"
+                 />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:padding="15dp">
+                android:padding="8dp">
 
 
                 <ImageView
-                    android:scaleType="fitXY"
                     android:id="@+id/ivUser"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/image_border"
+                    android:scaleType="fitXY"
                     android:src="@drawable/user_blank" />
-
 
 
                 <ImageView
                     android:id="@+id/ivProfile"
-                    android:visibility="visible"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
                     android:layout_below="@+id/ivUser"
                     android:layout_marginLeft="-30dp"
                     android:layout_marginTop="-30dp"
                     android:layout_toRightOf="@+id/ivUser"
-                    android:src="@drawable/camera_new" />
+                    android:src="@drawable/camera_new"
+                    android:visibility="visible" />
 
             </RelativeLayout>
 
@@ -885,6 +891,7 @@
         android:id="@+id/btnSave"
         style="@style/ButtonStyle"
         android:layout_alignParentBottom="true"
-        android:text="SAVE INFORMATION" />
+        android:text="SAVE INFORMATION"
+        android:textStyle="bold" />
 
 </RelativeLayout>

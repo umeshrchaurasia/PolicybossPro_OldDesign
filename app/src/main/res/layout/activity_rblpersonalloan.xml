@@ -19,7 +19,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/TextStyle.Toolbar"
+            app:titleTextColor="@color/white"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -264,6 +266,34 @@
 
                         </android.support.design.widget.TextInputLayout>
 
+                        <Spinner
+                            android:id="@+id/spResType"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="-3dp"
+                            android:layout_weight="1"
+                            android:entries="@array/exp_residence_type"
+                            android:gravity="center" />
+
+
+                    </TableRow>
+
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginTop="0dp">
+                        <Spinner
+                            android:id="@+id/spcity"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="-3dp"
+                            android:layout_weight="1"
+
+                            android:entries="@array/exp_employment_salaried"
+                            android:gravity="center" />
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/textView14"
                             style="@style/TextAppearence.App.TextInputLayout"
@@ -281,56 +311,29 @@
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
-                    </TableRow>
 
+
+
+                    </TableRow>
 
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:layout_marginTop="0dp">
 
-
-                        <Spinner
-                            android:id="@+id/spResType"
-                            style="@style/SpinnerStyle.Underlined"
-                            android:layout_width="0dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:entries="@array/exp_residence_type"
-                            android:gravity="center" />
 
                         <Spinner
                             android:id="@+id/spSalaried"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="5dp"
+                            android:layout_marginBottom="-3dp"
                             android:layout_weight="1"
 
                             android:entries="@array/exp_employment_salaried"
                             android:gravity="center" />
 
-                    </TableRow>
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="fill_parent"
-                        android:layout_marginTop="0dp">
-
-                        <android.support.design.widget.TextInputLayout
-                            style="@style/TextInputLayoutStyle"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:hint="City">
-
-                            <AutoCompleteTextView
-                                android:id="@+id/accCity"
-                                style="@style/Style.edittext"
-                                android:inputType="text"
-                                android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
                             android:id="@+id/textView134"
@@ -645,7 +648,39 @@
 
                         </TableRow>
 
+                        <TableRow
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginTop="8dp">
 
+                            <android.support.design.widget.TextInputLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:hint="phone No">
+
+                                <EditText
+                                    android:id="@+id/etOffphoneNo"
+                                    style="@style/Style.edittext"
+                                    android:inputType="number"
+                                    android:maxLength="10"
+                                    android:maxLines="1" />
+
+                            </android.support.design.widget.TextInputLayout>
+
+
+                            <Spinner
+                                android:id="@+id/spExp_organization"
+                                style="@style/SpinnerStyle.Underlined"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:entries="@array/exp_organization"
+                                android:gravity="center" />
+
+
+                        </TableRow>
                         <TableRow
                             android:layout_width="fill_parent"
                             android:layout_height="fill_parent"
@@ -691,20 +726,7 @@
                             android:layout_height="fill_parent"
                             android:layout_marginTop="0dp">
 
-                            <android.support.design.widget.TextInputLayout
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:hint="phone No">
 
-                                <EditText
-                                    android:id="@+id/etOffphoneNo"
-                                    style="@style/Style.edittext"
-                                    android:inputType="number"
-                                    android:maxLength="10"
-                                    android:maxLines="1" />
-
-                            </android.support.design.widget.TextInputLayout>
 
 
                             <android.support.design.widget.TextInputLayout
@@ -720,7 +742,15 @@
                                     android:maxLines="1" />
                             </android.support.design.widget.TextInputLayout>
 
-
+                            <Spinner
+                                android:id="@+id/spExp_qualification"
+                                style="@style/SpinnerStyle.Underlined"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginTop="5dp"
+                                android:layout_weight="1"
+                                android:entries="@array/exp_qualification"
+                                android:gravity="center" />
                         </TableRow>
 
 

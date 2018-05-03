@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:gravity="center"
         android:text="WHAT can you do with magic fin-mart?"
         android:textAllCaps="true"
@@ -28,21 +29,21 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="4dp"
-        android:gravity="center"
+        android:gravity="top"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/selected_dot" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Sell Motor, Health, Travel and other insurance products from top insurance companies of India."
+            android:text="Sell Motor, Health, Travel And Other Insurance Products From Top Insurance Companies Of India."
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 
@@ -52,21 +53,21 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="4dp"
-        android:gravity="center"
+        android:gravity="top"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/selected_dot" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Sell Home Loans, Personal Loans, Loan against Property and other loans from over 25 banks and institutions."
+            android:text="Sell Home Loans, Personal Loans, Loan Against Property And Other Loans From Over 25 Banks And Institutions."
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 
@@ -75,22 +76,22 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:gravity="top"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/selected_dot" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Sell Health Checkup packages from most reputed labs to your customers at heavily discounted prices."
+            android:text="Sell Health Checkup Packages From Most Reputed Labs To Your Customers At Heavily Discounted Prices."
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 
@@ -99,22 +100,22 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_marginTop="4dp"
-        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:gravity="top"
         android:orientation="horizontal">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="4dp"
             android:src="@drawable/selected_dot" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="8dp"
-            android:text="Sell our unique and exclusive “After Life Services” to your customers."
+            android:text="Sell Our Unique And Exclusive “After Life Services” To Your Customers."
             android:textAppearance="@style/TextStyle.TextMedium" />
     </LinearLayout>
 

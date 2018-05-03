@@ -10,6 +10,8 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.R;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestbuilder.ERPRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpHomeLoanRequest;
@@ -17,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpPers
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ShareMessageResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,7 +49,7 @@ public class ErpLoanController implements IErpLoan {
             public void onResponse(Call<HomeLoanApplicationResponse> call, Response<HomeLoanApplicationResponse> response) {
                 try {
 
-                    iResponseSubcriber.OnSuccessERP(response.body(),response.body().getMessage());
+                    iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
 
 
                 } catch (Exception e) {
@@ -64,7 +67,7 @@ public class ErpLoanController implements IErpLoan {
                     iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
                 } else if (t instanceof JsonParseException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
-                }else{
+                } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
                 }
             }
@@ -81,7 +84,7 @@ public class ErpLoanController implements IErpLoan {
             public void onResponse(Call<ERPSaveResponse> call, Response<ERPSaveResponse> response) {
                 try {
 
-                    iResponseSubcriber.OnSuccessERP(response.body(),response.body().getMessage());
+                    iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
 
 
                 } catch (Exception e) {
@@ -99,7 +102,7 @@ public class ErpLoanController implements IErpLoan {
                     iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
                 } else if (t instanceof JsonParseException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
-                }else{
+                } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
                 }
             }
@@ -114,7 +117,7 @@ public class ErpLoanController implements IErpLoan {
             public void onResponse(Call<ERPSaveResponse> call, Response<ERPSaveResponse> response) {
                 try {
 
-                    iResponseSubcriber.OnSuccessERP(response.body(),response.body().getMessage());
+                    iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
 
 
                 } catch (Exception e) {
@@ -132,7 +135,7 @@ public class ErpLoanController implements IErpLoan {
                     iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
                 } else if (t instanceof JsonParseException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
-                }else{
+                } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
                 }
             }
@@ -152,7 +155,7 @@ public class ErpLoanController implements IErpLoan {
             public void onResponse(Call<PersonalLoanApplicationResponse> call, Response<PersonalLoanApplicationResponse> response) {
                 try {
 
-                    iResponseSubcriber.OnSuccessERP(response.body(),response.body().getMessage());
+                    iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
 
 
                 } catch (Exception e) {
@@ -170,7 +173,7 @@ public class ErpLoanController implements IErpLoan {
                     iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
                 } else if (t instanceof JsonParseException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
-                }else{
+                } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
                 }
             }
@@ -178,6 +181,7 @@ public class ErpLoanController implements IErpLoan {
 
 
     }
+
     @Override
     public void saveERPPersonalLoan(ErpPersonLoanRequest erpLoanRequest, final IResponseSubcriberERP iResponseSubcriber) {
 
@@ -186,7 +190,7 @@ public class ErpLoanController implements IErpLoan {
             public void onResponse(Call<ERPSaveResponse> call, Response<ERPSaveResponse> response) {
                 try {
 
-                    iResponseSubcriber.OnSuccessERP(response.body(),response.body().getMessage());
+                    iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
 
 
                 } catch (Exception e) {
@@ -204,12 +208,46 @@ public class ErpLoanController implements IErpLoan {
                     iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
                 } else if (t instanceof JsonParseException) {
                     iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
-                }else{
+                } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
                 }
             }
         });
     }
 
+    @Override
+    public void getShareData(final IResponseSubcriber iResponseSubcriber) {
+        HashMap<String, String> bodyParameters = new HashMap<String, String>();
+        bodyParameters.put("EmpCode", "0");
+        bodyParameters.put("brokerid", new DBPersistanceController(mContext).getUserData().getLoanId());
 
+        erpNetworkService.getShareData(bodyParameters).enqueue(new Callback<ShareMessageResponse>() {
+            @Override
+            public void onResponse(Call<ShareMessageResponse> call, Response<ShareMessageResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatus_Id() == 0)
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    else
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unable to connect to server"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unable to connect to server"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ShareMessageResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
+                } else if (t instanceof JsonParseException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected Json"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
+                }
+            }
+        });
+    }
 }

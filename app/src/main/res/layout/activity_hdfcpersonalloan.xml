@@ -21,7 +21,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/TextStyle.Toolbar"
+            app:titleTextColor="@color/white"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -70,13 +72,15 @@
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight="1"
+                            android:layout_weight=".6"
                             android:maxLines="1"
                             android:gravity="center" />
+
+
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_weight="0.4"
                             android:hint="Branch Code">
 
                             <TextView
@@ -98,7 +102,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Customer Name">
+                            android:hint="*Customer Name">
 
                             <EditText
                                 android:id="@+id/etCustomerName"
@@ -113,7 +117,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Date of Birth">
+                            android:hint="*Date of Birth">
 
 
 
@@ -159,12 +163,13 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Required Loan Amount">
+                            android:hint="*Required Loan Amount">
 
                             <EditText
                                 android:id="@+id/etLoanAmount"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
+                                android:maxLength="7"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -188,7 +193,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Pancard">
+                            android:hint="*Pancard">
 
                             <EditText
                                 android:id="@+id/etPancard"
@@ -218,7 +223,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Company Name">
+                            android:hint="*Company Name">
 
                             <EditText
                                 android:id="@+id/etCompany"
@@ -232,7 +237,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Net Income">
+                            android:hint="*Net Income">
 
                         <EditText
                             android:id="@+id/etNetIncome"
@@ -252,7 +257,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Mobile No">
+                            android:hint="*Mobile No">
 
                             <EditText
                                 android:id="@+id/etMobileNo"
@@ -327,7 +332,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Pincode">
+                            android:hint="*Pincode">
 
                             <EditText
                                 android:id="@+id/etPincode"
@@ -364,7 +369,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="No of Years in Employment">
+                            android:hint="*No of Years in Employment">
 
                             <EditText
                                 android:id="@+id/etyrs_of_emp"
@@ -423,7 +428,7 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
 
-                            android:hint="Current Address">
+                            android:hint="*Current Address">
 
                             <EditText
                                 android:id="@+id/etcurrentaddress"
@@ -499,5 +504,5 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="10"
-        android:text="Next" />
+        android:text="Submit" />
 </LinearLayout>

@@ -23,6 +23,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.Healthinsurance
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
@@ -44,10 +45,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 public class DBPersistanceController {
 
-    private static final String EXTERNAL_LPG = "External Fitted LPG";
-    private static final String EXTERNAL_CNG = "External Fitted CNG";
-    Map<String, Integer> hashMapInsurence,hashmapPremTerm;
-    HashMap<String, String> hashMapAddons,hdfcpersonalloanbankbranch;
+    private static final String EXTERNAL_LPG = "External LPG";
+    private static final String EXTERNAL_CNG = "External CNG";
+    Map<String, Integer> hashMapInsurence, hashmapPremTerm;
+    HashMap<String, String> hashMapAddons, hdfcpersonalloanbankbranch;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
     HashMap<String, Integer> hashmapCity;
     Context mContext;
@@ -111,6 +112,18 @@ public class DBPersistanceController {
 
     }
 
+    public String getRTOName(String VehicleCity_Id) {
+
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity.getRTO_City();
+        else
+            return "";
+
+    }
+
     public String getRTOCityName(String VehicleCity_Id) {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
@@ -118,6 +131,18 @@ public class DBPersistanceController {
 
         if (entity != null)
             return entity.getVehicleCity_RTOCode() + " - " + entity.getRTO_City();
+        else
+            return "";
+
+    }
+
+    public String getBikeRTOName(String VehicleCity_Id) {
+
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity.getRTO_City();
         else
             return "";
 
@@ -209,7 +234,7 @@ public class DBPersistanceController {
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name();
+            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
             listCarVariant.add(variant);
         }
         return listCarVariant;
@@ -226,7 +251,7 @@ public class DBPersistanceController {
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name();
+            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
             listCarVariant.add(variant);
         }
 
@@ -367,7 +392,7 @@ public class DBPersistanceController {
 
         for (int i = 0; i < list.size(); i++) {
             BikeMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name() /*+ " , ( " + entity.getCubic_Capacity() + "CC )"*/;
+            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
             listCarVariant.add(variant);
         }
 
@@ -478,7 +503,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
-        dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
+       // dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
 
         return dashboardEntities;
     }
@@ -490,12 +515,13 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Offer loans against property at attractive rates to your customers", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get lowest rate loan on your Credit Card from wide range of banks.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Save huge money for your customers on their existing loans.", R.drawable.balance_transfer));
-        dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
+        //dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "QUICK LEAD SUBMISSION", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
 
 
         return dashboardEntities;
     }
+
 
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
@@ -513,7 +539,7 @@ public class DBPersistanceController {
     public List<String> getInsurerList() {
         MapInsurence();
         ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
-        insurenceList.add(0, "Prev Insurer");
+        insurenceList.add(0, "Present Insurer");
         return insurenceList;
 
     }
@@ -691,6 +717,7 @@ public class DBPersistanceController {
         realm.commitTransaction();
     }
 
+
     public List<DocsEntity> getDocList(String compId, String lang) {
         List<DocsEntity> docsEntityList = realm.where(DocsEntity.class).equalTo("company_id", compId).equalTo("language", lang.trim(), Case.INSENSITIVE).findAll();
         if (docsEntityList != null)
@@ -698,6 +725,30 @@ public class DBPersistanceController {
         else
             return null;
     }
+
+
+    public void storeCompanyList(List<SalesProductEntity> salesProductList) {
+        realm.beginTransaction();
+        realm.delete(SalesProductEntity.class);
+        realm.copyToRealm(salesProductList);
+        realm.commitTransaction();
+    }
+
+    public List<SalesProductEntity> getCompanyList()
+    {
+        List<SalesProductEntity> salesProductList = realm.where(SalesProductEntity.class).findAll();
+        if (salesProductList != null)
+            return salesProductList;
+        else
+            return null;
+    }
+
+    public void UpdateCompanyList(List<SalesProductEntity> salesCompList) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(salesCompList);
+        realm.commitTransaction();
+    }
+
     //endregion
 
     //region insurance image mapping
@@ -1481,18 +1532,18 @@ public class DBPersistanceController {
 
     public List<HealthSumAssured> getSumAssured() {
         List<HealthSumAssured> list = new ArrayList<HealthSumAssured>();
-        list.add(new HealthSumAssured("1 Lac", 100000, false));
-        list.add(new HealthSumAssured("2 Lac", 200000, false));
-        list.add(new HealthSumAssured("3 Lac", 300000, false));
-        list.add(new HealthSumAssured("5 Lac", 500000, false));
-        list.add(new HealthSumAssured("6 Lac", 600000, false));
-        list.add(new HealthSumAssured("8 Lac", 800000, false));
-        list.add(new HealthSumAssured("10 Lac", 1000000, false));
-        list.add(new HealthSumAssured("15 Lac", 1500000, false));
-        list.add(new HealthSumAssured("20 Lac", 2000000, false));
-        list.add(new HealthSumAssured("25 Lac", 2500000, false));
-        list.add(new HealthSumAssured("50 Lac", 5000000, false));
-        list.add(new HealthSumAssured("100 Lac", 10000000, false));
+        list.add(new HealthSumAssured("1 LAC", 100000, false));
+        list.add(new HealthSumAssured("2 LACS", 200000, false));
+        list.add(new HealthSumAssured("3 LACS", 300000, false));
+        list.add(new HealthSumAssured("5 LACS", 500000, false));
+        list.add(new HealthSumAssured("6 LACS", 600000, false));
+        list.add(new HealthSumAssured("8 LACS", 800000, false));
+        list.add(new HealthSumAssured("10 LACS", 1000000, false));
+        list.add(new HealthSumAssured("15 LACS", 1500000, false));
+        list.add(new HealthSumAssured("20 LACS", 2000000, false));
+        list.add(new HealthSumAssured("25 LACS", 2500000, false));
+        list.add(new HealthSumAssured("50 LACS", 5000000, false));
+        list.add(new HealthSumAssured("100 LACS", 10000000, false));
         return list;
     }
 
@@ -1723,7 +1774,7 @@ public class DBPersistanceController {
 
     public List<EmploymentEntity> getExEmploymentList() {
         List<EmploymentEntity> EmploymentEntityList = new ArrayList<EmploymentEntity>();
-        EmploymentEntityList.add(new EmploymentEntity(0,"Select Employment &amp; Mode of Credit"));
+        EmploymentEntityList.add(new EmploymentEntity(0, "Select Employment &amp; Mode of Credit"));
         EmploymentEntityList.add(new EmploymentEntity(1, "Salaried: Account Transfer"));
         EmploymentEntityList.add(new EmploymentEntity(2, "Salaried: By Cheque"));
         EmploymentEntityList.add(new EmploymentEntity(3, "Salaried: By Cash"));
@@ -1747,7 +1798,6 @@ public class DBPersistanceController {
 
 
     //region HDFC personal loan bank
-
 
 
     public String gethdfcplbankbranchrList(String addonName) {
@@ -1778,32 +1828,32 @@ public class DBPersistanceController {
     }
 
     public void Maphdfcpersonalloanbankbranch() {
-        hdfcpersonalloanbankbranch.put("Select Branch Location","");
-        hdfcpersonalloanbankbranch.put("AHMEDABAD","AhmedabadOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Bangalore-PL","BangaloreOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Bangalore-BL","BangaloreOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Bhuvaneshwar","bhubeneswaropen-beu");
-        hdfcpersonalloanbankbranch.put("Chandigarh","chandigarhopen_beu");
-        hdfcpersonalloanbankbranch.put("Chennai","Chennai Open BEU");
-        hdfcpersonalloanbankbranch.put("Chennai-BL","Chennai Open BEU");
-        hdfcpersonalloanbankbranch.put("Cochin","CochinOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Coimbatore","Coimbatore open- BEU");
-        hdfcpersonalloanbankbranch.put("DELHI-PL","Delhiopen1-beu");
-        hdfcpersonalloanbankbranch.put("Delhi-BL","DelhiOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Hyderabad","HyderabadOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Hyderabad-BL","HyderabadOpen - BEU");
-        hdfcpersonalloanbankbranch.put("INDORE","Indore Open - BEU");
-        hdfcpersonalloanbankbranch.put("Jaipur","JaipurOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Kolkata","kolkattaopen-beu");
-        hdfcpersonalloanbankbranch.put("Lucknow","Lucknow_openbeu");
-        hdfcpersonalloanbankbranch.put("MUMBAI","MumbaiOpen - BEU");
-        hdfcpersonalloanbankbranch.put("MUMBAI-BL","MumbaiOpen - BEU");
-        hdfcpersonalloanbankbranch.put("NAGPUR","Nagpur Open - BEU");
-        hdfcpersonalloanbankbranch.put("Nellore","Nellore Open - BEU");
-        hdfcpersonalloanbankbranch.put("PUNE","PuneOpen - BEU");
-        hdfcpersonalloanbankbranch.put("Rajahmundry","Rajahmundry Open - BEU");
-        hdfcpersonalloanbankbranch.put("Vijaywada","Vijayawadaopen-BEU");
-        hdfcpersonalloanbankbranch.put("Vizag","Vizagopen-BEU");
+        hdfcpersonalloanbankbranch.put("Select Branch", "");
+        hdfcpersonalloanbankbranch.put("AHMEDABAD", "AhmedabadOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Bangalore-PL", "BangaloreOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Bangalore-BL", "BangaloreOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Bhuvaneshwar", "bhubeneswaropen-beu");
+        hdfcpersonalloanbankbranch.put("Chandigarh", "chandigarhopen_beu");
+        hdfcpersonalloanbankbranch.put("Chennai", "Chennai Open BEU");
+        hdfcpersonalloanbankbranch.put("Chennai-BL", "Chennai Open BEU");
+        hdfcpersonalloanbankbranch.put("Cochin", "CochinOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Coimbatore", "Coimbatore open- BEU");
+        hdfcpersonalloanbankbranch.put("DELHI-PL", "Delhiopen1-beu");
+        hdfcpersonalloanbankbranch.put("Delhi-BL", "DelhiOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Hyderabad", "HyderabadOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Hyderabad-BL", "HyderabadOpen - BEU");
+        hdfcpersonalloanbankbranch.put("INDORE", "Indore Open - BEU");
+        hdfcpersonalloanbankbranch.put("Jaipur", "JaipurOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Kolkata", "kolkattaopen-beu");
+        hdfcpersonalloanbankbranch.put("Lucknow", "Lucknow_openbeu");
+        hdfcpersonalloanbankbranch.put("MUMBAI", "MumbaiOpen - BEU");
+        hdfcpersonalloanbankbranch.put("MUMBAI-BL", "MumbaiOpen - BEU");
+        hdfcpersonalloanbankbranch.put("NAGPUR", "Nagpur Open - BEU");
+        hdfcpersonalloanbankbranch.put("Nellore", "Nellore Open - BEU");
+        hdfcpersonalloanbankbranch.put("PUNE", "PuneOpen - BEU");
+        hdfcpersonalloanbankbranch.put("Rajahmundry", "Rajahmundry Open - BEU");
+        hdfcpersonalloanbankbranch.put("Vijaywada", "Vijayawadaopen-BEU");
+        hdfcpersonalloanbankbranch.put("Vizag", "Vizagopen-BEU");
 
 
     }

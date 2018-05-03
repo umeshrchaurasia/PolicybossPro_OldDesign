@@ -18,7 +18,9 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            app:titleTextAppearance="@style/TextStyle.Toolbar"
+            app:titleTextColor="@color/white"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -46,13 +48,13 @@
 
                 <TextView
                     android:id="@+id/tvAdd"
-                    style="@style/TextViewStyle.Small"
-                    android:layout_width="wrap_content"
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="3dp"
                     android:drawableLeft="@drawable/file_add"
-                    android:gravity="center"
-                    android:padding="4dp"
+                    android:drawablePadding="0dp"
+                    android:gravity="center_vertical|left"
                     android:textSize="12sp"
                     android:text="ADD NEW"
                     android:textColor="#474747"
@@ -83,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:padding="5dp"
-                    android:src="@drawable/file_search2" />
+                    android:src="@drawable/file_search" />
 
                 <TextView
                     android:id="@+id/tvSearch"

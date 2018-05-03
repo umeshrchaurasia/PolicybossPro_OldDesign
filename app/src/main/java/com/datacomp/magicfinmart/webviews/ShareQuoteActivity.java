@@ -518,7 +518,10 @@ public class ShareQuoteActivity extends BaseActivity {
         }
         //region url ,name,title
         url = "file:///android_asset/VechicleInsurance.html";
-        name = bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+        String fullName = bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase();
+
+        name = fullName + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no();
+
         title = "MOTOR QUOTE";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);

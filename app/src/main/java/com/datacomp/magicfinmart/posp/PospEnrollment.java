@@ -255,10 +255,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     private void bindUploadImage() {
 
-        List<DocAvailableEntity> docAvailableEntityList = pospDetailsEntity.getDoc_available();
-        for (DocAvailableEntity docAvailableEntity : docAvailableEntityList) {
-            if (!docAvailableEntity.getFileName().equals("")) {
-                setUploadedDocument(docAvailableEntity.getDocType());
+        if (pospDetailsEntity != null) {
+            List<DocAvailableEntity> docAvailableEntityList = pospDetailsEntity.getDoc_available();
+            for (DocAvailableEntity docAvailableEntity : docAvailableEntityList) {
+                if (!docAvailableEntity.getFileName().equals("")) {
+                    setUploadedDocument(docAvailableEntity.getDocType());
+                }
             }
         }
 
@@ -266,15 +268,18 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
     private boolean checkAllImageUpload() {
         int count = 0;
-        List<DocAvailableEntity> docAvailableEntityList = pospDetailsEntity.getDoc_available();
-        for (DocAvailableEntity docAvailableEntity : docAvailableEntityList) {
-            if (!docAvailableEntity.getFileName().equals("")) {
-                int docType = docAvailableEntity.getDocType();
-                if (docType == 6 || docType == 7 || docType == 8 || docType == 9 || docType == 10 || docType == 11) {
-                    count++;
+        if (pospDetailsEntity != null) {
+            List<DocAvailableEntity> docAvailableEntityList = pospDetailsEntity.getDoc_available();
+            for (DocAvailableEntity docAvailableEntity : docAvailableEntityList) {
+                if (!docAvailableEntity.getFileName().equals("")) {
+                    int docType = docAvailableEntity.getDocType();
+                    if (docType == 6 || docType == 7 || docType == 8 || docType == 9 || docType == 10 || docType == 11) {
+                        count++;
+                    }
                 }
             }
         }
+
         if (count >= 6)
             return true;
         else
@@ -1369,7 +1374,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         } else if (response instanceof DocumentResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
-                if (type == 6 ) {
+                if (type == 6) {
                     String temp = ((DocumentResponse) response).getMasterData().get(0).getPrv_file();
                     if (temp != null && !temp.equals(""))
                         updatePhotoUrl(temp);
@@ -1737,7 +1742,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 break;
 
         }
-        Docfile =  createFile(FileName);
+        Docfile = createFile(FileName);
         imageUri = FileProvider.getUriForFile(PospEnrollment.this,
                 getString(R.string.file_provider_authority), Docfile);
 
@@ -1767,7 +1772,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
                 mphoto = getResizedBitmap(mphoto, 800);
-                mphoto =rotateImageIfRequired(this,mphoto,Docfile);
+                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1937,15 +1942,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         }
     }
 
-    public  Bitmap rotateImage(Bitmap source, float angle) {
+    public Bitmap rotateImage(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
 
     }
 
-    private  Bitmap rotateImageIfRequired(Context context, Bitmap bitmap, File file)
-    {
+    private Bitmap rotateImageIfRequired(Context context, Bitmap bitmap, File file) {
         Bitmap rotatedBitmap = null;
         try {
 
@@ -1955,8 +1959,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
             if (Build.VERSION.SDK_INT > 23) {
                 ei = new ExifInterface(inputStream);
-            }
-            else {
+            } else {
 
                 // ei = new ExifInterface("/storage/emulated/0/FINMART/FBAPhotograph.jpg");
                 ei = new ExifInterface(file.getAbsolutePath());
@@ -1966,7 +1969,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
 
 
-            switch(orientation) {
+            switch (orientation) {
 
                 case ExifInterface.ORIENTATION_ROTATE_90:
                     rotatedBitmap = rotateImage(bitmap, 90);
@@ -1987,14 +1990,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             }
             //endregion
 
-        }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
         return rotatedBitmap;
     }
-
 
 
 }

@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.home;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
@@ -15,6 +16,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +25,7 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
@@ -31,6 +34,7 @@ import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
+import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -156,8 +160,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         getSupportActionBar().setTitle("MAGIC FIN-MART");
                         //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
+                    case R.id.nav_sharedata:
+                        fragment = new ShareDataFragment();
+                        getSupportActionBar().setTitle("SHARE DATA");
+                        break;
+                    case R.id.nav_changepassword:
+                        fragment = new ChangePasswordFragment();
+                        getSupportActionBar().setTitle("CHANGE PASSWORD");
+                        break;
                     // For rest of the options we just show a toast on click .
-                    case R.id.nav_myaccount: {
+                    case R.id.nav_myaccount:
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("My ACCOUNT : My ACCOUNT button in menu "), Constants.MY_ACCOUNT), null);
                         startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                         //  startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
@@ -169,12 +181,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                         break;
-                    }
-                    case R.id.nav_pospenrollment: {
+
+                    case R.id.nav_pospenrollment:
                         startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
                         break;
-                    }
+
                     case R.id.nav_homeloanApplication:
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
@@ -215,13 +227,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_logout:
-                        new DBPersistanceController(HomeActivity.this).logout();
-                        new PrefManager(HomeActivity.this).clearAll();
-                        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        finish();
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Logout : Logout button in menu "), Constants.LOGOUT), null);
+                        dialogLogout(HomeActivity.this);
                         break;
 
                     default:
@@ -265,6 +271,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     // endregion
 
+
     private void init_headers() {
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
@@ -285,7 +292,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (isNavDrawerOpen()) {
             closeNavDrawer();
         } else {
-            super.onBackPressed();
+            dialogExit();
+            //super.onBackPressed();
         }
     }
 

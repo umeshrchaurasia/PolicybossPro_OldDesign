@@ -17,7 +17,9 @@ public class ERPRetroRequestBuilder {
 
     static Retrofit restAdapter = null;
     // production url
-    //public static String URL = " http://services.rupeeboss.com/LoginDtls.svc/";
+    //public static String URL = "http://services.rupeeboss.com/LoginDtls.svc/";
+
+    //testing
     public static String URL = "http://erp.rupeeboss.com:8063/LoginDtls.svc/";
 
 
@@ -31,9 +33,9 @@ public class ERPRetroRequestBuilder {
                     .create();
 
             okhttp3.OkHttpClient okHttpClient = new okhttp3.OkHttpClient.Builder()
-                    .connectTimeout(10, TimeUnit.MINUTES)
-                    .writeTimeout(10, TimeUnit.MINUTES)
-                    .readTimeout(10, TimeUnit.MINUTES)
+                    .connectTimeout(1, TimeUnit.MINUTES)
+                    .writeTimeout(1, TimeUnit.MINUTES)
+                    .readTimeout(1, TimeUnit.MINUTES)
                     .addInterceptor(interceptor)
                     .build();
 

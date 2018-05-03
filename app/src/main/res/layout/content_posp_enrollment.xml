@@ -29,7 +29,8 @@
         <RelativeLayout
             android:id="@+id/rlMyProfile"
             style="@style/HeaderLayout"
-            android:layout_marginTop="5dp">
+            android:layout_marginBottom="2dp"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/ivMyProfile"
@@ -42,17 +43,15 @@
                 android:src="@drawable/down_arrow" />
 
             <TextView
-                style="@style/TextViewStyle.Large"
+                style="@style/TextStyle.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
                 android:text="POSP INFORMATION"
                 android:textAllCaps="true"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textStyle="normal" />
 
 
         </RelativeLayout>
@@ -77,8 +76,10 @@
 
                     <EditText
                         android:id="@+id/etFirstName"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -90,8 +91,10 @@
 
                     <EditText
                         android:id="@+id/etLastName"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:inputType="textCapWords" />
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
 
@@ -110,9 +113,10 @@
 
                     <EditText
                         android:id="@+id/etDob"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableRight="@drawable/datepicker"
+                        android:drawableRight="@drawable/vector_date"
                         android:focusable="false"
                         android:hint="DATE OF BIRTH" />
                 </android.support.design.widget.TextInputLayout>
@@ -125,11 +129,11 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/TextStyle.TextSmall"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="GENDER"
-                        android:textAppearance="@style/TextViewStyle.Small"
                         android:textColor="@color/black" />
 
                     <LinearLayout
@@ -141,26 +145,27 @@
 
                         <TextView
                             android:id="@+id/tvMale"
+                            style="@style/TextStyle.TextMedium"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="2dp"
                             android:layout_weight="1"
                             android:background="@drawable/customeborder_blue"
                             android:gravity="center"
-                            android:padding="3dp"
+                            android:padding="4dp"
                             android:text="MALE"
-                            android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/tvFemale"
+                            style="@style/TextStyle.TextMedium"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="2dp"
                             android:layout_weight="1"
                             android:background="@drawable/customeborder"
                             android:gravity="center"
-                            android:padding="3dp"
+                            android:padding="4dp"
                             android:text="FEMALE"
                             android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
@@ -185,6 +190,7 @@
 
                     <EditText
                         android:id="@+id/etMobileNo1"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -200,6 +206,7 @@
 
                     <EditText
                         android:id="@+id/etMobileNo2"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -217,9 +224,9 @@
 
                 <EditText
                     android:id="@+id/etEmailId"
+                    style="@style/Style.edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-
                     android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
@@ -238,6 +245,7 @@
 
                     <EditText
                         android:id="@+id/etPan"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:maxLength="10" />
@@ -252,6 +260,7 @@
 
                     <EditText
                         android:id="@+id/etAadhar"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="number"
@@ -269,8 +278,8 @@
 
                 <EditText
                     android:id="@+id/etGST"
+                    style="@style/Style.edittext"
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
 
@@ -283,6 +292,7 @@
 
                 <EditText
                     android:id="@+id/etChannelPartner"
+                    style="@style/Style.edittext"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </android.support.design.widget.TextInputLayout>
@@ -295,7 +305,8 @@
         <RelativeLayout
             android:id="@+id/rlAddress"
             style="@style/HeaderLayout"
-            android:layout_marginTop="5dp">
+            android:layout_marginBottom="2dp"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/ivAddress"
@@ -308,17 +319,14 @@
                 android:src="@drawable/down_arrow" />
 
             <TextView
-                style="@style/TextViewStyle.Large"
+                style="@style/TextStyle.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
                 android:text="ADDRESS"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textColor="@color/white" />
 
 
         </RelativeLayout>
@@ -343,6 +351,7 @@
 
                     <EditText
                         android:id="@+id/etAddress1"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -362,6 +371,7 @@
 
                     <EditText
                         android:id="@+id/etAddress2"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -381,6 +391,7 @@
 
                     <EditText
                         android:id="@+id/etAddress3"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -400,8 +411,10 @@
 
                     <EditText
                         android:id="@+id/etPincode"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="number"
                         android:maxLength="6" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -414,6 +427,7 @@
 
                     <EditText
                         android:id="@+id/etCity"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -433,6 +447,7 @@
 
                     <EditText
                         android:id="@+id/etState"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -446,7 +461,8 @@
         <RelativeLayout
             android:id="@+id/rlBankDetail"
             style="@style/HeaderLayout"
-            android:layout_marginTop="5dp">
+            android:layout_marginBottom="2dp"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/ivBankDetail"
@@ -459,17 +475,14 @@
                 android:src="@drawable/down_arrow" />
 
             <TextView
-                style="@style/TextViewStyle.Large"
+                style="@style/TextStyle.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
                 android:text="BANK DETAILS"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textColor="@color/white" />
 
 
         </RelativeLayout>
@@ -502,58 +515,62 @@
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:hint="BANK A/C NO">
 
                     <EditText
                         android:id="@+id/etBankAcNo"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="vertical">
 
                     <TextView
                         android:id="@+id/textView39"
-                        style="@style/TextViewStyle.Medium"
+                        style="@style/TextStyle.TextSmall"
                         android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.4"
                         android:gravity="center"
                         android:text="ACCOUNT TYPE" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="0.6"
+                        android:gravity="bottom"
                         android:orientation="horizontal"
                         android:weightSum="100">
 
                         <TextView
                             android:id="@+id/txtSaving"
+                            style="@style/TextStyle.TextMedium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
                             android:layout_weight="50"
                             android:background="@drawable/customeborder_blue"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="SAVING"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
-
                             android:id="@+id/txtCurrent"
+                            style="@style/TextStyle.TextMedium"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
                             android:layout_weight="50"
                             android:background="@drawable/customeborder"
                             android:gravity="center"
-                            android:padding="5dp"
+                            android:padding="3dp"
                             android:text="CURRENT"
                             android:textColor="@color/description_text" />
 
@@ -591,6 +608,7 @@
 
                     <EditText
                         android:id="@+id/etIfscCode"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -604,6 +622,7 @@
 
                     <EditText
                         android:id="@+id/erMicrCode"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -623,6 +642,7 @@
 
                     <EditText
                         android:id="@+id/etBankName"
+                        style="@style/Style.edittext"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -642,6 +662,7 @@
 
                     <EditText
                         android:id="@+id/etBankBranch"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -655,6 +676,7 @@
 
                     <EditText
                         android:id="@+id/etBankCity"
+                        style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -667,7 +689,7 @@
         <RelativeLayout
             android:id="@+id/rlDocumentUpload"
             style="@style/HeaderLayout"
-            android:layout_marginTop="5dp">
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/ivDocumentUpload"
@@ -680,17 +702,14 @@
                 android:src="@drawable/down_arrow" />
 
             <TextView
-                style="@style/TextViewStyle.Large"
+                style="@style/TextStyle.Title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_marginBottom="15dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="15dp"
                 android:text="DOCUMENTS UPLOAD"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textColor="@color/white" />
 
 
         </RelativeLayout>
@@ -718,8 +737,10 @@
                     android:src="@drawable/doc_notuploaded" />
 
                 <TextView
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:gravity="left|center"
                     android:text="POSP PHOTOGRAPH" />
 
                 <ImageView
@@ -760,8 +781,10 @@
                     android:src="@drawable/doc_notuploaded" />
 
                 <TextView
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:gravity="left|center"
                     android:text="POSP PAN CARD" />
 
                 <ImageView
@@ -802,8 +825,10 @@
                     android:src="@drawable/doc_notuploaded" />
 
                 <TextView
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:gravity="left|center"
                     android:text="POSP AADHAR CARD FRONT" />
 
                 <ImageView
@@ -844,8 +869,10 @@
                     android:src="@drawable/doc_notuploaded" />
 
                 <TextView
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:gravity="left|center"
                     android:text="POSP AADHAR CARD BACK" />
 
                 <ImageView
@@ -886,8 +913,10 @@
                     android:src="@drawable/doc_notuploaded" />
 
                 <TextView
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:gravity="left|center"
                     android:text="POSP CANCELLED CHQ" />
 
                 <ImageView
@@ -928,8 +957,10 @@
                     android:src="@drawable/doc_notuploaded" />
 
                 <TextView
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
+                    android:gravity="left|center"
                     android:text="POSP HIGHEST EDU. PROOF" />
 
                 <ImageView
@@ -955,7 +986,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
             android:text="SUBMIT" />
     </LinearLayout>
 
