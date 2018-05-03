@@ -64,6 +64,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
+
+
+
 public class BikeQuoteFragment extends BaseFragment implements IResponseSubcriber, BaseFragment.PopUpListener, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     String status;
     BikePremiumResponse bikePremiumResponse;
