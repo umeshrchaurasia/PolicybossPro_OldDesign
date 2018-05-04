@@ -26,13 +26,18 @@ import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeApplicationTabAdap
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 
 /**
  * Created by Rajeev Ranjan on 02/02/2018.
  */
 
-public class BikeApplicationTabFragment extends BaseFragment implements View.OnClickListener,BaseFragment.PopUpListener {
+public class BikeApplicationTabFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
 
     public static final String FROM_BIKE_APPLICATION = "bike_application";
     RecyclerView rvApplicationList;
@@ -41,6 +46,7 @@ public class BikeApplicationTabFragment extends BaseFragment implements View.OnC
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
 
     public BikeApplicationTabFragment() {
         // Required empty public constructor
@@ -64,7 +70,73 @@ public class BikeApplicationTabFragment extends BaseFragment implements View.OnC
         rvApplicationList.setAdapter(null);
         bikeApplicationTabAdapter = new BikeApplicationTabAdapter(BikeApplicationTabFragment.this, mApplicationList);
         rvApplicationList.setAdapter(bikeApplicationTabAdapter);
+
+        rvApplicationList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mApplicationList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchMoreQuotes(mApplicationList.size());
+
+                    }
+                }
+            }
+        });
+
+
         return view;
+    }
+
+    //region server response
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+        cancelDialog();
+        if (response instanceof QuoteApplicationResponse) {
+            List<ApplicationListEntity> list = ((QuoteApplicationResponse) response).getMasterData().getApplication();
+
+            if (list.size() > 0) {
+                isHit = false;
+                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+
+                for (ApplicationListEntity entity : list) {
+                    if (!mApplicationList.contains(entity)) {
+                        mApplicationList.add(entity);
+                    }
+                }
+            }
+
+            bikeApplicationTabAdapter.refreshAdapter(mApplicationList);
+            bikeApplicationTabAdapter.notifyDataSetChanged();
+
+        }
+
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+    }
+
+    //endregion
+    public void fetchMoreQuotes(int count) {
+
+        new QuoteApplicationController(getActivity()).getQuoteAppList(count, 2, "", "",
+                new DBPersistanceController(getActivity()).getUserData().getFBAId(),
+                1,
+                "",
+                this);
     }
 
     private void initView(View view) {
@@ -132,6 +204,7 @@ public class BikeApplicationTabFragment extends BaseFragment implements View.OnC
                 break;
         }
     }
+
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
         dialog.cancel();

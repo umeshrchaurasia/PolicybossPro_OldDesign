@@ -1,11 +1,5 @@
 package com.datacomp.magicfinmart.healthcheckupplans;
 
-import android.content.ComponentName;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.LabeledIntent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,15 +17,11 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.controller.healthcheckup.HealthCheckUPController;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.PackDetailsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
@@ -44,7 +32,6 @@ public class HealthCheckUpPlansActivity extends BaseActivity implements IRespons
 
     DBPersistanceController dbPersistanceController;
     HealthPackDEntity healthPackDEntity;
-    HealthPackDetailsDBean healthPackDetailsDBean;
     HealthCheckUPAdapter healthCheckUPAdapter;
     RecyclerView rvHealthCheck;
     ImageView imgShare;
@@ -98,7 +85,6 @@ public class HealthCheckUpPlansActivity extends BaseActivity implements IRespons
 
             linkResponse = (HealthShortLinkResponse) response;
             shareWhatsApp();
-            //ShareWhatsApp("", "Test", );
         }
     }
 
@@ -161,72 +147,5 @@ public class HealthCheckUpPlansActivity extends BaseActivity implements IRespons
         new HealthController(HealthCheckUpPlansActivity.this).getShortLink(input.getText().toString(),
                 HealthCheckUpPlansActivity.this);
     }
-
-
-    private void ShareWhatsApp(String Title, String Bodymsg, String link) {
-
-
-        String Deeplink;
-        //"Look! This can make you look gorgeous from Nykaa";
-        Deeplink = Bodymsg + "\n" + link;
-        String prdSubject = "Magic Finmart";
-
-        String prdDetail = Deeplink;
-
-
-        try {
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-
-            shareIntent.setType("text/plain");
-
-            PackageManager pm = getPackageManager();
-
-
-            List<ResolveInfo> resInfo = pm.queryIntentActivities(shareIntent, 0);
-            List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
-            ///////////
-            for (int i = 0; i < resInfo.size(); i++) {
-                // Extract the label, append it, and repackage it in a LabeledIntent
-                ResolveInfo ri = resInfo.get(i);
-                String packageName = ri.activityInfo.packageName;
-                String processName = ri.activityInfo.processName;
-                String AppName = ri.activityInfo.name;
-
-                if ((packageName.contains("whatsapp"))) {
-                    shareIntent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
-
-
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
-                    shareIntent.setPackage(packageName);
-                    intentList.add(new LabeledIntent(shareIntent, packageName, ri.loadLabel(pm), ri.icon));
-
-                }
-            }
-
-
-            if (intentList.size() > 1) {
-                intentList.remove(intentList.size() - 1);
-            }
-
-            Intent openInChooser = Intent.createChooser(shareIntent, "Share Via");
-
-            // convert intentList to array
-            //LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
-            //openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
-
-            startActivity(openInChooser);
-        } catch (
-                Exception e)
-
-        {
-            e.printStackTrace();
-        }
-
-
-    }
-
 
 }

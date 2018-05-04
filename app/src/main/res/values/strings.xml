@@ -604,5 +604,6 @@
         <item>Property identified - Under Construction</item>
         <item>LAP</item>
     </string-array>
+    <string name="title_activity_health_check_up_list">HEALTH CHECK UP PLANS</string>
 
 </resources>
