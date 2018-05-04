@@ -138,10 +138,16 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
     }
 
     public void callInputTerm(int whichTerm, TermFinmartRequest termFinmartRequest) {
-        Intent intent = new Intent(getActivity(), CompareTermActivity.class);
+        /*Intent intent = new Intent(getActivity(), CompareTermActivity.class);
         intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
         intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
-        startActivity(intent);
+        startActivity(intent);*/
+        if(whichTerm==39){
+            Intent intent = new Intent(getActivity(), IciciTermActivity.class);
+            intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
+            intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
+            startActivity(intent);
+        }
     }
 
     public void removeQuote(TermFinmartRequest entity) {

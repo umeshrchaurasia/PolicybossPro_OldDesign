@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <ScrollView
@@ -11,20 +12,22 @@
         android:layout_weight="90">
 
         <android.support.v7.widget.CardView
-            style="@style/CardStyle.Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="5dp">
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cvInputDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:layout_marginTop="8dp"
                     app:cardElevation="2dp">
 
@@ -131,9 +134,11 @@
 
                 <android.support.v7.widget.CardView
                     android:id="@+id/cvQuoteDetails"
-                    style="@style/CardViewStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     app:cardElevation="2dp">
 
                     <LinearLayout
@@ -163,7 +168,7 @@
                                     android:gravity="center"
                                     android:padding="6dp"
                                     android:scaleType="fitCenter"
-                                    android:src="@drawable/finmart_logo" />
+                                    android:src="@drawable/icici_life_icon" />
 
                                 <View
                                     android:layout_width="match_parent"
@@ -402,55 +407,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="5dp"
                     android:layout_marginTop="5dp"
-                    android:orientation="horizontal">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Pincode">
-
-                        <EditText
-                            android:id="@+id/etPincode"
-                            style="@style/Style.edittext"
-                            android:digits="0123456789"
-                            android:inputType="number"
-                            android:maxLength="6" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Permium term">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:gravity="left"
-                            android:text="Payment term"
-                            android:textColor="@color/blue"
-                            android:textSize="10sp" />
-
-                        <Spinner
-                            android:id="@+id/spICICIPremiumTerm"
-                            style="@style/SpinnerStyle"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:dropDownWidth="200dp"
-                            android:entries="@array/icici_payment_term" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
+                    android:gravity="bottom"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -470,9 +427,9 @@
 
                         <Spinner
                             android:id="@+id/spICICIOptions"
-                            style="@style/SpinnerStyle"
+                            style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:dropDownWidth="200dp" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -494,11 +451,62 @@
 
                         <Spinner
                             android:id="@+id/spICICIPremiumFrequency"
-                            style="@style/SpinnerStyle"
+                            style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="40dp"
                             android:dropDownWidth="200dp"
                             android:entries="@array/icici_premium_frequency" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Permium term">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="left"
+                            android:text="Payment term"
+                            android:textColor="@color/blue"
+                            android:textSize="10sp" />
+
+                        <Spinner
+                            android:id="@+id/spICICIPremiumTerm"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:dropDownWidth="200dp"
+                            android:entries="@array/icici_payment_term" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/tilPincode"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Pincode">
+
+                        <EditText
+                            android:id="@+id/etPincode"
+                            style="@style/Style.edittext"
+                            android:digits="0123456789"
+                            android:inputType="number"
+                            android:maxLength="6" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -617,9 +625,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="-" />
+                        android:background="@drawable/life_arrow_prev_"
+                        android:gravity="center" />
 
                     <EditText
                         android:id="@+id/etICICISumAssured"
@@ -629,6 +636,7 @@
                         android:layout_weight="45"
                         android:gravity="center"
                         android:inputType="number"
+                        android:maxLength="15"
                         android:textSize="14sp" />
 
                     <Button
@@ -636,9 +644,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="+" />
+                        android:background="@drawable/life_arrow_next_"
+                        android:gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -666,9 +673,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="-" />
+                        android:background="@drawable/life_arrow_prev_"
+                        android:gravity="center" />
 
                     <EditText
                         android:id="@+id/etICICILumpSumpPerc"
@@ -685,9 +691,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="+" />
+                        android:background="@drawable/life_arrow_next_"
+                        android:gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -713,9 +718,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="-" />
+                        android:background="@drawable/life_arrow_prev_"
+                        android:gravity="center" />
 
                     <EditText
                         android:id="@+id/etICICIPolicyTerm"
@@ -732,9 +736,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="+" />
+                        android:background="@drawable/life_arrow_next_"
+                        android:gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -760,9 +763,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="-" />
+                        android:background="@drawable/life_arrow_prev_"
+                        android:gravity="center" />
 
                     <EditText
                         android:id="@+id/etICICIPremiumTerm"
@@ -779,9 +781,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="+" />
+                        android:background="@drawable/life_arrow_next_"
+                        android:gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -808,9 +809,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="-" />
+                        android:background="@drawable/life_arrow_prev_"
+                        android:gravity="center" />
 
                     <EditText
                         android:id="@+id/etICICICriticalIllness"
@@ -827,9 +827,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="+" />
+                        android:background="@drawable/life_arrow_next_"
+                        android:gravity="center" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -855,9 +854,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="-" />
+                        android:background="@drawable/life_arrow_prev_"
+                        android:gravity="center" />
 
                     <EditText
                         android:id="@+id/etICICIAccidentalBenefits"
@@ -874,9 +872,8 @@
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:text="+" />
+                        android:background="@drawable/life_arrow_next_"
+                        android:gravity="center" />
                 </LinearLayout>
 
             </LinearLayout>
