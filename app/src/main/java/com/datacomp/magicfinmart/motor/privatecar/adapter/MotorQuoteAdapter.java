@@ -35,6 +35,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
     List<QuoteListEntity> mQuoteListFiltered;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
+
     public MotorQuoteAdapter(Fragment context, List<QuoteListEntity> list) {
         this.mFrament = context;
         mQuoteList = list;
@@ -185,13 +186,12 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
                         } catch (Exception e) {
 
                         }
-                        // name match condition. this might differ depending on your requirement
-                        // here we are looking for name or phone number match
                         if (row.getMotorRequestEntity().getFirst_name().toLowerCase().contains(charString.toLowerCase())
                                 || row.getMotorRequestEntity().getLast_name().toLowerCase().contains(charString.toLowerCase())
                                 || carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
                                 || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())
                                 || String.valueOf(row.getMotorRequestEntity().getCrn()).contains(charString.toLowerCase())) {
+
                             filteredList.add(row);
                         }
                     }

@@ -290,6 +290,11 @@ public class DBPersistanceController {
             return null;
     }
 
+
+    public int getCarIcon(int InsurerID) {
+        return 0;
+    }
+
     //endregion
 
     //region fuel
@@ -503,6 +508,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
+        // dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
 
         return dashboardEntities;
@@ -734,8 +740,7 @@ public class DBPersistanceController {
         realm.commitTransaction();
     }
 
-    public List<SalesProductEntity> getCompanyList()
-    {
+    public List<SalesProductEntity> getCompanyList() {
         List<SalesProductEntity> salesProductList = realm.where(SalesProductEntity.class).findAll();
         if (salesProductList != null)
             return salesProductList;
@@ -753,48 +758,34 @@ public class DBPersistanceController {
 
     //region insurance image mapping
 
-    /*public void MapCarInsuranceImage() {
+    public void MapCarInsuranceImage() {
 
-        hasMapCarInsuranceImage.put(1, R.drawable.carins1);
-        hasMapCarInsuranceImage.put(2, R.drawable.carins2);
-        hasMapCarInsuranceImage.put(3, R.drawable.carins3);
-        hasMapCarInsuranceImage.put(4, R.drawable.carins4);
-        hasMapCarInsuranceImage.put(5, R.drawable.carins5);
-        hasMapCarInsuranceImage.put(6, R.drawable.carins6);
-        hasMapCarInsuranceImage.put(7, R.drawable.carins7);
-        hasMapCarInsuranceImage.put(8, R.drawable.carins8);
-        hasMapCarInsuranceImage.put(9, R.drawable.carins9);
-        hasMapCarInsuranceImage.put(10, R.drawable.carins10);
-        hasMapCarInsuranceImage.put(11, R.drawable.carins11);
-        hasMapCarInsuranceImage.put(12, R.drawable.carins12);
-        hasMapCarInsuranceImage.put(14, R.drawable.carins14);
-        hasMapCarInsuranceImage.put(15, R.drawable.carins15);
-        hasMapCarInsuranceImage.put(16, R.drawable.carins16);
-        hasMapCarInsuranceImage.put(17, R.drawable.carins17);
-        hasMapCarInsuranceImage.put(18, R.drawable.carins18);
-        hasMapCarInsuranceImage.put(19, R.drawable.carins19);
-        hasMapCarInsuranceImage.put(26, R.drawable.carins26);
-        hasMapCarInsuranceImage.put(30, R.drawable.carins30);
-        hasMapCarInsuranceImage.put(33, R.drawable.carins33);
-        hasMapCarInsuranceImage.put(34, R.drawable.carins34);
-        hasMapCarInsuranceImage.put(35, R.drawable.carins35);
+        hasMapCarInsuranceImage.put(1, R.drawable.car_1);
+        hasMapCarInsuranceImage.put(2, R.drawable.car_2);
+        hasMapCarInsuranceImage.put(4, R.drawable.car_4);
+        hasMapCarInsuranceImage.put(7, R.drawable.car_7);
+        hasMapCarInsuranceImage.put(9, R.drawable.car_9);
 
-        hasMapCarInsuranceImage.put(36, R.drawable.carins35);
-        hasMapCarInsuranceImage.put(37, R.drawable.carins35);
-        hasMapCarInsuranceImage.put(38, R.drawable.carins35);
-        hasMapCarInsuranceImage.put(39, R.drawable.carins35);
-        hasMapCarInsuranceImage.put(40, R.drawable.carins35);
+        hasMapCarInsuranceImage.put(11, R.drawable.car_11);
+        hasMapCarInsuranceImage.put(12, R.drawable.car_12);
+        hasMapCarInsuranceImage.put(14, R.drawable.car_14);
+        hasMapCarInsuranceImage.put(19, R.drawable.car_19);
+        hasMapCarInsuranceImage.put(33, R.drawable.car_33);
+        hasMapCarInsuranceImage.put(35, R.drawable.car_35);
+
+        //royal sundaram
+        hasMapCarInsuranceImage.put(10, R.drawable.private_car);
     }
 
-    public int getInsurerImage(int insurerID) {
+    public int getInsurerLogo(int insurerID) {
 
         hasMapCarInsuranceImage = new HashMap<Integer, Integer>();
         MapCarInsuranceImage();
         if (hasMapCarInsuranceImage.get(insurerID) != null)
             return hasMapCarInsuranceImage.get(insurerID);
         else
-            return R.drawable.carins35;
-    }*/
+            return R.drawable.private_car;
+    }
     //endregion
 
     //region Health Data

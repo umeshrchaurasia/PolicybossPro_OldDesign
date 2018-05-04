@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -24,11 +25,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 
 /**
  * Created by Rajeev Ranjan on 02/02/2018.
@@ -46,6 +49,8 @@ public class BikeQuoteTabFragment extends BaseFragment implements View.OnClickLi
     ImageView ivSearch;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
+
 
     public BikeQuoteTabFragment() {
         // Required empty public constructor
@@ -69,9 +74,40 @@ public class BikeQuoteTabFragment extends BaseFragment implements View.OnClickLi
         bikeQuoteTabAdapter = new BikeQuoteTabAdapter(BikeQuoteTabFragment.this, mQuoteList);
         rvQuoteList.setAdapter(bikeQuoteTabAdapter);
 
+        rvQuoteList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mQuoteList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchMoreQuotes(mQuoteList.size());
+
+                    }
+                }
+            }
+        });
+
         return view;
     }
 
+
+    public void fetchMoreQuotes(int count) {
+        //showDialog("Fetching.., Please wait.!");
+
+
+        new QuoteApplicationController(getActivity()).getQuoteAppList(count, 1, "", "",
+                new DBPersistanceController(getActivity()).getUserData().getFBAId(),
+                10,
+                "",
+                this);
+    }
 
     //redirect to input quote bottom
     public void redirectToInputQuote(QuoteListEntity entity) {
@@ -97,7 +133,7 @@ public class BikeQuoteTabFragment extends BaseFragment implements View.OnClickLi
 
     private void setListener() {
         ivSearch.setOnClickListener(this);
-       // ivAdd.setOnClickListener(this);
+        // ivAdd.setOnClickListener(this);
         tvAdd.setOnClickListener(this);
         tvSearch.setOnClickListener(this);
     }
@@ -163,7 +199,24 @@ public class BikeQuoteTabFragment extends BaseFragment implements View.OnClickLi
                 bikeQuoteTabAdapter.refreshAdapter(mQuoteList);
                 bikeQuoteTabAdapter.notifyDataSetChanged();
             }
+        } else if (response instanceof QuoteApplicationResponse) {
+            List<QuoteListEntity> list = ((QuoteApplicationResponse) response).getMasterData().getQuote();
+            if (list.size() > 0) {
+                isHit = false;
+                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+                for (QuoteListEntity entity : list) {
+                    if (!mQuoteList.contains(entity)) {
+                        mQuoteList.add(entity);
+                    }
+                }
+            }
+
+
         }
+
+        bikeQuoteTabAdapter.refreshAdapter(mQuoteList);
+        bikeQuoteTabAdapter.notifyDataSetChanged();
     }
 
     @Override

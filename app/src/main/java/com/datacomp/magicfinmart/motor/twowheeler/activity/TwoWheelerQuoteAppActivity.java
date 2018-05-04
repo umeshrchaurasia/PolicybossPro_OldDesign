@@ -78,7 +78,7 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
     private void fetchQuoteApplication() {
 
         showDialog("Fetching.., Please wait.!");
-        new QuoteApplicationController(this).getQuoteAppList("", "",
+        new QuoteApplicationController(this).getQuoteAppList(0,0,"", "",
                 new DBPersistanceController(this).getUserData().getFBAId(),
                 10,
                 "",

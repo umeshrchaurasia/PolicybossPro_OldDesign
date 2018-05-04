@@ -788,7 +788,6 @@
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
@@ -799,12 +798,10 @@
             android:parentActivityName=".term.termselection.TermSelectionActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".term.termselection.TermSelectionActivity" />
         </activity>
-
         <activity
             android:name=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
             android:label="EXPRESS LOAN"
@@ -823,7 +820,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity" />
         </activity>
-
         <activity
             android:name=".onlineexpressloan.RblpersonalloanActivity"
             android:label="RBL PERSONAL LOAN"
@@ -1011,7 +1007,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
-
         <activity android:name=".onlineexpressloan.KotakpersonalloanActivity" />
         <activity
             android:name=".term.icici.IciciTermActivity"
@@ -1022,9 +1017,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
-
-
-        <activity android:name=".onlineexpressloan.HdfcpersonalloanActivity"></activity>
+        <activity android:name=".onlineexpressloan.HdfcpersonalloanActivity" />
+        <activity
+            android:name=".healthcheckupplans.HealthCheckUpListActivity"
+            android:label="@string/title_activity_health_check_up_list"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

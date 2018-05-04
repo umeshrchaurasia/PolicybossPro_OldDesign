@@ -71,10 +71,22 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
 
         holder.txtIDV.setText("\u20B9 " + String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
         //holder.imgInsurerLogo.setImageResource(dbPersistanceController.getInsImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
-        Glide.with(mContext)
+
+        try {
+
+            int logo = new DBPersistanceController(mContext.getActivity())
+                    .getInsurerLogo(Integer.parseInt(responseEntity.getInsurer_Id()));
+
+            Glide.with(mContext).load(logo)
+                    .into(holder.imgInsurerLogo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        /*Glide.with(mContext)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
                 .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name())
-                .into(holder.imgInsurerLogo);
+                .into(holder.imgInsurerLogo);*/
 
         holder.txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override

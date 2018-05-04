@@ -24,6 +24,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteE
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthShortLinkResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,6 +42,46 @@ public class HealthController implements IHealth {
         healthNetworkService = new HealthRequestBuilder().getService();
         mContext = context;
     }
+
+    @Override
+    public void getShortLink(String Name, final magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("fbaid", String.valueOf(new DBPersistanceController(mContext).getUserData().getFBAId()));
+        body.put("name", Name);
+        body.put("phoneno", String.valueOf(new DBPersistanceController(mContext).getUserData().getMobiNumb1()));
+
+        healthNetworkService.getShortLink(body).enqueue(new Callback<HealthShortLinkResponse>() {
+            @Override
+            public void onResponse(Call<HealthShortLinkResponse> call, Response<HealthShortLinkResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<HealthShortLinkResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
 
     @Override
     public void getHealthQuoteExp(HealthQuote quote, final IResponseSubcriber iResponseSubcriber) {
