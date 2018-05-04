@@ -8,11 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.notification.NotificationAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -76,10 +82,24 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
 
     public void updateList(SalesProductEntity salesProductEntity, int pos) {
         mlistSalesProduct.get(pos).setblnHide(true);
-        notifyItemChanged(pos, salesProductEntity);
 
         mlistSalesProduct.get(pos).setOldCount(salesProductEntity.getCount());
+        notifyItemChanged(pos, salesProductEntity);
 
+        // region comment
+        Gson gson = new Gson();
+
+        String listString = gson.toJson(
+                mlistSalesProduct,
+                new TypeToken<ArrayList<SalesProductEntity>>() {}.getType());
+
+        try {
+            JSONArray jsonArray = new JSONArray(listString);
+        }catch (Exception ex){
+
+        }
+
+        // endregion
 
         dbPersistanceController.UpdateCompanyList(mlistSalesProduct);
     }

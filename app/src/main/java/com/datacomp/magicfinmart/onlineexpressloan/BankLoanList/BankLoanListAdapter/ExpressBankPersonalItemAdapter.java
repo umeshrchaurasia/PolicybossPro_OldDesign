@@ -95,6 +95,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                         case "PL":
 
                             if (plEntity.getBank_Code().toUpperCase().contains("RBL")) {
+
                                 mContext.startActivity(new Intent(mContext, RblpersonalloanActivity.class));
                             }
                             else if (plEntity.getBank_Code().toUpperCase().contains("KOTAK")) {

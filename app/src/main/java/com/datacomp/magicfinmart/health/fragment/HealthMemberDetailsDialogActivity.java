@@ -45,7 +45,8 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
     }
 
     private void popupMemberDetail() {
-        adapter = new HealthMemberDetailsViewAdapter(this, healthQuote.getHealthRequest().getMemberList());
+
+        adapter = new HealthMemberDetailsViewAdapter(this, healthQuote.getHealthRequest().getMemberList(), healthQuote.getHealthRequest().getPolicyFor());
         rvMemberDetail.setAdapter(adapter);
     }
 
@@ -64,6 +65,70 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
             List<MemberListEntity> updateMember = new ArrayList<>();
             List<MemberListEntity> listMember = healthQuote.getHealthRequest().getMemberList();
 
+            // region  Duplication Check for :self
+            int isRelRepeat = 0;
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberRelationShip().toLowerCase().equals("self")) {
+                    isRelRepeat++;
+                }
+            }
+            if (isRelRepeat > 1) {
+                showAlert("Same Self selected multiple time");
+                return;
+            } else {
+                isRelRepeat = 0;
+            }
+            //endregion
+
+            // region  Duplication Check for :Spouce
+
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberRelationShip().toLowerCase().equals("spouse")) {
+                    isRelRepeat++;
+                }
+            }
+            if (isRelRepeat > 1) {
+                showAlert("Same Spouce selected multiple time");
+                return;
+            } else {
+                isRelRepeat = 0;
+            }
+            //endregion
+
+            // region  Duplication Check for :Father
+
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberRelationShip().toLowerCase().equals("father")) {
+                    isRelRepeat++;
+                }
+            }
+            if (isRelRepeat > 1) {
+                showAlert("Same Father selected multiple time");
+                return;
+            } else {
+                isRelRepeat = 0;
+            }
+            //endregion
+
+            // region  Duplication Check for :Mother
+
+            for (int i = 0; i < listMember.size(); i++) {
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberRelationShip().toLowerCase().equals("mother")) {
+                    isRelRepeat++;
+                }
+            }
+            if (isRelRepeat > 1) {
+                showAlert("Same Mother selected multiple time");
+                return;
+            } else {
+                isRelRepeat = 0;
+            }
+            //endregion
+
             int isChildRepeat = 0;
             for (int i = 0; i < listMember.size(); i++) {
                 MemberListEntity entity = listMember.get(i);
@@ -72,7 +137,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isChildRepeat > 1) {
-                Toast.makeText(this, "Same Child selected multiple time", Toast.LENGTH_SHORT).show();
+                showAlert("Same Child selected multiple time");
                 return;
             } else {
                 isChildRepeat = 0;
@@ -85,7 +150,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isChildRepeat > 1) {
-                Toast.makeText(this, "Same Child selected multiple time", Toast.LENGTH_SHORT).show();
+                showAlert("Same Child selected multiple time");
                 return;
             } else {
                 isChildRepeat = 0;
@@ -98,7 +163,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isChildRepeat > 1) {
-                Toast.makeText(this, "Same Child selected multiple time", Toast.LENGTH_SHORT).show();
+                showAlert("Same Child selected multiple time");
                 return;
             } else {
                 isChildRepeat = 0;

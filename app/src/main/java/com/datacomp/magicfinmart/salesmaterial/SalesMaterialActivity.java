@@ -13,6 +13,10 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,6 +95,21 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
                 dbPersistanceController.storeCompanyList(mlistSalesProduct);
             }
+
+            // region comment
+            Gson gson = new Gson();
+
+            String listString = gson.toJson(
+                    mlistSalesProduct,
+                    new TypeToken<ArrayList<SalesProductEntity>>() {}.getType());
+
+            try {
+                JSONArray jsonArray = new JSONArray(listString);
+            }catch (Exception ex){
+
+            }
+
+           // endregion
 
             mAdapter = new SalesMaterialAdapter(this, mlistSalesProduct);
             rvSalesMaterial.setAdapter(mAdapter);
