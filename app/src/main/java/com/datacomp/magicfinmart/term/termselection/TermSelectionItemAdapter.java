@@ -60,7 +60,8 @@ public class TermSelectionItemAdapter extends RecyclerView.Adapter<RecyclerView.
 
         if (holder instanceof DashboardItemHolder) {
             final TermSelectionEntity termSelectionEntity = listInsur.get(position);
-            //((DashboardItemHolder) holder).imgIcon.setImageResource(termSelectionEntity.getIcon());
+
+            ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.icici_life_icon);
             ((DashboardItemHolder) holder).txtProductName.setText(termSelectionEntity.getCompanyName());
             ((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
                 @Override

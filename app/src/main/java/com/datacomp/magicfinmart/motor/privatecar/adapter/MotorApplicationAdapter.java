@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
@@ -21,6 +20,7 @@ import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragm
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
@@ -59,6 +59,7 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
 
     @Override
     public void onBindViewHolder(ApplicationItem holder, int position) {
+
         if (holder instanceof ApplicationItem) {
 
             final ApplicationListEntity entity = mAppListFiltered.get(position);
@@ -90,7 +91,11 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
                 holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
             }
             try {
-                Glide.with(fragment).load(entity.getInsImage())
+
+                int logo = new DBPersistanceController(fragment.getActivity())
+                        .getInsurerLogo(entity.getSelectedPrevInsID());
+
+                Glide.with(fragment).load(logo)
                         .into(holder.imgInsurerLogo);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -134,6 +139,10 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
         } else {
             return mAppListFiltered.size();
         }
+    }
+
+    public void refreshAdapter(List<ApplicationListEntity> list) {
+        mAppListFiltered = list;
     }
 
     @Override
@@ -194,8 +203,8 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
     }
 
 
-    public void refreshAdapter(List<ApplicationListEntity> list) {
+   /* public void refreshAdapter(List<ApplicationListEntity> list) {
         mAppList = list;
-    }
+    }*/
 
 }

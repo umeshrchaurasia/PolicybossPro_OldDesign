@@ -12,6 +12,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRe
 
 public interface IHealth {
 
+    void getShortLink(String Name, magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber iResponseSubcriber);
+
     void getHealthQuote(HealthQuote quote, IResponseSubcriber iResponseSubcriber);
 
     void getHealthQuoteExp(HealthQuote quote, IResponseSubcriber iResponseSubcriber);

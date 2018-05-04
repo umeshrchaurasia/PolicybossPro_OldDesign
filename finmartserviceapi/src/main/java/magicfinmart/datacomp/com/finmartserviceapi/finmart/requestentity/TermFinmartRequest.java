@@ -12,6 +12,23 @@ public class TermFinmartRequest implements Parcelable {
     String insImage;
     int statusProgress;
 
+    public int getStatusProgress() {
+        return statusProgress;
+    }
+
+    public void setStatusProgress(int statusProgress) {
+        this.statusProgress = statusProgress;
+    }
+
+    public int getFba_id() {
+        return fba_id;
+    }
+
+    public void setFba_id(int fba_id) {
+        this.fba_id = fba_id;
+    }
+
+    int fba_id;
     TermRequestEntity termRequestEntity;
 
     public int getTermRequestId() {
@@ -46,6 +63,7 @@ public class TermFinmartRequest implements Parcelable {
         this.statusProgress = status_progress;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -56,6 +74,7 @@ public class TermFinmartRequest implements Parcelable {
         dest.writeInt(this.termRequestId);
         dest.writeString(this.insImage);
         dest.writeInt(this.statusProgress);
+        dest.writeInt(this.fba_id);
         dest.writeParcelable(this.termRequestEntity, flags);
     }
 
@@ -66,6 +85,7 @@ public class TermFinmartRequest implements Parcelable {
         this.termRequestId = in.readInt();
         this.insImage = in.readString();
         this.statusProgress = in.readInt();
+        this.fba_id = in.readInt();
         this.termRequestEntity = in.readParcelable(TermRequestEntity.class.getClassLoader());
     }
 

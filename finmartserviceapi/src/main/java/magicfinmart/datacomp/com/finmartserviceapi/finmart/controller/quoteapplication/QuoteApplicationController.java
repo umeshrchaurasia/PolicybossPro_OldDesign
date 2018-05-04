@@ -15,6 +15,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMot
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.QuoteApplicationRequestEntity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -34,16 +35,28 @@ public class QuoteApplicationController implements IQuoteApp {
     }
 
     @Override
-    public void getQuoteAppList(String firstname, String vehicleReqID, int fbaID, int productID, String crn, final IResponseSubcriber iResponseSubcriber) {
-        HashMap<String, String> hashMap = new HashMap<>();
+    public void getQuoteAppList(int count, int type, String firstname, String vehicleReqID, int fbaID, int productID, String crn, final IResponseSubcriber iResponseSubcriber) {
+
+        QuoteApplicationRequestEntity entity = new QuoteApplicationRequestEntity();
+        entity.setCount(count);
+        entity.setCrn(crn);
+        entity.setFba_id(String.valueOf(fbaID));
+        entity.setFirst_name(firstname);
+        entity.setProduct_id(String.valueOf(productID));
+        entity.setType(String.valueOf(type));
+        entity.setVehicleRequestID(vehicleReqID);
+
+      /*  HashMap<String, String> hashMap = new HashMap<>();
         hashMap.put("VehicleRequestID", vehicleReqID);
         hashMap.put("fba_id", "" + fbaID);
         hashMap.put("product_id", "" + productID);
         hashMap.put("crn", "" + crn);
         hashMap.put("first_name", firstname);
+        hashMap.put("count", String.valueOf(count));
+        hashMap.put("type", String.valueOf(type));*/
 
 
-        quoteApplicationNetworkService.getQuoteApplication(hashMap).enqueue(new Callback<QuoteApplicationResponse>() {
+        quoteApplicationNetworkService.getQuoteApplication(entity).enqueue(new Callback<QuoteApplicationResponse>() {
             @Override
             public void onResponse(Call<QuoteApplicationResponse> call, Response<QuoteApplicationResponse> response) {
                 if (response.body() != null) {

@@ -21,6 +21,7 @@ import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeApplicationTabFra
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 
 /**
@@ -89,12 +90,24 @@ public class BikeApplicationTabAdapter extends RecyclerView.Adapter<BikeApplicat
             } else {
                 holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
             }
+
+            try {
+
+                int logo = new DBPersistanceController(fragment.getActivity())
+                        .getInsurerLogo(entity.getSelectedPrevInsID());
+
+                Glide.with(fragment).load(logo)
+                        .into(holder.imgInsurerLogo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            /*
             try {
                 Glide.with(fragment).load(entity.getInsImage())
                         .into(holder.imgInsurerLogo);
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
         }
     }
 

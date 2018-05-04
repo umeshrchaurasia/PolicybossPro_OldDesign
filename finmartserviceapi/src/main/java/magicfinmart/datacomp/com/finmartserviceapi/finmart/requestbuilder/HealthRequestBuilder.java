@@ -14,6 +14,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteR
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthShortLinkResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
@@ -60,5 +61,9 @@ public class HealthRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/GetCompareBenefits")
         Call<BenefitsListResponse> getBenefits(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/short-url")
+        Call<HealthShortLinkResponse> getShortLink(@Body HashMap<String, String> bo);
     }
 }

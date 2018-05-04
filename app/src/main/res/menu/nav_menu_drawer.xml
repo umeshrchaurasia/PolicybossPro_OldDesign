@@ -31,8 +31,17 @@
             android:title="MPS" />
         <item
             android:id="@+id/nav_pospenrollment"
-            android:icon="@drawable/enrollment_ic"
+            android:icon="@drawable/posp_enrollment"
             android:title="POSP ENROLLMENT" />
+        <item
+            android:id="@+id/nav_sharedata"
+            android:icon="@drawable/file_share"
+            android:title="SHARE DATA" />
+
+        <item
+            android:id="@+id/nav_changepassword"
+            android:icon="@drawable/change_password"
+            android:title="CHANGE PASSWORD" />
         <item
             android:id="@+id/nav_whatsnew"
             android:icon="@drawable/whats_new"

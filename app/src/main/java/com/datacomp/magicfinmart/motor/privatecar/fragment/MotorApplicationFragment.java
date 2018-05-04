@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,19 @@ import com.datacomp.magicfinmart.motor.privatecar.adapter.MotorApplicationAdapte
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MotorApplicationFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
+public class MotorApplicationFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
     public static final String FROM_APPLICATION = "from_application";
 
     RecyclerView rvApplicationList;
@@ -40,6 +48,7 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
 
     public MotorApplicationFragment() {
         // Required empty public constructor
@@ -63,6 +72,28 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
         rvApplicationList.setAdapter(null);
         motorApplicationAdapter = new MotorApplicationAdapter(MotorApplicationFragment.this, mApplicationList);
         rvApplicationList.setAdapter(motorApplicationAdapter);
+
+
+        rvApplicationList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mApplicationList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchMoreQuotes(mApplicationList.size());
+
+                    }
+                }
+            }
+        });
+
         return view;
     }
 
@@ -80,6 +111,50 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
         }
     }
 
+    public void fetchMoreQuotes(int count) {
+
+        new QuoteApplicationController(getActivity()).getQuoteAppList(count, 2, "", "",
+                new DBPersistanceController(getActivity()).getUserData().getFBAId(),
+                1,
+                "",
+                this);
+    }
+
+    //region server response
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+        cancelDialog();
+        if (response instanceof QuoteApplicationResponse) {
+            List<ApplicationListEntity> list = ((QuoteApplicationResponse) response).getMasterData().getApplication();
+
+            if (list.size() > 0) {
+                isHit = false;
+                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+
+                for (ApplicationListEntity entity : list) {
+                    if (!mApplicationList.contains(entity)) {
+                        mApplicationList.add(entity);
+                    }
+                }
+            }
+
+            motorApplicationAdapter.refreshAdapter(mApplicationList);
+            motorApplicationAdapter.notifyDataSetChanged();
+
+        }
+
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+    }
+
+    //endregion
 
     private void initView(View view) {
         ivSearch = (ImageView) view.findViewById(R.id.ivSearch);

@@ -9,6 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpda
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.QuoteApplicationRequestEntity;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.HEAD;
@@ -32,7 +33,7 @@ public class QuoteApplicationRequestBuilder extends FinmartRetroRequestBuilder {
 
         @Headers("token:" + token)
         @POST("/api/get-vehicle-request")
-        Call<QuoteApplicationResponse> getQuoteApplication(@Body HashMap<String, String> body);
+        Call<QuoteApplicationResponse> getQuoteApplication(@Body QuoteApplicationRequestEntity entity);
 
         @Headers("token:" + token)
         @POST("/api/manage-vehicle")
