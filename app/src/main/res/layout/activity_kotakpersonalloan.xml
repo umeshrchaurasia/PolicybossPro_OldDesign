@@ -272,6 +272,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
+                            android:maxLength="12"
                             android:hint="Aadhar Number">
 
                             <EditText
@@ -294,6 +295,7 @@
                                 android:id="@+id/etPanCard"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:maxLength="10"
                                 android:maxLines="1" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -440,7 +442,7 @@
                                 android:id="@+id/etOfficeAddress3"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
-                                android:maxLength="5"
+
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
