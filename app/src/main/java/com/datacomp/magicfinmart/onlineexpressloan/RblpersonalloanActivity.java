@@ -517,147 +517,6 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         return Double.parseDouble(new DecimalFormat("##.##").format(value));
     }
 
-    //endregion
-
-    // region Event
-
-    //region textwatcher
-
-
-    TextWatcher loanAmountTextWatcher = new TextWatcher() {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-            if (spTenure.getSelectedItemPosition() > 0) {
-
-                if ((s.length() > 5) && (s.length() < 8)) {
-                    getEmiandProcessingFee();
-                } else {
-                    etQuteEMI.setText("");
-                    etProcessingFees.setText("");
-                }
-            } else {
-                etQuteEMI.setText("");
-                etProcessingFees.setText("");
-            }
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
-    };
-
-    //endregion
-
-    //region AutoCompletTextView Event
-
-    View.OnFocusChangeListener acCityFocusChange = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View view, boolean b) {
-            if (!b) {
-
-                String str = acCity.getText().toString();
-
-                ListAdapter listAdapter = acCity.getAdapter();
-                for (int i = 0; i < listAdapter.getCount(); i++) {
-                    String temp = listAdapter.getItem(i).toString();
-                    if (str.compareTo(temp) == 0) {
-                        return;
-                    }
-                }
-
-                acCity.setText("");
-                acCity.setError("Invalid city");
-                acCity.setFocusable(true);
-            } else {
-                acCity.setError(null);
-            }
-        }
-    };
-
-    View.OnFocusChangeListener acCityOFFiceFocusChange = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View view, boolean b) {
-            if (!b) {
-
-                String str = acOffCity.getText().toString();
-
-                ListAdapter listAdapter = acOffCity.getAdapter();
-                for (int i = 0; i < listAdapter.getCount(); i++) {
-                    String temp = listAdapter.getItem(i).toString();
-                    if (str.compareTo(temp) == 0) {
-                        return;
-                    }
-                }
-
-                acOffCity.setText("");
-                acOffCity.setError("Invalid city");
-                acOffCity.setFocusable(true);
-            } else {
-                acOffCity.setError(null);
-            }
-        }
-    };
-    //endregion
-
-    //region datepicker
-
-    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-
-            if (view.getId() == R.id.etDOB) {
-                DateTimePicker.showExpressAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etDOB.setText(currentDay);
-                        }
-                    }
-                });
-            } else if (view.getId() == R.id.etJoin) {
-                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etJoin.setText(currentDay);
-                        }
-                    }
-                });
-            } else if (view.getId() == R.id.etLivingSince) {
-                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etLivingSince.setText(currentDay);
-                        }
-                    }
-                });
-            }
-
-        }
-    };
-
-    //endregion
-
 
     private boolean validateRbl() {
         // region Personal
@@ -941,15 +800,158 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
 
         reqEntity.setSource("Finmart");
         reqEntity.setCampaignName("");
-        reqEntity.setBankId("");
-        reqEntity.setLoanType("");
+        reqEntity.setBankId(BankID);
+        reqEntity.setLoanType(LoanType);
         reqEntity.setFBAID(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
 
 
-         new ExpressLoanController(this).saveRblPersonalLoan(reqEntity,RblpersonalloanActivity.this);
+        new ExpressLoanController(this).saveRblPersonalLoan(reqEntity,RblpersonalloanActivity.this);
 
 
     }
+
+
+
+    //endregion
+
+    // region Event
+
+    //region textwatcher
+
+
+    TextWatcher loanAmountTextWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            if (spTenure.getSelectedItemPosition() > 0) {
+
+                if ((s.length() > 5) && (s.length() < 8)) {
+                    getEmiandProcessingFee();
+                } else {
+                    etQuteEMI.setText("");
+                    etProcessingFees.setText("");
+                }
+            } else {
+                etQuteEMI.setText("");
+                etProcessingFees.setText("");
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    //endregion
+
+    //region AutoCompletTextView Event
+
+    View.OnFocusChangeListener acCityFocusChange = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (!b) {
+
+                String str = acCity.getText().toString();
+
+                ListAdapter listAdapter = acCity.getAdapter();
+                for (int i = 0; i < listAdapter.getCount(); i++) {
+                    String temp = listAdapter.getItem(i).toString();
+                    if (str.compareTo(temp) == 0) {
+                        return;
+                    }
+                }
+
+                acCity.setText("");
+                acCity.setError("Invalid city");
+                acCity.setFocusable(true);
+            } else {
+                acCity.setError(null);
+            }
+        }
+    };
+
+    View.OnFocusChangeListener acCityOFFiceFocusChange = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (!b) {
+
+                String str = acOffCity.getText().toString();
+
+                ListAdapter listAdapter = acOffCity.getAdapter();
+                for (int i = 0; i < listAdapter.getCount(); i++) {
+                    String temp = listAdapter.getItem(i).toString();
+                    if (str.compareTo(temp) == 0) {
+                        return;
+                    }
+                }
+
+                acOffCity.setText("");
+                acOffCity.setError("Invalid city");
+                acOffCity.setFocusable(true);
+            } else {
+                acOffCity.setError(null);
+            }
+        }
+    };
+    //endregion
+
+    //region datepicker
+
+    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+
+            if (view.getId() == R.id.etDOB) {
+                DateTimePicker.showExpressAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etDOB.setText(currentDay);
+                        }
+                    }
+                });
+            } else if (view.getId() == R.id.etJoin) {
+                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etJoin.setText(currentDay);
+                        }
+                    }
+                });
+            } else if (view.getId() == R.id.etLivingSince) {
+                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etLivingSince.setText(currentDay);
+                        }
+                    }
+                });
+            }
+
+        }
+    };
+
+    //endregion
 
 
 
@@ -960,7 +962,8 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
 
             if (validateRbl()) {
 
-                Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+                saveRblPersonalLoan();
+
             }
 
         }
