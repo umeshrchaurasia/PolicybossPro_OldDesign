@@ -373,7 +373,32 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
+                if (coverFor == 0){
+                        int tempAge = Integer.parseInt(et1.getText().toString());
+                        if(tempAge <18) {
 
+                            showAlert("Age should  be greater than or equal to 18 years");
+                            et1.requestFocus();
+                            return ;
+                        }
+                }
+
+                if (coverFor == 1){
+
+                   if( validateFamilyAge() == false)
+                   {
+                       return;
+                   }
+
+                }
+
+                if (coverFor == 2){
+
+                    if(validateParentAge() == false)
+                    {
+                        return;
+                    }
+                }
 
                 if (etAmount.getText().toString().trim().length() == 0) {
 
@@ -868,6 +893,123 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         return  true;
     }
+
+
+    private boolean validateFamilyAge()
+    {
+
+        int Age1 = 0;  int Age2 = 0;  int Age3 = 0;
+        int Age4 = 0;  int Age5 = 0;  int Age6 = 0;
+        int count = 0;
+
+        boolean blnchk =true;
+        if((et1.isEnabled() && et1.getText().toString().length() >0))
+        {
+             Age1 = Integer.parseInt(et1.getText().toString());
+             if(Age1 >= 18)
+             {
+               count = count + 1;
+             }
+
+        }
+         if(et2.isEnabled() && et2.getText().toString().length() >0)
+        {
+            Age2 = Integer.parseInt(et2.getText().toString());
+            if(Age2 >= 18)
+            {
+                count = count + 1;
+            }
+
+
+        }
+         if(et3.isEnabled() && et3.getText().toString().length() >0)
+        {
+            Age3 = Integer.parseInt(et3.getText().toString());
+            if(Age3 >= 18)
+            {
+                count = count + 1;
+            }
+
+
+        }
+         if(et4.isEnabled() && et4.getText().toString().length() >0)
+        {
+            Age4 = Integer.parseInt(et4.getText().toString());
+            if(Age4 >= 18)
+            {
+                count = count + 1;
+            }
+
+
+        }
+         if(et5.isEnabled() && et5.getText().toString().length() >0)
+        {
+            Age5 = Integer.parseInt(et5.getText().toString());
+            if(Age5 >= 18)
+            {
+                count = count + 1;
+            }
+
+
+        }
+         if(et6.isEnabled() && et6.getText().toString().length() >0)
+        {
+            Age6 = Integer.parseInt(et6.getText().toString());
+            if(Age6 >= 18)
+            {
+                count = count + 1;
+            }
+
+
+        }
+
+        if(count == 0)
+        {
+            showAlert("Atleast one member age should be greater than or equal to 18 years");
+            blnchk = false;
+        }else if(count > 2)
+        {
+            showAlert("More than 2 member age should not be greater than or equal to 18 years");
+            blnchk = false;
+        }else{
+
+            blnchk = true;
+        }
+
+        return  blnchk;
+    }
+
+
+    private boolean validateParentAge()
+    {
+        int Age1 ,Age2 = 0;
+        boolean blnchk =true;
+        if((et1.isEnabled() && et1.getText().toString().length() >0))
+        {
+            Age1 = Integer.parseInt(et1.getText().toString());
+            if(Age1 <36) {
+
+                showAlert("Age should  be greater than or equal to 36 years");
+                et1.requestFocus();
+                return false;
+            }
+
+        }
+        if(et2.isEnabled() && et2.getText().toString().length() >0)
+        {
+            Age2 = Integer.parseInt(et2.getText().toString());
+            if(Age2 <36) {
+
+                showAlert("Age should  be greater than or equal to 36 years");
+                et2.requestFocus();
+                return false;
+            }
+        }
+
+
+        return  blnchk;
+    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

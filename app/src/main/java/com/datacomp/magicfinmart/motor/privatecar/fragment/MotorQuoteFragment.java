@@ -9,12 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -26,11 +28,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -47,6 +51,8 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     ImageView ivSearch;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    RecyclerView.LayoutManager layoutManager;
+    boolean isHit = false;
 
     public MotorQuoteFragment() {
         // Required empty public constructor
@@ -70,6 +76,25 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         motorQuoteAdapter = new MotorQuoteAdapter(MotorQuoteFragment.this, mQuoteList);
         rvQuoteList.setAdapter(motorQuoteAdapter);
 
+        rvQuoteList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mQuoteList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchMoreQuotes(mQuoteList.size());
+
+                    }
+                }
+            }
+        });
         return view;
     }
 
@@ -113,7 +138,7 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         btnAddQuote = (FloatingActionButton) view.findViewById(R.id.fbAddQuote);
         rvQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
         rvQuoteList.setHasFixedSize(true);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager = new LinearLayoutManager(getActivity());
         rvQuoteList.setLayoutManager(layoutManager);
         btnAddQuote.setOnClickListener(this);
 
@@ -149,6 +174,17 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
     }
 
 
+    public void fetchMoreQuotes(int count) {
+        //showDialog("Fetching.., Please wait.!");
+
+
+        new QuoteApplicationController(getActivity()).getQuoteAppList(count, 1, "", "",
+                new DBPersistanceController(getActivity()).getUserData().getFBAId(),
+                1,
+                "",
+                this);
+    }
+
     //region server response
 
     @Override
@@ -158,10 +194,27 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
         if (response instanceof QuoteAppUpdateDeleteResponse) {
             if (response.getStatusNo() == 0) {
                 mQuoteList.remove(removeQuoteEntity);
-                motorQuoteAdapter.refreshAdapter(mQuoteList);
-                motorQuoteAdapter.notifyDataSetChanged();
+
             }
+        } else if (response instanceof QuoteApplicationResponse) {
+            List<QuoteListEntity> list = ((QuoteApplicationResponse) response).getMasterData().getQuote();
+            if (list.size() > 0) {
+                isHit = false;
+                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+                for (QuoteListEntity entity : list) {
+                    if (!mQuoteList.contains(entity)) {
+                        mQuoteList.add(entity);
+                    }
+                }
+            }
+
+
         }
+
+        motorQuoteAdapter.refreshAdapter(mQuoteList);
+        motorQuoteAdapter.notifyDataSetChanged();
+
     }
 
     @Override

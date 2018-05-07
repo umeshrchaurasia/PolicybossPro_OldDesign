@@ -14,7 +14,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
 import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
-import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
+import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
@@ -23,7 +23,6 @@ import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActiv
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
-import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -153,7 +152,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                             break;
                         case 11:
                             //health check up
-                            mContext.startActivity(new Intent(mContext.getActivity(), HealthCheckUpPlansActivity.class));
+                            mContext.startActivity(new Intent(mContext.getActivity(), HealthCheckUpListActivity.class));
                             new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
                             break;
 

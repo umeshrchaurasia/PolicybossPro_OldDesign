@@ -1,34 +1,42 @@
 package com.datacomp.magicfinmart.healthcheckupplans;
 
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.controller.healthcheckup.HealthCheckUPController;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
-import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksDetailsRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.HealthPacksRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.PackDetailsEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.PackParamEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthPackResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthShortLinkResponse;
 
-public class HealthCheckUpPlansActivity extends BaseActivity implements IResponseSubcriber {
+public class HealthCheckUpPlansActivity extends BaseActivity implements IResponseSubcriber, View.OnClickListener {
 
     DBPersistanceController dbPersistanceController;
     HealthPackDEntity healthPackDEntity;
-    HealthPackDetailsDBean healthPackDetailsDBean;
     HealthCheckUPAdapter healthCheckUPAdapter;
     RecyclerView rvHealthCheck;
+    ImageView imgShare;
+    String strName = "";
+    HealthShortLinkResponse linkResponse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,8 @@ public class HealthCheckUpPlansActivity extends BaseActivity implements IRespons
     }
 
     private void init_widgets() {
+        imgShare = (ImageView) findViewById(R.id.imgShare);
+        imgShare.setOnClickListener(this);
         rvHealthCheck = (RecyclerView) findViewById(R.id.rvHealthCheck);
         rvHealthCheck.setHasFixedSize(true);
         rvHealthCheck.setLayoutManager(new LinearLayoutManager(this));
@@ -69,33 +79,73 @@ public class HealthCheckUpPlansActivity extends BaseActivity implements IRespons
                     rvHealthCheck.setAdapter(healthCheckUPAdapter);
                 }
             }
-        }
-        if (response instanceof HealthPackDetailsResponse) {
+        } else if (response instanceof HealthPackDetailsResponse) {
             Log.d("Test", "success");
+        } else if (response instanceof HealthShortLinkResponse) {
+
+            linkResponse = (HealthShortLinkResponse) response;
+            shareWhatsApp();
+        }
+    }
+
+    public void shareWhatsApp() {
+        if (linkResponse != null && linkResponse.getMasterData() != null) {
+            Constants.shareToWhatsApp(this, "Dear " + strName + "\n" +
+                    " Hi. I am pleased to bring to you a Health Checkup package best suited for you, at discounted price from the best labs in India. What’s more the sample can be collected from your home and an accurate report delivered on your e-mail. You also get a doctor consultation FREE with every health checkup done Click on the below link to book your test and make payment online \n" +
+                    linkResponse.getMasterData().get(0).getShortURL());
+        } else {
+            openDialog();
         }
     }
 
     @Override
     public void OnFailure(Throwable t) {
+        cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    private class HealthCheckUpRunnable implements Runnable {
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.imgShare) {
+            if (strName.length() == 0)
+                openDialog();
+            else
+                shareWhatsApp();
 
-        @Override
-        public void run() {
-            HealthPackDEntity lstPackageDetailsEntities = dbPersistanceController.getHealthCheckUPPlans();
-            if (lstPackageDetailsEntities != null) {
-                for (int i = 0; i < lstPackageDetailsEntities.getLstPackageDetails().size(); i++) {
-                    HealthPacksDetailsRequestEntity healthPacksDetailsRequestEntity = new HealthPacksDetailsRequestEntity();
-                    PackParamEntity packParamEntity = new PackParamEntity();
-                    if (!lstPackageDetailsEntities.getLstPackageDetails().get(i).getPackCode().equals(""))
-                        packParamEntity.setPackcode(Integer.parseInt(lstPackageDetailsEntities.getLstPackageDetails().get(i).getPackCode()));
-                    healthPacksDetailsRequestEntity.setPack_param(packParamEntity);
-                    new HealthCheckUPController(HealthCheckUpPlansActivity.this).getHealthPacksDetails(healthPacksDetailsRequestEntity, HealthCheckUpPlansActivity.this);
-                }
-            }
         }
+    }
+
+    private void openDialog() {
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        final EditText input;
+        TextView btnShare;
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.layout_healthassured_share, null);
+        alertDialog.setView(dialogView);
+        final AlertDialog dialog = alertDialog.create();
+
+        input = (EditText) dialogView.findViewById(R.id.input);
+        btnShare = (TextView) dialogView.findViewById(R.id.txtShare);
+
+        btnShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                strName = input.getText().toString();
+                dialog.dismiss();
+                fetchShortLink(input);
+            }
+        });
+
+        dialog.show();
 
     }
+
+    private void fetchShortLink(EditText input) {
+        //showDialog();
+        new HealthController(HealthCheckUpPlansActivity.this).getShortLink(input.getText().toString(),
+                HealthCheckUpPlansActivity.this);
+    }
+
 }
