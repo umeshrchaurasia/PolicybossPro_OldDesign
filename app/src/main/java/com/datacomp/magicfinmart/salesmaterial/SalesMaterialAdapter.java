@@ -54,14 +54,12 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
         SalesMaterialItem item = (SalesMaterialItem) holder;
         final SalesProductEntity entity = mlistSalesProduct.get(position);
 
-        if (entity.getblnCountVisibility() == false) {
-            if (entity.getCount() != 0 && (entity.getblnHide() == false)) {
-                item.txtCount.setText(String.valueOf(entity.getCount()));
-            } else {
-                item.txtCount.setVisibility(View.INVISIBLE);
-            }
-        } else {
+        if(entity.getCount() == entity.getOldCount())
+        {
             item.txtCount.setVisibility(View.INVISIBLE);
+        }else{
+            item.txtCount.setVisibility(View.VISIBLE);
+            item.txtCount.setText(String.valueOf(entity.getCount() - entity.getOldCount()));
         }
         item.txtProductName.setText(entity.getProduct_Name());
 
@@ -81,25 +79,9 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
 
 
     public void updateList(SalesProductEntity salesProductEntity, int pos) {
-        mlistSalesProduct.get(pos).setblnHide(true);
 
         mlistSalesProduct.get(pos).setOldCount(salesProductEntity.getCount());
         notifyItemChanged(pos, salesProductEntity);
-
-        // region comment
-        Gson gson = new Gson();
-
-        String listString = gson.toJson(
-                mlistSalesProduct,
-                new TypeToken<ArrayList<SalesProductEntity>>() {}.getType());
-
-        try {
-            JSONArray jsonArray = new JSONArray(listString);
-        }catch (Exception ex){
-
-        }
-
-        // endregion
 
         dbPersistanceController.UpdateCompanyList(mlistSalesProduct);
     }

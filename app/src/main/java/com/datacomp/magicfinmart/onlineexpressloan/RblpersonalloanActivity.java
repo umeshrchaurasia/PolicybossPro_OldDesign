@@ -34,15 +34,20 @@ import com.datacomp.magicfinmart.creditcard.ICICICreditApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller.ExpressLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.RBLPesonalLoanReqEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressRbPersonalResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 
@@ -66,7 +71,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
 
     //Company detail
     EditText etEmployerName, etLoanAmount, etLoanReq, etRateType, etBestRate, etQuteEMI, etProcessingFees,
-            etJoin, etTotWorkExp, etOffAddress1, etOffAddress2, etOffPincode, etOffphoneNo, etOffPancard;
+            etJoin, etTotWorkExp, etOffAddress1, etOffAddress2, etOffPincode, etOffphoneNo, etOffPancard,etLandmark;
 
     AutoCompleteTextView acOffCity, acCity;
 
@@ -77,15 +82,12 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     ArrayAdapter<String> residenceAdapter, salariedAdapter, tenureAdapter;
     ArrayAdapter<String> OrgCategoryAdapter, QualificationAdapter;
 
-
-    String[] stateList = {"ANDAMAN-NICOBAR", "ANDHRA PRADESH", "ARUNACHAL PRADESH", "ASSAM", "BIHAR", "CHANDIGARH", "CHHATTISGARH", "DADRA & NAGAR HAVELI", "DAMAN & DIU", "DELHI", "GOA", "GUJARAT", "HARYANA",
-            "HIMACHAL PRADESH", "JAMMU KASHMIR", "JHARKHAND", "KARNATAKA", "KERALA", "LAKSHADWEEP", "MADHYA PRADESH", "MAHARASHTRA", "MANIPUR", "MEGHALAYA", "MIZORAM", "NAGALAND", "ORISSA",
-            "PONDICHERRY", "PUNJAB", "RAJASTHAN", "SIKKIM", "TAMILNADU", "TRIPURA", "UTTAR PRADESH", "UTTARAKHAND", "WEST BENGAL"};
-
     ArrayAdapter<String> cityAdapter;
     List<String> cityList;
 
-    final double roi = 0.013;
+    final double roi = 0.012;
+    String BankID = "";
+    String LoanType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +99,13 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         init();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            BankID = extras.getString("BANK_ID","");
+            LoanType = extras.getString("LOAN_TYPE","");
+            //The key argument here must match that used in the other activity
+        }
         cityList = new ArrayList<>();
         cityList = new DBPersistanceController(this).getRblCity();
         cityBinding();
@@ -147,8 +156,10 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         etPincode = (EditText) findViewById(R.id.etPincode);
         etAddress1 = (EditText) findViewById(R.id.etAddress1);
         etAddress2 = (EditText) findViewById(R.id.etAddress2);
+        etLandmark = (EditText) findViewById(R.id.etLandmark);
 
-        spResType = (Spinner) findViewById(R.id.spResType);
+
+                spResType = (Spinner) findViewById(R.id.spResType);
         spSalaried = (Spinner) findViewById(R.id.spSalaried);
         spTenure = (Spinner) findViewById(R.id.spTenure);
 
@@ -178,8 +189,8 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         etOffPancard = (EditText) findViewById(R.id.etOffPancard);
 
         spOrgCategory = (Spinner) findViewById(R.id.spOrgCategory);
-        spQualification = (Spinner)findViewById(R.id.spQualification);
-        chkRblCondition = (CheckBox)findViewById(R.id.chkRblCondition);
+        spQualification = (Spinner) findViewById(R.id.spQualification);
+        chkRblCondition = (CheckBox) findViewById(R.id.chkRblCondition);
 
         //endregion
 
@@ -490,17 +501,21 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     private void getEmiandProcessingFee() {
         double emi;
         if (etLoanAmount.getText().length() == 0) {
-            return ;
+            return;
         }
         double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
 
         emi = loanAmnt * roi * (Math.pow(1 + roi, getTenure()) / (Math.pow(1 + roi, getTenure()) - 1));
 
-        etEMI.setText(String.valueOf(Math.round(emi)));
-        etProcessingFees.setText( String.valueOf(loanAmnt * 0.02));
+        etQuteEMI.setText(String.valueOf(getDigitPrecision(emi)));
+        etProcessingFees.setText(String.valueOf(getDigitPrecision(loanAmnt * 0.02)));
 
     }
 
+
+    private double getDigitPrecision(double value) {
+        return Double.parseDouble(new DecimalFormat("##.##").format(value));
+    }
 
     //endregion
 
@@ -520,17 +535,17 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         public void onTextChanged(CharSequence s, int start, int before, int count) {
 
 
-            if(spTenure.getSelectedItemPosition() > 0) {
+            if (spTenure.getSelectedItemPosition() > 0) {
 
                 if ((s.length() > 5) && (s.length() < 8)) {
                     getEmiandProcessingFee();
                 } else {
-                    etEMI.setText("");
+                    etQuteEMI.setText("");
                     etProcessingFees.setText("");
                 }
-            }else {
-                    etEMI.setText("");
-                    etProcessingFees.setText("");
+            } else {
+                etQuteEMI.setText("");
+                etProcessingFees.setText("");
             }
 
         }
@@ -644,7 +659,6 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     //endregion
 
 
-
     private boolean validateRbl() {
         // region Personal
         if (!isEmpty(etFirstName)) {
@@ -742,7 +756,6 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         }
 
 
-
         if (etPincode.getText().toString().length() < 6) {
             etPincode.setError("Invalid Pincode");
             etPincode.setFocusable(true);
@@ -778,9 +791,8 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
             etLoanAmount.setError(null);
         }
 
-        double loanAmnt =  Double.valueOf(etLoanAmount.getText().toString());
-        if(loanAmnt < 100000   ||  loanAmnt > 2000000 )
-        {
+        double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
+        if (loanAmnt < 100000 || loanAmnt > 2000000) {
             showAlert("Amount should be between 1 Lac 20 Lacs");
             return false;
         }
@@ -821,7 +833,6 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         }
 
 
-
         if (etOffPincode.getText().toString().length() < 6) {
             etOffPincode.setError("Invalid Pincode");
             etOffPincode.setFocusable(true);
@@ -830,7 +841,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
             etOffPincode.setError(null);
         }
 
-        if (!isEmpty(etOffPancard)){
+        if (!isEmpty(etOffPancard)) {
             etOffPancard.setError("Enter PanCard");
             etOffPancard.setFocusable(true);
             return false;
@@ -852,26 +863,106 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         } else {
             acOffCity.setError(null);
         }
+
+        if (!chkRblCondition.isChecked()) {
+
+            showAlert("Accept Terms and Condtion");
+            return false;
+        }
         // endregion
 
 
         return true;
     }
 
+    private void saveRblPersonalLoan() {
+        RBLPesonalLoanReqEntity reqEntity = new RBLPesonalLoanReqEntity();
+
+        reqEntity.setFirstName(etFirstName.getText().toString());
+        reqEntity.setMiddleName(etMiddleName.getText().toString());
+        reqEntity.setLastName(etLastName.getText().toString());
+        if (rbmale.isChecked()) {
+            reqEntity.setGender("1");
+        } else if (rbfemale.isChecked()) {
+            reqEntity.setGender("2");
+        } else {
+            reqEntity.setGender("3");
+        }
+
+        reqEntity.setResAddress1(etAddress1.getText().toString());
+        reqEntity.setResAddress2(etAddress2.getText().toString());
+        reqEntity.setResLand(etLandmark.getText().toString());
+        reqEntity.setDOB(etDOB.getText().toString());
+
+        reqEntity.setResType(String.valueOf(spResType.getSelectedItemPosition()));
+        reqEntity.setCurResSince(etLivingSince.getText().toString());
+        reqEntity.setResPIN(etPincode.getText().toString());
+        reqEntity.setMobile(etMobile.getText().toString());
+
+        reqEntity.setEmail(etEmailPers.getText().toString());
+        reqEntity.setEmpType(String.valueOf(spSalaried.getSelectedItemPosition()));
+        reqEntity.setLnAmt(etLoanAmount.getText().toString());
+        reqEntity.setTnrMths((String.valueOf(getTenure())));
+
+        reqEntity.setIRR("16");
+        reqEntity.setProcFee(etProcessingFees.getText().toString());
+        reqEntity.setNMI(etMonthlyIncome.getText().toString());
+        reqEntity.setEmiCurPay(etEMI.getText().toString());
+
+        try {
+            reqEntity.setResCity(String.valueOf(new DBPersistanceController(this).getRblCityCode(acCity.getText().toString())));
+        } catch (Exception e) {
+            reqEntity.setResCity("0");
+        }
+
+        try {
+            reqEntity.setOffCity(String.valueOf(new DBPersistanceController(this).getRblCityCode(acOffCity.getText().toString())));
+        } catch (Exception e) {
+            reqEntity.setResCity("0");
+        }
+
+
+        reqEntity.setCompanyName(etEmployerName.getText().toString());
+        reqEntity.setCurCmpnyJoinDt(etJoin.getText().toString());
+        reqEntity.setTotWrkExp(etTotWorkExp.getText().toString());
+        reqEntity.setOffAddress1(etOffAddress1.getText().toString());
+        reqEntity.setOffAddress2(etOffAddress2.getText().toString());
+
+        reqEntity.setOrgCategory(String.valueOf((spOrgCategory.getSelectedItemPosition())));
+        reqEntity.setOffPIN(etOffPincode.getText().toString());
+        reqEntity.setOffPhone(etOffphoneNo.getText().toString());
+        reqEntity.setPAN(etOffPancard.getText().toString());
+        reqEntity.setQualification(String.valueOf((spQualification.getSelectedItemPosition())));
+        reqEntity.setCheck("on");
+
+
+        reqEntity.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId());
+        reqEntity.setEmpid("");
+
+        reqEntity.setSource("Finmart");
+        reqEntity.setCampaignName("");
+        reqEntity.setBankId("");
+        reqEntity.setLoanType("");
+        reqEntity.setFBAID(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
+
+
+         new ExpressLoanController(this).saveRblPersonalLoan(reqEntity,RblpersonalloanActivity.this);
+
+
+    }
+
+
+
     @Override
     public void onClick(View view) {
 
         if (view.getId() == R.id.btnSubmit) {
 
-            if (chkRblCondition.isChecked()) {
+            if (validateRbl()) {
 
-                if (validateRbl()) {
-
-                    Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
-                }
-            }else{
-                showAlert("Accept Terms and Condtion");
+                Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
             }
+
         }
 
     }
@@ -879,11 +970,19 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     @Override
     public void OnSuccess(APIResponse response, String message) {
 
+        cancelDialog();
+        if (response instanceof ExpressRbPersonalResponse) {
+            if (response.getStatusNo() == 0) {
+
+               Toast.makeText(this,"Data Saved Successfully..",Toast.LENGTH_SHORT).show();
+            }
+        }
+
     }
 
     @Override
     public void OnFailure(Throwable t) {
-
+        cancelDialog();
     }
 
 

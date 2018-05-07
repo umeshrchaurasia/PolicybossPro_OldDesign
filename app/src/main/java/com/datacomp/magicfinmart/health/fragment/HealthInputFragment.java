@@ -906,7 +906,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         if((et1.isEnabled() && et1.getText().toString().length() >0))
         {
              Age1 = Integer.parseInt(et1.getText().toString());
-             if(Age1 > 18)
+             if(Age1 >= 18)
              {
                count = count + 1;
              }
@@ -915,7 +915,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
          if(et2.isEnabled() && et2.getText().toString().length() >0)
         {
             Age2 = Integer.parseInt(et2.getText().toString());
-            if(Age2 > 18)
+            if(Age2 >= 18)
             {
                 count = count + 1;
             }
@@ -925,7 +925,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
          if(et3.isEnabled() && et3.getText().toString().length() >0)
         {
             Age3 = Integer.parseInt(et3.getText().toString());
-            if(Age3 > 18)
+            if(Age3 >= 18)
             {
                 count = count + 1;
             }
@@ -935,7 +935,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
          if(et4.isEnabled() && et4.getText().toString().length() >0)
         {
             Age4 = Integer.parseInt(et4.getText().toString());
-            if(Age4 > 18)
+            if(Age4 >= 18)
             {
                 count = count + 1;
             }
@@ -945,7 +945,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
          if(et5.isEnabled() && et5.getText().toString().length() >0)
         {
             Age5 = Integer.parseInt(et5.getText().toString());
-            if(Age5 > 18)
+            if(Age5 >= 18)
             {
                 count = count + 1;
             }
@@ -955,21 +955,13 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
          if(et6.isEnabled() && et6.getText().toString().length() >0)
         {
             Age6 = Integer.parseInt(et6.getText().toString());
-            if(Age6 > 18)
+            if(Age6 >= 18)
             {
                 count = count + 1;
             }
 
 
         }
-
-
-//        if(Age1 >= 18  || Age2 >= 18 || Age3 >= 18 || Age4 >= 18 || Age5 >= 18 || Age6 >= 18  )
-//        {
-//            blnchk =true;
-//        }else{
-//            blnchk = false;
-//        }
 
         if(count == 0)
         {
