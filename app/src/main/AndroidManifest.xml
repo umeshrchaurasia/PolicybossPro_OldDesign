@@ -1007,10 +1007,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
-        <activity android:name=".onlineexpressloan.KotakpersonalloanActivity" />
+        <activity
+            android:screenOrientation="portrait"
+            android:name=".onlineexpressloan.KotakpersonalloanActivity" />
         <activity
             android:name=".term.icici.IciciTermActivity"
             android:label="@string/title_activity_icici_term"
+            android:screenOrientation="portrait"
             android:parentActivityName=".term.termselection.TermSelectionActivity"
             android:theme="@style/AppTheme">
             <meta-data

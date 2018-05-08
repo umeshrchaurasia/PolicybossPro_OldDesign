@@ -977,10 +977,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         //termRequestEntity.setDeathBenefitOption("Lump-Sum"); //set in incomeSelection()
         termRequestEntity.setPPT("" + etICICIPremiumTerm.getText().toString());
 
-        if (termCompareQuoteResponse != null && termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
+       /* if (termCompareQuoteResponse != null && termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
             termFinmartRequest.setTermRequestId(termCompareQuoteResponse.getMasterData().getLifeTermRequestID());
         else
-            termFinmartRequest.setTermRequestId(0);
+            termFinmartRequest.setTermRequestId(0);*/
         termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
