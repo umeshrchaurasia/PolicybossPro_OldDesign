@@ -491,11 +491,11 @@ public class DBPersistanceController {
     public List<TermSelectionEntity> getTermCompanyList() {
 
         List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
-        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1001, ""));
-        term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANE", 43, ""));
-        term.add(new TermSelectionEntity("HDFC LIFE INSURANE", 28, ""));
+        //term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1001, ""));
+       // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANE", 43, ""));
+        //term.add(new TermSelectionEntity("HDFC LIFE INSURANE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANE", 39, ""));
-        term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
+        //term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
 
         return term;
     }
@@ -509,6 +509,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
         // dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
+        dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
 
         return dashboardEntities;
     }
@@ -520,7 +521,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Offer loans against property at attractive rates to your customers", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get lowest rate loan on your Credit Card from wide range of banks.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Save huge money for your customers on their existing loans.", R.drawable.balance_transfer));
-        //dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
+        dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "QUICK LEAD SUBMISSION", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
 
 

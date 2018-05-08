@@ -28,13 +28,15 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
     Context mContext;
     List<MemberListEntity> listMemberList;
     String[] relationShip;
+    String PolicyFor;
 
     // data is passed into the constructor
-    HealthMemberDetailsViewAdapter(Context context, List<MemberListEntity> listMemberList) {
+    HealthMemberDetailsViewAdapter(Context context, List<MemberListEntity> listMemberList, String policyFor) {
         mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
         this.listMemberList = listMemberList;
         relationShip = mContext.getResources().getStringArray(R.array.health_relationship);
+        this.PolicyFor = policyFor;
     }
 
     // inflates the cell layout from xml when needed
@@ -50,6 +52,25 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
     public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         final MemberListEntity entity = listMemberList.get(position);
+
+        if (PolicyFor.toLowerCase().equals("self")) {
+
+            relationShip = mContext.getResources().getStringArray(R.array.health_relationship);
+            holder.spHealthRelation.setEnabled(false);
+
+        } else if (PolicyFor.toLowerCase().equals("parent")) {
+
+            relationShip = mContext.getResources().getStringArray(R.array.health_parent_relationship);
+
+
+            holder.spHealthRelation.setEnabled(true);
+
+        }else if (PolicyFor.toLowerCase().equals("family")) {
+
+            relationShip = mContext.getResources().getStringArray(R.array.health_family_relationship);
+            holder.spHealthRelation.setEnabled(true);
+        }
+
         ArrayAdapter<String> relationAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item,
                 relationShip) {
             @Override
@@ -78,6 +99,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
                 return view;
             }
         };
+
 
         holder.spHealthRelation.setAdapter(relationAdapter);
         holder.spHealthRelation.setTag(R.id.spHealthRelation, entity);
@@ -159,7 +181,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
             if (entity.getAge() >= 18)
                 holder.spHealthRelation.setSelection(3);
             else
-                holder.spHealthRelation.setSelection(5);
+                holder.spHealthRelation.setSelection(3);
 
             entity.setMemberGender("M");
 
@@ -169,9 +191,9 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
             holder.rbFemale.setChecked(true);
 
             if (entity.getAge() >= 18)
-                holder.spHealthRelation.setSelection(4);
+                holder.spHealthRelation.setSelection(3);
             else
-                holder.spHealthRelation.setSelection(5);
+                holder.spHealthRelation.setSelection(4);
 
             entity.setMemberGender("F");
 
@@ -195,7 +217,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
             if (entity.getAge() >= 18)
                 holder.spHealthRelation.setSelection(3);
             else
-                holder.spHealthRelation.setSelection(5);
+                holder.spHealthRelation.setSelection(6);
 
             entity.setMemberGender("M");
         }

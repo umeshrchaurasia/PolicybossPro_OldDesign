@@ -13,6 +13,10 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import org.json.JSONArray;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,8 +63,11 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
+        boolean isUpdate =false;
         if (response instanceof SalesMaterialProductResponse) {
-            mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
+           // mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
+
+            mlistSalesProduct =  getProducttList();
 
             List<SalesProductEntity> compLst = dbPersistanceController.getCompanyList();
             if (compLst != null) {
@@ -68,12 +75,14 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
                     for (int i = 0; i < mlistSalesProduct.size(); i++) {
                         for (SalesProductEntity oldComEntiy : compLst) {
                             if (mlistSalesProduct.get(i).getProduct_Id() == oldComEntiy.getProduct_Id()) {
-                                if (mlistSalesProduct.get(i).getCount() == oldComEntiy.getOldCount()) {
-                                    mlistSalesProduct.get(i).setblnCountVisibility(true);
-                                } else {
-                                    mlistSalesProduct.get(i).setblnCountVisibility(false);
+
+                                if(oldComEntiy.getOldCount() >  mlistSalesProduct.get(i).getCount() )
+                                {
+                                    isUpdate = true;
+                                    break;
                                 }
 
+                                mlistSalesProduct.get(i).setOldCount(oldComEntiy.getOldCount());
 
                             }
                         }
@@ -83,7 +92,11 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
             }
 
-            if (compLst.size() == 0) {
+
+            // case 1 : for first time when db data is empty OR Server list size is change ie product is increased / decreased
+            // case 2 : if sever product count is lesss than db product count than db should update
+
+            if (compLst.size() != mlistSalesProduct.size()  || isUpdate) {
                 for (int i = 0; i < mlistSalesProduct.size(); i++) {
 
                     mlistSalesProduct.get(i).setOldCount(0);
@@ -91,6 +104,21 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
                 dbPersistanceController.storeCompanyList(mlistSalesProduct);
             }
+
+            // region comment
+//            Gson gson = new Gson();
+//
+//            String listString = gson.toJson(
+//                    mlistSalesProduct,
+//                    new TypeToken<ArrayList<SalesProductEntity>>() {}.getType());
+//
+//            try {
+//                JSONArray jsonArray = new JSONArray(listString);
+//            }catch (Exception ex){
+//
+//            }
+
+           // endregion
 
             mAdapter = new SalesMaterialAdapter(this, mlistSalesProduct);
             rvSalesMaterial.setAdapter(mAdapter);
@@ -132,5 +160,21 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+        public List<SalesProductEntity> getProducttList() {
+            List<SalesProductEntity> EmploymentEntityList = new ArrayList<SalesProductEntity>();
+
+            EmploymentEntityList.add(new SalesProductEntity(1, "Health Insurance","http://qa.mgfm.in/uploads/salesmaterial/health.png",0));
+            EmploymentEntityList.add(new SalesProductEntity(2, "Motor Insurance","http://qa.mgfm.in/uploads/salesmaterial/motor.png",2));
+            EmploymentEntityList.add(new SalesProductEntity(3, "Health Assure","http://qa.mgfm.in/uploads/salesmaterial/healthassure.png",1));
+            EmploymentEntityList.add(new SalesProductEntity(4, "Loans","http://qa.mgfm.in/uploads/salesmaterial/loans.png",1));
+            EmploymentEntityList.add(new SalesProductEntity(5, "Health Insurance","http://qa.mgfm.in/uploads/salesmaterial/finpeace.png",0));
+
+            return EmploymentEntityList;
+        }
+
+
 
 }

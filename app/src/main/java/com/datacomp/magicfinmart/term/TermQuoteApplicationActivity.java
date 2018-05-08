@@ -34,6 +34,9 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getIntent().hasExtra(Constants.LIFE_INS)) {
             compId = getIntent().getIntExtra(Constants.LIFE_INS, 0);
+            if(compId==39){
+                getSupportActionBar().setTitle("ICICI PRUDENTIAL");
+            }
         }
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
         viewPager = (ViewPager) findViewById(R.id.pager);

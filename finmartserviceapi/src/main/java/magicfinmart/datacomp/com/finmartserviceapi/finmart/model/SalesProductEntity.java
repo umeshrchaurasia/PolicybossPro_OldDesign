@@ -19,18 +19,28 @@ public class SalesProductEntity extends RealmObject implements Parcelable {
     private String Product_Name;
     private String Product_image;
     private int Count;
-    private boolean blnHide;
-    private boolean blnCountVisibility;
     private int OldCount;
 
+    public SalesProductEntity()
+    {
+
+    }
+
+    public SalesProductEntity(int id, String Product_Name ,String Product_image ,int Count) {
+
+      this.Product_Id = id ;
+       this.Product_Name = Product_Name;
+        this.Product_image = Product_image;
+        this.Count  = Count;
+        this.OldCount = 0;
+
+    }
 
     protected SalesProductEntity(Parcel in) {
         Product_Id = in.readInt();
         Product_Name = in.readString();
         Product_image = in.readString();
         Count = in.readInt();
-        blnHide = in.readByte() != 0;
-        blnCountVisibility = in.readByte() != 0;
         OldCount = in.readInt();
     }
 
@@ -46,8 +56,6 @@ public class SalesProductEntity extends RealmObject implements Parcelable {
         }
     };
 
-    public SalesProductEntity() {
-    }
 
     public int getProduct_Id() {
         return Product_Id;
@@ -81,22 +89,6 @@ public class SalesProductEntity extends RealmObject implements Parcelable {
         Count = count;
     }
 
-    public boolean getblnHide() {
-        return blnHide;
-    }
-
-    public void setblnHide(boolean blnHide) {
-        this.blnHide = blnHide;
-    }
-
-    public boolean getblnCountVisibility() {
-        return blnCountVisibility;
-    }
-
-    public void setblnCountVisibility(boolean blnCountVisibility) {
-        this.blnCountVisibility = blnCountVisibility;
-    }
-
 
     public int getOldCount() {
         return OldCount;
@@ -118,8 +110,6 @@ public class SalesProductEntity extends RealmObject implements Parcelable {
         dest.writeString(Product_Name);
         dest.writeString(Product_image);
         dest.writeInt(Count);
-        dest.writeByte((byte) (blnHide ? 1 : 0));
-        dest.writeByte((byte) (blnCountVisibility ? 1 : 0));
         dest.writeInt(OldCount);
     }
 }

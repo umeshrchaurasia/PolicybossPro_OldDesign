@@ -8,11 +8,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.notification.NotificationAdapter;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -48,14 +54,12 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
         SalesMaterialItem item = (SalesMaterialItem) holder;
         final SalesProductEntity entity = mlistSalesProduct.get(position);
 
-        if (entity.getblnCountVisibility() == false) {
-            if (entity.getCount() != 0 && (entity.getblnHide() == false)) {
-                item.txtCount.setText(String.valueOf(entity.getCount()));
-            } else {
-                item.txtCount.setVisibility(View.INVISIBLE);
-            }
-        } else {
+        if(entity.getCount() == entity.getOldCount())
+        {
             item.txtCount.setVisibility(View.INVISIBLE);
+        }else{
+            item.txtCount.setVisibility(View.VISIBLE);
+            item.txtCount.setText(String.valueOf(entity.getCount() - entity.getOldCount()));
         }
         item.txtProductName.setText(entity.getProduct_Name());
 
@@ -75,11 +79,9 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
 
 
     public void updateList(SalesProductEntity salesProductEntity, int pos) {
-        mlistSalesProduct.get(pos).setblnHide(true);
-        notifyItemChanged(pos, salesProductEntity);
 
         mlistSalesProduct.get(pos).setOldCount(salesProductEntity.getCount());
-
+        notifyItemChanged(pos, salesProductEntity);
 
         dbPersistanceController.UpdateCompanyList(mlistSalesProduct);
     }

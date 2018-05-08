@@ -555,7 +555,7 @@ public class BaseActivity extends AppCompatActivity {
     public void showAlert(String strBody) {
         try {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
-            builder.setTitle("Finmart");
+            builder.setTitle("Error");
 
             builder.setMessage(strBody);
             String positiveText = "Ok";

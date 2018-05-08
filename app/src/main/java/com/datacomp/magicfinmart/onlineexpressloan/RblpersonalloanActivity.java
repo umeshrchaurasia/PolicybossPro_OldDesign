@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,22 +22,38 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.ICICICreditApplyActivity;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller.ExpressLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.RBLPesonalLoanReqEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressRbPersonalResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 
-public class RblpersonalloanActivity extends AppCompatActivity {
+import static java.lang.Math.pow;
+
+public class RblpersonalloanActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     CardView ccPersonal, ccCompantDetail, ccQuoteDetail;
 
     Button btnSubmit;
@@ -43,42 +61,33 @@ public class RblpersonalloanActivity extends AppCompatActivity {
     TextInputLayout tlFirstName, tlMiddleName, tlLastName;
 
     //personal detail
-    EditText etFirstName, etMiddleName, etLastName, etDOB, etMonthlyIncome, etMobile, etEmailPers, etEMI, etLivingSince, etPincode;
+    EditText etFirstName, etMiddleName, etLastName, etDOB, etMonthlyIncome, etMobile, etEmailPers, etEMI, etLivingSince, etPincode, etAddress1, etAddress2;
 
     Spinner spResType, spSalaried, spTenure, spOrgCategory, spQualification;
     RadioButton rbmale, rbfemale, rbOther;
+    CheckBox chkRblCondition;
 
     //Quote detail
 
     //Company detail
     EditText etEmployerName, etLoanAmount, etLoanReq, etRateType, etBestRate, etQuteEMI, etProcessingFees,
-            etJoin, etTotWorkExp, etOffAddress1, etOffAddress2, etOffPincode, etOffphoneNo, etOffPancard;
-    Spinner spICICIRelationShip, spTypeCompany;
-    RadioButton rbSavingAccYes;
-    EditText etICICINumber;
+            etJoin, etTotWorkExp, etOffAddress1, etOffAddress2, etOffPincode, etOffphoneNo, etOffPancard,etLandmark;
 
-
-    AutoCompleteTextView acOffCity, accCity;
+    AutoCompleteTextView acOffCity, acCity;
 
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-
 
     //spinner Adapters
     ArrayAdapter<String> residenceAdapter, salariedAdapter, tenureAdapter;
     ArrayAdapter<String> OrgCategoryAdapter, QualificationAdapter;
 
-
-    String[] stateList = {"ANDAMAN-NICOBAR", "ANDHRA PRADESH", "ARUNACHAL PRADESH", "ASSAM", "BIHAR", "CHANDIGARH", "CHHATTISGARH", "DADRA & NAGAR HAVELI", "DAMAN & DIU", "DELHI", "GOA", "GUJARAT", "HARYANA",
-            "HIMACHAL PRADESH", "JAMMU KASHMIR", "JHARKHAND", "KARNATAKA", "KERALA", "LAKSHADWEEP", "MADHYA PRADESH", "MAHARASHTRA", "MANIPUR", "MEGHALAYA", "MIZORAM", "NAGALAND", "ORISSA",
-            "PONDICHERRY", "PUNJAB", "RAJASTHAN", "SIKKIM", "TAMILNADU", "TRIPURA", "UTTAR PRADESH", "UTTARAKHAND", "WEST BENGAL"};
-
     ArrayAdapter<String> cityAdapter;
     List<String> cityList;
-    ArrayAdapter<String> stateAdapter;
 
-    CCICICIRequestEntity requestEntity;
-    CreditCardEntity creditCardEntity;
+    final double roi = 0.012;
+    String BankID = "";
+    String LoanType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +99,37 @@ public class RblpersonalloanActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         init();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            BankID = extras.getString("BANK_ID","");
+            LoanType = extras.getString("LOAN_TYPE","");
+            //The key argument here must match that used in the other activity
+        }
+        cityList = new ArrayList<>();
+        cityList = new DBPersistanceController(this).getRblCity();
+        cityBinding();
+        cityOffBinding();
+        acCity.setOnFocusChangeListener(acCityFocusChange);
+        acOffCity.setOnFocusChangeListener(acCityOFFiceFocusChange);
         setListner();
         bindAllSpinner();
 
+    }
+
+    //region method
+    private void cityBinding() {
+        cityAdapter = new
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, cityList);
+        acCity.setAdapter(cityAdapter);
+        acCity.setThreshold(1);
+    }
+
+    private void cityOffBinding() {
+        cityAdapter = new
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, cityList);
+        acOffCity.setAdapter(cityAdapter);
+        acOffCity.setThreshold(1);
     }
 
     private void init() {
@@ -102,8 +139,7 @@ public class RblpersonalloanActivity extends AppCompatActivity {
         ccCompantDetail = (CardView) findViewById(R.id.ccCompantDetail);
         ccQuoteDetail = (CardView) findViewById(R.id.ccQuoteDetail);
 
-        //accCity = (AutoCompleteTextView) findViewById(R.id.accCity);
-        accCity = (AutoCompleteTextView) findViewById(R.id.acOffCity);
+        acCity = (AutoCompleteTextView) findViewById(R.id.acCity);
         acOffCity = (AutoCompleteTextView) findViewById(R.id.acOffCity);
 
         //region personal detail
@@ -118,9 +154,12 @@ public class RblpersonalloanActivity extends AppCompatActivity {
         etEMI = (EditText) findViewById(R.id.etEMI);
         etLivingSince = (EditText) findViewById(R.id.etLivingSince);
         etPincode = (EditText) findViewById(R.id.etPincode);
+        etAddress1 = (EditText) findViewById(R.id.etAddress1);
+        etAddress2 = (EditText) findViewById(R.id.etAddress2);
+        etLandmark = (EditText) findViewById(R.id.etLandmark);
 
 
-        spResType = (Spinner) findViewById(R.id.spResType);
+                spResType = (Spinner) findViewById(R.id.spResType);
         spSalaried = (Spinner) findViewById(R.id.spSalaried);
         spTenure = (Spinner) findViewById(R.id.spTenure);
 
@@ -151,14 +190,15 @@ public class RblpersonalloanActivity extends AppCompatActivity {
 
         spOrgCategory = (Spinner) findViewById(R.id.spOrgCategory);
         spQualification = (Spinner) findViewById(R.id.spQualification);
-
+        chkRblCondition = (CheckBox) findViewById(R.id.chkRblCondition);
 
         //endregion
 
-        btnSubmit = (Button) findViewById(R.id.rbOther);
+        btnSubmit = (Button) findViewById(R.id.btnSubmit);
 
 
     }
+
 
     private void bindAllSpinner() {
 
@@ -433,7 +473,141 @@ public class RblpersonalloanActivity extends AppCompatActivity {
     private void setListner() {
         etDOB.setOnClickListener(datePickerDialog);
         etJoin.setOnClickListener(datePickerDialog);
+        etLivingSince.setOnClickListener(datePickerDialog);
+        etLoanAmount.addTextChangedListener(loanAmountTextWatcher);
+        btnSubmit.setOnClickListener(this);
     }
+
+
+    private int getTenure() {
+        int pos = 0;
+        if (spTenure.getSelectedItemPosition() == 0) {
+            pos = 0;
+        } else if (spTenure.getSelectedItemPosition() == 1) {
+            pos = 12;
+        } else if (spTenure.getSelectedItemPosition() == 2) {
+            pos = 24;
+        } else if (spTenure.getSelectedItemPosition() == 3) {
+            pos = 36;
+        } else if (spTenure.getSelectedItemPosition() == 4) {
+            pos = 48;
+        } else if (spTenure.getSelectedItemPosition() == 5) {
+            pos = 60;
+        }
+
+        return pos;
+    }
+
+    private void getEmiandProcessingFee() {
+        double emi;
+        if (etLoanAmount.getText().length() == 0) {
+            return;
+        }
+        double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
+
+        emi = loanAmnt * roi * (Math.pow(1 + roi, getTenure()) / (Math.pow(1 + roi, getTenure()) - 1));
+
+        etQuteEMI.setText(String.valueOf(getDigitPrecision(emi)));
+        etProcessingFees.setText(String.valueOf(getDigitPrecision(loanAmnt * 0.02)));
+
+    }
+
+
+    private double getDigitPrecision(double value) {
+        return Double.parseDouble(new DecimalFormat("##.##").format(value));
+    }
+
+    //endregion
+
+    // region Event
+
+    //region textwatcher
+
+
+    TextWatcher loanAmountTextWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+            if (spTenure.getSelectedItemPosition() > 0) {
+
+                if ((s.length() > 5) && (s.length() < 8)) {
+                    getEmiandProcessingFee();
+                } else {
+                    etQuteEMI.setText("");
+                    etProcessingFees.setText("");
+                }
+            } else {
+                etQuteEMI.setText("");
+                etProcessingFees.setText("");
+            }
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    //endregion
+
+    //region AutoCompletTextView Event
+
+    View.OnFocusChangeListener acCityFocusChange = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (!b) {
+
+                String str = acCity.getText().toString();
+
+                ListAdapter listAdapter = acCity.getAdapter();
+                for (int i = 0; i < listAdapter.getCount(); i++) {
+                    String temp = listAdapter.getItem(i).toString();
+                    if (str.compareTo(temp) == 0) {
+                        return;
+                    }
+                }
+
+                acCity.setText("");
+                acCity.setError("Invalid city");
+                acCity.setFocusable(true);
+            } else {
+                acCity.setError(null);
+            }
+        }
+    };
+
+    View.OnFocusChangeListener acCityOFFiceFocusChange = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View view, boolean b) {
+            if (!b) {
+
+                String str = acOffCity.getText().toString();
+
+                ListAdapter listAdapter = acOffCity.getAdapter();
+                for (int i = 0; i < listAdapter.getCount(); i++) {
+                    String temp = listAdapter.getItem(i).toString();
+                    if (str.compareTo(temp) == 0) {
+                        return;
+                    }
+                }
+
+                acOffCity.setText("");
+                acOffCity.setError("Invalid city");
+                acOffCity.setFocusable(true);
+            } else {
+                acOffCity.setError(null);
+            }
+        }
+    };
+    //endregion
 
     //region datepicker
 
@@ -442,7 +616,7 @@ public class RblpersonalloanActivity extends AppCompatActivity {
         public void onClick(View view) {
 
             if (view.getId() == R.id.etDOB) {
-                DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.showExpressAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -465,10 +639,354 @@ public class RblpersonalloanActivity extends AppCompatActivity {
                         }
                     }
                 });
+            } else if (view.getId() == R.id.etLivingSince) {
+                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = simpleDateFormat.format(calendar.getTime());
+                            etLivingSince.setText(currentDay);
+                        }
+                    }
+                });
             }
 
         }
     };
 
     //endregion
+
+
+    private boolean validateRbl() {
+        // region Personal
+        if (!isEmpty(etFirstName)) {
+            etFirstName.setError("Enter First Name");
+            etFirstName.setFocusable(true);
+            return false;
+        } else {
+            etFirstName.setError(null);
+        }
+
+        if (!isEmpty(etMiddleName)) {
+            etMiddleName.setError("Enter Middle Name");
+            etMiddleName.setFocusable(true);
+            return false;
+        } else {
+            etMiddleName.setError(null);
+        }
+
+        if (!isEmpty(etLastName)) {
+            etLastName.setError("Enter Last Name");
+            etLastName.setFocusable(true);
+            return false;
+        } else {
+            etLastName.setError(null);
+        }
+
+        if (!isEmpty(etDOB)) {
+            etDOB.setError("Enter Date of Birth");
+            etDOB.setFocusable(true);
+            return false;
+        } else {
+            etDOB.setError(null);
+        }
+
+        if (!isEmpty(etMonthlyIncome)) {
+            etMonthlyIncome.setError("Enter Monthly Income");
+            etMonthlyIncome.setFocusable(true);
+            return false;
+        } else {
+            etMonthlyIncome.setError(null);
+        }
+
+        if (!isEmpty(etMobile)) {
+            etMobile.setError("Enter  Mobile Number");
+            etMobile.setFocusable(true);
+            return false;
+        } else {
+            etMobile.setError(null);
+        }
+
+        if (etMobile.getText().length() < 10) {
+            etMobile.setError("Invalid  Mobile Number");
+            etMobile.setFocusable(true);
+            return false;
+        } else {
+            etMobile.setError(null);
+        }
+
+        if (!isEmpty(etEmailPers)) {
+            etEmailPers.setError("Enter  Email ID");
+            etEmailPers.setFocusable(true);
+            return false;
+        } else {
+            etEmailPers.setError(null);
+        }
+
+        if (!isValideEmailID(etEmailPers)) {
+            etEmailPers.setError("Invalid Email ID");
+            etEmailPers.setFocusable(true);
+            return false;
+        }
+
+        if (!isEmpty(etLivingSince)) {
+            etLivingSince.setError("Enter Living Since");
+            etLivingSince.setFocusable(true);
+            return false;
+        } else {
+            etLivingSince.setError(null);
+        }
+
+        if (acCity.getText().toString().length() == 0) {
+            acCity.setError("Enter City");
+            acCity.setFocusable(true);
+            return false;
+        } else {
+            acCity.setError(null);
+        }
+
+        if (!isEmpty(etPincode)) {
+            etPincode.setError("Enter Pincode Since");
+            etPincode.setFocusable(true);
+            return false;
+        } else {
+            etPincode.setError(null);
+        }
+
+
+        if (etPincode.getText().toString().length() < 6) {
+            etPincode.setError("Invalid Pincode");
+            etPincode.setFocusable(true);
+            return false;
+        } else {
+            etPincode.setError(null);
+        }
+
+        if (!isEmpty(etAddress1)) {
+            etAddress1.setError("Enter Address");
+            etAddress1.setFocusable(true);
+            return false;
+        } else {
+            etAddress1.setError(null);
+        }
+
+        if (!isEmpty(etEmployerName)) {
+            etEmployerName.setError("Enter Employer Name");
+            etEmployerName.setFocusable(true);
+            return false;
+        } else {
+            etEmployerName.setError(null);
+        }
+
+        // endregion
+
+        // region Quote
+        if (!isEmpty(etLoanAmount)) {
+            etLoanAmount.setError("Enter Loan Amount");
+            etLoanAmount.setFocusable(true);
+            return false;
+        } else {
+            etLoanAmount.setError(null);
+        }
+
+        double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
+        if (loanAmnt < 100000 || loanAmnt > 2000000) {
+            showAlert("Amount should be between 1 Lac 20 Lacs");
+            return false;
+        }
+        // endregion
+
+        // region Employment
+
+        if (!isEmpty(etOffAddress1)) {
+            etOffAddress1.setError("Enter Address");
+            etOffAddress1.setFocusable(true);
+            return false;
+        } else {
+            etOffAddress1.setError(null);
+        }
+
+        if (!isEmpty(etOffAddress1)) {
+            etOffAddress1.setError("Enter Address");
+            etOffAddress1.setFocusable(true);
+            return false;
+        } else {
+            etOffAddress1.setError(null);
+        }
+
+        if (!isEmpty(etOffphoneNo)) {
+            etOffphoneNo.setError("Enter Phone No.");
+            etOffphoneNo.setFocusable(true);
+            return false;
+        } else {
+            etOffAddress1.setError(null);
+        }
+
+        if (!isEmpty(etOffPincode)) {
+            etOffPincode.setError("Enter Pincode Since");
+            etOffPincode.setFocusable(true);
+            return false;
+        } else {
+            etOffPincode.setError(null);
+        }
+
+
+        if (etOffPincode.getText().toString().length() < 6) {
+            etOffPincode.setError("Invalid Pincode");
+            etOffPincode.setFocusable(true);
+            return false;
+        } else {
+            etOffPincode.setError(null);
+        }
+
+        if (!isEmpty(etOffPancard)) {
+            etOffPancard.setError("Enter PanCard");
+            etOffPancard.setFocusable(true);
+            return false;
+        } else {
+            etOffPancard.setError(null);
+        }
+        if (!isValidPan(etOffPancard)) {
+            etOffPancard.setError("Invalid PanCard");
+            etOffPancard.setFocusable(true);
+            return false;
+        } else {
+            etOffPancard.setError(null);
+        }
+
+        if (acOffCity.getText().toString().length() == 0) {
+            acOffCity.setError("Enter City");
+            acOffCity.setFocusable(true);
+            return false;
+        } else {
+            acOffCity.setError(null);
+        }
+
+        if (!chkRblCondition.isChecked()) {
+
+            showAlert("Accept Terms and Condtion");
+            return false;
+        }
+        // endregion
+
+
+        return true;
+    }
+
+    private void saveRblPersonalLoan() {
+        RBLPesonalLoanReqEntity reqEntity = new RBLPesonalLoanReqEntity();
+
+        reqEntity.setFirstName(etFirstName.getText().toString());
+        reqEntity.setMiddleName(etMiddleName.getText().toString());
+        reqEntity.setLastName(etLastName.getText().toString());
+        if (rbmale.isChecked()) {
+            reqEntity.setGender("1");
+        } else if (rbfemale.isChecked()) {
+            reqEntity.setGender("2");
+        } else {
+            reqEntity.setGender("3");
+        }
+
+        reqEntity.setResAddress1(etAddress1.getText().toString());
+        reqEntity.setResAddress2(etAddress2.getText().toString());
+        reqEntity.setResLand(etLandmark.getText().toString());
+        reqEntity.setDOB(etDOB.getText().toString());
+
+        reqEntity.setResType(String.valueOf(spResType.getSelectedItemPosition()));
+        reqEntity.setCurResSince(etLivingSince.getText().toString());
+        reqEntity.setResPIN(etPincode.getText().toString());
+        reqEntity.setMobile(etMobile.getText().toString());
+
+        reqEntity.setEmail(etEmailPers.getText().toString());
+        reqEntity.setEmpType(String.valueOf(spSalaried.getSelectedItemPosition()));
+        reqEntity.setLnAmt(etLoanAmount.getText().toString());
+        reqEntity.setTnrMths((String.valueOf(getTenure())));
+
+        reqEntity.setIRR("16");
+        reqEntity.setProcFee(etProcessingFees.getText().toString());
+        reqEntity.setNMI(etMonthlyIncome.getText().toString());
+        reqEntity.setEmiCurPay(etEMI.getText().toString());
+
+        try {
+            reqEntity.setResCity(String.valueOf(new DBPersistanceController(this).getRblCityCode(acCity.getText().toString())));
+        } catch (Exception e) {
+            reqEntity.setResCity("0");
+        }
+
+        try {
+            reqEntity.setOffCity(String.valueOf(new DBPersistanceController(this).getRblCityCode(acOffCity.getText().toString())));
+        } catch (Exception e) {
+            reqEntity.setResCity("0");
+        }
+
+
+        reqEntity.setCompanyName(etEmployerName.getText().toString());
+        reqEntity.setCurCmpnyJoinDt(etJoin.getText().toString());
+        reqEntity.setTotWrkExp(etTotWorkExp.getText().toString());
+        reqEntity.setOffAddress1(etOffAddress1.getText().toString());
+        reqEntity.setOffAddress2(etOffAddress2.getText().toString());
+
+        reqEntity.setOrgCategory(String.valueOf((spOrgCategory.getSelectedItemPosition())));
+        reqEntity.setOffPIN(etOffPincode.getText().toString());
+        reqEntity.setOffPhone(etOffphoneNo.getText().toString());
+        reqEntity.setPAN(etOffPancard.getText().toString());
+        reqEntity.setQualification(String.valueOf((spQualification.getSelectedItemPosition())));
+        reqEntity.setCheck("on");
+
+
+        reqEntity.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId());
+        reqEntity.setEmpid("");
+
+        reqEntity.setSource("Finmart");
+        reqEntity.setCampaignName("");
+        reqEntity.setBankId("");
+        reqEntity.setLoanType("");
+        reqEntity.setFBAID(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
+
+
+         new ExpressLoanController(this).saveRblPersonalLoan(reqEntity,RblpersonalloanActivity.this);
+
+
+    }
+
+
+
+    @Override
+    public void onClick(View view) {
+
+        if (view.getId() == R.id.btnSubmit) {
+
+            if (validateRbl()) {
+
+                Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+        cancelDialog();
+        if (response instanceof ExpressRbPersonalResponse) {
+            if (response.getStatusNo() == 0) {
+
+               Toast.makeText(this,"Data Saved Successfully..",Toast.LENGTH_SHORT).show();
+            }
+        }
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+    }
+
+
+    //endregion
+
+
 }

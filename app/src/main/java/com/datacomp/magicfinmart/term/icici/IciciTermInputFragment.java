@@ -2,10 +2,17 @@ package com.datacomp.magicfinmart.term.icici;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +21,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -25,24 +34,48 @@ import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 
 import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
-public class IciciTermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
+public class IciciTermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
+
+
+    // quote
+    TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn, filter;
+    ImageView ivEdit;
+    TermCompareQuoteResponse termCompareQuoteResponse;
+    CardView cvInputDetails, cvQuoteDetails;
+    View layoutCompare;
+
+    TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
+    ImageView imgInsurerLogo, ivBuy;
+    LinearLayout llAddon;
+    RecyclerView rvAddOn;
 
     Button btnGetQuote;
     EditText etFirstName, etLastName, etMobile;
@@ -50,6 +83,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     EditText etDOB;
 
     EditText etPincode, etSumAssured;
+    TextInputLayout tilPincode;
     List<String> policyYear;
     DBPersistanceController dbPersistanceController;
     Spinner spPolicyTerm, spPremTerm;
@@ -79,6 +113,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     int insurerID;
     boolean canChangePremiumTerm = true;
     int age = 0;
+    boolean isEdit = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -96,12 +131,16 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         //adapter_listener();
         if (getArguments() != null) {
-            if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null)
+            if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null) {
                 termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
+                isEdit = true;
+            }
+
             insurerID = getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT);
             bindICICI();
             bindInput(termFinmartRequest);
         }
+        hideShowLayout(true);
         return view;
     }
 
@@ -126,7 +165,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             } else if (parent.getId() == R.id.spICICIPremiumFrequency) {
                 switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
                     case 0:
-                        termRequestEntity.setFrequency("Annual");
+                        termRequestEntity.setFrequency("yearly");
                         break;
                     case 1:
                         termRequestEntity.setFrequency("Half Yearly");
@@ -173,21 +212,22 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                         break;
 
                 }
+                if (!isEdit) {
+                    ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
+                            , android.R.layout.simple_spinner_item
+                            , optionsList);
 
-                ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
-                        , android.R.layout.simple_spinner_item
-                        , optionsList);
+                    spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spICICIOptions.setAdapter(spAdapterOptions);
 
-                spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spICICIOptions.setAdapter(spAdapterOptions);
+                    ArrayAdapter<String> spAdapterPremiumFreq = new ArrayAdapter<String>(getActivity()
+                            , android.R.layout.simple_spinner_item
+                            , premiumFreqList);
 
-                ArrayAdapter<String> spAdapterPremiumFreq = new ArrayAdapter<String>(getActivity()
-                        , android.R.layout.simple_spinner_item
-                        , premiumFreqList);
-
-                spAdapterPremiumFreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                spICICIPremiumFrequency.setAdapter(spAdapterPremiumFreq);
-
+                    spAdapterPremiumFreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spICICIPremiumFrequency.setAdapter(spAdapterPremiumFreq);
+                    isEdit = false;
+                }
 
             }
         }
@@ -209,17 +249,23 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 termRequestEntity.setPlanTaken("Life Plus");
                 llICICICritical.setVisibility(View.GONE);
                 llICICIAccidental.setVisibility(View.VISIBLE);
+                if (etICICIAccidentalBenefits.getText().toString().equals(""))
+                    etICICIAccidentalBenefits.setText("1,000,000");
                 break;
             case "LIFE AND HEALTH":
                 termRequestEntity.setPlanTaken("Life and Health");
                 llICICICritical.setVisibility(View.VISIBLE);
                 llICICIAccidental.setVisibility(View.GONE);
+                if (etICICICriticalIllness.getText().toString().equals(""))
+                    etICICIAccidentalBenefits.setText("1,000,000");
                 setDefaultValues("LIFE AND HEALTH");
                 break;
             case "ALL IN ONE":
                 termRequestEntity.setPlanTaken("All in One");
                 llICICICritical.setVisibility(View.VISIBLE);
                 llICICIAccidental.setVisibility(View.VISIBLE);
+                if (etICICIAccidentalBenefits.getText().toString().equals(""))
+                    etICICIAccidentalBenefits.setText("1,000,000");
                 break;
 
 
@@ -236,19 +282,172 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         }
     }
 
+    private void bindHeaders() {
+        if (termRequestEntity != null) {
+
+            tvSum.setText("");
+            tvSum.append("SUM  ");
+            SpannableString SUM = new SpannableString(termRequestEntity.getSumAssured());
+            SUM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getSumAssured().length(), 0);
+            tvSum.append(SUM);
+
+
+            try {
+                tvAge.setText("");
+                tvAge.append("AGE  ");
+                Date ag = simpleDateFormat.parse(termRequestEntity.getInsuredDOB());
+                Calendar ageCalender = Calendar.getInstance();
+                ageCalender.setTime(ag);
+                String age = "" + caluclateAge(ageCalender);
+                SpannableString AGE = new SpannableString(age);
+                AGE.setSpan(new StyleSpan(Typeface.BOLD), 0, age.length(), 0);
+                tvAge.append(AGE);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+            tvPolicyTerm.setText("");
+            tvPolicyTerm.append("TERM  ");
+            SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm());
+            TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
+            tvPolicyTerm.append(TERM);
+            tvPolicyTerm.append(" YEARS");
+
+            if (termRequestEntity.getInsuredGender().equals("M"))
+                tvGender.setText("MALE");
+            else
+                tvGender.setText("FEMALE");
+            if (termRequestEntity.getIs_TabaccoUser().equals("true"))
+                tvSmoker.setText("SMOKER");
+            else
+                tvSmoker.setText("NON-SMOKER");
+
+
+            tvCrn.setText("");
+            tvCrn.append("CRN  ");
+            String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+            SpannableString CRN = new SpannableString(crn);
+            CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
+            tvCrn.append(CRN);
+            termRequestEntity.setCrn(crn);
+            termFinmartRequest.setTermRequestEntity(termRequestEntity);
+
+            // tvAge.setText("" + termRequestEntity.getInsuredDOB());
+            //tvPolicyTerm.setText("" + termRequestEntity.getPolicyTerm() + " YEARS");
+            //tvCrn.setText("---");
+        }
+    }
+
+    private void bindQuotes() {
+        final TermCompareResponseEntity responseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(0);
+        txtPlanNAme.setText("" + responseEntity.getProductPlanName());
+        txtCover.setText("" + responseEntity.getSumAssured());
+        txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + "Yrs.");
+        txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium() + "/Year");
+        //  txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
+
+       /* Glide.with(getActivity())
+                .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurerLogoName())
+                .into(imgInsurerLogo);*/
+
+        txtCustomise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
+        txtRiders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
+
+        txtFinalPremium.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // ((TermInputFragment) getActivity()).redirectToBuy(responseEntity);
+            }
+        });
+
+        /*if (responseEntity.getKeyFeatures() != null) {
+            llAddon.setVisibility(View.VISIBLE);
+            rvAddOn.setHasFixedSize(true);
+            RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext.getActivity(), 2);
+            rvAddOn.setLayoutManager(mLayoutManager);
+            GridTermAdapter adapter = new GridTermAdapter(mContext.getActivity(), responseEntity.getKeyFeatures().split("\\|"));
+            rvAddOn.setAdapter(adapter);
+
+        } else {
+            llAddon.setVisibility(View.GONE);
+        }*/
+    }
+
+    private void hideShowLayout(boolean isInput) {
+        if (isInput) {
+            //((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+            btnGetQuote.setText("GET QUOTE");
+            tilPincode.setVisibility(View.VISIBLE);
+            layoutCompare.setVisibility(View.VISIBLE);
+            cvInputDetails.setVisibility(View.GONE);
+            cvQuoteDetails.setVisibility(View.GONE);
+        } else {
+            ((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+            btnGetQuote.setText("UPDATE QUOTE");
+            tilPincode.setVisibility(View.INVISIBLE);
+            layoutCompare.setVisibility(View.GONE);
+            cvInputDetails.setVisibility(View.VISIBLE);
+            cvQuoteDetails.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void bindInput(TermFinmartRequest termFinmartRequest) {
         try {
             TermRequestEntity termRequestEntity = termFinmartRequest.getTermRequestEntity();
             if (termRequestEntity != null) {
-                etDOB.setText("" + termRequestEntity.getInsuredDOB());
-                etSumAssured.setText("" + termRequestEntity.getSumAssured());
+
+                if (termRequestEntity.getPremiumPaymentOption().equals("Regular Pay")) {
+                    spICICIPremiumTerm.setSelection(0);
+                } else if (termRequestEntity.getPremiumPaymentOption().equals("Single Pay")) {
+                    spICICIPremiumTerm.setSelection(1);
+                } else if (termRequestEntity.getPremiumPaymentOption().equals("Limited Pay")) {
+                    spICICIPremiumTerm.setSelection(2);
+                }
+                String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
+                final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
+                ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
+                        , android.R.layout.simple_spinner_item
+                        , optionsList);
+
+                spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spICICIOptions.setAdapter(spAdapterOptions);
+                if (termRequestEntity.getPlanTaken().equals("Life")) {
+                    spICICIOptions.setSelection(0);
+                } else if (termRequestEntity.getPlanTaken().equals("Life Plus")) {
+                    spICICIOptions.setSelection(1);
+                } else if (termRequestEntity.getPlanTaken().equals("Life and Health")) {
+                    spICICIOptions.setSelection(2);
+                } else if (termRequestEntity.getPlanTaken().equals("All in One")) {
+                    spICICIOptions.setSelection(3);
+                }
+
+                if (termRequestEntity.getFrequency().equals("yearly")) {
+                    spICICIPremiumFrequency.setSelection(0);
+                } else if (termRequestEntity.getFrequency().equals("Half Yearly")) {
+                    spICICIPremiumFrequency.setSelection(1);
+                } else if (termRequestEntity.getFrequency().equals("yearly")) {
+                    spICICIPremiumFrequency.setSelection(2);
+                }
+
+
                 String[] splitStr = termRequestEntity.getContactName().split("\\s+");
                 etFirstName.setText("" + splitStr[0]);
                 etLastName.setText("" + splitStr[1]);
                 etMobile.setText("" + termRequestEntity.getContactMobile());
-                spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPolicyTerm()) - 5));
-                spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPPT()) - 5));
+                etDOB.setText("" + termRequestEntity.getInsuredDOB());
                 etPincode.setText("" + termRequestEntity.getPincode());
+
                 if (termRequestEntity.getIs_TabaccoUser().equals("true"))
                     rbYesSmoker.setChecked(true);
                 else
@@ -258,6 +457,31 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     rbMale.setChecked(true);
                 else
                     rbfemale.setChecked(true);
+
+
+                if (termRequestEntity.getDeathBenefitOption().equals("lump-sum")) {
+                    incomeSelection("LUMP SUM");
+                } else if (termRequestEntity.getDeathBenefitOption().equals("income")) {
+                    incomeSelection("REGULAR INCOME");
+                } else if (termRequestEntity.getDeathBenefitOption().equals("increasing income")) {
+                    incomeSelection("INCREASING INCOME");
+                } else if (termRequestEntity.getDeathBenefitOption().equals("lump-sum-income")) {
+                    incomeSelection("LUMP SUM + REGULAR INCOME");
+                }
+
+                if (termRequestEntity.getCIBenefit() != null)
+                    etICICICriticalIllness.setText("" + termRequestEntity.getCIBenefit());
+
+                if (termRequestEntity.getADHB() != null)
+                    etICICIAccidentalBenefits.setText("" + termRequestEntity.getADHB());
+
+                if (termRequestEntity.getLumpsumPercentage() != null)
+                    etICICILumpSumpPerc.setText("" + termRequestEntity.getLumpsumPercentage());
+
+                etSumAssured.setText("" + termRequestEntity.getSumAssured());
+                etICICIPolicyTerm.setText("" + termRequestEntity.getPolicyTerm());
+                etICICIPremiumTerm.setText("" + termRequestEntity.getPPT());
+
             }
 
         } catch (Exception e) {
@@ -267,6 +491,11 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void setListener() {
+
+        ivEdit.setOnClickListener(this);
+        ivBuy.setOnClickListener(this);
+//        filter.setOnClickListener(this);
+
         btnGetQuote.setOnClickListener(this);
         etDOB.setOnClickListener(datePickerDialog);
 
@@ -289,6 +518,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         plusICICILumpSumpPerc.setOnClickListener(this);
         spICICIOptions.setOnItemSelectedListener(optionSelected);
         spICICIPremiumTerm.setOnItemSelectedListener(optionSelected);
+        spICICIPremiumFrequency.setOnItemSelectedListener(optionSelected);
     }
 
     private void adapter_listener() {
@@ -315,6 +545,32 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void init(View view) {
+
+
+        //quote page
+        cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
+        cvQuoteDetails = (CardView) view.findViewById(R.id.cvQuoteDetails);
+        layoutCompare = (View) view.findViewById(R.id.layoutCompare);
+        tilPincode = (TextInputLayout) view.findViewById(R.id.tilPincode);
+        tvSum = (TextView) view.findViewById(R.id.tvSum);
+        tvGender = (TextView) view.findViewById(R.id.tvGender);
+        tvSmoker = (TextView) view.findViewById(R.id.tvSmoker);
+        tvAge = (TextView) view.findViewById(R.id.tvAge);
+        tvPolicyTerm = (TextView) view.findViewById(R.id.tvPolicyTerm);
+        tvCrn = (TextView) view.findViewById(R.id.tvCrn);
+        ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
+
+        llAddon = (LinearLayout) view.findViewById(R.id.llAddon);
+        rvAddOn = (RecyclerView) view.findViewById(R.id.rvAddOn);
+        txtAge = (TextView) view.findViewById(R.id.txtAge);
+        txtCustomise = (TextView) view.findViewById(R.id.txtCustomise);
+        txtRiders = (TextView) view.findViewById(R.id.txtRiders);
+        txtPlanNAme = (TextView) view.findViewById(R.id.txtPlanNAme);
+        txtCover = (TextView) view.findViewById(R.id.txtCover);
+        txtFinalPremium = (TextView) view.findViewById(R.id.txtFinalPremium);
+        imgInsurerLogo = (ImageView) view.findViewById(R.id.imgInsurerLogo);
+        ivBuy = (ImageView) view.findViewById(R.id.ivBuy);
+        txtPolicyTerm = (TextView) view.findViewById(R.id.txtPolicyTerm);
 
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
@@ -372,12 +628,26 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.ivBuy:
+                startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                        .putExtra("URL", termCompareQuoteResponse.getMasterData().getResponse().get(0).getProposerPageUrl())
+                        .putExtra("NAME", "ICICI PRUDENTIAL")
+                        .putExtra("TITLE", "ICICI PRUDENTIAL"));
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life Ins Buy"), Constants.LIFE_INS), null);
+
+                break;
             case R.id.btnGetQuote:
 
                 if (isValidInput()) {
                     setTermRequest();
-                    ((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    fetchQuotes();
                 }
+                break;
+
+            case R.id.ivEdit:
+                //((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                hideShowLayout(true);
                 break;
             case R.id.txtICICILumpSum:
             case R.id.txtICICIRegularIncome:
@@ -425,6 +695,11 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 changeLumpsumPercent(false);
                 break;
         }
+    }
+
+    private void fetchQuotes() {
+        showDialog();
+        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
 
     private void changeLumpsumPercent(boolean b) {
@@ -608,7 +883,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 txtICICIRegularIncome.setBackgroundResource(R.drawable.customeborder);
                 txtICICILumpSumRegular.setBackgroundResource(R.drawable.customeborder);
                 llICICILumpSumpPerc.setVisibility(View.GONE);
-                termRequestEntity.setDeathBenefitOption("Lump-Sum");
+                termRequestEntity.setDeathBenefitOption("lump-sum");
                 break;
             case "REGULAR INCOME":
                 txtICICILumpSum.setBackgroundResource(R.drawable.customeborder);
@@ -652,7 +927,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         else
             termRequestEntity.setIs_TabaccoUser("true");
 
-        termRequestEntity.setSumAssured(etSumAssured.getText().toString());
+        termRequestEntity.setSumAssured(etSumAssured.getText().toString().replaceAll("\\,", ""));
         termRequestEntity.setInsuredDOB(etDOB.getText().toString());
         termRequestEntity.setPaymentModeValue("1");
         termRequestEntity.setPolicyCommencementDate(etDOB.getText().toString());
@@ -681,12 +956,18 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         if (llICICICritical.getVisibility() == View.VISIBLE)
             termRequestEntity.setCIBenefit("" + etICICICriticalIllness.getText().toString().replaceAll("\\,", ""));
+        else
+            termRequestEntity.setCIBenefit("");
 
         if (llICICIAccidental.getVisibility() == View.VISIBLE)
             termRequestEntity.setADHB("" + etICICIAccidentalBenefits.getText().toString().replaceAll("\\,", ""));
+        else
+            termRequestEntity.setADHB("");
 
         if (llICICILumpSumpPerc.getVisibility() == View.VISIBLE)
-            termRequestEntity.setLumpsumPercentage("" + etICICILumpSumpPerc.getText().toString());
+            termRequestEntity.setLumpsumPercentage(etICICILumpSumpPerc.getText().toString());
+        else
+            termRequestEntity.setLumpsumPercentage("0");
 
 
         termRequestEntity.setPolicyTerm("" + etICICIPolicyTerm.getText().toString());
@@ -696,8 +977,11 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         //termRequestEntity.setDeathBenefitOption("Lump-Sum"); //set in incomeSelection()
         termRequestEntity.setPPT("" + etICICIPremiumTerm.getText().toString());
 
-
-        termFinmartRequest.setTermRequestId(0);
+       /* if (termCompareQuoteResponse != null && termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
+            termFinmartRequest.setTermRequestId(termCompareQuoteResponse.getMasterData().getLifeTermRequestID());
+        else
+            termFinmartRequest.setTermRequestId(0);*/
+        termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 
@@ -806,6 +1090,177 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             }
 
         }
+
+
+        if (etSumICICIAssured.getText().toString().isEmpty()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etSumICICIAssured.requestFocus();
+                etSumICICIAssured.setError("Enter Sum Assured");
+                etSumICICIAssured.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etSumICICIAssured.requestFocus();
+                etSumICICIAssured.setError("Enter Sum Assured");
+                return false;
+            }
+
+        }
+
+
+        if (etICICILumpSumpPerc.getText().toString().isEmpty()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etICICILumpSumpPerc.requestFocus();
+                etICICILumpSumpPerc.setError("Enter Lump Sump (%)");
+                etICICILumpSumpPerc.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etICICILumpSumpPerc.requestFocus();
+                etICICILumpSumpPerc.setError("Enter Lump Sump (%)");
+                return false;
+            }
+
+        } else {
+            int lumpsump = Integer.parseInt(etICICILumpSumpPerc.getText().toString().replaceAll("\\,", ""));
+            if (lumpsump < 5 && lumpsump > 95) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etICICILumpSumpPerc.requestFocus();
+                    etICICILumpSumpPerc.setError("Enter valid Lump Sump (%)");
+                    etICICILumpSumpPerc.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    return false;
+                } else {
+                    etICICILumpSumpPerc.requestFocus();
+                    etICICILumpSumpPerc.setError("Enter valid Lump Sump (%)");
+                    return false;
+                }
+
+            }
+        }
+
+        if (etICICIPolicyTerm.getText().toString().isEmpty()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etICICIPolicyTerm.requestFocus();
+                etICICIPolicyTerm.setError("Enter Policy Term ");
+                etICICIPolicyTerm.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etICICIPolicyTerm.requestFocus();
+                etICICIPolicyTerm.setError("Enter Policy Term ");
+                return false;
+            }
+
+        } else {
+            int lumpsump = Integer.parseInt(etICICIPolicyTerm.getText().toString().replaceAll("\\,", ""));
+            if (lumpsump < 5 || lumpsump > 75) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etICICIPolicyTerm.requestFocus();
+                    etICICIPolicyTerm.setError("Enter valid Policy Term ");
+                    etICICIPolicyTerm.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    return false;
+                } else {
+                    etICICIPolicyTerm.requestFocus();
+                    etICICIPolicyTerm.setError("Enter valid  Policy Term ");
+                    return false;
+                }
+
+            }
+        }
+
+        if (etICICIPremiumTerm.getText().toString().isEmpty()) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etICICIPremiumTerm.requestFocus();
+                etICICIPremiumTerm.setError("Enter Premium Term ");
+                etICICIPremiumTerm.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etICICIPremiumTerm.requestFocus();
+                etICICIPremiumTerm.setError("Enter Premium Term ");
+                return false;
+            }
+
+        } else {
+            int lumpsump = Integer.parseInt(etICICIPremiumTerm.getText().toString().replaceAll("\\,", ""));
+            if (lumpsump < 0 || lumpsump > 75) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etICICIPremiumTerm.requestFocus();
+                    etICICIPremiumTerm.setError("Enter valid Premium Term ");
+                    etICICIPremiumTerm.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    return false;
+                } else {
+                    etICICIPremiumTerm.requestFocus();
+                    etICICIPremiumTerm.setError("Enter valid  Premium Term ");
+                    return false;
+                }
+
+            }
+        }
+        if (llICICIAccidental.getVisibility() == View.VISIBLE) {
+            if (etICICIAccidentalBenefits.getText().toString().isEmpty()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etICICIAccidentalBenefits.requestFocus();
+                    etICICIAccidentalBenefits.setError("Enter Accidental Benefits");
+                    etICICIAccidentalBenefits.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    return false;
+                } else {
+                    etICICIAccidentalBenefits.requestFocus();
+                    etICICIAccidentalBenefits.setError("Enter Accidental Benefits");
+                    return false;
+                }
+
+            } else {
+                int lumpsump = Integer.parseInt(etICICIAccidentalBenefits.getText().toString().replaceAll("\\,", ""));
+                int sumInsured = Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
+                if (lumpsump < 100000 || lumpsump > sumInsured) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        etICICIAccidentalBenefits.requestFocus();
+                        etICICIAccidentalBenefits.setError("Enter valid Accidental Benefits");
+                        etICICIAccidentalBenefits.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        return false;
+                    } else {
+                        etICICIAccidentalBenefits.requestFocus();
+                        etICICIAccidentalBenefits.setError("Enter valid  Accidental Benefits");
+                        return false;
+                    }
+
+                }
+            }
+        }
+        if (llICICICritical.getVisibility() == View.VISIBLE) {
+            if (etICICICriticalIllness.getText().toString().isEmpty()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etICICICriticalIllness.requestFocus();
+                    etICICICriticalIllness.setError("Enter Critical illness");
+                    etICICICriticalIllness.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    return false;
+                } else {
+                    etICICICriticalIllness.requestFocus();
+                    etICICICriticalIllness.setError("Enter Critical illness");
+                    return false;
+                }
+
+            } else {
+                int lumpsump = Integer.parseInt(etICICICriticalIllness.getText().toString().replaceAll("\\,", ""));
+                int sumInsured = Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
+                if (lumpsump < 100000 || lumpsump > sumInsured) {
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        etICICICriticalIllness.requestFocus();
+                        etICICICriticalIllness.setError("Enter valid Critical illness");
+                        etICICICriticalIllness.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                        return false;
+                    } else {
+                        etICICICriticalIllness.requestFocus();
+                        etICICICriticalIllness.setError("Enter valid  Critical illness");
+                        return false;
+                    }
+
+                }
+            }
+        }
+
         return true;
     }
 
@@ -847,4 +1302,28 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         return diff;
     }
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof TermCompareQuoteResponse) {
+            cancelDialog();
+            this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
+            this.layoutCompare.requestFocus();
+            //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
+            //rvTerm.setAdapter(mAdapter);
+            String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+            termRequestEntity.setCrn(crn);
+            termFinmartRequest.setTermRequestEntity(termRequestEntity);
+            termFinmartRequest.setTermRequestId(((TermCompareQuoteResponse) response).getMasterData().getLifeTermRequestID());
+            bindHeaders();
+            bindQuotes();
+            hideShowLayout(false);
+        }
+
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 }

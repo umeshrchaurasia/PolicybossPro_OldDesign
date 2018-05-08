@@ -97,9 +97,9 @@ public class IciciTermActivity extends BaseActivity {
                     } else {
                         if (quoteBundle != null) {
                             if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
-                                IciciTermQuoteFragment quoteFragment = new IciciTermQuoteFragment();
-                                quoteFragment.setArguments(quoteBundle);
-                                loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                                //IciciTermQuoteFragment quoteFragment = new IciciTermQuoteFragment();
+                                //quoteFragment.setArguments(quoteBundle);
+                                //loadFragment(quoteFragment, QUOTE_FRAGMENT);
                             } else {
 
                                 Toast.makeText(IciciTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
