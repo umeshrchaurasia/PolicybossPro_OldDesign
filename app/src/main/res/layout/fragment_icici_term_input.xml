@@ -368,8 +368,9 @@
                                     android:visibility="gone" />
 
                                 <ImageView
+                                    android:id="@+id/ivBuy"
                                     android:layout_width="25dp"
-                                    android:layout_height="25dp"
+                                    android:layout_height="wrap_content"
                                     android:src="@drawable/vector_cart_black" />
                             </LinearLayout>
 
