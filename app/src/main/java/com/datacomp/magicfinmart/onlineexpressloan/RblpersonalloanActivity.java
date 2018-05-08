@@ -16,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -476,6 +477,19 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         etLivingSince.setOnClickListener(datePickerDialog);
         etLoanAmount.addTextChangedListener(loanAmountTextWatcher);
         btnSubmit.setOnClickListener(this);
+
+        spTenure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                getEmiandProcessingFee();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 
@@ -500,7 +514,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
 
     private void getEmiandProcessingFee() {
         double emi;
-        if (etLoanAmount.getText().length() == 0) {
+        if (etLoanAmount.getText().length() == 0  ||  spTenure.getSelectedItemPosition() == 0) {
             return;
         }
         double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
@@ -739,6 +753,14 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
             etLivingSince.setError(null);
         }
 
+        if (!isEmpty(etLandmark)) {
+            etLandmark.setError("Enter Landmark");
+            etLandmark.setFocusable(true);
+            return false;
+        } else {
+            etLandmark.setError(null);
+        }
+
         if (acCity.getText().toString().length() == 0) {
             acCity.setError("Enter City");
             acCity.setFocusable(true);
@@ -748,7 +770,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         }
 
         if (!isEmpty(etPincode)) {
-            etPincode.setError("Enter Pincode Since");
+            etPincode.setError("Enter Pincode");
             etPincode.setFocusable(true);
             return false;
         } else {
@@ -770,6 +792,16 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
             return false;
         } else {
             etAddress1.setError(null);
+        }
+
+        if (spResType.getSelectedItemPosition() == 0) {
+            showAlert("Select Residence Type");
+            return false;
+        }
+
+        if (spSalaried.getSelectedItemPosition() == 0) {
+            showAlert("Select Employment And Mode Of Credit");
+            return false;
         }
 
         if (!isEmpty(etEmployerName)) {
@@ -840,6 +872,13 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         } else {
             etOffPincode.setError(null);
         }
+        if (acOffCity.getText().toString().length() == 0) {
+            acOffCity.setError("Enter City");
+            acOffCity.setFocusable(true);
+            return false;
+        } else {
+            acOffCity.setError(null);
+        }
 
         if (!isEmpty(etOffPancard)) {
             etOffPancard.setError("Enter PanCard");
@@ -856,13 +895,6 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
             etOffPancard.setError(null);
         }
 
-        if (acOffCity.getText().toString().length() == 0) {
-            acOffCity.setError("Enter City");
-            acOffCity.setFocusable(true);
-            return false;
-        } else {
-            acOffCity.setError(null);
-        }
 
         if (!chkRblCondition.isChecked()) {
 
@@ -959,8 +991,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         if (view.getId() == R.id.btnSubmit) {
 
             if (validateRbl()) {
-
-                Toast.makeText(this, "Done", Toast.LENGTH_SHORT).show();
+                saveRblPersonalLoan();
             }
 
         }
@@ -974,7 +1005,8 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         if (response instanceof ExpressRbPersonalResponse) {
             if (response.getStatusNo() == 0) {
 
-               Toast.makeText(this,"Data Saved Successfully..",Toast.LENGTH_SHORT).show();
+               showAlert("Data Saved Successfully..");
+               finish();
             }
         }
 

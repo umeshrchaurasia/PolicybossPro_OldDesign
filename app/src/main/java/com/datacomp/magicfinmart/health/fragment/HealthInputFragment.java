@@ -900,7 +900,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         int Age1 = 0;  int Age2 = 0;  int Age3 = 0;
         int Age4 = 0;  int Age5 = 0;  int Age6 = 0;
-        int count = 0;
+        int count = 0;  int countBelow = 0;
 
         boolean blnchk =true;
         if((et1.isEnabled() && et1.getText().toString().length() >0))
@@ -909,7 +909,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
              if(Age1 >= 18)
              {
                count = count + 1;
+             }else{
+                 countBelow = countBelow + 1;
              }
+
 
         }
          if(et2.isEnabled() && et2.getText().toString().length() >0)
@@ -918,7 +921,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age2 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -928,7 +934,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age3 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -938,7 +947,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age4 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -948,7 +960,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age5 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -958,7 +973,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age6 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -971,7 +989,12 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         {
             showAlert("More than 2 member age should not be greater than or equal to 18 years");
             blnchk = false;
-        }else{
+        }else if(countBelow > 4)
+        {
+            showAlert("More than 4 children's are not allowed");
+            blnchk = false;
+        }
+        else {
 
             blnchk = true;
         }

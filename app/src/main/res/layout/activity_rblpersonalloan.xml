@@ -376,7 +376,7 @@
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="-3dp"
+
                             android:layout_weight="1"
                             android:entries="@array/exp_residence_type"
                             android:gravity="center" />
@@ -386,7 +386,7 @@
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginBottom="-3dp"
+
                             android:layout_weight="1"
 
                             android:entries="@array/exp_employment_salaried"
@@ -481,7 +481,6 @@
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_marginTop="5dp"
                             android:layout_weight="1"
                             android:entries="@array/exp_tenure"
                             android:gravity="center" />
@@ -498,7 +497,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Loan Required">
+                            android:hint="*Loan Eligibilty">
 
                             <EditText
                                 android:id="@+id/etLoanReq"
@@ -546,6 +545,7 @@
                                 style="@style/Style.edittext"
                                 android:enabled="false"
                                 android:inputType="text"
+                                android:text="13.99%"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
