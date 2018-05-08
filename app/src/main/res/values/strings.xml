@@ -156,6 +156,25 @@
 
     </string-array>
 
+    <string-array name="health_family_relationship">
+        <item>Relationship</item>
+        <item>Self</item>
+        <item>Spouse</item>
+        <item>Child1</item>
+        <item>Child2</item>
+        <item>Child3</item>
+        <item>Child4</item>
+
+    </string-array>
+
+    <string-array name="health_parent_relationship">
+        <item>Relationship</item>
+        <item>Father</item>
+        <item>Mother</item>
+
+
+    </string-array>
+
     <string-array name="icici_qualification">
         <item>Highest education qualification</item>
         <item>Under Graduate</item>
@@ -415,6 +434,7 @@
 
 
     <string name="icici_terms_con">I hereby confirm that I have read and understood the Rupeeboss Terms and Conditions applicable to this service and that all the details furnished by me above are true and correct. I further provide consent to Rupeeboss and its affiliates to contact me with reference to financial products and this consent shall override any registration with DNC/NDNC.</string>
+    <string name="express_rbl_terms_con">I authorize RBL Bank to contact me. This will override registry on DND / NDNC *</string>
     <string name="title_activity_quick_lead">Quick Lead</string>
     <string name="title_activity_balance_transfer_loan_apply">BalanceTransferLoanApplyActivity</string>
 
