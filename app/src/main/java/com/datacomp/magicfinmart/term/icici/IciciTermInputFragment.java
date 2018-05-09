@@ -113,49 +113,32 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     int insurerID;
     boolean canChangePremiumTerm = true;
     int age = 0;
-    boolean isEdit = false;
+    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
+        @Override
+        public void onClick(final View view) {
+            Constants.hideKeyBoard(view, getActivity());
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_icici_term_input, container, false);
-        init(view);
-        setListener();
-        // set initial values
-        dbPersistanceController = new DBPersistanceController(getActivity());
-        policyYear = dbPersistanceController.getPremYearList();
-        termRequestEntity = new TermRequestEntity();
-        termFinmartRequest = new TermFinmartRequest();
-        //init_adapters();
+            //region dob
 
-        //adapter_listener();
-        if (getArguments() != null) {
-            if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null) {
-                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
-                isEdit = true;
-            }
+            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                    if (view1.isShown()) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        String currentDay = simpleDateFormat.format(calendar.getTime());
+                        etDOB.setText(currentDay);
+                        age = caluclateAge(calendar);
+                        setPolicyTerm((75 - age));
+                    }
+                }
+            });
 
-            insurerID = getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT);
-            bindICICI();
-            bindInput(termFinmartRequest);
+            //endregion
         }
-        hideShowLayout(true);
-        return view;
-    }
-
-    private void bindICICI() {
-        etSumICICIAssured.setText("10,000,000");
-        etICICICriticalIllness.setText("1,000,000");
-        etICICIAccidentalBenefits.setText("1,000,000");
-        etICICIPolicyTerm.setText("20");
-        etICICIPremiumTerm.setText("20");
-        etICICILumpSumpPerc.setText("50");
-
-        //by default Regular pay selected.
-        spICICIPremiumTerm.setSelection(0);
-    }
-
+    };
+    boolean isEdit = false;
+    int termRequestId = 0;
     AdapterView.OnItemSelectedListener optionSelected = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -238,6 +221,48 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         }
     };
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_icici_term_input, container, false);
+        init(view);
+        setListener();
+        // set initial values
+        dbPersistanceController = new DBPersistanceController(getActivity());
+        policyYear = dbPersistanceController.getPremYearList();
+        termRequestEntity = new TermRequestEntity();
+        termFinmartRequest = new TermFinmartRequest();
+        //init_adapters();
+
+        //adapter_listener();
+        if (getArguments() != null) {
+            if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null) {
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
+                termRequestId = termFinmartRequest.getTermRequestId();
+                isEdit = true;
+            }
+
+            insurerID = getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT);
+            bindICICI();
+            bindInput(termFinmartRequest);
+        }
+        hideShowLayout(true);
+        return view;
+    }
+
+    private void bindICICI() {
+        etSumICICIAssured.setText("10,000,000");
+        etICICICriticalIllness.setText("1,000,000");
+        etICICIAccidentalBenefits.setText("1,000,000");
+        etICICIPolicyTerm.setText("20");
+        etICICIPremiumTerm.setText("20");
+        etICICILumpSumpPerc.setText("50");
+
+        //by default Regular pay selected.
+        spICICIPremiumTerm.setSelection(0);
+    }
+
     private void manipulateInputs(String s) {
         switch (s) {
             case "LIFE":
@@ -312,7 +337,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm());
             TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
             tvPolicyTerm.append(TERM);
-            tvPolicyTerm.append(" YEARS");
+            tvPolicyTerm.append(" YRS");
 
             if (termRequestEntity.getInsuredGender().equals("M"))
                 tvGender.setText("MALE");
@@ -350,19 +375,6 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
        /* Glide.with(getActivity())
                 .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);*/
-
-        txtCustomise.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
-            }
-        });
-        txtRiders.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
-            }
-        });
 
         txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -563,8 +575,6 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         llAddon = (LinearLayout) view.findViewById(R.id.llAddon);
         rvAddOn = (RecyclerView) view.findViewById(R.id.rvAddOn);
         txtAge = (TextView) view.findViewById(R.id.txtAge);
-        txtCustomise = (TextView) view.findViewById(R.id.txtCustomise);
-        txtRiders = (TextView) view.findViewById(R.id.txtRiders);
         txtPlanNAme = (TextView) view.findViewById(R.id.txtPlanNAme);
         txtCover = (TextView) view.findViewById(R.id.txtCover);
         txtFinalPremium = (TextView) view.findViewById(R.id.txtFinalPremium);
@@ -629,6 +639,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.ivBuy:
+                new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(), "39", "" + dbPersistanceController.getUserData().getFBAId(), "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getNetPremium(), this);
                 startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", termCompareQuoteResponse.getMasterData().getResponse().get(0).getProposerPageUrl())
                         .putExtra("NAME", "ICICI PRUDENTIAL")
@@ -995,6 +1006,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         dialog.cancel();
     }
 
+    //region date picker
+
     public boolean isValidInput() {
         if (etFirstName.getText().toString().isEmpty()) {
 
@@ -1263,33 +1276,6 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         return true;
     }
-
-    //region date picker
-
-    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
-        @Override
-        public void onClick(final View view) {
-            Constants.hideKeyBoard(view, getActivity());
-
-            //region dob
-
-            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                    if (view1.isShown()) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(year, monthOfYear, dayOfMonth);
-                        String currentDay = simpleDateFormat.format(calendar.getTime());
-                        etDOB.setText(currentDay);
-                        age = caluclateAge(calendar);
-                        setPolicyTerm((75 - age));
-                    }
-                }
-            });
-
-            //endregion
-        }
-    };
     //endregion
 
     public int caluclateAge(Calendar dob) {
@@ -1307,13 +1293,15 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         if (response instanceof TermCompareQuoteResponse) {
             cancelDialog();
             this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
-            this.layoutCompare.requestFocus();
+            this.cvInputDetails.requestFocus();
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
             //rvTerm.setAdapter(mAdapter);
             String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
             termRequestEntity.setCrn(crn);
             termFinmartRequest.setTermRequestEntity(termRequestEntity);
-            termFinmartRequest.setTermRequestId(((TermCompareQuoteResponse) response).getMasterData().getLifeTermRequestID());
+            if (((TermCompareQuoteResponse) response).getMasterData().getLifeTermRequestID() != 0)
+                termRequestId = ((TermCompareQuoteResponse) response).getMasterData().getLifeTermRequestID();
+            termFinmartRequest.setTermRequestId(termRequestId);
             bindHeaders();
             bindQuotes();
             hideShowLayout(false);

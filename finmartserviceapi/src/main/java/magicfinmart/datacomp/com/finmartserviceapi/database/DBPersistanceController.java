@@ -764,16 +764,13 @@ public class DBPersistanceController {
         hasMapCarInsuranceImage.put(4, R.drawable.car_4);
         hasMapCarInsuranceImage.put(7, R.drawable.car_7);
         hasMapCarInsuranceImage.put(9, R.drawable.car_9);
-
+        hasMapCarInsuranceImage.put(10, R.drawable.car_10);
         hasMapCarInsuranceImage.put(11, R.drawable.car_11);
         hasMapCarInsuranceImage.put(12, R.drawable.car_12);
         hasMapCarInsuranceImage.put(14, R.drawable.car_14);
         hasMapCarInsuranceImage.put(19, R.drawable.car_19);
         hasMapCarInsuranceImage.put(33, R.drawable.car_33);
         hasMapCarInsuranceImage.put(35, R.drawable.car_35);
-
-        //royal sundaram
-        hasMapCarInsuranceImage.put(10, R.drawable.private_car);
     }
 
     public int getInsurerLogo(int insurerID) {

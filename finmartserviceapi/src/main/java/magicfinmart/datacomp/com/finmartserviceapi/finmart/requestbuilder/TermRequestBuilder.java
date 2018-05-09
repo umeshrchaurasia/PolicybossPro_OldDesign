@@ -15,6 +15,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteR
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteToAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -46,6 +47,10 @@ public class TermRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/get-smart-term-life")
         Call<TermQuoteApplicationResponse> getTermQuoteApplication(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/smart-term-quote-to-application")
+        Call<TermQuoteToAppResponse> convertQuoteToApp(@Body HashMap<String, String> body);
 /*
         @Headers("token:" + token)
         @POST("/api/smart-health")

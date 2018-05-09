@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -21,12 +22,16 @@ import com.datacomp.magicfinmart.term.TermActivityTabsPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TermApplicationListFragment extends BaseFragment implements View.OnClickListener{
+public class TermApplicationListFragment extends BaseFragment implements View.OnClickListener,IResponseSubcriber{
 
     List<TermFinmartRequest> listApplication;
     TermApplicationAdapter mAdapter;
@@ -35,7 +40,7 @@ public class TermApplicationListFragment extends BaseFragment implements View.On
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
-
+    boolean isHit = false;
     public TermApplicationListFragment() {
         // Required empty public constructor
     }
@@ -55,6 +60,25 @@ public class TermApplicationListFragment extends BaseFragment implements View.On
         }
         mAdapter = new TermApplicationAdapter(this, listApplication);
         rvTermApplication.setAdapter(mAdapter);
+        rvTermApplication.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == listApplication.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchMoreQuotes(listApplication.size());
+
+                    }
+                }
+            }
+        });
         return view;
     }
 
@@ -93,6 +117,11 @@ public class TermApplicationListFragment extends BaseFragment implements View.On
         }
     }
 
+    public void fetchMoreQuotes(int count) {
+        //showDialog("Fetching.., Please wait.!");
+        new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "2", this);
+    }
+
     private void setTextWatcher() {
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -108,6 +137,33 @@ public class TermApplicationListFragment extends BaseFragment implements View.On
             public void afterTextChanged(Editable s) {
             }
         });
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof TermQuoteApplicationResponse) {
+            List<TermFinmartRequest> list = ((TermQuoteApplicationResponse) response).getMasterData().getQuote();
+            if (list.size() > 0) {
+                isHit = false;
+                //Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+                for (TermFinmartRequest entity : list) {
+                    if (!listApplication.contains(entity)) {
+                        listApplication.add(entity);
+                    }
+                }
+            }
+
+
+        }
+
+        mAdapter.refreshAdapter(listApplication);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
     }
 }
 
