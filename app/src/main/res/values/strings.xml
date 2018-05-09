@@ -570,7 +570,7 @@
 
     <string-array name="exp_residence_type">
         <item>Residence Type</item>
-        <item>Owned by Self-Spouce</item>
+        <item>Owned by Self-Spouse</item>
         <item>Owned by Parents/Sibling</item>
         <item>Owned by Relative</item>
         <item>Rented with Family</item>

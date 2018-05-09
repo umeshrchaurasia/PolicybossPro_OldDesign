@@ -1628,11 +1628,11 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etSpouceName.requestFocus();
                 etSpouceName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSpouceName.setError("Enter Spouce Name");
+                etSpouceName.setError("Enter Spouse Name");
                 return false;
             } else {
                 etSpouceName.requestFocus();
-                etSpouceName.setError("Enter Spouce Name");
+                etSpouceName.setError("Enter Spouse Name");
                 return false;
             }
         }

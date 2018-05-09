@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
@@ -27,16 +29,25 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
     private LayoutInflater mInflater;
     Context mContext;
     List<MemberListEntity> listMemberList;
-    String[] relationShip;
+    //String[] relationShip;
+    List<String> relationShip;
     String PolicyFor;
+    List<String> temrelationShip;
+    List<String> childRelationShip;
+    int adultCount = 0;
+
 
     // data is passed into the constructor
-    HealthMemberDetailsViewAdapter(Context context, List<MemberListEntity> listMemberList, String policyFor) {
+    HealthMemberDetailsViewAdapter(Context context, List<MemberListEntity> listMemberList, String policyFor, int adultCount) {
         mContext = context;
         this.mInflater = LayoutInflater.from(mContext);
         this.listMemberList = listMemberList;
-        relationShip = mContext.getResources().getStringArray(R.array.health_relationship);
+        this.adultCount = adultCount;
+
+        relationShip = Arrays.asList(mContext.getResources().getStringArray(R.array.health_relationship));
         this.PolicyFor = policyFor;
+        setFamilyList();
+        setChildyList();
     }
 
     // inflates the cell layout from xml when needed
@@ -55,19 +66,21 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
         if (PolicyFor.toLowerCase().equals("self")) {
 
-            relationShip = mContext.getResources().getStringArray(R.array.health_relationship);
+            //relationShip = mContext.getResources().getStringArray(R.array.health_relationship);
+            relationShip = Arrays.asList(mContext.getResources().getStringArray(R.array.health_relationship));
             holder.spHealthRelation.setEnabled(false);
 
         } else if (PolicyFor.toLowerCase().equals("parent")) {
 
-            relationShip = mContext.getResources().getStringArray(R.array.health_parent_relationship);
-
+            //relationShip = mContext.getResources().getStringArray(R.array.health_parent_relationship);
+            relationShip = Arrays.asList(mContext.getResources().getStringArray(R.array.health_parent_relationship));
 
             holder.spHealthRelation.setEnabled(true);
 
-        }else if (PolicyFor.toLowerCase().equals("family")) {
+        } else if (PolicyFor.toLowerCase().equals("family")) {
 
-            relationShip = mContext.getResources().getStringArray(R.array.health_family_relationship);
+            // relationShip = mContext.getResources().getStringArray(R.array.health_family_relationship);
+            relationShip = Arrays.asList(mContext.getResources().getStringArray(R.array.health_family_relationship));
             holder.spHealthRelation.setEnabled(true);
         }
 
@@ -153,73 +166,151 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
                 ((HealthMemberDetailsDialogActivity) mContext).updateMemberList(entity, 0, position);
             }
         });
-        if (position == 0) {
+        if (position == 0) {     //  Self
             //enable llmaried
             holder.llMarried.setVisibility(View.VISIBLE);
             holder.rbMale.setChecked(true);
             holder.spHealthRelation.setSelection(1);
             entity.setMemberGender("M");
 
-        } else if (position == 1) {
+            if (PolicyFor.toLowerCase().equals("family")) {
+                holder.spHealthRelation.setAdapter(getRelationAdapter(temrelationShip));
+                holder.spHealthRelation.setSelection(1);
+            }
+
+
+        } else if (position == 1) {      // ADULT :
             //hide in all positions
             holder.llMarried.setVisibility(View.GONE);
-
             holder.rbFemale.setChecked(true);
-
-            if (entity.getAge() >= 18)
-                holder.spHealthRelation.setSelection(2);
-            else
-                holder.spHealthRelation.setSelection(5);
-
             entity.setMemberGender("F");
+
+
+            if (PolicyFor.toLowerCase().equals("family")) {
+
+                if (entity.getAge() >= 18) {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(temrelationShip));
+                    holder.spHealthRelation.setSelection(2);
+                } else {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(childRelationShip));
+                    holder.spHealthRelation.setSelection(1);
+
+                }
+
+            } else {
+                if (entity.getAge() >= 18) {
+                    holder.spHealthRelation.setSelection(2);
+                }
+            }
 
         } else if (position == 2) {
             holder.llMarried.setVisibility(View.GONE);
-
             holder.rbMale.setChecked(true);
-
-            if (entity.getAge() >= 18)
-                holder.spHealthRelation.setSelection(3);
-            else
-                holder.spHealthRelation.setSelection(3);
-
             entity.setMemberGender("M");
+
+            if (PolicyFor.toLowerCase().equals("family")) {
+
+                if (entity.getAge() >= 18) {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(temrelationShip));
+                    holder.spHealthRelation.setSelection(2);
+                } else {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(childRelationShip));
+                    if (adultCount > 1) {
+                        holder.spHealthRelation.setSelection(1);
+                    } else {
+                        holder.spHealthRelation.setSelection(2);
+                    }
+                }
+
+            } else {
+                if (entity.getAge() >= 18)
+                    holder.spHealthRelation.setSelection(3);
+                else
+                    holder.spHealthRelation.setSelection(3);
+            }
+
 
         } else if (position == 3) {
             holder.llMarried.setVisibility(View.GONE);
-
             holder.rbFemale.setChecked(true);
-
-            if (entity.getAge() >= 18)
-                holder.spHealthRelation.setSelection(3);
-            else
-                holder.spHealthRelation.setSelection(4);
-
             entity.setMemberGender("F");
+
+            if (PolicyFor.toLowerCase().equals("family")) {
+
+                if (entity.getAge() >= 18) {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(temrelationShip));
+                    holder.spHealthRelation.setSelection(2);
+                } else {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(childRelationShip));
+                    if (adultCount > 1) {
+                        holder.spHealthRelation.setSelection(2);
+                    } else {
+                        holder.spHealthRelation.setSelection(3);
+                    }
+                }
+
+            } else {
+                if (entity.getAge() >= 18)
+                    holder.spHealthRelation.setSelection(3);
+                else
+                    holder.spHealthRelation.setSelection(4);
+            }
+
 
         } else if (position == 4) {
             holder.llMarried.setVisibility(View.GONE);
-
             holder.rbMale.setChecked(true);
-
-            if (entity.getAge() >= 18)
-                holder.spHealthRelation.setSelection(3);
-            else
-                holder.spHealthRelation.setSelection(5);
-
             entity.setMemberGender("M");
+
+            if (PolicyFor.toLowerCase().equals("family")) {
+
+                if (entity.getAge() >= 18) {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(temrelationShip));
+                    holder.spHealthRelation.setSelection(2);
+                } else {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(childRelationShip));
+                    if (adultCount > 1) {
+                        holder.spHealthRelation.setSelection(3);
+                    } else {
+                        holder.spHealthRelation.setSelection(4);
+                    }
+                }
+
+            } else {
+                if (entity.getAge() >= 18)
+                    holder.spHealthRelation.setSelection(3);
+                else
+                    holder.spHealthRelation.setSelection(5);
+            }
+
 
         } else if (position == 5) {
             holder.llMarried.setVisibility(View.GONE);
-
             holder.rbMale.setChecked(true);
-
-            if (entity.getAge() >= 18)
-                holder.spHealthRelation.setSelection(3);
-            else
-                holder.spHealthRelation.setSelection(6);
-
             entity.setMemberGender("M");
+            if (PolicyFor.toLowerCase().equals("family")) {
+
+                if (entity.getAge() >= 18) {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(temrelationShip));
+                    holder.spHealthRelation.setSelection(2);
+                } else {
+                    holder.spHealthRelation.setAdapter(getRelationAdapter(childRelationShip));
+                    if (adultCount > 1) {
+                        holder.spHealthRelation.setSelection(4);
+                    } else {
+                        holder.spHealthRelation.setSelection(4);
+                    }
+                }
+
+            } else {
+
+                if (entity.getAge() >= 18)
+                    holder.spHealthRelation.setSelection(3);
+                else
+                    holder.spHealthRelation.setSelection(6);
+            }
+
+
         }
 
     }
@@ -254,5 +345,54 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
     }
 
+    public void setFamilyList() {
+        temrelationShip = new ArrayList<String>();
+        temrelationShip.add("Relationship");
+        temrelationShip.add("Self");
+        temrelationShip.add("Spouse");
 
+    }
+
+    public void setChildyList() {
+        childRelationShip = new ArrayList<String>();
+        childRelationShip.add("Relationship");
+        childRelationShip.add("Child1");
+        childRelationShip.add("Child2");
+        childRelationShip.add("Child3");
+        childRelationShip.add("Child4");
+
+    }
+
+    public ArrayAdapter<String> getRelationAdapter(List<String> dataRelationShip) {
+        ArrayAdapter<String> relationAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item,
+                dataRelationShip) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                tv.setPadding(8, 12, 4, 12);
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+
+        return relationAdapter;
+    }
 }
