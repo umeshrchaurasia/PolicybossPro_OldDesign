@@ -1,51 +1,41 @@
 package magicfinmart.datacomp.com.finmartserviceapi.express_loan.response;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 /**
  * Created by IN-RB on 17-04-2018.
  */
 
 public class ExpressRbPersonalResponse extends APIResponse {
+    /**
+     * MasterData : {"ReferenceCode":"#PLQER293F"}
+     */
 
+    private MasterDataEntity MasterData;
 
-    private List<MasterDataEntity> MasterData;
-
-    public List<MasterDataEntity> getMasterData() {
+    public MasterDataEntity getMasterData() {
         return MasterData;
     }
 
-    public void setMasterData(List<MasterDataEntity> MasterData) {
+    public void setMasterData(MasterDataEntity MasterData) {
         this.MasterData = MasterData;
     }
 
     public static class MasterDataEntity {
         /**
-         * SavedStatus : 0
-         * Message : Record saved successfully.
+         * ReferenceCode : #PLQER293F
          */
 
-        private int SavedStatus;
+        private String ReferenceCode;
 
-        private String Message;
-
-        public int getSavedStatus() {
-            return SavedStatus;
+        public String getReferenceCode() {
+            return ReferenceCode;
         }
 
-        public void setSavedStatus(int SavedStatus) {
-            this.SavedStatus = SavedStatus;
-        }
-
-        public String getMessageX() {
-            return Message;
-        }
-
-        public void setMessageX(String Message) {
-            this.Message = Message;
+        public void setReferenceCode(String ReferenceCode) {
+            this.ReferenceCode = ReferenceCode;
         }
     }
+
+
+
 }
