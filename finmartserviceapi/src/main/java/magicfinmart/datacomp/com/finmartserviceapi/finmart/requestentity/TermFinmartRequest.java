@@ -8,9 +8,11 @@ import android.os.Parcelable;
  */
 
 public class TermFinmartRequest implements Parcelable {
+
     int termRequestId;
     String insImage;
     int statusProgress;
+    private String NetPremium;
 
     public int getStatusProgress() {
         return statusProgress;
@@ -63,6 +65,13 @@ public class TermFinmartRequest implements Parcelable {
         this.statusProgress = status_progress;
     }
 
+    public String getNetPremium() {
+        return NetPremium;
+    }
+
+    public void setNetPremium(String NetPremium) {
+        this.NetPremium = NetPremium;
+    }
 
     @Override
     public int describeContents() {
@@ -74,6 +83,7 @@ public class TermFinmartRequest implements Parcelable {
         dest.writeInt(this.termRequestId);
         dest.writeString(this.insImage);
         dest.writeInt(this.statusProgress);
+        dest.writeString(this.NetPremium);
         dest.writeInt(this.fba_id);
         dest.writeParcelable(this.termRequestEntity, flags);
     }
@@ -85,6 +95,7 @@ public class TermFinmartRequest implements Parcelable {
         this.termRequestId = in.readInt();
         this.insImage = in.readString();
         this.statusProgress = in.readInt();
+        this.NetPremium = in.readString();
         this.fba_id = in.readInt();
         this.termRequestEntity = in.readParcelable(TermRequestEntity.class.getClassLoader());
     }
