@@ -233,7 +233,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 }
 
                 String rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
-                tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + "\n(" + carMasterEntity.getVariant_Name() + ")");
+                tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + " (" + carMasterEntity.getVariant_Name() + ")");
 
                 if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {
                     rtoName = rtoName + " | RTO : " + new DBPersistanceController(getActivity())

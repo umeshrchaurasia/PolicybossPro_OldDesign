@@ -75,9 +75,9 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     private static final String TAG = "AddNewQuoteActivity";
-    TextView tvNew, tvRenew;
+    TextView tvNew, tvRenew,tvOr;
     CardView cvNcb;
-    LinearLayout llNoClaim, llVerifyCarDetails;
+    LinearLayout llNoClaim, llVerifyCarDetails,llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo, cvIndividual;
     View cvInput;
@@ -766,6 +766,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
         cvIndividual = (CardView) view.findViewById(R.id.cvIndividual);
         cvRegNo = (CardView) view.findViewById(R.id.cvRegNo);
+        tvOr = (TextView) view.findViewById(R.id.tvOr);
+        llDontKnow = (LinearLayout) view.findViewById(R.id.llDontKnow);
         cvInput = (View) view.findViewById(R.id.cvInput);
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
         tvDontKnow = (TextView) view.findViewById(R.id.tvDontKnow);
@@ -976,6 +978,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 cvNewRenew.setVisibility(View.GONE);
                 cvIndividual.setVisibility(View.GONE);
                 cvRegNo.setVisibility(View.GONE);
+                tvOr.setVisibility(View.GONE);
+                llDontKnow.setVisibility(View.GONE);
                 btnGetQuote.setVisibility(View.VISIBLE);
                 break;
         }
