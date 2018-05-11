@@ -82,7 +82,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
         showDialog("Fetching.., Please wait.!");
 
 
-        new MainLoanController(this).getHLQuoteApplicationData(String.valueOf(loginEntity.getFBAId()),
+        new MainLoanController(this).getHLQuoteApplicationData(0,0,String.valueOf(loginEntity.getFBAId()),
                 "HML", HomeLoanDetailActivity.this);
 
 
