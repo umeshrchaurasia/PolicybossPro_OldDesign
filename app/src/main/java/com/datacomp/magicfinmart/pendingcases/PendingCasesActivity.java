@@ -13,6 +13,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -29,6 +30,8 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
     PendingCasesAdapter mAdapter;
     PendingCasesEntity removePendingCasesEntity;
     List<PendingCasesEntity> mPendingList;
+    boolean isHit = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,13 +40,39 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mPendingList = new ArrayList<PendingCasesEntity>();
+
         init();
-        fetchPendingCases();
+
+        fetchPendingCases(0);
+
+        rvPendingCasesList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mPendingList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchPendingCases(mPendingList.size());
+
+                    }
+                }
+            }
+        });
     }
 
-    private void fetchPendingCases() {
+    private void fetchPendingCases(int count) {
+        if (count == 0)
         showDialog("Please wait.., loading cases");
-        new PendingController(this).getPendingCases(
+
+
+        new PendingController(this).getPendingCases(count,0,
                 String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()), this);
     }
 
@@ -52,21 +81,38 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
         rvPendingCasesList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvPendingCasesList.setLayoutManager(layoutManager);
-
+        mAdapter = new PendingCasesAdapter(this, mPendingList);
+        rvPendingCasesList.setAdapter(mAdapter);
     }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
+        List<PendingCasesEntity> list = new ArrayList<>();
         if (response instanceof PendingCasesResponse) {
-            mPendingList = ((PendingCasesResponse) response).getMasterData();
-            mAdapter = new PendingCasesAdapter(this, mPendingList);
-            rvPendingCasesList.setAdapter(mAdapter);
+            list = ((PendingCasesResponse) response).getMasterData();
+            if (list.size() > 0) {
+                isHit = false;
+               // Toast.makeText(this, "fetching more...", Toast.LENGTH_SHORT).show();
+
+                for (PendingCasesEntity entity : list) {
+                    if (!mPendingList.contains(entity)) {
+                        mPendingList.add(entity);
+                    }
+                }
+            }
+            //mAdapter = new PendingCasesAdapter(this, mPendingList);
+            //rvPendingCasesList.setAdapter(mAdapter);
         } else if (response instanceof PendingCaseDeleteResponse) {
             mPendingList.remove(removePendingCasesEntity);
-            mAdapter.refreshAdapter(mPendingList);
-            mAdapter.notifyDataSetChanged();
+            //list=mPendingList;
+           // mAdapter.refreshAdapter(mPendingList);
+           // mAdapter.notifyDataSetChanged();
         }
+
+        //mPendingList =list;
+        mAdapter.refreshAdapter(mPendingList);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override
