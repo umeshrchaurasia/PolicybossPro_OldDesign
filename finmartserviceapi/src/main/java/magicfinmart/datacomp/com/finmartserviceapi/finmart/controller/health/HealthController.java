@@ -158,10 +158,12 @@ public class HealthController implements IHealth {
     }
 
     @Override
-    public void getHealthQuoteApplicationList(String fbaID, final IResponseSubcriber iResponseSubcriber) {
+    public void getHealthQuoteApplicationList(int count,int type,String fbaID, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("fba_id", fbaID);
+        body.put("count",""+count);
+        body.put("type",""+type);
 
         healthNetworkService.getHealthQuoteAppList(body).enqueue(new Callback<HealthQuoteAppResponse>() {
             @Override

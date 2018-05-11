@@ -5,7 +5,7 @@
     <color name="colorPrimary">#009ee3</color>
     <color name="colorPrimaryDark">#00476e</color>
 
-    <color name="colorAccent">#0288D1</color>
+    <color name="colorAccent">#009ee3</color>
     <color name="divider">#F1F1F1</color>
     <color name="bg">#c9c5c5</color>
     <color name="dashboard_bg">#e3e3e3</color>

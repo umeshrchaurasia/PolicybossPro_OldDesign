@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -56,7 +57,6 @@ public class InputQuoteBottmActivity extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         if (getIntent().getParcelableExtra(MotorApplicationFragment.FROM_APPLICATION) != null) {

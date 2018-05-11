@@ -13,7 +13,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowBackground">@color/window_background</item>-->
-        <item name="android:windowBackground">@color/background</item>
+       <!-- <item name="android:windowBackground">@color/background</item>-->
+        <item name="android:windowBackground">@color/white</item>
         <!--<item name="android:textColorPrimary">@color/header_text_color</item>-->
         <!--<item name="android:textColorHint">@color/secondary_text_color</item>-->
 
@@ -135,8 +136,9 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:background">@drawable/blue_border_lightblue_background</item>
         <item name="android:focusable">true</item>
-        <item name="android:minHeight">48dp</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:minHeight">36dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
     </style>
 
 
@@ -240,7 +242,8 @@
 
     <!--Textview-->
     <style name="TextStyle.Toolbar" parent="TextAppearance.AppCompat.Title">
-        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:textAllCaps">true</item>
     </style>
@@ -255,7 +258,10 @@
         <item name="android:textColor">@color/header_text_color</item>
         <item name="android:textSize">13sp</item>
     </style>
-
+    <style name="TextStyle.TextLarge" parent="TextAppearance.AppCompat.Body1">
+        <item name="android:textColor">@color/header_text_color</item>
+        <item name="android:textSize">15sp</item>
+    </style>
     <style name="TextStyle.TextSmall" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/description_text</item>
         <item name="android:textSize">10sp</item>

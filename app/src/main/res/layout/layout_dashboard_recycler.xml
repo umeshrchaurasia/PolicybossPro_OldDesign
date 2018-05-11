@@ -4,7 +4,6 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-
     app:cardCornerRadius="2dp"
     app:cardElevation="2dp">
 
@@ -20,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/dashboard_header"
-            android:padding="12dp"
+            android:padding="7dp"
             android:textAllCaps="true"
             android:textColor="@color/white"
             />

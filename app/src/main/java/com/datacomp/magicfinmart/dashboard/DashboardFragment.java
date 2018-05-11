@@ -17,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -42,7 +43,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsRes
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends BaseFragment implements IResponseSubcriber, ILocationStateListener, BaseFragment.PopUpListener {
+public class DashboardFragment extends BaseFragment implements View.OnClickListener ,IResponseSubcriber, ILocationStateListener, BaseFragment.PopUpListener {
 
     RecyclerView rvHome;
     DashboardRowAdapter mAdapter;
@@ -54,7 +55,7 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
     int forceUpdate;
     LocationTracker locationTracker;
     Location location;
-
+    TextView tvKnowledge,tvPendingCAses,tvSalesMat;
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -80,6 +81,7 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
         //endregion
 
         initialise(view);
+        setListener();
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
         try {
@@ -93,7 +95,18 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
         return view;
     }
 
+    private void setListener() {
+        tvKnowledge.setOnClickListener(this);
+        tvPendingCAses.setOnClickListener(this);
+        tvSalesMat.setOnClickListener(this);
+    }
+
     private void initialise(View view) {
+
+        tvKnowledge = (TextView)view.findViewById(R.id.tvKnowledge);
+        tvPendingCAses = (TextView)view.findViewById(R.id.tvPendingCAses);
+        tvSalesMat = (TextView)view.findViewById(R.id.tvSalesMat);
+
         rvHome = (RecyclerView) view.findViewById(R.id.rvHome);
         rvHome.setLayoutManager(new LinearLayoutManager(getActivity()));
         navigation = (BottomNavigationView) view.findViewById(R.id.navigation);
@@ -199,5 +212,27 @@ public class DashboardFragment extends BaseFragment implements IResponseSubcribe
     @Override
     public void onConnectionFailed() {
         location = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.tvKnowledge:
+                //redirect to knowledge guru
+                startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
+                break;
+            case R.id.tvPendingCAses:
+                //redirect to pending status
+                startActivity(new Intent(getContext(), PendingCasesActivity.class));
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Pending Cases : Pending Cases From Dashboard "), Constants.PENDING_CASES), null);
+                break;
+            case R.id.tvSalesMat:
+                //redirect to sales
+                startActivity(new Intent(getContext(), SalesMaterialActivity.class));
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
+
+                break;
+        }
     }
 }

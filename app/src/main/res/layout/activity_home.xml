@@ -23,11 +23,13 @@
             app:elevation="0dp">
 
             <android.support.v7.widget.Toolbar
+                app:title="@string/app_name"
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/colorPrimary"
                 android:gravity="center"
+                android:layout_gravity="center"
                 app:layout_scrollFlags="enterAlwaysCollapsed|enterAlways|snap"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:titleTextAppearance="@style/TextStyle.Toolbar"
