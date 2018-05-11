@@ -87,7 +87,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     ArrayAdapter<String> cityAdapter;
     List<String> cityList;
 
-    final double roi = 0.012;
+    final double roi = 0.013;
     int BankID = 0;
     String LoanType = "";
 
