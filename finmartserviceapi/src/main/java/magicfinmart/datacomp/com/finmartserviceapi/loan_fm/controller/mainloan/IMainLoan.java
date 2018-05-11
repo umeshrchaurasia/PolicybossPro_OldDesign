@@ -12,7 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPerso
 
 public interface IMainLoan {
 
-    void getHLQuoteApplicationData(String fbaid, String type, IResponseSubcriberFM iResponseSubcriber);
+    void getHLQuoteApplicationData(int count,int QA,String fbaid, String type, IResponseSubcriberFM iResponseSubcriber);
 
     void saveHLQuoteData(FmHomeLoanRequest fmHomeLoanRequest, IResponseSubcriberFM iResponseSubcriber);
 
