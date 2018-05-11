@@ -27,11 +27,13 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,7 +52,8 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
     TextView tvAdd, tvSearch;
     EditText etSearch;
     ImageView ivSearch;
-
+    boolean isHit = false;
+    RecyclerView.LayoutManager layoutManager;
 
     public HealthQuoteListFragment() {
         // Required empty public constructor
@@ -72,9 +75,35 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
         healthQuoteAdapter = new HealthQuoteAdapter(HealthQuoteListFragment.this, mQuoteList);
         rvHealthQuoteList.setAdapter(healthQuoteAdapter);
 
-        //recyclerview item click listener
-        //rvHealthQuoteList.addOnItemTouchListener(new RecyclerItemClickListener(rvHealthQuoteList, onItemClickListener));
-        return view;
+        rvHealthQuoteList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mQuoteList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchMoreQuotes(mQuoteList.size());
+
+                    }
+                }
+            }
+        });
+         return view;
+    }
+
+    private void fetchMoreQuotes(int size) {
+
+          //  showDialog("Fetching.., Please wait.!");
+            new HealthController(getActivity()).getHealthQuoteApplicationList(size,1,
+                    String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()),
+                    this);
+
     }
 
     /*
@@ -162,10 +191,27 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
         if (response instanceof HealthDeleteResponse) {
             if (response.getStatusNo() == 0) {
                 mQuoteList.remove(removeQuoteEntity);
-                healthQuoteAdapter.refreshAdapter(mQuoteList);
-                healthQuoteAdapter.notifyDataSetChanged();
+
             }
+        }else if (response instanceof HealthQuoteAppResponse) {
+            if (((HealthQuoteAppResponse) response).getMasterData() != null) {
+
+                List<HealthQuote> list =((HealthQuoteAppResponse) response).getMasterData().getQuote();
+                if (list.size() > 0) {
+                    isHit = false;
+                    Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+                    for (HealthQuote entity : list) {
+                        if (!mQuoteList.contains(entity)) {
+                            mQuoteList.add(entity);
+                        }
+                    }
+                }
+            }
+
         }
+        healthQuoteAdapter.refreshAdapter(mQuoteList);
+        healthQuoteAdapter.notifyDataSetChanged();
     }
 
     @Override
