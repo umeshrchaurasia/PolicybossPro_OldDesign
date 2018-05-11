@@ -202,7 +202,7 @@
                         android:paddingTop="3dp"
                         android:text="results from www.policyboss.com"
                         android:textAllCaps="true"
-                        android:textColor="?attr/colorPrimaryDark" />
+                        android:textColor="?attr/colorPrimary" />
 
                     <CheckBox
                         android:id="@+id/chkAddon"
@@ -211,6 +211,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="30"
                         android:text="With Addon"
+                        android:textColor="@color/colorPrimary"
                         android:textAllCaps="true" />
 
                     <!--<LinearLayout
