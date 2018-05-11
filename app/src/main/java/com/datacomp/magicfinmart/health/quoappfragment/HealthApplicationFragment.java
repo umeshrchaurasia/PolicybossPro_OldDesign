@@ -27,14 +27,19 @@ import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapt
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthApplication;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HealthApplicationFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
+public class HealthApplicationFragment extends BaseFragment implements View.OnClickListener,IResponseSubcriber, BaseFragment.PopUpListener {
     RecyclerView rvHealthApplicationList;
     HealthApplicationAdapter healthApplicationAdapter;
     List<HealthApplication> mApplicationList;
@@ -42,6 +47,7 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
 
     public HealthApplicationFragment() {
         // Required empty public constructor
@@ -64,7 +70,65 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
         }
         healthApplicationAdapter = new HealthApplicationAdapter(HealthApplicationFragment.this, mApplicationList);
         rvHealthApplicationList.setAdapter(healthApplicationAdapter);
+
+        rvHealthApplicationList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mApplicationList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchMoreQuotes(mApplicationList.size());
+
+                    }
+                }
+            }
+        });
         return view;
+    }
+
+    private void fetchMoreQuotes(int size) {
+
+        //  showDialog("Fetching.., Please wait.!");
+        new HealthController(getActivity()).getHealthQuoteApplicationList(size,2,
+                String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()),
+                this);
+
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof HealthQuoteAppResponse) {
+            List<HealthApplication> list = ((HealthQuoteAppResponse) response).getMasterData().getApplication();
+
+            if (list.size() > 0) {
+                isHit = false;
+                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+
+                for (HealthApplication entity : list) {
+                    if (!mApplicationList.contains(entity)) {
+                        mApplicationList.add(entity);
+                    }
+                }
+            }
+
+            healthApplicationAdapter.refreshAdapter(mApplicationList);
+            healthApplicationAdapter.notifyDataSetChanged();
+
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
     }
 
     private void initView(View view) {
@@ -88,6 +152,8 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
         tvAdd.setOnClickListener(this);
         tvSearch.setOnClickListener(this);
     }
+
+
 
     @Override
     public void onClick(View view) {
