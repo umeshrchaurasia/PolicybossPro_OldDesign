@@ -243,6 +243,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             {
 
             }
+            break;
         }
     }
 
@@ -302,6 +303,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 //            }
 //        }
 //    }
+
+
     @Override
     public void OnSuccess(APIResponse response, String message) {
         //hideLoader();
