@@ -57,9 +57,9 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
         try {
             if (responseEntity.getPremium_Breakup() != null) {
                 if (responseEntity.isAddonApplied()) {
-                    holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
+                    holder.txtFinalPremium.setText("\u20B9" + " " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
                 } else {
-                    holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium())));
+                    holder.txtFinalPremium.setText("\u20B9" + " " + Math.round(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium())));
                 }
 
             } else {
@@ -96,6 +96,19 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             }
         });
         holder.txtPremiumBreakUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
+
+        holder.imgInsurerLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
+        holder.llIdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
@@ -143,11 +156,12 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
     public class BikeQuoteItem extends RecyclerView.ViewHolder {
         public TextView txtInsurerName, txtIDV, txtFinalPremium, txtPremiumBreakUp, txtBuy;
         ImageView imgInsurerLogo;
-        LinearLayout llAddon;
+        LinearLayout llAddon,llIdv;
         RecyclerView rvAddOn;
 
         public BikeQuoteItem(View itemView) {
             super(itemView);
+            llIdv = (LinearLayout) itemView.findViewById(R.id.llIdv);
             llAddon = (LinearLayout) itemView.findViewById(R.id.llAddon);
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtInsurerName = (TextView) itemView.findViewById(R.id.txtInsuranceCompName);

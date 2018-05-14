@@ -71,9 +71,9 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
 public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     private static final String TAG = "AddNewQuoteActivity";
-    TextView tvNew, tvRenew;
-    CardView cvNcb;
-    LinearLayout llNoClaim, llVerifyCarDetails;
+    TextView tvNew, tvRenew,tvOr;
+    LinearLayout cvNcb;
+    LinearLayout llNoClaim, llVerifyCarDetails,llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvIndividual, cvRegNo;
     View cvInput;
@@ -616,7 +616,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         cvInput.setVisibility(View.GONE);
         switchNewRenew.setChecked(true);
         tvClaimYes.performClick();
-        llVerifyCarDetails.setVisibility(View.GONE);
+        spPrevIns.setEnabled(false);
+        //llVerifyCarDetails.setVisibility(View.GONE);
     }
 
     public int getPercentFromProgress(int value) {
@@ -710,8 +711,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         btnGo = (Button) view.findViewById(R.id.btnGo);
         tvNew = (TextView) view.findViewById(R.id.tvNew);
         tvRenew = (TextView) view.findViewById(R.id.tvRenew);
-        llVerifyCarDetails = (LinearLayout) view.findViewById(R.id.llVerifyCarDetails);
-        cvNcb = (CardView) view.findViewById(R.id.cvNcb);
+        tvOr = (TextView) view.findViewById(R.id.tvOr);
+        llDontKnow = (LinearLayout) view.findViewById(R.id.llDontKnow);
+        //llVerifyCarDetails = (LinearLayout) view.findViewById(R.id.llVerifyCarDetails);
+        cvNcb = (LinearLayout) view.findViewById(R.id.cvNcb);
         llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
         cvIndividual = (CardView) view.findViewById(R.id.cvIndividual);
@@ -925,6 +928,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 cvNewRenew.setVisibility(View.GONE);
                 cvIndividual.setVisibility(View.GONE);
                 cvRegNo.setVisibility(View.GONE);
+                tvOr.setVisibility(View.GONE);
+                llDontKnow.setVisibility(View.GONE);
                 btnGetQuote.setVisibility(View.VISIBLE);
                 break;
         }
@@ -946,7 +951,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                 regNo = etreg1.getText().toString() + etreg2.getText().toString()
                         + etreg3.getText().toString() + etreg4.getText().toString();
-                llVerifyCarDetails.setVisibility(View.VISIBLE);
+                //llVerifyCarDetails.setVisibility(View.VISIBLE);
                 tvCarNo.setText(etreg1.getText().toString() + " " + etreg2.getText().toString()
                         + " " + etreg3.getText().toString() + " " + etreg4.getText().toString());
                 Constants.hideKeyBoard(etreg4, getActivity());
@@ -1145,6 +1150,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
+                            spPrevIns.setEnabled(true);
                             Calendar calendar = Calendar.getInstance();
                             String currDate = displayFormat.format(calendar.getTime());
                             calendar.set(year, monthOfYear, dayOfMonth);
@@ -1405,7 +1411,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         cancelDialog();
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
         if (t.getMessage().contains("manually")) {
-            llVerifyCarDetails.setVisibility(View.GONE);
+            //llVerifyCarDetails.setVisibility(View.GONE);
         }
     }
 

@@ -258,6 +258,7 @@
 
                 <!--Exp date and manufacturing date-->
                 <LinearLayout
+                    android:gravity="bottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -277,19 +278,22 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
+                        android:gravity="bottom"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
+                            android:textColor="@color/header_dark_text"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="CLAIM IN THIS YEAR"
-                            android:textAppearance="@style/TextStyle.Title" />
+                            android:text="Claim in this year"
+                           style="@style/TextStyle.TextMedium" />
 
                         <LinearLayout
+                            android:layout_marginTop="5dp"
                             android:orientation="horizontal"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
@@ -301,7 +305,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:background="@drawable/customeborder_blue"
                                 android:gravity="center"
-                                android:padding="4dp"
+                                android:padding="6dp"
                                 android:text="YES"
                                 android:textAppearance="@style/TextStyle.TextMedium"
                                 android:textColor="@color/black" />
@@ -314,7 +318,7 @@
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/customeborder"
                                 android:gravity="center"
-                                android:padding="4dp"
+                                android:padding="6dp"
                                 android:text="NO"
                                 android:textAppearance="@style/TextStyle.TextMedium"
                                 android:textColor="@color/black" />
@@ -352,7 +356,7 @@
                                 android:layout_marginTop="3dp"
                                 android:gravity="center"
                                 android:textStyle="bold"
-                                android:text="EXISTING NCB"
+                                android:text="Existing NCB"
                                 android:textAppearance="@style/TextViewStyle.Large"
                                 android:textColor="@color/black" />
 
