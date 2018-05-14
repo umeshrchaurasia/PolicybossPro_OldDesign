@@ -7,7 +7,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -34,7 +33,7 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getIntent().hasExtra(Constants.LIFE_INS)) {
             compId = getIntent().getIntExtra(Constants.LIFE_INS, 0);
-            if(compId==39){
+            if (compId == 39) {
                 getSupportActionBar().setTitle("ICICI PRUDENTIAL");
             }
         }
@@ -78,7 +77,7 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
     private void fetchQuoteApplication(int compId) {
 
         showDialog("Fetching.., Please wait.!");
-        new TermInsuranceController(this).getTermQuoteApplicationList(compId, this);
+        new TermInsuranceController(this).getTermQuoteApplicationList(compId, 0, "0", this);
     }
 
     @Override
@@ -122,7 +121,7 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
         mAdapter = new TermActivityTabsPagerAdapter(getSupportFragmentManager(), null);
         viewPager.setAdapter(mAdapter);
     }

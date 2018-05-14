@@ -17,7 +17,7 @@
         <android.support.v7.widget.CardView
             style="@style/CardStyle.Home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginBottom="2dp"
             android:layout_marginTop="4dp"
             android:visibility="gone">
@@ -160,17 +160,43 @@
                     <android.support.design.widget.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Fuel">
+                        <TextView
+                            android:visibility="gone"
+                            android:textColor="@color/colorPrimary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Variant"
+                            android:textAppearance="@style/TextViewStyle.Small" />
+
                         <!-- varient -->
                         <Spinner
-
                             android:id="@+id/spVarient"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
+                            android:layout_height="40dp"
                             android:dropDownWidth="300dp" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/tilExt"
+                        style="@style/TextAppearence.App.TextInputLayout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="bottom"
+                        android:layout_weight="1"
+                        android:hint="Ext. CNG/LPG Value">
+
+                        <EditText
+                            android:id="@+id/etExtValue"
+                            style="@style/Style.edittext"
+                            android:layout_height="match_parent"
+                            android:enabled="false"
+                            android:inputType="number"
+                            android:maxLength="6" />
                     </android.support.design.widget.TextInputLayout>
 
 
@@ -198,22 +224,7 @@
                             android:enabled="false" />
                     </android.support.design.widget.TextInputLayout>
 
-                    <android.support.design.widget.TextInputLayout
-                        style="@style/TextAppearence.App.TextInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_weight="1"
-                        android:hint="Ext. CNG/LPG Value">
 
-                        <EditText
-                            android:id="@+id/etExtValue"
-                            style="@style/Style.edittext"
-                            android:layout_height="wrap_content"
-                            android:enabled="false"
-                            android:inputType="number"
-                            android:maxLength="6" />
-                    </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
                         style="@style/TextAppearence.App.TextInputLayout"
@@ -224,30 +235,6 @@
 
                         <EditText
                             android:id="@+id/etRegDate"
-                            style="@style/Style.edittext"
-                            android:drawableRight="@drawable/vector_date"
-                            android:focusable="false" />
-                    </android.support.design.widget.TextInputLayout>
-
-
-                </LinearLayout>
-
-                <!--Exp date and manufacturing date-->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="bottom"
-                    android:orientation="horizontal">
-
-                    <android.support.design.widget.TextInputLayout
-                        style="@style/TextAppearence.App.TextInputLayout"
-                        android:layout_width="0dp"
-                        android:layout_marginLeft="1dp"
-                        android:layout_weight="1"
-                        android:hint="Expiry Date">
-
-                        <EditText
-                            android:id="@+id/etExpDate"
                             style="@style/Style.edittext"
                             android:drawableRight="@drawable/vector_date"
                             android:focusable="false" />
@@ -266,37 +253,50 @@
                             android:drawableRight="@drawable/vector_date"
                             android:focusable="false" />
                     </android.support.design.widget.TextInputLayout>
+
                 </LinearLayout>
 
-                <!--NCB  SPINNER-->
-
-                <android.support.v7.widget.CardView
-                    android:id="@+id/cvNcb"
-                    style="@style/CardStyle.Home"
+                <!--Exp date and manufacturing date-->
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextAppearence.App.TextInputLayout"
+                        android:layout_width="0dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_weight="1"
+                        android:hint="Expiry Date">
+
+                        <EditText
+                            android:id="@+id/etExpDate"
+                            style="@style/Style.edittext"
+                            android:drawableRight="@drawable/vector_date"
+                            android:focusable="false" />
+                    </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:orientation="vertical">
 
-                        <LinearLayout
+                        <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:orientation="horizontal">
+                            android:text="CLAIM IN THIS YEAR"
+                            android:textAppearance="@style/TextStyle.Title" />
 
+                        <LinearLayout
+                            android:orientation="horizontal"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
                             <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
-                                android:text="CLAIM IN THIS YEAR :  "
-                                android:textAppearance="@style/TextStyle.TextMedium" />
-
-                            <TextView
+                                android:layout_weight="1"
                                 android:id="@+id/tvClaimYes"
-                                android:layout_width="50dp"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:background="@drawable/customeborder_blue"
@@ -307,8 +307,9 @@
                                 android:textColor="@color/black" />
 
                             <TextView
+                                android:layout_weight="1"
                                 android:id="@+id/tvClaimNo"
-                                android:layout_width="50dp"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
                                 android:background="@drawable/customeborder"
@@ -318,6 +319,24 @@
                                 android:textAppearance="@style/TextStyle.TextMedium"
                                 android:textColor="@color/black" />
                         </LinearLayout>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <!--NCB  SPINNER-->
+
+
+                    <LinearLayout
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="@drawable/customeborder"
+                        android:id="@+id/cvNcb"
+                        android:padding="5dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
 
                         <LinearLayout
                             android:id="@+id/llNoClaim"
@@ -330,10 +349,11 @@
                                 android:id="@+id/tvProgress"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="8dp"
+                                android:layout_marginTop="3dp"
                                 android:gravity="center"
+                                android:textStyle="bold"
                                 android:text="EXISTING NCB"
-                                android:textAppearance="@style/TextStyle.TextMedium"
+                                android:textAppearance="@style/TextViewStyle.Large"
                                 android:textColor="@color/black" />
 
 
@@ -393,7 +413,7 @@
                         </LinearLayout>
 
                     </LinearLayout>
-                </android.support.v7.widget.CardView>
+
 
                 <!--RTO and PREV INS-->
                 <LinearLayout

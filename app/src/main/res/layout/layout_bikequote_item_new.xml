@@ -58,7 +58,7 @@
                 android:scaleType="fitCenter" />
 
             <View
-                android:layout_width="0.6dp"
+                android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="@color/divider" />
 
@@ -66,18 +66,18 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="8dp"
                 android:layout_weight="25"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextStyle.TextSmall"
+                    style="@style/TextStyle.TextLarge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="IDV" />
 
                 <TextView
+                    android:layout_marginTop="3dp"
                     android:id="@+id/txtIDV"
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"

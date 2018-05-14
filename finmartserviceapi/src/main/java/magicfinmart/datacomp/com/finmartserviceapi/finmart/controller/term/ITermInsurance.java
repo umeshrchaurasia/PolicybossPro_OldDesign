@@ -9,9 +9,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFin
 
 public interface ITermInsurance {
 
-    void getTermQuoteApplicationList(int insurerID, IResponseSubcriber iResponseSubcriber);
+    void getTermQuoteApplicationList(int insurerID, int count, String type, IResponseSubcriber iResponseSubcriber);
 
     void getTermInsurer(TermFinmartRequest termRequestEntity, IResponseSubcriber iResponseSubcriber);
 
     void deleteTermQuote(String termRequestId, IResponseSubcriber iResponseSubcriber);
+
+    void convertQuoteToApp(String termRequestId, String InsurerId, String fba_id, String NetPremium, IResponseSubcriber iResponseSubcriber);
+
 }

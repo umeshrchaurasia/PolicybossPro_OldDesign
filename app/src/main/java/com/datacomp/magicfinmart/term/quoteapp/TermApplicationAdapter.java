@@ -8,19 +8,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.health.quoappfragment.HealthApplicationFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthApplication;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 
 /**
@@ -50,12 +45,24 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
     public void onBindViewHolder(ApplicationItem holder, int position) {
         if (holder instanceof ApplicationItem) {
             TermFinmartRequest entity = mAppListFiltered.get(position);
-            holder.txtCRN.setText(entity.getTermRequestEntity().getCrn());
-            holder.txtCreatedDate.setText(entity.getTermRequestEntity().getCreated_date());
-            holder.txtPersonName.setText(entity.getTermRequestEntity().getContactName());
+            holder.txtCRN.setText("" + entity.getTermRequestEntity().getCrn());
+            holder.txtCreatedDate.setText("" + entity.getTermRequestEntity().getCreated_date());
+            holder.txtPersonName.setText("" + entity.getTermRequestEntity().getContactName());
+
+            holder.txtTermPpt.setText(entity.getTermRequestEntity().getPolicyTerm() + "/" + entity.getTermRequestEntity().getPPT());
+            holder.txtSum.setText("" + entity.getTermRequestEntity().getSumAssured());
+            holder.txtStatusDate.setText("" + entity.getTermRequestEntity().getCreated_date());
+
+            holder.txtMode.setText("" + entity.getTermRequestEntity().getFrequency());
+            if (entity.getStatusProgress() == 0)
+                holder.txtStatus.setText("LINK SENT");
+            else
+                holder.txtStatus.setText("---");
+            holder.txtPremium.setText("" + entity.getNetPremium());
 
 
-            try {
+
+            /*try {
 
                 Glide.with(fragment).load(entity.getInsImage()).into(holder.imgInsurerLogo);
 
@@ -69,23 +76,17 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
 
             } catch (Exception e) {
                 e.printStackTrace();
-            }
+            }*/
             holder.txtCRN.setTag(R.id.txtCRN, entity);
             holder.txtCreatedDate.setTag(R.id.txtCreatedDate, entity);
             holder.txtPersonName.setTag(R.id.txtPersonName, entity);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
-            holder.imgInsurerLogo.setTag(R.id.imgInsurerLogo, entity);
-            holder.llApp.setTag(R.id.llApp, entity);
-            holder.llbottom.setTag(R.id.llbottom, entity);
 
 
             holder.txtCRN.setOnClickListener(this);
             holder.txtCreatedDate.setOnClickListener(this);
             holder.txtPersonName.setOnClickListener(this);
             holder.txtOverflowMenu.setOnClickListener(this);
-            holder.imgInsurerLogo.setOnClickListener(this);
-            holder.llApp.setOnClickListener(this);
-            holder.llbottom.setOnClickListener(this);
 
 
         }
@@ -147,9 +148,8 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtPersonName;
-        ImageView imgInsurerLogo, imgProgressStatus;
-        LinearLayout llbottom, llApp;
+        TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtPersonName, txtTermPpt, txtSum, txtStatusDate, txtMode, txtStatus, txtPremium;
+
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -157,10 +157,15 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
             txtCreatedDate = (TextView) itemView.findViewById(R.id.txtCreatedDate);
             txtCRN = (TextView) itemView.findViewById(R.id.txtCRN);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
-            imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
-            imgProgressStatus = (ImageView) itemView.findViewById(R.id.imgProgressStatus);
-            llbottom = (LinearLayout) itemView.findViewById(R.id.llbottom);
-            llApp = (LinearLayout) itemView.findViewById(R.id.llApp);
+
+            txtTermPpt = (TextView) itemView.findViewById(R.id.txtTermPpt);
+            txtSum = (TextView) itemView.findViewById(R.id.txtSum);
+            txtStatusDate = (TextView) itemView.findViewById(R.id.txtStatusDate);
+            txtMode = (TextView) itemView.findViewById(R.id.txtMode);
+
+            txtStatus = (TextView) itemView.findViewById(R.id.txtStatus);
+            txtPremium = (TextView) itemView.findViewById(R.id.txtPremium);
+
         }
     }
 

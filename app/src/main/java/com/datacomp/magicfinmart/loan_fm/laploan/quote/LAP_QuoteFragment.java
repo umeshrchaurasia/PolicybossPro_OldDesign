@@ -15,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
@@ -27,10 +28,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
 
 /**
@@ -50,6 +53,9 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
+
+
     public LAP_QuoteFragment() {
 
     }
@@ -70,7 +76,34 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
 
         lapLoan_QuoteAdapter = new LapLoan_QuoteAdapter(LAP_QuoteFragment.this,mQuoteList);
         rvlapQuoteList.setAdapter(lapLoan_QuoteAdapter);
+
+        rvlapQuoteList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mQuoteList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchQuoteApplication(mQuoteList.size());
+
+                    }
+                }
+            }
+        });
         return view;
+    }
+
+    private void fetchQuoteApplication(int count) {
+        new MainLoanController(getActivity()).getHLQuoteApplicationData(count, 1, String.valueOf(
+                new DBPersistanceController(getActivity()).getUserData().getFBAId()),
+                "LAP", this);
+
     }
 
     private void initView(View view) {
@@ -169,10 +202,24 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
         if (response instanceof FmSaveQuotePersonalLoanResponse) {
             if (response.getStatusNo() == 0) {
                 mQuoteList.remove(removeQuoteEntity);
-                lapLoan_QuoteAdapter.refreshAdapter(mQuoteList);
-                lapLoan_QuoteAdapter.notifyDataSetChanged();
+
+            }
+        } else if (response instanceof FmHomelLoanResponse) {
+            List<FmHomeLoanRequest> list = ((FmHomelLoanResponse) response).getMasterData().getQuote();
+            if (list.size() > 0) {
+                isHit = false;
+                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+                for (FmHomeLoanRequest entity : list) {
+                    if (!mQuoteList.contains(entity)) {
+                        mQuoteList.add(entity);
+                    }
+                }
             }
         }
+
+        lapLoan_QuoteAdapter.refreshAdapter(mQuoteList);
+        lapLoan_QuoteAdapter.notifyDataSetChanged();
     }
 
     @Override

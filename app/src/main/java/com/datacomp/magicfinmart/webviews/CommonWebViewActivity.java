@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart.webviews;
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,8 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -94,7 +97,7 @@ public class CommonWebViewActivity extends BaseActivity {
 
         MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
-       /* webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 // TODO show you progress image
@@ -113,7 +116,7 @@ public class CommonWebViewActivity extends BaseActivity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return false;
             }
-        });*/
+        });
         webView.getSettings().setBuiltInZoomControls(true);
         webView.addJavascriptInterface(new MyJavaScriptInterface(), "Android");
         Log.d("URL", url);

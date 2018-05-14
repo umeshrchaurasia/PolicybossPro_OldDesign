@@ -168,35 +168,41 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if (i == 0) {
                 et1.setText(String.valueOf(entity.getAge()));
                 img1.setImageResource(R.mipmap.user_selected);
-                img1.performClick();
+                enableOne(img1);
+              //  img1.performClick();
             }
             if (i == 1) {
                 et2.setText(String.valueOf(entity.getAge()));
                 img2.setImageResource(R.mipmap.user_selected);
-                img2.performClick();
+                enableOne(img2);
+               // img2.performClick();
             }
 
             if (i == 2) {
                 et3.setText(String.valueOf(entity.getAge()));
                 img3.setImageResource(R.mipmap.user_selected);
-                img3.performClick();
+                enableOne(img3);
+              //  img3.performClick();
             }
 
             if (i == 3) {
                 et4.setText(String.valueOf(entity.getAge()));
                 img4.setImageResource(R.mipmap.user_selected);
-                img4.performClick();
+                enableOne(img4);
+              //  img4.performClick();
             }
 
             if (i == 4) {
                 et5.setText(String.valueOf(entity.getAge()));
                 img5.setImageResource(R.mipmap.user_selected);
-                img5.performClick();
+                enableOne(img5);
+              //  img5.performClick();
             }
             if (i == 5) {
                 et6.setText(String.valueOf(entity.getAge()));
                 img6.setImageResource(R.mipmap.user_selected);
-                img6.performClick();
+                enableOne(img6);
+               // img6.performClick();
             }
         }
     }
@@ -338,22 +344,28 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 break;
 
             case R.id.img1:
-                enableOne(view);
+                enablePrevious(1);
+               // enableOne(view);
                 break;
             case R.id.img2:
-                enableOne(view);
+                enablePrevious(2);
+               // enableOne(view);
                 break;
             case R.id.img3:
-                enableOne(view);
+                enablePrevious(3);
+               // enableOne(view);
                 break;
             case R.id.img4:
-                enableOne(view);
+                enablePrevious(4);
+                //enableOne(view);
                 break;
             case R.id.img5:
-                enableOne(view);
+                enablePrevious(5);
+               // enableOne(view);
                 break;
             case R.id.img6:
-                enableOne(view);
+                enablePrevious(6);
+               // enableOne(view);
                 break;
 
             case R.id.btnGetHealthQuote:
@@ -825,6 +837,100 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
+
+    private void setMemberSelcted( EditText et , ImageView img)
+    {
+        img.setImageResource(R.mipmap.user_selected);
+        et.setEnabled(true);
+        et.setFocusableInTouchMode(true);
+    }
+
+    private void setMemberDeSelcted( EditText et , ImageView img)
+    {
+        img.setImageResource(R.mipmap.user_unselected);
+        et.setEnabled(false);
+        et.setText("");
+        et.setFocusableInTouchMode(false);
+    }
+
+    private void enablePrevious(int memberCount) {
+
+        switch (memberCount) {
+            case 1:
+
+                enableOne(img1);
+
+                setMemberDeSelcted(et2,img2);
+                setMemberDeSelcted(et3,img3);
+                setMemberDeSelcted(et4,img4);
+                setMemberDeSelcted(et5,img5);
+                setMemberDeSelcted(et6,img6);
+
+                break;
+
+            case 2:
+
+                enableOne(img2);
+                setMemberSelcted(et1,img1);
+
+                setMemberDeSelcted(et3,img3);
+                setMemberDeSelcted(et4,img4);
+                setMemberDeSelcted(et5,img5);
+                setMemberDeSelcted(et6,img6);
+
+                break;
+
+            case 3:
+
+                enableOne(img3);
+                setMemberSelcted(et1,img1);
+                setMemberSelcted(et2,img2);
+
+
+                setMemberDeSelcted(et4,img4);
+                setMemberDeSelcted(et5,img5);
+                setMemberDeSelcted(et6,img6);
+                break;
+
+            case 4:
+                enableOne(img4);
+                setMemberSelcted(et1,img1);
+                setMemberSelcted(et2,img2);
+                setMemberSelcted(et3,img3);
+
+                setMemberDeSelcted(et5,img5);
+                setMemberDeSelcted(et6,img6);
+
+                break;
+
+            case 5:
+                enableOne(img5);
+
+                setMemberSelcted(et1,img1);
+                setMemberSelcted(et2,img2);
+                setMemberSelcted(et3,img3);
+                setMemberSelcted(et4,img4);
+
+                setMemberDeSelcted(et6,img6);
+                break;
+
+            case 6:
+
+                enableOne(img6);
+                setMemberSelcted(et1,img1);
+                setMemberSelcted(et2,img2);
+                setMemberSelcted(et3,img3);
+                setMemberSelcted(et4,img4);
+                setMemberSelcted(et5,img5);
+
+                break;
+        }
+
+
+    }
+
+
+
     //region image click
 
     private void enableInputs() {
@@ -900,7 +1006,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         int Age1 = 0;  int Age2 = 0;  int Age3 = 0;
         int Age4 = 0;  int Age5 = 0;  int Age6 = 0;
-        int count = 0;
+        int count = 0;  int countBelow = 0;
 
         boolean blnchk =true;
         if((et1.isEnabled() && et1.getText().toString().length() >0))
@@ -909,7 +1015,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
              if(Age1 >= 18)
              {
                count = count + 1;
+             }else{
+                 countBelow = countBelow + 1;
              }
+
 
         }
          if(et2.isEnabled() && et2.getText().toString().length() >0)
@@ -918,7 +1027,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age2 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -928,7 +1040,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age3 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -938,7 +1053,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age4 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -948,7 +1066,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age5 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -958,7 +1079,10 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             if(Age6 >= 18)
             {
                 count = count + 1;
+            }else{
+                countBelow = countBelow + 1;
             }
+
 
 
         }
@@ -971,7 +1095,12 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         {
             showAlert("More than 2 member age should not be greater than or equal to 18 years");
             blnchk = false;
-        }else{
+        }else if(countBelow > 4)
+        {
+            showAlert("More than 4 children's are not allowed");
+            blnchk = false;
+        }
+        else {
 
             blnchk = true;
         }

@@ -15,24 +15,27 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.TermActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
-import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DeleteTermQuoteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TermQuoteListFragment extends BaseFragment implements View.OnClickListener {
+public class TermQuoteListFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber {
     public static final String TERM_INPUT_FRAGMENT = "input_term_fragment_bottom";
     public static final String TERM_FOR_INPUT_FRAGMENT = "for_term_input";
     FloatingActionButton fbAddQuote;
@@ -45,6 +48,8 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
     TextView tvAdd, tvSearch;
     EditText etSearch;
     ImageView ivSearch;
+    boolean isHit = false;
+    TermFinmartRequest removeQuoteEntity;
 
     public TermQuoteListFragment() {
         // Required empty public constructor
@@ -67,6 +72,26 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
 
         mAdapter = new TermQuoteAdapter(this, listQuote);
         rvTermQuote.setAdapter(mAdapter);
+
+        rvTermQuote.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == listQuote.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchMoreQuotes(listQuote.size());
+
+                    }
+                }
+            }
+        });
         return view;
     }
 
@@ -142,7 +167,7 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
         intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
         intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
         startActivity(intent);*/
-        if(whichTerm==39){
+        if (whichTerm == 39) {
             Intent intent = new Intent(getActivity(), IciciTermActivity.class);
             intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
             intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
@@ -151,7 +176,48 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
     }
 
     public void removeQuote(TermFinmartRequest entity) {
-        Toast.makeText(getContext(), "Remove called..", Toast.LENGTH_SHORT).show();
+
+        removeQuoteEntity = entity;
+        showDialog("Please wait,Removing quote..");
+        new TermInsuranceController(getActivity()).deleteTermQuote("" + entity.getTermRequestId(),
+                this);
     }
 
+    public void fetchMoreQuotes(int count) {
+        //showDialog("Fetching.., Please wait.!");
+        new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "1", this);
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof TermQuoteApplicationResponse) {
+            List<TermFinmartRequest> list = ((TermQuoteApplicationResponse) response).getMasterData().getQuote();
+            if (list.size() > 0) {
+                isHit = false;
+                //Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+                for (TermFinmartRequest entity : list) {
+                    if (!listQuote.contains(entity)) {
+                        listQuote.add(entity);
+                    }
+                }
+            }
+
+
+        } else if (response instanceof DeleteTermQuoteResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                listQuote.remove(removeQuoteEntity);
+
+            }
+        }
+
+        mAdapter.refreshAdapter(listQuote);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+    }
 }
