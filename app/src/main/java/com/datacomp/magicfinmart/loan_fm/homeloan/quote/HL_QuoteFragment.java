@@ -15,20 +15,24 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.ActivityTabsPagerAdapter_HL;
+import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
 
 
@@ -36,7 +40,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteH
  * Created by IN-RB on 19-01-2018.
  */
 
-public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener,IResponseSubcriberFM{
+public class HL_QuoteFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriberFM {
 
     public static final String FROM_QUOTE = "hl_from_quote";
     FloatingActionButton hlAddQuote;
@@ -44,11 +48,12 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     HomeLoan_QuoteAdapter homeLoan_QuoteAdapter;
     List<FmHomeLoanRequest> mQuoteList;
 
-    FmHomeLoanRequest  removeQuoteEntity;
+    FmHomeLoanRequest removeQuoteEntity;
 
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
 
     public HL_QuoteFragment() {
     }
@@ -62,14 +67,40 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         setListener();
         setTextWatcher();
         mQuoteList = new ArrayList<>();
-        if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST) != null)
-        {
+        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST) != null) {
             mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_HL.QUOTE_LIST);
 
         }
-        homeLoan_QuoteAdapter = new HomeLoan_QuoteAdapter(HL_QuoteFragment.this,mQuoteList);
+        homeLoan_QuoteAdapter = new HomeLoan_QuoteAdapter(HL_QuoteFragment.this, mQuoteList);
         rvhlQuoteList.setAdapter(homeLoan_QuoteAdapter);
+
+        rvhlQuoteList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mQuoteList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchQuoteApplication(mQuoteList.size());
+
+                    }
+                }
+            }
+        });
         return view;
+    }
+
+    private void fetchQuoteApplication(int count) {
+        new MainLoanController(getActivity()).getHLQuoteApplicationData(count, 1, String.valueOf(
+                new DBPersistanceController(getActivity()).getUserData().getFBAId()),
+                "HML", this);
+
     }
 
     private void initView(View view) {
@@ -99,17 +130,18 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         tvSearch.setOnClickListener(this);
     }
 
-    public void redirectQuoteHL(FmHomeLoanRequest request){
-        Intent intent=new Intent(getActivity(), HLMainActivity.class);
-        intent.putExtra( FROM_QUOTE,request);
+    public void redirectQuoteHL(FmHomeLoanRequest request) {
+        Intent intent = new Intent(getActivity(), HLMainActivity.class);
+        intent.putExtra(FROM_QUOTE, request);
         startActivity(intent);
 
     }
+
     public void removeQuoteHL(FmHomeLoanRequest entity) {
 
         removeQuoteEntity = entity;
         showDialog("Please wait,Removing quote..");
-        new MainLoanController(getContext()).getdelete_loanrequest("" + entity.getLoan_requestID(),this);
+        new MainLoanController(getContext()).getdelete_loanrequest("" + entity.getLoan_requestID(), this);
 
     }
 
@@ -138,8 +170,8 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
         }
     }
-    public void callnumber(String mobNumber)
-    {
+
+    public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
     }
 
@@ -167,10 +199,25 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
         if (response instanceof FmSaveQuoteHomeLoanResponse) {
             if (response.getStatusNo() == 0) {
                 mQuoteList.remove(removeQuoteEntity);
-                homeLoan_QuoteAdapter.refreshAdapter(mQuoteList);
-                homeLoan_QuoteAdapter.notifyDataSetChanged();
+
+
+            }
+        } else if (response instanceof FmHomelLoanResponse) {
+            List<FmHomeLoanRequest> list = ((FmHomelLoanResponse) response).getMasterData().getQuote();
+            if (list.size() > 0) {
+                isHit = false;
+                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+
+                for (FmHomeLoanRequest entity : list) {
+                    if (!mQuoteList.contains(entity)) {
+                        mQuoteList.add(entity);
+                    }
+                }
             }
         }
+
+        homeLoan_QuoteAdapter.refreshAdapter(mQuoteList);
+        homeLoan_QuoteAdapter.notifyDataSetChanged();
     }
 
     @Override

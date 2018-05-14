@@ -70,7 +70,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             Toast.makeText(mContext.getActivity(), "Magna Insurer final premium Null", Toast.LENGTH_SHORT).show();
         }
 
-        holder.txtIDV.setText("\u20B9" + String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
+        holder.txtIDV.setText(String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
 
         try {
 

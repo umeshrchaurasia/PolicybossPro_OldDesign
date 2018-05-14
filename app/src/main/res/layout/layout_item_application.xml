@@ -100,6 +100,7 @@
                             android:textAllCaps="true" />
 
                         <TextView
+                            android:textStyle="bold"
                             android:id="@+id/txtCRN"
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
@@ -147,6 +148,7 @@
                             android:textAllCaps="true" />
 
                         <TextView
+                            android:textStyle="bold"
                             android:id="@+id/txtVehicleNo"
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
@@ -170,6 +172,7 @@
                             android:textAllCaps="true" />
 
                         <TextView
+                            android:textStyle="bold"
                             android:id="@+id/txtCreatedDate"
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"

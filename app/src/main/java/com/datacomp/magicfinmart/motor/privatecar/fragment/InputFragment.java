@@ -8,6 +8,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -76,7 +77,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew,tvOr;
-    CardView cvNcb;
+    LinearLayout cvNcb;
     LinearLayout llNoClaim, llVerifyCarDetails,llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo, cvIndividual;
@@ -92,6 +93,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
+    TextInputLayout tilExt;
     EditText etExtValue, etRegDate, etMfgDate, etExpDate, etCustomerName, etMobile, etCC;
     AutoCompleteTextView acMakeModel, acRto;
     TextView tvCarNo, tvProgress, tvClaimYes, tvClaimNo;
@@ -659,7 +661,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 if (fuelList.get(pos).equals(Constants.EXTERNAL_LPG)
                         || fuelList.get(pos).equals(Constants.EXTERNAL_CNG)) {
                     etExtValue.setEnabled(true);
+                    tilExt.setVisibility(View.VISIBLE);
                 } else {
+                    tilExt.setVisibility(View.GONE);
                     etExtValue.setText("");
                     etExtValue.setEnabled(false);
                     acMakeModel.requestFocus();
@@ -685,8 +689,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     private void initialize_views() {
         cvInput.setVisibility(View.GONE);
         switchNewRenew.setChecked(true);
-        tvClaimYes.performClick();
+        tvClaimNo.performClick();
         llVerifyCarDetails.setVisibility(View.GONE);
+        spPrevIns.setEnabled(false);
+        tilExt.setVisibility(View.GONE);
     }
 
     public int getPercentFromProgress(int value) {
@@ -757,11 +763,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     private void init_view(View view) {
+        tilExt =(TextInputLayout)view.findViewById(R.id.tilExt);
         btnGo = (Button) view.findViewById(R.id.btnGo);
         tvNew = (TextView) view.findViewById(R.id.tvNew);
         tvRenew = (TextView) view.findViewById(R.id.tvRenew);
         llVerifyCarDetails = (LinearLayout) view.findViewById(R.id.llVerifyCarDetails);
-        cvNcb = (CardView) view.findViewById(R.id.cvNcb);
+        cvNcb = (LinearLayout) view.findViewById(R.id.cvNcb);
         llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
         cvIndividual = (CardView) view.findViewById(R.id.cvIndividual);
@@ -1201,6 +1208,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
+                            spPrevIns.setEnabled(true);
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = displayFormat.format(calendar.getTime());

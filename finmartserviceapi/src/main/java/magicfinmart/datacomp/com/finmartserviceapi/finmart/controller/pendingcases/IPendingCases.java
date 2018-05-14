@@ -9,7 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 
 public interface IPendingCases {
 
-    void getPendingCases(String fbaID, IResponseSubcriber iResponseSubcriber);
+    void getPendingCases(int count,int type,String fbaID, IResponseSubcriber iResponseSubcriber);
 
     void deletePending(String quoteType, int pendingID, IResponseSubcriber iResponseSubcriber);
 }

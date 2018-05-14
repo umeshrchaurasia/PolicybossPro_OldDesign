@@ -74,7 +74,6 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
 
         showDialog("Fetching.., Please wait.!");
 
-
         new MainLoanController(this).getPLQuoteApplication(String.valueOf(loginEntity.getFBAId()), PersonalLoanDetailActivity.this);
 
 

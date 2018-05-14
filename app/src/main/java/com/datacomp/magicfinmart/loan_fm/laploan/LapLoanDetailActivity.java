@@ -78,9 +78,7 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
     private void fetchQuoteApplication() {
 
         showDialog("Fetching.., Please wait.!");
-
-
-        new MainLoanController(this).getHLQuoteApplicationData(String.valueOf(loginEntity.getFBAId()),
+        new MainLoanController(this).getHLQuoteApplicationData(0,0,String.valueOf(loginEntity.getFBAId()),
                 "LAP", LapLoanDetailActivity.this);
 
 

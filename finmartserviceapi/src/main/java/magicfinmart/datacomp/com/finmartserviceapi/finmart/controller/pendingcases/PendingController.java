@@ -39,9 +39,12 @@ public class PendingController implements IPendingCases {
 
 
     @Override
-    public void getPendingCases(String fbaID, final IResponseSubcriber iResponseSubcriber) {
+    public void getPendingCases(int count,int type,String fbaID, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("FBAID", fbaID);
+        body.put("count",""+count);
+        //body.put("type",""+type)
+
         pendingNetworkService.getPendingCases(body).enqueue(new Callback<PendingCasesResponse>() {
             @Override
             public void onResponse(Call<PendingCasesResponse> call, Response<PendingCasesResponse> response) {

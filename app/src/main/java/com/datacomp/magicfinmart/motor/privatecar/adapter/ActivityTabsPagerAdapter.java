@@ -22,7 +22,7 @@ public class ActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     QuoteApplicationEntity mMasterData;
 
-    private String[] pageTitle = new String[]{"QUOTES", "APPLICATION"};
+    private String[] pageTitle = new String[]{"QUOTE", "APPLICATION"};
 
 
     public ActivityTabsPagerAdapter(FragmentManager fm, QuoteApplicationEntity masterData) {
