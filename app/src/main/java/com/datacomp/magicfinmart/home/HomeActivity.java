@@ -276,11 +276,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
-        txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
+        //txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
 
-        txtEntityName.setText("Magic Finmart v" + versionNAme);
-        txtDetails.setText("" + loginResponseEntity.getFullName());
-        txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
+        txtEntityName.setText("Magic Finmart  v" + versionNAme);
+        txtDetails.setText("" + loginResponseEntity.getFullName()
+                + " (FBA ID : " + loginResponseEntity.getFBAId()+")");
+        //txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
         if (db.getAccountData() == null) {
             new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
