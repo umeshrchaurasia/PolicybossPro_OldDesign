@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -37,6 +39,8 @@ public class PLMainActivity extends BaseActivity  {
 
     FmPersonalLoanRequest fmPersonalLoanRequest;
 
+    ImageView ivHdrInput,  ivHdrQuote;
+
     boolean isQuoteVisible = true;
 
     @Override
@@ -46,6 +50,8 @@ public class PLMainActivity extends BaseActivity  {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
+        ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -57,15 +63,29 @@ public class PLMainActivity extends BaseActivity  {
 
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
 
+
         } else {
             //first input fragment load
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+           
         }
 
         quoteBundle = null;
 
     }
 
+    public void highlighInput()
+    {
+        ivHdrInput.setVisibility(View.VISIBLE);
+        ivHdrQuote.setVisibility(View.GONE);
+    }
+
+    public void highlighQuote()
+    {
+        ivHdrQuote.setVisibility(View.VISIBLE);
+        ivHdrInput.setVisibility(View.GONE);
+
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -83,10 +103,12 @@ public class PLMainActivity extends BaseActivity  {
 
                     }
                     if (tabFragment != null) {
+                        highlighInput();
                         tabFragment.setArguments(quoteBundle);
                         loadFragment(tabFragment, INPUT_FRAGMENT_PL);
 
                     } else {
+                        highlighInput();
                         InputFragment_pl inputFragment = new InputFragment_pl();
                         inputFragment.setArguments(quoteBundle);
                         loadFragment(inputFragment, INPUT_FRAGMENT_PL);
@@ -98,10 +120,13 @@ public class PLMainActivity extends BaseActivity  {
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT_PL);
                     if (tabFragment != null) {
+                        highlighQuote();
                         loadFragment(tabFragment, QUOTE_FRAGMENT_PL);
+
 
                     } else {
                         if (quoteBundle != null) {
+                            highlighQuote();
                             QuoteFragment_pl quoteFragment = new QuoteFragment_pl();
                             quoteFragment.setArguments(quoteBundle);
                             loadFragment(quoteFragment, QUOTE_FRAGMENT_PL);

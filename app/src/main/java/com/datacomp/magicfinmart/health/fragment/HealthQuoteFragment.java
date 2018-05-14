@@ -71,6 +71,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     private static final String INDIVIDUAL = "INDIVIDUAL STANDARD";
     public static final String HEALTH_COMPARE = "health_compare";
     private static final String SHARE_TEXT = " Results from www.policyboss.com";
+    public static final int REQUEST_MEMBER = 4444;
+    public static final String MEMBER_LIST = "member_list";
 
     TextView txtCoverType, txtCoverAmount, textCover;
     HealthQuote healthQuote;
@@ -236,11 +238,18 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 }
                 break;
             }
+
+            case (REQUEST_MEMBER):
+            {
+
+            }
         }
     }
 
     public void redirectToBuy(HealthQuoteEntity entity) {
         if (Utility.checkShareStatus(getActivity()) == 1) {
+
+
             buyHealthQuoteEntity = new HealthQuoteEntity();
             buyHealthQuoteEntity = entity;
             HealthCompareRequestEntity compareRequestEntity = new HealthCompareRequestEntity();
@@ -249,6 +258,10 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
             compareRequestEntity.setSelectedPrevInsID(healthQuote.getHealthRequest().getSelectedPrevInsID());
             compareRequestEntity.setInsImage(entity.getInsurerLogoName());
+
+//            Gson gson = new Gson();
+//            String json  =  gson.toJson(compareRequestEntity);
+//            Toast.makeText(getActivity(), "" +json,Toast.LENGTH_SHORT).show();
             showDialog();
             new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
         } else {
@@ -259,12 +272,36 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy health : buy button for health"), Constants.HEALTH_INS), null);
     }
 
+    public  void popUpHealthMemberDetails()
+    {
+        Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
+                    intent.putExtra(MEMBER_LIST, healthQuote);
+                    startActivityForResult(intent, REQUEST_MEMBER);
+    }
+
     public void fetchQuotes() {
         //visibleLoader();
         showDialog("Please wait.., Fetching quotes");
         new HealthController(getActivity()).getHealthQuoteExp(healthQuote, this);
     }
 
+
+
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        if (requestCode == REQUEST_MEMBER) {
+//            if (data != null) {
+//                healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
+//
+//                //TODO: Health Quote accepted.
+//                //1. pass bundle to quote fragment
+//                //2. trigger quote fragment
+//                // commented by rahul
+//                //  ((HealthQuoteBottomTabsActivity) getActivity()).redirectToQuote(healthQuote);
+//            }
+//        }
+//    }
     @Override
     public void OnSuccess(APIResponse response, String message) {
         //hideLoader();
