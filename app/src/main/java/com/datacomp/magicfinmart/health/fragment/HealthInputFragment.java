@@ -579,8 +579,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void selectCoverFor(String coverfor) {
-
-
         switch (coverfor) {
             case "self":
                 btnSelf.performClick();

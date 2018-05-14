@@ -20,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -166,7 +167,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         } else {
             txtCoverType.setText(INDIVIDUAL);
         }
-
+        tvCount.setTag(R.id.tvCount, 0);
         tvCount.setText(SHARE_TEXT);
 //        String cover = "COVER :" + "<b>" + String.valueOf(healthQuote.getHealthRequest().getSumInsured()) + "</b>";
 //        txtCoverAmount.setText(Html.fromHtml(cover));
@@ -239,8 +240,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 break;
             }
 
-            case (REQUEST_MEMBER):
-            {
+            case (REQUEST_MEMBER): {
 
             }
             break;
@@ -273,11 +273,10 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy health : buy button for health"), Constants.HEALTH_INS), null);
     }
 
-    public  void popUpHealthMemberDetails()
-    {
+    public void popUpHealthMemberDetails() {
         Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
-                    intent.putExtra(MEMBER_LIST, healthQuote);
-                    startActivityForResult(intent, REQUEST_MEMBER);
+        intent.putExtra(MEMBER_LIST, healthQuote);
+        startActivityForResult(intent, REQUEST_MEMBER);
     }
 
     public void fetchQuotes() {
@@ -287,8 +286,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
 
-
-//    @Override
+    //    @Override
 //    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 //
 //        if (requestCode == REQUEST_MEMBER) {
@@ -390,6 +388,24 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
+        Button btnOk = (Button) view.findViewById(R.id.btnOk);
+        Button btnClose = (Button) view.findViewById(R.id.btnClose);
+        final AlertDialog dialog = builder.create();
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                redirectProposal(healthQuoteCompareResponse);
+            }
+        });
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         int finalPremium = 0;
         if (buyHealthQuoteEntity.getServicetaxincl().toLowerCase().equals("e")) {
@@ -404,10 +420,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         txtEstPremium.setText("\u20B9 " + finalPremium);
         txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));
 
-        builder.setPositiveButton("BUY", new DialogInterface.OnClickListener() {
+       /* builder.setPositiveButton("BUY", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.dismiss();
-                redirectProposal(healthQuoteCompareResponse);
+
             }
         })
                 .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
@@ -415,9 +430,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.dismiss();
                     }
-                });
+                });*/
 
-        AlertDialog dialog = builder.create();
+       // AlertDialog dialog = builder.create();
         dialog.show();
         TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
         msgTxt.setTextSize(12.0f);
@@ -451,8 +466,19 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         }
         bindRecyclerView(listDataHeader);
-        int total = listHeader.size() + listChild.size();
-        tvCount.setText(total + SHARE_TEXT);
+        int total = listHeader.size();// + listChild.size();
+        shareTextCount(total, true);
+    }
+
+    public void shareTextCount(int total, boolean isAdd) {
+        int count = (int) tvCount.getTag(R.id.tvCount);
+        if (isAdd) {
+            count = total + count;
+        } else {
+            count = count - total;
+        }
+        tvCount.setText(count + SHARE_TEXT);
+        tvCount.setTag(R.id.tvCount, count);
     }
 
     public void bindRecyclerView(List<HealthQuoteEntity> list) {
@@ -469,6 +495,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         List<HealthQuoteEntity> childList = listDataChild.get(insurerID);
         refreshAdapter(childList);
+        shareTextCount((childList.size()), true);
     }
 
     public void addRemoveCompare(HealthQuoteEntity entity, boolean isAdd) {
