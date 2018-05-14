@@ -9,15 +9,17 @@
     tools:context="com.datacomp.magicfinmart.health.compare.HealthCompareActivity">
 
     <TextView
-        style="@style/ButtonStyle.Colored"
+        style="@style/TextStyle.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="6dp"
-        android:background="@color/tab_color"
-        android:padding="16dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:minHeight="36dp"
         android:text="Compare"
         android:textAllCaps="true"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvBenefitsOptions"
@@ -52,20 +54,20 @@
         style="@style/TextStyle.TextMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/tab_color"
-        android:gravity="center"
-        android:textSize="13sp"
-        android:padding="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
+        android:background="@color/tab_color"
+        android:gravity="center"
+        android:padding="8dp"
         android:textAllCaps="true"
-        android:textColor="@color/white" />
+        android:textColor="@color/white"
+        android:textSize="13sp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvBenefits"
         android:layout_width="match_parent"
         android:layout_height="270dp"
-        android:layout_marginTop="4dp" />
+        android:layout_marginTop="0dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,9 +76,12 @@
 
         <Button
             android:id="@+id/btnBack"
-            style="@style/ButtonStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Back to quote" />
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:minHeight="36dp"
+            android:text="Back to quote"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
     </LinearLayout>
 </LinearLayout>

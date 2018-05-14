@@ -777,7 +777,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 healthRequestEntity.setContactMobile(etMobile.getText().toString());
                 healthRequestEntity.setSumInsured(etAmount.getText().toString());
                 healthRequestEntity.setPincode(Integer.parseInt(etPincode.getText().toString()));
-                healthRequestEntity.setCityID(new DBPersistanceController(getActivity()).getHealthCityID(acCity.getText().toString()));
+              //  healthRequestEntity.setCityID(new DBPersistanceController(getActivity()).getHealthCityID(acCity.getText().toString()));
               //  healthRequestEntity.setCityID(0);
 
 
