@@ -1,10 +1,14 @@
 package com.datacomp.magicfinmart.health.fragment;
 
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.ArrowKeyMovementMethod;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,8 +19,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
@@ -39,6 +46,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
+
 /**
  * Created by Nilesh Birhade on 11/02/2018.
  */
@@ -46,8 +55,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 public class HealthInputFragment extends BaseFragment implements View.OnClickListener {
 
     private static final String TAG = "HealthInputFragment";
-    public static final String MEMBER_LIST = "member_list";
-    public static final int REQUEST_MEMBER = 4444;
+  //  public static final String MEMBER_LIST = "member_list";
+  //  public static final int REQUEST_MEMBER = 4444;
 
     Button btnSelf, btnFamily, btnParent;
     ImageView img1, img2, img3, img4, img5, img6;
@@ -73,6 +82,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     DBPersistanceController db;
     List<HealthSumAssured> listSumAssured;
 
+    private PopupWindow mPopupWindow ,mPopupWindowSelection;
+    View customView ,customViewSelection;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -94,7 +106,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         sumAssuredBinding();
 
+        disableAgeEditBox();
         setListener();
+        setAgePopUp();
 
         //default disableAll
         disableAllInputs();
@@ -113,6 +127,273 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
 
         return view;
+    }
+
+
+    private void setAgePopUp()
+    {
+        // region set Default popUp
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // Inflate the custom layout/view
+        customView = inflater.inflate(R.layout.layout_age_popup, null);
+
+        // Initialize a new instance of popup window
+
+        mPopupWindow = new PopupWindow(
+                customView,
+                ViewGroup.LayoutParams.WRAP_CONTENT ,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            mPopupWindow.setElevation(5.0f);
+        }
+
+
+        //endregion
+
+      // region set Selection popUp
+        LayoutInflater inflaterSelection = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // Inflate the custom layout/view
+        customViewSelection = inflaterSelection.inflate(R.layout.layout_age_popup_selected, null);
+
+        // Initialize a new instance of popup window
+        mPopupWindowSelection = new PopupWindow(
+                customViewSelection,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        //endregion
+
+    }
+
+    private void OpenPoupWnidow(final EditText editText) {
+
+
+        // Get a reference for the custom view close button
+        ImageButton closeButton = (ImageButton) customView.findViewById(R.id.imgClose);
+        ImageButton imgPrev = (ImageButton) customView.findViewById(R.id.imgPrev);
+        ImageButton imgNext = (ImageButton) customView.findViewById(R.id.imgNext);
+
+        final Button btnNum1 = (Button) customView.findViewById(R.id.btnNum1);
+        Button btnNum2 = (Button) customView.findViewById(R.id.btnNum2);
+        Button btnNum3 = (Button) customView.findViewById(R.id.btnNum3);
+        Button btnNum4 = (Button) customView.findViewById(R.id.btnNum4);
+        Button btnNum5 = (Button) customView.findViewById(R.id.btnNum5);
+        Button btnNum6 = (Button) customView.findViewById(R.id.btnNum6);
+
+
+        // Set a click listener for the popup window close button
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Dismiss the popup window
+                if( mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                    mPopupWindowSelection.dismiss();
+
+                }
+            }
+        });
+
+        imgPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Dismiss the popup window
+                if( mPopupWindow.isShowing()) {
+                    mPopupWindowSelection.dismiss();
+
+                    setNextPrevPopUpAge(editText,"P");
+                }
+            }
+        });
+
+
+
+        imgNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Dismiss the popup window
+                if( mPopupWindow.isShowing()) {
+                    mPopupWindowSelection.dismiss();
+                    setNextPrevPopUpAge(editText,"N");
+                }
+            }
+        });
+
+
+        btnNum1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    et1.setText("1");
+                }
+            }
+        });
+
+        btnNum1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    et1.setText("1");
+                }
+            }
+        });
+
+
+        btnNum1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    et1.setText("1");
+                }
+            }
+        });
+
+        btnNum1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    et1.setText("1");
+                }
+            }
+        });
+
+        btnNum1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    et1.setText("1");
+                }
+            }
+        });
+
+        btnNum1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    et1.setText("1");
+                }
+            }
+        });
+
+
+        mPopupWindowSelection.showAsDropDown(editText, 10, -10);
+
+       // mPopupWindow.setAnimationStyle(R.style.Animation);
+        mPopupWindow.showAsDropDown(editText, 0, 30);
+
+    }
+
+
+
+
+    private void setNextPrevPopUpAge(EditText editText,String type)
+    {
+
+
+        if(type.equals("N")) {
+
+            switch (editText.getId()) {
+                case R.id.etOne:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et2, 10, -10);
+                    et2.requestFocus();
+                    break;
+
+                case R.id.etTwo:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et3, 10, -10);
+                    et3.requestFocus();
+                    break;
+
+                case R.id.etThree:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et4, 10, -10);
+                    et4.requestFocus();
+                    break;
+
+                case R.id.etFour:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et5, 10, -10);
+                    et5.requestFocus();
+                    break;
+
+                case R.id.etFive:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et6, 10, -10);
+                    et6.requestFocus();
+                    break;
+
+                case R.id.etSix:
+
+                    break;
+
+
+            }
+
+        }else{
+
+            switch (editText.getId()) {
+                case R.id.etOne:
+                    break;
+
+                case R.id.etTwo:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et1, 10, -10);
+                    break;
+
+                case R.id.etThree:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et2, 10, -10);
+                    break;
+
+                case R.id.etFour:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et3, 10, -10);
+                    break;
+
+                case R.id.etFive:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et4, 10, -10);
+                    break;
+
+                case R.id.etSix:
+                    mPopupWindowSelection.dismiss();
+                    mPopupWindowSelection.showAsDropDown(et5, 10, -10);
+                    break;
+
+
+            }
+
+        }
+    }
+
+
+    private void disableAgeEditBox()
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            et1.setShowSoftInputOnFocus(false);
+            et2.setShowSoftInputOnFocus(false);
+            et3.setShowSoftInputOnFocus(false);
+            et4.setShowSoftInputOnFocus(false);
+            et5.setShowSoftInputOnFocus(false);
+            et6.setShowSoftInputOnFocus(false);
+
+        } else {
+            et1.setTextIsSelectable(true);
+            et2.setTextIsSelectable(true);
+
+            et3.setTextIsSelectable(true);
+            et4.setTextIsSelectable(true);
+
+            et5.setTextIsSelectable(true);
+            et6.setTextIsSelectable(true);
+
+        }
     }
 
     private void processMemberForAge() {
@@ -241,6 +522,14 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void setListener() {
+
+        et1.setOnClickListener(this);
+        et2.setOnClickListener(this);
+        et3.setOnClickListener(this);
+        et4.setOnClickListener(this);
+        et5.setOnClickListener(this);
+        et6.setOnClickListener(this);
+
         btnSelf.setOnClickListener(this);
         btnFamily.setOnClickListener(this);
         btnParent.setOnClickListener(this);
@@ -248,6 +537,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         //for validating auto complete city
         acCity.setOnFocusChangeListener(acCityFocusChange);
+
+
 
     }
 
@@ -315,6 +606,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         etName = (EditText) view.findViewById(R.id.etName);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         btnGetHealthQuote = (Button) view.findViewById(R.id.btnGetHealthQuote);
+
+
+
     }
 
     //endregion
@@ -342,6 +636,32 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 resetonClick();
                 enableInputForParent();
                 break;
+
+            case R.id.etOne:
+                OpenPoupWnidow(et1);
+                break;
+
+            case R.id.etTwo:
+                OpenPoupWnidow(et2);
+                break;
+
+            case R.id.etThree:
+                OpenPoupWnidow(et3);
+                break;
+
+            case R.id.etFour:
+                OpenPoupWnidow(et4);
+                break;
+
+            case R.id.etFive:
+                OpenPoupWnidow(et5);
+                break;
+
+            case R.id.etSix:
+                OpenPoupWnidow(et6);
+                break;
+
+
 
             case R.id.img1:
                 enablePrevious(1);
@@ -419,11 +739,11 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     return;
                 }
 
-                if (acCity.getText().toString().length() == 0) {
-                    acCity.setError("Select City.");
-                    acCity.setFocusable(true);
-                    return;
-                }
+//                if (acCity.getText().toString().length() == 0) {
+//                    acCity.setError("Select City.");
+//                    acCity.setFocusable(true);
+//                    return;
+//                }
 
 
                 if (etName.getText().toString().trim().length() == 0) {
@@ -457,7 +777,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 healthRequestEntity.setContactMobile(etMobile.getText().toString());
                 healthRequestEntity.setSumInsured(etAmount.getText().toString());
                 healthRequestEntity.setPincode(Integer.parseInt(etPincode.getText().toString()));
-                healthRequestEntity.setCityID(new DBPersistanceController(getActivity()).getHealthCityID(acCity.getText().toString()));
+              //  healthRequestEntity.setCityID(new DBPersistanceController(getActivity()).getHealthCityID(acCity.getText().toString()));
+              //  healthRequestEntity.setCityID(0);
 
 
                 if (coverFor == 0) { // self
@@ -613,11 +934,21 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     Collections.reverse(memberList);
                     healthQuote.getHealthRequest().setMemberList(memberList);
 
+
+
                     //open pop up
+                    // region commented by rahul
+//                    btnGetHealthQuote.setEnabled(false);
+//                    Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
+//                    intent.putExtra(MEMBER_LIST, healthQuote);
+//                    startActivityForResult(intent, REQUEST_MEMBER);
+                    //endregion
+
+                    // added by rahul
                     btnGetHealthQuote.setEnabled(false);
-                    Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
-                    intent.putExtra(MEMBER_LIST, healthQuote);
-                    startActivityForResult(intent, REQUEST_MEMBER);
+
+
+                    ((HealthQuoteBottomTabsActivity) getActivity()).redirectToQuote(healthQuote);
 
                 } else {
                     Toast.makeText(getActivity(), "Please enter member age", Toast.LENGTH_SHORT).show();
@@ -626,20 +957,21 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        btnGetHealthQuote.setEnabled(true);
-        if (requestCode == REQUEST_MEMBER) {
-            if (data != null) {
-                healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
-
-                //TODO: Health Quote accepted.
-                //1. pass bundle to quote fragment
-                //2. trigger quote fragment
-                ((HealthQuoteBottomTabsActivity) getActivity()).redirectToQuote(healthQuote);
-            }
-        }
-    }
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        btnGetHealthQuote.setEnabled(true);
+//        if (requestCode == REQUEST_MEMBER) {
+//            if (data != null) {
+//                healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
+//
+//                //TODO: Health Quote accepted.
+//                //1. pass bundle to quote fragment
+//                //2. trigger quote fragment
+//                // commented by rahul
+//              //  ((HealthQuoteBottomTabsActivity) getActivity()).redirectToQuote(healthQuote);
+//            }
+//        }
+//    }
 
     private void enableInputForParent() {
 
@@ -1006,7 +1338,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         int Age1 = 0;  int Age2 = 0;  int Age3 = 0;
         int Age4 = 0;  int Age5 = 0;  int Age6 = 0;
-        int count = 0;  int countBelow = 0;
+        int countSel = 0; int count = 0;  int countBelow = 0;
 
         boolean blnchk =true;
         if((et1.isEnabled() && et1.getText().toString().length() >0))
@@ -1019,6 +1351,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                  countBelow = countBelow + 1;
              }
 
+            countSel = countSel + 1;
 
         }
          if(et2.isEnabled() && et2.getText().toString().length() >0)
@@ -1031,7 +1364,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 countBelow = countBelow + 1;
             }
 
-
+            countSel = countSel + 1;
 
         }
          if(et3.isEnabled() && et3.getText().toString().length() >0)
@@ -1044,7 +1377,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 countBelow = countBelow + 1;
             }
 
-
+            countSel = countSel + 1;
 
         }
          if(et4.isEnabled() && et4.getText().toString().length() >0)
@@ -1057,7 +1390,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 countBelow = countBelow + 1;
             }
 
-
+            countSel = countSel + 1;
 
         }
          if(et5.isEnabled() && et5.getText().toString().length() >0)
@@ -1069,8 +1402,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             }else{
                 countBelow = countBelow + 1;
             }
-
-
+            countSel = countSel + 1;
 
         }
          if(et6.isEnabled() && et6.getText().toString().length() >0)
@@ -1083,11 +1415,18 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 countBelow = countBelow + 1;
             }
 
-
+            countSel = countSel + 1;
 
         }
 
-        if(count == 0)
+        if(countSel < 2)
+        {
+
+            showAlert("Select at least 2 members");
+            blnchk = false;
+        }
+
+       else if(count == 0)
         {
             showAlert("Atleast one member age should be greater than or equal to 18 years");
             blnchk = false;
