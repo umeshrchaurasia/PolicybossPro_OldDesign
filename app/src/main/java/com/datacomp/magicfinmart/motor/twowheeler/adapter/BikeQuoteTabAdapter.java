@@ -92,6 +92,7 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
             holder.txtVehicleName.setTag(R.id.txtVehicleName, entity);
             holder.txtPersonName.setTag(R.id.txtPersonName, entity);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
+            holder.llDetails.setTag(R.id.llDetails, entity);
 
             //click listener
             holder.llDetails.setOnClickListener(this);
