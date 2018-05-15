@@ -266,21 +266,32 @@
                         android:orientation="vertical"
                         android:padding="5dp">
 
-                        <TextView
-                            android:id="@+id/btnApply"
-                            style="@style/ButtonStyle"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:background="#f38d1e"
-                            android:drawableLeft="@mipmap/buy"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:minHeight="0dp"
-                            android:minWidth="90dp"
-                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
                             android:paddingBottom="5dp"
+                            android:paddingTop="5dp">
 
-                            android:paddingTop="5dp"
-                            android:text="BUY"
-                            android:textColor="@android:color/white" />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/buy" />
+
+                            <TextView
+                                android:id="@+id/btnApply"
+                                style="@style/TextViewStyle.Large"
+                                android:layout_width="wrap_content"
+                                android:background="#f38d1e"
+                                android:gravity="center_vertical|center_horizontal"
+                                android:minHeight="0dp"
+                                android:minWidth="90dp"
+                                android:text="BUY"
+                                android:textColor="@android:color/white" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                 </TableRow>
