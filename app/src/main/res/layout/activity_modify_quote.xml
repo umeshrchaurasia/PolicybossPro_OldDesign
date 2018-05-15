@@ -10,11 +10,11 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimaryDark">
 
         <TextView
             android:id="@+id/txtPlanName"
-            style="@style/TextStyle.TextMedium"
+            style="@style/TextStyle.TextSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -44,10 +44,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingBottom="15dp"
+            android:paddingBottom="8dp"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:paddingTop="15dp">
+            android:paddingTop="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,7 +66,8 @@
                         android:id="@+id/etElecAcc"
                         style="@style/Style.edittext"
                         android:inputType="number"
-                        android:maxLength="6" />
+                        android:maxLength="6"
+                        android:text="0" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -81,7 +82,8 @@
                         android:id="@+id/etNonElecAcc"
                         style="@style/Style.edittext"
                         android:inputType="number"
-                        android:maxLength="6" />
+                        android:maxLength="6"
+                        android:text="0" />
                 </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
@@ -90,7 +92,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="bottom"
-                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
@@ -101,12 +102,12 @@
                     android:hint="Fuel">
 
                     <TextView
+                        android:textColor="@color/colorPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:text="PA COVER TO PAX"
-                        android:textAppearance="@style/TextStyle.TextMedium"
-                        />
+                        android:textAppearance="@style/TextStyle.TextMedium" />
 
 
                     <Spinner
@@ -125,12 +126,12 @@
                     android:hint="Fuel">
 
                     <TextView
+                        android:textColor="@color/colorPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="VOL. DEDUCTIBLE"
-                        android:textAppearance="@style/TextStyle.TextMedium"
-                         />
+                        android:text="VOLUNTARY DEDUCTIBLE"
+                        android:textAppearance="@style/TextStyle.TextMedium" />
 
                     <Spinner
                         android:id="@+id/spVolExcessAmt"
@@ -142,9 +143,9 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -178,7 +179,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/customeborder_blue"
                             android:gravity="center"
-                            android:padding="3dp"
+                            android:padding="5dp"
                             android:text="YES"
                             android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
@@ -191,7 +192,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/customeborder"
                             android:gravity="center"
-                            android:padding="3dp"
+                            android:padding="5dp"
                             android:text="NO"
                             android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
@@ -231,7 +232,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/customeborder_blue"
                             android:gravity="center"
-                            android:padding="3dp"
+                            android:padding="5dp"
                             android:text="YES"
                             android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
@@ -244,7 +245,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/customeborder"
                             android:gravity="center"
-                            android:padding="3dp"
+                            android:padding="5dp"
                             android:text="NO"
                             android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/black" />
@@ -256,74 +257,100 @@
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/tvProgress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:gravity="center"
-                android:text="DESIRED IDV"
-                android:textAppearance="@style/TextStyle.TextMedium"
-                android:textColor="@color/colorAccent" />
-
             <android.support.design.widget.TextInputLayout
+                android:layout_marginTop="5dp"
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="IDV">
+                android:hint="EXPECTED IDV">
 
                 <EditText
                     android:id="@+id/etIdv"
                     style="@style/Style.edittext"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:paddingTop="8dp"
                     android:inputType="number"
                     android:maxLength="11" />
             </android.support.design.widget.TextInputLayout>
 
-            <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
-                android:id="@+id/sbIdv"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="0dp"
-                app:dsb_indicatorColor="@color/colorPrimary"
-                app:dsb_max="5"
-                app:dsb_min="0"
-                app:dsb_progressColor="@color/colorPrimaryDark"
-                app:dsb_rippleColor="@color/colorPrimary"
-                app:dsb_scrubberHeight="10dp"
-                app:dsb_thumbSize="15dp"
-                app:dsb_trackColor="@color/secondary_text_color"
-                app:dsb_trackHeight="10dp"
-                app:dsb_value="0" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@drawable/borderthealthcheckup"
+                android:orientation="vertical"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp">
 
-                <TextView
-                    android:id="@+id/tvMinIdv"
-                    android:layout_width="0dp"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:layout_weight="1"
-                    android:gravity="left"
-                    android:text="0"
-                    android:textAppearance="@style/TextStyle.TextMedium" />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvProgress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        android:gravity="center"
+                        android:text="IDV RANGE"
+                        android:textAppearance="@style/TextStyle.TextLarge"
+                        android:textColor="@color/black" />
+
+                    <TextView
+                        android:id="@+id/tvMinIdv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginLeft="15dp"
+                        android:layout_weight="1"
+                        android:background="@color/lightGrey"
+                        android:textColor="@color/black"
+                        android:gravity="left"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="0000"
+                        android:textAppearance="@style/TextStyle.TextMedium" />
 
 
-                <TextView
-                    android:id="@+id/tvMaxIdv"
-                    android:layout_width="0dp"
+                    <TextView
+                        android:textColor="@color/black"
+                        android:id="@+id/tvMaxIdv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_weight="1"
+                        android:background="@color/search_gray"
+                        android:gravity="right"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:text="50"
+                        android:textAppearance="@style/TextStyle.TextLarge" />
+                </RelativeLayout>
+
+                <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                    android:id="@+id/sbIdv"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="15dp"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="50"
-                    android:textAppearance="@style/TextStyle.TextMedium" />
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    app:dsb_indicatorColor="@color/colorPrimary"
+                    app:dsb_max="5"
+                    app:dsb_min="0"
+                    app:dsb_progressColor="@color/colorPrimaryDark"
+                    app:dsb_rippleColor="@color/colorPrimary"
+                    app:dsb_scrubberHeight="10dp"
+                    app:dsb_thumbSize="15dp"
+                    app:dsb_trackColor="@color/secondary_text_color"
+                    app:dsb_trackHeight="10dp"
+                    app:dsb_value="0" />
+
+
             </LinearLayout>
+
+
         </LinearLayout>
 
 

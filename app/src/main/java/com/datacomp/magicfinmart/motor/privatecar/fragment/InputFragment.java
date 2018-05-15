@@ -12,9 +12,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.style.StyleSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -66,7 +64,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.controller.MotorControl
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResponse;
 
-import static com.datacomp.magicfinmart.utility.Constants.SPINNER_FONT_SIZE;
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
 /**
@@ -76,9 +73,9 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     private static final String TAG = "AddNewQuoteActivity";
-    TextView tvNew, tvRenew,tvOr;
+    TextView tvNew, tvRenew, tvOr;
     LinearLayout cvNcb;
-    LinearLayout llNoClaim, llVerifyCarDetails,llDontKnow;
+    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvRegNo, cvIndividual;
     View cvInput;
@@ -360,6 +357,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             //region make model
             acMakeModel.setText(makeModel);
             acMakeModel.performCompletion();
+            acMakeModel.dismissDropDown();
             acMakeModel.performClick();
             //endregion
 
@@ -763,7 +761,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     private void init_view(View view) {
-        tilExt =(TextInputLayout)view.findViewById(R.id.tilExt);
+        tilExt = (TextInputLayout) view.findViewById(R.id.tilExt);
         btnGo = (Button) view.findViewById(R.id.btnGo);
         tvNew = (TextView) view.findViewById(R.id.tvNew);
         tvRenew = (TextView) view.findViewById(R.id.tvRenew);
@@ -804,6 +802,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         etMfgDate = (EditText) view.findViewById(R.id.etMfgDate);
         etExpDate = (EditText) view.findViewById(R.id.etExpDate);
         etCustomerName = (EditText) view.findViewById(R.id.etCustomerName);
+        etCustomerName.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         acMakeModel = (AutoCompleteTextView) view.findViewById(R.id.acMakeModel);
         acRto = (AutoCompleteTextView) view.findViewById(R.id.acRto);

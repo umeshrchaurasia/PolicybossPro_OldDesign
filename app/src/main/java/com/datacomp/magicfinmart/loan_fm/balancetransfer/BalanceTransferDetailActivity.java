@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -29,7 +30,8 @@ public class BalanceTransferDetailActivity extends BaseActivity implements IResp
     Toolbar toolbar;
     ViewPager viewPager;
     ActivityTabsPagerAdapter_BL mAdapter;
-    LoginResponseEntity loginEntity ;
+    LoginResponseEntity loginEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +47,7 @@ public class BalanceTransferDetailActivity extends BaseActivity implements IResp
 //        tabLayout.addTab(tabLayout.newTab().setText("QUOTES"));
 //        tabLayout.addTab(tabLayout.newTab().setText("APPLICATION"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        loginEntity =  new DBPersistanceController(this).getUserData();
+        loginEntity = new DBPersistanceController(this).getUserData();
 
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -67,30 +69,32 @@ public class BalanceTransferDetailActivity extends BaseActivity implements IResp
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
         fetchQuoteApplication();
     }
+
     private void fetchQuoteApplication() {
-
         showDialog("Fetching.., Please wait.!");
-
-
         new MainLoanController(this).getBLQuoteApplication(String.valueOf(loginEntity.getFBAId()), BalanceTransferDetailActivity.this);
-
-
     }
+
     @Override
     public void OnSuccessFM(APIResponseFM response, String message) {
         cancelDialog();
         if (response instanceof FmBalanceLoanResponse) {
             if (((FmBalanceLoanResponse) response).getMasterData() != null) {
 
-                BLNodeMainEntity plQuoteApplicationEntity =((FmBalanceLoanResponse)response).getMasterData();
-
-                mAdapter = new ActivityTabsPagerAdapter_BL(getSupportFragmentManager(),plQuoteApplicationEntity);
-                viewPager.setAdapter(mAdapter);
+                BLNodeMainEntity plQuoteApplicationEntity = ((FmBalanceLoanResponse) response).getMasterData();
+                if (plQuoteApplicationEntity.getQuote().size() != 0
+                        && plQuoteApplicationEntity.getApplication().size() != 0) {
+                    mAdapter = new ActivityTabsPagerAdapter_BL(getSupportFragmentManager(), plQuoteApplicationEntity);
+                    viewPager.setAdapter(mAdapter);
+                } else {
+                    startActivity(new Intent(this, BLMainActivity.class));
+                }
             }
 
         }
@@ -99,7 +103,7 @@ public class BalanceTransferDetailActivity extends BaseActivity implements IResp
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
     }
 

@@ -273,7 +273,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                     ((InputQuoteBottmActivity) getActivity()).updateRequest(motorRequestEntity, isQuoteFetch);
             }
 
-            tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
+            tvCount.setText("" + bikePremiumResponse.getResponse().size() + " Results from www.policyboss.com");
         }
     }
 
