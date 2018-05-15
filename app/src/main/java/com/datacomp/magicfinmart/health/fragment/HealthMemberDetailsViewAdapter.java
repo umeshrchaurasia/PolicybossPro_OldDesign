@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.health.fragment;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
@@ -17,9 +20,12 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
+import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
@@ -35,6 +41,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
     List<String> temrelationShip;
     List<String> childRelationShip;
     int adultCount = 0;
+    SimpleDateFormat simpleDateFormat ;
 
 
     // data is passed into the constructor
@@ -43,7 +50,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
         this.mInflater = LayoutInflater.from(mContext);
         this.listMemberList = listMemberList;
         this.adultCount = adultCount;
-
+        simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         relationShip = Arrays.asList(mContext.getResources().getStringArray(R.array.health_relationship));
         this.PolicyFor = policyFor;
         setFamilyList();
@@ -166,6 +173,29 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
                 ((HealthMemberDetailsDialogActivity) mContext).updateMemberList(entity, 0, position);
             }
         });
+
+        holder.etDOB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view.getId() == R.id.etDOB) {
+                    DateTimePicker.showHealthAgeePicker(view.getContext(),entity.getAge(),  new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                            if (view1.isShown()) {
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                holder.etDOB.setText(currentDay);
+                                entity.setMemberDOB(currentDay);
+                                entity.setMemberDOBTemp(currentDay);
+                                ((HealthMemberDetailsDialogActivity) mContext).updateMemberList(entity, 0, position);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
         if (position == 0) {     //  Self
             //enable llmaried
             holder.llMarried.setVisibility(View.VISIBLE);
@@ -329,6 +359,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
         RadioButton rbMale, rbFemale;
         Spinner spHealthRelation;
         TextView txtSingle, txtMarried;
+        EditText etDOB;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -339,6 +370,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
             spHealthRelation = (Spinner) itemView.findViewById(R.id.spHealthRelation);
             txtMarried = (TextView) itemView.findViewById(R.id.txtMarried);
             txtSingle = (TextView) itemView.findViewById(R.id.txtSingle);
+            etDOB = (EditText) itemView.findViewById(R.id.etDOB);
 
         }
 
@@ -395,4 +427,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
         return relationAdapter;
     }
+
+
+
 }

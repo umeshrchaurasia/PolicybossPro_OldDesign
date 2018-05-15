@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.method.ArrowKeyMovementMethod;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -132,6 +134,38 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         return view;
     }
 
+
+    TextWatcher loanAmountTextWatcher = new TextWatcher() {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+
+                adapter.clearBinding();
+
+
+//                if ((s.length() > 5) && (s.length() < 8)) {
+//
+//
+//
+//
+//                } else {
+//
+//                }
+
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
 
     private void setAgePopUp()
     {
@@ -350,8 +384,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         try {
             CharSequence cur = et.getText();
 
-            int start = et.getSelectionStart();
-            int end = et.getSelectionEnd();
             int len = cur.length();
 
             if(cur.length() == 2)
@@ -364,9 +396,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     et.setCursorVisible(false);
                 }
 
-                cur = cur.subSequence(0, start).toString() + digit + cur.subSequence(end, len).toString();
+                cur =  cur.subSequence(0, len).toString()  + digit ;
                 et.setText(cur);
-                et.setSelection(start + 1);
+              //  et.setSelection(start + 1);
             }
 
         } catch (Exception ex) {
@@ -641,7 +673,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         //for validating auto complete city
         acCity.setOnFocusChangeListener(acCityFocusChange);
-
+        etAmount.addTextChangedListener(loanAmountTextWatcher);
 
 
     }
@@ -719,6 +751,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     public void getSumAssured(long amount) {
         etAmount.setText(String.valueOf(amount));
+
     }
 
     @Override
@@ -1187,72 +1220,72 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 if (!et1.isEnabled()) {
                     img1.setImageResource(R.mipmap.user_selected);
                     et1.setEnabled(true);
-                    et1.setFocusableInTouchMode(true);
+                   //   et1.setFocusableInTouchMode(true);
                 } else {
                     img1.setImageResource(R.mipmap.user_unselected);
                     et1.setEnabled(false);
                     et1.setText("");
-                    et1.setFocusableInTouchMode(false);
+                   // et1.setFocusableInTouchMode(false);
                 }
                 break;
             case R.id.img2:
                 if (!et2.isEnabled()) {
                     img2.setImageResource(R.mipmap.user_selected);
                     et2.setEnabled(true);
-                    et2.setFocusableInTouchMode(true);
+                   // et2.setFocusableInTouchMode(true);
                 } else {
                     img2.setImageResource(R.mipmap.user_unselected);
                     et2.setEnabled(false);
                     et2.setText("");
-                    et2.setFocusableInTouchMode(false);
+                   // et2.setFocusableInTouchMode(false);
                 }
                 break;
             case R.id.img3:
                 if (!et3.isEnabled()) {
                     img3.setImageResource(R.mipmap.user_selected);
                     et3.setEnabled(true);
-                    et3.setFocusableInTouchMode(true);
+                  //  et3.setFocusableInTouchMode(true);
                 } else {
                     img3.setImageResource(R.mipmap.user_unselected);
                     et3.setEnabled(false);
                     et3.setText("");
-                    et3.setFocusableInTouchMode(false);
+                  //  et3.setFocusableInTouchMode(false);
                 }
                 break;
             case R.id.img4:
                 if (!et4.isEnabled()) {
                     img4.setImageResource(R.mipmap.user_selected);
                     et4.setEnabled(true);
-                    et4.setFocusableInTouchMode(true);
+                   // et4.setFocusableInTouchMode(true);
                 } else {
                     img4.setImageResource(R.mipmap.user_unselected);
                     et4.setEnabled(false);
                     et4.setText("");
-                    et4.setFocusableInTouchMode(false);
+                 //   et4.setFocusableInTouchMode(false);
                 }
                 break;
             case R.id.img5:
                 if (!et5.isEnabled()) {
                     img5.setImageResource(R.mipmap.user_selected);
                     et5.setEnabled(true);
-                    et5.setFocusableInTouchMode(true);
+                   // et5.setFocusableInTouchMode(true);
                 } else {
                     img5.setImageResource(R.mipmap.user_unselected);
                     et5.setEnabled(false);
                     et5.setText("");
-                    et5.setFocusableInTouchMode(false);
+                  //  et5.setFocusableInTouchMode(false);
                 }
                 break;
             case R.id.img6:
                 if (!et6.isEnabled()) {
                     img6.setImageResource(R.mipmap.user_selected);
                     et6.setEnabled(true);
-                    et6.setFocusableInTouchMode(true);
+                  //  et6.setFocusableInTouchMode(true);
                 } else {
                     img6.setImageResource(R.mipmap.user_unselected);
                     et6.setEnabled(false);
                     et6.setText("");
-                    et6.setFocusableInTouchMode(false);
+                  //  et6.setFocusableInTouchMode(false);
                 }
                 break;
         }
@@ -1263,7 +1296,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     {
         img.setImageResource(R.mipmap.user_selected);
         et.setEnabled(true);
-        et.setFocusableInTouchMode(true);
+      //  et.setFocusableInTouchMode(true);
     }
 
     private void setMemberDeSelcted( EditText et , ImageView img)
@@ -1271,7 +1304,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         img.setImageResource(R.mipmap.user_unselected);
         et.setEnabled(false);
         et.setText("");
-        et.setFocusableInTouchMode(false);
+      //  et.setFocusableInTouchMode(false);
     }
 
     private void enablePrevious(int memberCount) {
@@ -1670,11 +1703,11 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     public boolean onTouch(View view, MotionEvent event) {
 
 
-//        if (mPopupWindow.isShowing()) {
-//            mPopupWindow.dismiss();
-//            mPopupWindowSelection.dismiss();
-//
-//        }
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+            mPopupWindowSelection.dismiss();
+
+        }
 
         switch (view.getId()) {
             case R.id.etOne:

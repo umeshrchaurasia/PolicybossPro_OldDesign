@@ -34,7 +34,7 @@ public class BaseFragment extends Fragment {
 
     }
 
-    public String getYYYYMMDDPattern(String dateCal) {
+    public static String getYYYYMMDDPattern(String dateCal) {
 
         String dateSelected = "";
         if (dateCal.equals("")) {
