@@ -294,7 +294,7 @@
                         <EditText
                             android:id="@+id/etAmount"
                             style="@style/Style.edittext"
-                            android:enabled="false"
+                            android:enabled="true"
                             android:inputType="number" />
                     </android.support.design.widget.TextInputLayout>
 
