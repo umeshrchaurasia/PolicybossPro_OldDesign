@@ -42,8 +42,6 @@ public class PremiumBreakUpAdapter extends RecyclerView.Adapter<PremiumBreakUpAd
             holder.tvValue.setTypeface(null, Typeface.BOLD);
             holder.tvName.setTypeface(null, Typeface.BOLD);
             holder.tvName.setText("" + premiumBreakUpAdapterEntity.getName());
-            holder.tvName.setTextSize(17);
-            holder.tvValue.setTextSize(17);
             holder.tvValue.setText("" + getRound(premiumBreakUpAdapterEntity.getValue()));
         } else {
             holder.tvName.setText("" + premiumBreakUpAdapterEntity.getName());
