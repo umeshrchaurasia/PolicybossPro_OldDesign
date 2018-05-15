@@ -13,7 +13,7 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <!--<item name="android:windowBackground">@color/window_background</item>-->
-       <!-- <item name="android:windowBackground">@color/background</item>-->
+        <!-- <item name="android:windowBackground">@color/background</item>-->
         <item name="android:windowBackground">@color/white</item>
         <!--<item name="android:textColorPrimary">@color/header_text_color</item>-->
         <!--<item name="android:textColorHint">@color/secondary_text_color</item>-->
@@ -112,6 +112,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:paddingTop">2dp</item>
         <item name="android:textSize">14sp</item>
+        <item name="android:inputType">textCapWords</item>
         <item name="android:layout_marginTop">8dp</item>
 
     </style>
@@ -258,10 +259,12 @@
         <item name="android:textColor">@color/header_text_color</item>
         <item name="android:textSize">13sp</item>
     </style>
+
     <style name="TextStyle.TextLarge" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/header_text_color</item>
         <item name="android:textSize">15sp</item>
     </style>
+
     <style name="TextStyle.TextSmall" parent="TextAppearance.AppCompat.Body1">
         <item name="android:textColor">@color/description_text</item>
         <item name="android:textSize">10sp</item>
