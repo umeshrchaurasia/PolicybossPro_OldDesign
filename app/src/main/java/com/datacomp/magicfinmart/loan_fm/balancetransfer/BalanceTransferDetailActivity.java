@@ -89,7 +89,7 @@ public class BalanceTransferDetailActivity extends BaseActivity implements IResp
 
                 BLNodeMainEntity plQuoteApplicationEntity = ((FmBalanceLoanResponse) response).getMasterData();
                 if (plQuoteApplicationEntity.getQuote().size() != 0
-                        && plQuoteApplicationEntity.getApplication().size() != 0) {
+                        || plQuoteApplicationEntity.getApplication().size() != 0) {
                     mAdapter = new ActivityTabsPagerAdapter_BL(getSupportFragmentManager(), plQuoteApplicationEntity);
                     viewPager.setAdapter(mAdapter);
                 } else {

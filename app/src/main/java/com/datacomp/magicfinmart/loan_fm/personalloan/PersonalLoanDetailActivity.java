@@ -91,7 +91,7 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
                 PersonalMainEntity plQuoteApplicationEntity = ((FmPersonalLoanResponse) response).getMasterData();
 
                 if (plQuoteApplicationEntity.getQuote().size() != 0
-                        && plQuoteApplicationEntity.getApplication().size() != 0) {
+                        || plQuoteApplicationEntity.getApplication().size() != 0) {
                     mAdapter = new ActivityTabsPagerAdapter_PL(getSupportFragmentManager(), plQuoteApplicationEntity);
                     viewPager.setAdapter(mAdapter);
                 } else {

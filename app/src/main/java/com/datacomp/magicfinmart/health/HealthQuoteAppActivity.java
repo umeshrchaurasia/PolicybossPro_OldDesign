@@ -85,7 +85,7 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
             if (((HealthQuoteAppResponse) response).getMasterData() != null) {
 
                 if (((HealthQuoteAppResponse) response).getMasterData().getQuote().size() != 0
-                        && ((HealthQuoteAppResponse) response).getMasterData().getApplication().size() != 0) {
+                        || ((HealthQuoteAppResponse) response).getMasterData().getApplication().size() != 0) {
                     mAdapter = new HealthActivityTabsPagerAdapter(getSupportFragmentManager(),
                             ((HealthQuoteAppResponse) response));
                     viewPager.setAdapter(mAdapter);
