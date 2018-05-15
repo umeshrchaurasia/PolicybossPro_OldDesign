@@ -165,7 +165,48 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         }
     }
 
+    private void bindQuotes_NoData() {
 
+        txtInputSummary.setVisibility(View.VISIBLE);
+        cvInputSummary.setVisibility(View.VISIBLE);
+        //  ivShare.setVisibility(View.VISIBLE);
+
+//            mAdapter = new HLQuoteAdapter(this, getQuoteResponse.getData(), getQuoteResponse);
+//            rvQuotes.setAdapter(mAdapter);
+//
+//            if (getQuoteResponse.getData().size() > 0) {
+//                txtCount.setText("" + getQuoteResponse.getData().size() + " Results from www.rupeeboss.com");
+//                txtCount.setVisibility(View.VISIBLE);
+//            } else {
+//                txtCount.setText("");
+//                txtCount.setVisibility(View.GONE);
+//            }
+
+        if (homeLoanRequest != null) {
+
+            try {
+                String strPropTyp = getProperty(homeLoanRequest.getPropertyID());
+
+                txtPropertyType.setText("" + strPropTyp.toString());
+                txtCostOfProp.setText("" + homeLoanRequest.getPropertyCost());
+                txtLoanTenure.setText("" + homeLoanRequest.getLoanTenure() + " Years");
+
+                if (homeLoanRequest.getApplicantSource().equals("1")) {
+                    txtOccupation.setText("SALARIED");
+                } else {
+                    txtOccupation.setText("SELF-EMP");
+                }
+
+                txtMonthlyIncome.setText("" + homeLoanRequest.getApplicantIncome());
+                txtExistEmi.setText("" + homeLoanRequest.getApplicantObligations());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
+
+    }
     private String getProperty(String id) {
         String strProp = "";
         if (id.equals("1")) {
@@ -307,8 +348,10 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
 
     @Override
     public void OnFailure(Throwable t) {
+
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        bindQuotes_NoData();
     }
 
     @Override
