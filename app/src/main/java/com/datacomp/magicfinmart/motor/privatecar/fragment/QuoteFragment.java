@@ -232,7 +232,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                     fuelType = carMasterEntity.getFuel_Name();
                 }
 
-                String rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
+                String rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + " cc";
                 tvMakeModel.setText(carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name() + " (" + carMasterEntity.getVariant_Name() + ")");
 
                 if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {

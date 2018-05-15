@@ -22,7 +22,7 @@
                 android:layout_marginBottom="4dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/lightGrey"
-                app:cardElevation="1dp">
+                app:cardElevation="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -186,7 +186,7 @@
                     style="@style/TextStyle.TextMedium"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="70"
+                    android:layout_weight="65"
                     android:gravity="left|center_vertical"
                     android:text="results from www.policyboss.com"
                     android:textColor="?attr/colorPrimary" />
@@ -196,9 +196,10 @@
                     style="@style/CheckBoxStyle"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="30"
+                    android:layout_weight="35"
                     android:text="WITH ADD-ON"
                     android:textAllCaps="true"
+                    android:textStyle="bold"
                     android:textColor="@color/colorPrimary" />
 
                 <!--<LinearLayout

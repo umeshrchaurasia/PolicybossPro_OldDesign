@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/txtPlanName"
-            style="@style/TextStyle.TextSmall"
+            style="@style/TextStyle.TextMedium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -59,7 +59,7 @@
                     android:layout_width="0dp"
                     android:layout_marginRight="1dp"
                     android:layout_weight="1"
-                    android:hint="ELEC ACCESSORIES"
+                    android:hint="Elec Accessories"
                     android:padding="5dp">
 
                     <EditText
@@ -75,7 +75,7 @@
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
-                    android:hint="NON-ELEC ACCESSORIES"
+                    android:hint="Non-elec Accessories"
                     android:padding="5dp">
 
                     <EditText
@@ -102,11 +102,10 @@
                     android:hint="Fuel">
 
                     <TextView
-                        android:textColor="@color/colorPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="PA COVER TO PAX"
+                        android:text="PA Cover To Pax"
                         android:textAppearance="@style/TextStyle.TextMedium" />
 
 
@@ -126,11 +125,10 @@
                     android:hint="Fuel">
 
                     <TextView
-                        android:textColor="@color/colorPrimary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="VOLUNTARY DEDUCTIBLE"
+                        android:text="Voluntary Deductible"
                         android:textAppearance="@style/TextStyle.TextMedium" />
 
                     <Spinner
@@ -160,7 +158,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:gravity="left"
-                        android:text="LL TO DRIVER"
+                        android:text="LL To Driver"
                         android:textAppearance="@style/TextViewStyle.Small"
                         android:textColor="@color/black" />
 
@@ -213,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:gravity="left"
-                        android:text="ANTI-THEFT DEVICE"
+                        android:text="Anti-Theft Device"
                         android:textAppearance="@style/TextViewStyle.Small"
                         android:textColor="@color/black" />
 
@@ -258,18 +256,18 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:layout_marginTop="5dp"
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="EXPECTED IDV">
+                android:layout_marginTop="5dp"
+                android:hint="Expected IDV">
 
                 <EditText
                     android:id="@+id/etIdv"
                     style="@style/Style.edittext"
-                    android:paddingTop="8dp"
                     android:inputType="number"
-                    android:maxLength="11" />
+                    android:maxLength="11"
+                    android:paddingTop="8dp" />
             </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
@@ -292,9 +290,10 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:gravity="center"
-                        android:text="IDV RANGE"
-                        android:textAppearance="@style/TextStyle.TextLarge"
-                        android:textColor="@color/black" />
+                        android:text="IDV Range"
+                        android:textAppearance="@style/TextStyle.TextSmall"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tvMinIdv"
@@ -305,16 +304,15 @@
                         android:layout_marginLeft="15dp"
                         android:layout_weight="1"
                         android:background="@color/lightGrey"
-                        android:textColor="@color/black"
                         android:gravity="left"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:text="0000"
-                        android:textAppearance="@style/TextStyle.TextMedium" />
+                        android:textAppearance="@style/TextStyle.TextMedium"
+                        android:textColor="@color/black" />
 
 
                     <TextView
-                        android:textColor="@color/black"
                         android:id="@+id/tvMaxIdv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -322,12 +320,13 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
                         android:layout_weight="1"
-                        android:background="@color/search_gray"
+                        android:background="@color/lightGrey"
                         android:gravity="right"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
                         android:text="50"
-                        android:textAppearance="@style/TextStyle.TextLarge" />
+                        android:textAppearance="@style/TextStyle.TextMedium"
+                        android:textColor="@color/black" />
                 </RelativeLayout>
 
                 <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="0dp"
     android:scrollbars="none">
 
@@ -163,14 +164,15 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:hint="Fuel">
+
                         <TextView
-                            android:visibility="gone"
-                            android:textColor="@color/colorPrimary"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="left"
                             android:text="Variant"
-                            android:textAppearance="@style/TextViewStyle.Small" />
+                            android:textAppearance="@style/TextViewStyle.Small"
+                            android:textColor="@color/colorPrimary"
+                            android:visibility="gone" />
 
                         <!-- varient -->
                         <Spinner
@@ -186,8 +188,8 @@
                         style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="bottom"
                         android:layout_weight="1"
+                        android:gravity="bottom"
                         android:hint="Ext. CNG/LPG Value">
 
                         <EditText
@@ -225,12 +227,11 @@
                     </android.support.design.widget.TextInputLayout>
 
 
-
                     <android.support.design.widget.TextInputLayout
                         style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_marginRight="1dp"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:hint="Reg Date">
 
                         <EditText
@@ -241,6 +242,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
+                        android:visibility="gone"
                         style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_marginLeft="1dp"
@@ -254,13 +256,42 @@
                             android:focusable="false" />
                     </android.support.design.widget.TextInputLayout>
 
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Fuel">
+
+                        <Spinner
+                            android:id="@+id/spMonth"
+                            android:background="@drawable/spinner_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Fuel">
+
+                        <Spinner
+                            android:id="@+id/spYear"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            />
+                    </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
                 <!--Exp date and manufacturing date-->
                 <LinearLayout
-                    android:gravity="bottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="bottom"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
@@ -278,31 +309,34 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
-                        android:gravity="bottom"
+                        android:id="@+id/llNoClaim"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:gravity="bottom"
+                        android:orientation="vertical"
+                        android:paddingBottom="5dp">
 
                         <TextView
-                            android:textColor="@color/header_dark_text"
+                            style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="Claim in this year"
-                           style="@style/TextStyle.TextMedium" />
+                            android:text="Claim In This Year"
+                            android:textColor="@color/header_dark_text" />
 
                         <LinearLayout
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
                             <TextView
-                                android:layout_weight="1"
                                 android:id="@+id/tvClaimYes"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
                                 android:background="@drawable/customeborder_blue"
                                 android:gravity="center"
                                 android:padding="6dp"
@@ -311,11 +345,11 @@
                                 android:textColor="@color/black" />
 
                             <TextView
-                                android:layout_weight="1"
                                 android:id="@+id/tvClaimNo"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
                                 android:background="@drawable/customeborder"
                                 android:gravity="center"
                                 android:padding="6dp"
@@ -331,92 +365,91 @@
                 <!--NCB  SPINNER-->
 
 
+                <LinearLayout
+                    android:id="@+id/cvNcb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/customeborder"
+                    android:orientation="vertical"
+                    android:padding="5dp">
+
+
                     <LinearLayout
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:background="@drawable/customeborder"
-                        android:id="@+id/cvNcb"
-                        android:padding="5dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:visibility="visible">
 
-
-                        <LinearLayout
-                            android:id="@+id/llNoClaim"
+                        <TextView
+                            android:id="@+id/tvProgress"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:visibility="visible">
+                            android:layout_marginTop="3dp"
+                            android:gravity="center"
+                            android:text="Existing NCB"
+                            android:textAppearance="@style/TextViewStyle.Large"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+
+                        <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
+                            android:id="@+id/sbNoClaimBonus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="0dp"
+                            android:layout_marginRight="0dp"
+                            app:dsb_indicatorColor="@color/colorPrimary"
+                            app:dsb_indicatorPopupEnabled="true"
+                            app:dsb_max="5"
+                            app:dsb_min="0"
+                            app:dsb_progressColor="@color/colorPrimaryDark"
+                            app:dsb_rippleColor="@color/colorPrimary"
+                            app:dsb_scrubberHeight="10dp"
+                            app:dsb_thumbSize="15dp"
+                            app:dsb_trackColor="@color/secondary_text_color"
+                            app:dsb_trackHeight="10dp"
+                            app:dsb_value="0" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
                             <TextView
-                                android:id="@+id/tvProgress"
-                                android:layout_width="match_parent"
+                                android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_marginTop="3dp"
-                                android:gravity="center"
-                                android:textStyle="bold"
-                                android:text="Existing NCB"
-                                android:textAppearance="@style/TextViewStyle.Large"
-                                android:textColor="@color/black" />
-
-
-                            <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar
-                                android:id="@+id/sbNoClaimBonus"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="0dp"
-                                android:layout_marginRight="0dp"
-                                app:dsb_indicatorColor="@color/colorPrimary"
-                                app:dsb_indicatorPopupEnabled="true"
-                                app:dsb_max="5"
-                                app:dsb_min="0"
-                                app:dsb_progressColor="@color/colorPrimaryDark"
-                                app:dsb_rippleColor="@color/colorPrimary"
-                                app:dsb_scrubberHeight="10dp"
-                                app:dsb_thumbSize="15dp"
-                                app:dsb_trackColor="@color/secondary_text_color"
-                                app:dsb_trackHeight="10dp"
-                                app:dsb_value="0" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginLeft="15dp"
-                                    android:layout_weight="1"
-                                    android:gravity="left"
-                                    android:text="0"
-                                    android:textAppearance="@style/TextStyle.TextMedium" />
-
-
-                                <TextView
-                                    android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginRight="15dp"
-                                    android:layout_weight="1"
-                                    android:gravity="right"
-                                    android:text="50"
-                                    android:textAppearance="@style/TextStyle.TextMedium" />
-                            </LinearLayout>
-
-                            <TextView
-                                android:layout_width="match_parent"
-
-                                android:layout_height="wrap_content"
-                                android:gravity="center"
+                                android:layout_marginLeft="15dp"
+                                android:layout_weight="1"
+                                android:gravity="left"
                                 android:text="0"
-                                android:textAppearance="@style/TextStyle.TextMedium"
-                                android:textColor="@color/black"
-                                android:visibility="gone" />
+                                android:textAppearance="@style/TextStyle.TextMedium" />
 
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="15dp"
+                                android:layout_weight="1"
+                                android:gravity="right"
+                                android:text="50"
+                                android:textAppearance="@style/TextStyle.TextMedium" />
                         </LinearLayout>
 
+                        <TextView
+                            android:layout_width="match_parent"
+
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="0"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/black"
+                            android:visibility="gone" />
+
                     </LinearLayout>
+
+                </LinearLayout>
 
 
                 <!--RTO and PREV INS-->

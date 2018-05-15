@@ -43,6 +43,7 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -109,6 +110,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     LocationTracker locationTracker;
     Location location;
+
+    Spinner spMonth, spYear;
+    ArrayAdapter<String> MonthAdapter, YearAdapter;
+    ArrayList<String> yearList, monthList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -340,6 +345,119 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 getResources().getStringArray(R.array.ncb_percent));
         spNcbPercent.setAdapter(ncbPerctAdapter);
         //endregion
+
+
+        //region year adapter
+        yearList = getYearList();
+        YearAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, yearList) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    convertView = inflater.inflate(
+                            android.R.layout.simple_spinner_item, parent, false);
+                }
+
+
+                TextView tv = (TextView) convertView
+                        .findViewById(android.R.id.text1);
+                tv.setText(yearList.get(position));
+                if (!spYear.isEnabled()) {
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                tv.setTextColor(Color.BLACK);
+                convertView.setPadding(3, 3, 3, 0);
+                tv.setTextSize(14f);
+                return convertView;
+            }
+        };
+        spYear.setAdapter(YearAdapter);
+        //endregion
+
+
+        //region year adapter
+        monthList = getMonthList(Calendar.getInstance().get(Calendar.MONTH));
+        MonthAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, monthList) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    convertView = inflater.inflate(
+                            android.R.layout.simple_spinner_item, parent, false);
+                }
+
+
+                TextView tv = (TextView) convertView
+                        .findViewById(android.R.id.text1);
+                tv.setText(monthList.get(position));
+                if (!spMonth.isEnabled()) {
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                convertView.setPadding(3, 3, 3, 0);
+                tv.setTextColor(Color.BLACK);
+                tv.setTextSize(14f);
+                return convertView;
+            }
+        };
+        spMonth.setAdapter(MonthAdapter);
+        //endregion
+
     }
 
     private void bindInputsQuotes() {
@@ -813,6 +931,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         //endregion
 
         sbNoClaimBonus = (DiscreteSeekBar) view.findViewById(R.id.sbNoClaimBonus);
+
+        spMonth = (Spinner) view.findViewById(R.id.spMonth);
+        spYear = (Spinner) view.findViewById(R.id.spYear);
     }
 
     @Override
@@ -1013,11 +1134,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 llVerifyCarDetails.setVisibility(View.VISIBLE);
                 tvCarNo.setText(etreg1.getText().toString() + " " + etreg2.getText().toString()
                         + " " + etreg3.getText().toString() + " " + etreg4.getText().toString());
-                Constants.hideKeyBoard(etreg4, getActivity());
+                /*Constants.hideKeyBoard(etreg4, getActivity());
                 tvDontKnow.performClick();
                 btnGetQuote.setVisibility(View.VISIBLE);
                 showDialog("Fetching Car Details...");
-                new FastLaneController(getActivity()).getVechileDetails(regNo, this);
+                new FastLaneController(getActivity()).getVechileDetails(regNo, this);*/
                 break;
         }
     }
@@ -1048,6 +1169,64 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     //region imp function
+
+    public ArrayList<String> getYearList() {
+        Calendar calendar = Calendar.getInstance();
+        int currYear = calendar.get(Calendar.YEAR);
+        int currMonth = calendar.get(Calendar.MONTH);
+        ArrayList yearList = new ArrayList();
+        yearList.add("YEAR");
+        for (int i = 0; i <= 15; i++) {
+            yearList.add("" + (currYear - i));
+        }
+        return yearList;
+    }
+
+    public ArrayList<String> getMonthList(int currMonth) {
+        ArrayList monthList = new ArrayList();
+        monthList.add("MONTH");
+        for (int i = 1; i <= currMonth + 1; i++) {
+            switch (i) {
+                case 1:
+                    monthList.add("JAN");
+                    break;
+                case 2:
+                    monthList.add("FEB");
+                    break;
+                case 3:
+                    monthList.add("MAR");
+                    break;
+                case 4:
+                    monthList.add("APR");
+                    break;
+                case 5:
+                    monthList.add("MAY");
+                    break;
+                case 6:
+                    monthList.add("JUN");
+                    break;
+                case 7:
+                    monthList.add("JULY");
+                    break;
+                case 8:
+                    monthList.add("AUG");
+                    break;
+                case 9:
+                    monthList.add("SEP");
+                    break;
+                case 10:
+                    monthList.add("OCT");
+                    break;
+                case 11:
+                    monthList.add("NOV");
+                    break;
+                case 12:
+                    monthList.add("DEC");
+                    break;
+            }
+        }
+        return monthList;
+    }
 
     public String getModel(String makeModel) {
         String[] parts = makeModel.split(",");
@@ -1533,6 +1712,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 etExpDate.setEnabled(true);
                 spPrevIns.setEnabled(true);
                 cvNcb.setVisibility(View.VISIBLE);
+                llNoClaim.setVisibility(View.VISIBLE);
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), Constants.PRIVATE_CAR), null);
             } else {
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
@@ -1540,6 +1720,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 etExpDate.setEnabled(false);
                 spPrevIns.setEnabled(false);
                 cvNcb.setVisibility(View.GONE);
+                llNoClaim.setVisibility(View.INVISIBLE);
                 tvDontKnow.performClick();
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.PRIVATE_CAR), null);
             }
