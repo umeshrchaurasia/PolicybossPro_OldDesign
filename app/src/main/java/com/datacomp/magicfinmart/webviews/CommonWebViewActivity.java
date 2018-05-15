@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
@@ -28,6 +29,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
+
+import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 public class CommonWebViewActivity extends BaseActivity {
 
@@ -98,17 +101,20 @@ public class CommonWebViewActivity extends BaseActivity {
         MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
         webView.setWebViewClient(new WebViewClient() {
+
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 // TODO show you progress image
                 showDialog();
+                new ProgressAsync().execute();
                 super.onPageStarted(view, url, favicon);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 // TODO hide your progress image
-                cancelDialog();
+                // cancelDialog();
                 super.onPageFinished(view, url);
             }
 
@@ -122,6 +128,26 @@ public class CommonWebViewActivity extends BaseActivity {
         Log.d("URL", url);
         //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
         webView.loadUrl(url);
+    }
+
+
+    private class ProgressAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            for (int i = 0; i < 8000000; i++) {
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            cancelDialog();
+        }
     }
 
     @Override

@@ -60,7 +60,7 @@
             android:id="@+id/llMyProfile"
             style="@style/LinearLayoutStyle"
             android:animateLayoutChanges="true"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -335,7 +335,7 @@
             android:id="@+id/llAddress"
             style="@style/LinearLayoutStyle"
             android:animateLayoutChanges="true"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -496,13 +496,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
                 android:orientation="horizontal">
 
                 <TextView
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:gravity="center"
                     android:text="Enter the details of bank account to which all commissions have to be credited" />
             </LinearLayout>
 
@@ -510,6 +512,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_spacing_small"
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
@@ -523,61 +526,63 @@
                         android:id="@+id/etBankAcNo"
                         style="@style/Style.edittext"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="match_parent"
+                        android:inputType="number" />
                 </android.support.design.widget.TextInputLayout>
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="center"
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView39"
                         style="@style/TextStyle.TextSmall"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.4"
+                        android:layout_height="match_parent"
                         android:gravity="center"
-                        android:text="ACCOUNT TYPE" />
+                        android:text="ACCOUNT TYPE"
+                        android:textColor="@color/black" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="0.6"
-                        android:gravity="bottom"
-                        android:orientation="horizontal"
-                        android:weightSum="100">
+                        android:layout_height="wrap_content"
+                        android:layout_margin="5dp"
+                        android:gravity="center"
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/txtSaving"
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="5dp"
-                            android:layout_weight="50"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="1"
                             android:background="@drawable/customeborder_blue"
                             android:gravity="center"
                             android:padding="3dp"
                             android:text="SAVING"
-                            android:textColor="@color/colorPrimary" />
+                            android:textColor="@color/black" />
 
                         <TextView
                             android:id="@+id/txtCurrent"
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="50"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="1"
                             android:background="@drawable/customeborder"
                             android:gravity="center"
                             android:padding="3dp"
                             android:text="CURRENT"
-                            android:textColor="@color/description_text" />
-
-
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/black" />
                     </LinearLayout>
 
+
                 </LinearLayout>
+
 
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"

@@ -47,8 +47,10 @@ import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -85,6 +87,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     int type;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
+
     LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload;
     RelativeLayout rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload;
@@ -129,7 +133,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private int POSP_PHOTO = 6, POSP_PAN = 7, POSP_AADHAR_FRONT = 8, POSP_AADHAR_BACK = 9, POSP_CANCEL_CHQ = 10, POSP_EDU = 11;
     private String PHOTO_File = "POSPPhotograph", PAN_File = "POSPPanCard", CANCEL_CHQ_File = "POSPCancelledChq", AADHAR_FRONT_File = "POSPAadharCard", AADHAR_BACK_File = "POSPAadharCardBack", EDU_FILE = "POSPHighestEducationProof";
     LinearLayout llMain;
-    boolean IsAllImageUploaded = false, isPospNoAvailable = false, isPaymentLinkAvailable = false, isPAymentDone = false;
+    boolean IsAllImageUploaded = false, isPospNoAvailable = false, isPaymentLinkAvailable = false, isPaymentDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,6 +163,12 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     }
 
     private void setInputParameters() {
+
+
+        // Date RegDate = simpleDateFormat.parse(motorRequestEntity.getVehicle_registration_date());
+        // String regDate = displayFormat.format(RegDate);
+
+
         if (prefManager.getPospInformation() != null) {
             registerRequestEntity = prefManager.getPospInformation();
         }
@@ -172,7 +182,16 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 etLastName.setText("" + registerRequestEntity.getPosp_LastName());
             }
             if (!registerRequestEntity.getPosp_DOB().equals("") && registerRequestEntity.getPosp_DOB() != null) {
-                etDob.setText("" + registerRequestEntity.getPosp_DOB());
+                // etDob.setText("" + registerRequestEntity.getPosp_DOB());
+
+                try {
+                    Date dob = simpleDateFormat.parse(registerRequestEntity.getPosp_DOB());
+                    String strDOB = displayFormat.format(dob);
+                    etDob.setText(strDOB);
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
             }
             if (registerRequestEntity.getPosp_Gender().equals("F")) {
                 tvFemale.performClick();
@@ -305,7 +324,17 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             new RegisterController(this).getIFSC(registerRequestEntity.getPosp_IFSC(), this);
         }*/
         if (registerRequestEntity.getPosp_DOB() != null && !registerRequestEntity.getPosp_DOB().equals("")) {
-            etDob.setText("" + registerRequestEntity.getPosp_DOB());
+            //etDob.setText("" + registerRequestEntity.getPosp_DOB());
+
+            try {
+                Date dob = simpleDateFormat.parse(registerRequestEntity.getPosp_DOB());
+                String strDOB = displayFormat.format(dob);
+                etDob.setText(strDOB);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
         }
         if (registerRequestEntity.getPosp_Gender() != null) {
             if (registerRequestEntity.getPosp_Gender().equals("F")) {
@@ -483,6 +512,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         etBankAcNo = (EditText) findViewById(R.id.etBankAcNo);
         etAccountType = (EditText) findViewById(R.id.etAccountType);
         etIfscCode = (EditText) findViewById(R.id.etIfscCode);
+        etIfscCode.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+
         erMicrCode = (EditText) findViewById(R.id.erMicrCode);
         etBankBranch = (EditText) findViewById(R.id.etBankBranch);
         etBankCity = (EditText) findViewById(R.id.etBankCity);
@@ -675,31 +706,31 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                     }
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         etPan.requestFocus();
-                        etPan.setError("Enter Pan No.");
+                        etPan.setError("Invalid PAN No.");
                         etPan.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
                         return;
                     } else {
                         etPan.requestFocus();
-                        etPan.setError("Enter Pan No.");
+                        etPan.setError("Invalid Pan No.");
                         return;
                     }
                 }
-                if (!isValidAadhar(etAadhar)) {
-                    if (llMyProfile.getVisibility() == View.GONE) {
-                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
-                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
-                    }
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        etAadhar.requestFocus();
-                        etAadhar.setError("Enter Aadhar");
-                        etAadhar.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                        return;
-                    } else {
-                        etPan.requestFocus();
-                        etAadhar.setError("Enter Aadhar");
-                        return;
-                    }
-                }
+//                    if (!isValidAadhar(etAadhar)) {
+//                        if (llMyProfile.getVisibility() == View.GONE) {
+//                            manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+//                            manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
+//                        }
+//                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                            etAadhar.requestFocus();
+//                            etAadhar.setError("Enter Aadhar");
+//                            etAadhar.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+//                            return;
+//                        } else {
+//                            etPan.requestFocus();
+//                            etAadhar.setError("Enter Aadhar");
+//                            return;
+//                        }
+//                    }
 
                 //endregion
 
@@ -973,7 +1004,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                 IsAllImageUploaded = checkAllImageUpload();
                 if (IsAllImageUploaded) {
-                    if (isPAymentDone) {
+                    if (isPaymentDone) {
                         llMain.setVisibility(View.GONE);
                         openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
                     } else {
@@ -992,7 +1023,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                 } else {
                     bindUploadImage();
-                    if (isPAymentDone) {
+                    if (isPaymentDone) {
                         openPopUp(llDocumentUpload, "MESSAGE", "Upload remaining documents !!", "OK", true);
                     } else {
                         if (isPospNoAvailable) {
@@ -1129,7 +1160,17 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private void setProfileDetails() {
         registerRequestEntity.setPosp_FirstName(etFirstName.getText().toString());
         registerRequestEntity.setPosp_LastName(etLastName.getText().toString());
-        registerRequestEntity.setPosp_DOB(etDob.getText().toString());
+
+        try {
+            Date dob = simpleDateFormat.parse(registerRequestEntity.getPosp_DOB());
+            String strDOB = displayFormat.format(dob);
+            etDob.setText(strDOB);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        registerRequestEntity.setPosp_DOB(getYYYYMMDDPattern(etDob.getText().toString()));
         if (isMale)
             registerRequestEntity.setPosp_Gender("M");
         else
@@ -1305,7 +1346,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
                             IsAllImageUploaded = checkAllImageUpload();
                             if (pospDetailsEntity.getPaymStat() != null && !pospDetailsEntity.getPaymStat().equals("")) {
-                                isPAymentDone = true;
+                                isPaymentDone = true;
                             }
                             if (pospDetailsEntity.getLink() != null && !pospDetailsEntity.getLink().equals("")) {
                                 isPaymentLinkAvailable = true;
@@ -1390,7 +1431,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     void checkPospStatus() {
         bindUploadImage();
         if (IsAllImageUploaded) {
-            if (isPAymentDone) {
+            if (isPaymentDone) {
                 llMain.setVisibility(View.GONE);
                 openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
             } else {
@@ -1408,7 +1449,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             }
 
         } else {
-            if (isPAymentDone) {
+            if (isPaymentDone) {
                 bindInputFromeServer(pospDetailsEntity);
                 openPopUp(llDocumentUpload, "MESSAGE", "Upload remaining documents !!", "OK", true);
             } else {
@@ -1467,7 +1508,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                                 if (view1.isShown()) {
                                     Calendar calendar = Calendar.getInstance();
                                     calendar.set(year, monthOfYear, dayOfMonth);
-                                    String currentDay = simpleDateFormat.format(calendar.getTime());
+                                    String currentDay = displayFormat.format(calendar.getTime());
                                     etDob.setText(currentDay);
                                 }
                             }
