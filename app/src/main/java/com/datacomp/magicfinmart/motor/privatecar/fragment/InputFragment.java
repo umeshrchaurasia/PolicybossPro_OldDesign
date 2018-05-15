@@ -445,7 +445,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             etMfgDate.setText(manfDate);
 
             etExpDate.setText(displayFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
-
+            spPrevIns.setEnabled(true);
 
             /*
             etRegDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_registration_date())));

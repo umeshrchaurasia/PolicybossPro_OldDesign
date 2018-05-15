@@ -4,9 +4,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
-
 
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeApplicationTabFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteTabFragment;
@@ -21,7 +19,7 @@ public class BikeActivityTabsPagerAdapter extends FragmentStatePagerAdapter {
     public final static String QUOTE_LIST = "LIST_QUOTE";
     public final static String APPLICATION_LIST = "LIST_APPLICATION";
     QuoteApplicationEntity mMasterData;
-    private String[] pageTitle = new String[]{"QUOTES", "APPLICATION"};
+    private String[] pageTitle = new String[]{"QUOTE", "APPLICATION"};
 
     public BikeActivityTabsPagerAdapter(FragmentManager fm, QuoteApplicationEntity masterData) {
         super(fm);
