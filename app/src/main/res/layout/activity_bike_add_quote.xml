@@ -25,42 +25,48 @@
             app:layout_scrollFlags="snap|enterAlways|enterAlwaysCollapsed"
             app:titleEnabled="false">
 
-
-            <LinearLayout
-                android:id="@+id/ll_collapse_container"
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_gravity="center"
-                    android:background="?attr/colorPrimary"
-                    android:fitsSystemWindows="true"
-                    app:layout_collapseMode="pin"
-                    app:layout_scrollFlags="snap|enterAlways|enterAlwaysCollapsed"
-                    app:popupTheme="@style/AppTheme.PopupOverlay"
-                    app:titleTextAppearance="@style/TextStyle.Toolbar"
-                    app:titleTextColor="@color/white"/>
-
-                <android.support.design.widget.BottomNavigationView
-                    android:id="@+id/bottomNavigation"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/app_bar"
-                    android:layout_marginTop="-20dp"
-                    app:itemBackground="@color/colorPrimaryDark"
-                    app:itemIconTint="@drawable/nav_item_color_state"
-                    app:itemTextColor="@drawable/nav_item_color_state"
-                    app:menu="@menu/navigation" />
-
-
-            </LinearLayout>
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="center"
+                android:background="?attr/colorPrimary"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="pin"
+                app:layout_scrollFlags="snap|enterAlways|enterAlwaysCollapsed"
+                app:popupTheme="@style/AppTheme.PopupOverlay"
+                app:titleTextAppearance="@style/TextStyle.Toolbar"
+                app:titleTextColor="@color/white" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@+id/bottmc"
+        android:animateLayoutChanges="true" />
+
+    <RelativeLayout
+        android:id="@+id/bottmc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/app_bar">
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="-25dp"
+            app:itemBackground="@color/colorPrimaryDark"
+            app:itemIconTint="@drawable/nav_item_color_state"
+            app:itemTextColor="@drawable/nav_item_color_state"
+            app:menu="@menu/navigation" />
+
 
         <LinearLayout
             android:id="@+id/lyheader"
@@ -132,14 +138,7 @@
 
 
         </LinearLayout>
-    </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/frame_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/app_bar"
-        android:animateLayoutChanges="true" />
+    </RelativeLayout>
 
 </RelativeLayout>

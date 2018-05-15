@@ -100,7 +100,12 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
                 ((BikeQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
-
+        holder.llIdv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((BikeQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
         holder.txtBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,11 +147,12 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     public class BikeQuoteItem extends RecyclerView.ViewHolder {
         public TextView txtInsurerName, txtIDV, txtFinalPremium, txtPremiumBreakUp, txtBuy;
         ImageView imgInsurerLogo;
-        LinearLayout llAddon;
+        LinearLayout llAddon,llIdv;
         RecyclerView rvAddOn;
 
         public BikeQuoteItem(View itemView) {
             super(itemView);
+            llIdv = (LinearLayout) itemView.findViewById(R.id.llIdv);
             llAddon = (LinearLayout) itemView.findViewById(R.id.llAddon);
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtInsurerName = (TextView) itemView.findViewById(R.id.txtInsuranceCompName);

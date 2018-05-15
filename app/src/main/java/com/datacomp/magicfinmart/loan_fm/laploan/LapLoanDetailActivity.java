@@ -95,7 +95,7 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
                 HomeLoanRequestMainEntity hlQuoteApplicationEntity = ((FmHomelLoanResponse) response).getMasterData();
 
                 if (hlQuoteApplicationEntity.getQuote().size() != 0
-                        && hlQuoteApplicationEntity.getApplication().size() != 0) {
+                        || hlQuoteApplicationEntity.getApplication().size() != 0) {
                     mAdapter = new ActivityTabsPagerAdapter_LAP(getSupportFragmentManager(), hlQuoteApplicationEntity);
                     viewPager.setAdapter(mAdapter);
                 } else {
