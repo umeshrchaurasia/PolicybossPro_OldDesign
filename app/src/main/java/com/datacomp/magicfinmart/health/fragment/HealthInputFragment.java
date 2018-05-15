@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -52,7 +53,7 @@ import static android.content.Context.LAYOUT_INFLATER_SERVICE;
  * Created by Nilesh Birhade on 11/02/2018.
  */
 
-public class HealthInputFragment extends BaseFragment implements View.OnClickListener {
+public class HealthInputFragment extends BaseFragment implements View.OnClickListener ,View.OnFocusChangeListener ,View.OnTouchListener {
 
     private static final String TAG = "HealthInputFragment";
   //  public static final String MEMBER_LIST = "member_list";
@@ -81,6 +82,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     HealthRequestEntity healthRequestEntity;
     DBPersistanceController db;
     List<HealthSumAssured> listSumAssured;
+
+    EditText editText;
 
     private PopupWindow mPopupWindow ,mPopupWindowSelection;
     View customView ,customViewSelection;
@@ -170,9 +173,13 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     }
 
-    private void OpenPoupWnidow(final EditText editText) {
+    private void OpenPoupWnidow(EditText tmpEdit ) {
 
-
+        editText = tmpEdit;
+        if(editText == null || !editText.isEnabled())
+        {
+            return;
+        }
         // Get a reference for the custom view close button
         ImageButton closeButton = (ImageButton) customView.findViewById(R.id.imgClose);
         ImageButton imgPrev = (ImageButton) customView.findViewById(R.id.imgPrev);
@@ -185,6 +192,11 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
         Button btnNum5 = (Button) customView.findViewById(R.id.btnNum5);
         Button btnNum6 = (Button) customView.findViewById(R.id.btnNum6);
 
+        Button btnNum7 = (Button) customView.findViewById(R.id.btnNum7);
+        Button btnNum8 = (Button) customView.findViewById(R.id.btnNum8);
+        Button btnNum9 = (Button) customView.findViewById(R.id.btnNum9);
+        Button btnNum0 = (Button) customView.findViewById(R.id.btnNum0);
+
 
         // Set a click listener for the popup window close button
         closeButton.setOnClickListener(new View.OnClickListener() {
@@ -195,6 +207,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                     mPopupWindow.dismiss();
                     mPopupWindowSelection.dismiss();
 
+
                 }
             }
         });
@@ -204,9 +217,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             public void onClick(View view) {
                 // Dismiss the popup window
                 if( mPopupWindow.isShowing()) {
-                    mPopupWindowSelection.dismiss();
-
                     setNextPrevPopUpAge(editText,"P");
+
                 }
             }
         });
@@ -218,8 +230,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             public void onClick(View view) {
                 // Dismiss the popup window
                 if( mPopupWindow.isShowing()) {
-                    mPopupWindowSelection.dismiss();
                     setNextPrevPopUpAge(editText,"N");
+
                 }
             }
         });
@@ -229,58 +241,93 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             @Override
             public void onClick(View view) {
                 if( mPopupWindow.isShowing()) {
-                    et1.setText("1");
+                    onCharacterPressed('1',editText);
                 }
             }
         });
 
-        btnNum1.setOnClickListener(new View.OnClickListener() {
+        btnNum2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if( mPopupWindow.isShowing()) {
-                    et1.setText("1");
+                    onCharacterPressed('2',editText);
                 }
             }
         });
 
 
-        btnNum1.setOnClickListener(new View.OnClickListener() {
+        btnNum3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if( mPopupWindow.isShowing()) {
-                    et1.setText("1");
+                    onCharacterPressed('3',editText);
                 }
             }
         });
 
-        btnNum1.setOnClickListener(new View.OnClickListener() {
+        btnNum4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if( mPopupWindow.isShowing()) {
-                    et1.setText("1");
+                    onCharacterPressed('4',editText);
                 }
             }
         });
 
-        btnNum1.setOnClickListener(new View.OnClickListener() {
+        btnNum5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if( mPopupWindow.isShowing()) {
-                    et1.setText("1");
+                    onCharacterPressed('5',editText);
                 }
             }
         });
 
-        btnNum1.setOnClickListener(new View.OnClickListener() {
+        btnNum6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if( mPopupWindow.isShowing()) {
-                    et1.setText("1");
+                    onCharacterPressed('6',editText);
+                }
+            }
+        });
+
+        btnNum7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    onCharacterPressed('7',editText);
+                }
+            }
+        });
+
+        btnNum8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    onCharacterPressed('8',editText);
                 }
             }
         });
 
 
+        btnNum9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    onCharacterPressed('9',editText);
+                }
+            }
+        });
+
+        btnNum0.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if( mPopupWindow.isShowing()) {
+                    onCharacterPressed('0',editText);
+                }
+            }
+        });
         mPopupWindowSelection.showAsDropDown(editText, 10, -10);
 
        // mPopupWindow.setAnimationStyle(R.style.Animation);
@@ -288,7 +335,44 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     }
 
+    private void setNonFocusEditText()
+    {
+        et1.setFocusable(false);
+        et2.setFocusable(false);
+        et3.setFocusable(false);
+        et4.setFocusable(false);
+        et5.setFocusable(false);
+        et6.setFocusable(false);
 
+    }
+
+    private void onCharacterPressed(char digit ,EditText et) {
+        try {
+            CharSequence cur = et.getText();
+
+            int start = et.getSelectionStart();
+            int end = et.getSelectionEnd();
+            int len = cur.length();
+
+            if(cur.length() == 2)
+            {
+                et.setText(""+ digit);
+            }
+           else if(cur.length() < 2) {
+
+                if (cur.length() == 0) {
+                    et.setCursorVisible(false);
+                }
+
+                cur = cur.subSequence(0, start).toString() + digit + cur.subSequence(end, len).toString();
+                et.setText(cur);
+                et.setSelection(start + 1);
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 
 
     private void setNextPrevPopUpAge(EditText editText,String type)
@@ -300,32 +384,32 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             switch (editText.getId()) {
                 case R.id.etOne:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et2, 10, -10);
-                    et2.requestFocus();
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et2);
                     break;
 
                 case R.id.etTwo:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et3, 10, -10);
-                    et3.requestFocus();
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et3);
                     break;
 
                 case R.id.etThree:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et4, 10, -10);
-                    et4.requestFocus();
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et4);
                     break;
 
                 case R.id.etFour:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et5, 10, -10);
-                    et5.requestFocus();
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et5);
                     break;
 
                 case R.id.etFive:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et6, 10, -10);
-                    et6.requestFocus();
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et6);
                     break;
 
                 case R.id.etSix:
@@ -343,27 +427,33 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
                 case R.id.etTwo:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et1, 10, -10);
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et1);
+
                     break;
 
                 case R.id.etThree:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et2, 10, -10);
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et2);
                     break;
 
                 case R.id.etFour:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et3, 10, -10);
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et3);
                     break;
 
                 case R.id.etFive:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et4, 10, -10);
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et4);
                     break;
 
                 case R.id.etSix:
                     mPopupWindowSelection.dismiss();
-                    mPopupWindowSelection.showAsDropDown(et5, 10, -10);
+                    mPopupWindow.dismiss();
+                    OpenPoupWnidow(et5);
                     break;
 
 
@@ -523,12 +613,26 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     private void setListener() {
 
-        et1.setOnClickListener(this);
-        et2.setOnClickListener(this);
-        et3.setOnClickListener(this);
-        et4.setOnClickListener(this);
-        et5.setOnClickListener(this);
-        et6.setOnClickListener(this);
+//        et1.setOnClickListener(this);
+//        et2.setOnClickListener(this);
+//        et3.setOnClickListener(this);
+//        et4.setOnClickListener(this);
+//        et5.setOnClickListener(this);
+//        et6.setOnClickListener(this);
+
+//        et1.setOnFocusChangeListener(this);
+//        et2.setOnFocusChangeListener(this);
+//        et3.setOnFocusChangeListener(this);
+//        et4.setOnFocusChangeListener(this);
+//        et5.setOnFocusChangeListener(this);
+//        et6.setOnFocusChangeListener(this);
+
+        et1.setOnTouchListener(this);
+        et2.setOnTouchListener(this);
+        et3.setOnTouchListener(this);
+        et4.setOnTouchListener(this);
+        et5.setOnTouchListener(this);
+        et6.setOnTouchListener(this);
 
         btnSelf.setOnClickListener(this);
         btnFamily.setOnClickListener(this);
@@ -620,6 +724,12 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     @Override
     public void onClick(View view) {
 
+        if( mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+            mPopupWindowSelection.dismiss();
+
+        }
+
         switch (view.getId()) {
             case R.id.btnSelf:
                 coverFor = 0;
@@ -637,29 +747,6 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 enableInputForParent();
                 break;
 
-            case R.id.etOne:
-                OpenPoupWnidow(et1);
-                break;
-
-            case R.id.etTwo:
-                OpenPoupWnidow(et2);
-                break;
-
-            case R.id.etThree:
-                OpenPoupWnidow(et3);
-                break;
-
-            case R.id.etFour:
-                OpenPoupWnidow(et4);
-                break;
-
-            case R.id.etFive:
-                OpenPoupWnidow(et5);
-                break;
-
-            case R.id.etSix:
-                OpenPoupWnidow(et6);
-                break;
 
 
 
@@ -777,7 +864,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 healthRequestEntity.setContactMobile(etMobile.getText().toString());
                 healthRequestEntity.setSumInsured(etAmount.getText().toString());
                 healthRequestEntity.setPincode(Integer.parseInt(etPincode.getText().toString()));
-              //  healthRequestEntity.setCityID(new DBPersistanceController(getActivity()).getHealthCityID(acCity.getText().toString()));
+             //   healthRequestEntity.setCityID(new DBPersistanceController(getActivity()).getHealthCityID(acCity.getText().toString()));
               //  healthRequestEntity.setCityID(0);
 
 
@@ -1093,6 +1180,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     private void enableOne(View view) {
 
+        setNonFocusEditText();
+
         switch (view.getId()) {
             case R.id.img1:
                 if (!et1.isEnabled()) {
@@ -1186,6 +1275,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     }
 
     private void enablePrevious(int memberCount) {
+
+        mPopupWindow.dismiss();
+        mPopupWindowSelection.dismiss();
 
         switch (memberCount) {
             case 1:
@@ -1517,4 +1609,110 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
     }
 
+
+
+
+    @Override
+    public void onFocusChange(View view, boolean hasFocus) {
+
+
+        if (mPopupWindow.isShowing()) {
+            mPopupWindow.dismiss();
+            mPopupWindowSelection.dismiss();
+
+        }
+
+        switch (view.getId()) {
+            case R.id.etOne:
+                if (hasFocus) {
+
+                    OpenPoupWnidow(et1);
+                }
+                break;
+
+            case R.id.etTwo:
+                if (hasFocus){
+                    OpenPoupWnidow(et2);
+                }
+
+                break;
+
+            case R.id.etThree:
+                if (hasFocus) {
+                    OpenPoupWnidow(et3);
+                }
+                break;
+
+            case R.id.etFour:
+                if (hasFocus) {
+
+                    OpenPoupWnidow(et4);
+                }
+                break;
+
+            case R.id.etFive:
+                if (hasFocus) {
+                    OpenPoupWnidow(et5);
+                }
+                break;
+
+            case R.id.etSix:
+                if (hasFocus){
+                    OpenPoupWnidow(et6);
+                }
+
+                break;
+
+        }
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+
+
+//        if (mPopupWindow.isShowing()) {
+//            mPopupWindow.dismiss();
+//            mPopupWindowSelection.dismiss();
+//
+//        }
+
+        switch (view.getId()) {
+            case R.id.etOne:
+                    OpenPoupWnidow(et1);
+                break;
+
+            case R.id.etTwo:
+
+                    OpenPoupWnidow(et2);
+
+                break;
+
+            case R.id.etThree:
+
+                    OpenPoupWnidow(et3);
+
+                break;
+
+            case R.id.etFour:
+
+
+                    OpenPoupWnidow(et4);
+
+                break;
+
+            case R.id.etFive:
+
+                    OpenPoupWnidow(et5);
+
+                break;
+
+            case R.id.etSix:
+
+                    OpenPoupWnidow(et6);
+
+                break;
+
+        }
+        return false;
+    }
 }
