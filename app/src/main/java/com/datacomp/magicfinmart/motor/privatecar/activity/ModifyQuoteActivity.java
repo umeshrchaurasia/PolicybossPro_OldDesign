@@ -255,7 +255,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
                 finish();
                 break;
             case R.id.applyNow:
-                if (!etElecAcc.getText().toString().isEmpty()) {
+                if (!etElecAcc.getText().toString().isEmpty() && !etElecAcc.getText().toString().equals("0")) {
                     int elec = Integer.parseInt(etElecAcc.getText().toString());
                     if (elec < 10000 || elec > 50000) {
                         etElecAcc.requestFocus();
@@ -263,7 +263,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
                         return;
                     }
                 }
-                if (!etNonElecAcc.getText().toString().isEmpty()) {
+                if (!etNonElecAcc.getText().toString().isEmpty() && !etNonElecAcc.getText().toString().equals("0")) {
                     int nonElec = Integer.parseInt(etNonElecAcc.getText().toString());
                     if (nonElec < 10000 || nonElec > 50000) {
                         etNonElecAcc.requestFocus();

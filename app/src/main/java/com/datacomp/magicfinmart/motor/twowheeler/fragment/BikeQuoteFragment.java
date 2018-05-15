@@ -192,7 +192,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             fuelType = carMasterEntity.getFuel_Name();
             String rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
 
-            rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
+            rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + " cc";
             if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {
                 rtoName = rtoName + " | RTO : " + new DBPersistanceController(getActivity())
                         .getBikeRTOName(String.valueOf(motorRequestEntity.getRto_id()));

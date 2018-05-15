@@ -615,7 +615,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     private void initialize_views() {
         cvInput.setVisibility(View.GONE);
         switchNewRenew.setChecked(true);
-        tvClaimYes.performClick();
+        tvClaimNo.performClick();
         spPrevIns.setEnabled(false);
         //llVerifyCarDetails.setVisibility(View.GONE);
     }
