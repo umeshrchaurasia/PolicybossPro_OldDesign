@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -36,6 +38,8 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
     HealthQuote healthQuote;
+    ImageView ivHdrInput,  ivHdrQuote;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +49,8 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("HEALTH INSURANCE");
+        ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
+        ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
@@ -67,6 +73,18 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         transactionSim.commit();
     }
 
+    public void highlighInput()
+    {
+        ivHdrInput.setVisibility(View.VISIBLE);
+        ivHdrQuote.setVisibility(View.GONE);
+    }
+
+    public void highlighQuote()
+    {
+        ivHdrQuote.setVisibility(View.VISIBLE);
+        ivHdrInput.setVisibility(View.GONE);
+
+    }
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -89,7 +107,7 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
 //                        inputFragment.setArguments(quoteBundle);
 //                        loadFragment(inputFragment, INPUT_FRAGMENT);
 //                    }
-
+                    highlighInput();
                     HealthInputFragment inputFragment = new HealthInputFragment();
                     inputFragment.setArguments(quoteBundle);
                     loadFragment(inputFragment, INPUT_FRAGMENT);
@@ -105,6 +123,7 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                     }
 
                     if (tabFragment != null) {
+                        highlighQuote();
                         tabFragment.setArguments(quoteBundle);
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
 
@@ -114,6 +133,7 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                                 HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
                                 quoteFragment.setArguments(quoteBundle);
                                 loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                                 highlighQuote();
                             } else {
 
                                 Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
