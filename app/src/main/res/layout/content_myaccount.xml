@@ -315,20 +315,15 @@
                     android:animateLayoutChanges="true"
                     android:visibility="visible">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:orientation="horizontal">
+
 
                         <TextView
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:gravity="center"
+                            android:gravity="left"
                             android:text="Enter the details of bank account to which all commissions have to be credited" />
-                    </LinearLayout>
+
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -890,6 +885,7 @@
     <Button
         android:id="@+id/btnSave"
         style="@style/ButtonStyle"
+        android:minHeight="36dp"
         android:layout_alignParentBottom="true"
         android:text="SAVE INFORMATION"
         android:textStyle="bold" />
