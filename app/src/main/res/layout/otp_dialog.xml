@@ -6,90 +6,84 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <RelativeLayout
+
+    <TextView
+        android:id="@+id/txtPlanName"
+        style="@style/TextStyle.Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary">
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:minHeight="42dp"
+        android:text="Verify your mobile no."
+        android:textAllCaps="true"
+        android:textColor="@android:color/white" />
 
-        <TextView
-            android:id="@+id/txtPlanName"
-            style="@style/TextViewStyle.Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:gravity="left|center_vertical"
-            android:minHeight="45dp"
-            android:padding="8dp"
-            android:text="Magic Finmart"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/ivCross"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:src="@drawable/cross"
-            android:visibility="gone" />
-
-
-    </RelativeLayout>
 
     <TextView
         android:id="@+id/tvTitle"
-        style="@style/TextViewStyle.Medium"
+        style="@style/TextStyle.TextMedium"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/fab_margin"
-        android:layout_marginTop="10dp"
-        android:text="Enter OTP sent on " />
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
+        android:text="" />
 
     <LinearLayout
         android:id="@+id/ll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTitle"
-        android:layout_margin="@dimen/fab_margin"
-        android:gravity="left"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/etOtp"
+        <android.support.design.widget.TextInputLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/tvTitle"
-            android:layout_weight="3"
-            android:imeOptions="flagNoExtractUi"
-            android:inputType="number" />
+            android:layout_marginTop="4dp"
+            android:layout_weight="70"
+            android:hint="OTP for mobile verification">
+
+            <EditText
+                android:id="@+id/etOtp"
+                style="@style/Style.edittext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="number" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <TextView
             android:id="@+id/tvResend"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_weight="2"
-            android:gravity="right|center_vertical"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/view_spacing_small"
+            android:layout_weight="30"
+            android:gravity="center_vertical"
             android:padding="5dp"
-            android:text="resend"
-            android:textColor="@android:color/holo_blue_dark"
+            android:text="Resend"
+            android:textColor="@color/colorPrimary"
             android:visibility="visible" />
     </LinearLayout>
 
 
     <TextView
         android:id="@+id/tvOk"
-        style="@style/ButtonStyle"
+        style="@style/TextStyle.Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="5dp"
-        android:minHeight="35dp"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="VERIFY" />
+        android:layout_marginBottom="32dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center"
+        android:minHeight="42dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        android:text="VERIFY"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white" />
 </LinearLayout>
