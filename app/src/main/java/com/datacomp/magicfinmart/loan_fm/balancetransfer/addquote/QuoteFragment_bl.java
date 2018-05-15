@@ -186,7 +186,8 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                 try {
                     txtAppName.setText("" + blLoanRequest.getApplicantName().toUpperCase());
                     txtLoanAmnt.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
-                    txtLoanTenure.setText("" + blLoanRequest.getLoanterm() + " Years");
+
+                    txtLoanTenure.setText("" + Double.toString(blLoanRequest.getLoanterm()) + " Years");
 
                     if (Integer.toString(blLoanRequest.getProduct_id()).matches("5")) {
                         txtType.setText("HOME LOAN");
@@ -220,6 +221,63 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
     }
 
+    private void bindQuotes_NoData() {
+
+
+            txtInputSummry.setVisibility(View.VISIBLE);
+            cvInputSummary.setVisibility(View.VISIBLE);
+//            llgraph.setVisibility(View.VISIBLE);
+//            llshare.setVisibility(View.VISIBLE);
+//            mAdapter = new BLQuoteAdapter(this, getblDispalyResponse.getData().getBank_data(), getblDispalyResponse, blLoanRequest.getLoanamount());
+//            rvBLQuotes.setAdapter(mAdapter);
+//
+//            savingBlList = getblDispalyResponse.getData().getSavings();
+
+//            if (getblDispalyResponse.getData().getBank_data().size() > 0) {
+//                txtCount.setText("" + getblDispalyResponse.getData().getBank_data().size() + " Results from www.rupeeboss.com");
+//                txtCount.setVisibility(View.VISIBLE);
+//            } else {
+//                txtCount.setText("");
+//                txtCount.setVisibility(View.GONE);
+//            }
+
+            if (blLoanRequest != null) {
+                try {
+                    txtAppName.setText("" + blLoanRequest.getApplicantName().toUpperCase());
+                    txtLoanAmnt.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
+                    txtLoanTenure.setText("" + Double.toString(blLoanRequest.getLoanterm()) + " Years");
+
+                    if (Integer.toString(blLoanRequest.getProduct_id()).matches("5")) {
+                        txtType.setText("HOME LOAN");
+                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("14")) {
+                        txtType.setText("PERSONAL LOAN");
+                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("2")) {
+                        txtType.setText("LAP");
+                    }
+
+                    txtcurrRate.setText("" + blLoanRequest.getLoaninterest());
+
+//                    if (savingBlList != null) {
+//
+//                        // txtcurrloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(savingBlList.get(0).getAmount()).toPlainString());
+//                        // txtdropemi.setText("" + "\u20B9"+" " +String.format("%.0f", savingBlList.get(0).getDrop_emi()));
+//                        // txtcurrloanemi.setText("" + savingBlList.get(0).getAmount());
+//
+//                        txtcurrloanemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getAmount()));
+//                        txtdropemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getDrop_emi()));
+//                        txtnewemi.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getNew_amount()));
+//                        txtdropinterestrate.setText("" + savingBlList.get(0).getDrop_in_int() + " %");
+//                        txtreducedintrest.setText("" + "\u20B9" + Math.round(savingBlList.get(0).getSavings()));
+//
+//                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+    }
 
     private void setFmBLoanRequest(int tempQuoteID) {
         QuoteID = tempQuoteID;

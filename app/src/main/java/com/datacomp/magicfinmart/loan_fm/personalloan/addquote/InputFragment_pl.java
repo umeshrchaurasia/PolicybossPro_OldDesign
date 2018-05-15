@@ -113,8 +113,8 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
         sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
         sbTenure.setMax(4);
-        sbTenure.setProgress(0);
-        etTenureInYear.setText("1");
+        sbTenure.setProgress(4);
+        etTenureInYear.setText("5");
 
         //endregion
 
@@ -250,7 +250,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
         txtrbimgMale.setOnClickListener(this);
         txtrbimgFemale.setOnClickListener(this);
-
+        etPAN.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
     }
 
 
@@ -307,7 +307,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             }
             if (TextUtils.isEmpty(CostOfProp)) {
 
-                etCostOfProp.setError("Please Enter Cost Of Property.");
+                etCostOfProp.setError("Please Enter Required Loan Amount.");
                 etCostOfProp.requestFocus();
                 return;
 
