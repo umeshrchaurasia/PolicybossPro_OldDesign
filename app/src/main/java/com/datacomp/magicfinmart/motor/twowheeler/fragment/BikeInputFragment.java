@@ -419,7 +419,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
                 etExpDate.setEnabled(true);
                 etExpDate.setText(displayFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
-
+                spPrevIns.setEnabled(true);
                 String currDate = displayFormat.format(Calendar.getInstance().getTime());
 
                 String expDate = displayFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date()));
