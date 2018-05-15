@@ -241,7 +241,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             }
 
             case (REQUEST_MEMBER): {
-
+                if (data != null) {
+                    healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
+                    // commented by rahul
+                    redirectToBuy(buyHealthQuoteEntity);
+                }
             }
             break;
         }
@@ -259,10 +263,12 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             compareRequestEntity.setHealthRequestId(String.valueOf(healthQuote.getHealthRequestId()));
             compareRequestEntity.setSelectedPrevInsID(healthQuote.getHealthRequest().getSelectedPrevInsID());
             compareRequestEntity.setInsImage(entity.getInsurerLogoName());
+            compareRequestEntity.setMemberlist(healthQuote.getHealthRequest().getMemberList());
 
-//            Gson gson = new Gson();
-//            String json  =  gson.toJson(compareRequestEntity);
-//            Toast.makeText(getActivity(), "" +json,Toast.LENGTH_SHORT).show();
+
+            Gson gson = new Gson();
+            String json  =  gson.toJson(compareRequestEntity);
+            Toast.makeText(getActivity(), "" +json,Toast.LENGTH_SHORT).show();
             showDialog();
             new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
         } else {
@@ -273,7 +279,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy health : buy button for health"), Constants.HEALTH_INS), null);
     }
 
-    public void popUpHealthMemberDetails() {
+    public void popUpHealthMemberDetails(HealthQuoteEntity entity) {
+        buyHealthQuoteEntity =entity;
+
         Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
         intent.putExtra(MEMBER_LIST, healthQuote);
         startActivityForResult(intent, REQUEST_MEMBER);

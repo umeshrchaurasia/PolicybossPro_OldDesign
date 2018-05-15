@@ -78,6 +78,15 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
             List<MemberListEntity> updateMember = new ArrayList<>();
             List<MemberListEntity> listMember = healthQuote.getHealthRequest().getMemberList();
 
+
+            for (int i = 0; i < listMember.size(); i++) {
+
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberDOBTemp() == null || entity.getMemberDOBTemp().equals("")) {
+                    showAlert("Please Enter Date Of Birth");
+                    return;
+                }
+            }
             // region  Duplication Check for : Adult Gender
 
             //region for Family

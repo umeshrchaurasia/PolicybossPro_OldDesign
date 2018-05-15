@@ -399,8 +399,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 //
         sbTenure.setMax(25);
 
-        sbTenure.setProgress(0);//////
-        etTenureInYear.setText("5");
+        sbTenure.setProgress(15);//////
+        etTenureInYear.setText("20");
         acCity = (AutoCompleteTextView) view.findViewById(R.id.acCity);
 
         //endregion

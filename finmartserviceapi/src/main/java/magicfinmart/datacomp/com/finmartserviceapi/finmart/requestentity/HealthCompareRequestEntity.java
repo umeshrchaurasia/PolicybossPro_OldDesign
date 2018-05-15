@@ -1,5 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 
+import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
+
 /**
  * Created by Nilesh Birhade on 08-03-2018.
  */
@@ -13,6 +17,15 @@ public class HealthCompareRequestEntity {
     private String insImage;
     private int selectedPrevInsID;
     private String ProdID;
+    List<MemberListEntity> MemberList;
+
+    public List<MemberListEntity> getMemberlist() {
+        return MemberList;
+    }
+
+    public void setMemberlist(List<MemberListEntity> memberlist) {
+        this.MemberList = memberlist;
+    }
 
     public String getProdID() {
         return ProdID;
