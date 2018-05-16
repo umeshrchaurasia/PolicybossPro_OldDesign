@@ -638,18 +638,20 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     boolean isChange = false;
-                    for (int i = 0; i < listSumAssured.size(); i++) {
-                        if (listSumAssured.get(i).getSumAssuredAmount() ==
-                                Integer.parseInt(etAmount.getText().toString())) {
-                            isChange = true;
-                            listSumAssured.get(i).setSelected(true);
+                    if (etAmount.getText().toString().length() != 0) {
+                        for (int i = 0; i < listSumAssured.size(); i++) {
+                            if (listSumAssured.get(i).getSumAssuredAmount() ==
+                                    Integer.parseInt(etAmount.getText().toString())) {
+                                isChange = true;
+                                listSumAssured.get(i).setSelected(true);
+                            }
                         }
-                    }
 
-                    if (!isChange) {
-                        adapter.clearBinding();
-                    } else {
-                        adapter.notifyDataSetChanged();
+                        if (!isChange) {
+                            adapter.clearBinding();
+                        } else {
+                            adapter.notifyDataSetChanged();
+                        }
                     }
                 }
             }

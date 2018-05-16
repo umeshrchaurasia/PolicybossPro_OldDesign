@@ -5,7 +5,7 @@ import java.util.List;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class MasterSalesMaterialPromotionEntity {
+public class MasterSalesMaterialPromotionEntity  {
 
     private List<CompanyEntity> company;
     private List<DocsEntity> docs;

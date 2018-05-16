@@ -213,6 +213,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
     private void updateHeader() {
         if (motorRequestEntity != null) {
+
+            txtCrn.setText("CRN :" + motorRequestEntity.getCrn());
+
             carMasterEntity = databaseController.getVarientDetails(""
                     + motorRequestEntity.getVehicle_id());
 
