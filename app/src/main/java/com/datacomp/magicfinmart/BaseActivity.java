@@ -30,7 +30,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
@@ -184,7 +183,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void showDialog(String msg) {
-        dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+        if (dialog == null)
+            dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
     }
 
     public void sendSms(String mobNumber) {
