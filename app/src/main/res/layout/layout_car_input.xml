@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="0dp"
     android:scrollbars="none">
 
@@ -242,12 +242,12 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
-                        android:visibility="gone"
                         style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_marginLeft="1dp"
                         android:layout_weight="1"
-                        android:hint="Mfg Date">
+                        android:hint="Mfg Date"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/etMfgDate"
@@ -265,10 +265,9 @@
 
                         <Spinner
                             android:id="@+id/spMonth"
-                            android:background="@drawable/spinner_bg"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            />
+                            android:background="@drawable/spinner_bg" />
                     </android.support.design.widget.TextInputLayout>
 
                     <android.support.design.widget.TextInputLayout
@@ -282,8 +281,7 @@
                             android:id="@+id/spYear"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            />
+                            android:layout_height="match_parent" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
