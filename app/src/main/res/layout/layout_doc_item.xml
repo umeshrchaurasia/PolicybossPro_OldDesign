@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
-    android:background="@color/bg_white"
+    android:background="@color/bg1"
     android:orientation="horizontal">
 
     <com.datacomp.magicfinmart.design.CustomImageView
         android:layout_margin="8dp"
         android:id="@+id/ivProduct"
         android:minHeight="200dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </com.datacomp.magicfinmart.design.CustomImageView>
