@@ -69,8 +69,8 @@ public class SalesMaterialAdapter extends RecyclerView.Adapter<SalesMaterialAdap
             @Override
             public void onClick(View v) {
 
-                ((SalesMaterialActivity) mContex).redirectToApplyMain(entity);
-                updateList(entity, position);
+                ((SalesMaterialActivity) mContex).redirectToApplyMain(entity,position);
+
 
             }
 
