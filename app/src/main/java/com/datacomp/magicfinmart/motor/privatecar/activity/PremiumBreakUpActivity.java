@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -56,7 +57,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
     PremiumBreakUpAddonAdapter addonAdapterNew;
-    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium, txtIDV, txtFinalPremium, btnBuy, tvAddonTotal;
+    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium, txtIDV, txtFinalPremium, tvAddonTotal;
+    LinearLayout btnBuy;
     ImageView ivCross, ivShare;
     Button btnBackToQuote;
     CardView cvAddon;
@@ -115,7 +117,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     private void bindData() {
         if (responseEntity != null) {
-            txtIDV.setText("\u20B9 " + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            txtIDV.setText("" + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Code());
             if (responseEntity.getFinal_premium_without_addon() != null && !responseEntity.getFinal_premium_without_addon().equals("")) {
                 tvTotalPremium.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getFinal_premium_without_addon()))));
@@ -134,7 +136,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 //tvGst.setText(getRupeesRound(responseEntity.getPremium_Breakup().getService_tax()));
                 txtFinalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
             }
-            tvAddonTotal.setText("" + Math.round(addOnTotal));
+            tvAddonTotal.setText("" + getRound("" + addOnTotal));
         }
     }
 
@@ -189,7 +191,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         tvNetPremium = (TextView) findViewById(R.id.tvNetPremium);
         ivCross = (ImageView) findViewById(R.id.ivCross);
         ivShare = (ImageView) findViewById(R.id.ivShare);
-        btnBuy = (TextView) findViewById(R.id.btnBuy);
+        btnBuy = (LinearLayout) findViewById(R.id.btnBuy);
         btnBackToQuote = (Button) findViewById(R.id.btnBackToQuote);
         cvAddon = (CardView) findViewById(R.id.cvAddon);
         txtIDV = (TextView) findViewById(R.id.txtIDV);
@@ -511,6 +513,10 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         return true;
     }
 
+    private double getRound(String strText) {
+        double value = Double.parseDouble(strText);
+        return Double.parseDouble(new DecimalFormat("##.##").format(value));
+    }
 
     public void updateAddonToserver(List<MobileAddOn> addOnList) {
         SaveAddOnRequestEntity entity = new SaveAddOnRequestEntity();

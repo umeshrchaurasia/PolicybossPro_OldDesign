@@ -507,7 +507,6 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
-        // dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
 
         return dashboardEntities;
@@ -520,7 +519,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Offer loans against property at attractive rates to your customers", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get lowest rate loan on your Credit Card from wide range of banks.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Save huge money for your customers on their existing loans.", R.drawable.balance_transfer));
-        dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
+     //   dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "QUICK LEAD SUBMISSION", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
 
 
@@ -763,16 +762,13 @@ public class DBPersistanceController {
         hasMapCarInsuranceImage.put(4, R.drawable.car_4);
         hasMapCarInsuranceImage.put(7, R.drawable.car_7);
         hasMapCarInsuranceImage.put(9, R.drawable.car_9);
-
+        hasMapCarInsuranceImage.put(10, R.drawable.car_10);
         hasMapCarInsuranceImage.put(11, R.drawable.car_11);
         hasMapCarInsuranceImage.put(12, R.drawable.car_12);
         hasMapCarInsuranceImage.put(14, R.drawable.car_14);
         hasMapCarInsuranceImage.put(19, R.drawable.car_19);
         hasMapCarInsuranceImage.put(33, R.drawable.car_33);
         hasMapCarInsuranceImage.put(35, R.drawable.car_35);
-
-        //royal sundaram
-        hasMapCarInsuranceImage.put(10, R.drawable.private_car);
     }
 
     public int getInsurerLogo(int insurerID) {

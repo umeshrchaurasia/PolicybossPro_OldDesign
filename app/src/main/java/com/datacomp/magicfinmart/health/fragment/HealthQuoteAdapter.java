@@ -94,15 +94,18 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         holder.chkCompare.setOnCheckedChangeListener(checkedChangeListener);
 
         if (!entity.getIsMore() && entity.getTotalChilds() > 0) {
-          //  holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " \nMore"));
+            //  holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " \nMore"));
+            holder.llCount.setVisibility(View.VISIBLE);
             holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " More"));
             holder.imgDropDown.setVisibility(View.VISIBLE);
             holder.txtNoOfInsurer.setOnClickListener(this);
         } else if (!entity.getIsMore() && entity.getTotalChilds() == 0) {
+            holder.llCount.setVisibility(View.GONE);
             holder.txtNoOfInsurer.setText("");
             holder.imgDropDown.setVisibility(View.GONE);
             holder.txtNoOfInsurer.setOnClickListener(null);
         } else {
+            holder.llCount.setVisibility(View.VISIBLE);
             holder.txtNoOfInsurer.setText(HIDE_OPTIONS);
             holder.imgDropDown.setVisibility(View.VISIBLE);
             holder.txtNoOfInsurer.setOnClickListener(this);
@@ -162,16 +165,16 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        CardView cvHealthQuote;
+        //CardView cvHealthQuote;
         TextView txtSumAssured, txtDeductible, txtPlanName, txtFinalPremium, txtBuy, txtProductName;
         TextView txtRoomRent, txtIcuRent, txtPreHosp, txtPostHosp, txtNoOfInsurer;
         CheckBox chkCompare;
         ImageView imgInsurer, imgDropDown;
-        LinearLayout llBenefits;
+        LinearLayout llBenefits, llCount;
 
         ViewHolder(View itemView) {
             super(itemView);
-            cvHealthQuote = (CardView) itemView.findViewById(R.id.cvHealthQuote);
+            llCount = (LinearLayout) itemView.findViewById(R.id.llCount);
             txtSumAssured = (TextView) itemView.findViewById(R.id.txtSumAssured);
             txtDeductible = (TextView) itemView.findViewById(R.id.txtDeductible);
             txtPlanName = (TextView) itemView.findViewById(R.id.txtPlanName);
@@ -211,7 +214,8 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 break;
 
             case R.id.txtBuy:
-                ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+              //  ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+                ((HealthQuoteFragment) mContext). popUpHealthMemberDetails(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
                 break;
 
             case R.id.llBenefits:
@@ -228,6 +232,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
 
     public void removeRefresh(List<HealthQuoteEntity> list) {
+
         listHealthQuotes = list;
         Collections.sort(listHealthQuotes, new SortbyInsurer());
         notifyDataSetChanged();
@@ -235,17 +240,22 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
     private void removeInsurer(HealthQuoteEntity entity) {
 
+        int totalRemoved = 0;
         List<HealthQuoteEntity> list = listHealthQuotes;
         for (Iterator<HealthQuoteEntity> iter = list.listIterator(); iter.hasNext(); ) {
             HealthQuoteEntity a = iter.next();
             if (a.getInsurerId() == entity.getInsurerId()) {
                 if (a.getTotalChilds() == 0) {
+                    totalRemoved++;
                     iter.remove();
                 }
             }
         }
 
         removeRefresh(list);
+
+        //TODO: Reduce count of total quote display.
+        ((HealthQuoteFragment) mContext).shareTextCount(totalRemoved, false);
     }
 
     private void updateCheckBox(HealthQuoteEntity entity) {

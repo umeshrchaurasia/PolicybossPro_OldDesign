@@ -37,8 +37,8 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
         init_widgets();
         listMemberList = new ArrayList<>();
 
-        if (getIntent().getParcelableExtra(HealthInputFragment.MEMBER_LIST) != null) {
-            healthQuote = getIntent().getParcelableExtra(HealthInputFragment.MEMBER_LIST);
+        if (getIntent().getParcelableExtra(HealthQuoteFragment.MEMBER_LIST) != null) {
+            healthQuote = getIntent().getParcelableExtra(HealthQuoteFragment.MEMBER_LIST);
             popupMemberDetail();
         }
 
@@ -46,7 +46,8 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
 
     private void popupMemberDetail() {
 
-        adapter = new HealthMemberDetailsViewAdapter(this, healthQuote.getHealthRequest().getMemberList(), healthQuote.getHealthRequest().getPolicyFor());
+        int AdultCount = AdultCounting();
+        adapter = new HealthMemberDetailsViewAdapter(this, healthQuote.getHealthRequest().getMemberList(), healthQuote.getHealthRequest().getPolicyFor(),AdultCount);
         rvMemberDetail.setAdapter(adapter);
     }
 
@@ -58,12 +59,81 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
         btnContinue.setOnClickListener(this);
     }
 
+    private int AdultCounting()
+    {
+        List<MemberListEntity> listMember = healthQuote.getHealthRequest().getMemberList();
+        int isAdultCount = 0;
+        for (int i = 0; i < listMember.size(); i++) {
+            MemberListEntity entity = listMember.get(i);
+            if (entity.getAge() >= 18) {
+                isAdultCount = isAdultCount + 1;
+            }
+        }
+        return  isAdultCount;
+    }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.btnContinue) {
             List<MemberListEntity> updateMember = new ArrayList<>();
             List<MemberListEntity> listMember = healthQuote.getHealthRequest().getMemberList();
+
+
+            for (int i = 0; i < listMember.size(); i++) {
+
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberDOBTemp() == null || entity.getMemberDOBTemp().equals("")) {
+                    showAlert("Please Enter Date Of Birth");
+                    return;
+                }
+            }
+            // region  Duplication Check for : Adult Gender
+
+            //region for Family
+            if (healthQuote.getHealthRequest().getPolicyFor().toLowerCase().equals("family")) {
+                int isFamAdultCount = 0;
+                for (int i = 0; i < listMember.size(); i++) {
+
+                    MemberListEntity entity = listMember.get(i);
+                    if (entity.getMemberRelationShip().toLowerCase().equals("self")  || entity.getMemberRelationShip().toLowerCase().equals("spouse")) {
+                        isFamAdultCount++;
+                    }
+                }
+
+                if(isFamAdultCount > 1)
+                {
+                   if( listMember.get(0).getMemberGender().equals(listMember.get(1).getMemberGender()))
+                   {
+                       showAlert("Same gender should not be selected for Self and Spouse");
+                       return;
+                   }
+                }
+            }
+            //endregion
+
+            //region for Parent
+            if (healthQuote.getHealthRequest().getPolicyFor().toLowerCase().equals("parent")) {
+                int isParentCount = 0;
+                for (int i = 0; i < listMember.size(); i++) {
+
+                    MemberListEntity entity = listMember.get(i);
+                    if (entity.getMemberRelationShip().toLowerCase().equals("father")  || entity.getMemberRelationShip().toLowerCase().equals("mother")) {
+                        isParentCount++;
+                    }
+                }
+
+                if(isParentCount > 1)
+                {
+                    if( listMember.get(0).getMemberGender().equals(listMember.get(1).getMemberGender()))
+                    {
+                        showAlert("Same gender should not be selected for Father and Mother");
+                        return;
+                    }
+                }
+            }
+            //endregion
+
+            //endregion
 
             // region  Duplication Check for :self
             int isRelRepeat = 0;
@@ -74,14 +144,14 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isRelRepeat > 1) {
-                showAlert("Same Self selected multiple time");
+                showAlert("Self should not be selected multiple times");
                 return;
             } else {
                 isRelRepeat = 0;
             }
             //endregion
 
-            // region  Duplication Check for :Spouce
+            // region  Duplication Check for :Spouse
 
             for (int i = 0; i < listMember.size(); i++) {
                 MemberListEntity entity = listMember.get(i);
@@ -90,7 +160,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isRelRepeat > 1) {
-                showAlert("Same Spouce selected multiple time");
+                showAlert("Spouse should not be selected multiple times");
                 return;
             } else {
                 isRelRepeat = 0;
@@ -106,7 +176,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isRelRepeat > 1) {
-                showAlert("Same Father selected multiple time");
+                showAlert("Father should not be selected multiple times");
                 return;
             } else {
                 isRelRepeat = 0;
@@ -122,7 +192,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isRelRepeat > 1) {
-                showAlert("Same Mother selected multiple time");
+                showAlert("Mother should not be selected multiple times");
                 return;
             } else {
                 isRelRepeat = 0;
@@ -137,7 +207,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isChildRepeat > 1) {
-                showAlert("Same Child selected multiple time");
+                showAlert(" Same Child should not be selected multiple times");
                 return;
             } else {
                 isChildRepeat = 0;
@@ -150,7 +220,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isChildRepeat > 1) {
-                showAlert("Same Child selected multiple time");
+                showAlert(" Same Child should not be selected multiple times");
                 return;
             } else {
                 isChildRepeat = 0;
@@ -163,7 +233,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
                 }
             }
             if (isChildRepeat > 1) {
-                showAlert("Same Child selected multiple time");
+                showAlert(" Same Child should not be selected multiple times");
                 return;
             } else {
                 isChildRepeat = 0;
@@ -178,7 +248,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
             }
 
             if (isChildRepeat > 1) {
-                Toast.makeText(this, "Same Child selected multiple time", Toast.LENGTH_SHORT).show();
+                showAlert(" Same Child should not be selected multiple times");
                 return;
             } else {
                 isChildRepeat = 0;
@@ -221,7 +291,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
 
             Intent intent = new Intent();
             intent.putExtra(UPDATE_MEMBER_QUOTE, healthQuote);
-            setResult(HealthInputFragment.REQUEST_MEMBER, intent);
+            setResult(HealthQuoteFragment.REQUEST_MEMBER, intent);
             finish();
 
         }

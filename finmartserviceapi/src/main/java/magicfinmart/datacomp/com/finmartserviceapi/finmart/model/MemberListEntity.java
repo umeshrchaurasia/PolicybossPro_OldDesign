@@ -22,6 +22,7 @@ public class MemberListEntity implements Parcelable {
     private String MemberType;
     private String MemberRelationShip;
     private int Age;
+    private String MemberDOBTemp;
 
 
     public String getMemberRelationShip() {
@@ -63,6 +64,14 @@ public class MemberListEntity implements Parcelable {
     public void setMemberDOB(String MemberDOB) {
         this.MemberDOB = MemberDOB;
     }
+    public String getMemberDOBTemp() {
+        return MemberDOBTemp;
+    }
+
+    public void setMemberDOBTemp(String memberDOBTemp) {
+        MemberDOBTemp = memberDOBTemp;
+    }
+
 
     public String getMemberGender() {
         return MemberGender;
@@ -113,6 +122,7 @@ public class MemberListEntity implements Parcelable {
         dest.writeString(this.MemberType);
         dest.writeString(this.MemberRelationShip);
         dest.writeInt(this.Age);
+        dest.writeString(this.MemberDOBTemp);
     }
 
     public MemberListEntity() {
@@ -128,6 +138,7 @@ public class MemberListEntity implements Parcelable {
         this.MemberType = in.readString();
         this.MemberRelationShip = in.readString();
         this.Age = in.readInt();
+        this.MemberDOBTemp = in.readString();
     }
 
     public static final Parcelable.Creator<MemberListEntity> CREATOR = new Parcelable.Creator<MemberListEntity>() {

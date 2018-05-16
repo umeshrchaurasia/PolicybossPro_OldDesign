@@ -29,7 +29,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="5dp"
                 android:layout_weight="30"
-                android:gravity="center"
+                android:gravity="left"
                 android:orientation="horizontal"
                 android:padding="0dp" />
 
@@ -85,63 +85,68 @@
                 android:layout_width="0dp"
                 android:layout_height="48dp"
                 android:layout_weight="20"
+                android:paddingLeft="28dp"
                 android:scaleType="centerInside"
                 android:src="@drawable/edit_icon" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
+    <!--<android.support.v7.widget.CardView-->
+    <!--android:id="@+id/card_view"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_below="@+id/cvInputDetails"-->
+    <!--android:layout_marginLeft="8dp"-->
+    <!--android:layout_marginRight="8dp"-->
+    <!--android:visibility="visible"-->
+    <!--app:cardCornerRadius="2dp">-->
+
+    <LinearLayout
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/cvInputDetails"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:visibility="visible"
-        app:cardCornerRadius="2dp">
+        android:gravity="center_horizontal|center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="4dp"
+        android:paddingTop="4dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal|center_vertical"
-            android:orientation="horizontal"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp">
+        <TextView
+            android:id="@+id/tvCount"
+            style="@style/TextStyle.Title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="75"
+            android:paddingTop="0dp"
+            android:textAlignment="center"
+            android:textColor="@color/lightBlue" />
 
-            <TextView
-                android:id="@+id/tvCount"
-                style="@style/TextViewStyle.Small"
-                android:layout_width="0dp"
-                android:layout_weight="75"
-                android:paddingTop="3dp"
-                android:textAlignment="center"
-                android:textColor="@color/lightBlue" />
+        <!--lightBlue  android:textColor="?attr/colorPrimaryDark" -->
 
-            <!--lightBlue  android:textColor="?attr/colorPrimaryDark" -->
+        <ImageView
+            android:id="@+id/ivHealthCompare"
+            android:layout_width="0dp"
+            android:layout_height="24dp"
+            android:layout_weight="10"
+            app:srcCompat="@drawable/compare" />
 
-            <ImageView
-                android:id="@+id/ivHealthCompare"
-                android:layout_width="0dp"
-                android:layout_height="24dp"
-                android:layout_weight="10"
-                app:srcCompat="@drawable/compare" />
-
-            <TextView
-                android:id="@+id/txtCompareCount"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginRight="5dp"
-                android:layout_weight="10"
-                android:background="@drawable/compare_roundshape_gray"
-                android:gravity="center"
-                android:textColor="@color/white"
-                android:textSize="11sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/txtCompareCount"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/compare_roundshape_gray"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="11sp"
+            android:textStyle="bold" />
 
 
-        </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
+    <!--</android.support.v7.widget.CardView>-->
 
 
     <ImageView

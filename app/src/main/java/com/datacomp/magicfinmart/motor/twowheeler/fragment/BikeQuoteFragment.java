@@ -77,7 +77,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     DBPersistanceController databaseController;
     ImageView webViewLoader;
     List<MobileAddOn> listMobileAddOn;
-    TextView tvPolicyExp, tvMakeModel, tvFuel, tvCrn, tvCount, tvRtoName;
+    TextView tvMakeModel, tvCrn, tvCount, tvRtoName;
     TextView filter;
     ImageView ivEdit;
     BikeMasterEntity carMasterEntity;
@@ -157,10 +157,10 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         bikeQuoteRecycler = (RecyclerView) view.findViewById(R.id.bikeQuoteRecycler);
         webViewLoader = (ImageView) view.findViewById(R.id.webViewLoader);
         Glide.with(this).load(R.drawable.preloader).into(webViewLoader);
-        tvPolicyExp = (TextView) view.findViewById(R.id.tvPolicyExp);
+        //tvPolicyExp = (TextView) view.findViewById(R.id.tvPolicyExp);
         tvRtoName = (TextView) view.findViewById(R.id.tvRtoName);
         tvMakeModel = (TextView) view.findViewById(R.id.tvMakeModel);
-        tvFuel = (TextView) view.findViewById(R.id.tvFuel);
+        //tvFuel = (TextView) view.findViewById(R.id.tvFuel);
         tvCrn = (TextView) view.findViewById(R.id.txtCrn);
         tvCount = (TextView) view.findViewById(R.id.tvCount);
         chkAddon = (CheckBox) view.findViewById(R.id.chkAddon);
@@ -192,7 +192,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             fuelType = carMasterEntity.getFuel_Name();
             String rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
 
-            rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
+            rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + " cc";
             if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {
                 rtoName = rtoName + " | RTO : " + new DBPersistanceController(getActivity())
                         .getBikeRTOName(String.valueOf(motorRequestEntity.getRto_id()));
@@ -209,11 +209,11 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
 
         if (carMasterEntity != null) {
-            tvPolicyExp.setText("" + carMasterEntity.getVariant_Name());
-            tvFuel.setText(carMasterEntity.getFuel_Name());
+            //tvPolicyExp.setText("" + carMasterEntity.getVariant_Name());
+            //tvFuel.setText(carMasterEntity.getFuel_Name());
             tvMakeModel.setText(carMasterEntity.getMake_Name()
                     + " , " + carMasterEntity.getModel_Name()
-                    + "\n(" + carMasterEntity.getVariant_Name() + ")");
+                    + "(" + carMasterEntity.getVariant_Name() + ")");
         }
     }
 
@@ -235,7 +235,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 }
             }
             if (bikePremiumResponse.getResponse() != null)
-                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " results from policyboss.com");
+                tvCount.setText("" + bikePremiumResponse.getResponse().size() + " Results from www.policyboss.com");
             else
                 tvCount.setText("0 results from policyboss.com");
         }

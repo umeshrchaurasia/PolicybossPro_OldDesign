@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -44,7 +46,7 @@ public class BikeAddQuoteActivity extends BaseActivity {
     FragmentTransaction transactionSim;
     MotorRequestEntity motorRequestEntity;
     boolean isQuoteVisible = true;
-
+    ImageView ivHdrInput,  ivHdrQuote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,8 @@ public class BikeAddQuoteActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
+        ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
@@ -131,6 +135,18 @@ public class BikeAddQuoteActivity extends BaseActivity {
         //transactionSim.commitAllowingStateLoss();
     }
 
+    public void highlighInput()
+    {
+        ivHdrInput.setVisibility(View.VISIBLE);
+        ivHdrQuote.setVisibility(View.GONE);
+    }
+
+    public void highlighQuote()
+    {
+        ivHdrQuote.setVisibility(View.VISIBLE);
+        ivHdrInput.setVisibility(View.GONE);
+
+    }
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -146,10 +162,12 @@ public class BikeAddQuoteActivity extends BaseActivity {
                         }
 
                         if (tabFragment != null) {
+                            highlighInput();
                             tabFragment.setArguments(quoteBundle);
                             loadFragment(tabFragment, BIKE_INPUT_FRAGMENT);
 
                         } else {
+                            highlighInput();
                             BikeInputFragment inputFragment = new BikeInputFragment();
                             inputFragment.setArguments(quoteBundle);
                             loadFragment(inputFragment, BIKE_INPUT_FRAGMENT);
@@ -162,10 +180,12 @@ public class BikeAddQuoteActivity extends BaseActivity {
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(BIKE_QUOTE_FRAGMENT);
                     if (tabFragment != null) {
+                        highlighQuote();
                         loadFragment(tabFragment, BIKE_QUOTE_FRAGMENT);
 
                     } else {
                         if (quoteBundle != null) {
+                            highlighQuote();
                             BikeQuoteFragment quoteFragment = new BikeQuoteFragment();
                             quoteFragment.setArguments(quoteBundle);
                             loadFragment(quoteFragment, BIKE_QUOTE_FRAGMENT);
@@ -186,7 +206,7 @@ public class BikeAddQuoteActivity extends BaseActivity {
 //                        loadFragment(new BuyFragment(), INPUT_FRAGMENT);
 //                    }
 
-                    return true;
+                    return false;
             }
 
             return false;

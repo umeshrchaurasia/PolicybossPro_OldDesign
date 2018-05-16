@@ -65,9 +65,8 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         cancelDialog();
         boolean isUpdate =false;
         if (response instanceof SalesMaterialProductResponse) {
-           // mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
-
-            mlistSalesProduct =  getProducttList();
+           mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
+           // mlistSalesProduct =  getProducttList();
 
             List<SalesProductEntity> compLst = dbPersistanceController.getCompanyList();
             if (compLst != null) {

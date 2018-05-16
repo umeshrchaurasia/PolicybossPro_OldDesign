@@ -1016,6 +1016,7 @@
         <activity
             android:name=".term.icici.IciciTermActivity"
             android:label="@string/title_activity_icici_term"
+            android:screenOrientation="portrait"
             android:parentActivityName=".term.termselection.TermSelectionActivity"
             android:theme="@style/AppTheme">
             <meta-data

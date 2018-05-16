@@ -93,5 +93,14 @@ public class HealthSumAssuredViewAdapter extends RecyclerView.Adapter<HealthSumA
 
     }
 
+    public void clearBinding() {
+
+        for (int i = 0; i < listSumAssured.size(); i++) {
+            listSumAssured.get(i).setSelected(false);
+        }
+
+        notifyDataSetChanged();
+    }
+
 
 }

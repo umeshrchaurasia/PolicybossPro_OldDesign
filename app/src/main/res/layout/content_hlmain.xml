@@ -24,11 +24,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/app_bar"
         android:layout_gravity="bottom"
-
-
-
+        android:layout_marginTop="-20dp"
         app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigationloan" />
 </RelativeLayout>

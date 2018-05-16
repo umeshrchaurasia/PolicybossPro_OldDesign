@@ -78,7 +78,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
     @Override
     public void onBackPressed() {
-        dialogLogout(this);
+        dialogExit();
     }
 
 
@@ -214,7 +214,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false);
+        builder.setCancelable(true);
         // builder.setTitle("FORGOT PASSWORD");
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_forgot_password, null);
@@ -224,13 +224,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         final EditText etEmail = (EditText) view.findViewById(R.id.etEmail);
         Button btnReset = (Button) view.findViewById(R.id.btnReset);
-        Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+       /* Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+       btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
-        });
+        });*/
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override

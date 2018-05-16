@@ -57,10 +57,10 @@ public class TermRequestEntity implements Parcelable {
     private String SumAssured;
     private String InsuredDOB;
     private String PaymentModeValue;
+
     /**
      * LumpsumPercentage : 0
      */
-
 
 
     public String getPincode() {
@@ -446,6 +446,7 @@ public class TermRequestEntity implements Parcelable {
     public void setSupportsAgentID(String SupportsAgentID) {
         this.SupportsAgentID = SupportsAgentID;
     }
+
     public String getLumpsumPercentage() {
         return LumpsumPercentage;
     }

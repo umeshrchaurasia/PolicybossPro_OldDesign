@@ -405,8 +405,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 //
         sbTenure.setMax(25);
 
-        sbTenure.setProgress(0);//////
-        etTenureInYear.setText("5");
+        sbTenure.setProgress(15);//////
+        etTenureInYear.setText("20");//for Home loan default
         acCity = (AutoCompleteTextView) view.findViewById(R.id.acCity);
 
         //endregion

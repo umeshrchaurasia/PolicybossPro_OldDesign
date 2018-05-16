@@ -36,7 +36,10 @@ import com.datacomp.magicfinmart.utility.Constants;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
@@ -59,6 +62,29 @@ public class BaseActivity extends AppCompatActivity {
     int textMargin = 10;
     int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
     PopUpListener popUpListener;
+
+    public static String getYYYYMMDDPattern(String dateCal) {
+
+        String dateSelected = "";
+        if (dateCal.equals("")) {
+            return "";
+        }
+        long select_milliseconds = 0;
+        SimpleDateFormat f = new SimpleDateFormat("dd-MM-yyyy");
+
+        Date d = null;
+        try {
+            d = f.parse(dateCal);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        select_milliseconds = d.getTime();
+
+        Date date = new Date(select_milliseconds); //Another date Formate ie yyyy-mm-dd
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+        dateSelected = df2.format(date);
+        return dateSelected;
+    }
 
     public void dialogLogout(final Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

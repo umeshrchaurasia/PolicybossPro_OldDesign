@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -147,15 +148,15 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
     public class QuoteItem extends RecyclerView.ViewHolder {
 
         //  public ImageView ivTripleDot;
-        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtOverflowMenu, txtCrnNo;
+        public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtCrnNo;
         LinearLayout llDetails;
-
+        ImageView txtOverflowMenu;
         public QuoteItem(View itemView) {
             super(itemView);
             txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
             txtVehicleName = (TextView) itemView.findViewById(R.id.txtVehicleName);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
-            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+            txtOverflowMenu = (ImageView) itemView.findViewById(R.id.txtOverflowMenu);
             txtCrnNo = (TextView) itemView.findViewById(R.id.txtCrnNo);
             llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
         }

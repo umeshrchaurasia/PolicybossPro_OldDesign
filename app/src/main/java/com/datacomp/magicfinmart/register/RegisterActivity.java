@@ -6,13 +6,16 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,6 +26,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TabWidget;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,7 +66,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     LinearLayout rlPersonalInfo, rlProfessionalInfo;
     EditText etFirstName, etLastName, etDob, etMobile1, etMobile2, etEmail, etConfirmEmail,
             etPincode, etCity, etState, etOtp;
-   // ImageView ivMale, ivFemale;
+    // ImageView ivMale, ivFemale;
     Dialog dialog;
     ArrayList<String> healthList, generalList, lifeList;
     DBPersistanceController dbPersistanceController;
@@ -71,7 +75,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     Button btnSubmit;
     RegisterRequestEntity registerRequestEntity;
     Boolean isValidPersonalInfo = false, isMobileValid = false;
-    TextView tvOk ,txtMale ,txtFemale;
+    TextView tvOk, txtMale, txtFemale;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     SimpleDateFormat passdateFormat = new SimpleDateFormat("ddMMyyyy");
     boolean isMale = false, isFemale = false;
@@ -177,7 +181,20 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         etDob.setOnClickListener(datePickerDialog);
         txtMale.setOnClickListener(this);
         txtFemale.setOnClickListener(this);
+        etConfirmEmail.setOnFocusChangeListener(confirmEmailFocus);
     }
+
+    View.OnFocusChangeListener confirmEmailFocus = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (!hasFocus) {
+                if (!etEmail.getText().toString().equals(etConfirmEmail.getText().toString())) {
+                    //etConfirmEmail.requestFocus();
+                    etConfirmEmail.setError("Email Mismatch");
+                }
+            }
+        }
+    };
 
     private void initWidgets() {
         spLifeIns = (MultiSelectionSpinner) findViewById(R.id.spLifeIns);
@@ -223,12 +240,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             case R.id.txtMale:
                 isFemale = false;
                 isMale = true;
-                setGender(txtMale,txtFemale);
+                setGender(txtMale, txtFemale);
                 break;
             case R.id.txtFemale:
                 isFemale = true;
                 isMale = false;
-                setGender(txtFemale,txtMale);
+                setGender(txtFemale, txtMale);
                 break;
             case R.id.ivPersonalInfo:
             case R.id.rlPersonalInfo:
@@ -504,12 +521,23 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         try {
 
+
+            String ncbBold = String.valueOf(etMobile1.getText().toString());
+            SpannableString ss1 = new SpannableString(ncbBold);
+            ss1.setSpan(new StyleSpan(Typeface.BOLD), 0, ss1.length(), 0);
+            String normalText = "Enter OTP sent on Mobile no ";
+
             dialog = new Dialog(RegisterActivity.this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.otp_dialog);
             tvOk = (TextView) dialog.findViewById(R.id.tvOk);
             TextView tvTitle = (TextView) dialog.findViewById(R.id.tvTitle);
-            tvTitle.setText("Enter OTP sent on : " + etMobile1.getText().toString());
+
+            tvTitle.setText("");
+            tvTitle.append(normalText);
+            tvTitle.append(ss1);
+
+
             TextView resend = (TextView) dialog.findViewById(R.id.tvResend);
             etOtp = (EditText) dialog.findViewById(R.id.etOtp);
             dialog.setCancelable(true);
@@ -660,7 +688,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     };
     //endregion
 
-    private void setGender( TextView clickedText, TextView textView1) {
+    private void setGender(TextView clickedText, TextView textView1) {
 
 
         clickedText.setBackgroundResource(R.drawable.customeborder_blue);
@@ -668,7 +696,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         textView1.setBackgroundResource(R.drawable.customeborder);
         textView1.setTextColor(ContextCompat.getColor(RegisterActivity.this, R.color.description_text));
-
 
 
     }

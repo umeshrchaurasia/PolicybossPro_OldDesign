@@ -43,11 +43,16 @@ public class MainLoanController implements IMainLoan {
 
     // region Home Loan
     @Override
-    public void getHLQuoteApplicationData(String fbaid, String type, final IResponseSubcriberFM iResponseSubcriber) {
+    public void getHLQuoteApplicationData(int count, int QA, String fbaid, String type, final IResponseSubcriberFM iResponseSubcriber) {
 
+        //"count":0,
+        // "QandAType":"0"
         HashMap<String, String> body = new HashMap<>();
         body.put("fbaid", fbaid);
         body.put("type", type);
+        body.put("count", "" + count);
+        body.put("QandAType", "" + QA);
+
         loanMainNetworkService.getHLQuoteApplication(body).enqueue(new Callback<FmHomelLoanResponse>() {
             @Override
             public void onResponse(Call<FmHomelLoanResponse> call, Response<FmHomelLoanResponse> response) {
@@ -80,7 +85,7 @@ public class MainLoanController implements IMainLoan {
     }
 
     @Override
-    public void saveHLQuoteData(FmHomeLoanRequest fmHomeLoanRequest,final IResponseSubcriberFM iResponseSubcriber) {
+    public void saveHLQuoteData(FmHomeLoanRequest fmHomeLoanRequest, final IResponseSubcriberFM iResponseSubcriber) {
 
         loanMainNetworkService.saveHLQuote(fmHomeLoanRequest).enqueue(new Callback<FmSaveQuoteHomeLoanResponse>() {
             @Override
@@ -115,7 +120,7 @@ public class MainLoanController implements IMainLoan {
 
 
     }
-   //endregion
+    //endregion
 
     // region Personal Loan
     @Override
@@ -193,7 +198,7 @@ public class MainLoanController implements IMainLoan {
     }
 
     @Override
-    public void savebankFbABuyData(BankSaveRequest bankSaveRequest,final IResponseSubcriberFM iResponseSubcriber) {
+    public void savebankFbABuyData(BankSaveRequest bankSaveRequest, final IResponseSubcriberFM iResponseSubcriber) {
 
 
         loanMainNetworkService.savebankFbABuy(bankSaveRequest).enqueue(new Callback<BankForNodeResponse>() {
@@ -227,7 +232,6 @@ public class MainLoanController implements IMainLoan {
             }
         });
     }
-
 
 
     // region BL Loan

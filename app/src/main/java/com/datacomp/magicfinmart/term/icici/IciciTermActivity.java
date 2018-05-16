@@ -84,7 +84,7 @@ public class IciciTermActivity extends BaseActivity {
                     return true;
                 case R.id.navigation_quote:
 
-                   /* tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
 
                     if (termFinmartRequest != null) {
                         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
@@ -97,9 +97,9 @@ public class IciciTermActivity extends BaseActivity {
                     } else {
                         if (quoteBundle != null) {
                             if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
-                                IciciTermQuoteFragment quoteFragment = new IciciTermQuoteFragment();
-                                quoteFragment.setArguments(quoteBundle);
-                                loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                                //IciciTermQuoteFragment quoteFragment = new IciciTermQuoteFragment();
+                                //quoteFragment.setArguments(quoteBundle);
+                                //loadFragment(quoteFragment, QUOTE_FRAGMENT);
                             } else {
 
                                 Toast.makeText(IciciTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
@@ -108,7 +108,7 @@ public class IciciTermActivity extends BaseActivity {
 
                             Toast.makeText(IciciTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
-                    }*/
+                    }
 
                     return true;
                 case R.id.navigation_buy:
