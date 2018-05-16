@@ -86,7 +86,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     List<String> cityList;
 
     final double roi = 0.012;
-    String BankID = "";
+    int BankID = 0;
     String LoanType = "";
 
     @Override
@@ -102,7 +102,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            BankID = extras.getString("BANK_ID","");
+            BankID = extras.getInt("BANK_ID",0);
             LoanType = extras.getString("LOAN_TYPE","");
             //The key argument here must match that used in the other activity
         }
@@ -800,7 +800,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
 
         reqEntity.setSource("Finmart");
         reqEntity.setCampaignName("");
-        reqEntity.setBankId(BankID);
+        reqEntity.setBankId(String.valueOf(BankID));
         reqEntity.setLoanType(LoanType);
         reqEntity.setFBAID(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
 

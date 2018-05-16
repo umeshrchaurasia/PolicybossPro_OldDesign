@@ -131,7 +131,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="First Name">
+                            android:hint="*First Name">
 
                             <EditText
                                 android:id="@+id/etFirstName"
@@ -146,7 +146,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Middle Name">
+                            android:hint="*Middle Name">
 
                             <EditText
                                 android:id="@+id/etMiddleName"
@@ -165,7 +165,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Last Name">
+                            android:hint="*Last Name">
 
                             <EditText
                                 android:id="@+id/etLastName"
@@ -194,7 +194,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Date of Birth">
+                            android:hint="*Date of Birth">
 
                             <EditText
                                 android:id="@+id/etDOB"
@@ -236,7 +236,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Mobile Number">
+                            android:hint="*Mobile Number">
 
                             <EditText
                                 android:id="@+id/etMobileNumber"
@@ -250,7 +250,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Email">
+                            android:hint="*Email">
 
                             <EditText
                                 android:id="@+id/etEmail"
@@ -273,7 +273,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:maxLength="12"
-                            android:hint="Aadhar Number">
+                            android:hint="*Aadhar Number">
 
                             <EditText
                                 android:id="@+id/etAadharNumber"
@@ -289,7 +289,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:maxLength="10"
-                            android:hint="Pan Card">
+                            android:hint="*Pan Card">
 
                             <EditText
                                 android:id="@+id/etPanCard"
@@ -349,11 +349,12 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Employer Name / Establishment Name">
+                            android:hint="*Employer Name / Establishment Name">
 
                             <android.support.v7.widget.AppCompatAutoCompleteTextView
                                 android:id="@+id/acEmployerName"
                                 style="@style/Style.edittext"
+                                android:dropDownWidth="300dp"
                                 android:inputType="text"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -368,7 +369,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Joining date with current company">
+                            android:hint="*Joining date with current company">
 
                             <EditText
                                 android:id="@+id/etJoiningDate"
@@ -382,7 +383,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Total Work Experience">
+                            android:hint="*Total Work Experience">
 
                             <EditText
                                 android:id="@+id/etTotalWorkExp"
@@ -403,7 +404,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Office Address 1">
+                            android:hint="*Office Address 1">
 
                             <EditText
                                 android:id="@+id/etOfficeAddress1"
@@ -416,7 +417,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Office Address 2">
+                            android:hint="*Office Address 2">
 
                             <EditText
                                 android:id="@+id/etOfficeAddress2"
@@ -436,7 +437,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Office Address 3">
+                            android:hint="*Office Address 3">
 
                             <EditText
                                 android:id="@+id/etOfficeAddress3"
@@ -468,7 +469,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Office Pincode">
+                            android:hint="*Office Pincode">
 
                             <EditText
                                 android:id="@+id/etOfficePincode"
@@ -482,7 +483,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Office Phone">
+                            android:hint="*Office Phone">
 
                             <EditText
                                 android:id="@+id/etOfficePhone"
@@ -556,7 +557,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Address 1">
+                                android:hint="*Address 1">
 
                                 <EditText
                                     android:id="@+id/etAdd1"
@@ -570,7 +571,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Address 2">
+                                android:hint="*Address 2">
 
                                 <EditText
                                     android:id="@+id/etAdd2"
@@ -589,7 +590,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Address 3">
+                                android:hint="*Address 3">
 
                                 <EditText
                                     android:id="@+id/etAdd3"
@@ -619,7 +620,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Pincode">
+                                android:hint="*Pincode">
 
                                 <EditText
                                     android:id="@+id/etPincode"
@@ -663,7 +664,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Residence Phone No">
+                                android:hint="*Residence Phone No">
 
                                 <EditText
                                     android:id="@+id/etResidencePhnNo"
@@ -843,7 +844,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Net Monthly Income">
+                            android:hint="*Net Monthly Income">
 
                             <EditText
                                 android:id="@+id/etNetMonthIncome"
@@ -857,7 +858,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Total EMIs you currently pay per month">
+                            android:hint="*Total EMIs you currently pay per month">
 
                             <EditText
                                 android:id="@+id/etTotalEMIperMonth"
@@ -902,7 +903,19 @@
 
                     </TableRow>
 
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="fill_parent"
+                        android:gravity="center_horizontal|center_vertical"
+                        android:layout_marginTop="0dp">
+                        <Button
+                            android:id="@+id/btnROICalc"
+                            style="@style/ButtonStyle.Colored"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
 
+                            android:text="ROI Calc" />
+                    </TableRow>
 
 
 
@@ -915,13 +928,15 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="PL Rate Offered">
+                            android:hint="*PL Rate Offered"
+                            >
 
                             <EditText
                                 android:id="@+id/etPLRateOff"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
-
+                                android:editable="false"
+                                android:focusable="false"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -930,13 +945,15 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Processing Fee">
+                            android:hint="*Processing Fee">
 
                             <EditText
                                 android:id="@+id/etProcessingFees"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
-                                android:maxLines="1" />
+                                android:maxLines="1"
+                                android:focusable="false"
+                                android:editable="false"/>
                         </android.support.design.widget.TextInputLayout>
 
                     </TableRow>

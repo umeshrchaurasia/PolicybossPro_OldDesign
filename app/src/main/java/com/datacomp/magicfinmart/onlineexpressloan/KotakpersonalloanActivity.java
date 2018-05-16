@@ -34,63 +34,73 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller.ExpressLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.KotakPLEmployerNameEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.KotakPersonalSaveRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.KotakPLEmployerNameResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.KotakROICalResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.kotakPers_SaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 
-public class KotakpersonalloanActivity extends BaseActivity implements View.OnClickListener,IResponseSubcriber {
+public class KotakpersonalloanActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
-    LinearLayout llCoApplicantDetail ;
+    PrefManager prefManager;
+    DBPersistanceController dbPersistanceController;
+    LinearLayout llCoApplicantDetail;
     CardView ccPersonal, ccCompantDetail, ccCurrentAddress, ccContactDetail;
-    CheckBox  chkSameAsAbove,chkTermsCondition;
-    Button btnKotakplNext;
+    CheckBox chkSameAsAbove, chkTermsCondition;
+    Button btnKotakplNext,btnROICalc;
 
     TextInputLayout tlProcessingFees, tlPLRateOff;
 
     //personal detail
-    EditText etFirstName, etLastName, etDOB,etPartyId,etMiddleName,etMobileNumber,etEmail,etAadharNumber,etPanCard,etCRNNumber;
-    Spinner  spExistingCustomer,spCustomerTypeMaster,spQualif;
-    RadioButton rbmale,rbfemale;
-    RadioGroup rgGender,rgCoApp;
+    EditText etFirstName, etLastName, etDOB, etPartyId, etMiddleName, etMobileNumber, etEmail, etAadharNumber, etPanCard, etCRNNumber;
+    Spinner spExistingCustomer, spCustomerTypeMaster, spQualif;
+    RadioButton rbmale, rbfemale;
+    RadioGroup rgGender, rgCoApp;
 
     //Company detail
-    EditText   etTotalExp,etJoiningDate,etTotalWorkExp,etOfficeAddress1,etOfficeAddress2,etOfficeAddress3,etOfficePincode,etOfficePhone;
-    Spinner spEmployementType,spPreferredMailingAddress;
+    EditText etTotalExp, etJoiningDate, etTotalWorkExp, etOfficeAddress1, etOfficeAddress2, etOfficeAddress3, etOfficePincode, etOfficePhone;
+    Spinner spEmployementType, spPreferredMailingAddress;
     AutoCompleteTextView acEmployerName;
+    ArrayAdapter<String> employerNAmeAdapter;
 
 
     //current address
-    EditText  etAdd1,etAdd2,etAdd3,etCurrentResidence,etResidencePhnNo,etPincode;
+    EditText etAdd1, etAdd2, etAdd3, etCurrentResidence, etResidencePhnNo, etPincode;
 
     //permanent address
-    EditText etPerAdd1,etPerAdd2,etPerAdd3,etPerPincode,etPerResidencePhnNo;
+    EditText etPerAdd1, etPerAdd2, etPerAdd3, etPerPincode, etPerResidencePhnNo;
 
     Spinner spPerResidenceType;
 
     //contact detail
-    EditText etNetMonthIncome,etTotalEMIperMonth,etReqLoanAmnt,etPLRateOff,etProcessingFees;
+    EditText etNetMonthIncome, etTotalEMIperMonth, etReqLoanAmnt, etPLRateOff, etProcessingFees;
     EditText etMemberSince, etPancard;
-    Spinner spSalaryAccountType,spReqLoanTenure;
-    RadioButton rbYes,rbNo;
+    Spinner spSalaryAccountType, spReqLoanTenure;
+    RadioButton rbYes, rbNo;
 
     //Co-Applicant
-    EditText etCoAppEmployerName,etCoAppNrtMonthlyIncome,etCoAppEMICurrentlyPay,etCoAppDOB;
-    Spinner spRelationshipWithCoApp,spCoAppEmpType;
+    EditText etCoAppEmployerName, etCoAppNrtMonthlyIncome, etCoAppEMICurrentlyPay, etCoAppDOB;
+    Spinner spRelationshipWithCoApp, spCoAppEmpType;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
-    Spinner spResidenceType,spCurrentAddressCity,spOfficeCity,spPerCity;
+    Spinner spResidenceType, spCurrentAddressCity, spOfficeCity, spPerCity;
 
     //spinner Adapters
     ArrayAdapter<String> CurrentAddressCityAdapter, OfficeCityAdapter, PerCityAdapter;
 
 
-    List<String> CurrentAddressCityList,OfficecityList,PercityList;
+    List<String> CurrentAddressCityList, OfficecityList, PercityList;
 
     KotakPersonalSaveRequestEntity requestEntity;
+    int BankID = 0;
+    String LoanType = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,9 +110,21 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         requestEntity = new KotakPersonalSaveRequestEntity();
+        dbPersistanceController = new DBPersistanceController(this);
+        prefManager = new PrefManager(this);
+        if (prefManager.IsEmployerNAmeUpdate()) {
+            showDialog();
+            new ExpressLoanController(this).getKotakPlEmployerName(this);
+        }
 
 
         init();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            BankID = extras.getInt("BANK_ID",0);
+            LoanType = extras.getString("LOAN_TYPE","");
+            //The key argument here must match that used in the other activity
+        }
         setListener();
 
 
@@ -123,33 +145,35 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         tlProcessingFees = (TextInputLayout) findViewById(R.id.tlProcessingFees);
         tlPLRateOff = (TextInputLayout) findViewById(R.id.tlPLRateOff);
 
-         llCoApplicantDetail = (LinearLayout)findViewById(R.id.llCoApplicantDetail);
+        llCoApplicantDetail = (LinearLayout) findViewById(R.id.llCoApplicantDetail);
         llCoApplicantDetail.setVisibility(View.GONE);
         ccPersonal = (CardView) findViewById(R.id.ccPersonal);
         ccCompantDetail = (CardView) findViewById(R.id.ccCompantDetail);
         ccCurrentAddress = (CardView) findViewById(R.id.ccCurrentAddress);
         ccContactDetail = (CardView) findViewById(R.id.ccContactDetail);
 
-        chkTermsCondition  = (CheckBox) findViewById(R.id.chkTermsCondition);
+        chkTermsCondition = (CheckBox) findViewById(R.id.chkTermsCondition);
         chkSameAsAbove = (CheckBox) findViewById(R.id.chkSameAsAbove);
         btnKotakplNext = (Button) findViewById(R.id.btnKotakplNext);
-        btnKotakplNext.setOnClickListener(this);
+
+        btnROICalc = (Button) findViewById(R.id.btnROICalc);
+
 
         //region personal detail
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
         etDOB = (EditText) findViewById(R.id.etDOB);
-        etPartyId = (EditText)findViewById(R.id.etPartyId);
+        etPartyId = (EditText) findViewById(R.id.etPartyId);
         etPartyId.setVisibility(View.GONE);
-        etMiddleName= (EditText)findViewById(R.id.etMiddleName);
-        etMobileNumber = (EditText)findViewById(R.id.etMobileNumber);
-        etEmail =(EditText)findViewById(R.id.etEmail);
-                etAadharNumber = (EditText)findViewById(R.id.etAadharNumber);
+        etMiddleName = (EditText) findViewById(R.id.etMiddleName);
+        etMobileNumber = (EditText) findViewById(R.id.etMobileNumber);
+        etEmail = (EditText) findViewById(R.id.etEmail);
+        etAadharNumber = (EditText) findViewById(R.id.etAadharNumber);
 
-                etCRNNumber = (EditText)findViewById(R.id.etCRNNumber);
+        etCRNNumber = (EditText) findViewById(R.id.etCRNNumber);
         etCRNNumber.setVisibility(View.GONE);
-        rgGender =   (RadioGroup) findViewById(R.id.rgGender);
-        rgCoApp =   (RadioGroup) findViewById(R.id.rgCoApp);
+        rgGender = (RadioGroup) findViewById(R.id.rgGender);
+        rgCoApp = (RadioGroup) findViewById(R.id.rgCoApp);
         rbmale = (RadioButton) findViewById(R.id.rbmale);
 
         rbfemale = (RadioButton) findViewById(R.id.rbfemale);
@@ -188,8 +212,8 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         etCurrentResidence = (EditText) findViewById(R.id.etCurrentResidence);
         etResidencePhnNo = (EditText) findViewById(R.id.etResidencePhnNo);
 
-       // acCity = (AutoCompleteTextView) findViewById(R.id.acCity);
-      //  acState = (AutoCompleteTextView) findViewById(R.id.acState);
+        // acCity = (AutoCompleteTextView) findViewById(R.id.acCity);
+        //  acState = (AutoCompleteTextView) findViewById(R.id.acState);
         spResidenceType = (Spinner) findViewById(R.id.spResidenceType);
         //endregion
 
@@ -203,9 +227,8 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         etPerResidencePhnNo = (EditText) findViewById(R.id.etPerResidencePhnNo);
 
 
-
-     //   acPerCity = (AutoCompleteTextView) findViewById(R.id.acPerCity);
-    //    acPerState = (AutoCompleteTextView) findViewById(R.id.acPerState);
+        //   acPerCity = (AutoCompleteTextView) findViewById(R.id.acPerCity);
+        //    acPerState = (AutoCompleteTextView) findViewById(R.id.acPerState);
         spPerResidenceType = (Spinner) findViewById(R.id.spPerResidenceType);
 
         //endregion
@@ -227,7 +250,6 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         rbNo = (RadioButton) findViewById(R.id.rbNo);
 
 
-
         spSalaryAccountType = (Spinner) findViewById(R.id.spSalaryAccountType);
 
 
@@ -241,8 +263,8 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         spRelationshipWithCoApp = (Spinner) findViewById(R.id.spRelationshipWithCoApp);
         spCoAppEmpType = (Spinner) findViewById(R.id.spCoAppEmpType);
         etCoAppDOB = (EditText) findViewById(R.id.etCoAppDOB);
-        spCurrentAddressCity= (Spinner) findViewById(R.id.spCurrentAddressCity);
-        spPerCity= (Spinner) findViewById(R.id.spPerCity);
+        spCurrentAddressCity = (Spinner) findViewById(R.id.spCurrentAddressCity);
+        spPerCity = (Spinner) findViewById(R.id.spPerCity);
     }
 
 
@@ -252,6 +274,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         etCurrentResidence.setOnClickListener(datePickerDialog);
         etCoAppDOB.setOnClickListener(datePickerDialog);
         btnKotakplNext.setOnClickListener(this);
+        btnROICalc.setOnClickListener(this);
         spExistingCustomer.setOnItemSelectedListener(onItemSelectedListener);
         spCustomerTypeMaster.setOnItemSelectedListener(onItemSelectedListener);
 
@@ -273,31 +296,36 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 ArrayAdapter(this, android.R.layout.simple_list_item_1, PercityList);
         spPerCity.setAdapter(PerCityAdapter);
 
+        employerNAmeAdapter = new
+                ArrayAdapter(this, android.R.layout.simple_list_item_1, dbPersistanceController.getEmplyerNAmeList());
+        acEmployerName.setAdapter(employerNAmeAdapter);
+        acEmployerName.setThreshold(1);
+
     }
+
     AdapterView.OnItemSelectedListener onItemSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
             if (adapterView.getId() == R.id.spExistingCustomer) {
                 if (position == 1) {
-                 //   etICICINumber.setVisibility(View.VISIBLE);
+                    //   etICICINumber.setVisibility(View.VISIBLE);
                     spCustomerTypeMaster.setVisibility(View.VISIBLE);
                     etCRNNumber.setVisibility(View.GONE);
                     etPartyId.setVisibility(View.GONE);
                 } else {
-                  //  etICICINumber.setVisibility(View.GONE);
+                    //  etICICINumber.setVisibility(View.GONE);
                     spCustomerTypeMaster.setVisibility(View.GONE);
                     etCRNNumber.setVisibility(View.GONE);
                     etPartyId.setVisibility(View.GONE);
                 }
-            }else   if (adapterView.getId() == R.id.spCustomerTypeMaster) {
+            } else if (adapterView.getId() == R.id.spCustomerTypeMaster) {
                 if (position == 1) {
-                   etCRNNumber.setVisibility(View.VISIBLE);
-                   etPartyId.setVisibility(View.GONE);
-                } else if(position == 2) {
+                    etCRNNumber.setVisibility(View.VISIBLE);
+                    etPartyId.setVisibility(View.GONE);
+                } else if (position == 2) {
                     etCRNNumber.setVisibility(View.GONE);
                     etPartyId.setVisibility(View.VISIBLE);
-                }
-                else{
+                } else {
                     etCRNNumber.setVisibility(View.GONE);
                     etPartyId.setVisibility(View.GONE);
                 }
@@ -345,13 +373,14 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         etPerResidencePhnNo.setText(etResidencePhnNo.getText().toString());
         etPerPincode.setText(etPincode.getText().toString());
 
-       // acPerCity.setText(acCity.getText().toString());
-       // acPerCity.performCompletion();
-      //  acPerState.setText(acState.getText().toString());
-      //  acPerState.performCompletion();
+        // acPerCity.setText(acCity.getText().toString());
+        // acPerCity.performCompletion();
+        //  acPerState.setText(acState.getText().toString());
+        //  acPerState.performCompletion();
 
 
     }
+
     protected void emptyAddress() {
         etPerAdd1.setText("");
         etPerAdd2.setText("");
@@ -386,8 +415,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                         }
                     }
                 });
-            }
-            else if (view.getId() == R.id.etCurrentResidence) {
+            } else if (view.getId() == R.id.etCurrentResidence) {
                 DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
@@ -399,8 +427,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                         }
                     }
                 });
-            }
-            else if (view.getId() == R.id.etJoiningDate) {
+            } else if (view.getId() == R.id.etJoiningDate) {
                 DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
@@ -412,8 +439,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                         }
                     }
                 });
-            }
-            else if (view.getId() == R.id.etCoAppDOB) {
+            } else if (view.getId() == R.id.etCoAppDOB) {
                 DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
@@ -425,8 +451,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                         }
                     }
                 });
-            }
-            else if (view.getId() == R.id.etMemberSince) {
+            } else if (view.getId() == R.id.etMemberSince) {
                 DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
@@ -455,8 +480,8 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 if (spExistingCustomer.getSelectedItemPosition() == 0) {
 
                     Toast.makeText(this, "Select Existing Customer", Toast.LENGTH_SHORT).show();
-                   return;
-               }
+                    return;
+                }
 
                 if (spExistingCustomer.getSelectedItemPosition() == 1) {
                     if (spCustomerTypeMaster.getSelectedItemPosition() == 0) {
@@ -476,8 +501,6 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                     Toast.makeText(this, "Select  Employee", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-
 
 
                 if (!isEmpty(etFirstName)) {
@@ -520,10 +543,9 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                     etMobileNumber.setError(null);
                 }
 
-                if(isValidePhoneNumber(etMobileNumber))
-                {
+                if (isValidePhoneNumber(etMobileNumber)) {
                     etMobileNumber.setError(null);
-                }else {
+                } else {
 
                     etMobileNumber.setError("Invalid  mobile number");
                     etMobileNumber.setFocusable(true);
@@ -547,10 +569,9 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                     etEmail.setError(null);
                 }
 
-                if(isValideEmailID(etEmail))
-                {
+                if (isValideEmailID(etEmail)) {
                     etEmail.setError(null);
-                }else {
+                } else {
 
                     etEmail.setError("Invalid emailid");
                     etEmail.setFocusable(true);
@@ -558,10 +579,9 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 }
 
 
-                if(isValidAadhar(etAadharNumber))
-                {
+                if (isValidAadhar(etAadharNumber)) {
                     etAadharNumber.setError(null);
-                }else {
+                } else {
 
                     etAadharNumber.setError("Invalid aadhar no");
                     etAadharNumber.setFocusable(true);
@@ -584,10 +604,9 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                     etPanCard.setError(null);
                 }
 
-                if(isValidPan(etPanCard))
-                {
+                if (isValidPan(etPanCard)) {
                     etPanCard.setError(null);
-                }else {
+                } else {
 
                     etPanCard.setError("Invalid pancard");
                     etPanCard.setFocusable(true);
@@ -598,13 +617,13 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
 
                 //region validation office details
 
-              //  if (!isEmpty(etJoiningDate)) {
+                //  if (!isEmpty(etJoiningDate)) {
                 //    etJoiningDate.setError("Invalid Date");
-               //     etJoiningDate.setFocusable(true);
-              //      return;
-              //  } else {
-             //       etJoiningDate.setError(null);
-             //   }
+                //     etJoiningDate.setFocusable(true);
+                //      return;
+                //  } else {
+                //       etJoiningDate.setError(null);
+                //   }
 
 
                 if (!isEmpty(etTotalWorkExp)) {
@@ -748,9 +767,6 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 //region validation permanent address
 
 
-
-
-
                 if (etOfficePhone.getText().toString().length() < 10) {
                     etOfficePhone.setError("Invalid Phone number");
                     etOfficePhone.setFocusable(true);
@@ -847,6 +863,15 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 } else {
                     etNetMonthIncome.setError(null);
                 }
+                int NMI = Integer.parseInt(etNetMonthIncome.getText().toString());
+                if (NMI < 18000) {
+                    etNetMonthIncome.setError("Monthly Income should be greater than 18000");
+                    etNetMonthIncome.setFocusable(true);
+                    return;
+                } else {
+                    etNetMonthIncome.setError(null);
+                }
+
 
                 if (!isEmpty(etTotalEMIperMonth)) {
                     etTotalEMIperMonth.setError("Invalid emi per month");
@@ -866,8 +891,8 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
 
 
                 if (spReqLoanTenure.getSelectedItemPosition() == 0) {
-                   Toast.makeText(this, "Select Tenure", Toast.LENGTH_SHORT).show();
-                   return;
+                    Toast.makeText(this, "Select Tenure", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 if (!isEmpty(etPLRateOff)) {
@@ -887,31 +912,28 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 }
                 //endregion
                 //region validation co-applicant
-                if (spRelationshipWithCoApp.getSelectedItemPosition() == 0) {
-                    Toast.makeText(this, "Select relationship with co-applicant", Toast.LENGTH_SHORT).show();
-                    return;
-                }
 
-                if (!isEmpty(etCoAppDOB)) {
-                    etCoAppDOB.setError("Invalid date");
-                    etCoAppDOB.setFocusable(true);
-                    return;
-                } else {
-                    etCoAppDOB.setError(null);
-                }
 
-                if (spCoAppEmpType.getSelectedItemPosition() == 0) {
-                    Toast.makeText(this, "Select  employee type", Toast.LENGTH_SHORT).show();
-                    return;
+                // if (!isEmpty(etCoAppDOB)) {
+                //       etCoAppDOB.setError("Invalid date");
+                //       etCoAppDOB.setFocusable(true);
+                //       return;
+                //   } else {
+                //       etCoAppDOB.setError(null);
+                //   }
+                if (rbYes.isChecked()) {
+                    if (spCoAppEmpType.getSelectedItemPosition() == 0) {
+                        Toast.makeText(this, "Select  employee type", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
-
-                if (!isEmpty(etCoAppEmployerName)) {
-                    etCoAppEmployerName.setError("Invalid date");
-                    etCoAppEmployerName.setFocusable(true);
-                    return;
-                } else {
-                    etCoAppEmployerName.setError(null);
-                }
+               // if (!isEmpty(etCoAppEmployerName)) {
+            //        etCoAppEmployerName.setError("Invalid date");
+              //      etCoAppEmployerName.setFocusable(true);
+              //      return;
+             //   } else {
+             //       etCoAppEmployerName.setError(null);
+             //   }
 
                 if (!isEmpty(etNetMonthIncome)) {
                     etNetMonthIncome.setError("Invalid date");
@@ -920,13 +942,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 } else {
                     etNetMonthIncome.setError(null);
                 }
-                if (!isEmpty(etCoAppEMICurrentlyPay)) {
-                    etCoAppEMICurrentlyPay.setError("Invalid date");
-                    etCoAppEMICurrentlyPay.setFocusable(true);
-                    return;
-                } else {
-                    etCoAppEMICurrentlyPay.setError(null);
-                }
+
 
                 if (acEmployerName.getText().toString().length() == 0) {
                     acEmployerName.setError("Invalid Company");
@@ -938,37 +954,31 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 //endregion
 
 
-
                 //region creating request
 
-               // requestEntity.setIsExstCust(spExistingCustomer.getSelectedItem().toString());
+                // requestEntity.setIsExstCust(spExistingCustomer.getSelectedItem().toString());
 
 
-                    if (spExistingCustomer.getSelectedItemPosition() == 1) {
-                        requestEntity.setIsExstCust("Y");
-                    }else
-                    {
-                        requestEntity.setIsExstCust("N");
-                    }
+                if (spExistingCustomer.getSelectedItemPosition() == 1) {
+                    requestEntity.setIsExstCust("Y");
+                } else {
+                    requestEntity.setIsExstCust("N");
+                }
 
-              //  requestEntity.setExstCustType(spCustomerTypeMaster.getSelectedItem().toString());
+                //  requestEntity.setExstCustType(spCustomerTypeMaster.getSelectedItem().toString());
 
                 requestEntity.setExstCustType(String.valueOf(spCustomerTypeMaster.getSelectedItemPosition()));
 
 
-                if(etCRNNumber.getText().toString().length() > 0)
-                {
+                if (etCRNNumber.getText().toString().length() > 0) {
                     requestEntity.setCRN(etCRNNumber.getText().toString());
-                }else
-                {
+                } else {
                     requestEntity.setCRN("0");
                 }
 
-                if(etPartyId.getText().toString().length() > 0)
-                {
+                if (etPartyId.getText().toString().length() > 0) {
                     requestEntity.setPartyID(etPartyId.getText().toString());
-                }else
-                {
+                } else {
                     requestEntity.setPartyID("0");
                 }
 
@@ -991,16 +1001,16 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 requestEntity.setAadhar(etAadharNumber.getText().toString());
                 requestEntity.setPAN(etPanCard.getText().toString());
 
-               // requestEntity.setEmpType(spEmployementType.getSelectedItem().toString());
+                // requestEntity.setEmpType(spEmployementType.getSelectedItem().toString());
 
                 if (spEmployementType.getSelectedItemPosition() == 1) {
                     requestEntity.setEmpType("1");
-                }else
-                {
+                } else {
                     requestEntity.setEmpType("0");
                 }
 
-                requestEntity.setCompany_Cat(acEmployerName.getText().toString());
+
+                requestEntity.setCompany_Cat(dbPersistanceController.getEmployerCategory(acEmployerName.getText().toString()));
 
                 requestEntity.setOrganization(acEmployerName.getText().toString());
 
@@ -1008,11 +1018,10 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 requestEntity.setTotWrkExp(etTotalWorkExp.getText().toString());
 
 
-                requestEntity.setOffCity(String.valueOf(spOfficeCity.getSelectedItemPosition()));
+                requestEntity.setOffCity(String.valueOf(dbPersistanceController.getKotakPLCityCode(spOfficeCity.getSelectedItem().toString())));
 
                 requestEntity.setOffPin(etOfficePincode.getText().toString());
                 requestEntity.setOffPhone(etOfficePhone.getText().toString());
-
 
 
                 requestEntity.setPrefMailAdd(String.valueOf(spPreferredMailingAddress.getSelectedItemPosition()));
@@ -1027,7 +1036,8 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
 
                 requestEntity.setPrefMailAdd(String.valueOf(spPreferredMailingAddress.getSelectedItemPosition()));
                 ;
-                requestEntity.setResCity(String.valueOf(spCurrentAddressCity.getSelectedItemPosition()));
+                requestEntity.setResCity(String.valueOf(dbPersistanceController.getKotakPLCityCode(spCurrentAddressCity.getSelectedItem().toString())));
+
                 requestEntity.setResPin(etPincode.getText().toString());
                 requestEntity.setResType(String.valueOf(spResidenceType.getSelectedItemPosition()));
                 requestEntity.setCurResSince(etCurrentResidence.getText().toString());
@@ -1039,37 +1049,28 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 requestEntity.setPerAddress2(etPerAdd2.getText().toString());
                 requestEntity.setPerAddress3(etPerAdd3.getText().toString());
 
-                requestEntity.setPerCity(String.valueOf(spPerCity.getSelectedItemPosition()));
+                requestEntity.setPerCity(String.valueOf(dbPersistanceController.getKotakPLCityCode(spPerCity.getSelectedItem().toString())));
+
                 requestEntity.setPerPin(etPerPincode.getText().toString());
-               ;
+                ;
                 requestEntity.setPerResPhNo(etPerResidencePhnNo.getText().toString());
 
                 requestEntity.setNMI(etNetMonthIncome.getText().toString());
                 requestEntity.setEmiCurPay(etTotalEMIperMonth.getText().toString());
                 requestEntity.setLnAmt(etReqLoanAmnt.getText().toString());
-               // requestEntity.setTnrMths(spReqLoanTenure.getSelectedItem().toString());
+                // requestEntity.setTnrMths(spReqLoanTenure.getSelectedItem().toString());
 
                 if (spReqLoanTenure.getSelectedItemPosition() == 1) {
                     requestEntity.setTnrMths("12");
-                }
-                else if (spReqLoanTenure.getSelectedItemPosition() == 2)
-                {
+                } else if (spReqLoanTenure.getSelectedItemPosition() == 2) {
                     requestEntity.setTnrMths("24");
-                }
-                else if (spReqLoanTenure.getSelectedItemPosition() == 3)
-                {
+                } else if (spReqLoanTenure.getSelectedItemPosition() == 3) {
                     requestEntity.setTnrMths("36");
-                }
-                else if (spReqLoanTenure.getSelectedItemPosition() == 4)
-                {
+                } else if (spReqLoanTenure.getSelectedItemPosition() == 4) {
                     requestEntity.setTnrMths("48");
-                }
-                else if (spReqLoanTenure.getSelectedItemPosition() == 5)
-                {
+                } else if (spReqLoanTenure.getSelectedItemPosition() == 5) {
                     requestEntity.setTnrMths("60");
-                }
-                else
-                {
+                } else {
                     requestEntity.setTnrMths("0");
                 }
 
@@ -1080,49 +1081,105 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
 
                 if (rbYes.isChecked()) {
                     requestEntity.setIsCoApp("Y");
+                   if (spRelationshipWithCoApp.getSelectedItemPosition() == 0) {
+                        Toast.makeText(this, "Select relationship with co-applicant", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    requestEntity.setCoAppReltn(String.valueOf(spRelationshipWithCoApp.getSelectedItem()));
+                    requestEntity.setCoAppDOB(etCoAppDOB.getText().toString());
+                    requestEntity.setCoAppEmpType(String.valueOf(spCoAppEmpType.getSelectedItemPosition()));
+                   requestEntity.setCoAppOrg(etCoAppEmployerName.getText().toString());
+                    requestEntity.setCoAppNMI(etCoAppNrtMonthlyIncome.getText().toString());
+                    requestEntity.setCoAppEmiCurPay(etCoAppEMICurrentlyPay.getText().toString());
+
                 } else {
                     requestEntity.setIsCoApp("N");
+                    requestEntity.setCoAppReltn("0");
+                    requestEntity.setCoAppDOB("0");
+                    requestEntity.setCoAppEmpType("0");
+                    requestEntity.setCoAppOrg("0");
+                    requestEntity.setCoAppNMI("0");
+                    requestEntity.setCoAppEmiCurPay("0");
                 }
-
-                requestEntity.setCoAppReltn(String.valueOf(spRelationshipWithCoApp.getSelectedItemPosition()));
-                requestEntity.setCoAppDOB(etCoAppDOB.getText().toString());
-                requestEntity.setCoAppEmpType(String.valueOf(spCoAppEmpType.getSelectedItemPosition()));
-                requestEntity.setCoAppOrg(etCoAppEmployerName.getText().toString());
-                requestEntity.setCoAppNMI(etCoAppNrtMonthlyIncome.getText().toString());
-                requestEntity.setCoAppEmiCurPay(etCoAppEMICurrentlyPay.getText().toString());
 
 
                 requestEntity.setVersion("1");
                 requestEntity.setFBAID(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
                 requestEntity.setBrokerid(new DBPersistanceController(this).getUserData().getLoanId());
                 requestEntity.setEmpid("");
-                requestEntity.setBankId("1");
+
                 requestEntity.setCampaignName("KOTAK PL");
                 requestEntity.setSource("");
-                requestEntity.setLoanType("Personal Loan");
-
-
+                requestEntity.setBankId(String.valueOf(BankID));
+                requestEntity.setLoanType(LoanType);
 
                 showDialog();
-                new ExpressLoanController(this).savekotakPersonalLoan(requestEntity,this);
+                new ExpressLoanController(this).savekotakPersonalLoan(requestEntity, this);
 
             } else {
                 Toast.makeText(this, "Accept Terms and Condtion", Toast.LENGTH_SHORT).show();
             }
 
 
-        }
+        }else if (v.getId() == R.id.btnROICalc) {
 
+            if (acEmployerName.getText().toString().length() == 0) {
+                acEmployerName.setError("Invalid Company");
+                acEmployerName.requestFocus();
+                return;
+            } else {
+                acEmployerName.setError(null);
+            }
+
+            if (!isEmpty(etReqLoanAmnt)) {
+                etReqLoanAmnt.setError("Invalid amount");
+                etReqLoanAmnt.requestFocus();
+                return;
+            } else {
+                etReqLoanAmnt.setError(null);
+            }
+
+            if (!isEmpty(etNetMonthIncome)) {
+                etNetMonthIncome.setError("Invalid amount");
+                etNetMonthIncome.requestFocus();
+                return;
+            } else {
+                etNetMonthIncome.setError(null);
+            }
+
+            int NMI = Integer.parseInt(etNetMonthIncome.getText().toString());
+            if (NMI < 18000) {
+                etNetMonthIncome.setError("Monthly Income should be greater than 18000");
+                etNetMonthIncome.requestFocus();
+                return;
+            } else {
+                etNetMonthIncome.setError(null);
+            }
+
+            showDialog();
+            new ExpressLoanController(this).getKotakROICalList(etNetMonthIncome.getText().toString(),acEmployerName.getText().toString(),etReqLoanAmnt.getText().toString(), this);
+
+        }
     }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
+
         if (response instanceof kotakPers_SaveResponse) {
+            cancelDialog();
             if (response.getStatusNo() == 0) {
                 dialogMessage(true, ((kotakPers_SaveResponse) response).getMessage(), response.getMessage());
 
             }
+        } else if (response instanceof KotakPLEmployerNameResponse) {
+            cancelDialog();
+            prefManager.setIsEmployerNAmeUpdate(false);
+
+        } else if (response instanceof KotakROICalResponse) {
+            cancelDialog();
+            etPLRateOff.setText(""+((KotakROICalResponse) response).getMasterData().getRoi().toString());
+            etProcessingFees.setText(""+((KotakROICalResponse) response).getMasterData().getProcFee());
         }
     }
 
@@ -1131,6 +1188,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         cancelDialog();
         dialogMessage(false, t.getMessage(), "");
     }
+
     private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

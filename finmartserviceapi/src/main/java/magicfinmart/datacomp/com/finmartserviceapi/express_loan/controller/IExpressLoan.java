@@ -30,5 +30,10 @@ public interface IExpressLoan {
     //kotak
     void savekotakPersonalLoan(KotakPersonalSaveRequestEntity kotakPersonalSaveRequestEntity, IResponseSubcriber iResponseSubcriber);
 
+    void getKotakPlEmployerName( IResponseSubcriber iResponseSubcriber);
+
+    void getKotakROICalList(String NMI, String Organization, String LnAmt,  IResponseSubcriber iResponseSubcriber);
+
+
 
 }

@@ -677,5 +677,27 @@
         <item>60 months</item>
     </string-array>
     <string name="title_activity_health_check_up_list">HEALTH CHECK UP PLANS</string>
+    <string name="title_activity_early_salary">Early Salary</string>
+
+
+    <string-array name="CityEarlySal">
+        <item>Select City</item>
+        <item>Mumbai</item>
+        <item>Thane</item>
+        <item>Navi-Mumbai</item>
+        <item>Delhi</item>
+        <item>Noida</item>
+        <item>Gurgaon</item>
+        <item>Gaziabad</item>
+        <item>Faridabad</item>
+        <item>Pune</item>
+        <item>PMPC</item>
+        <item>Hyderabad</item>
+        <item>Secunderabad</item>
+        <item>Bangalore</item>
+        <item>Gandhinagar</item>
+        <item>Jaipur</item>
+        <item>Chennai</item>
+    </string-array>
 
 </resources>

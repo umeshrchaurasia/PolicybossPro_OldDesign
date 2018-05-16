@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
+import com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.HdfcpersonalloanActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.KotakpersonalloanActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.RblpersonalloanActivity;
@@ -102,7 +103,9 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
 
                             }
                             else if (plEntity.getBank_Code().toUpperCase().contains("KOTAK")) {
-                                mContext.startActivity(new Intent(mContext, KotakpersonalloanActivity.class));
+                                mContext.startActivity(new Intent(mContext, KotakpersonalloanActivity.class)
+                                        .putExtra("BANK_ID", plEntity.getBank_Id())
+                                        .putExtra("LOAN_TYPE", plEntity.getProductType()) );
                             }
                             else if (plEntity.getBank_Code().toUpperCase().contains("IIFL")) {
                                 if(plEntity.getWebView() == 1)
@@ -117,13 +120,17 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             }
                             else if (plEntity.getBank_Code().toUpperCase().contains("HDFC")) {
                                // Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
-                                mContext.startActivity(new Intent(mContext, HdfcpersonalloanActivity.class));
+                                mContext.startActivity(new Intent(mContext, HdfcpersonalloanActivity.class)
+                                        .putExtra("BANK_ID", plEntity.getBank_Id())
+                                        .putExtra("LOAN_TYPE", plEntity.getProductType()));
                             }
                             break;
 
                         case "SPL":
                             if (plEntity.getBank_Code().toUpperCase().contains("STPL")) {
-                                Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                                mContext.startActivity(new Intent(mContext, EarlySalaryActivity.class) .putExtra("BANK_ID", plEntity.getBank_Id())
+                                        .putExtra("LOAN_TYPE", plEntity.getProductType()));
                             }
                             break;
 
@@ -143,10 +150,14 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                         case "PL":
 
                             if (plEntity.getBank_Code().toUpperCase().contains("RBL")) {
-                                mContext.startActivity(new Intent(mContext, RblpersonalloanActivity.class));
+                                mContext.startActivity(new Intent(mContext, RblpersonalloanActivity.class)
+                                        .putExtra("BANK_ID", plEntity.getBank_Id())
+                                        .putExtra("LOAN_TYPE", plEntity.getProductType()));
                             }
                             else if (plEntity.getBank_Code().toUpperCase().contains("KOTAK")) {
-                                mContext.startActivity(new Intent(mContext, KotakpersonalloanActivity.class));
+                                mContext.startActivity(new Intent(mContext, KotakpersonalloanActivity.class)
+                                        .putExtra("BANK_ID", plEntity.getBank_Id())
+                                        .putExtra("LOAN_TYPE", plEntity.getProductType()));
                             }
                             else if (plEntity.getBank_Code().toUpperCase().contains("IIFL")) {
                                 if(plEntity.getWebView() == 1)
@@ -161,13 +172,16 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             }
                             else if (plEntity.getBank_Code().toUpperCase().contains("HDFC")) {
                                 // Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
-                                mContext.startActivity(new Intent(mContext, HdfcpersonalloanActivity.class));
+                                mContext.startActivity(new Intent(mContext, HdfcpersonalloanActivity.class)
+                                        .putExtra("BANK_ID", plEntity.getBank_Id())
+                                        .putExtra("LOAN_TYPE", plEntity.getProductType()));
                             }
                             break;
 
                         case "SPL":
                             if (plEntity.getBank_Code().toUpperCase().contains("STPL")) {
-                                Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                              //  Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                                mContext.startActivity(new Intent(mContext, EarlySalaryActivity.class));
                             }
                             break;
 

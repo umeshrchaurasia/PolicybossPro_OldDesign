@@ -814,6 +814,7 @@
         <activity
             android:name=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:label="@string/title_activity_bank_loan_list"
+            android:screenOrientation="portrait"
             android:parentActivityName=".onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -823,6 +824,7 @@
         <activity
             android:name=".onlineexpressloan.RblpersonalloanActivity"
             android:label="RBL PERSONAL LOAN"
+            android:screenOrientation="portrait"
             android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
@@ -1007,7 +1009,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
-        <activity android:name=".onlineexpressloan.KotakpersonalloanActivity" />
+        <activity
+            android:name=".onlineexpressloan.KotakpersonalloanActivity"
+            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".term.icici.IciciTermActivity"
             android:label="@string/title_activity_icici_term"
@@ -1017,7 +1022,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
-        <activity android:name=".onlineexpressloan.HdfcpersonalloanActivity" />
+        <activity android:name=".onlineexpressloan.HdfcpersonalloanActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".healthcheckupplans.HealthCheckUpListActivity"
             android:label="@string/title_activity_health_check_up_list"
@@ -1028,6 +1034,16 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".onlineexpressloan.EarlySalaryActivity"
+            android:label="@string/title_activity_early_salary"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
     </application>
 
