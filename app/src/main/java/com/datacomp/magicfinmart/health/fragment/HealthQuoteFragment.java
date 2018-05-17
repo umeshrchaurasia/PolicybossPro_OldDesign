@@ -265,10 +265,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             compareRequestEntity.setInsImage(entity.getInsurerLogoName());
             compareRequestEntity.setMemberlist(healthQuote.getHealthRequest().getMemberList());
 
-
-            Gson gson = new Gson();
-            String json  =  gson.toJson(compareRequestEntity);
-            Toast.makeText(getActivity(), "" +json,Toast.LENGTH_SHORT).show();
             showDialog();
             new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
         } else {

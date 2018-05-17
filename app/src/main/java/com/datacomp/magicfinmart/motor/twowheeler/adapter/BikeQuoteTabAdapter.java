@@ -157,6 +157,7 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
         public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtCrnNo;
         LinearLayout llDetails;
         ImageView txtOverflowMenu;
+
         public QuoteItem(View itemView) {
             super(itemView);
             txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
@@ -197,9 +198,12 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
                         // here we are looking for name or phone number match
                         if (row.getMotorRequestEntity().getFirst_name().toLowerCase().contains(charString.toLowerCase())
                                 || row.getMotorRequestEntity().getLast_name().toLowerCase().contains(charString.toLowerCase())
-                                || carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
-                                || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())
                                 || String.valueOf(row.getMotorRequestEntity().getCrn()).contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+
+                        if (carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
+                                || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }

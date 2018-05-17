@@ -198,10 +198,20 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         txtFinalPremium = (TextView) findViewById(R.id.txtFinalPremium);
         tvAddonTotal = (TextView) findViewById(R.id.tvAddonTotal);
         //ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
-        Glide.with(this)
+        /*Glide.with(this)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
                 .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name())
-                .into(ivCross);
+                .into(ivCross);*/
+        try {
+
+            int logo = new DBPersistanceController(this)
+                    .getInsurerLogo(Integer.parseInt(responseEntity.getInsurer_Id()));
+
+            Glide.with(this).load(logo)
+                    .into(ivCross);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
