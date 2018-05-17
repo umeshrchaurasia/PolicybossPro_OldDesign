@@ -11,7 +11,7 @@
         android:layout_margin="8dp"
         android:id="@+id/ivProduct"
         android:minHeight="200dp"
-        android:scaleType="fitCenter"
+        android:scaleType="fitXY"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
     </com.datacomp.magicfinmart.design.CustomImageView>
