@@ -60,7 +60,6 @@ public class HealthCompareActivity extends BaseActivity {
             List<HealthQuoteEntity> list = getIntent().getParcelableArrayListExtra(HealthQuoteFragment.HEALTH_COMPARE);
 
             listHealthQuote = new ArrayList<>(removeDuplicate(list));
-
             fillBenefits();
             bindBenefits();
 
