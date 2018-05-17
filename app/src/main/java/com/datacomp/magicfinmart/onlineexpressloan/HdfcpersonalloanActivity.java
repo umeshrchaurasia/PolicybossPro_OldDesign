@@ -35,9 +35,11 @@ import com.datacomp.magicfinmart.R;
 
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -67,13 +69,16 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
+    SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
+
 
     ArrayAdapter<String> branchListAdapter;
     List<String> branchList;
 
     Spinner acCitybranchList;
     HdfcPers_SaveRequestEntity requestEntity;
-
+    int BankID = 0;
+    String LoanType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +88,12 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         init();
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            BankID = extras.getInt("BANK_ID",0);
+            LoanType = extras.getString("LOAN_TYPE","");
+            //The key argument here must match that used in the other activity
+        }
         setListener();
         requestEntity = new HdfcPers_SaveRequestEntity();
 
@@ -403,7 +414,7 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                 requestEntity.setBranch_location(acCitybranchList.getSelectedItem().toString());
                 requestEntity.setBranch_code(tvBankbranch.getText().toString());
 
-                requestEntity.setDob(etDOB.getText().toString());
+                requestEntity.setDob(getYYYYMMDDPattern(etDOB.getText().toString()));
                 requestEntity.setCustomer_name(etCustomerName.getText().toString());
 
                 if(etLoanAmount.getText().toString().length() > 0)
@@ -465,7 +476,7 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                 requestEntity.setCampaignName("HDFC PL");
                 requestEntity.setSource("");
                 requestEntity.setLoanType("Personal Loan");
-               requestEntity.setCity("");
+                requestEntity.setCity("");
                 //personal detail
 
                 requestEntity.setEmail(etEmailPersContInfo.getText().toString());
@@ -488,6 +499,8 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
 
                 requestEntity.setCurrent_add(etcurrentaddress.getText().toString());
                 requestEntity.setPer_add(etPermanentaddress.getText().toString());
+                requestEntity.setBankId(String.valueOf(BankID));
+                requestEntity.setLoanType(LoanType);
 
                 //endregion
 
@@ -554,4 +567,26 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
         msgTxt.setTextSize(12.0f);
     }
 
+    public static String getYYYYMMDDPattern(String dateCal) {
+
+        String dateSelected = "";
+        if (dateCal.equals("")) {
+            return "";
+        }
+        long select_milliseconds = 0;
+        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
+
+        Date d = null;
+        try {
+            d = f.parse(dateCal);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        select_milliseconds = d.getTime();
+
+        Date date = new Date(select_milliseconds); //Another date Formate ie yyyy-mm-dd
+        SimpleDateFormat df2 = new SimpleDateFormat("yyyy-MM-dd");
+        dateSelected = df2.format(date);
+        return dateSelected;
+    }
 }

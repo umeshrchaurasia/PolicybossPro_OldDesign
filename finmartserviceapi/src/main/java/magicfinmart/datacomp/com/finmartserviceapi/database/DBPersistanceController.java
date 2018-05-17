@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import io.realm.Case;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.R;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.KotakPLEmployerNameEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
@@ -30,13 +31,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategory
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoTicketCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthPackDetailsDBean;
-import magicfinmart.datacomp.com.finmartserviceapi.model.AccountEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.model.EmploymentEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
-import magicfinmart.datacomp.com.finmartserviceapi.model.OrganizationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.model.QualificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 /**
@@ -45,8 +42,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 public class DBPersistanceController {
 
-    private static final String EXTERNAL_LPG = "External LPG";
-    private static final String EXTERNAL_CNG = "External CNG";
+    private static final String EXTERNAL_LPG = "External Fitted LPG";
+    private static final String EXTERNAL_CNG = "External Fitted CNG";
+    Map<String, Integer> hashmapKotakPLCity;
+
+    //HashMap<String, String> hashMapAddons;
     Map<String, Integer> hashMapInsurence, hashmapPremTerm;
     HashMap<String, String> hashMapAddons, hdfcpersonalloanbankbranch;
     HashMap<Integer, Integer> hasMapCarInsuranceImage;
@@ -520,7 +520,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Offer loans against property at attractive rates to your customers", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get lowest rate loan on your Credit Card from wide range of banks.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Save huge money for your customers on their existing loans.", R.drawable.balance_transfer));
-     //   dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
+       dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "QUICK LEAD SUBMISSION", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
 
 
@@ -1748,41 +1748,60 @@ public class DBPersistanceController {
     }
     //endregion
 
-    public List<AccountEntity> getExLoanAccountList() {
-        List<AccountEntity> accountEntityList = new ArrayList<AccountEntity>();
-        accountEntityList.add(new AccountEntity(1, "Property Identified & ready to occupy"));
-        accountEntityList.add(new AccountEntity(2, "In Search Of Property"));
-        accountEntityList.add(new AccountEntity(3, "Resale Property"));
-        accountEntityList.add(new AccountEntity(4, "For Construction"));
-        accountEntityList.add(new AccountEntity(5, "Property identified - Under Construction"));
-        accountEntityList.add(new AccountEntity(6, "LAP"));
-        return accountEntityList;
+    //region KotakPL
+
+    public List<String> getKotakPLCityList() {
+        hashmapKotakPLCity = new LinkedHashMap<String, Integer>();
+        MapKotakPLCityList();
+        return new ArrayList<String>(hashmapKotakPLCity.keySet());
     }
 
-    public List<EmploymentEntity> getExEmploymentList() {
-        List<EmploymentEntity> EmploymentEntityList = new ArrayList<EmploymentEntity>();
-        EmploymentEntityList.add(new EmploymentEntity(0, "Select Employment &amp; Mode of Credit"));
-        EmploymentEntityList.add(new EmploymentEntity(1, "Salaried: Account Transfer"));
-        EmploymentEntityList.add(new EmploymentEntity(2, "Salaried: By Cheque"));
-        EmploymentEntityList.add(new EmploymentEntity(3, "Salaried: By Cash"));
-        EmploymentEntityList.add(new EmploymentEntity(4, "Self employed"));
-        EmploymentEntityList.add(new EmploymentEntity(5, "Others"));
-        return EmploymentEntityList;
+    public int getKotakPLCityCode(String cityName) {
+        hashmapKotakPLCity = new LinkedHashMap<String, Integer>();
+        MapKotakPLCityList();
+        if (hashmapKotakPLCity.get(cityName) != null) {
+            return hashmapKotakPLCity.get(cityName);
+        } else {
+            return 0;
+        }
+
     }
 
-    public List<OrganizationEntity> getExOrganizationList() {
-        List<OrganizationEntity> OrganizationtList = new ArrayList<OrganizationEntity>();
-        OrganizationtList.add(new OrganizationEntity(1, "Public Ltd"));
-        OrganizationtList.add(new OrganizationEntity(2, "Private Ltd"));
-        OrganizationtList.add(new OrganizationEntity(3, "MNC"));
-        OrganizationtList.add(new OrganizationEntity(4, "Central/State Govt"));
-        OrganizationtList.add(new OrganizationEntity(5, "Proprietorship"));
-        OrganizationtList.add(new OrganizationEntity(6, "LLP"));
-        OrganizationtList.add(new OrganizationEntity(7, "Partnership firm"));
-        OrganizationtList.add(new OrganizationEntity(8, "Others including Society/Trust/AOP"));
-        return OrganizationtList;
+    public String getKotakPLCityName(int cityID) {
+        hashmapKotakPLCity = new LinkedHashMap<String, Integer>();
+        MapKotakPLCityList();
+        String HealthCityName = "";
+        for (Map.Entry<String, Integer> item : hashmapKotakPLCity.entrySet()) {
+            if (item.getValue() == cityID) {
+                HealthCityName = item.getKey();
+                break;
+            }
+        }
+
+        return HealthCityName;
     }
 
+    public void MapKotakPLCityList() {
+        hashmapKotakPLCity.put("Office City", 0);
+        hashmapKotakPLCity.put("Ahmedabad", 2002);
+        hashmapKotakPLCity.put("Bangalore", 2004);
+        hashmapKotakPLCity.put("Baroda", 707);
+        hashmapKotakPLCity.put("Kolkata", 64);
+        hashmapKotakPLCity.put("Chandigarh", 9);
+        hashmapKotakPLCity.put("Chennai", 21);
+        hashmapKotakPLCity.put("Cochin", 241);
+        hashmapKotakPLCity.put("Gurgaon", 7);
+        hashmapKotakPLCity.put("New Delhi", 318);
+        hashmapKotakPLCity.put("Hyderabad", 15);
+        hashmapKotakPLCity.put("Jaipur", 100);
+        hashmapKotakPLCity.put("Mumbai", 25);
+        hashmapKotakPLCity.put("Pune", 26);
+        hashmapKotakPLCity.put("Nagpur", 135);
+        hashmapKotakPLCity.put("Surat", 190);
+
+
+    }
+    //endregion
 
     //region HDFC personal loan bank
 
@@ -1815,7 +1834,7 @@ public class DBPersistanceController {
     }
 
     public void Maphdfcpersonalloanbankbranch() {
-        hdfcpersonalloanbankbranch.put("Select Branch", "");
+        hdfcpersonalloanbankbranch.put("Branch Location", "");
         hdfcpersonalloanbankbranch.put("AHMEDABAD", "AhmedabadOpen - BEU");
         hdfcpersonalloanbankbranch.put("Bangalore-PL", "BangaloreOpen - BEU");
         hdfcpersonalloanbankbranch.put("Bangalore-BL", "BangaloreOpen - BEU");
@@ -1844,5 +1863,31 @@ public class DBPersistanceController {
 
 
     }
+
+    //region kotak pl employer namer
+    public List<String> getEmplyerNAmeList() {
+        List<String> listCity = new ArrayList<>();
+        // List<ModelMasterEntity> listModelMaster = dbController.getMasterModel();
+        List<KotakPLEmployerNameEntity> list = realm.where(KotakPLEmployerNameEntity.class).findAll();
+
+        for (int i = 0; i < list.size(); i++) {
+            KotakPLEmployerNameEntity entity = list.get(i);
+            String cityName = entity.getEmployername();
+            listCity.add(cityName);
+        }
+
+        return listCity;
+    }
+
+
+    public String getEmployerCategory(String employername) {
+        KotakPLEmployerNameEntity entity = realm.where(KotakPLEmployerNameEntity.class).equalTo("employername", employername).findFirst();
+        if (entity != null) {
+            return entity.getFinal_category();
+        }
+        return "";
+    }
+
+    //endregion
 
 }

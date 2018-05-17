@@ -241,19 +241,31 @@
                 android:gravity="center"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/btnApply"
-                    style="@style/ButtonStyle"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:background="#f38d1e"
-                    android:drawableLeft="@mipmap/buy"
-                    android:drawablePadding="8dp"
-                    android:minHeight="30dp"
                     android:gravity="center"
-                    android:text="BUY"
-                    android:textColor="@android:color/white" />
+                    android:orientation="horizontal"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp">
 
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/buy" />
+
+                    <TextView
+                        android:id="@+id/btnApply"
+                        style="@style/TextStyle.TextLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:gravity="left|center_vertical"
+                        android:minHeight="30dp"
+                        android:text="BUY"
+                        android:textColor="@android:color/white" />
+                </LinearLayout>
 
             </LinearLayout>
 

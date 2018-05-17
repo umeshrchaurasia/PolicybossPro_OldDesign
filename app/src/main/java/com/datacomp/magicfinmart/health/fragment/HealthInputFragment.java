@@ -375,33 +375,45 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
             switch (editText.getId()) {
                 case R.id.etOne:
-                    mPopupWindowSelection.dismiss();
-                    mPopupWindow.dismiss();
-                    OpenPoupWnidow(et2);
+
+                    if (et2 != null && et2.isEnabled()) {
+                        mPopupWindowSelection.dismiss();
+                        mPopupWindow.dismiss();
+                        OpenPoupWnidow(et2);
+                    }
+
                     break;
 
                 case R.id.etTwo:
-                    mPopupWindowSelection.dismiss();
-                    mPopupWindow.dismiss();
-                    OpenPoupWnidow(et3);
+                    if (et3 != null && et3.isEnabled()) {
+                        mPopupWindowSelection.dismiss();
+                        mPopupWindow.dismiss();
+                        OpenPoupWnidow(et3);
+                    }
                     break;
 
                 case R.id.etThree:
-                    mPopupWindowSelection.dismiss();
-                    mPopupWindow.dismiss();
-                    OpenPoupWnidow(et4);
+                    if (et4 != null && et4.isEnabled()) {
+                        mPopupWindowSelection.dismiss();
+                        mPopupWindow.dismiss();
+                        OpenPoupWnidow(et4);
+                    }
                     break;
 
                 case R.id.etFour:
-                    mPopupWindowSelection.dismiss();
-                    mPopupWindow.dismiss();
-                    OpenPoupWnidow(et5);
+                    if (et5 != null && et5.isEnabled()) {
+                        mPopupWindowSelection.dismiss();
+                        mPopupWindow.dismiss();
+                        OpenPoupWnidow(et5);
+                    }
                     break;
 
                 case R.id.etFive:
-                    mPopupWindowSelection.dismiss();
-                    mPopupWindow.dismiss();
-                    OpenPoupWnidow(et6);
+                    if (et6 != null && et6.isEnabled()) {
+                        mPopupWindowSelection.dismiss();
+                        mPopupWindow.dismiss();
+                        OpenPoupWnidow(et6);
+                    }
                     break;
 
                 case R.id.etSix:
@@ -1392,27 +1404,27 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 //        }
 
         if ((et1.isEnabled() && et1.getText().toString().length() == 0)) {
-            showAlert("Please Select Age");
+            showAlert("Please Enter Age");
             et1.requestFocus();
             return false;
         } else if (et2.isEnabled() && et2.getText().toString().length() == 0) {
-            showAlert("Please Select Age");
+            showAlert("Please Enter Age");
             et2.requestFocus();
             return false;
         } else if (et3.isEnabled() && et3.getText().toString().length() == 0) {
-            showAlert("Please Select Age");
+            showAlert("Please Enter Age");
             et3.requestFocus();
             return false;
         } else if (et4.isEnabled() && et4.getText().toString().length() == 0) {
-            showAlert("Please Select Age");
+            showAlert("Please Enter Age");
             et4.requestFocus();
             return false;
         } else if (et5.isEnabled() && et5.getText().toString().length() == 0) {
-            showAlert("Please Select Age");
+            showAlert("Please Enter Age");
             et5.requestFocus();
             return false;
         } else if (et6.isEnabled() && et6.getText().toString().length() == 0) {
-            showAlert("Please Select Age");
+            showAlert("Please Enter Age");
             et6.requestFocus();
             return false;
         }
@@ -1647,6 +1659,13 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     @Override
     public boolean onTouch(View view, MotionEvent event) {
 
+        if(editText != null)
+        {
+            if(editText.getId() == view.getId())
+            {
+                return false;
+            }
+        }
 
         if (mPopupWindow.isShowing()) {
             mPopupWindow.dismiss();

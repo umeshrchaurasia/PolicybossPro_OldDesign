@@ -136,11 +136,11 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                                  highlighQuote();
                             } else {
 
-                                Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HealthQuoteBottomTabsActivity.this, "Tap get quote", Toast.LENGTH_SHORT).show();
                             }
                         } else {
 
-                            Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HealthQuoteBottomTabsActivity.this, "Tap get  quote", Toast.LENGTH_SHORT).show();
                         }
                     }
 

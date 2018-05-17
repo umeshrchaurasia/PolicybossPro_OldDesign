@@ -1,10 +1,12 @@
 package com.datacomp.magicfinmart.onlineexpressloan;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -45,6 +47,7 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller.ExpressLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.RBLPesonalLoanReqEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.EarlySalaryLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressRbPersonalResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
@@ -1065,8 +1068,8 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         if (response instanceof ExpressRbPersonalResponse) {
             if (response.getStatusNo() == 0) {
 
-               showAlert(response.getMessage());
-               finish();
+                dialogMessage(true, ((ExpressRbPersonalResponse) response).getMessage(), response.getMessage());
+
             }
         }
 
@@ -1075,9 +1078,43 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
+        dialogMessage(false, t.getMessage(), "");
     }
 
 
+    private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage) {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false);
+
+        StringBuilder Message = new StringBuilder();
+        if (isSuccess) {
+            builder.setTitle("Applied Successfully..!");
+            String strMessage = "Application No:" + AppNo + "\n\n";
+            String success = displayMessage;
+            Message.append(strMessage + success);
+
+        } else {
+            builder.setTitle("Failed ");
+            String failure = AppNo;
+            Message.append(failure);
+        }
+        builder.setMessage(Message.toString())
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.dismiss();
+                        if (isSuccess) {
+                            finish();
+                        }
+
+                    }
+                });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
+        msgTxt.setTextSize(12.0f);
+    }
     //endregion
 
 

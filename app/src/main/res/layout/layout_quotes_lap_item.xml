@@ -263,25 +263,37 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="25"
-                        android:padding="5dp"
                         android:background="@drawable/bordertbl"
                         android:gravity="center_vertical|center_horizontal"
-                        android:orientation="vertical">
+                        android:orientation="vertical"
+                        android:padding="5dp">
 
-                        <TextView
-                            android:id="@+id/btnApply"
-                            style="@style/ButtonStyle"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:background="#f38d1e"
-                            android:drawableLeft="@mipmap/buy"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:minHeight="0dp"
-                            android:minWidth="90dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
                             android:paddingBottom="5dp"
-                            android:paddingTop="5dp"
-                            android:drawablePadding="8dp"
-                            android:text="BUY"
-                            android:textColor="@android:color/white" />
+                            android:paddingTop="5dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/buy" />
+
+                            <TextView
+                                android:id="@+id/btnApply"
+                                style="@style/TextStyle.TextLarge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:gravity="left|center_vertical"
+                                android:minHeight="30dp"
+                                android:text="BUY"
+                                android:textColor="@android:color/white" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                 </TableRow>
