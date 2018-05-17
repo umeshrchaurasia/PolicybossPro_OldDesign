@@ -97,6 +97,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     //region icici form
     Spinner spICICIOptions, spICICIPremiumTerm, spICICIPremiumFrequency;
+
     TextView txtICICILumpSum, txtICICIRegularIncome, txtICICIIncreasingIncome, txtICICILumpSumRegular;
     EditText etSumICICIAssured, etICICIPolicyTerm, etICICIPremiumTerm,
             etICICICriticalIllness, etICICIAccidentalBenefits, etICICILumpSumpPerc;
@@ -130,7 +131,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                         String currentDay = simpleDateFormat.format(calendar.getTime());
                         etDOB.setText(currentDay);
                         age = caluclateAge(calendar);
-                        setPolicyTerm((75 - age));
+                        //setPolicyTerm((75 - age));
                     }
                 }
             });
@@ -259,7 +260,6 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         etICICIPolicyTerm.setText("20");
         etICICIPremiumTerm.setText("20");
         etICICILumpSumpPerc.setText("50");
-
         //by default Regular pay selected.
         spICICIPremiumTerm.setSelection(0);
     }

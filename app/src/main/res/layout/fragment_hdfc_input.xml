@@ -420,17 +420,17 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="Permium frequency"
+                            android:text="Payment term"
                             android:textColor="@color/blue"
                             android:textSize="10sp" />
 
                         <Spinner
-                            android:id="@+id/spICICIPremiumFrequency"
+                            android:id="@+id/spICICIPremiumTerm"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:dropDownWidth="200dp"
-                            android:entries="@array/icici_premium_frequency" />
+                            android:entries="@array/icici_payment_term" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -455,17 +455,17 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="Payment term"
+                            android:text="Permium frequency"
                             android:textColor="@color/blue"
                             android:textSize="10sp" />
 
                         <Spinner
-                            android:id="@+id/spICICIPremiumTerm"
+                            android:id="@+id/spICICIPremiumFrequency"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
                             android:dropDownWidth="200dp"
-                            android:entries="@array/icici_payment_term" />
+                            android:entries="@array/icici_premium_frequency" />
 
                     </android.support.design.widget.TextInputLayout>
 
