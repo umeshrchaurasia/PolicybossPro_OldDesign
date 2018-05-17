@@ -111,6 +111,7 @@
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:textAllCaps="true"
+
                             android:textAppearance="@style/TextStyle.TextMedium"
                             android:textColor="@color/header_dark_text" />
                     </LinearLayout>

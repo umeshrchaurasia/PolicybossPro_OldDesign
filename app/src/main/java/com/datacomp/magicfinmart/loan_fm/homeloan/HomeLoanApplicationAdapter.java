@@ -59,7 +59,7 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
             if (entity.getHomeLoanRequest().getApplNumb() != null) {
                 holder.txtApplicationNumber.setText("" + String.valueOf(entity.getHomeLoanRequest().getApplNumb()));
             } else {
-                holder.txtApplicationNumber.setText("");
+                holder.txtApplicationNumber.setText("0");
             }
             holder.txtPersonName.setText(entity.getHomeLoanRequest().getApplicantNme());
 

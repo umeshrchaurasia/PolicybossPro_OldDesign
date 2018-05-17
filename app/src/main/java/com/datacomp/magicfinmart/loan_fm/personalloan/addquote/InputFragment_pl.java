@@ -54,7 +54,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
     PersonalLoanRequest personalLoanRequest;
     FmPersonalLoanRequest fmPersonalLoanRequest;
 
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
     Button btnGetQuote;
     EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp,etcontact;
 
@@ -129,6 +129,8 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         txtrbimgMale = (TextView) view.findViewById(R.id.txtrbimgMale);
         txtrbimgFemale = (TextView) view.findViewById(R.id.txtrbimgFemale);
 
+
+        et_DOB.setText("01-01-1980");
         //endregion
 
     }

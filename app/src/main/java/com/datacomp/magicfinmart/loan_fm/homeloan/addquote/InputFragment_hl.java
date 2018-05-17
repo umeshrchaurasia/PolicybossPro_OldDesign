@@ -83,7 +83,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     Toolbar toolbar;
     HomeLoanRequest homeLoanRequest;
     FmHomeLoanRequest fmHomeLoanRequest;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
     boolean isPropertyInfoVisible = false;
     boolean isApplicantVisible = true;
     boolean isCoApplicantVisible = true;
@@ -463,7 +464,11 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         coApp_etMonthlyInc = (EditText) view.findViewById(R.id.coApp_etMonthlyInc);
         coApp_etEMI = (EditText) view.findViewById(R.id.coApp_etEMI);
 
+
+        et_DOB.setText("01-01-1980");
+        coApp_et_DOB.setText("01-01-1980");
         //endregion
+
 
     }
 
@@ -481,6 +486,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                     calendar.set(year, monthOfYear, dayOfMonth);
                     String currentDay = simpleDateFormat.format(calendar.getTime());
                     et_DOB.setText(currentDay);
+
                     //etDate.setTag(R.id.et_date, calendar.getTime());
                 }
             });
