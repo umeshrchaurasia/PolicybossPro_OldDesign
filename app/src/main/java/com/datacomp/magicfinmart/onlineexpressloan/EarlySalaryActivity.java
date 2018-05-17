@@ -279,7 +279,7 @@ public class EarlySalaryActivity extends BaseActivity implements View.OnClickLis
     public void OnFailure(Throwable t) {
         cancelDialog();
         dialogMessage(false, t.getMessage(), "");
-    }
+}
 
     private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage) {
 

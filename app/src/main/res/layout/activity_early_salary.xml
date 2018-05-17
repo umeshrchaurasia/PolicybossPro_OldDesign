@@ -37,6 +37,7 @@ tools:context="com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity">
             android:id="@+id/ccPersonal"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            style="@style/CardStyle.Home"
             app:cardElevation="2dp">
 
             <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -210,7 +211,7 @@ tools:context="com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity">
                     <RadioGroup
                         android:id="@+id/rgSalaried"
                         android:layout_width="0dp"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="horizontal">
 

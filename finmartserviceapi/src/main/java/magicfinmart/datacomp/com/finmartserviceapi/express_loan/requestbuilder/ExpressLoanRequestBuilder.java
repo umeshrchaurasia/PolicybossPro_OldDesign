@@ -7,6 +7,7 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.EarlySalaryRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.HdfcPers_SaveRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.KotakPersonalSaveRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.RBLPesonalLoanReqEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.SaveExpressLoanRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.EarlySalaryLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressLoanListResponse;
@@ -77,7 +78,9 @@ public class ExpressLoanRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/save-early-salary")
         Call<EarlySalaryLoanResponse> saveEarlySalaryLoan(@Body EarlySalaryRequestEntity body);
 
-
+        @Headers("token:" + token)
+        @POST("/api/rb-personal-loan")
+        Call<ExpressRbPersonalResponse> saveRblPersonalLoan(@Body RBLPesonalLoanReqEntity body);
 //
 
 //        @POST("/quote/premium_list_db")

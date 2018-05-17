@@ -567,7 +567,7 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
         msgTxt.setTextSize(12.0f);
     }
 
-    public String getYYYYMMDDPattern(String dateCal) {
+    public static String getYYYYMMDDPattern(String dateCal) {
 
         String dateSelected = "";
         if (dateCal.equals("")) {

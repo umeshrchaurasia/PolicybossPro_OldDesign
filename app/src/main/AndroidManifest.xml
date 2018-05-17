@@ -1024,7 +1024,11 @@
                 android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
         </activity>
         <activity android:name=".onlineexpressloan.HdfcpersonalloanActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"/>
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         <activity
             android:name=".healthcheckupplans.HealthCheckUpListActivity"
             android:label="@string/title_activity_health_check_up_list"
