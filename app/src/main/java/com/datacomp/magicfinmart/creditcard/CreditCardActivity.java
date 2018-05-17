@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

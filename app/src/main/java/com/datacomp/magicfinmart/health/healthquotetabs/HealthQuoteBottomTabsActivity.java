@@ -137,16 +137,20 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                             } else {
 
                                 Toast.makeText(HealthQuoteBottomTabsActivity.this, "Tap get quote", Toast.LENGTH_SHORT).show();
+
+                                return false;
                             }
                         } else {
 
                             Toast.makeText(HealthQuoteBottomTabsActivity.this, "Tap get  quote", Toast.LENGTH_SHORT).show();
+
+                            return false;
                         }
                     }
 
                     return true;
                 case R.id.navigation_buy:
-                    return true;
+                    return false;
             }
 
             return false;

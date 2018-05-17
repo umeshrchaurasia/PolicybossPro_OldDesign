@@ -145,7 +145,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 }
             } else {
                 if (b) {
-                    ((HealthQuoteFragment) mContext).showAlert("Please select only four plans to compare for execding the compare");
+                    ((HealthQuoteFragment) mContext).showAlert("Please select only four plans to compare.");
                 } else {
                     checkCount = checkCount - 1;
                     entity.setCompare(b);

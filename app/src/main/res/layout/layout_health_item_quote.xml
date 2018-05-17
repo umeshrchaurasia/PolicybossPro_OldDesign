@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:gravity="left"
-                    android:lines="1"
+                    android:maxLines="2"
                     android:textAllCaps="true"
                     android:textColor="@color/uvv_black"
                     android:textStyle="bold" />
