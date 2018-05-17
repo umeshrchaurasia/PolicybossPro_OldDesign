@@ -145,7 +145,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 }
             } else {
                 if (b) {
-                    Toast.makeText(mContext.getActivity(), "Cannot select more than 4 quotes", Toast.LENGTH_SHORT).show();
+                    ((HealthQuoteFragment) mContext).showAlert("Please select only four plans to compare for execding the compare");
                 } else {
                     checkCount = checkCount - 1;
                     entity.setCompare(b);

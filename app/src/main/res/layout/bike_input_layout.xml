@@ -30,6 +30,33 @@
                 android:gravity="bottom"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:id="@+id/llVerifyCarDetails"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="VERIFY YOUR CAR DETAILS FOR "
+                        android:textAppearance="@style/TextStyle.TextMedium" />
+
+                    <TextView
+                        android:id="@+id/tvCarNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="3dp"
+                        android:text=""
+                        android:textAppearance="@style/TextStyle.TextMedium"
+                        android:textColor="@color/tab_color"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
                 <!--MAKE and FUEL-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -115,14 +142,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="4">
 
                     <android.support.design.widget.TextInputLayout
                         style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:hint="CUBIC CAPACITY"
                         android:visibility="gone">
 
@@ -137,7 +165,7 @@
                         style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_marginRight="1dp"
-                        android:layout_weight="1"
+                        android:layout_weight="2"
                         android:hint="Reg Date">
 
                         <EditText
@@ -152,7 +180,8 @@
                         android:layout_width="0dp"
                         android:layout_marginLeft="1dp"
                         android:layout_weight="1"
-                        android:hint="Mfg Date">
+                        android:hint="Mfg Date"
+                        android:visibility="gone">
 
                         <EditText
                             android:id="@+id/etMfgDate"
@@ -161,57 +190,105 @@
                             android:focusable="false" />
                     </android.support.design.widget.TextInputLayout>
 
+                    <RelativeLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Fuel">
+
+                        <TextView
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Mfg Month"
+                            android:visibility="visible" />
+
+                        <Spinner
+                            android:id="@+id/spMonth"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:minHeight="40dp"></Spinner>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1">
+
+                        <TextView
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:text="Mfg Year"
+                            android:visibility="visible" />
+
+                        <Spinner
+                            android:id="@+id/spYear"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:minHeight="40dp"></Spinner>
+                    </RelativeLayout>
+
                 </LinearLayout>
 
                 <!--Exp date and manufacturing date-->
                 <LinearLayout
-                    android:gravity="bottom"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:gravity="bottom"
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
-                       android:layout_height="match_parent"
                         android:layout_width="0dp"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="1dp"
                         android:layout_weight="1"
                         android:hint="Expiry Date">
 
                         <EditText
-                            android:layout_height="match_parent"
                             android:id="@+id/etExpDate"
                             style="@style/Style.edittext"
+                            android:layout_height="match_parent"
                             android:drawableRight="@drawable/vector_date"
                             android:focusable="false" />
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
-                        android:paddingBottom="5dp"
-                        android:gravity="bottom"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:gravity="bottom"
+                        android:orientation="vertical"
+                        android:paddingBottom="5dp">
 
                         <TextView
-                            android:textColor="@color/header_dark_text"
+                            style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
                             android:text="Claim In This Year"
-                            style="@style/TextStyle.TextMedium" />
+                            android:textColor="@color/header_dark_text" />
 
                         <LinearLayout
-                            android:layout_marginTop="5dp"
-                            android:orientation="horizontal"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
                             <TextView
-                                android:layout_weight="1"
                                 android:id="@+id/tvClaimYes"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
                                 android:background="@drawable/customeborder_blue"
                                 android:gravity="center"
                                 android:padding="6dp"
@@ -220,11 +297,11 @@
                                 android:textColor="@color/black" />
 
                             <TextView
-                                android:layout_weight="1"
                                 android:id="@+id/tvClaimNo"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
                                 android:background="@drawable/customeborder"
                                 android:gravity="center"
                                 android:padding="6dp"
@@ -240,14 +317,14 @@
                 <!--NCB  SPINNER-->
 
                 <LinearLayout
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:background="@drawable/customeborder"
                     android:id="@+id/cvNcb"
-                    android:padding="5dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/customeborder"
+                    android:orientation="vertical"
+                    android:padding="5dp">
 
 
                     <LinearLayout
@@ -263,10 +340,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="3dp"
                             android:gravity="center"
-                            android:textStyle="bold"
                             android:text="Existing NCB"
                             android:textAppearance="@style/TextViewStyle.Large"
-                            android:textColor="@color/black" />
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
 
 
                         <org.adw.library.widgets.discreteseekbar.DiscreteSeekBar

@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
@@ -29,8 +30,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
-
-import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 public class CommonWebViewActivity extends BaseActivity {
 
@@ -61,10 +60,30 @@ public class CommonWebViewActivity extends BaseActivity {
                 downloadPdf(url, name);
             }
         });
-        if (isNetworkConnected())
+        if (isNetworkConnected()) {
             settingWebview();
-        else
+            startCountDownTimer();
+        } else
             Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+    }
+
+    private void startCountDownTimer() {
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+                //here you can have your logic to set text to edittext
+            }
+
+            public void onFinish() {
+                try {
+                    cancelDialog();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }.start();
     }
 
     private boolean isNetworkConnected() {
@@ -107,14 +126,14 @@ public class CommonWebViewActivity extends BaseActivity {
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 // TODO show you progress image
                 showDialog();
-                new ProgressAsync().execute();
+                // new ProgressAsync().execute();
                 super.onPageStarted(view, url, favicon);
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 // TODO hide your progress image
-                // cancelDialog();
+                cancelDialog();
                 super.onPageFinished(view, url);
             }
 

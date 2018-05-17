@@ -131,8 +131,6 @@ public class MotorApplicationFragment extends BaseFragment implements View.OnCli
 
             if (list.size() > 0) {
                 isHit = false;
-                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
-
 
                 for (ApplicationListEntity entity : list) {
                     if (!mApplicationList.contains(entity)) {

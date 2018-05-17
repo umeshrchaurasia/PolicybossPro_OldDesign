@@ -12,6 +12,8 @@
     <string name="Emp_detail">Employment &amp; Income Details</string>
     <string name="Emp_Mode_Credit">Select Employment &amp; Mode OF Credit</string>
 
+    <string name="materail_count">new Images are available for downloading.\nContinue???</string>
+
     <string-array name="ncb_percent">
         <item>0</item>
         <item>20</item>
@@ -714,5 +716,6 @@
         <item>Jaipur</item>
         <item>Chennai</item>
     </string-array>
+    <string name="mps_popup_text">Congratulations and welcome to the Magic-Finmart Family. As our privileged associate, you are eligible to an exclusive Magic Platinum Subscription (MPS) for </string>
 
 </resources>
