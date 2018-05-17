@@ -239,7 +239,7 @@
     <!-- Edit Text Styles -->
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText"></style>
 
-    <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout"></style>
+    <style name="TextInputLayoutStyle" parent="Widget.Design.TextInputLayout" />
 
     <!--Textview-->
     <style name="TextStyle.Toolbar" parent="TextAppearance.AppCompat.Title">

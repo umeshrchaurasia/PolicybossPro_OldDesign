@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.motor.privatecar.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -151,6 +152,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
         public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtCrnNo;
         LinearLayout llDetails;
         ImageView txtOverflowMenu;
+
         public QuoteItem(View itemView) {
             super(itemView);
             txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
@@ -164,6 +166,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     public void refreshAdapter(List<QuoteListEntity> list) {
         mQuoteListFiltered = list;
+        mQuoteList = list;
     }
 
     @Override
@@ -172,10 +175,10 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String charString = charSequence.toString();
+                List<QuoteListEntity> filteredList = new ArrayList<>();
                 if (charString.isEmpty()) {
                     mQuoteListFiltered = mQuoteList;
                 } else {
-                    List<QuoteListEntity> filteredList = new ArrayList<>();
                     for (QuoteListEntity row : mQuoteList) {
                         CarMasterEntity carMasterEntity = new CarMasterEntity();
                         try {
@@ -197,6 +200,13 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
                         }
                     }
 
+                    mQuoteListFiltered = filteredList;
+                    FilterResults filterResults = new FilterResults();
+                    filterResults.values = filteredList;
+                    return filterResults;
+                }
+
+                if (filteredList.size() > 0) {
                     mQuoteListFiltered = filteredList;
                 }
 
