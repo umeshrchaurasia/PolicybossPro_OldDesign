@@ -643,5 +643,6 @@
         <item>LAP</item>
     </string-array>
     <string name="title_activity_health_check_up_list">HEALTH CHECK UP PLANS</string>
+    <string name="mps_popup_text">Congratulations and welcome to the Magic-Finmart Family. As our privileged associate, you are eligible to an exclusive Magic Platinum Subscription (MPS) for </string>
 
 </resources>

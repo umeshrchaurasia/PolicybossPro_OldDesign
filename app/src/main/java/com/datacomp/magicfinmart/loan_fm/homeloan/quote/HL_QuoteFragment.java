@@ -206,8 +206,6 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
             List<FmHomeLoanRequest> list = ((FmHomelLoanResponse) response).getMasterData().getQuote();
             if (list.size() > 0) {
                 isHit = false;
-                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
-
                 for (FmHomeLoanRequest entity : list) {
                     if (!mQuoteList.contains(entity)) {
                         mQuoteList.add(entity);
