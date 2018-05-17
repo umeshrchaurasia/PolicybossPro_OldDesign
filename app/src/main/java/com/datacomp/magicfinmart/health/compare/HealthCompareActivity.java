@@ -193,27 +193,8 @@ public class HealthCompareActivity extends BaseActivity {
         rvBenefits.setLayoutManager(new LinearLayoutManager(this));
 
         rvBenefitsOptions = (RecyclerView) findViewById(R.id.rvBenefitsOptions);
-        //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(HealthCompareActivity.this) {
-            @Override
-            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
-                LinearSmoothScroller smoothScroller = new LinearSmoothScroller(HealthCompareActivity.this) {
-                    private static final float SPEED = 4000f;// Change this value (default=25f)
-
-                    @Override
-                    protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
-                        return SPEED / displayMetrics.densityDpi;
-                    }
-                };
-                smoothScroller.setTargetPosition(position);
-                startSmoothScroll(smoothScroller);
-            }
-
-        };
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         rvBenefitsOptions.setLayoutManager(layoutManager);
-        autoScroll();
     }
 
     private void fillBenefits() {

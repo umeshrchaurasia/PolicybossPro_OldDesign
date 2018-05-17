@@ -20,6 +20,8 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.TermActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
+import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
 import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
 
 import java.util.ArrayList;
@@ -142,6 +144,11 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
                 case 1001://compare term
                 case 43://edelwise
                 case 28://hdfc
+                    Intent intentHdfc = new Intent(getActivity(), HdfcTermActivity.class);
+                    intentHdfc.putExtra(TERM_FOR_INPUT_FRAGMENT, 28);
+                    //intent.putExtra(TERM_INPUT_FRAGMENT, null);
+                    startActivity(intentHdfc);
+                    break;
                 case 1://tata aig
                     callInputTerm(compId, null);
                     break;
@@ -169,6 +176,16 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
         startActivity(intent);*/
         if (whichTerm == 39) {
             Intent intent = new Intent(getActivity(), IciciTermActivity.class);
+            intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
+            intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
+            startActivity(intent);
+        } else if (whichTerm == 1001) {
+            Intent intent = new Intent(getActivity(), CompareTermActivity.class);
+            intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
+            intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
+            startActivity(intent);
+        } else if (whichTerm == 28) {
+            Intent intent = new Intent(getActivity(), CompareTermActivity.class);
             intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
             intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
             startActivity(intent);

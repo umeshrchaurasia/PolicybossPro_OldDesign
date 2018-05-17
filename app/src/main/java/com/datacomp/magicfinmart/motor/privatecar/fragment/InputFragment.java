@@ -2,7 +2,6 @@ package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -10,7 +9,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -634,7 +632,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                 int varientIndex = 0;
                 for (int i = 0; i < variantList.size(); i++) {
-                    String variantName = carMasterEntity.getVariant_Name() + " (" + carMasterEntity.getCubic_Capacity() + "cc)";
+                    String variantName = carMasterEntity.getVariant_Name();
                     if (variantList.get(i).equalsIgnoreCase(variantName)) {
                         varientIndex = i;
                         break;
@@ -994,7 +992,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         + etreg3.getText().toString() + etreg4.getText().toString();
                 if (!regNo.equals("")) {
                     llVerifyCarDetails.setVisibility(View.VISIBLE);
-                    tvCarNo.setText(""+ regNo);
+                    tvCarNo.setText("" + regNo);
                     Constants.hideKeyBoard(etreg4, getActivity());
                     tvDontKnow.performClick();
                     btnGetQuote.setVisibility(View.VISIBLE);

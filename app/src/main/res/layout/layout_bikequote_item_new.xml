@@ -173,11 +173,13 @@
             android:visibility="visible">
 
             <View
+                android:duplicateParentState="true"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/search_gray" />
 
             <TextView
+                android:duplicateParentState="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
@@ -189,6 +191,7 @@
                 android:visibility="gone" />
 
             <android.support.v7.widget.RecyclerView
+                android:duplicateParentState="true"
                 android:id="@+id/rvAddOn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

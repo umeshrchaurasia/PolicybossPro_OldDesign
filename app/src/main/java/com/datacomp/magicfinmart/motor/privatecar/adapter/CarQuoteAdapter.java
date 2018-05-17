@@ -95,7 +95,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
                 ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
-        holder.rvAddOn.setOnClickListener(new View.OnClickListener() {
+        holder.llAddon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());

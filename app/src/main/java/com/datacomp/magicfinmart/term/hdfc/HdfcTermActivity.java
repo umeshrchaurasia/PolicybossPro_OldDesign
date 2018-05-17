@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term.icici;
+package com.datacomp.magicfinmart.term.hdfc;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,16 +20,14 @@ import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 
-public class IciciTermActivity extends BaseActivity {
+public class HdfcTermActivity extends BaseActivity {
 
-    private static String INPUT_FRAGMENT = "input_term_icici";
-    private static String QUOTE_FRAGMENT = "quote_term";
+    private static String INPUT_FRAGMENT = "input_term_hdfc";
+    private static String QUOTE_FRAGMENT = "quote_term_hdfc";
 
 
-    public static String INPUT_DATA = "input_term_data";
-    public static String QUOTE_DATA = "quote_term_data";
-
-    private static String BUY_FRAGMENT = "buy";
+    public static String INPUT_DATA = "input_term_data_hdfc";
+    public static String QUOTE_DATA = "quote_term_data_hdfc";
 
     BottomNavigationView bottomNavigationView;
     Bundle quoteBundle;
@@ -37,19 +35,18 @@ public class IciciTermActivity extends BaseActivity {
     FragmentTransaction transactionSim;
     TermFinmartRequest termFinmartRequest;
     ImageView ivHdrInput, ivHdrQuote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_icici_term);
+        setContentView(R.layout.activity_hdfc_term);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
         ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
-
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
         //1. which insurer for enable input
         //2, check request
         quoteBundle = new Bundle();
@@ -67,6 +64,7 @@ public class IciciTermActivity extends BaseActivity {
         }
     }
 
+
     //region navigation click
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -76,15 +74,15 @@ public class IciciTermActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
+                    highlighInput();
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (termFinmartRequest != null) {
                         quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
                     }
 
-                    IciciTermInputFragment inputFragment = new IciciTermInputFragment();
+                    HdfcInputFragment inputFragment = new HdfcInputFragment();
                     inputFragment.setArguments(quoteBundle);
                     loadFragment(inputFragment, INPUT_FRAGMENT);
-
                     return true;
                 case R.id.navigation_quote:
 
@@ -97,20 +95,20 @@ public class IciciTermActivity extends BaseActivity {
                     if (tabFragment != null) {
                         tabFragment.setArguments(quoteBundle);
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
-
+                        highlighQuote();
                     } else {
                         if (quoteBundle != null) {
                             if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
                                 //IciciTermQuoteFragment quoteFragment = new IciciTermQuoteFragment();
                                 //quoteFragment.setArguments(quoteBundle);
                                 //loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                                highlighQuote();
                             } else {
-
-                                Toast.makeText(IciciTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HdfcTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                             }
                         } else {
 
-                            Toast.makeText(IciciTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HdfcTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -135,7 +133,7 @@ public class IciciTermActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        IciciTermActivity.this.finish();
+        HdfcTermActivity.this.finish();
     }
 
     @Override
@@ -185,6 +183,7 @@ public class IciciTermActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
     public void highlighInput() {
         ivHdrInput.setVisibility(View.VISIBLE);
         ivHdrQuote.setVisibility(View.GONE);
@@ -195,5 +194,6 @@ public class IciciTermActivity extends BaseActivity {
         ivHdrInput.setVisibility(View.GONE);
 
     }
+
 
 }
