@@ -164,38 +164,19 @@
             </LinearLayout>
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/search_gray" />
 
-        <LinearLayout
-            android:id="@+id/llAddon"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvAddOn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:visibility="visible">
+            android:layout_margin="1dp"
+            android:background="@color/bg1"
+            android:paddingBottom="5dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/search_gray" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="10dp"
-                android:padding="5dp"
-                android:text="Add-On :"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvAddOn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="1dp"
-                android:background="@color/bg1"
-                android:paddingBottom="5dp" />
-
-        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

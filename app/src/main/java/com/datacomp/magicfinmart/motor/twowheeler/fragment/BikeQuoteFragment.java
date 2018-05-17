@@ -65,8 +65,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
  */
 
 
-
-
 public class BikeQuoteFragment extends BaseFragment implements IResponseSubcriber, BaseFragment.PopUpListener, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     String status;
     BikePremiumResponse bikePremiumResponse;
@@ -980,14 +978,19 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     }
 
 
+    public static boolean isShowing = false;
+
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         if (webViewLoader.getVisibility() == View.GONE) {
-            Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
-            intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
-            intent.putExtra("RESPONSE_BIKE", entity);
-            intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
-            intent.putExtra("SUMMARY", summaryEntity);
-            startActivityForResult(intent, 00000);
+            if (!isShowing) {
+                Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
+                intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
+                intent.putExtra("RESPONSE_BIKE", entity);
+                intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
+                intent.putExtra("SUMMARY", summaryEntity);
+                startActivityForResult(intent, 00000);
+                isShowing = true;
+            }
         } else {
             Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
         }
@@ -1244,6 +1247,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                         }
 
                         rebindAdapter(bikePremiumResponse);
+                        isShowing = false;
                     }
                 }
                 break;

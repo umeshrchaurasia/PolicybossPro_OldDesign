@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 
 import java.util.List;
 
@@ -41,6 +43,7 @@ public class GridAddonAdapter extends RecyclerView.Adapter<GridAddonAdapter.Addo
         if (holder instanceof AddonItem) {
             holder.addonName.setText("" + listAppliedAddon.get(position).getAddonName()
                     + " ( " + "\u20B9" + String.valueOf(Math.round(listAppliedAddon.get(position).getPriceAddon()) + ")"));
+
         }
 
     }
@@ -53,9 +56,11 @@ public class GridAddonAdapter extends RecyclerView.Adapter<GridAddonAdapter.Addo
     public class AddonItem extends RecyclerView.ViewHolder {
 
         public TextView addonName;
+        LinearLayout llAddonName;
 
         public AddonItem(View itemView) {
             super(itemView);
+            llAddonName = (LinearLayout) itemView.findViewById(R.id.llAddonName);
             addonName = (TextView) itemView.findViewById(R.id.addonName);
         }
     }

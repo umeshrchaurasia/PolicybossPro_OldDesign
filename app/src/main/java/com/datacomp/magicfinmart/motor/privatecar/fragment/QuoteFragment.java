@@ -1,12 +1,15 @@
 package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -23,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
@@ -1018,15 +1022,19 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         }
     }
 
+    public static boolean isShowing = false;
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         if (webViewLoader.getVisibility() != View.VISIBLE) {
-            Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
-            intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
-            intent.putExtra("RESPONSE_CAR", entity);
-            intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
-            intent.putExtra("SUMMARY", summaryEntity);
-            startActivityForResult(intent, 00000);
+            if (!isShowing) {
+                Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
+                intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
+                intent.putExtra("RESPONSE_CAR", entity);
+                intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
+                intent.putExtra("SUMMARY", summaryEntity);
+                startActivityForResult(intent, 00000);
+                isShowing = true;
+            }
         } else {
             Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
         }
@@ -1275,6 +1283,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                         }
 
                         rebindAdapter(bikePremiumResponse);
+                        isShowing = false;
                     }
                 }
                 break;
