@@ -60,8 +60,14 @@ public class TermSelectionItemAdapter extends RecyclerView.Adapter<RecyclerView.
 
         if (holder instanceof DashboardItemHolder) {
             final TermSelectionEntity termSelectionEntity = listInsur.get(position);
+            if (termSelectionEntity.getCompantID() == 39)
+                ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.icici_life_icon);
+            else if (termSelectionEntity.getCompantID() == 28)
+                ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.hdfc_life_icon);
+            else if (termSelectionEntity.getCompantID() == 1001)
+                ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.icici_life_icon);
 
-            ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.icici_life_icon);
+
             ((DashboardItemHolder) holder).txtProductName.setText(termSelectionEntity.getCompanyName());
             ((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
                 @Override

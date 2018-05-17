@@ -7,16 +7,13 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
@@ -139,14 +136,12 @@ public class InputQuoteBottmActivity extends BaseActivity {
         //transactionSim.commitAllowingStateLoss();
     }
 
-    public void highlighInput()
-    {
+    public void highlighInput() {
         ivHdrInput.setVisibility(View.VISIBLE);
         ivHdrQuote.setVisibility(View.GONE);
     }
 
-    public void highlighQuote()
-    {
+    public void highlighQuote() {
         ivHdrQuote.setVisibility(View.VISIBLE);
         ivHdrInput.setVisibility(View.GONE);
 

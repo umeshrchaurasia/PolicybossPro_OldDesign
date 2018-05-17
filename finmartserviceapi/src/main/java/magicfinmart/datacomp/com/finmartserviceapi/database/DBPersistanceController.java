@@ -100,13 +100,13 @@ public class DBPersistanceController {
         return listCity;
     }
 
-    public String getBikeRTOName(String VehicleCity_Id) {
+
+    public String getCityID(String cityName) {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
-                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
-
+                .equalTo("RTO_City", cityName).findFirst();
         if (entity != null)
-            return entity.getRTO_City();
+            return entity.getVehicleCity_Id();
         else
             return "";
 
@@ -121,17 +121,6 @@ public class DBPersistanceController {
             return entity.getRTO_City();
         else
             return "";
-    }
-
-
-    public String getCityID(String cityName) {
-
-        CityMasterEntity entity = realm.where(CityMasterEntity.class)
-                .equalTo("RTO_City", cityName).findFirst();
-        if (entity != null)
-            return entity.getVehicleCity_Id();
-        else
-            return "";
 
     }
 
@@ -142,6 +131,18 @@ public class DBPersistanceController {
 
         if (entity != null)
             return entity.getVehicleCity_RTOCode() + " - " + entity.getRTO_City();
+        else
+            return "";
+
+    }
+
+    public String getBikeRTOName(String VehicleCity_Id) {
+
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("VehicleCity_Id", VehicleCity_Id).findFirst();
+
+        if (entity != null)
+            return entity.getRTO_City();
         else
             return "";
 
@@ -233,7 +234,7 @@ public class DBPersistanceController {
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name();
+            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
             listCarVariant.add(variant);
         }
         return listCarVariant;
@@ -250,7 +251,7 @@ public class DBPersistanceController {
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name();
+            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
             listCarVariant.add(variant);
         }
 
@@ -396,7 +397,7 @@ public class DBPersistanceController {
 
         for (int i = 0; i < list.size(); i++) {
             BikeMasterEntity entity = list.get(i);
-            String variant = entity.getVariant_Name() /*+ " , ( " + entity.getCubic_Capacity() + "CC )"*/;
+            String variant = entity.getVariant_Name() + " (" + entity.getCubic_Capacity() + "cc)";
             listCarVariant.add(variant);
         }
 
@@ -490,9 +491,9 @@ public class DBPersistanceController {
     public List<TermSelectionEntity> getTermCompanyList() {
 
         List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
-        //term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1001, ""));
-        // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANE", 43, ""));
-        //term.add(new TermSelectionEntity("HDFC LIFE INSURANE", 28, ""));
+        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1001, ""));
+       // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANE", 43, ""));
+        term.add(new TermSelectionEntity("HDFC LIFE INSURANE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANE", 39, ""));
         //term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
 
@@ -526,6 +527,7 @@ public class DBPersistanceController {
         return dashboardEntities;
     }
 
+
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
@@ -542,7 +544,7 @@ public class DBPersistanceController {
     public List<String> getInsurerList() {
         MapInsurence();
         ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
-        insurenceList.add(0, "Prev Insurer");
+        insurenceList.add(0, "Present Insurer");
         return insurenceList;
 
     }
@@ -1517,18 +1519,18 @@ public class DBPersistanceController {
 
     public List<HealthSumAssured> getSumAssured() {
         List<HealthSumAssured> list = new ArrayList<HealthSumAssured>();
-        list.add(new HealthSumAssured("1 Lac", 100000, false));
-        list.add(new HealthSumAssured("2 Lac", 200000, false));
-        list.add(new HealthSumAssured("3 Lac", 300000, false));
-        list.add(new HealthSumAssured("5 Lac", 500000, false));
-        list.add(new HealthSumAssured("6 Lac", 600000, false));
-        list.add(new HealthSumAssured("8 Lac", 800000, false));
-        list.add(new HealthSumAssured("10 Lac", 1000000, false));
-        list.add(new HealthSumAssured("15 Lac", 1500000, false));
-        list.add(new HealthSumAssured("20 Lac", 2000000, false));
-        list.add(new HealthSumAssured("25 Lac", 2500000, false));
-        list.add(new HealthSumAssured("50 Lac", 5000000, false));
-        list.add(new HealthSumAssured("100 Lac", 10000000, false));
+        list.add(new HealthSumAssured("1 LAC", 100000, false));
+        list.add(new HealthSumAssured("2 LACS", 200000, false));
+        list.add(new HealthSumAssured("3 LACS", 300000, false));
+        list.add(new HealthSumAssured("5 LACS", 500000, false));
+        list.add(new HealthSumAssured("6 LACS", 600000, false));
+        list.add(new HealthSumAssured("8 LACS", 800000, false));
+        list.add(new HealthSumAssured("10 LACS", 1000000, false));
+        list.add(new HealthSumAssured("15 LACS", 1500000, false));
+        list.add(new HealthSumAssured("20 LACS", 2000000, false));
+        list.add(new HealthSumAssured("25 LACS", 2500000, false));
+        list.add(new HealthSumAssured("50 LACS", 5000000, false));
+        list.add(new HealthSumAssured("100 LACS", 10000000, false));
         return list;
     }
 

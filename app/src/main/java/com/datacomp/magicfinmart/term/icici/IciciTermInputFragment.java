@@ -23,7 +23,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -78,9 +77,11 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     RecyclerView rvAddOn;
 
     Button btnGetQuote;
-    EditText etFirstName, etLastName, etMobile;
-    RadioButton rbMale, rbfemale, rbNoSmoker, rbYesSmoker;
-    EditText etDOB;
+    EditText etFirstName, etLastName, etMobile, etDOB;
+    TextView tvMale, tvFemale, tvYes, tvNo;
+    boolean isMale, isSmoker;
+    LinearLayout llGender, llSmoker;
+
 
     EditText etPincode, etSumAssured;
     TextInputLayout tilPincode;
@@ -460,16 +461,21 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 etDOB.setText("" + termRequestEntity.getInsuredDOB());
                 etPincode.setText("" + termRequestEntity.getPincode());
 
-                if (termRequestEntity.getIs_TabaccoUser().equals("true"))
-                    rbYesSmoker.setChecked(true);
-                else
-                    rbNoSmoker.setChecked(true);
+                if (termRequestEntity.getIs_TabaccoUser().equals("true")) {
+                    tvYes.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvNo.setBackgroundResource(R.drawable.customeborder);
+                } else {
+                    tvNo.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvYes.setBackgroundResource(R.drawable.customeborder);
+                }
 
-                if (termRequestEntity.getInsuredGender().equals("M"))
-                    rbMale.setChecked(true);
-                else
-                    rbfemale.setChecked(true);
-
+                if (termRequestEntity.getInsuredGender().equals("M")) {
+                    tvMale.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvFemale.setBackgroundResource(R.drawable.customeborder);
+                } else {
+                    tvFemale.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvMale.setBackgroundResource(R.drawable.customeborder);
+                }
 
                 if (termRequestEntity.getDeathBenefitOption().equals("lump-sum")) {
                     incomeSelection("LUMP SUM");
@@ -587,10 +593,12 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         etLastName = (EditText) view.findViewById(R.id.etLastName);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etDOB = (EditText) view.findViewById(R.id.etDateofBirth);
-        rbMale = (RadioButton) view.findViewById(R.id.rbmale);
-        rbfemale = (RadioButton) view.findViewById(R.id.rbfemale);
-        rbYesSmoker = (RadioButton) view.findViewById(R.id.rbYesSmoker);
-        rbNoSmoker = (RadioButton) view.findViewById(R.id.rbNoSmoker);
+        tvMale = (TextView) view.findViewById(R.id.tvMale);
+        tvFemale = (TextView) view.findViewById(R.id.tvFemale);
+        tvYes = (TextView) view.findViewById(R.id.tvYes);
+        tvNo = (TextView) view.findViewById(R.id.tvNo);
+        llGender = (LinearLayout) view.findViewById(R.id.llGender);
+        llSmoker = (LinearLayout) view.findViewById(R.id.llSmoker);
 
         etPincode = (EditText) view.findViewById(R.id.etPincode);
         etSumAssured = (EditText) view.findViewById(R.id.etICICISumAssured);
@@ -638,6 +646,28 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.tvMale:
+                isMale = true;
+                tvFemale.setBackgroundResource(R.drawable.customeborder);
+                tvMale.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+            case R.id.tvFemale:
+                isMale = false;
+                tvMale.setBackgroundResource(R.drawable.customeborder);
+                tvFemale.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+            case R.id.tvYes:
+                isSmoker = true;
+                tvNo.setBackgroundResource(R.drawable.customeborder);
+                tvYes.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+            case R.id.tvNo:
+                isSmoker = false;
+                tvYes.setBackgroundResource(R.drawable.customeborder);
+                tvNo.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+
             case R.id.ivBuy:
                 new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(), "39", "" + dbPersistanceController.getUserData().getFBAId(), "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getNetPremium(), this);
                 startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
@@ -928,12 +958,12 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     private void setTermRequest() {
         //termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
 
-        if (rbMale.isChecked())
+        if (isMale)
             termRequestEntity.setInsuredGender("M");
         else
             termRequestEntity.setInsuredGender("F");
 
-        if (rbNoSmoker.isChecked())
+        if (isSmoker)
             termRequestEntity.setIs_TabaccoUser("false");
         else
             termRequestEntity.setIs_TabaccoUser("true");

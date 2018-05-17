@@ -35,6 +35,10 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
             compId = getIntent().getIntExtra(Constants.LIFE_INS, 0);
             if (compId == 39) {
                 getSupportActionBar().setTitle("ICICI PRUDENTIAL");
+            } else if (compId == 1001) {
+                getSupportActionBar().setTitle("COMPARE TERM INSURANCE");
+            } else if (compId == 28) {
+                getSupportActionBar().setTitle("CLICK TO PROTECT 3D");
             }
         }
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tab_layout);
