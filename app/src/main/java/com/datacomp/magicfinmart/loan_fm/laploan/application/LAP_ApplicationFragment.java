@@ -26,7 +26,7 @@ import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanApplicationAdapter;
  * Created by IN-RB on 22-01-2018.
  */
 
- import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -50,6 +50,7 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
     public LAP_ApplicationFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,8 +65,8 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_LAP.APPLICATION_LIST);
         }
 
-       // rvApplicationList.setAdapter(null);
-        lapLoanApplicationAdapter = new LapLoanApplicationAdapter(LAP_ApplicationFragment.this,mApplicationList);
+        // rvApplicationList.setAdapter(null);
+        lapLoanApplicationAdapter = new LapLoanApplicationAdapter(LAP_ApplicationFragment.this, mApplicationList);
         rvApplicationList.setAdapter(lapLoanApplicationAdapter);
 
 
@@ -98,6 +99,7 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
                 "LAP", this);
 
     }
+
     private void initView(View view) {
 
         ivSearch = (ImageView) view.findViewById(R.id.ivSearch);
@@ -122,13 +124,14 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
         tvSearch.setOnClickListener(this);
     }
 
-    public void redirectLAPLoanApply(String ApplNum){
-        Intent intent=new Intent(getActivity(), HomeLoanApplyActivity.class);
-        intent.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
-        intent.putExtra("TypePage","LAP");
+    public void redirectLAPLoanApply(String ApplNum) {
+        Intent intent = new Intent(getActivity(), HomeLoanApplyActivity.class);
+        intent.putExtra(Utility.HMLOAN_APPLICATION, ApplNum);
+        intent.putExtra("TypePage", "LAP");
         startActivity(intent);
 
     }
+
     private void setTextWatcher() {
 //search
         etSearch.addTextChangedListener(new TextWatcher() {
@@ -146,6 +149,7 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
             }
         });
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -175,8 +179,6 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
 
                 if (list.size() > 0) {
                     isHit = false;
-                    Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
-
 
                     for (FmHomeLoanRequest entity : list) {
                         if (!mApplicationList.contains(entity)) {
@@ -198,8 +200,7 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    public void callnumber(String mobNumber)
-    {
+    public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
     }
 }

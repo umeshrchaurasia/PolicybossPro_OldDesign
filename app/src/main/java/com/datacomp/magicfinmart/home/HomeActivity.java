@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,10 +19,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -31,6 +36,7 @@ import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
+import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
@@ -203,9 +209,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
                         break;
                     case R.id.nav_mps:
-                        showDialog();
-                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                        DialogMPS();
+                        // showDialog();
+
+                        // new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
                         //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_helpfeedback:
@@ -280,7 +288,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         txtEntityName.setText("Magic Finmart  v" + versionNAme);
         txtDetails.setText("" + loginResponseEntity.getFullName()
-                + " (FBA ID : " + loginResponseEntity.getFBAId()+")");
+                + " (FBA ID : " + loginResponseEntity.getFBAId() + ")");
         //txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
         if (db.getAccountData() == null) {
@@ -522,4 +530,69 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         else
             nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
     }
+
+    //region mps dialog
+
+    private void DialogMPS() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        // builder.setTitle("PREMIUM DETAIL");
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.layout_dialog_mps, null);
+        builder.setView(view);
+        final AlertDialog dialog = builder.create();
+
+        TextView txtDesc = (TextView) view.findViewById(R.id.txtDesc);
+        TextView txtKnowMore = (TextView) view.findViewById(R.id.txtKnowMore);
+        TextView txtGetMPS = (TextView) view.findViewById(R.id.txtGetMPS);
+        TextView txtLater = (TextView) view.findViewById(R.id.txtLater);
+
+        txtDesc.setText("");
+        txtDesc.append(getResources().getString(R.string.mps_popup_text));
+
+        String amount = " \u20B9" + 2065 + "/- ";
+        SpannableString ss1 = new SpannableString(amount);
+        ss1.setSpan(new StyleSpan(Typeface.BOLD), 0, ss1.length(), 0);
+        String normalText = getResources().getString(R.string.mps_popup_text);
+        txtDesc.setText("");
+        txtDesc.append(normalText);
+        txtDesc.append(ss1);
+        txtDesc.append("(Incl. GST) only");
+
+        txtLater.setTag(R.id.txtLater, dialog);
+        txtGetMPS.setTag(R.id.txtGetMPS, dialog);
+        txtKnowMore.setTag(R.id.txtKnowMore, dialog);
+
+        txtKnowMore.setOnClickListener(onClickListener);
+        txtGetMPS.setOnClickListener(onClickListener);
+        txtLater.setOnClickListener(onClickListener);
+
+        dialog.show();
+
+    }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.txtKnowMore:
+                    ((AlertDialog) v.getTag(R.id.txtKnowMore)).dismiss();
+                    Toast.makeText(HomeActivity.this, "Know More", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.txtGetMPS:
+                    ((AlertDialog) v.getTag(R.id.txtGetMPS)).dismiss();
+                    Toast.makeText(HomeActivity.this, "MPS", Toast.LENGTH_SHORT).show();
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, new MPSFragment());
+                    fragmentTransaction.commit();
+
+                    break;
+                case R.id.txtLater:
+                    ((AlertDialog) v.getTag(R.id.txtLater)).dismiss();
+                    break;
+
+            }
+        }
+    };
+    //endregion
 }

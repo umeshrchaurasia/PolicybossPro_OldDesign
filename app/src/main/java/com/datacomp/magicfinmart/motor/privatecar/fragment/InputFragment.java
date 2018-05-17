@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -966,7 +968,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         etMfgDate = (EditText) view.findViewById(R.id.etMfgDate);
         etExpDate = (EditText) view.findViewById(R.id.etExpDate);
         etCustomerName = (EditText) view.findViewById(R.id.etCustomerName);
-        etCustomerName.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        // etCustomerName.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         acMakeModel = (AutoCompleteTextView) view.findViewById(R.id.acMakeModel);
         acRto = (AutoCompleteTextView) view.findViewById(R.id.acRto);
@@ -980,6 +982,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         spMonth = (Spinner) view.findViewById(R.id.spMonth);
         spYear = (Spinner) view.findViewById(R.id.spYear);
+
     }
 
     @Override

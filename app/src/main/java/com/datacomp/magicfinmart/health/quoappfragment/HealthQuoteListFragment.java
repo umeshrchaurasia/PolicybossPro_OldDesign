@@ -199,7 +199,6 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
                 List<HealthQuote> list =((HealthQuoteAppResponse) response).getMasterData().getQuote();
                 if (list.size() > 0) {
                     isHit = false;
-                    Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
 
                     for (HealthQuote entity : list) {
                         if (!mQuoteList.contains(entity)) {
