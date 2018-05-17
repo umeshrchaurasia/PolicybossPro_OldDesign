@@ -862,9 +862,9 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
          var DispWithoutAddTotPrem = Math.round(response.Premium_Breakup.net_premium * 100) /100;
          var DispWithoutAddTax = Math.round(response.Premium_Breakup.service_tax * 100) / 100;
         var DispWithoutAddNet = Math.round(response.Premium_Breakup.final_premium * 100) / 100;
-        document.getElementById('spnTotPrem').innerHTML = Math.round(DispWithoutAddTotPrem) ;
-        document.getElementById('spnGST').innerHTML = Math.round(DispWithoutAddTax);
-        document.getElementById('spnNetPrem').innerHTML = Math.round(DispWithoutAddNet);
+           document.getElementById('spnTotPrem').innerHTML = parseFloat(response.Premium_Breakup.net_premium);
+        document.getElementById('spnGST').innerHTML = parseFloat(response.Premium_Breakup.service_tax);
+        document.getElementById('spnNetPrem').innerHTML = Math.round(response.Premium_Breakup.final_premium * 100) / 100;
  if(TotalAddOn != 0)
         {
             var DispTax = Math.round(response.Premium_Breakup.service_tax) + Math.round(TotalAddOnTax);

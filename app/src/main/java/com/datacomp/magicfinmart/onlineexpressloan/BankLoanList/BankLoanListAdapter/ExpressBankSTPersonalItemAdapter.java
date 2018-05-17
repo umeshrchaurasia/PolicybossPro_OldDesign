@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListAdapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity;
 
 import java.util.List;
 
@@ -77,7 +79,13 @@ public class ExpressBankSTPersonalItemAdapter  extends RecyclerView.Adapter<Recy
                     .load(shortPLEntity.getDocument1())
                     .placeholder(R.drawable.finmart_placeholder) // can also be a drawable
                     .into(((ExpressBankSTPersonalItemAdapter.STPersonLoanItemHolder) holder).imgCard);
-
+            ((STPersonLoanItemHolder) holder).btnApply.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.startActivity(new Intent(mContext, EarlySalaryActivity.class).putExtra("BANK_ID", shortPLEntity.getBank_Id())
+                            .putExtra("LOAN_TYPE", shortPLEntity.getProductType()));
+                }
+            });
 
 
         }
