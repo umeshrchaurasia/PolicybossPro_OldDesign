@@ -42,6 +42,7 @@ import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -71,9 +72,9 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
 public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     private static final String TAG = "AddNewQuoteActivity";
-    TextView tvNew, tvRenew,tvOr;
+    TextView tvNew, tvRenew, tvOr;
     LinearLayout cvNcb;
-    LinearLayout llNoClaim, llVerifyCarDetails,llDontKnow;
+    LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvIndividual, cvRegNo;
     View cvInput;
@@ -107,6 +108,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     LocationTracker locationTracker;
     Location location;
+
+    Spinner spMonth, spYear;
+    ArrayAdapter<String> MonthAdapter, YearAdapter;
+    ArrayList<String> yearList, monthList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -319,6 +324,121 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 getResources().getStringArray(R.array.ncb_percent));
         spNcbPercent.setAdapter(ncbPerctAdapter);
         //endregion
+
+        //region year adapter
+        yearList = getYearList();
+        YearAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, yearList) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    convertView = inflater.inflate(
+                            android.R.layout.simple_spinner_item, parent, false);
+                }
+
+
+                TextView tv = (TextView) convertView
+                        .findViewById(android.R.id.text1);
+                tv.setText(yearList.get(position));
+                tv.setCompoundDrawablePadding(0);
+                if (!spYear.isEnabled()) {
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                tv.setTextColor(Color.BLACK);
+                convertView.setPadding(8, convertView.getPaddingTop(), 0, convertView.getPaddingBottom());
+                tv.setTextSize(12f);
+                return convertView;
+            }
+        };
+        spYear.setAdapter(YearAdapter);
+        //endregion
+
+
+        //region year adapter
+        monthList = getMonthList(Calendar.getInstance().get(Calendar.MONTH));
+        MonthAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, monthList) {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    // Disable the first item from Spinner
+                    // First item will be use for hint
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView,
+                                        ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView tv = (TextView) view;
+                if (position == 0) {
+                    // Set the hint text color gray
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                if (convertView == null) {
+                    LayoutInflater inflater = LayoutInflater.from(getContext());
+                    convertView = inflater.inflate(
+                            android.R.layout.simple_spinner_item, parent, false);
+                }
+
+
+                TextView tv = (TextView) convertView
+                        .findViewById(android.R.id.text1);
+                tv.setText(monthList.get(position));
+                if (!spMonth.isEnabled()) {
+                    tv.setTextColor(Color.GRAY);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
+                convertView.setPadding(8, convertView.getPaddingTop(), 0, convertView.getPaddingBottom());
+                tv.setTextColor(Color.BLACK);
+                if (position == 0)
+                    tv.setTextSize(10f);
+                else
+                    tv.setTextSize(12f);
+                return convertView;
+            }
+        };
+        spMonth.setAdapter(MonthAdapter);
+        //endregion
     }
 
     private void bindInputsQuotes() {
@@ -404,6 +524,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             Date ManfDate = simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date());
             String manfDate = displayFormat.format(ManfDate);
 
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(ManfDate);
+            setYearMonthAdapter(calendar);
+
             etRegDate.setText(regDate);
             etMfgDate.setText(manfDate);
 
@@ -487,9 +612,40 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             try {
 
-                etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
 
-                etMfgDate.setText(changeDateFormat(masterData.getPurchase_Date()));
+                Calendar calendarReg = Calendar.getInstance();
+                if (masterData.getRegistration_Date() != null) {
+                    String reg = changeDateFormat(masterData.getRegistration_Date());
+                    String regDate = displayFormat.format(simpleDateFormat.parse(reg));
+                    etRegDate.setText(regDate);
+                    calendarReg.setTime(simpleDateFormat.parse(reg));
+                    //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
+                }
+                if (masterData.getManufacture_Year() != null) {
+                    String mfDate = "";
+                    int month = calendarReg.get(Calendar.MONTH) + 1;
+                    if (month <= 9)
+                        mfDate = masterData.getManufacture_Year() + "-0" + month + "-01";
+                    else
+                        mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
+                    calendarReg.setTime(simpleDateFormat.parse(mfDate));
+                    setYearMonthAdapter(calendarReg);
+                }
+                if (masterData.getPurchase_Date() != null) {
+                    String mf = changeDateFormat(masterData.getPurchase_Date());
+                    String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
+                    etMfgDate.setText(mfDate);
+                    //etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getPurchase_Date())));
+                } else {
+                    String mf = changeDateFormat(masterData.getRegistration_Date());
+                    String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
+                    etMfgDate.setText(mfDate);
+                    //etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getRegistration_Date())));
+                }
+
+                //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
+
+               // etMfgDate.setText(changeDateFormat(masterData.getPurchase_Date()));
 
                 etExpDate.setEnabled(true);
 
@@ -617,7 +773,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         switchNewRenew.setChecked(true);
         tvClaimNo.performClick();
         spPrevIns.setEnabled(false);
-        //llVerifyCarDetails.setVisibility(View.GONE);
+        llVerifyCarDetails.setVisibility(View.GONE);
     }
 
     public int getPercentFromProgress(int value) {
@@ -713,7 +869,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         tvRenew = (TextView) view.findViewById(R.id.tvRenew);
         tvOr = (TextView) view.findViewById(R.id.tvOr);
         llDontKnow = (LinearLayout) view.findViewById(R.id.llDontKnow);
-        //llVerifyCarDetails = (LinearLayout) view.findViewById(R.id.llVerifyCarDetails);
+        llVerifyCarDetails = (LinearLayout) view.findViewById(R.id.llVerifyCarDetails);
         cvNcb = (LinearLayout) view.findViewById(R.id.cvNcb);
         llNoClaim = (LinearLayout) view.findViewById(R.id.llNoClaim);
         cvNewRenew = (CardView) view.findViewById(R.id.cvNewRenew);
@@ -758,15 +914,19 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         //endregion
 
         sbNoClaimBonus = (DiscreteSeekBar) view.findViewById(R.id.sbNoClaimBonus);
+        spMonth = (Spinner) view.findViewById(R.id.spMonth);
+        spYear = (Spinner) view.findViewById(R.id.spYear);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnGo:
+                llVerifyCarDetails.setVisibility(View.VISIBLE);
                 regNo = etreg1.getText().toString() + etreg2.getText().toString()
                         + etreg3.getText().toString() + etreg4.getText().toString();
                 if (!regNo.equals("")) {
+                    tvCarNo.setText("" + regNo);
                     Constants.hideKeyBoard(etreg4, getActivity());
                     tvDontKnow.performClick();
                     btnGetQuote.setVisibility(View.VISIBLE);
@@ -948,17 +1108,14 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 etreg4.requestFocus();
                 break;
             case R.id.etreg4:
-
                 regNo = etreg1.getText().toString() + etreg2.getText().toString()
                         + etreg3.getText().toString() + etreg4.getText().toString();
-                //llVerifyCarDetails.setVisibility(View.VISIBLE);
+
                 tvCarNo.setText(etreg1.getText().toString() + " " + etreg2.getText().toString()
                         + " " + etreg3.getText().toString() + " " + etreg4.getText().toString());
-                Constants.hideKeyBoard(etreg4, getActivity());
+               /* Constants.hideKeyBoard(etreg4, getActivity());
                 tvDontKnow.performClick();
-                btnGetQuote.setVisibility(View.VISIBLE);
-                showDialog("Fetching Car Details...");
-                new FastLaneController(getActivity()).getVechileDetails(regNo, this);
+                btnGetQuote.setVisibility(View.VISIBLE);*/
                 break;
         }
     }
@@ -1100,6 +1257,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                                 String currentDay1 = displayFormat.format(calendar.getTime());
                                 etMfgDate.setText(currentDay1);
                                 etExpDate.setEnabled(true);
+                                setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
                                 /*Calendar calendar1 = Calendar.getInstance();
                                 calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
                                 String expDate = simpleDateFormat.format(calendar1.getTime());
@@ -1121,6 +1279,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                                 String currentDay = displayFormat.format(calendar.getTime());
                                 etRegDate.setText(currentDay);
                                 etMfgDate.setText(currentDay);
+                                setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
                             }
                         }
                     });
@@ -1214,7 +1373,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
         motorRequestEntity.setExecution_async("yes");
         motorRequestEntity.setVehicle_insurance_type("new");
-        motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
+        motorRequestEntity.setVehicle_manf_date(getMfgDate());
+        //motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
         motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
         motorRequestEntity.setPolicy_expiry_date("");
         motorRequestEntity.setPrev_insurer_id(0);
@@ -1281,7 +1441,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             varientId = dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
             motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
             motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
-            motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
+            motorRequestEntity.setVehicle_manf_date(getMfgDate());
+            // motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
             if (regNo.equals(""))
                 motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
             else
@@ -1411,7 +1572,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         cancelDialog();
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
         if (t.getMessage().contains("manually")) {
-            //llVerifyCarDetails.setVisibility(View.GONE);
+            llVerifyCarDetails.setVisibility(View.GONE);
         }
     }
 
@@ -1530,4 +1691,117 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         location = null;
     }
 
+    public String getMfgDate() {
+        String mfgDAte = "";
+        if (spMonth.getSelectedItemPosition() < 10)
+            mfgDAte = spYear.getSelectedItem().toString() + "-0" + spMonth.getSelectedItemPosition() + "-01";
+        else
+            mfgDAte = spYear.getSelectedItem().toString() + "-" + spMonth.getSelectedItemPosition() + "-01";
+        return mfgDAte;
+    }
+
+    public void setYearMonthAdapter(Calendar calendar) {
+
+        int yearIndex = 0;
+        for (int i = 0; i < yearList.size(); i++) {
+            String year = "" + calendar.get(Calendar.YEAR);
+            String vari = yearList.get(i);
+            if (year.equalsIgnoreCase(vari)) {
+                yearIndex = i;
+                break;
+            }
+        }
+        spYear.setSelection(yearIndex);
+
+        spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
+    }
+
+    public void setYearMonthAdapter(Calendar calendar, int maxYear) {
+
+        yearList.clear();
+        yearList.addAll(getYearList(maxYear));
+        YearAdapter.notifyDataSetChanged();
+
+        int yearIndex = 0;
+        for (int i = 0; i < yearList.size(); i++) {
+            String year = "" + calendar.get(Calendar.YEAR);
+            String vari = yearList.get(i);
+            if (year.equalsIgnoreCase(vari)) {
+                yearIndex = i;
+                break;
+            }
+        }
+        spYear.setSelection(yearIndex);
+
+        spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
+    }
+
+    public ArrayList<String> getYearList() {
+        Calendar calendar = Calendar.getInstance();
+        int currYear = calendar.get(Calendar.YEAR);
+        int currMonth = calendar.get(Calendar.MONTH);
+        ArrayList yearList = new ArrayList();
+        yearList.add("Year");
+        for (int i = 0; i <= 15; i++) {
+            yearList.add("" + (currYear - i));
+        }
+        return yearList;
+    }
+
+    public ArrayList<String> getYearList(int minYear) {
+        Calendar calendar = Calendar.getInstance();
+        int currYear = calendar.get(Calendar.YEAR);
+        ArrayList yearList = new ArrayList();
+        yearList.add("Year");
+        for (int i = 0; i <= 15 - (currYear - minYear); i++) {
+            yearList.add("" + (minYear - i));
+        }
+        return yearList;
+    }
+
+    public ArrayList<String> getMonthList(int currMonth) {
+        ArrayList monthList = new ArrayList();
+        monthList.add("Month");
+        for (int i = 1; i <= currMonth + 1; i++) {
+            switch (i) {
+                case 1:
+                    monthList.add("JAN");
+                    break;
+                case 2:
+                    monthList.add("FEB");
+                    break;
+                case 3:
+                    monthList.add("MAR");
+                    break;
+                case 4:
+                    monthList.add("APR");
+                    break;
+                case 5:
+                    monthList.add("MAY");
+                    break;
+                case 6:
+                    monthList.add("JUN");
+                    break;
+                case 7:
+                    monthList.add("JUL");
+                    break;
+                case 8:
+                    monthList.add("AUG");
+                    break;
+                case 9:
+                    monthList.add("SEP");
+                    break;
+                case 10:
+                    monthList.add("OCT");
+                    break;
+                case 11:
+                    monthList.add("NOV");
+                    break;
+                case 12:
+                    monthList.add("DEC");
+                    break;
+            }
+        }
+        return monthList;
+    }
 }

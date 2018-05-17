@@ -58,10 +58,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 
@@ -77,6 +79,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     String versionNAme;
     PackageInfo pinfo;
     PrefManager prefManager;
+    int forceUpdate;
+    ConstantEntity constantEntity;
 
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
@@ -146,6 +150,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
 
         }
+
+        new MasterController(this).getConstants(this);
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -473,6 +479,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     db.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
 
                 }
+            }
+        }
+        if (response instanceof ConstantsResponse) {
+            constantEntity = ((ConstantsResponse) response).getMasterData();
+            if (response.getStatusNo() == 0) {
+
+                //region check for new vwesion
+                int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
+                if (pinfo != null && pinfo.versionCode < serverVersionCode) {
+                    forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
+                    if (forceUpdate == 1) {
+                        // forced update app
+                        openPopUp(navigationView, "UPDATE", "New version available on play store!!!! Please update.", "OK", false);
+                    } else {
+                        // aap with less version but not forced update
+                        if (prefManager.getUpdateShown()) {
+                            prefManager.setIsUpdateShown(false);
+                            openPopUp(navigationView, "UPDATE", "New version available on play store!!!! Please update.", "OK", true);
+                        }
+                    }
+                }
+                //endregion
+
+                hideNavigationItem();
             }
         }
 
