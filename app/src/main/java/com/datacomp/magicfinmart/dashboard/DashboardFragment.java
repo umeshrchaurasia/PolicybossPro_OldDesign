@@ -91,7 +91,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         }
         mAdapter = new DashboardRowAdapter(DashboardFragment.this);
         this.rvHome.setAdapter(mAdapter);
-        new MasterController(getActivity()).getConstants(this);
+       // new MasterController(getActivity()).getConstants(this);
         return view;
     }
 
