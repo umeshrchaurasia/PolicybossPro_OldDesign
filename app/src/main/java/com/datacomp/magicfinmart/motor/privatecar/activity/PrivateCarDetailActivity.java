@@ -106,6 +106,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
                     viewPager.setAdapter(mAdapter);
                     mAdapter.notifyDataSetChanged();
                 } else {
+                    finish();
                     startActivity(new Intent(this, InputQuoteBottmActivity.class));
                 }
             }

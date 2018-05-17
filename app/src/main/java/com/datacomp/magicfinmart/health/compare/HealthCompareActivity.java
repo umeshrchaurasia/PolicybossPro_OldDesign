@@ -3,10 +3,11 @@ package com.datacomp.magicfinmart.health.compare;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,10 +26,7 @@ import com.datacomp.magicfinmart.utility.SortbyInsurer;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
@@ -194,8 +192,27 @@ public class HealthCompareActivity extends BaseActivity {
         rvBenefits.setLayoutManager(new LinearLayoutManager(this));
 
         rvBenefitsOptions = (RecyclerView) findViewById(R.id.rvBenefitsOptions);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+        //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(HealthCompareActivity.this) {
+            @Override
+            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
+                LinearSmoothScroller smoothScroller = new LinearSmoothScroller(HealthCompareActivity.this) {
+                    private static final float SPEED = 4000f;// Change this value (default=25f)
+
+                    @Override
+                    protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+                        return SPEED / displayMetrics.densityDpi;
+                    }
+                };
+                smoothScroller.setTargetPosition(position);
+                startSmoothScroll(smoothScroller);
+            }
+
+        };
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         rvBenefitsOptions.setLayoutManager(layoutManager);
+        autoScroll();
     }
 
     private void fillBenefits() {
@@ -230,6 +247,25 @@ public class HealthCompareActivity extends BaseActivity {
                 rvBenefitsOptions.setAdapter(mBenefitsAdapter);
             }
         }
+    }
+
+    public void autoScroll() {
+        final int speedScroll = 0;
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            int count = 0;
+
+            @Override
+            public void run() {
+                if (count == mBenefitsAdapter.getItemCount())
+                    count = 0;
+                if (count < mBenefitsAdapter.getItemCount()) {
+                    rvBenefitsOptions.smoothScrollToPosition(++count);
+                    handler.postDelayed(this, speedScroll);
+                }
+            }
+        };
+        handler.postDelayed(runnable, speedScroll);
     }
 
     @Override
