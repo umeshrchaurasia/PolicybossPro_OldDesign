@@ -77,7 +77,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
     Toolbar toolbar;
     HomeLoanRequest homeLoanRequest;
     FmHomeLoanRequest fmHomeLoanRequest;
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+   // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
     boolean isPropertyInfoVisible = false;
     boolean isApplicantVisible = true;
     boolean isCoApplicantVisible = true;
@@ -457,6 +458,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         coApp_etMonthlyInc = (EditText) view.findViewById(R.id.coApp_etMonthlyInc);
         coApp_etEMI = (EditText) view.findViewById(R.id.coApp_etEMI);
 
+
+        et_DOB.setText("01-01-1980");
+        coApp_et_DOB.setText("01-01-1980");
         //endregion
 
     }

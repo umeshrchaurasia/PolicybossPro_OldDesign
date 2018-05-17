@@ -39,7 +39,7 @@ public class BankLoanListActivity extends BaseActivity  implements IResponseSubc
         rvbanklist.setLayoutManager(new LinearLayoutManager(this));
     }
     private void fetchCreditCards() {
-        showDialog("Please wait.., Fetching credit cards");
+        showDialog("Please wait.., Fetching express loan list");
         new ExpressLoanController(this).getExpressLoanList(this);
     }
 

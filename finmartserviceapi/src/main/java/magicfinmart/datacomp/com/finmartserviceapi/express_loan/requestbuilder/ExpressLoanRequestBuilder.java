@@ -4,15 +4,20 @@ import com.google.android.gms.common.api.CommonStatusCodes;
 
 import java.util.HashMap;
 
-import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.RBLPesonalLoanReqEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.EarlySalaryRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.HdfcPers_SaveRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.KotakPersonalSaveRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.RBLPesonalLoanReqEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.SaveExpressLoanRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.EarlySalaryLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressLoanListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressQuoteListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressRbPersonalResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressRblCalResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.HdfcPers_SaveResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.KotakPLEmployerNameResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.KotakROICalResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.kotakPers_SaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder.MotorQuotesRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.BikePremiumRequestEntity;
@@ -40,7 +45,7 @@ public class ExpressLoanRequestBuilder extends FinmartRetroRequestBuilder {
     public interface ExpressNetworkService {
 
         @Headers("token:" + token)
-        @POST("/api/get-express-loan")
+        @POST("/api/get-early-salary")
         Call<ExpressQuoteListResponse> getExpressQuoteList(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
@@ -56,16 +61,27 @@ public class ExpressLoanRequestBuilder extends FinmartRetroRequestBuilder {
         Call<HdfcPers_SaveResponse> saveHDFCPersonalLoan(@Body HdfcPers_SaveRequestEntity body);
 
 
-         // RBL Personal Loan
+        @Headers("token:" + token)
+        @POST("/api/kotak-personal-loan")
+        Call<kotakPers_SaveResponse> savekotakPersonalLoan(@Body KotakPersonalSaveRequestEntity body);
+
+        @Headers("token:" + token)
+        @POST("/api/get-kotak-pl-company-master")
+       Call<KotakPLEmployerNameResponse> getEmployerNameKotakPL();
+
+
+        @Headers("token:" + token)
+        @POST("/api/get-kotak-pl-calc")
+        Call<KotakROICalResponse> getKotakROICalculationList(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/save-early-salary")
+        Call<EarlySalaryLoanResponse> saveEarlySalaryLoan(@Body EarlySalaryRequestEntity body);
 
         @Headers("token:" + token)
         @POST("/api/rb-personal-loan")
         Call<ExpressRbPersonalResponse> saveRblPersonalLoan(@Body RBLPesonalLoanReqEntity body);
-
-        @Headers("token:" + token)
-        @POST("/api/get-rbl-pl-calc")
-        Call<ExpressRblCalResponse> getRblCalc (@Body HashMap<String, String> body);
-
+//
 
 //        @POST("/quote/premium_list_db")
 //        Call<BikePremiumResponse> getPremiumList(@Body BikePremiumRequestEntity body);

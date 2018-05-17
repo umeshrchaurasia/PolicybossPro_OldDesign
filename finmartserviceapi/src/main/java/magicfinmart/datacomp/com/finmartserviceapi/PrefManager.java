@@ -25,6 +25,7 @@ public class PrefManager {
     private static final String IS_INSURANCE_MASTER_UPDATE = "isRtoMasterUpdate";
     private static final String IS_DEVICE_TOKEN = "devicetoken";
     private static final String IS_RBL_CITY_MASTER = "isRblCityMaster";
+    private static final String IS_EMPLOYER_NAME_MASTER = "employernamemaster";
 
     private static final String IS_ZOHO_MASTER = "iszohomaster";
     private static final String POSP_INFO = "pospinfo";
@@ -96,6 +97,16 @@ public class PrefManager {
 
     public boolean IsBikeMasterUpdate() {
         return pref.getBoolean(IS_BIKE_MASTER_UPDATE, true);
+    }
+
+
+    public void setIsEmployerNAmeUpdate(boolean isFirstTime) {
+        editor.putBoolean(IS_EMPLOYER_NAME_MASTER, isFirstTime);
+        editor.commit();
+    }
+
+    public boolean IsEmployerNAmeUpdate() {
+        return pref.getBoolean(IS_EMPLOYER_NAME_MASTER, true);
     }
 
 
