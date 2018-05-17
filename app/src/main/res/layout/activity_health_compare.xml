@@ -41,15 +41,19 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="8dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:text="Other Benefits"
             android:textAllCaps="true"
+            android:layout_gravity="left"
+            android:visibility="gone"
             android:textSize="11sp" />
 
         <Spinner
             android:id="@+id/spBenefits"
-            style="@style/SpinnerStyle"
+            style="@style/SpinnerStyle.Underlined"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

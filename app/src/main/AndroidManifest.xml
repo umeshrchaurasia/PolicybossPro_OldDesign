@@ -1053,6 +1053,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
+        <activity android:name=".term.hdfc.HdfcTermActivity"></activity>
     </application>
 
 </manifest>
