@@ -219,12 +219,10 @@ public class BikeAddQuoteActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (isQuoteVisible) {
-            //finish();
+            finish();
 
-//            if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
-//
-//            {
-//                redirectInput();
+//            if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId()) {
+//                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
 //            } else {
 //                BikeAddQuoteActivity.this.finish();
 //            }

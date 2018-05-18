@@ -1538,24 +1538,38 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     private boolean validateParentAge() {
         int Age1, Age2 = 0;
         boolean blnchk = true;
+        boolean blnAge = true;
+        int count = 0;
+        int countSel = 0;
         if ((et1.isEnabled() && et1.getText().toString().length() > 0)) {
             Age1 = Integer.parseInt(et1.getText().toString());
             if (Age1 < 36) {
 
-                showAlert("Age should  be greater than or equal to 36 years");
-                et1.requestFocus();
-                return false;
+                blnAge = false;
             }
+            countSel = countSel + 1;
 
         }
         if (et2.isEnabled() && et2.getText().toString().length() > 0) {
             Age2 = Integer.parseInt(et2.getText().toString());
             if (Age2 < 36) {
 
-                showAlert("Age should  be greater than or equal to 36 years");
-                et2.requestFocus();
-                return false;
+                blnAge = false;
             }
+            countSel = countSel + 1;
+        }
+
+        if (countSel < 2) {
+
+            showAlert("Select two member");
+            blnchk = false;
+        }
+
+
+        else if(blnAge == false) {
+            showAlert("Age should  be greater than or equal to 36 years");
+            blnchk = false;
+
         }
 
 

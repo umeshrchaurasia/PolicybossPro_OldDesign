@@ -215,9 +215,12 @@
                     android:background="#f38d1e"
                     android:drawableLeft="@mipmap/buy"
                     android:drawablePadding="8dp"
-                    android:gravity="center"
+                    android:gravity="left|center_vertical"
                     android:minHeight="30dp"
+                    android:paddingRight="4dp"
+                    android:textSize="11dp"
                     android:text="BUY NOW"
+
                     android:textColor="@android:color/white" />
             </LinearLayout>
 

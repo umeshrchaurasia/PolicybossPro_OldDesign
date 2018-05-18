@@ -133,6 +133,7 @@ public class PLMainActivity extends BaseActivity  {
                         } else {
 
                             Toast.makeText(PLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
                     return true;
@@ -151,6 +152,14 @@ public class PLMainActivity extends BaseActivity  {
     public void onBackPressed() {
         super.onBackPressed();
         PLMainActivity.this.finish();
+//        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+//
+//        {
+//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+//
+//        } else {
+//            PLMainActivity.this.finish();
+//        }
     }
 
     private void loadFragment(Fragment fragment, String TAG) {
