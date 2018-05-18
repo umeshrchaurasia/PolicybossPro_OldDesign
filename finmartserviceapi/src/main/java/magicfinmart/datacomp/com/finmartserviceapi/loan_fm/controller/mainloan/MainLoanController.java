@@ -273,10 +273,12 @@ public class MainLoanController implements IMainLoan {
 
 
     @Override
-    public void getBLQuoteApplication(String fbaid, final IResponseSubcriberFM iResponseSubcriber) {
+    public void getBLQuoteApplication(int count, int type, String fbaid, final IResponseSubcriberFM iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
         body.put("FBA_id", fbaid);
+        body.put("count", "" + count);
+        body.put("type", "" + type);
 
         loanMainNetworkService.getBLQuoteApplication(body).enqueue(new Callback<FmBalanceLoanResponse>() {
             @Override

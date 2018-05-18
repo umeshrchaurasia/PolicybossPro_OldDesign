@@ -78,7 +78,7 @@ public class BalanceTransferDetailActivity extends BaseActivity implements IResp
 
     private void fetchQuoteApplication() {
         showDialog("Fetching.., Please wait.!");
-        new MainLoanController(this).getBLQuoteApplication(String.valueOf(loginEntity.getFBAId()), BalanceTransferDetailActivity.this);
+        new MainLoanController(this).getBLQuoteApplication(0, 0, String.valueOf(loginEntity.getFBAId()), BalanceTransferDetailActivity.this);
     }
 
     @Override
