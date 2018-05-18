@@ -1661,9 +1661,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         if(editText != null)
         {
-            if(editText.getId() == view.getId())
+            if(editText.getId() == view.getId()  &&   mPopupWindow.isShowing() )
             {
-                return false;
+                return false ;
             }
         }
 

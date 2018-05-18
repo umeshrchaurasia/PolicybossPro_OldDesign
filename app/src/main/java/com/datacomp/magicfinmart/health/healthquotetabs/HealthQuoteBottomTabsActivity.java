@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -38,7 +39,7 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
     HealthQuote healthQuote;
-    ImageView ivHdrInput,  ivHdrQuote;
+    ImageView ivHdrInput, ivHdrQuote;
 
 
     @Override
@@ -73,18 +74,17 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         transactionSim.commit();
     }
 
-    public void highlighInput()
-    {
+    public void highlighInput() {
         ivHdrInput.setVisibility(View.VISIBLE);
         ivHdrQuote.setVisibility(View.GONE);
     }
 
-    public void highlighQuote()
-    {
+    public void highlighQuote() {
         ivHdrQuote.setVisibility(View.VISIBLE);
         ivHdrInput.setVisibility(View.GONE);
 
     }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -133,20 +133,24 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                                 HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
                                 quoteFragment.setArguments(quoteBundle);
                                 loadFragment(quoteFragment, QUOTE_FRAGMENT);
-                                 highlighQuote();
+                                highlighQuote();
                             } else {
 
                                 Toast.makeText(HealthQuoteBottomTabsActivity.this, "Tap get quote", Toast.LENGTH_SHORT).show();
+
+                                return false;
                             }
                         } else {
 
                             Toast.makeText(HealthQuoteBottomTabsActivity.this, "Tap get  quote", Toast.LENGTH_SHORT).show();
+
+                            return false;
                         }
                     }
 
                     return true;
                 case R.id.navigation_buy:
-                    return true;
+                    return false;
             }
 
             return false;
@@ -156,7 +160,16 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        HealthQuoteBottomTabsActivity.this.finish();
+
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+
+        {
+            redirectToInput();
+        } else {
+            HealthQuoteBottomTabsActivity.this.finish();
+        }
+
+
     }
 
     @Override
