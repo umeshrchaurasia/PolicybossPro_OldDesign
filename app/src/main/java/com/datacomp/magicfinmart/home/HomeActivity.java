@@ -510,6 +510,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             openPopUp(navigationView, "UPDATE", "New version available on play store!!!! Please update.", "OK", true);
                         }
                     }
+
+                    if (new DBPersistanceController(this).getUserData().getIsFirstLogin() == 1) {
+                        DialogMPS();
+                    }
+
                 } else if (((ConstantsResponse) response).getMasterData().getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
 
                     for (Fragment frg :
@@ -554,7 +559,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void onResume() {
         super.onResume();
 
-       // new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+
 
         new MasterController(this).getConstants(this);
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
