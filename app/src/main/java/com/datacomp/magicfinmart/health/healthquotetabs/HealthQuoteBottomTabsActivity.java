@@ -57,13 +57,19 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        if (getIntent().getParcelableExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT) != null) {
-            healthQuote = getIntent().getParcelableExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT);
+
+        if (getIntent().getParcelableExtra(HealthQuoteListFragment.FROM_QUOTE) != null) {
+            healthQuote = getIntent().getParcelableExtra(HealthQuoteListFragment.FROM_QUOTE);
             quoteBundle = new Bundle();
-            quoteBundle.putParcelable(INPUT_DATA, healthQuote);
+            quoteBundle.putParcelable(QUOTE_DATA, healthQuote);
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
         }
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        else{
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        }
+
+
     }
 
     private void loadFragment(Fragment fragment, String TAG) {
@@ -161,13 +167,13 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
-
-        {
-            redirectToInput();
-        } else {
-            HealthQuoteBottomTabsActivity.this.finish();
-        }
+        HealthQuoteBottomTabsActivity.this.finish();
+//        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+//        {
+//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+//        } else {
+//            HealthQuoteBottomTabsActivity.this.finish();
+//        }
 
 
     }

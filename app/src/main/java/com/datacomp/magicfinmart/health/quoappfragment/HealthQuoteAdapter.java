@@ -109,11 +109,16 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
         switch (view.getId()) {
             case R.id.llFooter:
-            case R.id.txtSumAssured:
             case R.id.txtPersonName:
             case R.id.txtQuoteDate:
-                ((HealthQuoteListFragment) mFrament).quoteItemClick((HealthQuote) view.getTag(view.getId()));
+            case R.id.txtSumAssured:
+                ((HealthQuoteListFragment) mFrament).redirectToInputQuote((HealthQuote) view.getTag(view.getId()));
+
                 break;
+
+
+
+
             case R.id.txtOverflowMenu:
                 openPopUp(view, (HealthQuote) view.getTag(view.getId()));
                 break;
