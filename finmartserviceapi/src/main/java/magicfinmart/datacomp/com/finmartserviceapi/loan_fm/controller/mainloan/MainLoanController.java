@@ -161,10 +161,12 @@ public class MainLoanController implements IMainLoan {
 
 
     @Override
-    public void getPLQuoteApplication(String fbaid, final IResponseSubcriberFM iResponseSubcriber) {
+    public void getPLQuoteApplication(int count, int type, String fbaid, final IResponseSubcriberFM iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<>();
         body.put("FBA_id", fbaid);
+        body.put("count", "" + count);
+        body.put("type", "" + type);
 
         loanMainNetworkService.getPLQuoteApplication(body).enqueue(new Callback<FmPersonalLoanResponse>() {
             @Override
