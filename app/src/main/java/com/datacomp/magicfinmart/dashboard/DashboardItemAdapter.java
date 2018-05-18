@@ -81,7 +81,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             ((DashboardItemHolder) holder).imgIcon.setImageResource(listInsur.get(position).getIcon());
             ((DashboardItemHolder) holder).txtProductName.setText(listInsur.get(position).getProductName());
             ((DashboardItemHolder) holder).txtProductDesc.setText(listInsur.get(position).getProductDetails());
-            ((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
+            /*((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -168,7 +168,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     }
 
                 }
-            });
+            });*/
         }
     }
 
