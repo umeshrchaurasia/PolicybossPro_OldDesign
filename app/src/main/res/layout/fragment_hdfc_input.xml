@@ -854,6 +854,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="40"
                         android:gravity="center"
+                        android:maxLength="3"
                         android:inputType="number"
                         android:textSize="14sp" />
 
@@ -901,6 +902,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="40"
+                        android:maxLength="3"
                         android:gravity="center"
                         android:inputType="number"
                         android:textSize="14sp" />
@@ -950,6 +952,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="40"
+                        android:maxLength="3"
                         android:gravity="center"
                         android:inputType="number"
                         android:textSize="14sp" />
@@ -1000,6 +1003,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="40"
                         android:gravity="center"
+                        android:maxLength="10"
                         android:inputType="number"
                         android:textSize="14sp" />
 
@@ -1048,6 +1052,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="40"
+                        android:maxLength="3"
                         android:gravity="center"
                         android:inputType="number"
                         android:textSize="14sp" />
@@ -1097,6 +1102,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="40"
+                        android:maxLength="3"
                         android:gravity="center"
                         android:inputType="number"
                         android:textSize="14sp" />
@@ -1147,6 +1153,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="40"
                         android:gravity="center"
+                        android:maxLength="3"
                         android:inputType="number"
                         android:textSize="14sp" />
 

@@ -262,6 +262,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         etICICILumpSumpPerc.setText("50");
         //by default Regular pay selected.
         spICICIPremiumTerm.setSelection(0);
+        tvNo.performClick();
     }
 
     private void manipulateInputs(String s) {
@@ -829,17 +830,22 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     private void changePolicyTerm(boolean b) {
         int policyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString());
+        int ppt = Integer.parseInt(etICICIPremiumTerm.getText().toString());
         if (b) {
             if (policyTerm < (75 - age))
                 policyTerm = policyTerm + 1;
         } else {
-            if (policyTerm > 5)
+            if (policyTerm > 5) {
+                if (ppt >= policyTerm)
+                    ppt = policyTerm - 1;
                 policyTerm = policyTerm - 1;
+
+            }
 
         }
 
         setPolicyTerm(policyTerm);
-
+        etICICIPremiumTerm.setText("" + ppt);
         // remove life and health ,all in one
         //region hide
         String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
@@ -888,8 +894,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     private void changePremiumTerm(boolean b) {
         if (canChangePremiumTerm) {
             int premiumTerm = Integer.parseInt(etICICIPremiumTerm.getText().toString());
+            int policyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString());
             if (b) {
-                premiumTerm = premiumTerm + 1;
+                if (premiumTerm < policyTerm)
+                    premiumTerm = premiumTerm + 1;
             } else {
                 if (premiumTerm > 1)
                     premiumTerm = premiumTerm - 1;
