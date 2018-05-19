@@ -12,19 +12,19 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPerso
 
 public interface IMainLoan {
 
-    void getHLQuoteApplicationData(int count,int QA,String fbaid, String type, IResponseSubcriberFM iResponseSubcriber);
+    void getHLQuoteApplicationData(int count, int QA, String fbaid, String type, IResponseSubcriberFM iResponseSubcriber);
 
     void saveHLQuoteData(FmHomeLoanRequest fmHomeLoanRequest, IResponseSubcriberFM iResponseSubcriber);
 
     void savePLQuoteData(FmPersonalLoanRequest fmPersonalLoanRequest, IResponseSubcriberFM iResponseSubcriber);
 
-    void getPLQuoteApplication(String fbaid, IResponseSubcriberFM iResponseSubcriber);
+    void getPLQuoteApplication(int count,int type,String fbaid, IResponseSubcriberFM iResponseSubcriber);
 
     void savebankFbABuyData(BankSaveRequest bankSaveRequest, IResponseSubcriberFM iResponseSubcriber);
 
     void saveBLQuoteData(FmBalanceLoanRequest fmBalanceLoanRequest, IResponseSubcriberFM iResponseSubcriber);
 
-    void getBLQuoteApplication(String fbaid, IResponseSubcriberFM iResponseSubcriber);
+    void getBLQuoteApplication(int count, int type, String fbaid, IResponseSubcriberFM iResponseSubcriber);
 
     void getdelete_loanrequest(String loan_requestID, IResponseSubcriberFM iResponseSubcriber);
 

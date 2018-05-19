@@ -113,6 +113,7 @@ public class LAPMainActivity extends BaseActivity {
                         } else {
 
                             Toast.makeText(LAPMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
                     return true;
@@ -128,12 +129,22 @@ public class LAPMainActivity extends BaseActivity {
     };
 
 
-
     @Override
-        public void onBackPressed() {
-            super.onBackPressed();
-            LAPMainActivity.this.finish();
-        }
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        LAPMainActivity.this.finish();
+       // if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+//        {
+//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+//
+//        } else {
+//            LAPMainActivity.this.finish();
+//        }
+
+
+    }
+
     private void loadFragment(Fragment fragment, String TAG) {
         transactionSim = getSupportFragmentManager().beginTransaction();
         transactionSim.replace(R.id.frame_layout, fragment, TAG);
@@ -143,12 +154,12 @@ public class LAPMainActivity extends BaseActivity {
 
     }
 
-        private void CheckAllBottomMenu() {
-            int size = bottomNavigationView.getMenu().size();
-            for (int i = 0; i < size; i++) {
-                bottomNavigationView.getMenu().getItem(i).setCheckable(true);
-            }
+    private void CheckAllBottomMenu() {
+        int size = bottomNavigationView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            bottomNavigationView.getMenu().getItem(i).setCheckable(true);
         }
+    }
 
 
     @Override

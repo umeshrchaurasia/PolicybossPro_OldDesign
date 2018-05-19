@@ -73,7 +73,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 public class BikeInputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
-    LinearLayout cvNcb;
+    LinearLayout cvNcb, llNCB;
     LinearLayout llNoClaim, llVerifyCarDetails, llDontKnow;
     DiscreteSeekBar sbNoClaimBonus;
     CardView cvNewRenew, cvIndividual, cvRegNo;
@@ -645,7 +645,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                 //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
 
-               // etMfgDate.setText(changeDateFormat(masterData.getPurchase_Date()));
+                // etMfgDate.setText(changeDateFormat(masterData.getPurchase_Date()));
 
                 etExpDate.setEnabled(true);
 
@@ -916,6 +916,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         sbNoClaimBonus = (DiscreteSeekBar) view.findViewById(R.id.sbNoClaimBonus);
         spMonth = (Spinner) view.findViewById(R.id.spMonth);
         spYear = (Spinner) view.findViewById(R.id.spYear);
+        llNCB = (LinearLayout) view.findViewById(R.id.llNCB);
     }
 
     @Override
@@ -1638,6 +1639,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 etExpDate.setEnabled(true);
                 spPrevIns.setEnabled(true);
                 cvNcb.setVisibility(View.VISIBLE);
+                llNCB.setVisibility(View.VISIBLE);
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.TWO_WHEELER), null);
             } else {
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
@@ -1645,6 +1647,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 etExpDate.setEnabled(false);
                 spPrevIns.setEnabled(false);
                 cvNcb.setVisibility(View.GONE);
+                llNCB.setVisibility(View.INVISIBLE);
                 tvDontKnow.performClick();
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.TWO_WHEELER), null);
             }

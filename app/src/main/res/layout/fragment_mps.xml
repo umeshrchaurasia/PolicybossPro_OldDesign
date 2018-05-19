@@ -12,8 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="12dp"
         android:layout_marginRight="12dp"
+        android:layout_marginTop="12dp"
         android:text="Our Magic Platinum Subscription"
         android:textColor="@color/black"
         android:textSize="20sp" />
@@ -131,7 +131,7 @@
             android:id="@+id/txtTermsCondition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="4dp"
             android:text="terms and conditions"
             android:textColor="@color/colorPrimary" />
 
@@ -154,7 +154,6 @@
         android:background="@color/bg"
         android:paddingLeft="46dp"
         android:paddingRight="46dp"
-        android:text="PAY 2065"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />

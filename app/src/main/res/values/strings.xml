@@ -741,5 +741,7 @@
         <item>Chennai</item>
     </string-array>
     <string name="mps_popup_text">Congratulations and welcome to the Magic-Finmart Family. As our privileged associate, you are eligible to an exclusive Magic Platinum Subscription (MPS) for </string>
-
+    <string name="know_more_mps_desc">Magic Platinum Subscription (MPS) is an exclusive offer from Datatcomp, available to Finmart Business Associates only. In this subscrition you pay ₹
+        </string>
+    <string name="know_more_mps_desc_2"> to use Datacomp\'s following four premium applications FREE:</string>
 </resources>

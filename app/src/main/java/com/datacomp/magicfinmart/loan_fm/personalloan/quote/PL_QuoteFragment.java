@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.ActivityTabsPagerAdapter_PL;
+import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PesonalLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
 
@@ -28,17 +29,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
 
 /**
  * Created by IN-RB on 12-01-2018.
  */
 
-public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickListener,IResponseSubcriberFM {
+public class PL_QuoteFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriberFM {
 
     public static final String FROM_QUOTEPL = "pl_from_quote";
     FloatingActionButton plAddQuote;
@@ -48,11 +51,12 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     List<FmPersonalLoanRequest> mQuoteList;
 
-    FmPersonalLoanRequest  removeQuoteEntity;
+    FmPersonalLoanRequest removeQuoteEntity;
 
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
 
     public PL_QuoteFragment() {
         // Required empty public constructor
@@ -67,14 +71,39 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
         setListener();
         setTextWatcher();
         mQuoteList = new ArrayList<>();
-        if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_PL.QUOTE_LIST) != null)
-        {
+        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_PL.QUOTE_LIST) != null) {
             mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_PL.QUOTE_LIST);
 
         }
-        pesonalLoan_QuoteAdapter = new PesonalLoan_QuoteAdapter(PL_QuoteFragment.this,mQuoteList);
+        pesonalLoan_QuoteAdapter = new PesonalLoan_QuoteAdapter(PL_QuoteFragment.this, mQuoteList);
         rvplQuoteList.setAdapter(pesonalLoan_QuoteAdapter);
+
+        rvplQuoteList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mQuoteList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchQuoteApplication(mQuoteList.size());
+
+                    }
+                }
+            }
+        });
+
         return view;
+    }
+
+    private void fetchQuoteApplication(int size) {
+        new MainLoanController(getActivity()).getPLQuoteApplication(size, 1,
+                String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()), this);
     }
 
     private void initView(View view) {
@@ -103,17 +132,18 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
         tvSearch.setOnClickListener(this);
     }
 
-    public void redirectQuotePL(FmPersonalLoanRequest request){
-        Intent intent=new Intent(getActivity(), PLMainActivity.class);
-        intent.putExtra( FROM_QUOTEPL,request);
+    public void redirectQuotePL(FmPersonalLoanRequest request) {
+        Intent intent = new Intent(getActivity(), PLMainActivity.class);
+        intent.putExtra(FROM_QUOTEPL, request);
         startActivity(intent);
 
     }
+
     public void removeQuotePL(FmPersonalLoanRequest entity) {
 
         removeQuoteEntity = entity;
         showDialog("Please wait,Removing quote..");
-        new MainLoanController(getContext()).getdelete_personalrequest("" + entity.getLoan_requestID(),this);
+        new MainLoanController(getContext()).getdelete_personalrequest("" + entity.getLoan_requestID(), this);
 
     }
 
@@ -143,8 +173,7 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
         }
     }
 
-    public void callnumber(String mobNumber)
-    {
+    public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
     }
 
@@ -164,6 +193,7 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
             }
         });
     }
+
     @Override
     public void OnSuccessFM(APIResponseFM response, String message) {
 
@@ -171,10 +201,24 @@ public class PL_QuoteFragment  extends BaseFragment  implements View.OnClickList
         if (response instanceof FmSaveQuotePersonalLoanResponse) {
             if (response.getStatusNo() == 0) {
                 mQuoteList.remove(removeQuoteEntity);
-                pesonalLoan_QuoteAdapter.refreshAdapter(mQuoteList);
-                pesonalLoan_QuoteAdapter.notifyDataSetChanged();
+            }
+        } else if (response instanceof FmPersonalLoanResponse) {
+            if (((FmPersonalLoanResponse) response).getMasterData().getQuote() != null) {
+                List<FmPersonalLoanRequest> list = ((FmPersonalLoanResponse) response).getMasterData().getQuote();
+                if (list.size() > 0) {
+                    isHit = false;
+                    for (FmPersonalLoanRequest entity : list) {
+                        if (!mQuoteList.contains(entity)) {
+                            mQuoteList.add(entity);
+                        }
+                    }
+                }
             }
         }
+
+        pesonalLoan_QuoteAdapter.refreshAdapter(mQuoteList);
+        pesonalLoan_QuoteAdapter.notifyDataSetChanged();
+
     }
 
     @Override
