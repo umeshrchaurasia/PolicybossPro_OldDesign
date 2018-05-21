@@ -21,6 +21,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -83,6 +84,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     PrefManager prefManager;
     int forceUpdate;
     ConstantEntity constantEntity;
+    AlertDialog mpsDialog;
 
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
@@ -473,7 +475,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (response.getStatusNo() == 0) {
                 prefManager.removeMps();
                 prefManager.setMPS(((MpsResponse) response).getMasterData());
+                Log.d("TAG", "MPS CONSTANTS");
                 DialogMPS();
+
+
 
                 /*if (((MpsResponse) response).getMasterData().getPaymentURL() != null) {
                     startActivity(new Intent(this, CommonWebViewActivity.class)
@@ -512,7 +517,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     }
 
                     if (new DBPersistanceController(this).getUserData().getIsFirstLogin() == 1) {
-                        DialogMPS();
+                        for (Fragment frg :
+                                getSupportFragmentManager().getFragments()) {
+
+                            if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
+                                if (!frg.isVisible()) {
+                                    Log.d("TAG", "CONSTANTS");
+                                    DialogMPS();
+                                }
+                            }
+                        }
                     }
 
                 } else if (((ConstantsResponse) response).getMasterData().getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
@@ -523,6 +537,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
                             if (!frg.isVisible()) {
                                 if (prefManager.getMps() != null) {
+                                    Log.d("TAG", "MPS");
                                     DialogMPS();
                                 }
                             }
@@ -559,7 +574,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void onResume() {
         super.onResume();
 
-        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+        if (prefManager.getMps() == null)
+            new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
 
 
         new MasterController(this).getConstants(this);
@@ -599,13 +615,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     //region mps dialog
 
     private void DialogMPS() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
+        AlertDialog.Builder mpsAlertBuilder;
+        mpsAlertBuilder = new AlertDialog.Builder(this);
+        mpsAlertBuilder.setCancelable(true);
         // builder.setTitle("PREMIUM DETAIL");
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_dialog_mps, null);
-        builder.setView(view);
-        final AlertDialog dialog = builder.create();
+        mpsAlertBuilder.setView(view);
+
+        if (mpsDialog == null) {
+            mpsDialog = mpsAlertBuilder.create();
+        }
 
         TextView txtDesc = (TextView) view.findViewById(R.id.txtDesc);
         TextView txtKnowMore = (TextView) view.findViewById(R.id.txtKnowMore);
@@ -624,15 +644,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtDesc.append(ss1);
         txtDesc.append("(Incl. GST) only");
 
-        txtLater.setTag(R.id.txtLater, dialog);
-        txtGetMPS.setTag(R.id.txtGetMPS, dialog);
-        txtKnowMore.setTag(R.id.txtKnowMore, dialog);
+        txtLater.setTag(R.id.txtLater, mpsDialog);
+        txtGetMPS.setTag(R.id.txtGetMPS, mpsDialog);
+        txtKnowMore.setTag(R.id.txtKnowMore, mpsDialog);
 
         txtKnowMore.setOnClickListener(onClickListener);
         txtGetMPS.setOnClickListener(onClickListener);
         txtLater.setOnClickListener(onClickListener);
 
-        dialog.show();
+        if (!mpsDialog.isShowing())
+            mpsDialog.show();
 
     }
 
