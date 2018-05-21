@@ -42,8 +42,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 public class DBPersistanceController {
 
-    private static final String EXTERNAL_LPG = "External Fitted LPG";
-    private static final String EXTERNAL_CNG = "External Fitted CNG";
+    private static final String EXTERNAL_LPG = "External LPG";
+    private static final String EXTERNAL_CNG = "External CNG";
     Map<String, Integer> hashmapKotakPLCity;
 
     //HashMap<String, String> hashMapAddons;

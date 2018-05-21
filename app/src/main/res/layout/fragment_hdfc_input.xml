@@ -337,9 +337,6 @@
                                     android:textSize="10sp" />
 
 
-
-
-
                                 <ImageView
                                     android:id="@+id/ivBuy"
                                     android:layout_width="35dp"
@@ -371,12 +368,295 @@
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
-                <include
+                <LinearLayout
                     android:id="@+id/layoutCompare"
-                    layout="@layout/content_term_header"
-                    android:visibility="visible" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                <!--Compare ICICI-->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="First Name">
+
+                            <EditText
+                                android:id="@+id/etFirstName"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_person" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:hint="Last Name">
+
+                            <EditText
+
+                                android:id="@+id/etLastName"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_person" />
+                        </android.support.design.widget.TextInputLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:gravity="bottom"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <android.support.design.widget.TextInputLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:hint="Smoker"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:gravity="center"
+                                android:text="Gender"
+                                android:textSize="10sp" />
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="horizontal"
+                                android:weightSum="100">
+
+                                <RadioGroup
+                                    android:id="@+id/rgGender"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="50"
+                                    android:orientation="horizontal">
+
+                                    <RadioButton
+                                        android:id="@+id/rbmale"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:checked="true"
+                                        android:text="Male" />
+
+                                    <RadioButton
+                                        android:id="@+id/rbfemale"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="match_parent"
+                                        android:text="Female" />
+                                </RadioGroup>
+                            </LinearLayout>
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:hint="Mobile">
+
+                            <EditText
+                                android:id="@+id/etMobile"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_mobile"
+                                android:inputType="number"
+                                android:maxLength="10" />
+
+                        </android.support.design.widget.TextInputLayout>
+
+                        <android.support.design.widget.TextInputLayout
+                            style="@style/TextInputLayoutStyle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="50"
+                            android:hint="Date of Birth">
+
+                            <EditText
+                                android:id="@+id/etDateofBirth"
+                                style="@style/Style.edittext"
+                                android:drawableRight="@drawable/vector_date"
+                                android:focusable="false" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <!--Compare HDFC-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
+
+
+                    <android.support.design.widget.TextInputLayout
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Smoker"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Smoker"
+                            android:textSize="10sp" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:weightSum="100">
+
+                            <RadioGroup
+                                android:id="@+id/rgSmoker"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="50"
+                                android:orientation="horizontal">
+
+                                <RadioButton
+                                    android:id="@+id/rbYesSmoker"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="50"
+                                    android:text="YES" />
+
+                                <RadioButton
+                                    android:id="@+id/rbNoSmoker"
+                                    android:layout_width="0dp"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="50"
+                                    android:checked="true"
+                                    android:text="NO" />
+                            </RadioGroup>
+                        </LinearLayout>
+                    </android.support.design.widget.TextInputLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llGender"
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:gravity="bottom"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            style="@style/TextStyle.TextMedium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Gender"
+                            android:textColor="@color/header_dark_text" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvMale"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/customeborder_blue"
+                                android:gravity="center"
+                                android:padding="6dp"
+                                android:text="Male"
+                                android:textAppearance="@style/TextStyle.TextMedium"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/tvFemale"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/customeborder"
+                                android:gravity="center"
+                                android:padding="6dp"
+                                android:text="Female"
+                                android:textAppearance="@style/TextStyle.TextMedium"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llSmoker"
+                        style="@style/TextInputLayoutStyle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:gravity="bottom"
+                        android:orientation="vertical"
+                        android:padding="5dp">
+
+                        <TextView
+                            style="@style/TextStyle.TextMedium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Smoker"
+                            android:textColor="@color/header_dark_text" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/tvYes"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/customeborder_blue"
+                                android:gravity="center"
+                                android:padding="6dp"
+                                android:text="Yes"
+                                android:textAppearance="@style/TextStyle.TextMedium"
+                                android:textColor="@color/black" />
+
+                            <TextView
+                                android:id="@+id/tvNo"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/customeborder"
+                                android:gravity="center"
+                                android:padding="6dp"
+                                android:text="No"
+                                android:textAppearance="@style/TextStyle.TextMedium"
+                                android:textColor="@color/black" />
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -389,31 +669,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Email">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:gravity="left"
-                            android:text="Option"
-                            android:textColor="@color/blue"
-                            android:textSize="10sp" />
-
-                        <Spinner
-                            android:id="@+id/spICICIOptions"
-                            style="@style/SpinnerStyle.Underlined"
-                            android:layout_width="match_parent"
-                            android:layout_height="40dp"
-                            android:dropDownWidth="200dp" />
-
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:hint="Permium term">
+                        android:hint="Permium term"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -434,16 +691,6 @@
 
                     </android.support.design.widget.TextInputLayout>
 
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="5dp"
-                    android:gravity="bottom"
-                    android:orientation="horizontal">
-
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -451,21 +698,21 @@
                         android:hint="Permium term">
 
                         <TextView
+                            style="@style/TextViewStyle.Medium"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="Permium frequency"
-                            android:textColor="@color/blue"
-                            android:textSize="10sp" />
+                            android:text="Permium Frequency"
+                            android:textColor="@color/blue" />
 
                         <Spinner
-                            android:id="@+id/spICICIPremiumFrequency"
+                            android:id="@+id/spHdfcPremFrq"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:dropDownWidth="200dp"
-                            android:entries="@array/icici_premium_frequency" />
+                            android:dropDownWidth="wrap_content"
+                            android:entries="@array/hdfc_premium_frequency" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -484,103 +731,50 @@
                             android:maxLength="6" />
 
                     </android.support.design.widget.TextInputLayout>
-
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:background="@color/header_light_text"
-                    android:gravity="center"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:gravity="bottom"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="match_parent"
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="Choose death benefit payout"
-                        android:textAllCaps="true"
-                        android:textColor="@color/white" />
+                        android:layout_weight="1"
+                        android:hint="Email">
+
+                        <TextView
+                            style="@style/TextViewStyle.Medium"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="left"
+                            android:text="Option"
+                            android:textColor="@color/blue" />
+
+                        <Spinner
+                            android:id="@+id/spHDFCOptions"
+                            style="@style/SpinnerStyle.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:dropDownWidth="200dp"
+                            android:entries="@array/hdfc_options" />
+
+                    </android.support.design.widget.TextInputLayout>
+
 
                 </LinearLayout>
 
+                <!-- sumassured-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="top"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/txtICICILumpSum"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/customeborder_blue"
-                        android:gravity="center"
-                        android:paddingBottom="8dp"
-                        android:paddingTop="8dp"
-                        android:text="LUMP SUM"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:id="@+id/txtICICIRegularIncome"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/customeborder"
-                        android:gravity="center"
-                        android:paddingBottom="8dp"
-                        android:paddingTop="8dp"
-                        android:text="REGULAR INCOME"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:id="@+id/txtICICIIncreasingIncome"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/customeborder"
-                        android:gravity="center"
-                        android:paddingBottom="8dp"
-                        android:paddingTop="8dp"
-                        android:text="INCREASING INCOME"
-                        android:textSize="10sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/txtICICILumpSumRegular"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="2dp"
-                        android:background="@drawable/customeborder"
-                        android:gravity="center"
-                        android:paddingBottom="8dp"
-                        android:paddingLeft="30dp"
-                        android:paddingRight="30dp"
-                        android:paddingTop="8dp"
-                        android:text="LUMP SUM + REGULAR INCOME"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -589,10 +783,11 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
                         android:text="Sum Assured"
                         android:textAllCaps="true"
+                        android:textColor="@color/black"
                         android:textSize="12dp" />
 
                     <Button
@@ -608,10 +803,10 @@
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
                         android:gravity="center"
                         android:inputType="number"
-                        android:maxLength="15"
+                        android:maxLength="12"
                         android:textSize="14sp" />
 
                     <Button
@@ -623,57 +818,12 @@
                         android:gravity="center" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/llICICILumpSumpPerc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="4dp"
-                    android:visibility="gone"
-                    android:weightSum="100">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="35"
-                        android:gravity="center|left"
-                        android:text="LUMPSUM(%)"
-                        android:textAllCaps="true"
-                        android:textSize="12dp" />
-
-                    <Button
-                        android:id="@+id/minusICICILumpSumpPerc"
-                        android:layout_width="0dp"
-                        android:layout_height="32dp"
-                        android:layout_weight="10"
-                        android:background="@drawable/life_arrow_prev_"
-                        android:gravity="center" />
-
-                    <EditText
-                        android:id="@+id/etICICILumpSumpPerc"
-                        style="@style/Style.edittext"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="45"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:textSize="14sp" />
-
-                    <Button
-                        android:id="@+id/plusICICILumpSumpPerc"
-                        android:layout_width="0dp"
-                        android:layout_height="32dp"
-                        android:layout_weight="10"
-                        android:background="@drawable/life_arrow_next_"
-                        android:gravity="center" />
-                </LinearLayout>
-
+                <!-- policyterm-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -682,10 +832,11 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
                         android:text="Policy Term"
                         android:textAllCaps="true"
+                        android:textColor="@color/dashboard_title"
                         android:textSize="12dp" />
 
                     <Button
@@ -701,8 +852,9 @@
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
                         android:gravity="center"
+                        android:maxLength="3"
                         android:inputType="number"
                         android:textSize="14sp" />
 
@@ -715,10 +867,12 @@
                         android:gravity="center" />
                 </LinearLayout>
 
+                <!-- premiumterm-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -727,10 +881,11 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
                         android:text="Premium Term"
                         android:textAllCaps="true"
+                        android:textColor="@color/dashboard_title"
                         android:textSize="12dp" />
 
                     <Button
@@ -746,7 +901,8 @@
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
+                        android:maxLength="3"
                         android:gravity="center"
                         android:inputType="number"
                         android:textSize="14sp" />
@@ -760,11 +916,13 @@
                         android:gravity="center" />
                 </LinearLayout>
 
+                <!-- HDFCSAInc-->
                 <LinearLayout
-                    android:id="@+id/llCritical"
+                    android:id="@+id/llHDFCSAInc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -773,14 +931,15 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
-                        android:text="Critical illness"
+                        android:text="SA INCREASING@"
                         android:textAllCaps="true"
+                        android:textColor="@color/dashboard_title"
                         android:textSize="12dp" />
 
                     <Button
-                        android:id="@+id/minusICICICritical"
+                        android:id="@+id/minusHDFCSAInc"
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
@@ -788,17 +947,18 @@
                         android:gravity="center" />
 
                     <EditText
-                        android:id="@+id/etICICICriticalIllness"
+                        android:id="@+id/etHDFCSAInc"
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
+                        android:maxLength="3"
                         android:gravity="center"
                         android:inputType="number"
                         android:textSize="14sp" />
 
                     <Button
-                        android:id="@+id/plusICICICritical"
+                        android:id="@+id/plusHDFCSAInc"
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
@@ -806,11 +966,13 @@
                         android:gravity="center" />
                 </LinearLayout>
 
+                <!--IncDeath-->
                 <LinearLayout
-                    android:id="@+id/llAccidental"
+                    android:id="@+id/llIncDeath"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -819,13 +981,15 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
-                        android:text="ACCIDENTAL DEATH BENEFIT"
+                        android:text="MY INCOME ON DEATH"
+                        android:textAllCaps="true"
+                        android:textColor="@color/dashboard_title"
                         android:textSize="12dp" />
 
                     <Button
-                        android:id="@+id/minusICICIAcc"
+                        android:id="@+id/minusIncDeath"
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
@@ -833,17 +997,168 @@
                         android:gravity="center" />
 
                     <EditText
-                        android:id="@+id/etICICIAccidentalBenefits"
+                        android:id="@+id/etIncDeath"
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
+                        android:gravity="center"
+                        android:maxLength="10"
+                        android:inputType="number"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/plusIncDeath"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="10"
+                        android:background="@drawable/life_arrow_next_"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <!--IncPeriod-->
+                <LinearLayout
+                    android:id="@+id/llIncPeriod"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:weightSum="100">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="40"
+                        android:gravity="center|left"
+                        android:text="INCOME PERIOD"
+                        android:textAllCaps="true"
+                        android:textColor="@color/dashboard_title"
+                        android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/minusIncPeriod"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="10"
+                        android:background="@drawable/life_arrow_prev_"
+                        android:gravity="center" />
+
+                    <EditText
+                        android:id="@+id/etIncPeriod"
+                        style="@style/Style.edittext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="40"
+                        android:maxLength="3"
                         android:gravity="center"
                         android:inputType="number"
                         android:textSize="14sp" />
 
                     <Button
-                        android:id="@+id/plusICICIAcc"
+                        android:id="@+id/plusIncPeriod"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="10"
+                        android:background="@drawable/life_arrow_next_"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <!--INCREASING-->
+                <LinearLayout
+                    android:id="@+id/llINCREASING"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:weightSum="100">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="40"
+                        android:gravity="center|left"
+                        android:text="INCREASING@"
+                        android:textAllCaps="true"
+                        android:textColor="@color/dashboard_title"
+                        android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/minusINCREASING"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="10"
+                        android:background="@drawable/life_arrow_prev_"
+                        android:gravity="center" />
+
+                    <EditText
+                        android:id="@+id/etINCREASING"
+                        style="@style/Style.edittext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="40"
+                        android:maxLength="3"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/plusINCREASING"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="10"
+                        android:background="@drawable/life_arrow_next_"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <!-- Adb-->
+                <LinearLayout
+                    android:id="@+id/llAdb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:weightSum="100">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="40"
+                        android:gravity="center|left"
+                        android:text="ADB %"
+                        android:textAllCaps="true"
+                        android:textColor="@color/dashboard_title"
+                        android:textSize="12dp" />
+
+                    <Button
+                        android:id="@+id/minusAdb"
+                        android:layout_width="0dp"
+                        android:layout_height="32dp"
+                        android:layout_weight="10"
+                        android:background="@drawable/life_arrow_prev_"
+                        android:gravity="center" />
+
+                    <EditText
+                        android:id="@+id/etAdb"
+                        style="@style/Style.edittext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="40"
+                        android:gravity="center"
+                        android:maxLength="3"
+                        android:inputType="number"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/plusAdb"
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="10"
