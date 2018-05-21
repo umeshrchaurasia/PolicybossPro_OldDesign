@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -57,17 +58,12 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
             holder.txtPersonName.setText(quote.getTermRequestEntity().getContactName());
             holder.txtCustRefNo.setText(quote.getTermRequestEntity().getCrn());
             holder.txtQuoteDate.setText(quote.getTermRequestEntity().getCreated_date());
-            holder.llBottom.setTag(R.id.llBottom, quote);
-            holder.txtPersonName.setTag(R.id.txtPersonName, quote);
-            holder.txtCustRefNo.setTag(R.id.txtCustRefNo, quote);
-            holder.txtQuoteDate.setTag(R.id.txtQuoteDate, quote);
+            holder.llDetails.setTag(R.id.llDetails, quote);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, quote);
 
-            holder.llBottom.setOnClickListener(this);
+            holder.llDetails.setOnClickListener(this);
             holder.txtOverflowMenu.setOnClickListener(this);
-            holder.txtPersonName.setOnClickListener(this);
-            holder.txtQuoteDate.setOnClickListener(this);
-            holder.txtCustRefNo.setOnClickListener(this);
+
         }
 
     }
@@ -108,10 +104,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
     public void onClick(View view) {
 
         switch (view.getId()) {
-            case R.id.llBottom:
-            case R.id.txtCustRefNo:
-            case R.id.txtPersonName:
-            case R.id.txtQuoteDate:
+            case R.id.llDetails:
                 TermFinmartRequest request = (TermFinmartRequest) view.getTag(view.getId());
                 ((TermQuoteListFragment) mFrament).callInputTerm(request.getTermRequestEntity().getInsurerId(), request);
                 break;
@@ -125,16 +118,17 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
     public class QuoteItem extends RecyclerView.ViewHolder {
 
         //  public ImageView ivTripleDot;
-        public TextView txtQuoteDate, txtCustRefNo, txtPersonName, txtOverflowMenu;
-        LinearLayout llBottom;
+        public TextView txtQuoteDate, txtCustRefNo, txtPersonName ;
+        LinearLayout llDetails;
+        ImageView txtOverflowMenu;
 
         public QuoteItem(View itemView) {
             super(itemView);
             txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
             txtCustRefNo = (TextView) itemView.findViewById(R.id.txtCustRefNo);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
-            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
-            llBottom = (LinearLayout) itemView.findViewById(R.id.llBottom);
+            txtOverflowMenu = (ImageView) itemView.findViewById(R.id.txtOverflowMenu);
+            llDetails = (LinearLayout) itemView.findViewById(R.id.llDetails);
         }
     }
 
