@@ -361,7 +361,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 //return gson.toJson(carMasterEntity);
                 try {
 
-                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name());
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name() +" "+ summaryEntity.getRequest_Core().getLast_name());
                     jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name() + " - " + carMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
@@ -379,7 +379,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
                 try {
 
-                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name());
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name()+" "+ summaryEntity.getRequest_Core().getLast_name());
                     jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
