@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
@@ -36,6 +37,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -94,7 +96,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     View customView, customViewSelection;
     RecyclerView rvIprotectSmart;
    HdfcIProtectAdapter adapter;
-   List<String> IprotectLst;
+
 
     //endregion
 
@@ -707,6 +709,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         minusAdb = (Button) view.findViewById(R.id.minusAdb);
         plusAdb = (Button) view.findViewById(R.id.plusAdb);
         etAdb = (EditText) view.findViewById(R.id.etAdb);
+
 
         //endregion
 
@@ -1782,6 +1785,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setPopUpInfo() {
+
         // region set Default popUp
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
 
@@ -1792,8 +1796,8 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
         mPopupWindow = new PopupWindow(
                 customView,
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+               700
         );
 
 
@@ -1825,6 +1829,16 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
         // Get a reference for the custom view close button
         ImageButton closeButton = (ImageButton) customView.findViewById(R.id.imgClose);
+
+        rvIprotectSmart = (RecyclerView) customView.findViewById(R.id.rvIprotectSmart);
+        rvIprotectSmart.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvIprotectSmart.setLayoutManager(layoutManager);
+
+        adapter = new HdfcIProtectAdapter(getActivity(), fetchIProtectData());
+        rvIprotectSmart.setAdapter(adapter);
+
         // Set a click listener for the popup window close button
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1840,11 +1854,33 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         });
 
 
-        mPopupWindowSelection.showAsDropDown(ivInfo, 10, -10);
+        mPopupWindowSelection.showAsDropDown(ivInfo, 0, 0);
+        mPopupWindowSelection.setTouchable(true);
+        mPopupWindowSelection.setFocusable(true);
+
 
         // mPopupWindow.setAnimationStyle(R.style.Animation);
-        mPopupWindow.showAsDropDown(ivInfo, 0, 30);
+        mPopupWindow.showAsDropDown(ivInfo, 0, 40);
+        mPopupWindow.setTouchable(true);
+        mPopupWindow.setFocusable(true);
 
     }
+
+
+    private List<String> fetchIProtectData()
+    {
+        List<String> strLst = new ArrayList<String>();
+
+        strLst.add("Coverage against death");
+        strLst.add("terminal illness and disability");
+        strLst.add("Option to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
+        strLst.add("Special primium rates for non - tobacco user");
+        strLst.add("Option2 to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
+        strLst.add("Option3 to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
+        strLst.add("Option4 to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
+        return strLst;
+    }
+
+
 }
 

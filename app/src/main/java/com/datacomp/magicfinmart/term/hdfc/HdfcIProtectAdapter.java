@@ -29,14 +29,13 @@ public class HdfcIProtectAdapter  extends RecyclerView.Adapter<HdfcIProtectAdapt
 
     public class MyViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView txtTitle , txtMessage,txtDate ,txtStatus,txtbar;
-        public ImageView ivNotify;
+        public TextView txtMessage;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            txtTitle = (TextView) itemView.findViewById(R.id.txtTitle);
+
             txtMessage = (TextView)itemView.findViewById(R.id.txtMessage);
-            ivNotify = (ImageView) itemView.findViewById(R.id.ivNotify);
+
 
         }
     }
@@ -45,7 +44,7 @@ public class HdfcIProtectAdapter  extends RecyclerView.Adapter<HdfcIProtectAdapt
     @Override
     public HdfcIProtectAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.push_notify_item, parent, false);
+                .inflate(R.layout.iprotect_item, parent, false);
 
         return new HdfcIProtectAdapter.MyViewHolder(itemView);
 
@@ -54,12 +53,16 @@ public class HdfcIProtectAdapter  extends RecyclerView.Adapter<HdfcIProtectAdapt
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
+       String strMsg =  IprotectLst.get(position);
+
+        holder.txtMessage.setText( "" +strMsg);
+
     }
 
 
 
     @Override
     public int getItemCount() {
-        return 0;
+        return IprotectLst.size();
     }
 }
