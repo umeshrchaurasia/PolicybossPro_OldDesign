@@ -47,7 +47,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
     FragmentTransaction transactionSim;
     MotorRequestEntity motorRequestEntity;
     boolean isQuoteVisible = true;
-    ImageView ivHdrInput,  ivHdrQuote;
+    ImageView ivHdrInput, ivHdrQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,15 +220,12 @@ public class InputQuoteBottmActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (isQuoteVisible) {
-            finish();
-
-//                if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
-//
-//                {
-//                    bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//                } else {
-//                    InputQuoteBottmActivity.this.finish();
-//                }
+            if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+            {
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            } else {
+                InputQuoteBottmActivity.this.finish();
+            }
         } else {
             Toast.makeText(InputQuoteBottmActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
         }

@@ -121,7 +121,7 @@ public class LAPMainActivity extends BaseActivity {
                 case R.id.navigation_buy:
 
 
-                    return true;
+                    return false;
             }
 
             return false;
@@ -133,14 +133,12 @@ public class LAPMainActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        LAPMainActivity.this.finish();
-       // if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
-//        {
-//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//
-//        } else {
-//            LAPMainActivity.this.finish();
-//        }
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            LAPMainActivity.this.finish();
+        }
 
 
     }
