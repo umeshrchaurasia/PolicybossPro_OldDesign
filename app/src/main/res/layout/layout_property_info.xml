@@ -262,6 +262,8 @@
             android:progress="1"
             android:progressDrawable="@drawable/seekbar_style"
             android:splitTrack="false"
+            android:maxHeight="8dp"
+            android:minHeight="8dp"
             android:thumb="@drawable/custom_thumb" />
 
 

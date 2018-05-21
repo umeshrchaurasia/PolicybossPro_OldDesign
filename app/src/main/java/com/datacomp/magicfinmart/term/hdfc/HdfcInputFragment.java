@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -20,8 +21,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -36,8 +39,10 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -52,6 +57,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermReq
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
@@ -71,7 +77,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     //region headers
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
-    ImageView ivEdit;
+    ImageView ivEdit ,ivInfo;
     TermCompareQuoteResponse termCompareQuoteResponse;
     CardView cvInputDetails, cvQuoteDetails;
     LinearLayout layoutCompare;
@@ -87,6 +93,13 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     TermRequestEntity termRequestEntity;
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+    private PopupWindow mPopupWindow, mPopupWindowSelection;
+    View customView, customViewSelection;
+    RecyclerView rvIprotectSmart;
+   HdfcIProtectAdapter adapter;
+
+
     //endregion
 
     //region hdfc specific
@@ -116,6 +129,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         View view = inflater.inflate(R.layout.fragment_hdfc_input, container, false);
         init_view(view);
         setListener();
+        setPopUpInfo();
         // set initial values
         dbPersistanceController = new DBPersistanceController(getActivity());
         termRequestEntity = new TermRequestEntity();
@@ -632,6 +646,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         tvPolicyTerm = (TextView) view.findViewById(R.id.tvPolicyTerm);
         tvCrn = (TextView) view.findViewById(R.id.tvCrn);
         ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
+        ivInfo = (ImageView) view.findViewById(R.id.ivInfo);
 
         llAddon = (LinearLayout) view.findViewById(R.id.llAddon);
         rvAddOn = (RecyclerView) view.findViewById(R.id.rvAddOn);
@@ -702,12 +717,14 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         plusAdb = (Button) view.findViewById(R.id.plusAdb);
         etAdb = (EditText) view.findViewById(R.id.etAdb);
 
+
         //endregion
 
     }
 
     private void setListener() {
         ivEdit.setOnClickListener(this);
+        ivInfo.setOnClickListener(this);
         ivBuy.setOnClickListener(this);
         ivPdf.setOnClickListener(this);
         tvMale.setOnClickListener(this);
@@ -858,6 +875,10 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 changeInputQuote(true);
                 break;
 
+            case R.id.ivInfo:
+
+                OpenPoupWnidow();
+                break;
             case R.id.tvMale:
                 isMale = true;
                 tvFemale.setBackgroundResource(R.drawable.customeborder);
@@ -1782,5 +1803,104 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             }
         }
     }
+
+    private void setPopUpInfo() {
+
+        // region set Default popUp
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // Inflate the custom layout/view
+        customView = inflater.inflate(R.layout.layout_benefit_iprotect, null);
+
+        // Initialize a new instance of popup window
+
+        mPopupWindow = new PopupWindow(
+                customView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+               700
+        );
+
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            mPopupWindow.setElevation(5.0f);
+        }
+
+
+        //endregion
+
+        // region set Selection popUp
+        LayoutInflater inflaterSelection = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // Inflate the custom layout/view
+        customViewSelection = inflaterSelection.inflate(R.layout.layout_age_popup_selected, null);
+
+        // Initialize a new instance of popup window
+        mPopupWindowSelection = new PopupWindow(
+                customViewSelection,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        //endregion
+
+    }
+
+    private void OpenPoupWnidow() {
+
+
+        // Get a reference for the custom view close button
+        ImageButton closeButton = (ImageButton) customView.findViewById(R.id.imgClose);
+
+        rvIprotectSmart = (RecyclerView) customView.findViewById(R.id.rvIprotectSmart);
+        rvIprotectSmart.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvIprotectSmart.setLayoutManager(layoutManager);
+
+        adapter = new HdfcIProtectAdapter(getActivity(), fetchIProtectData());
+        rvIprotectSmart.setAdapter(adapter);
+
+        // Set a click listener for the popup window close button
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Dismiss the popup window
+                if (mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                    mPopupWindowSelection.dismiss();
+
+
+                }
+            }
+        });
+
+
+        mPopupWindowSelection.showAsDropDown(ivInfo, 0, 0);
+        mPopupWindowSelection.setTouchable(true);
+        mPopupWindowSelection.setFocusable(true);
+
+
+        // mPopupWindow.setAnimationStyle(R.style.Animation);
+        mPopupWindow.showAsDropDown(ivInfo, 0, 40);
+        mPopupWindow.setTouchable(true);
+        mPopupWindow.setFocusable(true);
+
+    }
+
+
+    private List<String> fetchIProtectData()
+    {
+        List<String> strLst = new ArrayList<String>();
+
+        strLst.add("Coverage against death");
+        strLst.add("terminal illness and disability");
+        strLst.add("Option to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
+        strLst.add("Special primium rates for non - tobacco user");
+        strLst.add("Option2 to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
+        strLst.add("Option3 to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
+        strLst.add("Option4 to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
+        return strLst;
+    }
+
+
 }
 

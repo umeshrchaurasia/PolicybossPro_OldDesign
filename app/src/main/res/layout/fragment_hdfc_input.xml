@@ -237,6 +237,7 @@
                                         android:textStyle="bold" />
 
                                     <ImageView
+                                        android:id="@+id/ivInfo"
                                         android:layout_width="0dp"
                                         android:layout_height="24dp"
                                         android:layout_marginLeft="5dp"
