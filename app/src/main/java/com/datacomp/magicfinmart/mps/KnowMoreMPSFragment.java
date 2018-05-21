@@ -57,7 +57,8 @@ public class KnowMoreMPSFragment extends BaseFragment implements View.OnClickLis
         Date nextYear = cal.getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
         String free = "Free till " + simpleDateFormat.format(nextYear);
-        txtVisualMPro.setText("Subscription will be extended till " + simpleDateFormat.format(nextYear));
+       // txtVisualMPro.setText("Subscription will be extended till " + simpleDateFormat.format(nextYear));
+        txtVisualMPro.setText(free);
         txtTabMagic.setText(free);
         txtMMagicGyan.setText(free);
         txtMHealthMagic.setText(free);

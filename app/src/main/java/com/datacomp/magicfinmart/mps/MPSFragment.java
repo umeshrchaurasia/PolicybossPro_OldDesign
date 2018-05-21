@@ -47,7 +47,7 @@ public class MPSFragment extends BaseFragment {
     private void bindData() {
         MpsDataEntity mpsDataEntity = new PrefManager(getActivity()).getMps();
         btnPayNow.setText("PAY ₹ " + mpsDataEntity.getTotalAmt());
-        txtSubscriptionAmount.setText("₹ " + mpsDataEntity.getAmount());
+        txtSubscriptionAmount.setText("₹ " + mpsDataEntity.getMRP());
         txtGSTAmount.setText("₹ " + mpsDataEntity.getServTaxAmt());
         txtTotalAmount.setText("₹ " + mpsDataEntity.getTotalAmt());
 
