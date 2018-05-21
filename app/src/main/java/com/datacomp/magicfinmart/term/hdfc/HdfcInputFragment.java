@@ -251,7 +251,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm());
             TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
             tvPolicyTerm.append(TERM);
-            tvPolicyTerm.append(" YRS");
+            tvPolicyTerm.append(" Years");
 
             if (termRequestEntity.getInsuredGender().equals("M"))
                 tvGender.setText("MALE");
@@ -283,7 +283,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         txtPlanNAme.setText("" + responseEntity.getProductPlanName());
         txtCover.setText("\u20B9 " + responseEntity.getSumAssured());
         txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + " Yrs.");
-        txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium() + "/Year");
+        txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium() );
         int uptoAge = Integer.parseInt(termRequestEntity.getPPT()) + caluclateAge(etDOB.getText().toString());
         txtAge.setText("" + uptoAge + " Yrs.");
         //  txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
@@ -609,6 +609,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         etIncPeriod.setText("20");
         etINCREASING.setText("5");
         etAdb.setText("100");
+        tvNo.performClick();
     }
 
 
