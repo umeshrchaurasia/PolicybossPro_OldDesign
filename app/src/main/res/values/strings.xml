@@ -561,6 +561,30 @@
         <item>SINGLE PAY</item>
         <item>LIMITED PAY</item>
     </string-array>
+
+
+    <!--Term hdfc-->
+    <string-array name="hdfc_options">
+        <item>LIFE</item>
+        <item>3D LIFE</item>
+        <item>LIFE LONG PROTECTION</item>
+        <item>3D LIFE LONG PROTECTION</item>
+        <item>EXTRA LIFE</item>
+        <item>EXTRA LIFE INCOME</item>
+        <item>INCOME OPTION</item>
+        <item>INCOME REPLACEMENT</item>
+        <item>RETURN OF PREMIUM</item>
+    </string-array>
+
+    <string-array name="hdfc_premium_frequency">
+        <item>YEARLY</item>
+        <item>HALF YEARLY</item>
+        <item>QUARTERLY</item>
+        <item>MONTHLY</item>
+        <item>SINGLE</item>
+    </string-array>
+
+
     <string name="title_activity_compare_ti_activity">COMPARE TERM INSURANCE</string>
 
     <string-array name="educationList">
@@ -717,5 +741,7 @@
         <item>Chennai</item>
     </string-array>
     <string name="mps_popup_text">Congratulations and welcome to the Magic-Finmart Family. As our privileged associate, you are eligible to an exclusive Magic Platinum Subscription (MPS) for </string>
-
+    <string name="know_more_mps_desc">Magic Platinum Subscription (MPS) is an exclusive offer from Datatcomp, available to Finmart Business Associates only. In this subscrition you pay ₹
+        </string>
+    <string name="know_more_mps_desc_2"> to use Datacomp\'s following four premium applications FREE:</string>
 </resources>

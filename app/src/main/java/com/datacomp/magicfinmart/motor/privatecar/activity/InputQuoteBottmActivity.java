@@ -18,6 +18,7 @@ import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
+import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -46,7 +47,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
     FragmentTransaction transactionSim;
     MotorRequestEntity motorRequestEntity;
     boolean isQuoteVisible = true;
-    ImageView ivHdrInput,  ivHdrQuote;
+    ImageView ivHdrInput, ivHdrQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +176,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                         }
                     } else {
                         Toast.makeText(InputQuoteBottmActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                        return false;
                     }
                     return true;
                 case R.id.navigation_quote:
@@ -193,6 +195,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                         } else {
 
                             Toast.makeText(InputQuoteBottmActivity.this, "Tap get Quotes ", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
 
@@ -217,7 +220,12 @@ public class InputQuoteBottmActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (isQuoteVisible) {
-            finish();
+            if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+            {
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            } else {
+                InputQuoteBottmActivity.this.finish();
+            }
         } else {
             Toast.makeText(InputQuoteBottmActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
         }

@@ -110,6 +110,7 @@ public class HLMainActivity extends BaseActivity {
                         } else {
 
                             Toast.makeText(HLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
                     return true;
@@ -117,7 +118,7 @@ public class HLMainActivity extends BaseActivity {
                 case R.id.navigation_buy:
 
 
-                    return true;
+                    return false;
             }
 
             return false;
@@ -128,9 +129,13 @@ public class HLMainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        HLMainActivity.this.finish();
 
-        //  finish();
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            HLMainActivity.this.finish();
+        }
 
     }
 

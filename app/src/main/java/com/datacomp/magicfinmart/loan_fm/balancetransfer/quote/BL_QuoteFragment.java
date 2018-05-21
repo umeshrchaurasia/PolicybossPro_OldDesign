@@ -21,23 +21,28 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.ActivityTabsPagerAdapter_BL;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransfer_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
-
 
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLNodeMainEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmBalanceLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteBLResponse;
 
 
-public class BL_QuoteFragment extends BaseFragment implements View.OnClickListener,IResponseSubcriberFM {
+public class BL_QuoteFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriberFM {
     public static final String FROM_QUOTEBL = "bl_from_quote";
     FloatingActionButton blAddQuote;
 
@@ -47,11 +52,13 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
     List<FmBalanceLoanRequest> mQuoteList;
 
-    FmBalanceLoanRequest  removeQuoteEntity;
+    FmBalanceLoanRequest removeQuoteEntity;
 
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
+
     public BL_QuoteFragment() {
         // Required empty public constructor
     }
@@ -66,14 +73,40 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
         setListener();
         setTextWatcher();
         mQuoteList = new ArrayList<>();
-        if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_BL.QUOTE_LIST) != null)
-        {
+        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_BL.QUOTE_LIST) != null) {
             mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_BL.QUOTE_LIST);
 
         }
-        balanceTransfer_QuoteAdapter = new BalanceTransfer_QuoteAdapter(BL_QuoteFragment.this,mQuoteList);
+        balanceTransfer_QuoteAdapter = new BalanceTransfer_QuoteAdapter(BL_QuoteFragment.this, mQuoteList);
         rvBTQuoteList.setAdapter(balanceTransfer_QuoteAdapter);
+
+        rvBTQuoteList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mQuoteList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchQuoteApplication(mQuoteList.size());
+
+                    }
+                }
+            }
+        });
+
         return view;
+    }
+
+    private void fetchQuoteApplication(int size) {
+        new MainLoanController(getContext()).getBLQuoteApplication(size, 1, String.valueOf(
+                new DBPersistanceController(getActivity()).getUserData().getFBAId()),
+                this);
     }
 
     private void initView(View view) {
@@ -85,7 +118,6 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
         tvSearch = (TextView) view.findViewById(R.id.tvSearch);
         etSearch = (EditText) view.findViewById(R.id.etSearch);
         etSearch.setVisibility(View.INVISIBLE);
-
 
 
         rvBTQuoteList = (RecyclerView) view.findViewById(R.id.rvQuoteList);
@@ -105,17 +137,18 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
         tvSearch.setOnClickListener(this);
     }
 
-    public void redirectQuoteBL(FmBalanceLoanRequest request){
-        Intent intent=new Intent(getActivity(), BLMainActivity.class);
-        intent.putExtra( FROM_QUOTEBL,request);
+    public void redirectQuoteBL(FmBalanceLoanRequest request) {
+        Intent intent = new Intent(getActivity(), BLMainActivity.class);
+        intent.putExtra(FROM_QUOTEBL, request);
         startActivity(intent);
 
     }
+
     public void removeQuoteBL(FmBalanceLoanRequest entity) {
 
         removeQuoteEntity = entity;
         showDialog("Please wait,Removing quote..");
-        new MainLoanController(getContext()).getdelete_balancerequest("" + entity.getBalanceTransferId(),this);
+        new MainLoanController(getContext()).getdelete_balancerequest("" + entity.getBalanceTransferId(), this);
 
     }
 
@@ -145,8 +178,7 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    public void callnumber(String mobNumber)
-    {
+    public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
     }
 
@@ -174,10 +206,28 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
         if (response instanceof FmSaveQuoteBLResponse) {
             if (response.getStatusNo() == 0) {
                 mQuoteList.remove(removeQuoteEntity);
-                balanceTransfer_QuoteAdapter.refreshAdapter(mQuoteList);
-                balanceTransfer_QuoteAdapter.notifyDataSetChanged();
+
             }
+        } else if (response instanceof FmBalanceLoanResponse) {
+            if (((FmBalanceLoanResponse) response).getMasterData() != null) {
+
+                List<FmBalanceLoanRequest> list = ((FmBalanceLoanResponse) response).getMasterData().getQuote();
+
+                if (list.size() > 0) {
+                    isHit = false;
+                    for (FmBalanceLoanRequest entity : list) {
+                        if (!mQuoteList.contains(entity)) {
+                            mQuoteList.add(entity);
+                        }
+                    }
+                }
+
+            }
+
         }
+
+        balanceTransfer_QuoteAdapter.refreshAdapter(mQuoteList);
+        balanceTransfer_QuoteAdapter.notifyDataSetChanged();
     }
 
     @Override

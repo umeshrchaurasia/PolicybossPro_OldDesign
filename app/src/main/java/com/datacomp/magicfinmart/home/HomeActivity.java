@@ -21,6 +21,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +37,7 @@ import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
+import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
 import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
@@ -60,6 +62,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.R
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MpsDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
@@ -81,6 +84,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     PrefManager prefManager;
     int forceUpdate;
     ConstantEntity constantEntity;
+    AlertDialog mpsDialog;
 
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
@@ -144,14 +148,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         // set first fragement selected.
         navigationView.getMenu().getItem(0).setChecked(true);
 
+
         if (savedInstanceState == null) {
-            getSupportActionBar().setTitle("MAGIC FIN-MART");
-            Fragment fragment = new DashboardFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
+            selectHome();
+
 
         }
-
-        new MasterController(this).getConstants(this);
 
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -215,10 +217,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
                         break;
                     case R.id.nav_mps:
-                        DialogMPS();
+                        // DialogMPS();
                         // showDialog();
+                        new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
 
-                        // new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
                         // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
                         //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
@@ -252,6 +254,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, fragment);
                     fragmentTransaction.commit();
+
                     return true;
                 }
                 return false;
@@ -281,6 +284,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
+
+    public void selectHome() {
+        getSupportActionBar().setTitle("MAGIC FIN-MART");
+        Fragment fragment = new DashboardFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
     }
 
     // endregion
@@ -464,12 +473,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (response instanceof MpsResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
-                if (((MpsResponse) response).getMasterData().getPaymentURL() != null) {
+                prefManager.removeMps();
+                prefManager.setMPS(((MpsResponse) response).getMasterData());
+                Log.d("TAG", "MPS CONSTANTS");
+                DialogMPS();
+
+
+
+                /*if (((MpsResponse) response).getMasterData().getPaymentURL() != null) {
                     startActivity(new Intent(this, CommonWebViewActivity.class)
                             .putExtra("URL", ((MpsResponse) response).getMasterData().getPaymentURL())
                             .putExtra("NAME", "MPS")
                             .putExtra("TITLE", "MPS"));
-                }
+                }*/
             }
         } else if (response instanceof MyAcctDtlResponse) {
             if (response.getStatusNo() == 0) {
@@ -499,6 +515,35 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             openPopUp(navigationView, "UPDATE", "New version available on play store!!!! Please update.", "OK", true);
                         }
                     }
+
+                    if (new DBPersistanceController(this).getUserData().getIsFirstLogin() == 1) {
+                        for (Fragment frg :
+                                getSupportFragmentManager().getFragments()) {
+
+                            if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
+                                if (!frg.isVisible()) {
+                                    Log.d("TAG", "CONSTANTS");
+                                    DialogMPS();
+                                }
+                            }
+                        }
+                    }
+
+                } else if (((ConstantsResponse) response).getMasterData().getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
+
+                    for (Fragment frg :
+                            getSupportFragmentManager().getFragments()) {
+
+                        if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
+                            if (!frg.isVisible()) {
+                                if (prefManager.getMps() != null) {
+                                    Log.d("TAG", "MPS");
+                                    DialogMPS();
+                                }
+                            }
+                        }
+                    }
+
                 }
                 //endregion
 
@@ -528,6 +573,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (prefManager.getMps() == null)
+            new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+
+
+        new MasterController(this).getConstants(this);
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
     }
@@ -564,13 +615,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     //region mps dialog
 
     private void DialogMPS() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true);
+        AlertDialog.Builder mpsAlertBuilder;
+        mpsAlertBuilder = new AlertDialog.Builder(this);
+        mpsAlertBuilder.setCancelable(true);
         // builder.setTitle("PREMIUM DETAIL");
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_dialog_mps, null);
-        builder.setView(view);
-        final AlertDialog dialog = builder.create();
+        mpsAlertBuilder.setView(view);
+
+        if (mpsDialog == null) {
+            mpsDialog = mpsAlertBuilder.create();
+        }
 
         TextView txtDesc = (TextView) view.findViewById(R.id.txtDesc);
         TextView txtKnowMore = (TextView) view.findViewById(R.id.txtKnowMore);
@@ -580,7 +635,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtDesc.setText("");
         txtDesc.append(getResources().getString(R.string.mps_popup_text));
 
-        String amount = " \u20B9" + 2065 + "/- ";
+        String amount = " \u20B9" + prefManager.getMps().getTotalAmt() + "/- ";
         SpannableString ss1 = new SpannableString(amount);
         ss1.setSpan(new StyleSpan(Typeface.BOLD), 0, ss1.length(), 0);
         String normalText = getResources().getString(R.string.mps_popup_text);
@@ -589,30 +644,32 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtDesc.append(ss1);
         txtDesc.append("(Incl. GST) only");
 
-        txtLater.setTag(R.id.txtLater, dialog);
-        txtGetMPS.setTag(R.id.txtGetMPS, dialog);
-        txtKnowMore.setTag(R.id.txtKnowMore, dialog);
+        txtLater.setTag(R.id.txtLater, mpsDialog);
+        txtGetMPS.setTag(R.id.txtGetMPS, mpsDialog);
+        txtKnowMore.setTag(R.id.txtKnowMore, mpsDialog);
 
         txtKnowMore.setOnClickListener(onClickListener);
         txtGetMPS.setOnClickListener(onClickListener);
         txtLater.setOnClickListener(onClickListener);
 
-        dialog.show();
+        if (!mpsDialog.isShowing())
+            mpsDialog.show();
 
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
             switch (v.getId()) {
                 case R.id.txtKnowMore:
                     ((AlertDialog) v.getTag(R.id.txtKnowMore)).dismiss();
-                    Toast.makeText(HomeActivity.this, "Know More", Toast.LENGTH_SHORT).show();
+                    fragmentTransaction.replace(R.id.frame, new KnowMoreMPSFragment());
+                    fragmentTransaction.commit();
                     break;
                 case R.id.txtGetMPS:
                     ((AlertDialog) v.getTag(R.id.txtGetMPS)).dismiss();
-                    Toast.makeText(HomeActivity.this, "MPS", Toast.LENGTH_SHORT).show();
-                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, new MPSFragment());
                     fragmentTransaction.commit();
 

@@ -21,6 +21,7 @@
             <EditText
                 android:id="@+id/etFirstName"
                 style="@style/Style.edittext"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
                 android:drawableRight="@drawable/vector_person" />
 
         </android.support.design.widget.TextInputLayout>
@@ -33,9 +34,9 @@
             android:hint="Last Name">
 
             <EditText
-
                 android:id="@+id/etLastName"
                 style="@style/Style.edittext"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
                 android:drawableRight="@drawable/vector_person" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
@@ -231,7 +232,6 @@
         </LinearLayout>
 
         <LinearLayout
-            android:padding="5dp"
             android:id="@+id/llSmoker"
             style="@style/TextInputLayoutStyle"
             android:layout_width="0dp"
@@ -239,7 +239,7 @@
             android:layout_weight="50"
             android:gravity="bottom"
             android:orientation="vertical"
-            >
+            android:padding="5dp">
 
             <TextView
                 style="@style/TextStyle.TextMedium"

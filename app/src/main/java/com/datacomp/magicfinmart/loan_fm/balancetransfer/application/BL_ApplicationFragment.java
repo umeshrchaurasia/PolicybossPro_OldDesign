@@ -28,13 +28,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmBalanceLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteBLResponse;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BL_ApplicationFragment extends BaseFragment implements View.OnClickListener{
+public class BL_ApplicationFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriberFM {
 
     RecyclerView rvApplicationList;
     BalanceTransferApplicationAdapter balanceTransferApplicationAdapter;
@@ -42,6 +48,9 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
+
+
     public BL_ApplicationFragment() {
         // Required empty public constructor
     }
@@ -62,11 +71,38 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
             mApplicationList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_BL.APPLICATION_LIST);
         }
 
-      // rvApplicationList.setAdapter(null);
-        balanceTransferApplicationAdapter = new BalanceTransferApplicationAdapter(BL_ApplicationFragment.this,mApplicationList);
+        // rvApplicationList.setAdapter(null);
+        balanceTransferApplicationAdapter = new BalanceTransferApplicationAdapter(BL_ApplicationFragment.this, mApplicationList);
         rvApplicationList.setAdapter(balanceTransferApplicationAdapter);
 
+        rvApplicationList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mApplicationList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchQuoteApplication(mApplicationList.size());
+
+                    }
+                }
+            }
+        });
+
         return view;
+    }
+
+
+    private void fetchQuoteApplication(int size) {
+        new MainLoanController(getContext()).getBLQuoteApplication(size, 2, String.valueOf(
+                new DBPersistanceController(getActivity()).getUserData().getFBAId()),
+                this);
     }
 
     private void initView(View view) {
@@ -84,41 +120,42 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
         rvApplicationList.setLayoutManager(layoutManager);
     }
 
-    public void redirectBLLoanApply(String ApplNum,int Type){
+    public void redirectBLLoanApply(String ApplNum, int Type) {
 //        Intent intent=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
 //        intent.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
 //        intent.putExtra("TypePage","HL");
 //        startActivity(intent);
-      //  HLBT,PLBT,LAPBT
+        //  HLBT,PLBT,LAPBT
 
         if (Integer.toString(Type).matches("5")) {
 //home
 
-            Intent intenthl=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
-            intenthl.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
-            intenthl.putExtra("TypePage","HLBT");
+            Intent intenthl = new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
+            intenthl.putExtra(Utility.HMLOAN_APPLICATION, ApplNum);
+            intenthl.putExtra("TypePage", "HLBT");
             startActivity(intenthl);
 
 
-        }else if (Integer.toString(Type).matches("14")) {
+        } else if (Integer.toString(Type).matches("14")) {
             //personal
 
-            Intent intentpl=new Intent(getActivity(), BalanceTransferPersonalApplyActivity.class);
-            intentpl.putExtra(Utility.PLLOAN_APPLICATION,ApplNum);
-            intentpl.putExtra("TypePage","PLBT");
+            Intent intentpl = new Intent(getActivity(), BalanceTransferPersonalApplyActivity.class);
+            intentpl.putExtra(Utility.PLLOAN_APPLICATION, ApplNum);
+            intentpl.putExtra("TypePage", "PLBT");
             startActivity(intentpl);
 
         } else if (Integer.toString(Type).matches("2")) {
             //lap
-            Intent intenthl=new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
-            intenthl.putExtra(Utility.HMLOAN_APPLICATION,ApplNum);
-            intenthl.putExtra("TypePage","LAPBT");
+            Intent intenthl = new Intent(getActivity(), BalanceTransferLoanApplyActivity.class);
+            intenthl.putExtra(Utility.HMLOAN_APPLICATION, ApplNum);
+            intenthl.putExtra("TypePage", "LAPBT");
             startActivity(intenthl);
 
         }
 
 
     }
+
     private void setListener() {
         ivSearch.setOnClickListener(this);
         ivAdd.setOnClickListener(this);
@@ -143,6 +180,7 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
             }
         });
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -160,8 +198,39 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
                 break;
         }
     }
-    public void callnumber(String mobNumber)
-    {
+
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+
+        cancelDialog();
+        if (response instanceof FmBalanceLoanResponse) {
+            if (((FmBalanceLoanResponse) response).getMasterData() != null) {
+
+                List<FmBalanceLoanRequest> list = ((FmBalanceLoanResponse) response).getMasterData().getApplication();
+
+                if (list.size() > 0) {
+                    isHit = false;
+                    for (FmBalanceLoanRequest entity : list) {
+                        if (!mApplicationList.contains(entity)) {
+                            mApplicationList.add(entity);
+                        }
+                    }
+                }
+
+            }
+
+        }
+
+        balanceTransferApplicationAdapter.refreshAdapter(mApplicationList);
+        balanceTransferApplicationAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+    }
+
+    public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
     }
 }

@@ -77,7 +77,7 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
 
         showDialog("Fetching.., Please wait.!");
 
-        new MainLoanController(this).getPLQuoteApplication(String.valueOf(loginEntity.getFBAId()), PersonalLoanDetailActivity.this);
+        new MainLoanController(this).getPLQuoteApplication(0,0,String.valueOf(loginEntity.getFBAId()), PersonalLoanDetailActivity.this);
 
 
     }
@@ -95,6 +95,7 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
                     mAdapter = new ActivityTabsPagerAdapter_PL(getSupportFragmentManager(), plQuoteApplicationEntity);
                     viewPager.setAdapter(mAdapter);
                 } else {
+                    finish();
                     startActivity(new Intent(this, PLMainActivity.class));
                 }
             }

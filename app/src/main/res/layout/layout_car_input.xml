@@ -80,10 +80,10 @@
                     android:id="@+id/llVerifyCarDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:layout_marginBottom="8dp"
                     android:visibility="visible">
 
                     <TextView
@@ -163,7 +163,7 @@
                     <android.support.design.widget.TextInputLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:hint="Fuel">
 
@@ -189,10 +189,11 @@
                         android:id="@+id/tilExt"
                         style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="bottom"
-                        android:hint="Ext. CNG/LPG Value">
+                        android:hint="Ext. CNG/LPG Value"
+                        android:visibility="visible">
 
                         <EditText
                             android:id="@+id/etExtValue"

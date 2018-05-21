@@ -104,6 +104,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
                     viewPager.setAdapter(mAdapter);
 
                 } else {
+                    finish();
                     startActivity(new Intent(this, HLMainActivity.class));
                 }
             }

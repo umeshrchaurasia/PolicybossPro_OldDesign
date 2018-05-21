@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeApplicationTabFragment;
@@ -46,7 +47,8 @@ public class BikeAddQuoteActivity extends BaseActivity {
     FragmentTransaction transactionSim;
     MotorRequestEntity motorRequestEntity;
     boolean isQuoteVisible = true;
-    ImageView ivHdrInput,  ivHdrQuote;
+    ImageView ivHdrInput, ivHdrQuote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -135,18 +137,17 @@ public class BikeAddQuoteActivity extends BaseActivity {
         //transactionSim.commitAllowingStateLoss();
     }
 
-    public void highlighInput()
-    {
+    public void highlighInput() {
         ivHdrInput.setVisibility(View.VISIBLE);
         ivHdrQuote.setVisibility(View.GONE);
     }
 
-    public void highlighQuote()
-    {
+    public void highlighQuote() {
         ivHdrQuote.setVisibility(View.VISIBLE);
         ivHdrInput.setVisibility(View.GONE);
 
     }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -174,6 +175,7 @@ public class BikeAddQuoteActivity extends BaseActivity {
                         }
                     } else {
                         Toast.makeText(BikeAddQuoteActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                        return false;
                     }
                     return true;
                 case R.id.navigation_quote:
@@ -192,6 +194,7 @@ public class BikeAddQuoteActivity extends BaseActivity {
                         } else {
 
                             Toast.makeText(BikeAddQuoteActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
 
@@ -216,10 +219,24 @@ public class BikeAddQuoteActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (isQuoteVisible) {
-            finish();
+            if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId()) {
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            } else {
+                BikeAddQuoteActivity.this.finish();
+            }
         } else {
             Toast.makeText(BikeAddQuoteActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
         }
+
+
+//        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+//
+//        {
+//            redirectToInput();
+//        } else {
+//            HealthQuoteBottomTabsActivity.this.finish();
+//        }
+
     }
 
 

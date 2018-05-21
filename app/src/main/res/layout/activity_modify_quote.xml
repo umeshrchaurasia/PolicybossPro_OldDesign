@@ -290,7 +290,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"
                         android:gravity="center"
-                        android:text="IDV Range"
+                        android:text="Desired IDV"
+                        android:textAllCaps="true"
                         android:textAppearance="@style/TextStyle.TextSmall"
                         android:textColor="@color/black"
                         android:textStyle="bold" />

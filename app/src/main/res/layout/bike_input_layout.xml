@@ -34,10 +34,10 @@
                     android:id="@+id/llVerifyCarDetails"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
                     android:gravity="center"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:layout_marginBottom="8dp"
                     android:visibility="visible">
 
                     <TextView
@@ -193,7 +193,7 @@
                     <RelativeLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:hint="Fuel">
 
@@ -209,7 +209,7 @@
                             android:id="@+id/spMonth"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="8dp"
                             android:minHeight="40dp"></Spinner>
                     </RelativeLayout>
@@ -217,7 +217,7 @@
                     <RelativeLayout
                         style="@style/TextInputLayoutStyle"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1">
 
                         <TextView
@@ -232,7 +232,7 @@
                             android:id="@+id/spYear"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:layout_marginTop="8dp"
                             android:minHeight="40dp"></Spinner>
                     </RelativeLayout>
@@ -262,6 +262,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                     <LinearLayout
+                        android:id="@+id/llNCB"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

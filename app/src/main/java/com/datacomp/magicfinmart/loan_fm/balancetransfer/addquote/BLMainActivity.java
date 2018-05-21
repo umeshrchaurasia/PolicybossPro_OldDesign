@@ -103,6 +103,7 @@ public class BLMainActivity extends BaseActivity {
                         } else {
 
                             Toast.makeText(BLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
                     return true;
@@ -120,7 +121,13 @@ public class BLMainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        BLMainActivity.this.finish();
+
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            BLMainActivity.this.finish();
+        }
     }
 
     private void loadFragment(Fragment fragment, String TAG) {

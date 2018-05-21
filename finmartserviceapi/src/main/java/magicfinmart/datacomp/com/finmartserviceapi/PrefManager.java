@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MpsDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 
 public class PrefManager {
@@ -37,12 +38,37 @@ public class PrefManager {
     public static String SHARED_KEY_PUSH_WEB_URL = "shared_notify_webUrl";
     public static String SHARED_KEY_PUSH_WEB_TITLE = "shared_notify_webTitle";
 
+    public static String MPS_DATA = "mps_data";
+
 
     public PrefManager(Context context) {
         this._context = context;
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
+
+    //region MPS
+
+    public boolean setMPS(MpsDataEntity mpsDataEntity) {
+        Gson gson = new Gson();
+        editor.putString(MPS_DATA, gson.toJson(mpsDataEntity));
+        return editor.commit();
+    }
+
+    public MpsDataEntity getMps() {
+        Gson gson = new Gson();
+        if (gson.fromJson(pref.getString(MPS_DATA, ""), MpsDataEntity.class) != null)
+            return gson.fromJson(pref.getString(MPS_DATA, ""), MpsDataEntity.class);
+        else
+            return null;
+    }
+
+    public boolean removeMps() {
+        editor.remove(MPS_DATA);
+        return editor.commit();
+    }
+
+    //endregion
 
     public void setIsUpdateShown(boolean isFirstTime) {
         editor.putBoolean(IS_UPDATE_SHOWN, isFirstTime);
@@ -225,7 +251,7 @@ public class PrefManager {
 
     public void clearAll() {
         pref.edit().remove(POSP_INFO)
-                 .remove(SHARED_KEY_PUSH_NOTIFY)
+                .remove(SHARED_KEY_PUSH_NOTIFY)
                 .remove(SHARED_KEY_PUSH_WEB_URL)
                 .remove(SHARED_KEY_PUSH_WEB_TITLE).commit();
 
