@@ -71,7 +71,7 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
         if (getArguments().getParcelableArrayList(TermActivityTabsPagerAdapter.TERM_QUOTE_LIST) != null) {
             listQuote = getArguments().getParcelableArrayList(TermActivityTabsPagerAdapter.TERM_QUOTE_LIST);
         }
-
+        compId = ((TermQuoteApplicationActivity) getActivity()).getCompId();
         mAdapter = new TermQuoteAdapter(this, listQuote);
         rvTermQuote.setAdapter(mAdapter);
 
@@ -142,6 +142,11 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
                 || v.getId() == R.id.tvAdd) {
             switch (compId) {
                 case 1001://compare term
+                    Intent intentCompare = new Intent(getActivity(), CompareTermActivity.class);
+                    intentCompare.putExtra(TERM_FOR_INPUT_FRAGMENT, 1001);
+                    //intent.putExtra(TERM_INPUT_FRAGMENT, null);
+                    startActivity(intentCompare);
+                    break;
                 case 43://edelwise
                 case 28://hdfc
                     Intent intentHdfc = new Intent(getActivity(), HdfcTermActivity.class);
@@ -185,7 +190,7 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
             intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
             startActivity(intent);
         } else if (whichTerm == 28) {
-            Intent intent = new Intent(getActivity(), CompareTermActivity.class);
+            Intent intent = new Intent(getActivity(), HdfcTermActivity.class);
             intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
             intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
             startActivity(intent);
@@ -202,7 +207,19 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
 
     public void fetchMoreQuotes(int count) {
         //showDialog("Fetching.., Please wait.!");
-        new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "1", this);
+        if (compId == 39){
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "1", this);
+        }else  if(compId == 28){
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(28, count, "1", this);
+        }else  if(compId == 1001){
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(1001, count, "1", this);
+        }else  if(compId == 1){
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(1, count, "1", this);
+        }
+        else  if(compId == 43){
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(43, count, "1", this);
+        }
+
     }
 
     @Override
