@@ -140,35 +140,35 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             TermRequestEntity termRequestEntity = termFinmartRequest.getTermRequestEntity();
             if (termRequestEntity != null) {
 
-                if (termRequestEntity.getPlanTaken().equals("LIFE")) {
+                if (termRequestEntity.getPlanTaken().equals("Life")) {
                     spHDFCOptions.setSelection(0);
-                } else if (termRequestEntity.getPlanTaken().equals("3D LIFE")) {
+                } else if (termRequestEntity.getPlanTaken().equals("3D Life")) {
                     spHDFCOptions.setSelection(1);
-                } else if (termRequestEntity.getPlanTaken().equals("LIFE LONG PROTECTION")) {
+                } else if (termRequestEntity.getPlanTaken().equals("Life Long Protection")) {
                     spHDFCOptions.setSelection(2);
-                } else if (termRequestEntity.getPlanTaken().equals("3D LIFE LONG PROTECTION")) {
+                } else if (termRequestEntity.getPlanTaken().equals("3D Life Long Protection")) {
                     spHDFCOptions.setSelection(3);
-                } else if (termRequestEntity.getPlanTaken().equals("EXTRA LIFE")) {
+                } else if (termRequestEntity.getPlanTaken().equals("Extra Life")) {
                     spHDFCOptions.setSelection(3);
-                } else if (termRequestEntity.getPlanTaken().equals("EXTRA LIFE INCOME")) {
+                } else if (termRequestEntity.getPlanTaken().equals("Extra Life Income")) {
                     spHDFCOptions.setSelection(3);
-                } else if (termRequestEntity.getPlanTaken().equals("INCOME OPTION")) {
+                } else if (termRequestEntity.getPlanTaken().equals("Income Option")) {
                     spHDFCOptions.setSelection(3);
-                } else if (termRequestEntity.getPlanTaken().equals("INCOME REPLACEMENT")) {
+                } else if (termRequestEntity.getPlanTaken().equals("Income Replacement")) {
                     spHDFCOptions.setSelection(3);
-                } else if (termRequestEntity.getPlanTaken().equals("RETURN OF PREMIUM")) {
+                } else if (termRequestEntity.getPlanTaken().equals("Return of Premium")) {
                     spHDFCOptions.setSelection(3);
                 }
 
-                if (termRequestEntity.getFrequency().equals("YEARLY")) {
+                if (termRequestEntity.getFrequency().equals("Yearly")) {
                     spHdfcPremFrq.setSelection(0);
-                } else if (termRequestEntity.getFrequency().equals("HALF YEARLY")) {
+                } else if (termRequestEntity.getFrequency().equals("Half Yearly")) {
                     spHdfcPremFrq.setSelection(1);
-                } else if (termRequestEntity.getFrequency().equals("QUARTERLY")) {
+                } else if (termRequestEntity.getFrequency().equals("Quarterly")) {
                     spHdfcPremFrq.setSelection(2);
-                } else if (termRequestEntity.getFrequency().equals("MONTHLY")) {
+                } else if (termRequestEntity.getFrequency().equals("Monthly")) {
                     spHdfcPremFrq.setSelection(3);
-                } else if (termRequestEntity.getFrequency().equals("SINGLE")) {
+                } else if (termRequestEntity.getFrequency().equals("Single")) {
                     spHdfcPremFrq.setSelection(4);
                 }
 
@@ -581,7 +581,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             termRequestEntity.setLumpsumAmount("" + hfLumsumAmt);
         }
         if (hfLumsumPayOutOnDeath != 0) {
-            termRequestEntity.setMonthlyIncome("" + hfLumsumAmt);
+            termRequestEntity.setLumpsumAmount("" + hfLumsumPayOutOnDeath);
         }
 
 
@@ -761,31 +761,31 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 switch (spHdfcPremFrq.getSelectedItemPosition()) {
 
                     case 0:
-                        termRequestEntity.setFrequency("YEARLY");
+                        termRequestEntity.setFrequency("Yearly");
                         etICICIPremiumTerm.setEnabled(true);
                         etHDFCSAInc.setEnabled(true);
                         etICICIPremiumTerm.setText("" + etICICIPolicyTerm.getText().toString());
                         break;
                     case 1:
-                        termRequestEntity.setFrequency("HALF YEARLY");
+                        termRequestEntity.setFrequency("Half Yearly");
                         etICICIPremiumTerm.setEnabled(true);
                         etHDFCSAInc.setEnabled(true);
                         etICICIPremiumTerm.setText("" + etICICIPolicyTerm.getText().toString());
                         break;
                     case 2:
-                        termRequestEntity.setFrequency("QUARTERLY");
+                        termRequestEntity.setFrequency("Quarterly");
                         etICICIPremiumTerm.setEnabled(true);
                         etHDFCSAInc.setEnabled(true);
                         etICICIPremiumTerm.setText("" + etICICIPolicyTerm.getText().toString());
                         break;
                     case 3:
-                        termRequestEntity.setFrequency("MONTHLY");
+                        termRequestEntity.setFrequency("Monthly");
                         etICICIPremiumTerm.setEnabled(true);
                         etHDFCSAInc.setEnabled(true);
                         etICICIPremiumTerm.setText("" + etICICIPolicyTerm.getText().toString());
                         break;
                     case 4:
-                        termRequestEntity.setFrequency("SINGLE");
+                        termRequestEntity.setFrequency("Single");
                         if (!spHDFCOptions.getSelectedItem().toString().equals("LIFE LONG PROTECTION") &&
                                 !spHDFCOptions.getSelectedItem().toString().equals("3D LIFE LONG PROTECTION")) {
 
@@ -1033,7 +1033,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     private void manipulateInputs(String s) {
         switch (s) {
             case "LIFE":
-                termRequestEntity.setPlanTaken("LIFE");
+                termRequestEntity.setPlanTaken("Life");
                 hideAllLayout();
                 clearValues();
                 etHDFCSAInc.setText("10");
@@ -1053,7 +1053,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case "3D LIFE":
-                termRequestEntity.setPlanTaken("3D LIFE");
+                termRequestEntity.setPlanTaken("3D Life");
                 hideAllLayout();
                 clearValues();
 
@@ -1074,7 +1074,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case "LIFE LONG PROTECTION":
-                termRequestEntity.setPlanTaken("LIFE LONG PROTECTION");
+                termRequestEntity.setPlanTaken("Life Long Protection");
                 hideAllLayout();
                 clearValues();
                 etHDFCSAInc.setText("10");
@@ -1083,7 +1083,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case "3D LIFE LONG PROTECTION":
-                termRequestEntity.setPlanTaken("3D LIFE LONG PROTECTION");
+                termRequestEntity.setPlanTaken("3D Life Long Protection");
                 hideAllLayout();
                 clearValues();
                 etHDFCSAInc.setText("10");
@@ -1092,7 +1092,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case "EXTRA LIFE":
-                termRequestEntity.setPlanTaken("EXTRA LIFE");
+                termRequestEntity.setPlanTaken("Extra Life");
                 hideAllLayout();
                 clearValues();
                 llAdb.setVisibility(View.VISIBLE);
@@ -1116,7 +1116,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 }
                 break;
             case "EXTRA LIFE INCOME":
-                termRequestEntity.setPlanTaken("EXTRA LIFE INCOME");
+                termRequestEntity.setPlanTaken("Extra Life Income");
                 hideAllLayout();
                 llIncDeath.setVisibility(View.VISIBLE);
                 llIncPeriod.setVisibility(View.VISIBLE);
@@ -1149,7 +1149,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case "INCOME OPTION":
-                termRequestEntity.setPlanTaken("INCOME OPTION");
+                termRequestEntity.setPlanTaken("Income Option");
                 hideAllLayout();
                 llIncDeath.setVisibility(View.VISIBLE);
                 llIncPeriod.setVisibility(View.VISIBLE);
@@ -1182,7 +1182,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case "INCOME REPLACEMENT":
-                termRequestEntity.setPlanTaken("INCOME REPLACEMENT");
+                termRequestEntity.setPlanTaken("Income Replacement");
                 hideAllLayout();
                 llIncDeath.setVisibility(View.VISIBLE);
                 llINCREASING.setVisibility(View.VISIBLE);
@@ -1213,7 +1213,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case "RETURN OF PREMIUM":
-                termRequestEntity.setPlanTaken("RETURN OF PREMIUM");
+                termRequestEntity.setPlanTaken("Return of Premium");
                 hideAllLayout();
                 clearValues();
 
