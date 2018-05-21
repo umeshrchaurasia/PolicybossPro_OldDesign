@@ -255,6 +255,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             case R.id.rlProfessionalInfo:
 
                 isValidPersonalInfo = validateRegister();
+                manageTaskBar();
                 if (isValidPersonalInfo) {
                     setRegisterPersonalRequest();
 
@@ -274,6 +275,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btnSubmit:
                 isValidPersonalInfo = validateRegister();
+                manageTaskBar();
                 if (isValidPersonalInfo) {
                     setRegisterPersonalRequest();
                     if (!isMobileValid) {
@@ -479,9 +481,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             trackingRequestEntity.setType("Register");
             trackingRequestEntity.setData(new TrackingData("Submit button for registration Success"));
             new TrackingController(this).sendData(trackingRequestEntity, null);
-            Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
-            if (response.getStatusNo() == 0)
+
+            if (response.getStatusNo() == 0) {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
+            }else {
+                showAlert(response.getMessage());
+                llPersonalInfo.setVisibility(View.VISIBLE);
+                llProfessionalInfo.setVisibility(View.GONE);
+            }
 
         }
         if (response instanceof InsuranceMasterResponse) {
@@ -700,5 +708,66 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     }
 
+    private void manageTaskBar() {
 
+
+        if (isValidPersonalInfo == false) {
+            llPersonalInfo.setVisibility(View.VISIBLE);
+            llProfessionalInfo.setVisibility(View.GONE);
+        }
+    }
+
+    private boolean checkPL_Info() {
+
+        if (!isEmpty(etFirstName)) {
+            return false;
+        }
+
+        if (!isEmpty(etLastName)) {
+            return false;
+        }
+        if (!isEmpty(etDob)) {
+
+            return false;
+        }
+        if (!isValidePhoneNumber(etMobile1)) {
+
+            return false;
+        }
+        if (!isValideEmailID(etEmail)) {
+
+            return false;
+        }
+        if (!isValideEmailID(etConfirmEmail)) {
+
+            return false;
+        }
+        if (!etEmail.getText().toString().equals(etConfirmEmail.getText().toString())) {
+            return false;
+        }
+        if (!isEmpty(etPincode)) {
+
+            return false;
+        }
+        if (!isEmpty(etCity)) {
+
+            return false;
+        }
+        if (!isEmpty(etState)) {
+
+            return false;
+        }
+        if (!isEmpty(etFirstName)) {
+
+            return false;
+        }
+        return true;
+    }
+
+
+
+    private boolean checkPR_Info() {
+
+        return false;
+    }
 }
