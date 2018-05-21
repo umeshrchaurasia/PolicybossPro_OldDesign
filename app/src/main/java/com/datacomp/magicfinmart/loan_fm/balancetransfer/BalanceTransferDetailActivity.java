@@ -93,6 +93,7 @@ public class BalanceTransferDetailActivity extends BaseActivity implements IResp
                     mAdapter = new ActivityTabsPagerAdapter_BL(getSupportFragmentManager(), plQuoteApplicationEntity);
                     viewPager.setAdapter(mAdapter);
                 } else {
+                    finish();
                     startActivity(new Intent(this, BLMainActivity.class));
                 }
             }

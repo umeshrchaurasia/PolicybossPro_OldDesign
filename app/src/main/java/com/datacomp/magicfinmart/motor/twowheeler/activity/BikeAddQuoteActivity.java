@@ -219,13 +219,11 @@ public class BikeAddQuoteActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (isQuoteVisible) {
-            finish();
-
-//            if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId()) {
-//                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//            } else {
-//                BikeAddQuoteActivity.this.finish();
-//            }
+            if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId()) {
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            } else {
+                BikeAddQuoteActivity.this.finish();
+            }
         } else {
             Toast.makeText(BikeAddQuoteActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
         }

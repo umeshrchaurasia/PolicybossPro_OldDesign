@@ -90,6 +90,7 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
                             ((HealthQuoteAppResponse) response));
                     viewPager.setAdapter(mAdapter);
                 } else {
+                    finish();
                     startActivity(new Intent(this, HealthQuoteBottomTabsActivity.class));
                 }
             }
