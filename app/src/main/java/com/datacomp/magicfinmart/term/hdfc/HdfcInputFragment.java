@@ -12,6 +12,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruWebviewActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -81,7 +83,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     LinearLayout layoutCompare;
 
     TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge;
-    ImageView imgInsurerLogo, ivBuy;
+    ImageView imgInsurerLogo, ivBuy, ivPdf;
     LinearLayout llAddon;
     RecyclerView rvAddOn;
 
@@ -242,6 +244,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             tvSum.append("SUM  ");
             SpannableString SUM = new SpannableString(termRequestEntity.getSumAssured());
             SUM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getSumAssured().length(), 0);
+            SUM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getSumAssured().length(), 0);
             tvSum.append(SUM);
 
 
@@ -254,6 +257,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 String age = "" + caluclateAge(ageCalender);
                 SpannableString AGE = new SpannableString(age);
                 AGE.setSpan(new StyleSpan(Typeface.BOLD), 0, age.length(), 0);
+                AGE.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, age.length(), 0);
                 tvAge.append(AGE);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -264,6 +268,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             tvPolicyTerm.append("TERM  ");
             SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm());
             TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
+            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0,termRequestEntity.getPolicyTerm().length(), 0);
             tvPolicyTerm.append(TERM);
             tvPolicyTerm.append(" Years");
 
@@ -282,6 +287,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
             SpannableString CRN = new SpannableString(crn);
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
+            CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0,crn.length(), 0);
             tvCrn.append(CRN);
             termRequestEntity.setCrn(crn);
             termFinmartRequest.setTermRequestEntity(termRequestEntity);
@@ -297,7 +303,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         txtPlanNAme.setText("" + responseEntity.getProductPlanName());
         txtCover.setText("\u20B9 " + responseEntity.getSumAssured());
         txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + " Yrs.");
-        txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium() );
+        txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium());
         int uptoAge = Integer.parseInt(termRequestEntity.getPPT()) + caluclateAge(etDOB.getText().toString());
         txtAge.setText("" + uptoAge + " Yrs.");
         //  txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
@@ -650,6 +656,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         txtFinalPremium = (TextView) view.findViewById(R.id.txtFinalPremium);
         imgInsurerLogo = (ImageView) view.findViewById(R.id.imgInsurerLogo);
         ivBuy = (ImageView) view.findViewById(R.id.ivBuy);
+        ivPdf = (ImageView) view.findViewById(R.id.ivPdf);
         txtPolicyTerm = (TextView) view.findViewById(R.id.txtPolicyTerm);
 
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
@@ -719,6 +726,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         ivEdit.setOnClickListener(this);
         ivInfo.setOnClickListener(this);
         ivBuy.setOnClickListener(this);
+        ivPdf.setOnClickListener(this);
         tvMale.setOnClickListener(this);
         tvFemale.setOnClickListener(this);
         tvYes.setOnClickListener(this);
@@ -830,16 +838,28 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
 
             case R.id.ivBuy:
+                Constants.hideKeyBoard(ivBuy, getActivity());
                 new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(),
                         "39",
                         "" + dbPersistanceController.getUserData().getFBAId(),
                         "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getNetPremium(), this);
-                startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                startActivity(new Intent(getActivity(), KnowledgeGuruWebviewActivity.class)
                         .putExtra("URL", termCompareQuoteResponse.getMasterData().getResponse().get(0).getProposerPageUrl())
-                        .putExtra("NAME", "ICICI PRUDENTIAL")
-                        .putExtra("TITLE", "ICICI PRUDENTIAL"));
+                        .putExtra("NAME", "CLICK TO PROTECT 3D")
+                        .putExtra("TITLE", "CLICK TO PROTECT 3D"));
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life Ins Buy"), Constants.LIFE_INS), null);
 
+                break;
+            case R.id.ivPdf:
+                if (termCompareQuoteResponse != null && termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl().equals("")) {
+                    Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
+                } else {
+                    startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                            .putExtra("URL",  termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl())
+                            .putExtra("NAME", "CLICK TO PROTECT 3D")
+                            .putExtra("TITLE", "CLICK TO PROTECT 3D"));
+
+                }
                 break;
             case R.id.btnGetQuote:
 

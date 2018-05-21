@@ -105,6 +105,7 @@
                                     android:gravity="right" />
 
                                 <TextView
+                                    android:textColor="@color/header_dark_text"
                                     android:id="@+id/tvSmoker"
                                     style="@style/TextViewStyle.Small"
                                     android:layout_width="0dp"
@@ -337,12 +338,26 @@
                                     android:textSize="10sp" />
 
 
-                                <ImageView
-                                    android:id="@+id/ivBuy"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
-                                    android:layout_marginTop="8dp"
-                                    android:src="@drawable/cart" />
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
+
+                                    <ImageView
+                                        android:id="@+id/ivPdf"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/pdf_icon" />
+
+                                    <ImageView
+                                        android:id="@+id/ivBuy"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginLeft="3dp"
+                                        android:src="@drawable/cart" />
+                                </LinearLayout>
                             </LinearLayout>
 
 
@@ -386,23 +401,24 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Email">
+                        android:hint="Permium term">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="Option"
+                            android:text="Payment term"
                             android:textColor="@color/blue"
                             android:textSize="10sp" />
 
                         <Spinner
-                            android:id="@+id/spICICIOptions"
+                            android:id="@+id/spICICIPremiumTerm"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:dropDownWidth="200dp" />
+                            android:dropDownWidth="200dp"
+                            android:entries="@array/icici_payment_term" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -445,26 +461,27 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Permium term">
+                        android:hint="Email">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="Payment term"
+                            android:text="Option"
                             android:textColor="@color/blue"
                             android:textSize="10sp" />
 
                         <Spinner
-                            android:id="@+id/spICICIPremiumTerm"
+                            android:id="@+id/spICICIOptions"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:dropDownWidth="200dp"
-                            android:entries="@array/icici_payment_term" />
+                            android:dropDownWidth="200dp" />
 
                     </android.support.design.widget.TextInputLayout>
+
+
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/tilPincode"
