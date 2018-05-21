@@ -118,7 +118,7 @@ public class HLMainActivity extends BaseActivity {
                 case R.id.navigation_buy:
 
 
-                    return true;
+                    return false;
             }
 
             return false;
@@ -130,13 +130,12 @@ public class HLMainActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        HLMainActivity.this.finish();
-//        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
-//        {
-//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//        } else {
-//            HLMainActivity.this.finish();
-//        }
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            HLMainActivity.this.finish();
+        }
 
     }
 

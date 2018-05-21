@@ -99,6 +99,7 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
                     mAdapter = new ActivityTabsPagerAdapter_LAP(getSupportFragmentManager(), hlQuoteApplicationEntity);
                     viewPager.setAdapter(mAdapter);
                 } else {
+                    finish();
                     startActivity(new Intent(this, LAPMainActivity.class));
                 }
             }

@@ -167,13 +167,13 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-        HealthQuoteBottomTabsActivity.this.finish();
-//        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
-//        {
-//            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
-//        } else {
-//            HealthQuoteBottomTabsActivity.this.finish();
-//        }
+      //  HealthQuoteBottomTabsActivity.this.finish();
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            HealthQuoteBottomTabsActivity.this.finish();
+        }
 
 
     }
