@@ -108,7 +108,7 @@
                     android:id="@+id/tvloanamount"
                     style="@style/TextViewStyle.Small"
                     android:layout_width="match_parent"
-                    android:gravity="center"
+                    android:gravity="right"
                     android:padding="4dp"
                     android:text="Loan Amount"
                     android:textAllCaps="true"
@@ -120,7 +120,7 @@
                     android:id="@+id/txtloanamount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
+                    android:gravity="right"
                     android:textAllCaps="true"
                     android:textAppearance="@style/TextStyle.TextMedium"
                     android:textColor="@color/header_dark_text" />

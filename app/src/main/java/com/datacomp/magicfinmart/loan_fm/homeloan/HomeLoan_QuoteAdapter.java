@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -40,8 +41,8 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
-        public TextView txtPersonName,  txtOverflowMenu,  txtloanamount , txtQuoteDate,tvQuoteDate,tvloanamount;
-
+        public TextView txtPersonName ,  txtloanamount , txtQuoteDate,tvQuoteDate,tvloanamount;
+        public ImageView txtOverflowMenu;
 
         public QuoteItem(View itemView) {
             super(itemView);
@@ -52,7 +53,7 @@ public class HomeLoan_QuoteAdapter extends RecyclerView.Adapter<HomeLoan_QuoteAd
             tvloanamount = (TextView) itemView.findViewById(R.id.tvloanamount);
             tvQuoteDate = (TextView) itemView.findViewById(R.id.tvQuoteDate);
 
-            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+            txtOverflowMenu = (ImageView) itemView.findViewById(R.id.txtOverflowMenu);
 
         }
     }
