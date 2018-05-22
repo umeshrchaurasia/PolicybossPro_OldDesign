@@ -167,9 +167,9 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
     private void bindQuotes_NoData() {
 
-            txtInputSummary.setVisibility(View.VISIBLE);
-            cvInputSummary.setVisibility(View.VISIBLE);
-          //  ivShare.setVisibility(View.VISIBLE);
+        txtInputSummary.setVisibility(View.VISIBLE);
+        cvInputSummary.setVisibility(View.VISIBLE);
+        //  ivShare.setVisibility(View.VISIBLE);
 
 //            mAdapter = new HLQuoteAdapter(this, getQuoteResponse.getData(), getQuoteResponse);
 //            rvQuotes.setAdapter(mAdapter);
@@ -182,31 +182,32 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 //                txtCount.setVisibility(View.GONE);
 //            }
 
-            if (homeLoanRequest != null) {
+        if (homeLoanRequest != null) {
 
-                try {
-                    String strPropTyp = getProperty(homeLoanRequest.getPropertyID());
+            try {
+                String strPropTyp = getProperty(homeLoanRequest.getPropertyID());
 
-                    txtPropertyType.setText("" + strPropTyp.toString());
-                    txtCostOfProp.setText("" + homeLoanRequest.getPropertyCost());
-                    txtLoanTenure.setText("" + homeLoanRequest.getLoanTenure() + " Years");
+                txtPropertyType.setText("" + strPropTyp.toString());
+                txtCostOfProp.setText("" + homeLoanRequest.getPropertyCost());
+                txtLoanTenure.setText("" + homeLoanRequest.getLoanTenure() + " Years");
 
-                    if (homeLoanRequest.getApplicantSource().equals("1")) {
-                        txtOccupation.setText("SALARIED");
-                    } else {
-                        txtOccupation.setText("SELF-EMP");
-                    }
-
-                    txtMonthlyIncome.setText("" + homeLoanRequest.getApplicantIncome());
-                    txtExistEmi.setText("" + homeLoanRequest.getApplicantObligations());
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (homeLoanRequest.getApplicantSource().equals("1")) {
+                    txtOccupation.setText("SALARIED");
+                } else {
+                    txtOccupation.setText("SELF-EMP");
                 }
 
+                txtMonthlyIncome.setText("" + homeLoanRequest.getApplicantIncome());
+                txtExistEmi.setText("" + homeLoanRequest.getApplicantObligations());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+
+        }
 
 
     }
+
     private String getProperty(String id) {
         String strProp = "";
         if (id.equals("1")) {
@@ -327,13 +328,9 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         cancelDialog();
         if (response instanceof GetQuoteResponse) {
             if (response.getStatus_Id() == 0) {
-
                 getQuoteResponse = ((GetQuoteResponse) response);
-
                 bindQuotes();
                 setFmHomeLoanRequest(getQuoteResponse.getQuote_id());
-
-
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
             }
@@ -344,7 +341,9 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
         bindQuotes_NoData();
     }
 

@@ -210,10 +210,9 @@
                     <EditText
                         android:id="@+id/etPAN"
                         style="@style/Style.edittext"
-                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                         android:inputType="textCapCharacters"
-                        android:maxLength="10"
-                        android:text="" />
+                        android:maxLength="10" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
@@ -309,14 +308,13 @@
                 android:id="@+id/sbTenure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_centerVertical="true"
                 android:max="4"
+                android:maxHeight="8dp"
+                android:minHeight="8dp"
                 android:progress="1"
                 android:progressDrawable="@drawable/seekbar_style"
                 android:splitTrack="false"
-                android:maxHeight="8dp"
-                android:minHeight="8dp"
                 android:thumb="@drawable/custom_thumb" />
 
 
