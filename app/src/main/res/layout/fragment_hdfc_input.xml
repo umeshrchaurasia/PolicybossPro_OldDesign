@@ -105,6 +105,7 @@
                                     android:gravity="right" />
 
                                 <TextView
+                                    android:textColor="@color/header_dark_text"
                                     android:id="@+id/tvSmoker"
                                     style="@style/TextViewStyle.Small"
                                     android:layout_width="0dp"
@@ -167,7 +168,7 @@
                                     android:gravity="center"
                                     android:padding="6dp"
                                     android:scaleType="fitCenter"
-                                    android:src="@drawable/icici_life_icon" />
+                                    android:src="@drawable/hdfc_life_icon" />
 
                                 <View
                                     android:layout_width="match_parent"
@@ -218,27 +219,30 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
                                     android:gravity="center_vertical|center_horizontal"
                                     android:minHeight="60dp"
                                     android:orientation="horizontal">
 
                                     <TextView
-                                        android:layout_weight="80"
                                         android:id="@+id/txtPlanNAme"
                                         android:layout_width="0dp"
-                                        android:gravity="center"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="80"
+                                        android:gravity="center"
                                         android:text="IProtectSmart"
                                         android:textColor="@color/header_text_color"
                                         android:textSize="13sp"
                                         android:textStyle="bold" />
 
                                     <ImageView
-                                        android:padding="5dp"
-                                        android:layout_weight="20"
-                                        android:src="@drawable/infop"
+                                        android:id="@+id/ivInfo"
                                         android:layout_width="0dp"
-                                        android:layout_height="24dp" />
+                                        android:layout_height="24dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_weight="20"
+                                        android:src="@drawable/infop" />
 
 
                                 </LinearLayout>
@@ -345,13 +349,28 @@
                                     android:textColor="@android:color/white"
                                     android:textSize="10sp" />
 
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="5dp"
+                                    android:gravity="center"
+                                    android:orientation="horizontal">
 
-                                <ImageView
-                                    android:id="@+id/ivBuy"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
-                                    android:layout_marginTop="8dp"
-                                    android:src="@drawable/cart" />
+                                    <ImageView
+                                        android:id="@+id/ivPdf"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:src="@drawable/pdf_icon" />
+
+                                    <ImageView
+                                        android:id="@+id/ivBuy"
+                                        android:layout_width="30dp"
+                                        android:layout_height="30dp"
+                                        android:layout_marginLeft="3dp"
+                                        android:src="@drawable/cart" />
+                                </LinearLayout>
+
+
                             </LinearLayout>
 
 

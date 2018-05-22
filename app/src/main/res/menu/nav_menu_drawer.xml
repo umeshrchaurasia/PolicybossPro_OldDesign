@@ -4,7 +4,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/home_ic"
+            android:icon="@drawable/home"
             android:title="HOME" />
         <item
             android:id="@+id/nav_offlineQuotes"
@@ -23,11 +23,11 @@
             android:visible="false" />
         <item
             android:id="@+id/nav_myaccount"
-            android:icon="@drawable/my_account_ic"
+            android:icon="@drawable/my_account"
             android:title="MY ACCOUNT" />
         <item
             android:id="@+id/nav_mps"
-            android:icon="@drawable/mps_ic"
+            android:icon="@drawable/mps"
             android:title="MPS" />
         <item
             android:id="@+id/nav_pospenrollment"
@@ -35,7 +35,7 @@
             android:title="POSP ENROLLMENT" />
         <item
             android:id="@+id/nav_sharedata"
-            android:icon="@drawable/file_share"
+            android:icon="@drawable/share_data"
             android:title="SHARE DATA" />
 
         <item
@@ -48,70 +48,28 @@
             android:title="WHATS NEW" />
         <item
             android:id="@+id/nav_helpfeedback"
-            android:icon="@drawable/help_ic"
+            android:icon="@drawable/help"
             android:title="HELP &amp; FEEDBACK" />
         <item
             android:id="@+id/nav_posptraining"
-            android:icon="@drawable/enrollment_ic"
+            android:icon="@drawable/posp_training"
             android:title="POSP TRAINING"
             android:visible="true" />
         <item
             android:id="@+id/nav_selfinspection"
-            android:icon="@drawable/enrollment_ic"
+            android:icon="@drawable/inspection"
             android:title="INSPECTION"
             android:visible="true" />
 
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/logout_ic"
+            android:icon="@drawable/logout"
             android:title="LOG-OUT" />
         <item
             android:id="@+id/nav_homeloanApplication"
             android:icon="@drawable/logout"
             android:title="Home Loan Apply"
             android:visible="false" />
-
-        <!--<item-->
-        <!--android:id="@+id/nav_bas"-->
-        <!--android:icon="@drawable/bas_icon"-->
-        <!--android:title="@string/nav_bas" />-->
-        <!--<item-->
-        <!--android:id="@+id/nav_report"-->
-        <!--android:icon="@drawable/report_icon"-->
-        <!--android:title="@string/string_report" />-->
-
-        <!--<item-->
-        <!--android:id="@+id/nav_activity"-->
-        <!--android:icon="@drawable/nav_activity"-->
-        <!--android:title="Activity" />-->
-
-        <!--<item-->
-        <!--android:id="@+id/nav_myacctountant"-->
-        <!--android:icon="@drawable/nav_activity"-->
-        <!--android:title="My Accountant" />-->
-        <!--<item-->
-        <!--android:id="@+id/nav_carusage"-->
-        <!--android:icon="@drawable/nav_activity"-->
-        <!--android:title="@string/car_usage" />-->
-        <!--<item-->
-        <!--android:id="@+id/nav_setting"-->
-        <!--android:icon="@drawable/setting_icon"-->
-        <!--android:title="@string/nav_setting" />-->
-        <!--<item-->
-        <!--android:id="@+id/nav_profile"-->
-        <!--android:icon="@drawable/profile_icon"-->
-        <!--android:title="@string/nav_profile"-->
-        <!--android:visible="false" />-->
-        <!--<item-->
-        <!--android:id="@+id/nav_invite_frnd"-->
-        <!--android:icon="@drawable/invite_friend_icon"-->
-        <!--android:title="@string/nav_invite"-->
-        <!--android:visible="false" />-->
-        <!--<item-->
-        <!--android:id="@+id/nav_aboutus"-->
-        <!--android:icon="@drawable/about_icon"-->
-        <!--android:title="@string/nav_about" />-->
-
 
     </group>
 </menu>
