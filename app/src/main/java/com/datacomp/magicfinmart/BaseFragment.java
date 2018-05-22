@@ -34,6 +34,24 @@ public class BaseFragment extends Fragment {
 
     }
 
+    public static Date stringToDate(SimpleDateFormat pattern, String dateToconvert) {
+        Date date = new Date();
+        try {
+            date = pattern.parse(dateToconvert);
+        } catch (ParseException e) {
+
+        }
+        return date;
+    }
+
+    public static Calendar dateToCalendar(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+
+    }
+
     public static String getYYYYMMDDPattern(String dateCal) {
 
         String dateSelected = "";
@@ -56,6 +74,7 @@ public class BaseFragment extends Fragment {
         dateSelected = df2.format(date);
         return dateSelected;
     }
+
     public String getDDMMYYYPattern(String dateCal, String datePattern) {
 
         String dateSelected = "";

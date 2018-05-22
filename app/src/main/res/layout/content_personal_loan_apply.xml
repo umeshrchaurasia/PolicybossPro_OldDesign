@@ -1485,7 +1485,7 @@
                                         android:background="@drawable/customeborder_blue"
                                         android:gravity="center"
                                         android:padding="5dp"
-                                        android:text="Salaried"
+                                        android:text="SALARIED"
                                         android:textColor="@color/colorPrimary" />
 
                                     <TextView
@@ -1497,7 +1497,7 @@
                                         android:background="@drawable/customeborder"
                                         android:gravity="center"
                                         android:padding="5dp"
-                                        android:text="Self-Emp"
+                                        android:text="SELF-EMP"
                                         android:textColor="@color/description_text" />
 
 
