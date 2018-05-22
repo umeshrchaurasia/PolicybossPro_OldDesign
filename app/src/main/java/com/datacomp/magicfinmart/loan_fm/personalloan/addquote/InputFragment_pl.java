@@ -185,7 +185,10 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         }
 
        // personalLoanRequest.setEmi(etEMI.getText().toString());
-        personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
+
+        personalLoanRequest.setApplicantDOB(getYYYYMMDDPattern(et_DOB.getText().toString()));
+
+    //    personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
         personalLoanRequest.setBrokerId("" + loginEntity.getLoanId());
        // personalLoanRequest.setLoaniD(Integer.parseInt(loginEntity.getLoanId()));
         personalLoanRequest.setpanno(etPAN.getText().toString());
@@ -228,7 +231,11 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             }
 
         if (personalLoanRequest.getApplicantDOB() != null)
-            et_DOB.setText(personalLoanRequest.getApplicantDOB());
+        {
+            et_DOB.setText(getDDMMYYYPattern(personalLoanRequest.getApplicantDOB(), "yyyy-MM-dd"));
+
+        }
+          //  et_DOB.setText(personalLoanRequest.getApplicantDOB());
 
         if (personalLoanRequest.getApplicantIncome() != null)
             etMonthlyInc.setText("" + personalLoanRequest.getApplicantIncome());
@@ -270,7 +277,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote PL : Get quote button for PL"), Constants.PERSONA_LOAN), null);
             //region Validation
             String NameOfApplicant = etNameOfApplicant.getText().toString();
-            String DOB = et_DOB.getText().toString();
+            String DOB = getYYYYMMDDPattern(et_DOB.getText().toString());
             String MonthlyInc = etMonthlyInc.getText().toString();
             String Pan_no = etPAN.getText().toString();
             String CostOfProp = etCostOfProp.getText().toString();

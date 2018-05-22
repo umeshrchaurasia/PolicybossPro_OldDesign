@@ -56,6 +56,29 @@ public class BaseFragment extends Fragment {
         dateSelected = df2.format(date);
         return dateSelected;
     }
+    public String getDDMMYYYPattern(String dateCal, String datePattern) {
+
+        String dateSelected = "";
+        if (dateCal.equals("")) {
+            return "";
+        }
+        long select_milliseconds = 0;
+        SimpleDateFormat f = new SimpleDateFormat(datePattern);
+
+        Date d = null;
+        try {
+            d = f.parse(dateCal);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        select_milliseconds = d.getTime();
+
+        Date date = new Date(select_milliseconds); //Another date Formate ie yyyy-mm-dd
+        SimpleDateFormat df2 = new SimpleDateFormat("dd-MM-yyyy");
+        dateSelected = df2.format(date);
+        return dateSelected;
+    }
+
 
     public void registerPopUp(PopUpListener popUpListener) {
         this.popUpListener = popUpListener;

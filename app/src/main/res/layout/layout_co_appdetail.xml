@@ -32,7 +32,7 @@
                     android:layout_gravity="bottom"
                     android:layout_marginRight="1dp"
                     android:layout_weight="1"
-                    android:hint="CoApplicant Name">
+                    android:hint="Co-Applicant Name">
 
                     <EditText
                         android:id="@+id/coApp_etNameOfApplicant"
@@ -70,7 +70,7 @@
                             android:background="@drawable/customeborder_blue"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="Male"
+                            android:text="MALE"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
@@ -83,7 +83,7 @@
                             android:background="@drawable/customeborder"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="Female"
+                            android:text="FEMALE"
                             android:textColor="@color/description_text" />
 
 
