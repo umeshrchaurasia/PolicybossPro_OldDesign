@@ -1000,45 +1000,69 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 setCurrentAcc();
                 break;
             case R.id.btnSave:
-                new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : submit button for posp enrollment"), Constants.POSP), null);
 
-                IsAllImageUploaded = checkAllImageUpload();
-                if (IsAllImageUploaded) {
-                    if (isPaymentDone) {
-                        llMain.setVisibility(View.GONE);
-                        openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
-                    } else {
-                        if (isPospNoAvailable) {
+                if (validatePOSP_Info() == false) {
+                    if (llMyProfile.getVisibility() == View.GONE) {
 
-                            if (isPaymentLinkAvailable) {
-                                openWebView(loginResponseEntity.getPaymentUrl());
-                            } else {
-                                bindInputFromeServer(pospDetailsEntity);
-                                openPopUp(llDocumentUpload, "FAILURE", "Payment Link Not Available !!", "OK", true);
-                            }
-                        } else {
-                            registerPosp();
-                        }
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload);
+
                     }
+                } else if (validateAddress_Info() == false) {
+                    if (llMyProfile.getVisibility() == View.GONE) {
 
+                        manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload);
+                        manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload);
+
+                    }
+                } else if (validateBank_Info() == false) {
+                    if (llBankDetail.getVisibility() == View.GONE) {
+
+                        manageMainLayouts(llBankDetail, llAddress, llMyProfile, llDocumentUpload);
+                        manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload);
+
+                    }
                 } else {
-                    bindUploadImage();
-                    if (isPaymentDone) {
-                        openPopUp(llDocumentUpload, "MESSAGE", "Upload remaining documents !!", "OK", true);
-                    } else {
-                        if (isPospNoAvailable) {
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("enrolled posp : submit button for posp enrollment"), Constants.POSP), null);
 
-                            if (isPaymentLinkAvailable) {
-                                openWebView(loginResponseEntity.getPaymentUrl());
-                            } else {
-                                bindInputFromeServer(pospDetailsEntity);
-                                openPopUp(llDocumentUpload, "FAILURE", "Payment Link Not Available !!", "OK", true);
-                            }
+                    IsAllImageUploaded = checkAllImageUpload();
+                    if (IsAllImageUploaded) {
+                        if (isPaymentDone) {
+                            llMain.setVisibility(View.GONE);
+                            openPopUp(btnSave, "SUCCESS", "POSP Already exist!!", "OK", false);
                         } else {
-                            registerPosp();
-                        }
-                    }
+                            if (isPospNoAvailable) {
 
+                                if (isPaymentLinkAvailable) {
+                                    openWebView(loginResponseEntity.getPaymentUrl());
+                                } else {
+                                    bindInputFromeServer(pospDetailsEntity);
+                                    openPopUp(llDocumentUpload, "FAILURE", "Payment Link Not Available !!", "OK", true);
+                                }
+                            } else {
+                                registerPosp();
+                            }
+                        }
+
+                    } else {
+                        bindUploadImage();
+                        if (isPaymentDone) {
+                            openPopUp(llDocumentUpload, "MESSAGE", "Upload remaining documents !!", "OK", true);
+                        } else {
+                            if (isPospNoAvailable) {
+
+                                if (isPaymentLinkAvailable) {
+                                    openWebView(loginResponseEntity.getPaymentUrl());
+                                } else {
+                                    bindInputFromeServer(pospDetailsEntity);
+                                    openPopUp(llDocumentUpload, "FAILURE", "Payment Link Not Available !!", "OK", true);
+                                }
+                            } else {
+                                registerPosp();
+                            }
+                        }
+
+                    }
                 }
 
 
@@ -2037,6 +2061,272 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         return rotatedBitmap;
     }
+
+    private boolean validatePOSP_Info() {
+        //region posp Info validation
+        if (etFirstName.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etFirstName.requestFocus();
+                etFirstName.setError("Enter First Name");
+                etFirstName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etFirstName.requestFocus();
+                etFirstName.setError("Enter First Name");
+                return false;
+            }
+        }
+
+        if (etLastName.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etLastName.requestFocus();
+                etLastName.setError("Enter Last Name");
+                etLastName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etLastName.requestFocus();
+                etLastName.setError("Enter Last Name");
+                return false;
+            }
+        }
+        if (etDob.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etDob.requestFocus();
+                etDob.setError("Enter Dob");
+                etDob.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etDob.requestFocus();
+                etDob.setError("Enter Dob");
+                return false;
+            }
+        }
+        if (!isValidePhoneNumber(etMobileNo1)) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etMobileNo1.requestFocus();
+                etMobileNo1.setError("Enter Mobile1");
+                etMobileNo1.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etMobileNo1.requestFocus();
+                etMobileNo1.setError("Enter Mobile1");
+                return false;
+            }
+        }
+
+
+        if (!isValideEmailID(etEmailId)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etEmailId.requestFocus();
+                etEmailId.setError("Enter Email");
+                etEmailId.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etEmailId.requestFocus();
+                etEmailId.setError("Enter Email");
+                return false;
+            }
+        }
+        if (!isValidPan(etPan)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etPan.requestFocus();
+                etPan.setError("Invalid PAN No.");
+                etPan.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etPan.requestFocus();
+                etPan.setError("Invalid Pan No.");
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    private boolean validateAddress_Info() {
+        //region address validation
+        if (etAddress1.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etAddress1.requestFocus();
+                etAddress1.setError("Enter Address 1");
+                etAddress1.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etAddress1.requestFocus();
+                etAddress1.setError("Enter Address 1");
+                return false;
+            }
+        }
+
+        if (etAddress2.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etAddress2.requestFocus();
+                etAddress2.setError("Enter Address 2");
+                etAddress2.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etAddress2.requestFocus();
+                etAddress2.setError("Enter Address 2");
+                return false;
+            }
+        }
+        if (etPincode.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etPincode.requestFocus();
+                etPincode.setError("Enter Pincode");
+                etPincode.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etPincode.requestFocus();
+                etPincode.setError("Enter Pincode");
+                return false;
+            }
+
+        }
+        if (!etPincode.getText().toString().isEmpty()) {
+            if (etPincode.getText().toString().length() != 6) {
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    etPincode.requestFocus();
+                    etPincode.setError("Enter Pincode");
+                    etPincode.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    return false;
+                } else {
+                    etPincode.requestFocus();
+                    etPincode.setError("Enter Pincode");
+                    return false;
+                }
+            }
+
+        }
+        if (etCity.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etCity.requestFocus();
+                etCity.setError("Enter City");
+                etCity.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etCity.requestFocus();
+                etCity.setError("Enter City");
+                return false;
+            }
+        }
+        if (etState.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etState.requestFocus();
+                etState.setError("Enter State");
+                etState.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etState.requestFocus();
+                etState.setError("Enter State");
+                return false;
+            }
+        }
+
+        return true;
+        //endregion
+
+    }
+
+    private boolean validateBank_Info() {
+        //region bank validation
+        if (etBankAcNo.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etBankAcNo.requestFocus();
+                etBankAcNo.setError("Enter Bank Account No");
+                etBankAcNo.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etBankAcNo.requestFocus();
+                etBankAcNo.setError("Enter Bank Account No");
+                return false;
+            }
+        }
+        if (etIfscCode.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etIfscCode.requestFocus();
+                etIfscCode.setError("Enter Bank IFSC");
+                etIfscCode.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etIfscCode.requestFocus();
+                etIfscCode.setError("Enter Bank IFSC");
+                return false;
+            }
+        }
+        if (erMicrCode.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                erMicrCode.requestFocus();
+                erMicrCode.setError("Enter Bank MICR");
+                erMicrCode.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                erMicrCode.requestFocus();
+                erMicrCode.setError("Enter Bank MICR");
+                return false;
+            }
+        }
+
+        if (etBankName.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etBankName.requestFocus();
+                etBankName.setError("Enter Bank Name");
+                etBankName.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etBankName.requestFocus();
+                etBankName.setError("Enter Bank Name");
+                return false;
+            }
+        }
+        if (etBankBranch.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etBankBranch.requestFocus();
+                etBankBranch.setError("Enter Bank Branch");
+                etBankBranch.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etBankBranch.requestFocus();
+                etBankBranch.setError("Enter Bank Branck");
+                return false;
+            }
+        }
+        if (etBankCity.getText().toString().isEmpty()) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etBankCity.requestFocus();
+                etBankCity.setError("Enter Bank City");
+                etBankCity.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                return false;
+            } else {
+                etBankCity.requestFocus();
+                etBankCity.setError("Enter Bank City");
+                return false;
+            }
+
+
+        }
+        return true;
+        //endregion
+    }
+
 
 
 }
