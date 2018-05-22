@@ -660,18 +660,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+
             switch (v.getId()) {
                 case R.id.txtKnowMore:
                     ((AlertDialog) v.getTag(R.id.txtKnowMore)).dismiss();
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, new KnowMoreMPSFragment());
                     fragmentTransaction.commit();
                     break;
                 case R.id.txtGetMPS:
                     ((AlertDialog) v.getTag(R.id.txtGetMPS)).dismiss();
-                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    fragmentTransaction.replace(R.id.frame, new MPSFragment());
-                    fragmentTransaction.commit();
+                    redirectMPS();
 
                     break;
                 case R.id.txtLater:
@@ -681,5 +680,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         }
     };
+
+    public void redirectMPS() {
+        android.support.v4.app.FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, new MPSFragment());
+        fragmentTransaction.commit();
+    }
     //endregion
 }
