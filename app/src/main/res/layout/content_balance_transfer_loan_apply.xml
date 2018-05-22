@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background"
+    android:background="@color/white"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity"
 
@@ -121,6 +121,7 @@
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLength="20"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:maxLines="1" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -135,6 +136,7 @@
                             <EditText
                                 android:id="@+id/etLastName"
                                 style="@style/Style.edittext"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:inputType="text"
                                 android:maxLength="20"
                                 android:maxLines="1" />
@@ -153,7 +155,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Date of Birth">
+                            android:hint="*Date Of Birth">
 
                             <EditText
                                 android:id="@+id/etDob"
@@ -168,13 +170,14 @@
                             android:layout_marginTop="2dp"
                             android:layout_weight="1"
                             android:gravity="bottom"
-                            android:hint="Father Name">
+                            android:hint="Father's Name">
 
                             <EditText
                                 android:id="@+id/etFatherName"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLength="20"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -232,13 +235,13 @@
                                 <TextView
                                     android:id="@+id/txtMarried"
                                     android:layout_width="0dp"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="match_parent"
                                     android:layout_marginRight="5dp"
                                     android:layout_weight="50"
                                     android:background="@drawable/customeborder_blue"
                                     android:gravity="center"
                                     android:padding="5dp"
-                                    android:text="Married"
+                                    android:text="MARRIED"
                                     android:textColor="@color/colorPrimary" />
 
                                 <TextView
@@ -251,7 +254,7 @@
                                     android:background="@drawable/customeborder"
                                     android:gravity="center"
                                     android:padding="5dp"
-                                    android:text="Single"
+                                    android:text="SINGLE"
                                     android:textColor="@color/description_text" />
 
 
@@ -276,6 +279,7 @@
 
                             <EditText
                                 android:id="@+id/etSpouceName"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:maxLength="20"
                                 style="@style/Style.edittext"
                                 />
@@ -330,6 +334,7 @@
                                 style="@style/Style.edittext"
                                 android:inputType="text"
                                 android:maxLength="20"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:maxLines="1"
                                 android:text="INDIAN" />
                         </android.support.design.widget.TextInputLayout>
@@ -611,6 +616,7 @@
                                     <EditText
                                         android:id="@+id/etIDNumber"
                                         style="@style/Style.edittext"
+
                                         android:inputType="text"
                                         android:maxLength="25"
                                         android:maxLines="1" />
@@ -739,6 +745,7 @@
                                 android:id="@+id/etUniversity"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:maxLength="50"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -752,6 +759,7 @@
                             <EditText
                                 android:id="@+id/etMoMaidenName"
                                 style="@style/Style.edittext"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:inputType="text"
                                 android:maxLength="25"
                                 android:maxLines="1" />
@@ -973,6 +981,7 @@
                             <EditText
                                 android:id="@+id/etAddress3ContInfoRAP"
                                 style="@style/Style.edittext"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />
@@ -2040,6 +2049,7 @@
                             <EditText
                                 android:id="@+id/etGrossIncome"
                                 style="@style/Style.edittext"
+                                android:enabled="false"
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="10" />
@@ -2096,6 +2106,7 @@
                             <EditText
                                 android:id="@+id/etTotalIncome"
                                 style="@style/Style.edittext"
+                                android:enabled="false"
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="10" />

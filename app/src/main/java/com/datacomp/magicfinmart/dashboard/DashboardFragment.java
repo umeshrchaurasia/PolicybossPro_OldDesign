@@ -25,6 +25,8 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
+import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
+import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -43,7 +45,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsRes
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends BaseFragment implements View.OnClickListener ,IResponseSubcriber, ILocationStateListener, BaseFragment.PopUpListener {
+public class DashboardFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, ILocationStateListener, BaseFragment.PopUpListener {
 
     RecyclerView rvHome;
     DashboardRowAdapter mAdapter;
@@ -55,7 +57,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     int forceUpdate;
     LocationTracker locationTracker;
     Location location;
-    TextView tvKnowledge,tvPendingCAses,tvSalesMat;
+    TextView tvKnowledge, tvPendingCAses, tvSalesMat;
+
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -91,7 +94,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         }
         mAdapter = new DashboardRowAdapter(DashboardFragment.this);
         this.rvHome.setAdapter(mAdapter);
-       // new MasterController(getActivity()).getConstants(this);
+        new MasterController(getActivity()).getConstants(this);
         return view;
     }
 
@@ -103,9 +106,9 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
     private void initialise(View view) {
 
-        tvKnowledge = (TextView)view.findViewById(R.id.tvKnowledge);
-        tvPendingCAses = (TextView)view.findViewById(R.id.tvPendingCAses);
-        tvSalesMat = (TextView)view.findViewById(R.id.tvSalesMat);
+        tvKnowledge = (TextView) view.findViewById(R.id.tvKnowledge);
+        tvPendingCAses = (TextView) view.findViewById(R.id.tvPendingCAses);
+        tvSalesMat = (TextView) view.findViewById(R.id.tvSalesMat);
 
         rvHome = (RecyclerView) view.findViewById(R.id.rvHome);
         rvHome.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -160,12 +163,19 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                             openPopUp(view, "UPDATE", "New version available on play store!!!! Please update.", "OK", true);
                         }
                     }
+                } else if (((ConstantsResponse) response).getMasterData().
+                        getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
+                    if (getActivity() != null && prefManager.getMps() != null) {
+
+                        ((HomeActivity) getActivity()).DialogMPS();
+                    }
                 }
                 //endregion
-
-                ((HomeActivity) getActivity()).hideNavigationItem();
+                if (getActivity() != null)
+                    ((HomeActivity) getActivity()).hideNavigationItem();
             }
         }
+
     }
 
     @Override
@@ -216,7 +226,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.tvKnowledge:
                 //redirect to knowledge guru
                 startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
