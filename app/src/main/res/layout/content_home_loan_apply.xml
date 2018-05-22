@@ -119,8 +119,8 @@
                             <EditText
                                 android:id="@+id/etFirstName"
                                 android:maxLines="1"
-                                android:maxLength="30"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                                android:maxLength="20"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
                                 android:inputType="textCapWords"
                                 style="@style/Style.edittext" />
@@ -137,8 +137,8 @@
                             <EditText
                                 android:id="@+id/etLastName"
                                 android:maxLines="1"
-                                android:maxLength="30"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                                android:maxLength="20"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
                                 android:inputType="textCapWords"
                                 style="@style/Style.edittext" />
@@ -172,13 +172,13 @@
                             android:layout_marginTop="2dp"
                             android:layout_weight="1"
                             android:gravity="bottom"
-                            android:hint="Father Name">
+                            android:hint="Father's Name">
 
                             <EditText
                                 android:id="@+id/etFatherName"
                                 android:maxLines="1"
-                                android:maxLength="30"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                                android:maxLength="20"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
                                 android:inputType="textCapWords"
                                 style="@style/Style.edittext" />
@@ -285,8 +285,8 @@
                             <EditText
                                 android:id="@+id/etSpouceName"
                                 android:maxLines="1"
-                                android:maxLength="30"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                                android:maxLength="20"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
                                 android:inputType="textCapWords"
                                 style="@style/Style.edittext" />
@@ -750,7 +750,7 @@
                                 android:id="@+id/etUniversity"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
-                                android:maxLength="50"
+                                android:maxLength="100"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
