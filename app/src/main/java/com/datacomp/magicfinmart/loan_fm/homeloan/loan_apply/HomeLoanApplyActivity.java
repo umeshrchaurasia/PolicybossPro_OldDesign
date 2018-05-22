@@ -38,6 +38,7 @@ import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -646,6 +647,10 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         etTotalIncome.setText("" +  BigDecimal.valueOf(total).toPlainString());
 
+    }
+
+    private double getDigitPrecision(double value) {
+        return Double.parseDouble(new DecimalFormat("##").format(value));
     }
 
     private void getResAddrToPermAddress() {
