@@ -34,9 +34,15 @@
                     android:layout_weight="1"
                     android:hint="Co-Applicant Name">
 
+
+
                     <EditText
                         android:id="@+id/coApp_etNameOfApplicant"
-                        android:inputType="text"
+
+                        android:maxLines="1"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                        android:drawableRight="@drawable/vector_person"
+                        android:inputType="textCapWords"
                         style="@style/Style.edittext" />
                 </android.support.design.widget.TextInputLayout>
 
@@ -315,7 +321,7 @@
                             android:id="@+id/textView43"
                             style="@style/TextViewStyle.Medium"
                             android:textColor="@color/colorPrimary"
-                            android:text="Relation with Applicant" />
+                            android:text="Relation With Applicant" />
 
                         <Spinner
 
