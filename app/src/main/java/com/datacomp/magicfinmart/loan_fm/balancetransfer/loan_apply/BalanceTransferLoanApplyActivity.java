@@ -458,7 +458,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         etFatherName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
-        etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        //etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         etNationality.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         etUniversity.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         etMoMaidenName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});

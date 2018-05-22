@@ -313,8 +313,9 @@
                             <EditText
                                 android:id="@+id/etPan"
                                 style="@style/Style.edittext"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                                 android:inputType="textCapCharacters"
+
                                 android:maxLength="10" />
                         </android.support.design.widget.TextInputLayout>
 

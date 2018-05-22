@@ -29,9 +29,14 @@
 
             <EditText
                 android:id="@+id/etNameOfApplicant"
-                android:inputType="text"
+
+                android:maxLines="1"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                android:drawableRight="@drawable/vector_person"
+                android:inputType="textCapWords"
                 style="@style/Style.edittext" />
         </android.support.design.widget.TextInputLayout>
+
 
 
                <LinearLayout
