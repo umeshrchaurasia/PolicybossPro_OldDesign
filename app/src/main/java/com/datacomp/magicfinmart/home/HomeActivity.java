@@ -145,9 +145,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         List<String> rtoDesc = db.getRTOListNames();
 
-        // set first fragement selected.
-        navigationView.getMenu().getItem(0).setChecked(true);
-
 
         if (savedInstanceState == null) {
             selectHome();
@@ -475,25 +472,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (response.getStatusNo() == 0) {
                 prefManager.removeMps();
                 prefManager.setMPS(((MpsResponse) response).getMasterData());
-                Log.d("TAG", "MPS CONSTANTS");
                 DialogMPS();
 
-
-
-                /*if (((MpsResponse) response).getMasterData().getPaymentURL() != null) {
-                    startActivity(new Intent(this, CommonWebViewActivity.class)
-                            .putExtra("URL", ((MpsResponse) response).getMasterData().getPaymentURL())
-                            .putExtra("NAME", "MPS")
-                            .putExtra("TITLE", "MPS"));
-                }*/
             }
         } else if (response instanceof MyAcctDtlResponse) {
             if (response.getStatusNo() == 0) {
-
                 if (((MyAcctDtlResponse) response).getMasterData().get(0) != null) {
-
                     db.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
-
                 }
             }
         }
@@ -529,7 +514,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         }
                     }
 
-                } else if (((ConstantsResponse) response).getMasterData().getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
+                } else if (((ConstantsResponse) response).getMasterData().
+                        getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
 
                     for (Fragment frg :
                             getSupportFragmentManager().getFragments()) {
@@ -537,9 +523,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
                             if (!frg.isVisible()) {
                                 if (prefManager.getMps() != null) {
-                                    Log.d("TAG", "MPS");
                                     DialogMPS();
                                 }
+                            }
+                        } else {
+                            if (prefManager.getMps() != null) {
+                                DialogMPS();
                             }
                         }
                     }
@@ -574,11 +563,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void onResume() {
         super.onResume();
 
-        if (prefManager.getMps() == null)
+        if (prefManager.getMps() == null) {
             new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+        }
+
+        // set first fragement selected.
+        selectHome();
 
 
-        new MasterController(this).getConstants(this);
+        // new MasterController(this).getConstants(this);
+
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
     }
@@ -614,46 +608,48 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     //region mps dialog
 
-    private void DialogMPS() {
-        AlertDialog.Builder mpsAlertBuilder;
-        mpsAlertBuilder = new AlertDialog.Builder(this);
-        mpsAlertBuilder.setCancelable(true);
-        // builder.setTitle("PREMIUM DETAIL");
-        LayoutInflater inflater = this.getLayoutInflater();
-        View view = inflater.inflate(R.layout.layout_dialog_mps, null);
-        mpsAlertBuilder.setView(view);
+    public void DialogMPS() {
+        if (prefManager.getMps() != null) {
+            AlertDialog.Builder mpsAlertBuilder;
+            mpsAlertBuilder = new AlertDialog.Builder(this);
+            mpsAlertBuilder.setCancelable(true);
+            // builder.setTitle("PREMIUM DETAIL");
+            LayoutInflater inflater = this.getLayoutInflater();
+            View view = inflater.inflate(R.layout.layout_dialog_mps, null);
+            mpsAlertBuilder.setView(view);
 
-        if (mpsDialog == null) {
-            mpsDialog = mpsAlertBuilder.create();
+            if (mpsDialog == null) {
+                mpsDialog = mpsAlertBuilder.create();
+            }
+
+            TextView txtDesc = (TextView) view.findViewById(R.id.txtDesc);
+            TextView txtKnowMore = (TextView) view.findViewById(R.id.txtKnowMore);
+            TextView txtGetMPS = (TextView) view.findViewById(R.id.txtGetMPS);
+            TextView txtLater = (TextView) view.findViewById(R.id.txtLater);
+
+            txtDesc.setText("");
+            txtDesc.append(getResources().getString(R.string.mps_popup_text));
+
+            String amount = " \u20B9" + prefManager.getMps().getTotalAmt() + "/- ";
+            SpannableString ss1 = new SpannableString(amount);
+            ss1.setSpan(new StyleSpan(Typeface.BOLD), 0, ss1.length(), 0);
+            String normalText = getResources().getString(R.string.mps_popup_text);
+            txtDesc.setText("");
+            txtDesc.append(normalText);
+            txtDesc.append(ss1);
+            txtDesc.append("(Incl. GST) only");
+
+            txtLater.setTag(R.id.txtLater, mpsDialog);
+            txtGetMPS.setTag(R.id.txtGetMPS, mpsDialog);
+            txtKnowMore.setTag(R.id.txtKnowMore, mpsDialog);
+
+            txtKnowMore.setOnClickListener(onClickListener);
+            txtGetMPS.setOnClickListener(onClickListener);
+            txtLater.setOnClickListener(onClickListener);
+
+            if (!mpsDialog.isShowing())
+                mpsDialog.show();
         }
-
-        TextView txtDesc = (TextView) view.findViewById(R.id.txtDesc);
-        TextView txtKnowMore = (TextView) view.findViewById(R.id.txtKnowMore);
-        TextView txtGetMPS = (TextView) view.findViewById(R.id.txtGetMPS);
-        TextView txtLater = (TextView) view.findViewById(R.id.txtLater);
-
-        txtDesc.setText("");
-        txtDesc.append(getResources().getString(R.string.mps_popup_text));
-
-        String amount = " \u20B9" + prefManager.getMps().getTotalAmt() + "/- ";
-        SpannableString ss1 = new SpannableString(amount);
-        ss1.setSpan(new StyleSpan(Typeface.BOLD), 0, ss1.length(), 0);
-        String normalText = getResources().getString(R.string.mps_popup_text);
-        txtDesc.setText("");
-        txtDesc.append(normalText);
-        txtDesc.append(ss1);
-        txtDesc.append("(Incl. GST) only");
-
-        txtLater.setTag(R.id.txtLater, mpsDialog);
-        txtGetMPS.setTag(R.id.txtGetMPS, mpsDialog);
-        txtKnowMore.setTag(R.id.txtKnowMore, mpsDialog);
-
-        txtKnowMore.setOnClickListener(onClickListener);
-        txtGetMPS.setOnClickListener(onClickListener);
-        txtLater.setOnClickListener(onClickListener);
-
-        if (!mpsDialog.isShowing())
-            mpsDialog.show();
 
     }
 
