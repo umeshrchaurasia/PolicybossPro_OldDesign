@@ -315,7 +315,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         }else if(response instanceof BankForNodeResponse)
         {
             if (response.getStatusNo() == 0) {
-                ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+               // ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
 
                 redirectToApplyLoan();
             }

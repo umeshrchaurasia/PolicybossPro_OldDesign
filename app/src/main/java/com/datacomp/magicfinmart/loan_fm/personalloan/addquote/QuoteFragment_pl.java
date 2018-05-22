@@ -254,7 +254,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             }
         } else if (response instanceof BankForNodeResponse) {
             if (response.getStatusNo() == 0) {
-                ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
+              //  ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
 
                 redirectToApplyLoan();
             }

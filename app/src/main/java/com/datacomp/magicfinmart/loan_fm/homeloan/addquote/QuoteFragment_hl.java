@@ -241,13 +241,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ivllEdit) {
-//            tabFragment = getActivity().getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
-//            if (tabFragment != null) {
-//                loadFragment(tabFragment, INPUT_FRAGMENT);
-//
-//            } else {
-//                loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
-//            }
+
             ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
         } else if (v.getId() == R.id.ivShare) {
             if (getQuoteResponse != null) {
@@ -313,7 +307,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             }
         } else if (response instanceof BankForNodeResponse) {
             if (response.getStatusNo() == 0) {
-                ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+              //  ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
 
                 redirectToApplyLoan();
 
