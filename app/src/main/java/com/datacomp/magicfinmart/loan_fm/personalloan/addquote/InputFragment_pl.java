@@ -259,7 +259,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
         txtrbimgMale.setOnClickListener(this);
         txtrbimgFemale.setOnClickListener(this);
-        etPAN.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+       // etPAN.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
     }
 
 
