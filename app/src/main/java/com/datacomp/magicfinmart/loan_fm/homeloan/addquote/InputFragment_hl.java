@@ -83,7 +83,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
     Toolbar toolbar;
     HomeLoanRequest homeLoanRequest;
     FmHomeLoanRequest fmHomeLoanRequest;
-    //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
     boolean isPropertyInfoVisible = false;
     boolean isApplicantVisible = true;
@@ -257,7 +257,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
 
             if (homeLoanRequest.getApplicantDOB() != null)
-                et_DOB.setText(simpleDateFormat.format(simpleDateFormat.parse(homeLoanRequest.getApplicantDOB())));
+                et_DOB.setText(getDDMMYYYPattern(homeLoanRequest.getApplicantDOB(), "yyyy-MM-dd"));
 
 //            if (homeLoanRequest.getApplicantSource() != null) {
 //                sbSalary.setSelection(Integer.parseInt(homeLoanRequest.getApplicantSource()) - 1);
@@ -296,12 +296,13 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
                         setCo_App_FeMale_gender();
                     }
 
-                    if (homeLoanRequest.getCoApplicantIncome() != null)
-                        coApp_et_DOB.setText(simpleDateFormat.format(simpleDateFormat.parse(homeLoanRequest.getCoApplicantDOB())));
+//                    if (homeLoanRequest.getCoApplicantIncome() != null)
+//                        coApp_et_DOB.setText(simpleDateFormat.format(simpleDateFormat.parse(homeLoanRequest.getCoApplicantDOB())));
+//
 
-
-                    if (homeLoanRequest.getCoApplicantDOB() != null)
-                        coApp_et_DOB.setText(simpleDateFormat.format(simpleDateFormat.parse(homeLoanRequest.getCoApplicantDOB())));
+                    if (homeLoanRequest.getCoApplicantDOB() != null) {
+                        coApp_et_DOB.setText(getDDMMYYYPattern(homeLoanRequest.getCoApplicantDOB(), "yyyy-MM-dd"));
+                    }
 
                     if (homeLoanRequest.getCoApplicantIncome() != null)
 
@@ -337,7 +338,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             }
 
 
-        } catch (ParseException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -868,7 +869,8 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             //region Applicant Validation
             String NameOfApplicant = etNameOfApplicant.getText().toString();
-            String DOB = et_DOB.getText().toString();
+            String DOB = getYYYYMMDDPattern(et_DOB.getText().toString());
+
             String MonthlyInc = etMonthlyInc.getText().toString();
             String TurnOver = etTurnOver.getText().toString();
             String ProfitAtTax = etProfitAtTax.getText().toString();
@@ -955,7 +957,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             if (chkCoApplicant.isChecked()) {
                 String coAppNameOfApplicant = coApp_etNameOfApplicant.getText().toString();
-                String coAppDOB = coApp_et_DOB.getText().toString();
+                String coAppDOB = getYYYYMMDDPattern(coApp_et_DOB.getText().toString());
                 String coAppMonthlyInc = coApp_etMonthlyInc.getText().toString();
                 String coAppTurnOver = coApp_etTurnOver.getText().toString();
                 String coAppProfitAtTax = coApp_etProfitAtTax.getText().toString();
@@ -1127,7 +1129,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         } else {
             homeLoanRequest.setApplicantObligations(etEMI.getText().toString());
         }
-        homeLoanRequest.setApplicantDOB(et_DOB.getText().toString());
+        homeLoanRequest.setApplicantDOB(getYYYYMMDDPattern(et_DOB.getText().toString()));
+
+
         if (chkCoApplicant.isChecked()) {
             homeLoanRequest.setCoApplicantYes("Y");
 
@@ -1164,8 +1168,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             } else {
                 homeLoanRequest.setCoApplicantObligations(coApp_etEMI.getText().toString());
             }
-
-            homeLoanRequest.setCoApplicantDOB(coApp_et_DOB.getText().toString());
+            homeLoanRequest.setCoApplicantDOB(getYYYYMMDDPattern(coApp_et_DOB.getText().toString()));
 
 
         } else {
