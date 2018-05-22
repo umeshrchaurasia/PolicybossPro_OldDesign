@@ -334,13 +334,9 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         cancelDialog();
         if (response instanceof GetQuoteResponse) {
             if (response.getStatus_Id() == 0) {
-
                 getQuoteResponse = ((GetQuoteResponse) response);
-
                 bindQuotes();
                 setFmHomeLoanRequest(getQuoteResponse.getQuote_id());
-
-
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
             }
