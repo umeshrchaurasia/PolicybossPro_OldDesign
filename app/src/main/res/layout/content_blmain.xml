@@ -30,7 +30,7 @@ tools:showIn="@layout/activity_blmain">
         app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigationloan" />
 
     <LinearLayout
         android:id="@+id/lyheader"
