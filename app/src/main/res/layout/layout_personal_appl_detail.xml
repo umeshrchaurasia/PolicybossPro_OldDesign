@@ -33,8 +33,11 @@
 
                     <EditText
                         android:id="@+id/etNameOfApplicant"
-                        style="@style/Style.edittext"
-                        android:text="" />
+                        android:maxLines="1"
+                        android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                        android:drawableRight="@drawable/vector_person"
+                        android:inputType="textCapWords"
+                        style="@style/Style.edittext" />
                 </android.support.design.widget.TextInputLayout>
 
 
@@ -310,11 +313,12 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:max="4"
-                android:maxHeight="8dp"
-                android:minHeight="8dp"
+
                 android:progress="1"
                 android:progressDrawable="@drawable/seekbar_style"
                 android:splitTrack="false"
+                android:maxHeight="8dp"
+                android:minHeight="8dp"
                 android:thumb="@drawable/custom_thumb" />
 
 

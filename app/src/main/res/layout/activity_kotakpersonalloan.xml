@@ -294,7 +294,9 @@
                             <EditText
                                 android:id="@+id/etPanCard"
                                 style="@style/Style.edittext"
-                                android:inputType="text"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+                                android:inputType="textCapCharacters"
+
                                 android:maxLength="10"
                                 android:maxLines="1" />
 

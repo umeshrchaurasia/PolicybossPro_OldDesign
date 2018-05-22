@@ -439,7 +439,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
         etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         etFatherName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
 
-        etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        //etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         etNationality.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         etUniversity.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
         etMoMaidenName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});

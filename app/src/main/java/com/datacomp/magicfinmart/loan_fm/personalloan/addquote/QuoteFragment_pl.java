@@ -254,7 +254,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             }
         } else if (response instanceof BankForNodeResponse) {
             if (response.getStatusNo() == 0) {
-                ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
+              //  ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
 
                 redirectToApplyLoan();
             }
@@ -282,7 +282,10 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+        bindQuotes_NoData();
     }
 
     @Override
