@@ -10,6 +10,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -22,8 +23,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +36,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruWebviewActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.term.hdfc.HdfcIProtectAdapter;
 import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -59,16 +64,21 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermReq
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 
+import static android.content.Context.LAYOUT_INFLATER_SERVICE;
 import static java.util.Calendar.DATE;
 import static java.util.Calendar.MONTH;
 import static java.util.Calendar.YEAR;
 
 public class IciciTermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
 
+    private PopupWindow mPopupWindow, mPopupWindowSelection;
+    View customView, customViewSelection;
+    RecyclerView rvIprotectSmart;
+    HdfcIProtectAdapter adapter;
 
     // quote
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn, filter;
-    ImageView ivEdit;
+    ImageView ivEdit, ivInfo;
     TermCompareQuoteResponse termCompareQuoteResponse;
     CardView cvInputDetails, cvQuoteDetails;
     View layoutCompare;
@@ -96,7 +106,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     LinearLayout llCompareAll;
-
+    ScrollView mainScroll;
     //region icici form
     Spinner spICICIOptions, spICICIPremiumTerm, spICICIPremiumFrequency;
 
@@ -238,6 +248,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         View view = inflater.inflate(R.layout.fragment_icici_term_input, container, false);
         init(view);
         setListener();
+        setPopUpInfo();
         // set initial values
         dbPersistanceController = new DBPersistanceController(getActivity());
         policyYear = dbPersistanceController.getPremYearList();
@@ -349,8 +360,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             tvPolicyTerm.append("TERM  ");
             SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm());
             TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
-            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0,termRequestEntity.getPolicyTerm().length(), 0);
+            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getPolicyTerm().length(), 0);
             tvPolicyTerm.append(TERM);
+            TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
+            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getPolicyTerm().length(), 0);
             tvPolicyTerm.append(" Years");
 
             if (termRequestEntity.getInsuredGender().equals("M"))
@@ -368,7 +381,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
             SpannableString CRN = new SpannableString(crn);
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
-            CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0,crn.length(), 0);
+            CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
             tvCrn.append(CRN);
             termRequestEntity.setCrn(crn);
             termFinmartRequest.setTermRequestEntity(termRequestEntity);
@@ -527,6 +540,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     private void setListener() {
 
         ivEdit.setOnClickListener(this);
+        ivInfo.setOnClickListener(this);
         ivBuy.setOnClickListener(this);
         ivPdf.setOnClickListener(this);
         tvMale.setOnClickListener(this);
@@ -598,6 +612,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         tvPolicyTerm = (TextView) view.findViewById(R.id.tvPolicyTerm);
         tvCrn = (TextView) view.findViewById(R.id.tvCrn);
         ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
+        ivInfo = (ImageView) view.findViewById(R.id.ivInfo);
 
         llAddon = (LinearLayout) view.findViewById(R.id.llAddon);
         rvAddOn = (RecyclerView) view.findViewById(R.id.rvAddOn);
@@ -630,6 +645,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         //Compare All
         llCompareAll = (LinearLayout) view.findViewById(R.id.llCompareAll);
+        mainScroll = (ScrollView) view.findViewById(R.id.mainScroll);
         //lllayoutICICI = (View) view.findViewById(R.id.layoutICICI);
 
         //region icici id
@@ -667,6 +683,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void onClick(View view) {
+        Constants.hideKeyBoard(view, getActivity());
         switch (view.getId()) {
 
             case R.id.tvMale:
@@ -691,7 +708,6 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 break;
 
             case R.id.ivBuy:
-                Constants.hideKeyBoard(ivBuy, getActivity());
                 new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(), "39", "" + dbPersistanceController.getUserData().getFBAId(), "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getNetPremium(), this);
                 startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", termCompareQuoteResponse.getMasterData().getResponse().get(0).getProposerPageUrl())
@@ -705,7 +721,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(new Intent(getActivity(), KnowledgeGuruWebviewActivity.class)
-                            .putExtra("URL", "https://docs.google.com/viewer?url="+termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl())
+                            .putExtra("URL", "https://docs.google.com/viewer?url=" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl())
                             .putExtra("NAME", "CLICK TO PROTECT 3D")
                             .putExtra("TITLE", "CLICK TO PROTECT 3D"));
 
@@ -721,8 +737,12 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 break;
 
             case R.id.ivEdit:
-                //((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                ((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
                 hideShowLayout(true);
+                break;
+            case R.id.ivInfo:
+                //((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                OpenPoupWnidow(termCompareQuoteResponse.getMasterData().getResponse().get(0).getKeyFeatures().split("\\|"));
                 break;
             case R.id.txtICICILumpSum:
             case R.id.txtICICIRegularIncome:
@@ -773,7 +793,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void fetchQuotes() {
-        showDialog();
+        showDialog("Please Wait!!!");
         new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
 
@@ -781,7 +801,9 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         int maxLumpsumPercent = 95;
         int minLumpsumPercent = 5;
         int step = 5;
-        int LumpsumPercent = Integer.parseInt(etICICILumpSumpPerc.getText().toString());
+        long LumpsumPercent = 0;
+        if (!etICICILumpSumpPerc.getText().toString().equals(""))
+            LumpsumPercent = Long.parseLong(etICICILumpSumpPerc.getText().toString());
 
         if (b) {
             if (LumpsumPercent < maxLumpsumPercent) {
@@ -798,13 +820,15 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     private void changeCriticalIllness(boolean b) {
         int maxCriticalIllness = 10000000;
         int minCriticalIllness = 100000;
-        int sumInsured = 10000000;
+        long sumInsured = 10000000;
         int step = 500000;
         int Smallstep = 100000;
-        int ccIllness = Integer.parseInt(etICICICriticalIllness.getText().toString().replaceAll("\\,", ""));
+        long ccIllness = 0;
+        if (!etICICICriticalIllness.getText().toString().equals(""))
+            ccIllness = Long.parseLong(etICICICriticalIllness.getText().toString().replaceAll("\\,", ""));
 
         if (!etSumICICIAssured.getText().toString().equals(""))
-            sumInsured = Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
+            sumInsured = Long.parseLong(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
 
 
         if (b) {
@@ -828,13 +852,15 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     private void changeAccidentalDeath(boolean b) {
         int maxAccidentalDeath = 20000000;
         int minAccidentalDeath = 100000;
-        int sumInsured = 10000000;
+        long sumInsured = 10000000;
         int step = 500000;
         int Smallstep = 100000;
-        int AccidentalDeath = Integer.parseInt(etICICIAccidentalBenefits.getText().toString().replaceAll("\\,", ""));
+        long AccidentalDeath = 0;
+        if (!etICICIAccidentalBenefits.getText().toString().equals(""))
+            AccidentalDeath = Long.parseLong(etICICIAccidentalBenefits.getText().toString().replaceAll("\\,", ""));
 
         if (!etSumICICIAssured.getText().toString().equals(""))
-            sumInsured = Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
+            sumInsured = Long.parseLong(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
 
 
         if (b) {
@@ -857,8 +883,13 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void changePolicyTerm(boolean b) {
-        int policyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString());
-        int ppt = Integer.parseInt(etICICIPremiumTerm.getText().toString());
+
+        int policyTerm = 0;
+        if (!etICICIPolicyTerm.getText().toString().equals(""))
+            policyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString());
+        int ppt = 0;
+        if (!etICICIPremiumTerm.getText().toString().equals(""))
+            ppt = Integer.parseInt(etICICIPremiumTerm.getText().toString());
         if (b) {
             if (policyTerm < (75 - age))
                 policyTerm = policyTerm + 1;
@@ -921,8 +952,12 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     private void changePremiumTerm(boolean b) {
         if (canChangePremiumTerm) {
-            int premiumTerm = Integer.parseInt(etICICIPremiumTerm.getText().toString());
-            int policyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString());
+            long premiumTerm = 0;
+            if (!etICICIPremiumTerm.getText().toString().equals(""))
+                premiumTerm = Long.parseLong(etICICIPremiumTerm.getText().toString());
+            long policyTerm = 0;
+            if (!etICICIPolicyTerm.getText().toString().equals(""))
+                policyTerm = Long.parseLong(etICICIPolicyTerm.getText().toString());
             if (b) {
                 if (premiumTerm < policyTerm)
                     premiumTerm = premiumTerm + 1;
@@ -939,7 +974,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void changeSumAssured(boolean b) {
-        int sumAssured = Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
+
+        long sumAssured = 0;
+        if (!etSumICICIAssured.getText().toString().equals(""))
+            sumAssured = Long.parseLong(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
         if (b) {
             if (sumAssured >= 100000 && sumAssured < 1000000)
                 sumAssured = sumAssured + 50000;
@@ -954,14 +992,18 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 sumAssured = sumAssured - 50000;
 
             if (llICICIAccidental.getVisibility() == View.VISIBLE) {
-                int AccidentalDeath = Integer.parseInt(etICICIAccidentalBenefits.getText().toString().replaceAll("\\,", ""));
+                long AccidentalDeath = 0;
+                if (!etICICIAccidentalBenefits.getText().toString().equals(""))
+                    AccidentalDeath = Long.parseLong(etICICIAccidentalBenefits.getText().toString().replaceAll("\\,", ""));
                 if (AccidentalDeath >= sumAssured) {
                     etICICIAccidentalBenefits.setText("" + NumberFormat.getNumberInstance(Locale.US).format(sumAssured));
                 }
             }
 
             if (llICICICritical.getVisibility() == View.VISIBLE) {
-                int AccidentalDeath = Integer.parseInt(etICICICriticalIllness.getText().toString().replaceAll("\\,", ""));
+                long AccidentalDeath = 0;
+                if (!etICICICriticalIllness.getText().toString().equals(""))
+                    AccidentalDeath = Long.parseLong(etICICICriticalIllness.getText().toString().replaceAll("\\,", ""));
                 if (AccidentalDeath >= sumAssured) {
                     etICICICriticalIllness.setText("" + NumberFormat.getNumberInstance(Locale.US).format(sumAssured));
                 }
@@ -1220,7 +1262,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             }
 
         } else {
-            int lumpsump = Integer.parseInt(etICICILumpSumpPerc.getText().toString().replaceAll("\\,", ""));
+            long lumpsump = Long.parseLong(etICICILumpSumpPerc.getText().toString().replaceAll("\\,", ""));
             if (lumpsump < 5 && lumpsump > 95) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1250,7 +1292,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             }
 
         } else {
-            int lumpsump = Integer.parseInt(etICICIPolicyTerm.getText().toString().replaceAll("\\,", ""));
+            long lumpsump = Long.parseLong(etICICIPolicyTerm.getText().toString().replaceAll("\\,", ""));
             if (lumpsump < 5 || lumpsump > 75) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1280,7 +1322,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             }
 
         } else {
-            int lumpsump = Integer.parseInt(etICICIPremiumTerm.getText().toString().replaceAll("\\,", ""));
+            long lumpsump = Long.parseLong(etICICIPremiumTerm.getText().toString().replaceAll("\\,", ""));
             if (lumpsump < 0 || lumpsump > 75) {
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1310,8 +1352,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 }
 
             } else {
-                int lumpsump = Integer.parseInt(etICICIAccidentalBenefits.getText().toString().replaceAll("\\,", ""));
-                int sumInsured = Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
+                long lumpsump = Long.parseLong(etICICIAccidentalBenefits.getText().toString().replaceAll("\\,", ""));
+                long sumInsured = Long.parseLong(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
                 if (lumpsump < 100000 || lumpsump > sumInsured) {
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1342,8 +1384,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 }
 
             } else {
-                int lumpsump = Integer.parseInt(etICICICriticalIllness.getText().toString().replaceAll("\\,", ""));
-                int sumInsured = Integer.parseInt(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
+                long lumpsump = Long.parseLong(etICICICriticalIllness.getText().toString().replaceAll("\\,", ""));
+                long sumInsured = Long.parseLong(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
                 if (lumpsump < 100000 || lumpsump > sumInsured) {
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1396,8 +1438,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+
         if (response instanceof TermCompareQuoteResponse) {
-            cancelDialog();
+            mainScroll.fullScroll(ScrollView.FOCUS_UP);
             this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
             this.cvInputDetails.requestFocus();
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
@@ -1419,5 +1463,88 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void setPopUpInfo() {
+
+        // region set Default popUp
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // Inflate the custom layout/view
+        customView = inflater.inflate(R.layout.layout_benefit_iprotect, null);
+
+        // Initialize a new instance of popup window
+
+        mPopupWindow = new PopupWindow(
+                customView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                700
+        );
+
+
+        if (Build.VERSION.SDK_INT >= 21) {
+            mPopupWindow.setElevation(5.0f);
+        }
+
+
+        //endregion
+
+        // region set Selection popUp
+        LayoutInflater inflaterSelection = (LayoutInflater) getActivity().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+        // Inflate the custom layout/view
+        customViewSelection = inflaterSelection.inflate(R.layout.layout_age_popup_selected, null);
+
+        // Initialize a new instance of popup window
+        mPopupWindowSelection = new PopupWindow(
+                customViewSelection,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+        //endregion
+
+    }
+
+    private void OpenPoupWnidow(String[] strings) {
+
+
+        // Get a reference for the custom view close button
+        ImageButton closeButton = (ImageButton) customView.findViewById(R.id.imgClose);
+        TextView tvTitle = (TextView) customView.findViewById(R.id.tvTitle);
+        tvTitle.setText("BENEFIT OF " + termCompareQuoteResponse.getMasterData().getResponse().get(0).getProductPlanName());
+        rvIprotectSmart = (RecyclerView) customView.findViewById(R.id.rvIprotectSmart);
+        rvIprotectSmart.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvIprotectSmart.setLayoutManager(layoutManager);
+
+        adapter = new HdfcIProtectAdapter(getActivity(), strings);
+        rvIprotectSmart.setAdapter(adapter);
+
+        // Set a click listener for the popup window close button
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Dismiss the popup window
+                if (mPopupWindow.isShowing()) {
+                    mPopupWindow.dismiss();
+                    mPopupWindowSelection.dismiss();
+
+
+                }
+            }
+        });
+
+
+        mPopupWindowSelection.showAsDropDown(ivInfo, 0, 0);
+        mPopupWindowSelection.setTouchable(true);
+        mPopupWindowSelection.setFocusable(true);
+
+
+        // mPopupWindow.setAnimationStyle(R.style.Animation);
+        mPopupWindow.showAsDropDown(ivInfo, -40, 40);
+        mPopupWindow.setTouchable(true);
+        mPopupWindow.setFocusable(true);
+
     }
 }

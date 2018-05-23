@@ -4,8 +4,14 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,29 +20,45 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
+import android.widget.ScrollView;
 import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
+import com.datacomp.magicfinmart.term.compareterm.adapters.TermQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 
-public class TermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener {
+import static java.util.Calendar.DATE;
+import static java.util.Calendar.MONTH;
+import static java.util.Calendar.YEAR;
 
+public class TermInputFragment extends BaseFragment implements View.OnClickListener, BaseFragment.PopUpListener, IResponseSubcriber {
+
+    View layoutCompare;
     Button btnGetQuote;
     EditText etFirstName, etLastName, etMobile;
-    RadioButton rbMale, rbfemale, rbNoSmoker, rbYesSmoker;
+    //RadioButton rbMale, rbfemale, rbNoSmoker, rbYesSmoker;
+    TextView tvMale, tvFemale, tvYes, tvNo;
+    boolean isMale, isSmoker;
     EditText etDOB;
 
     EditText etPincode, etSumAssured;
@@ -48,8 +70,17 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
+    ScrollView mainScroll;
     LinearLayout llCompareAll;
-    int insurerID;
+    RecyclerView rvTerm;
+    CardView cvInputDetails;
+    TermCompareQuoteResponse termCompareQuoteResponse;
+    int insurerID, termRequestId = 0, age = 0;
+    TermQuoteAdapter mAdapter;
+
+    //Headers
+    TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
+    ImageView ivEdit, ivInfo;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -66,15 +97,42 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         init_adapters();
 
         adapter_listener();
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null)
                 termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
             insurerID = getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT);
             bindInput(termFinmartRequest);
+        }*/
+
+        setDefaultValues();
+        if (getArguments() != null) {
+            if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null) {
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
+                termRequestEntity = termFinmartRequest.getTermRequestEntity();
+                termRequestId = termFinmartRequest.getTermRequestId();
+                changeInputQuote(true);
+            } else if (getArguments().getParcelable(CompareTermActivity.QUOTE_DATA) != null) {
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.QUOTE_DATA);
+                termRequestEntity = termFinmartRequest.getTermRequestEntity();
+                termRequestId = termFinmartRequest.getTermRequestId();
+                int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
+                termFinmartRequest.setFba_id(fba_id);
+                fetchQuotes();
+            } else {
+                changeInputQuote(true);
+            }
+            //bindICICI();
+            if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null)
+                bindInput(termFinmartRequest);
         }
+
         return view;
     }
 
+    private void setDefaultValues() {
+        tvNo.performClick();
+        tvMale.performClick();
+    }
 
     private void bindInput(TermFinmartRequest termFinmartRequest) {
         try {
@@ -89,15 +147,22 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 spPolicyTerm.setSelection((Integer.parseInt(termRequestEntity.getPolicyTerm()) - 5));
                 spPremTerm.setSelection((Integer.parseInt(termRequestEntity.getPPT()) - 5));
                 etPincode.setText("" + termRequestEntity.getPincode());
-                if (termRequestEntity.getIs_TabaccoUser().equals("true"))
-                    rbYesSmoker.setChecked(true);
-                else
-                    rbNoSmoker.setChecked(true);
 
-                if (termRequestEntity.getInsuredGender().equals("M"))
-                    rbMale.setChecked(true);
-                else
-                    rbfemale.setChecked(true);
+                if (termRequestEntity.getIs_TabaccoUser().equals("true")) {
+                    tvYes.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvNo.setBackgroundResource(R.drawable.customeborder);
+                } else {
+                    tvNo.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvYes.setBackgroundResource(R.drawable.customeborder);
+                }
+
+                if (termRequestEntity.getInsuredGender().equals("M")) {
+                    tvMale.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvFemale.setBackgroundResource(R.drawable.customeborder);
+                } else {
+                    tvFemale.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvMale.setBackgroundResource(R.drawable.customeborder);
+                }
             }
 
         } catch (Exception e) {
@@ -106,7 +171,73 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+    private void bindHeaders() {
+        if (termRequestEntity != null) {
+
+            tvSum.setText("");
+            tvSum.append("SUM  ");
+            SpannableString SUM = new SpannableString(termRequestEntity.getSumAssured());
+            SUM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getSumAssured().length(), 0);
+            SUM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getSumAssured().length(), 0);
+            tvSum.append(SUM);
+
+
+            try {
+                tvAge.setText("");
+                tvAge.append("AGE  ");
+                Date ag = simpleDateFormat.parse(termRequestEntity.getInsuredDOB());
+                Calendar ageCalender = Calendar.getInstance();
+                ageCalender.setTime(ag);
+                String age = "" + caluclateAge(ageCalender);
+                SpannableString AGE = new SpannableString(age);
+                AGE.setSpan(new StyleSpan(Typeface.BOLD), 0, age.length(), 0);
+                AGE.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, age.length(), 0);
+                tvAge.append(AGE);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+
+            tvPolicyTerm.setText("");
+            tvPolicyTerm.append("TERM  ");
+            SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm());
+            TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
+            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getPolicyTerm().length(), 0);
+            tvPolicyTerm.append(TERM);
+            tvPolicyTerm.append(" Years");
+
+            if (termRequestEntity.getInsuredGender().equals("M"))
+                tvGender.setText("MALE");
+            else
+                tvGender.setText("FEMALE");
+            if (termRequestEntity.getIs_TabaccoUser().equals("true"))
+                tvSmoker.setText("SMOKER");
+            else
+                tvSmoker.setText("NON-SMOKER");
+
+
+            tvCrn.setText("");
+            tvCrn.append("CRN  ");
+            String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+            SpannableString CRN = new SpannableString(crn);
+            CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
+            CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
+            tvCrn.append(CRN);
+            termRequestEntity.setCrn(crn);
+            termFinmartRequest.setTermRequestEntity(termRequestEntity);
+
+            // tvAge.setText("" + termRequestEntity.getInsuredDOB());
+            //tvPolicyTerm.setText("" + termRequestEntity.getPolicyTerm() + " YEARS");
+            //tvCrn.setText("---");
+        }
+    }
+
     private void setListener() {
+        ivEdit.setOnClickListener(this);
+        tvMale.setOnClickListener(this);
+        tvFemale.setOnClickListener(this);
+        tvYes.setOnClickListener(this);
+        tvNo.setOnClickListener(this);
         btnGetQuote.setOnClickListener(this);
         etDOB.setOnClickListener(datePickerDialog);
     }
@@ -136,15 +267,25 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
     private void init(View view) {
 
+        //headers
+        tvSum = (TextView) view.findViewById(R.id.tvSum);
+        tvGender = (TextView) view.findViewById(R.id.tvGender);
+        tvSmoker = (TextView) view.findViewById(R.id.tvSmoker);
+        tvAge = (TextView) view.findViewById(R.id.tvAge);
+        tvPolicyTerm = (TextView) view.findViewById(R.id.tvPolicyTerm);
+        tvCrn = (TextView) view.findViewById(R.id.tvCrn);
+        ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
+        ivInfo = (ImageView) view.findViewById(R.id.ivInfo);
+
         btnGetQuote = (Button) view.findViewById(R.id.btnGetQuote);
         etFirstName = (EditText) view.findViewById(R.id.etFirstName);
         etLastName = (EditText) view.findViewById(R.id.etLastName);
         etMobile = (EditText) view.findViewById(R.id.etMobile);
         etDOB = (EditText) view.findViewById(R.id.etDateofBirth);
-        rbMale = (RadioButton) view.findViewById(R.id.rbmale);
-        rbfemale = (RadioButton) view.findViewById(R.id.rbfemale);
-        rbYesSmoker = (RadioButton) view.findViewById(R.id.rbYesSmoker);
-        rbNoSmoker = (RadioButton) view.findViewById(R.id.rbNoSmoker);
+        tvMale = (TextView) view.findViewById(R.id.tvMale);
+        tvFemale = (TextView) view.findViewById(R.id.tvFemale);
+        tvYes = (TextView) view.findViewById(R.id.tvYes);
+        tvNo = (TextView) view.findViewById(R.id.tvNo);
 
         etPincode = (EditText) view.findViewById(R.id.etPincode);
         etSumAssured = (EditText) view.findViewById(R.id.etSumAssured);
@@ -154,35 +295,104 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
         //Compare All
         llCompareAll = (LinearLayout) view.findViewById(R.id.llCompareAll);
+        rvTerm = (RecyclerView) view.findViewById(R.id.rvTerm);
+        cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
+        mainScroll = (ScrollView) view.findViewById(R.id.mainScroll);
+        layoutCompare = (View) view.findViewById(R.id.layoutCompare);
 
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+
+            case R.id.tvMale:
+                isMale = true;
+                tvFemale.setBackgroundResource(R.drawable.customeborder);
+                tvMale.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+            case R.id.tvFemale:
+                isMale = false;
+                tvMale.setBackgroundResource(R.drawable.customeborder);
+                tvFemale.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+            case R.id.tvYes:
+                isSmoker = true;
+                tvNo.setBackgroundResource(R.drawable.customeborder);
+                tvYes.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+            case R.id.tvNo:
+                isSmoker = false;
+                tvYes.setBackgroundResource(R.drawable.customeborder);
+                tvNo.setBackgroundResource(R.drawable.customeborder_blue);
+                break;
+
+            case R.id.ivEdit:
+                ((CompareTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                changeInputQuote(true);
+                break;
             case R.id.btnGetQuote:
 
                 if (isValidInput()) {
                     setTermRequest();
-                    ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                    fetchQuotes();
                 }
+               /* if (isValidInput()) {
+                    setTermRequest();
+                    ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                }*/
                 break;
         }
     }
 
+    public int caluclateAge(Calendar dob) {
+        Calendar current = Calendar.getInstance();
+        int diff = current.get(YEAR) - dob.get(YEAR);
+        if (dob.get(MONTH) > current.get(MONTH) ||
+                (dob.get(MONTH) == current.get(MONTH) && dob.get(DATE) > current.get(DATE))) {
+            diff--;
+        }
+        return diff;
+    }
+
+    public int caluclateAge(String dateofbirth) {
+        Date date = new Date();
+        try {
+
+            date = simpleDateFormat.parse(dateofbirth);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Calendar dob = Calendar.getInstance();
+        dob.setTime(date);
+        Calendar current = Calendar.getInstance();
+        int diff = current.get(YEAR) - dob.get(YEAR);
+        if (dob.get(MONTH) > current.get(MONTH) ||
+                (dob.get(MONTH) == current.get(MONTH) && dob.get(DATE) > current.get(DATE))) {
+            diff--;
+        }
+        return diff;
+    }
+
+    public void fetchQuotes() {
+        showDialog();
+        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
+    }
 
     private void setTermRequest() {
         termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
 
-        if (rbMale.isChecked())
+        if (isMale)
             termRequestEntity.setInsuredGender("M");
         else
             termRequestEntity.setInsuredGender("F");
 
-        if (rbNoSmoker.isChecked())
-            termRequestEntity.setIs_TabaccoUser("false");
-        else
+        if (isSmoker)
             termRequestEntity.setIs_TabaccoUser("true");
+        else
+            termRequestEntity.setIs_TabaccoUser("false");
+
 
         termRequestEntity.setSumAssured(etSumAssured.getText().toString());
         termRequestEntity.setInsuredDOB(etDOB.getText().toString());
@@ -334,6 +544,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                         calendar.set(year, monthOfYear, dayOfMonth);
                         String currentDay = simpleDateFormat.format(calendar.getTime());
                         etDOB.setText(currentDay);
+                        age = caluclateAge(calendar);
                     }
                 }
             });
@@ -343,4 +554,56 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     };
     //endregion
 
+    private void changeInputQuote(boolean isInput) {
+        if (isInput) {
+            //((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+            btnGetQuote.setText("GET QUOTE");
+            layoutCompare.setVisibility(View.VISIBLE);
+            llCompareAll.setVisibility(View.VISIBLE);
+            rvTerm.setVisibility(View.GONE);
+            cvInputDetails.setVisibility(View.GONE);
+        } else {
+            ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+            btnGetQuote.setText("UPDATE QUOTE");
+            layoutCompare.setVisibility(View.GONE);
+            llCompareAll.setVisibility(View.GONE);
+            rvTerm.setVisibility(View.VISIBLE);
+            cvInputDetails.setVisibility(View.VISIBLE);
+
+        }
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof TermCompareQuoteResponse) {
+            cancelDialog();
+            this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
+            mainScroll.fullScroll(ScrollView.FOCUS_UP);
+            //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
+            //rvTerm.setAdapter(mAdapter);
+            String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+            termRequestEntity.setCrn(crn);
+            termFinmartRequest.setTermRequestEntity(termRequestEntity);
+            if (((TermCompareQuoteResponse) response).getMasterData().getLifeTermRequestID() != 0)
+                termRequestId = ((TermCompareQuoteResponse) response).getMasterData().getLifeTermRequestID();
+            termFinmartRequest.setTermRequestId(termRequestId);
+            bindHeaders();
+            bindQuotes();
+            changeInputQuote(false);
+        }
+
+    }
+
+    private void bindQuotes() {
+        mAdapter = new TermQuoteAdapter(TermInputFragment.this, termCompareQuoteResponse);
+        rvTerm.setAdapter(mAdapter);
+        // tvCrn.setText("" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID());
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        changeInputQuote(true);
+    }
 }
