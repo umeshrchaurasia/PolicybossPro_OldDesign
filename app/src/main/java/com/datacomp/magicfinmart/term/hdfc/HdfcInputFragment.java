@@ -25,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,10 +40,8 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -77,11 +76,11 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     //region headers
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
-    ImageView ivEdit ,ivInfo;
+    ImageView ivEdit, ivInfo;
     TermCompareQuoteResponse termCompareQuoteResponse;
     CardView cvInputDetails, cvQuoteDetails;
     LinearLayout layoutCompare;
-
+    ScrollView mainScroll;
     TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge;
     ImageView imgInsurerLogo, ivBuy, ivPdf;
     LinearLayout llAddon;
@@ -97,7 +96,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     private PopupWindow mPopupWindow, mPopupWindowSelection;
     View customView, customViewSelection;
     RecyclerView rvIprotectSmart;
-   HdfcIProtectAdapter adapter;
+    HdfcIProtectAdapter adapter;
 
 
     //endregion
@@ -139,15 +138,25 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
         //adapter_listener();
         if (getArguments() != null) {
-            if (getArguments().getParcelable(HdfcTermActivity.INPUT_DATA) != null) {
-                termFinmartRequest = getArguments().getParcelable(HdfcTermActivity.INPUT_DATA);
+            if (getArguments().getParcelable(HdfcTermActivity.QUOTE_DATA) != null) {
+                termFinmartRequest = getArguments().getParcelable(HdfcTermActivity.QUOTE_DATA);
+                termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 termRequestId = termFinmartRequest.getTermRequestId();
+                int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
+                termFinmartRequest.setFba_id(fba_id);
+                fetchQuotes();
+            } else if (getArguments().getParcelable(HdfcTermActivity.INPUT_DATA) != null) {
+                termFinmartRequest = getArguments().getParcelable(HdfcTermActivity.INPUT_DATA);
+                termRequestEntity = termFinmartRequest.getTermRequestEntity();
+                termRequestId = termFinmartRequest.getTermRequestId();
+                changeInputQuote(true);
+            } else {
+                changeInputQuote(true);
             }
             //bindICICI();
             if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null)
                 bindInput(termFinmartRequest);
         }
-        changeInputQuote(true);
         return view;
     }
 
@@ -268,7 +277,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             tvPolicyTerm.append("TERM  ");
             SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm());
             TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
-            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0,termRequestEntity.getPolicyTerm().length(), 0);
+            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getPolicyTerm().length(), 0);
             tvPolicyTerm.append(TERM);
             tvPolicyTerm.append(" Years");
 
@@ -287,7 +296,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
             SpannableString CRN = new SpannableString(crn);
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
-            CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0,crn.length(), 0);
+            CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
             tvCrn.append(CRN);
             termRequestEntity.setCrn(crn);
             termFinmartRequest.setTermRequestEntity(termRequestEntity);
@@ -630,6 +639,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         etINCREASING.setText("5");
         etAdb.setText("100");
         tvNo.performClick();
+        tvMale.performClick();
     }
 
 
@@ -638,6 +648,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
         cvQuoteDetails = (CardView) view.findViewById(R.id.cvQuoteDetails);
         layoutCompare = (LinearLayout) view.findViewById(R.id.layoutCompare);
+        mainScroll = (ScrollView) view.findViewById(R.id.mainScroll);
         tilPincode = (TextInputLayout) view.findViewById(R.id.tilPincode);
         tvSum = (TextView) view.findViewById(R.id.tvSum);
         tvGender = (TextView) view.findViewById(R.id.tvGender);
@@ -855,7 +866,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                            .putExtra("URL",  termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl())
+                            .putExtra("URL", termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl())
                             .putExtra("NAME", "CLICK TO PROTECT 3D")
                             .putExtra("TITLE", "CLICK TO PROTECT 3D"));
 
@@ -871,13 +882,13 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 break;
 
             case R.id.ivEdit:
-                //((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                ((HdfcTermActivity) getActivity()).redirectToInput(termFinmartRequest);
                 changeInputQuote(true);
                 break;
 
             case R.id.ivInfo:
 
-                OpenPoupWnidow();
+                OpenPoupWnidow(termCompareQuoteResponse.getMasterData().getResponse().get(0).getKeyFeatures().split("\\|"));
                 break;
             case R.id.tvMale:
                 isMale = true;
@@ -961,7 +972,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
-    private void fetchQuotes() {
+    public void fetchQuotes() {
         showDialog();
         new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
@@ -971,7 +982,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         if (response instanceof TermCompareQuoteResponse) {
             cancelDialog();
             this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
-            this.cvInputDetails.requestFocus();
+            mainScroll.fullScroll(ScrollView.FOCUS_UP);
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
             //rvTerm.setAdapter(mAdapter);
             String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
@@ -991,6 +1002,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        changeInputQuote(true);
     }
 
     //region datepicker
@@ -1523,7 +1535,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 term = 10;
             }
         }
-
+        etICICIPolicyTerm.setText("" + NumberFormat.getNumberInstance(Locale.US).format(term));
         if (spHdfcPremFrq.getSelectedItemPosition() != 4) {
 
             if (!etICICIPolicyTerm.getText().toString().equals("") && !etICICIPremiumTerm.getText().toString().equals("")) {
@@ -1535,7 +1547,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 }
             }
         }
-        etICICIPolicyTerm.setText("" + NumberFormat.getNumberInstance(Locale.US).format(term));
+
     }
 
     private void ChkPolicyTerm() {
@@ -1723,7 +1735,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 value = 1;
             }
         } else {
-            value = 0;
+            value = 1;
         }
 
         editText.setText("" + NumberFormat.getNumberInstance(Locale.US).format(value));
@@ -1817,7 +1829,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         mPopupWindow = new PopupWindow(
                 customView,
                 ViewGroup.LayoutParams.WRAP_CONTENT,
-               700
+                700
         );
 
 
@@ -1844,19 +1856,20 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     }
 
-    private void OpenPoupWnidow() {
+    private void OpenPoupWnidow(String[] strings) {
 
 
         // Get a reference for the custom view close button
         ImageButton closeButton = (ImageButton) customView.findViewById(R.id.imgClose);
-
+        TextView tvTitle = (TextView) customView.findViewById(R.id.tvTitle);
+        tvTitle.setText("BENEFIT OF " + termCompareQuoteResponse.getMasterData().getResponse().get(0).getProductPlanName());
         rvIprotectSmart = (RecyclerView) customView.findViewById(R.id.rvIprotectSmart);
         rvIprotectSmart.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvIprotectSmart.setLayoutManager(layoutManager);
 
-        adapter = new HdfcIProtectAdapter(getActivity(), fetchIProtectData());
+        adapter = new HdfcIProtectAdapter(getActivity(), strings);
         rvIprotectSmart.setAdapter(adapter);
 
         // Set a click listener for the popup window close button
@@ -1880,27 +1893,11 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
 
         // mPopupWindow.setAnimationStyle(R.style.Animation);
-        mPopupWindow.showAsDropDown(ivInfo, 0, 40);
+        mPopupWindow.showAsDropDown(ivInfo, -40, 40);
         mPopupWindow.setTouchable(true);
         mPopupWindow.setFocusable(true);
 
     }
-
-
-    private List<String> fetchIProtectData()
-    {
-        List<String> strLst = new ArrayList<String>();
-
-        strLst.add("Coverage against death");
-        strLst.add("terminal illness and disability");
-        strLst.add("Option to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
-        strLst.add("Special primium rates for non - tobacco user");
-        strLst.add("Option2 to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
-        strLst.add("Option3 to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
-        strLst.add("Option4 to choose Accidental Death Benefit and Accelerated Critical illiness Benefit");
-        return strLst;
-    }
-
 
 }
 

@@ -1,73 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-
+    android:layout_marginRight="40dp"
+    android:background="@drawable/lightgrey_border"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:background="@drawable/lightgrey_border">
+        android:layout_height="wrap_content">
 
-
-
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/TextViewStyle.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-
-            android:orientation="vertical">
-
-            <TextView
-                style="@style/TextStyle.Title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/tab_color"
-                android:gravity="center_horizontal"
-                android:paddingBottom="10dp"
-                android:paddingTop="6dp"
-                android:text="BENEFIT OF IProtectSmart"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_marginBottom="5dp"
-                android:background="@color/bg_popup"
-                android:orientation="vertical">
-
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvIprotectSmart"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
-            </LinearLayout>
-
-        </LinearLayout>
-
+            android:background="@color/tab_color"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="BENEFIT OF IProtectSmart"
+            android:textColor="@color/white" />
 
         <ImageButton
             android:id="@+id/imgClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="5dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
             android:background="@android:color/transparent"
             android:clickable="true"
             android:src="@drawable/close" />
-
-
     </RelativeLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:background="@color/white"
+        android:id="@+id/rvIprotectSmart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvTitle" />
+
 </LinearLayout>

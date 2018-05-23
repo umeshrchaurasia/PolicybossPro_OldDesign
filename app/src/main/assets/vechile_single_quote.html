@@ -78,7 +78,7 @@ ul li {margin:2px; padding:4px !important;}
                 </tr>
                 <tr>
                     <td>Present NCB: <span id="NCB">0</span>%</td>
-                    <td>Claim in Present Year  : <span id="PYN"></span></td>
+                    <td>Claim In Present Year  : <span id="PYN"></span></td>
 
                 </tr>
             </table>
@@ -103,7 +103,7 @@ ul li {margin:2px; padding:4px !important;}
                 </tr>
                 </tbody>
             </table>
-            <table class="table bg-gray" id="tblAddOn">
+            <table class="table bg-gray" id="tblAddOn" style="display:none">
                 <tbody>
                 <tr>
                     <td class="no-padding">
@@ -190,7 +190,7 @@ ul li {margin:2px; padding:4px !important;}
 
     <div class="col-md-12 col-xs-12 floating-lft">
         <div class="table-responsive">
-            <table class="table table-bordered" id="tblAdd">
+            <table class="table table-bordered" id="tblAdd" >
                 <tr>
                     <td colspan="2" style="background:#070e4a;color:#fff;"><b class="text-center">ADD-ON</b>
                     </td>
@@ -229,9 +229,9 @@ ul li {margin:2px; padding:4px !important;}
                     <td><b>NET PREMIUM</b></td>
                 </tr>
                 <tr>
-                    <td><span>₹</span><span id="spnTotPrem">10,690</span></td>
-                    <td><span>₹</span><span id="spnGST">1,690</span></td>
-                    <td><span>₹</span><span id="spnNetPrem">12,294</span></td>
+                    <td><span>₹ </span><span id="spnTotPrem">10,690</span></td>
+                    <td><span>₹ </span><span id="spnGST">1,690</span></td>
+                    <td><span>₹ </span><span id="spnNetPrem">12,294</span></td>
                 </tr>
             </table>
         </div>
@@ -293,7 +293,7 @@ ul li {margin:2px; padding:4px !important;}
     };
 
     var liability_list = {
-        'tp_basic': 'Basic OD Premium',
+        'tp_basic': 'Basic 3rd Party Premium',
         'tp_cng_lpg': 'Bi Fuel Kit Liability',
         'tp_cover_named_passenger_pa': 'Named PA Cover for Passenger',
         'tp_cover_owner_driver_pa': 'PA to Owner Driver',
@@ -349,7 +349,7 @@ ul li {margin:2px; padding:4px !important;}
 
 
         document.getElementById('lblImg').src = "http://www.policyboss.com/Images/insurer_logo/" + response.Insurer.Insurer_Logo_Name;
-        document.getElementById('IDV').innerHTML = "₹ " + response.LM_Custom_Request.vehicle_expected_idv;
+        document.getElementById('IDV').innerHTML = "" + response.LM_Custom_Request.vehicle_expected_idv;
         document.getElementById('PREM').innerHTML =   "₹ " +  Math.round(response.Premium_Breakup.final_premium)  ;
         var WithOutAddOn = ""
         var HTML = "";
