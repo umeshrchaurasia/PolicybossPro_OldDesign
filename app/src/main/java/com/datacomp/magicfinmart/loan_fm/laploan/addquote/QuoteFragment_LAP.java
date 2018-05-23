@@ -315,7 +315,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         }else if(response instanceof BankForNodeResponse)
         {
             if (response.getStatusNo() == 0) {
-                ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+               // ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
 
                 redirectToApplyLoan();
             }
@@ -350,7 +350,9 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
     public void OnFailure(Throwable t) {
 
         cancelDialog();
-        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (getActivity() != null) {
+            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        }
         bindQuotes_NoData();
     }
 

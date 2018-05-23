@@ -460,7 +460,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="5dp"
                         android:paddingLeft="10dp"
-                        android:text="E-Approvl Available"
+                        android:text="E-Approval Available"
                         android:textAppearance="@style/TextViewStyle.Medium"
                         android:textColor="@color/black" />
 

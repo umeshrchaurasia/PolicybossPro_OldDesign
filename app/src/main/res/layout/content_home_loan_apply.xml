@@ -115,12 +115,15 @@
                             android:layout_weight="35"
                             android:hint="*First Name">
 
+
                             <EditText
                                 android:id="@+id/etFirstName"
-                                style="@style/Style.edittext"
-                                android:inputType="text"
+                                android:maxLines="1"
                                 android:maxLength="20"
-                                android:maxLines="1" />
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+                                android:inputType="textCapWords"
+                                style="@style/Style.edittext" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -133,10 +136,12 @@
 
                             <EditText
                                 android:id="@+id/etLastName"
-                                style="@style/Style.edittext"
-                                android:inputType="text"
+                                android:maxLines="1"
                                 android:maxLength="20"
-                                android:maxLines="1" />
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+                                android:inputType="textCapWords"
+                                style="@style/Style.edittext" />
 
                         </android.support.design.widget.TextInputLayout>
 
@@ -152,7 +157,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Date of Birth">
+                            android:hint="*Date Of Birth">
 
                             <EditText
                                 android:id="@+id/etDob"
@@ -167,14 +172,16 @@
                             android:layout_marginTop="2dp"
                             android:layout_weight="1"
                             android:gravity="bottom"
-                            android:hint="Father Name">
+                            android:hint="Father's Name">
 
                             <EditText
                                 android:id="@+id/etFatherName"
-                                style="@style/Style.edittext"
-                                android:inputType="text"
+                                android:maxLines="1"
                                 android:maxLength="20"
-                                android:maxLines="1" />
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+                                android:inputType="textCapWords"
+                                style="@style/Style.edittext" />
                         </android.support.design.widget.TextInputLayout>
 
                     </TableRow>
@@ -237,7 +244,7 @@
                                     android:background="@drawable/customeborder_blue"
                                     android:gravity="center"
                                     android:padding="5dp"
-                                    android:text="Married"
+                                    android:text="MARRIED"
                                     android:textColor="@color/colorPrimary" />
 
                                 <TextView
@@ -250,7 +257,7 @@
                                     android:background="@drawable/customeborder"
                                     android:gravity="center"
                                     android:padding="5dp"
-                                    android:text="Single"
+                                    android:text="SINGLE"
                                     android:textColor="@color/description_text" />
 
 
@@ -273,11 +280,16 @@
                             android:layout_weight="1"
                             android:hint="*Spouse Name">
 
+
+
                             <EditText
                                 android:id="@+id/etSpouceName"
+                                android:maxLines="1"
                                 android:maxLength="20"
-                                style="@style/Style.edittext"
-                                 />
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+                                android:inputType="textCapWords"
+                                style="@style/Style.edittext" />
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
@@ -312,8 +324,9 @@
                             <EditText
                                 android:id="@+id/etPan"
                                 style="@style/Style.edittext"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
                                 android:inputType="textCapCharacters"
+
                                 android:maxLength="10" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -737,7 +750,7 @@
                                 android:id="@+id/etUniversity"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
-                                android:maxLength="50"
+                                android:maxLength="100"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -751,6 +764,7 @@
                                 android:id="@+id/etMoMaidenName"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:maxLength="25"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -1482,7 +1496,7 @@
                                         android:background="@drawable/customeborder_blue"
                                         android:gravity="center"
                                         android:padding="5dp"
-                                        android:text="Salaried"
+                                        android:text="SALARIED"
                                         android:textColor="@color/colorPrimary" />
 
                                     <TextView
@@ -1494,7 +1508,7 @@
                                         android:background="@drawable/customeborder"
                                         android:gravity="center"
                                         android:padding="5dp"
-                                        android:text="Self-Emp"
+                                        android:text="SELF-EMP"
                                         android:textColor="@color/description_text" />
 
 
@@ -1730,7 +1744,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="*Directors Remuneration">
+                            android:hint="*Director's Remuneration">
 
                             <EditText
                                 android:id="@+id/etDirRem"
@@ -2040,6 +2054,7 @@
                                 android:id="@+id/etGrossIncome"
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
+                                android:enabled="false"
                                 android:inputType="number"
                                 android:maxLength="10" />
 
@@ -2095,6 +2110,7 @@
                             <EditText
                                 android:id="@+id/etTotalIncome"
                                 style="@style/Style.edittext"
+                                android:enabled="false"
                                 android:digits="0123456789"
                                 android:inputType="number"
                                 android:maxLength="10" />

@@ -54,13 +54,17 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
     PersonalLoanRequest personalLoanRequest;
     FmPersonalLoanRequest fmPersonalLoanRequest;
 
+    //display format
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    //server conversion date format
+    SimpleDateFormat formatServer = new SimpleDateFormat("yyyy-MM-dd");
+
     Button btnGetQuote;
-    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp,etcontact;
+    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp, etcontact;
 
     LinearLayout llSalaried, llSelfEmployeed;
 
-    TextView etTenureInYear,txtrbimgMale,txtrbimgFemale;
+    TextView etTenureInYear, txtrbimgMale, txtrbimgFemale;
     TextView txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     SeekBar sbTenure;
     Context mContext;
@@ -70,6 +74,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
     public InputFragment_pl() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -109,7 +114,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         txtDispalayMinTenureYear = (TextView) view.findViewById(R.id.txtDispalayMinTenureYear);
         txtDispalayMaxTenureYear = (TextView) view.findViewById(R.id.txtDispalayMaxTenureYear);
         etTenureInYear = (TextView) view.findViewById(R.id.etTenureInYear);
-        etcontact= (EditText) view.findViewById(R.id.etcontact);
+        etcontact = (EditText) view.findViewById(R.id.etcontact);
 
         sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
         sbTenure.setMax(4);
@@ -129,7 +134,8 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         txtrbimgMale = (TextView) view.findViewById(R.id.txtrbimgMale);
         txtrbimgFemale = (TextView) view.findViewById(R.id.txtrbimgFemale);
 
-
+        //TODO:set tag to DOB -- nilesh
+        et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(simpleDateFormat, "01-01-1980")));
         et_DOB.setText("01-01-1980");
         //endregion
 
@@ -140,17 +146,26 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            if (view.getId() == R.id.et_DOB) {
+                DateTimePicker.showDataPickerDialogBeforeTwentyOneTest(view.getContext(), (Calendar) view.getTag(R.id.et_DOB),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(year, monthOfYear, dayOfMonth);
-                    String currentDay = simpleDateFormat.format(calendar.getTime());
-                    et_DOB.setText(currentDay);
-                    //etDate.setTag(R.id.et_date, calendar.getTime());
-                }
-            });
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                et_DOB.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                et_DOB.setTag(R.id.et_DOB, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
         }
     };
     //endregion
@@ -171,23 +186,25 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
         //endregion
         personalLoanRequest.setApplicantGender(GenderApplicantSource);
-        if (personalLoanRequest.getApplicantGender()=="M") {
+        if (personalLoanRequest.getApplicantGender() == "M") {
             personalLoanRequest.setApplicantGender("M");
-        } else  if (personalLoanRequest.getApplicantGender()=="F") {
+        } else if (personalLoanRequest.getApplicantGender() == "F") {
             personalLoanRequest.setApplicantGender("F");
         }
 
         if (etEMI.getText().equals("")) {
             personalLoanRequest.setApplicantObligations("0");
-        }else
-        {
+        } else {
             personalLoanRequest.setApplicantObligations(etEMI.getText().toString());
         }
 
-       // personalLoanRequest.setEmi(etEMI.getText().toString());
-        personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
+        // personalLoanRequest.setEmi(etEMI.getText().toString());
+
+        personalLoanRequest.setApplicantDOB(getYYYYMMDDPattern(et_DOB.getText().toString()));
+
+        //    personalLoanRequest.setApplicantDOB(et_DOB.getText().toString());
         personalLoanRequest.setBrokerId("" + loginEntity.getLoanId());
-       // personalLoanRequest.setLoaniD(Integer.parseInt(loginEntity.getLoanId()));
+        // personalLoanRequest.setLoaniD(Integer.parseInt(loginEntity.getLoanId()));
         personalLoanRequest.setpanno(etPAN.getText().toString());
 
         personalLoanRequest.setEmpcode("");
@@ -199,7 +216,6 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
     }
 
 
-
     private void fillCustomerDetails() {
 
         Log.d("DETAILS", personalLoanRequest.toString());
@@ -207,19 +223,19 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         try {
 
 
-        if (personalLoanRequest.getLoanRequired() != null)
-            etCostOfProp.setText(personalLoanRequest.getLoanRequired());
-        if (personalLoanRequest.getLoanTenure() != null)
-            etTenureInYear.setText(personalLoanRequest.getLoanTenure());
+            if (personalLoanRequest.getLoanRequired() != null)
+                etCostOfProp.setText(personalLoanRequest.getLoanRequired());
+            if (personalLoanRequest.getLoanTenure() != null)
+                etTenureInYear.setText(personalLoanRequest.getLoanTenure());
 
-        if(personalLoanRequest.getApplicantObligations() != null){
-            etEMI.setText(personalLoanRequest.getApplicantObligations());
-        }
-        if (personalLoanRequest.getApplicantNme() != null)
-            etNameOfApplicant.setText(personalLoanRequest.getApplicantNme());
+            if (personalLoanRequest.getApplicantObligations() != null) {
+                etEMI.setText(personalLoanRequest.getApplicantObligations());
+            }
+            if (personalLoanRequest.getApplicantNme() != null)
+                etNameOfApplicant.setText(personalLoanRequest.getApplicantNme());
 
             int tenureInYear = Integer.parseInt(personalLoanRequest.getLoanTenure());
-            sbTenure.setProgress(tenureInYear-1);
+            sbTenure.setProgress(tenureInYear - 1);
 
             if (personalLoanRequest.getApplicantGender().matches("M")) {
                 setApp_Male_gender();
@@ -227,14 +243,19 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
                 setApp_FeMale_gender();
             }
 
-        if (personalLoanRequest.getApplicantDOB() != null)
-            et_DOB.setText(personalLoanRequest.getApplicantDOB());
+            if (personalLoanRequest.getApplicantDOB() != null) {
+                //setting tag
+                et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(formatServer, personalLoanRequest.getApplicantDOB())));
+                et_DOB.setText(getDDMMYYYPattern(personalLoanRequest.getApplicantDOB(), "yyyy-MM-dd"));
 
-        if (personalLoanRequest.getApplicantIncome() != null)
-            etMonthlyInc.setText("" + personalLoanRequest.getApplicantIncome());
+            }
+            //  et_DOB.setText(personalLoanRequest.getApplicantDOB());
+
+            if (personalLoanRequest.getApplicantIncome() != null)
+                etMonthlyInc.setText("" + personalLoanRequest.getApplicantIncome());
 
             if (personalLoanRequest.getContact() != null)
-            etcontact.setText("" + personalLoanRequest.getContact());
+                etcontact.setText("" + personalLoanRequest.getContact());
 
             if (personalLoanRequest.getpanno() != null)
                 etPAN.setText("" + personalLoanRequest.getpanno());
@@ -252,7 +273,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
         txtrbimgMale.setOnClickListener(this);
         txtrbimgFemale.setOnClickListener(this);
-        etPAN.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        // etPAN.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
     }
 
 
@@ -261,16 +282,14 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         if (v.getId() == R.id.txtrbimgMale) {
 
             setApp_Male_gender();
-        }
-        else if (v.getId() == R.id.txtrbimgFemale) {
+        } else if (v.getId() == R.id.txtrbimgFemale) {
 
             setApp_FeMale_gender();
-        }
-        else if (v.getId() == R.id.btnGetQuote) {
+        } else if (v.getId() == R.id.btnGetQuote) {
             new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote PL : Get quote button for PL"), Constants.PERSONA_LOAN), null);
             //region Validation
             String NameOfApplicant = etNameOfApplicant.getText().toString();
-            String DOB = et_DOB.getText().toString();
+            String DOB = getYYYYMMDDPattern(et_DOB.getText().toString());
             String MonthlyInc = etMonthlyInc.getText().toString();
             String Pan_no = etPAN.getText().toString();
             String CostOfProp = etCostOfProp.getText().toString();
@@ -318,7 +337,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             // endregion
             setApplicantDetails();
 
-          //  new PersonalLoanController(getActivity()).getPersonalLoan(personalLoanRequest, this);
+            //  new PersonalLoanController(getActivity()).getPersonalLoan(personalLoanRequest, this);
             ((PLMainActivity) getActivity()).getQuoteParameterBundle(fmPersonalLoanRequest);
 
         }
@@ -335,7 +354,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
                 if (progress >= MIN) {
                     if (fromUser) {
                         // progress = ((int) Math.round(progress / seekBarTenureProgress)) * seekBarTenureProgress;
-                        etTenureInYear.setText(String.valueOf(progress+1));
+                        etTenureInYear.setText(String.valueOf(progress + 1));
                     }
                 } else {
                     sbTenure.setProgress(MIN);
@@ -388,7 +407,6 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         super.onAttach(context);
         mContext = context;
     }
-
 
 
 }

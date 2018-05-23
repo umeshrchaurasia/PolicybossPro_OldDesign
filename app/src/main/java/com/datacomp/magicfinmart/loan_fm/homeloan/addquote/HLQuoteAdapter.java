@@ -103,7 +103,8 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
         double emiperlac = (quoteEntity.getEmi() / loanr) * 100000;
 
 
-        holder.tvEmiperlac.setText("" + "\u20B9" + " " +Math.round(emiperlac));
+        holder.tvEmiperlac.setText(""+ "\u20B9"+" "  + String.format("%.2f", emiperlac));
+
 
         Glide.with(mContext)
                 .load(quoteEntity.getBank_Logo())

@@ -1399,17 +1399,43 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                                 calendar.set(year, monthOfYear, dayOfMonth);
                                 String currentDay = displayFormat.format(calendar.getTime());
                                 etRegDate.setText(currentDay);
+
                                 calendar.set(year, monthOfYear, 01);
                                 String currentDay1 = displayFormat.format(calendar.getTime());
                                 etMfgDate.setText(currentDay1);
                                 setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
-                                /*Calendar calendar1 = Calendar.getInstance();
+
+                                etRegDate.setTag(R.id.etRegDate, calendar);
+
+                                Calendar calendar1 = Calendar.getInstance();
                                 calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
                                 String expDate = simpleDateFormat.format(calendar1.getTime());
-                                etExpDate.setText(expDate);*/
+                                etExpDate.setText(expDate);
                             }
                         }
                     });
+
+                    /*DateTimePicker.testDatePicker(view.getContext(), (Calendar) view.getTag(R.id.etRegDate), new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+
+                            if (view1.isShown()) {
+                                Calendar calendar = Calendar.getInstance();
+                                Calendar calSetPrev = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                calSetPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = displayFormat.format(calendar.getTime());
+                                etRegDate.setTag(R.id.etRegDate, calSetPrev);
+                                etRegDate.setText(currentDay);
+
+                                calendar.set(year, monthOfYear, 01);
+                                String currentDay1 = displayFormat.format(calendar.getTime());
+                                etMfgDate.setText(currentDay1);
+                                setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
+
+                            }
+                        }
+                    });*/
 
                     //endregion
                 } else {

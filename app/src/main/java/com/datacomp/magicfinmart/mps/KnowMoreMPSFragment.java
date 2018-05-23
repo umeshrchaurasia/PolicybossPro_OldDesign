@@ -57,8 +57,8 @@ public class KnowMoreMPSFragment extends BaseFragment implements View.OnClickLis
         Date nextYear = cal.getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
         String free = "Free till " + simpleDateFormat.format(nextYear);
-       // txtVisualMPro.setText("Subscription will be extended till " + simpleDateFormat.format(nextYear));
-        txtVisualMPro.setText(free);
+        txtVisualMPro.setText("Subscription will be extended till " + simpleDateFormat.format(nextYear));
+        // txtVisualMPro.setText(free);
         txtTabMagic.setText(free);
         txtMMagicGyan.setText(free);
         txtMHealthMagic.setText(free);
@@ -81,10 +81,12 @@ public class KnowMoreMPSFragment extends BaseFragment implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.txtGetMPS:
-                startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+
+                ((HomeActivity) getActivity()).redirectMPS();
+               /* startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", new PrefManager(getActivity()).getMps().getPaymentURL())
                         .putExtra("NAME", "MPS")
-                        .putExtra("TITLE", "MPS"));
+                        .putExtra("TITLE", "MPS"));*/
                 break;
             case R.id.txtLater:
                 ((HomeActivity) getActivity()).selectHome();

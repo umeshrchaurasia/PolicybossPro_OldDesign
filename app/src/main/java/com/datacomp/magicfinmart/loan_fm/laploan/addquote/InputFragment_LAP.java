@@ -77,8 +77,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
     Toolbar toolbar;
     HomeLoanRequest homeLoanRequest;
     FmHomeLoanRequest fmHomeLoanRequest;
-   // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    //display format
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    //server conversion date format
+    SimpleDateFormat formatServer = new SimpleDateFormat("yyyy-MM-dd");
+
+
+
+
     boolean isPropertyInfoVisible = false;
     boolean isApplicantVisible = true;
     boolean isCoApplicantVisible = true;
@@ -221,7 +228,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
 
             int tenureInYear = Integer.parseInt(homeLoanRequest.getLoanTenure());
-            sbTenure.setProgress(tenureInYear-1);
+            sbTenure.setProgress(tenureInYear-5);
             if (homeLoanRequest.getCity() != null) {
 
                 acCity.setText(homeLoanRequest.getCity());
@@ -249,9 +256,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             }
 
 
+            if (homeLoanRequest.getApplicantDOB() != null) {
+                et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(formatServer, homeLoanRequest.getApplicantDOB())));
+                et_DOB.setText(getDDMMYYYPattern(homeLoanRequest.getApplicantDOB(), "yyyy-MM-dd"));
 
-            if (homeLoanRequest.getApplicantDOB() != null)
-                et_DOB.setText(simpleDateFormat.format(simpleDateFormat.parse(homeLoanRequest.getApplicantDOB())));
+
+            }
 
 //            if (homeLoanRequest.getApplicantSource() != null) {
 //                sbSalary.setSelection(Integer.parseInt(homeLoanRequest.getApplicantSource()) - 1);
@@ -290,13 +300,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
                         setCo_App_FeMale_gender();
                     }
 
-                    if (homeLoanRequest.getCoApplicantIncome() != null)
-                        coApp_et_DOB.setText(simpleDateFormat.format(simpleDateFormat.parse(homeLoanRequest.getCoApplicantDOB())));
+//                    if (homeLoanRequest.getCoApplicantIncome() != null)
+//                        coApp_et_DOB.setText(simpleDateFormat.format(simpleDateFormat.parse(homeLoanRequest.getCoApplicantDOB())));
 
+                    if (homeLoanRequest.getCoApplicantDOB() != null) {
 
-                    if (homeLoanRequest.getCoApplicantDOB() != null)
-                        coApp_et_DOB.setText(simpleDateFormat.format(simpleDateFormat.parse(homeLoanRequest.getCoApplicantDOB())));
-
+                        coApp_et_DOB.setTag(R.id.coApp_et_DOB, dateToCalendar(stringToDate(formatServer, homeLoanRequest.getCoApplicantDOB())));
+                        coApp_et_DOB.setText(getDDMMYYYPattern(homeLoanRequest.getCoApplicantDOB(), "yyyy-MM-dd"));
+                    }
                     if (homeLoanRequest.getCoApplicantIncome() != null)
 
                         coApp_etMonthlyInc.setText(homeLoanRequest.getCoApplicantIncome());
@@ -331,7 +342,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             }
 
 
-        } catch (ParseException e) {
+        } catch (Exception  e) {
             e.printStackTrace();
         }
 
@@ -459,52 +470,77 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         coApp_etEMI = (EditText) view.findViewById(R.id.coApp_etEMI);
 
 
+        //TODO:set tag to DOB
+
+        et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(simpleDateFormat, "01-01-1980")));
         et_DOB.setText("01-01-1980");
+
+        coApp_et_DOB.setTag(R.id.coApp_et_DOB, dateToCalendar(stringToDate(simpleDateFormat, "01-01-1980")));
         coApp_et_DOB.setText("01-01-1980");
         //endregion
 
     }
-
 
     //region datePickerDialog Applicant
     protected View.OnClickListener datePickerDialogApplicant = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            if (view.getId() == R.id.et_DOB) {
+                DateTimePicker.showDataPickerDialogBeforeTwentyOneTest(view.getContext(), (Calendar) view.getTag(R.id.et_DOB),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(year, monthOfYear, dayOfMonth);
-                    String currentDay = simpleDateFormat.format(calendar.getTime());
-                    et_DOB.setText(currentDay);
-                    //etDate.setTag(R.id.et_date, calendar.getTime());
-                }
-            });
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                et_DOB.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                et_DOB.setTag(R.id.et_DOB, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
         }
     };
     //endregion
 
-    //region datePickerDialog CoApplicant
+
+
+    //region datePickerDialog Applicant
     protected View.OnClickListener datePickerDialogCoApplicant = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            if (view.getId() == R.id.coApp_et_DOB) {
+                DateTimePicker.showDataPickerDialogBeforeTwentyOneTest(view.getContext(), (Calendar) view.getTag(R.id.coApp_et_DOB),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(year, monthOfYear, dayOfMonth);
-                    String currentDay = simpleDateFormat.format(calendar.getTime());
-                    coApp_et_DOB.setText(currentDay);
-                    //etDate.setTag(R.id.et_date, calendar.getTime());
-                }
-            });
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                coApp_et_DOB.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                coApp_et_DOB.setTag(R.id.coApp_et_DOB, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
         }
     };
     //endregion
+
 
     private void setListener() {
 
@@ -856,7 +892,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
             //region Applicant Validation
             String NameOfApplicant = etNameOfApplicant.getText().toString();
-            String DOB = et_DOB.getText().toString();
+            String DOB = getYYYYMMDDPattern(et_DOB.getText().toString());
             String MonthlyInc = etMonthlyInc.getText().toString();
             String TurnOver = etTurnOver.getText().toString();
             String ProfitAtTax = etProfitAtTax.getText().toString();
@@ -943,7 +979,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
             if (chkCoApplicant.isChecked()) {
                 String coAppNameOfApplicant = coApp_etNameOfApplicant.getText().toString();
-                String coAppDOB = coApp_et_DOB.getText().toString();
+                String coAppDOB = getYYYYMMDDPattern(coApp_et_DOB.getText().toString());
                 String coAppMonthlyInc = coApp_etMonthlyInc.getText().toString();
                 String coAppTurnOver = coApp_etTurnOver.getText().toString();
                 String coAppProfitAtTax = coApp_etProfitAtTax.getText().toString();
@@ -1114,7 +1150,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         } else {
             homeLoanRequest.setApplicantObligations(etEMI.getText().toString());
         }
-        homeLoanRequest.setApplicantDOB(et_DOB.getText().toString());
+        homeLoanRequest.setApplicantDOB(getYYYYMMDDPattern(et_DOB.getText().toString()));
+
         if (chkCoApplicant.isChecked()) {
             homeLoanRequest.setCoApplicantYes("Y");
 
@@ -1152,7 +1189,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
                 homeLoanRequest.setCoApplicantObligations(coApp_etEMI.getText().toString());
             }
 
-            homeLoanRequest.setCoApplicantDOB(coApp_et_DOB.getText().toString());
+            homeLoanRequest.setCoApplicantDOB(getYYYYMMDDPattern(coApp_et_DOB.getText().toString()));
 
 
         } else {
