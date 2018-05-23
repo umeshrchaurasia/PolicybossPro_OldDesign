@@ -1015,6 +1015,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".term.icici.IciciTermActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:label="@string/title_activity_icici_term"
             android:parentActivityName=".term.termselection.TermSelectionActivity"
             android:screenOrientation="portrait"
@@ -1053,7 +1054,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
-        <activity android:name=".term.hdfc.HdfcTermActivity"></activity>
+        <activity
+            android:label="CLICK TO PROTECT 3D"
+            android:name=".term.hdfc.HdfcTermActivity"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
+            android:parentActivityName=".term.termselection.TermSelectionActivity"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".term.termselection.TermSelectionActivity" />
+
+        </activity>
     </application>
 
 </manifest>

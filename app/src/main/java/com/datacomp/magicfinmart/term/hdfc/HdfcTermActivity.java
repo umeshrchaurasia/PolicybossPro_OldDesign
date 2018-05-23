@@ -57,8 +57,9 @@ public class HdfcTermActivity extends BaseActivity {
 
         if (getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT) != null) {
             termFinmartRequest = getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT);
-            quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
-            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            quoteBundle.putParcelable(INPUT_DATA, null);
+            quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
         } else {
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
         }
@@ -77,6 +78,7 @@ public class HdfcTermActivity extends BaseActivity {
                     highlighInput();
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (termFinmartRequest != null) {
+                        quoteBundle.putParcelable(QUOTE_DATA, null);
                         quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
                     }
 
@@ -86,15 +88,21 @@ public class HdfcTermActivity extends BaseActivity {
                     return true;
                 case R.id.navigation_quote:
 
-                    tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
-
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (termFinmartRequest != null) {
+                        quoteBundle.putParcelable(INPUT_DATA, null);
                         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
+                        HdfcInputFragment quoteFragment = new HdfcInputFragment();
+                        quoteFragment.setArguments(quoteBundle);
+                        loadFragment(quoteFragment, INPUT_FRAGMENT);
+                        highlighQuote();
+                    } else {
+                        Toast.makeText(HdfcTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                     }
 
-                    if (tabFragment != null) {
+                    /*if (tabFragment != null) {
                         tabFragment.setArguments(quoteBundle);
-                        loadFragment(tabFragment, QUOTE_FRAGMENT);
+                        loadFragment(tabFragment, INPUT_FRAGMENT);
                         highlighQuote();
                     } else {
                         if (quoteBundle != null) {
@@ -110,7 +118,7 @@ public class HdfcTermActivity extends BaseActivity {
 
                             Toast.makeText(HdfcTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
-                    }
+                    }*/
 
                     return true;
                 case R.id.navigation_buy:
@@ -144,9 +152,10 @@ public class HdfcTermActivity extends BaseActivity {
 
     public void redirectToQuote(TermFinmartRequest termFinmartRequest) {
         this.termFinmartRequest = termFinmartRequest;
-        quoteBundle = new Bundle();
+        /*quoteBundle = new Bundle();
         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_quote);*/
+        highlighQuote();
     }
 
     public void redirectToInput(TermFinmartRequest termFinmartRequest) {
@@ -156,8 +165,8 @@ public class HdfcTermActivity extends BaseActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
     }
 
-    public void updateRequestID(int termrequestyID) {
-        this.termFinmartRequest.setTermRequestId(termrequestyID);
+    public void updateRequest(TermFinmartRequest termFinmartRequest) {
+        this.termFinmartRequest = termFinmartRequest;
     }
 
     @Override
@@ -182,7 +191,6 @@ public class HdfcTermActivity extends BaseActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     public void highlighInput() {
         ivHdrInput.setVisibility(View.VISIBLE);

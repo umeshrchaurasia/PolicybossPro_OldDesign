@@ -491,10 +491,10 @@ public class DBPersistanceController {
     public List<TermSelectionEntity> getTermCompanyList() {
 
         List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
-        term.add(new TermSelectionEntity("COMPARE TERM INSURANE", 1001, ""));
-       // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANE", 43, ""));
-        term.add(new TermSelectionEntity("HDFC LIFE INSURANE", 28, ""));
-        term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANE", 39, ""));
+        term.add(new TermSelectionEntity("COMPARE TERM INSURANCE", 1001, ""));
+       // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANCE", 43, ""));
+        term.add(new TermSelectionEntity("HDFC LIFE INSURANCE", 28, ""));
+        term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANCE", 39, ""));
         //term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
 
         return term;

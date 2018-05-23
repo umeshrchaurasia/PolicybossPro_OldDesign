@@ -74,7 +74,7 @@ p {padding:0px;margin:2px;}
                 </tr>
                 <tr>
                     <td>Present NCB : <b><span id="ncbPercent">0</span>%</b></td>
-                    <td>Claim in Present Year : <span><b id="claim">yes</b></span></td>
+                    <td>Claim In Present Year : <span><b id="claim">yes</b></span></td>
                 </tr>
             </table>
         </div>
@@ -213,12 +213,12 @@ p {padding:0px;margin:2px;}
                 HTML = HTML + '<td>PREMIIUM</td>';
                 HTML = HTML + '</tr>';
                 HTML = HTML + '<tr>';
-                HTML = HTML + ' <td>₹ ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
+                HTML = HTML + ' <td> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                 HTML = HTML + ' <td><span class="amount">₹ ' + Math.round(response.Response [i].Premium_Breakup.final_premium) + '</span></td>';
                 HTML = HTML + '</tr>';
                 HTML = HTML + '</tbody>';
                 HTML = HTML + '</table>';
-                HTML = HTML + '<table class="table bg-gray text-center" >';
+                HTML = HTML + '<table class="table bg-gray text-center" style="display:none">';
                 HTML = HTML + '<tbody class="center-txt">';
 
                 HTML = HTML + '<td>';
@@ -245,7 +245,7 @@ p {padding:0px;margin:2px;}
                     HTML = HTML + '<td>PREMIIUM</td>';
                     HTML = HTML + '</tr>';
                     HTML = HTML + '<tr>';
-                    HTML = HTML + ' <td>₹ ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
+                    HTML = HTML + ' <td> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                     HTML = HTML + ' <td><a href="#" class="amount">₹ ' +  Math.round( response.Response[i].final_premium_with_addon) + '</a></td>';
                     HTML = HTML + '</tr>';
                     HTML = HTML + '</tbody>';
@@ -259,120 +259,120 @@ p {padding:0px;margin:2px;}
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_zero_dep_cover') && response.Response[i].Addon_List.addon_zero_dep_cover != 0) {
                             alert(response.Response[i].Addon_List.addon_zero_dep_cover);
 
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_zero_dep_cover +
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_zero_dep_cover +
                                 ' (' + response.Response [i].Addon_List.addon_zero_dep_cover + ')' + '</li>';
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_ambulance_charge_cover') && response.Response [i].Addon_List.addon_ambulance_charge_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_ambulance_charge_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>' + addon_list.addon_ambulance_charge_cover
                                 + ' (' + response.Response [i].Addon_List.addon_ambulance_charge_cover + ')' + '</li>';
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_consumable_cover') && response.Response[i].Addon_List.addon_consumable_cover !=  0) {
 
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_consumable_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_consumable_cover
                                   + ' (' + response.Response [i].Addon_List.addon_consumable_cover + ')' + '</li>';
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_daily_allowance_cover') && response.Response [i].Addon_List.addon_daily_allowance_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_daily_allowance_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_daily_allowance_cover
                                + ' (' + response.Response [i].Addon_List.addon_daily_allowance_cover + ')' + '</li>';
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_engine_protector_cover') && response.Response [i].Addon_List.addon_engine_protector_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_engine_protector_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>' + addon_list.addon_engine_protector_cover
                               + ' (' + response.Response [i].Addon_List.addon_engine_protector_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_hospital_cash_cover') && response.Response [i].Addon_List.addon_hospital_cash_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_hospital_cash_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>' + addon_list.addon_hospital_cash_cover
                                  + ' (' + response.Response [i].Addon_List.addon_hospital_cash_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_inconvenience_allowance_cover') && response.Response [i].Addon_List.addon_inconvenience_allowance_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_inconvenience_allowance_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>' + addon_list.addon_inconvenience_allowance_cover
                                  + ' (' + response.Response [i].Addon_List.addon_inconvenience_allowance_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_hydrostatic_lock_cover') && response.Response [i].Addon_List.addon_hydrostatic_lock_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_hydrostatic_lock_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_hydrostatic_lock_cover
                                  + ' (' + response.Response [i].Addon_List.addon_hydrostatic_lock_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_inconvenience_allowance_cover') && response.Response [i].Addon_List.addon_inconvenience_allowance_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_inconvenience_allowance_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_inconvenience_allowance_cover
                                  + ' (' + response.Response [i].Addon_List.addon_inconvenience_allowance_cover + ')' + '</li>';
 
                         }
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_invoice_price_cover') && response.Response [i].Addon_List.addon_invoice_price_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_invoice_price_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>' + addon_list.addon_invoice_price_cover
                                  + ' (' + response.Response [i].Addon_List.addon_invoice_price_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_losstime_protection_cover') && response.Response [i].Addon_List.addon_losstime_protection_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_losstime_protection_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_losstime_protection_cover
                                  + ' (' + response.Response [i].Addon_List.addon_losstime_protection_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_key_lock_cover') && response.Response[i].Addon_List.addon_key_lock_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_key_lock_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_key_lock_cover
                                  + ' (' + response.Response [i].Addon_List.addon_key_lock_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_medical_expense_cover') && response.Response [i].Addon_List.addon_medical_expense_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_medical_expense_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>' + addon_list.addon_medical_expense_cover
                                  + ' (' + response.Response [i].Addon_List.addon_medical_expense_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_ncb_protection_cover') && response.Response [i].Addon_List.addon_ncb_protection_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_ncb_protection_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>' + addon_list.addon_ncb_protection_cover
                                  + ' (' + response.Response [i].Addon_List.addon_ncb_protection_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_passenger_assistance_cover') && response.Response [i].Addon_List.addon_passenger_assistance_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_passenger_assistance_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>' + addon_list.addon_passenger_assistance_cover
                                  + ' (' + response.Response [i].Addon_List.addon_passenger_assistance_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_personal_belonging_loss_cover') && response.Response [i].Addon_List.addon_personal_belonging_loss_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_personal_belonging_loss_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_personal_belonging_loss_cover
                                  + ' (' + response.Response [i].Addon_List.addon_personal_belonging_loss_cover + ')' + '</li>';
 
                         }
 
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_road_assist_cover') && response.Response[i].Addon_List.addon_road_assist_cover  != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_road_assist_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_road_assist_cover
                                  + ' (' + response.Response [i].Addon_List.addon_road_assist_cover + ')' + '</li>';
 
                         }
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_rodent_bite_cover') && response.Response[i].Addon_List.addon_rodent_bite_cover  != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>  ' + addon_list.addon_rodent_bite_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>  ' + addon_list.addon_rodent_bite_cover
                                  + ' (' + response.Response [i].Addon_List.addon_rodent_bite_cover + ')' + '</li>';
 
                         }
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_tyre_coverage_cover') && response.Response [i].Addon_List.addon_tyre_coverage_cover != 0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> ' + addon_list.addon_tyre_coverage_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_tyre_coverage_cover
                                  + ' (' + response.Response [i].Addon_List.addon_tyre_coverage_cover + ')' + '</li>';
 
                         }
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_windshield_cover') && response.Response[i].Addon_List.addon_windshield_cover !=  0) {
-                            HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span>' + addon_list.addon_windshield_cover
+                            HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span>' + addon_list.addon_windshield_cover
                                  + ' (' + response.Response [i].Addon_List.addon_windshield_cover + ')' + '</li>';
 
                         }
 
 
-                        //HTML = HTML + ' <li><span class="glyphicon glyphicon- ok"></span> simply dummy text</li>';
+                        //HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> simply dummy text</li>';
                     }
                     HTML = HTML + '   </ul>';
                     HTML = HTML + '</td>';

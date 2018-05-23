@@ -66,6 +66,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveRespo
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.RBCustomerResponse;
 
+import static com.datacomp.magicfinmart.BaseFragment.stringToDate;
+
 public class BalanceTransferLoanApplyActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IResponseSubcriberERP {
 
 
@@ -80,6 +82,9 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
     // region Control Declaration
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    //server conversion date format
+    SimpleDateFormat formatServer = new SimpleDateFormat("yyyy-MM-dd");
+
 
     Spinner spTitle, spNatureOfOrg, spNatureOfBus, spResidence;
     RelativeLayout rlPLInfo, rlAddress, rlEmployment, rlFinancial;
@@ -546,7 +551,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
         if (flag) {
             textInpLayTurnOver.setHint("*Turn Over");
             textInpLayDepreciation.setHint("*Depreciation");
-            textInpLayDirRem.setHint("*Directors Remuneration");
+            textInpLayDirRem.setHint("*Director's Remuneration");
             textInpLayProfAftTax.setHint("*Profit After Tax");
 
             textInpLayCurrJob.setHint("Current Job(YRS)");
@@ -569,7 +574,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
             textInpLayTurnOver.setHint("Turn Over");
             textInpLayDepreciation.setHint("Depreciation");
-            textInpLayDirRem.setHint("Directors Remuneration");
+            textInpLayDirRem.setHint("Director's Remuneration");
             textInpLayProfAftTax.setHint("Profit After Tax");
 
 //            etTurnOver.setText("");
@@ -1480,9 +1485,11 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                 etLastName.setText(name[i]);
             }
         }
+        if (rbCustomerEntity.getApplicantDOB() != null) {
+            etDob.setTag(R.id.etDob, dateToCalendar(stringToDate(formatServer, rbCustomerEntity.getApplicantDOB())));
 
-        etDob.setText(getDDMMYYYPattern(rbCustomerEntity.getApplicantDOB(), "yyyy-MM-dd"));
-
+            etDob.setText(getDDMMYYYPattern(rbCustomerEntity.getApplicantDOB(), "yyyy-MM-dd"));
+        }
         if (rbCustomerEntity.getApplicantGender().equals("M")) {
             setMale_gender();
         } else if (rbCustomerEntity.getApplicantGender().equals("F")) {
@@ -1549,24 +1556,37 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
     //endregion
 
+
+
     //region datePickerDialog Applicant
     protected View.OnClickListener datePickerDialogApplicant = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, BalanceTransferLoanApplyActivity.this);
-            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            if (view.getId() == R.id.etDob) {
+                DateTimePicker.showDataPickerDialogBeforeTwentyOneTest(view.getContext(), (Calendar) view.getTag(R.id.etDob),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(year, monthOfYear, dayOfMonth);
-                    String currentDay = simpleDateFormat.format(calendar.getTime());
-                    etDob.setText(currentDay);
-                    //etDate.setTag(R.id.et_date, calendar.getTime());
-                }
-            });
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etDob.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                etDob.setTag(R.id.et_DOB, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
         }
     };
+    //endregion
+
     //endregion
 
     // region Validate
@@ -1939,12 +1959,12 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
                     etDirRem.requestFocus();
                     etDirRem.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                    etDirRem.setError("Enter Directors Remuneration");
+                    etDirRem.setError("Enter Director's Remuneration");
                     return false;
 
                 } else {
                     etDirRem.requestFocus();
-                    etDirRem.setError("Enter Directors Remuneration");
+                    etDirRem.setError("Enter Director's Remuneration");
                     return false;
 
                 }

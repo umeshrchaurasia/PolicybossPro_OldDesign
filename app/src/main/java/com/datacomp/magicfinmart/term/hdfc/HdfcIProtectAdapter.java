@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
@@ -16,27 +15,23 @@ import java.util.List;
  * Created by IN-RB on 21-05-2018.
  */
 
-public class HdfcIProtectAdapter  extends RecyclerView.Adapter<HdfcIProtectAdapter.MyViewHolder>{
+public class HdfcIProtectAdapter extends RecyclerView.Adapter<HdfcIProtectAdapter.MyViewHolder> {
 
     Activity mContext;
-    List<String> IprotectLst;
+    String[] IprotectLst;
 
-    public HdfcIProtectAdapter(Activity mContext, List<String> iprotectLst) {
+    public HdfcIProtectAdapter(Activity mContext, String[] iprotectLst) {
         this.mContext = mContext;
         IprotectLst = iprotectLst;
     }
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder
-    {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView txtMessage;
 
         public MyViewHolder(View itemView) {
             super(itemView);
-
-            txtMessage = (TextView)itemView.findViewById(R.id.txtMessage);
-
-
+            txtMessage = (TextView) itemView.findViewById(R.id.txtMessage);
         }
     }
 
@@ -53,16 +48,15 @@ public class HdfcIProtectAdapter  extends RecyclerView.Adapter<HdfcIProtectAdapt
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
 
-       String strMsg =  IprotectLst.get(position);
+        String strMsg = IprotectLst[position];
 
-        holder.txtMessage.setText( "" +strMsg);
+        holder.txtMessage.setText("" + strMsg);
 
     }
 
 
-
     @Override
     public int getItemCount() {
-        return IprotectLst.size();
+        return IprotectLst.length;
     }
 }
