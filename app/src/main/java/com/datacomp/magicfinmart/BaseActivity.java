@@ -38,6 +38,7 @@ import java.io.FileOutputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -62,6 +63,13 @@ public class BaseActivity extends AppCompatActivity {
     int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
     PopUpListener popUpListener;
 
+    public static Calendar dateToCalendar(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+
+    }
     public static String getYYYYMMDDPattern(String dateCal) {
 
         String dateSelected = "";

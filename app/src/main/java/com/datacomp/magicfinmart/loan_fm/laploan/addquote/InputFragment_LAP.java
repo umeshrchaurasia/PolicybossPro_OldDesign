@@ -77,8 +77,15 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
     Toolbar toolbar;
     HomeLoanRequest homeLoanRequest;
     FmHomeLoanRequest fmHomeLoanRequest;
-   // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    //display format
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    //server conversion date format
+    SimpleDateFormat formatServer = new SimpleDateFormat("yyyy-MM-dd");
+
+
+
+
     boolean isPropertyInfoVisible = false;
     boolean isApplicantVisible = true;
     boolean isCoApplicantVisible = true;
@@ -248,9 +255,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
                 setApp_FeMale_gender();
             }
 
-            if (homeLoanRequest.getApplicantDOB() != null)
+
+            if (homeLoanRequest.getApplicantDOB() != null) {
+                et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(formatServer, homeLoanRequest.getApplicantDOB())));
                 et_DOB.setText(getDDMMYYYPattern(homeLoanRequest.getApplicantDOB(), "yyyy-MM-dd"));
 
+
+            }
 
 //            if (homeLoanRequest.getApplicantSource() != null) {
 //                sbSalary.setSelection(Integer.parseInt(homeLoanRequest.getApplicantSource()) - 1);
@@ -293,6 +304,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 //                        coApp_et_DOB.setText(simpleDateFormat.format(simpleDateFormat.parse(homeLoanRequest.getCoApplicantDOB())));
 
                     if (homeLoanRequest.getCoApplicantDOB() != null) {
+
+                        coApp_et_DOB.setTag(R.id.coApp_et_DOB, dateToCalendar(stringToDate(formatServer, homeLoanRequest.getCoApplicantDOB())));
                         coApp_et_DOB.setText(getDDMMYYYPattern(homeLoanRequest.getCoApplicantDOB(), "yyyy-MM-dd"));
                     }
                     if (homeLoanRequest.getCoApplicantIncome() != null)
@@ -457,52 +470,77 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         coApp_etEMI = (EditText) view.findViewById(R.id.coApp_etEMI);
 
 
+        //TODO:set tag to DOB
+
+        et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(simpleDateFormat, "01-01-1980")));
         et_DOB.setText("01-01-1980");
+
+        coApp_et_DOB.setTag(R.id.coApp_et_DOB, dateToCalendar(stringToDate(simpleDateFormat, "01-01-1980")));
         coApp_et_DOB.setText("01-01-1980");
         //endregion
 
     }
-
 
     //region datePickerDialog Applicant
     protected View.OnClickListener datePickerDialogApplicant = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            if (view.getId() == R.id.et_DOB) {
+                DateTimePicker.showDataPickerDialogBeforeTwentyOneTest(view.getContext(), (Calendar) view.getTag(R.id.et_DOB),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(year, monthOfYear, dayOfMonth);
-                    String currentDay = simpleDateFormat.format(calendar.getTime());
-                    et_DOB.setText(currentDay);
-                    //etDate.setTag(R.id.et_date, calendar.getTime());
-                }
-            });
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                et_DOB.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                et_DOB.setTag(R.id.et_DOB, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
         }
     };
     //endregion
 
-    //region datePickerDialog CoApplicant
+
+
+    //region datePickerDialog Applicant
     protected View.OnClickListener datePickerDialogCoApplicant = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, getActivity());
-            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            if (view.getId() == R.id.coApp_et_DOB) {
+                DateTimePicker.showDataPickerDialogBeforeTwentyOneTest(view.getContext(), (Calendar) view.getTag(R.id.coApp_et_DOB),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(year, monthOfYear, dayOfMonth);
-                    String currentDay = simpleDateFormat.format(calendar.getTime());
-                    coApp_et_DOB.setText(currentDay);
-                    //etDate.setTag(R.id.et_date, calendar.getTime());
-                }
-            });
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                coApp_et_DOB.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                coApp_et_DOB.setTag(R.id.coApp_et_DOB, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
         }
     };
     //endregion
+
 
     private void setListener() {
 
