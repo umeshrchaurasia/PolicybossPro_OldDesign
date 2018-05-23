@@ -851,7 +851,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             case R.id.ivBuy:
                 Constants.hideKeyBoard(ivBuy, getActivity());
                 new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(),
-                        "39",
+                        "28",
                         "" + dbPersistanceController.getUserData().getFBAId(),
                         "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getNetPremium(), this);
                 startActivity(new Intent(getActivity(), KnowledgeGuruWebviewActivity.class)
