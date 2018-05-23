@@ -178,7 +178,7 @@
                                 android:id="@+id/etFatherName"
                                 android:maxLines="1"
                                 android:maxLength="20"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
 
                                 android:inputType="textCapWords"
                                 style="@style/Style.edittext" />
@@ -286,7 +286,7 @@
                                 android:id="@+id/etSpouceName"
                                 android:maxLines="1"
                                 android:maxLength="20"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
 
                                 android:inputType="textCapWords"
                                 style="@style/Style.edittext" />
@@ -764,7 +764,7 @@
                                 android:id="@+id/etMoMaidenName"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLength="25"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>

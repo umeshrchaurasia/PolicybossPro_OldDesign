@@ -119,9 +119,9 @@
                             <EditText
                                 android:id="@+id/etFirstName"
                                 style="@style/Style.edittext"
-                                android:inputType="text"
+                                android:inputType="textCapCharacters"
                                 android:maxLength="20"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLines="1" />
 
                         </android.support.design.widget.TextInputLayout>
@@ -136,8 +136,8 @@
                             <EditText
                                 android:id="@+id/etLastName"
                                 style="@style/Style.edittext"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                android:inputType="text"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
+                                android:inputType="textCapCharacters"
                                 android:maxLength="20"
                                 android:maxLines="1" />
 
@@ -175,9 +175,9 @@
                             <EditText
                                 android:id="@+id/etFatherName"
                                 style="@style/Style.edittext"
-                                android:inputType="text"
+                                android:inputType="textCapCharacters"
                                 android:maxLength="20"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -279,7 +279,8 @@
 
                             <EditText
                                 android:id="@+id/etSpouceName"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:inputType="textCapCharacters"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLength="20"
                                 style="@style/Style.edittext"
                                 />
