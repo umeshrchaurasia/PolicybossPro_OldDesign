@@ -60,6 +60,7 @@ public class CompareTermActivity extends BaseActivity {
 
         if (getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT) != null) {
             termFinmartRequest = getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT);
+            quoteBundle.putParcelable(INPUT_DATA, null);
             quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
         } else {
@@ -82,6 +83,7 @@ public class CompareTermActivity extends BaseActivity {
                     highlighInput();
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (termFinmartRequest != null) {
+                        quoteBundle.putParcelable(QUOTE_DATA, null);
                         quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
                     }
 
@@ -95,6 +97,7 @@ public class CompareTermActivity extends BaseActivity {
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
 
                     if (termFinmartRequest != null) {
+                        quoteBundle.putParcelable(INPUT_DATA, null);
                         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
                         TermInputFragment quoteFragment = new TermInputFragment();
                         quoteFragment.setArguments(quoteBundle);

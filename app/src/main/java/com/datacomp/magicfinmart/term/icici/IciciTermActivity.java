@@ -60,6 +60,7 @@ public class IciciTermActivity extends BaseActivity {
 
         if (getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT) != null) {
             termFinmartRequest = getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT);
+            quoteBundle.putParcelable(INPUT_DATA, null);
             quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
         } else {
@@ -78,6 +79,7 @@ public class IciciTermActivity extends BaseActivity {
                 case R.id.navigation_input:
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (termFinmartRequest != null) {
+                        quoteBundle.putParcelable(QUOTE_DATA, null);
                         quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
                     }
 
@@ -90,6 +92,7 @@ public class IciciTermActivity extends BaseActivity {
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (termFinmartRequest != null) {
+                        quoteBundle.putParcelable(INPUT_DATA, null);
                         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
                         IciciTermInputFragment quoteFragment = new IciciTermInputFragment();
                         quoteFragment.setArguments(quoteBundle);
