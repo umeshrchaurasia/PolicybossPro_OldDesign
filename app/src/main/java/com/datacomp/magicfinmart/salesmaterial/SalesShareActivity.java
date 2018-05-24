@@ -19,6 +19,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.TouchImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -36,7 +37,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEnt
 public class SalesShareActivity extends BaseActivity implements BaseActivity.PopUpListener {
 
     DocsEntity docsEntity;
-    ImageView ivProduct;
+    TouchImageView ivProduct;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginResponseEntity;
     Bitmap salesPhoto;
@@ -96,12 +97,14 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
     }
 
     private void initialize() {
-        ivProduct = (ImageView) findViewById(R.id.ivProduct);
+        ivProduct = (TouchImageView) findViewById(R.id.ivProduct);
 
         if (getIntent().hasExtra(Constants.DOC_DATA)) {
             docsEntity = getIntent().getExtras().getParcelable(Constants.DOC_DATA);
             Glide.with(this)
                     .load(docsEntity.getImage_path())
+                    .asBitmap()
+                    .placeholder(getResources().getDrawable(R.drawable.ambulance))
                     .into(ivProduct);
 
         }
