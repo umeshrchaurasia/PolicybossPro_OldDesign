@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -82,7 +83,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
         showDialog("Fetching.., Please wait.!");
 
 
-        new MainLoanController(this).getHLQuoteApplicationData(0,0,String.valueOf(loginEntity.getFBAId()),
+        new MainLoanController(this).getHLQuoteApplicationData(0, 0, String.valueOf(loginEntity.getFBAId()),
                 "HML", HomeLoanDetailActivity.this);
 
 
@@ -96,9 +97,16 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
             if (((FmHomelLoanResponse) response).getMasterData() != null) {
 
                 HomeLoanRequestMainEntity hlQuoteApplicationEntity = ((FmHomelLoanResponse) response).getMasterData();
+                if (hlQuoteApplicationEntity.getQuote().size() != 0
+                        || hlQuoteApplicationEntity.getApplication().size() != 0) {
 
-                mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager(), hlQuoteApplicationEntity);
-                viewPager.setAdapter(mAdapter);
+                    mAdapter = new ActivityTabsPagerAdapter_HL(getSupportFragmentManager(), hlQuoteApplicationEntity);
+                    viewPager.setAdapter(mAdapter);
+
+                } else {
+                    finish();
+                    startActivity(new Intent(this, HLMainActivity.class));
+                }
             }
 
         }

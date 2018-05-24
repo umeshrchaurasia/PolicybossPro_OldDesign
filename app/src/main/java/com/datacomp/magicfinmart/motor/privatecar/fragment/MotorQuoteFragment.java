@@ -200,8 +200,6 @@ public class MotorQuoteFragment extends BaseFragment implements View.OnClickList
             List<QuoteListEntity> list = ((QuoteApplicationResponse) response).getMasterData().getQuote();
             if (list.size() > 0) {
                 isHit = false;
-                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
-
                 for (QuoteListEntity entity : list) {
                     if (!mQuoteList.contains(entity)) {
                         mQuoteList.add(entity);

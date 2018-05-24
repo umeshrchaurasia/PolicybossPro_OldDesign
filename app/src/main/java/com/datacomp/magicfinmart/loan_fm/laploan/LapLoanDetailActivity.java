@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -29,7 +30,8 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
     Toolbar toolbar;
     ViewPager viewPager;
     ActivityTabsPagerAdapter_LAP mAdapter;
-    LoginResponseEntity loginEntity ;
+    LoginResponseEntity loginEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +45,7 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        loginEntity =  new DBPersistanceController(this).getUserData();
+        loginEntity = new DBPersistanceController(this).getUserData();
 
 //        mAdapter = new ActivityTabsPagerAdapter_LAP(getSupportFragmentManager());
 //        viewPager.setAdapter(mAdapter);
@@ -78,21 +80,28 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
     private void fetchQuoteApplication() {
 
         showDialog("Fetching.., Please wait.!");
-        new MainLoanController(this).getHLQuoteApplicationData(0,0,String.valueOf(loginEntity.getFBAId()),
+        new MainLoanController(this).getHLQuoteApplicationData(0, 0, String.valueOf(loginEntity.getFBAId()),
                 "LAP", LapLoanDetailActivity.this);
 
 
     }
+
     @Override
     public void OnSuccessFM(APIResponseFM response, String message) {
         cancelDialog();
         if (response instanceof FmHomelLoanResponse) {
             if (((FmHomelLoanResponse) response).getMasterData() != null) {
 
-                HomeLoanRequestMainEntity hlQuoteApplicationEntity =((FmHomelLoanResponse)response).getMasterData();
+                HomeLoanRequestMainEntity hlQuoteApplicationEntity = ((FmHomelLoanResponse) response).getMasterData();
 
-                mAdapter = new ActivityTabsPagerAdapter_LAP(getSupportFragmentManager(),hlQuoteApplicationEntity);
-                viewPager.setAdapter(mAdapter);
+                if (hlQuoteApplicationEntity.getQuote().size() != 0
+                        || hlQuoteApplicationEntity.getApplication().size() != 0) {
+                    mAdapter = new ActivityTabsPagerAdapter_LAP(getSupportFragmentManager(), hlQuoteApplicationEntity);
+                    viewPager.setAdapter(mAdapter);
+                } else {
+                    finish();
+                    startActivity(new Intent(this, LAPMainActivity.class));
+                }
             }
 
         }
@@ -102,7 +111,7 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
     public void OnFailure(Throwable t) {
 
         cancelDialog();
-        Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override

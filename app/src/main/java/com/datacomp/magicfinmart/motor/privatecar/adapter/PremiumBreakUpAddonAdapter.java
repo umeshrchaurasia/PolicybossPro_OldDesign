@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.MobileAddOn;
@@ -122,7 +123,8 @@ public class PremiumBreakUpAddonAdapter extends RecyclerView.Adapter<PremiumBrea
         }
     }
 
-    private long getRound(String strText) {
-        return Math.round(Double.parseDouble(strText));
+    private double getRound(String strText) {
+        double value =Double.parseDouble(strText);
+        return Double.parseDouble(new DecimalFormat("##.##").format(value));
     }
 }

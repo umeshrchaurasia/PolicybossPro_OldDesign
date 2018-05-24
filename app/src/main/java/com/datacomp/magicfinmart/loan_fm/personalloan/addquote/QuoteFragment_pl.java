@@ -166,6 +166,42 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
     }
 
+    private void bindQuotes_NoData() {
+
+
+            txtInputSummary.setVisibility(View.VISIBLE);
+            cvInputSummary.setVisibility(View.VISIBLE);
+          //  ivShare.setVisibility(View.VISIBLE);
+
+         //   mAdapter = new PLQuoteAdapter(this, getPersonalLoanResponse.getData(), getPersonalLoanResponse);
+          //  rvPLQuotes.setAdapter(mAdapter);
+
+//            if (getPersonalLoanResponse.getData().size() > 0) {
+//                txtCount.setText("" + getPersonalLoanResponse.getData().size() + " Results from www.rupeeboss.com");
+//                txtCount.setVisibility(View.VISIBLE);
+//            } else {
+//                txtCount.setText("");
+//                txtCount.setVisibility(View.GONE);
+//            }
+
+            if (personalLoanRequest != null) {
+                try {
+                    txtAppName.setText("" + personalLoanRequest.getApplicantNme().toUpperCase());
+                    txtCostOfProp.setText("" + personalLoanRequest.getLoanRequired());
+                    txtLoanTenure.setText("" + personalLoanRequest.getLoanTenure() + " Years");
+
+
+                    txtOccupation.setText("SALARIED");
+
+                    txtMonthlyIncome.setText("" + personalLoanRequest.getApplicantIncome());
+                    txtExistEmi.setText("" + personalLoanRequest.getApplicantObligations());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+    }
 
     private void setFmPeronalLoanRequest(int tempQuoteID) {
         QuoteID = tempQuoteID;
@@ -218,7 +254,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             }
         } else if (response instanceof BankForNodeResponse) {
             if (response.getStatusNo() == 0) {
-                ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
+              //  ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
 
                 redirectToApplyLoan();
             }
@@ -246,7 +282,10 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+        bindQuotes_NoData();
     }
 
     @Override

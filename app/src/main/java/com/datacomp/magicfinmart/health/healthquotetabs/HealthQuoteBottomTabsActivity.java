@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -36,6 +39,8 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
     HealthQuote healthQuote;
+    ImageView ivHdrInput, ivHdrQuote;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,18 +50,26 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("HEALTH INSURANCE");
+        ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
+        ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
-        if (getIntent().getParcelableExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT) != null) {
-            healthQuote = getIntent().getParcelableExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT);
+
+        if (getIntent().getParcelableExtra(HealthQuoteListFragment.FROM_QUOTE) != null) {
+            healthQuote = getIntent().getParcelableExtra(HealthQuoteListFragment.FROM_QUOTE);
             quoteBundle = new Bundle();
-            quoteBundle.putParcelable(INPUT_DATA, healthQuote);
+            quoteBundle.putParcelable(QUOTE_DATA, healthQuote);
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
         }
 
-        bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        else{
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        }
+
+
     }
 
     private void loadFragment(Fragment fragment, String TAG) {
@@ -65,6 +78,17 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
         transactionSim.addToBackStack(TAG);
         transactionSim.show(fragment);
         transactionSim.commit();
+    }
+
+    public void highlighInput() {
+        ivHdrInput.setVisibility(View.VISIBLE);
+        ivHdrQuote.setVisibility(View.GONE);
+    }
+
+    public void highlighQuote() {
+        ivHdrQuote.setVisibility(View.VISIBLE);
+        ivHdrInput.setVisibility(View.GONE);
+
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -89,7 +113,7 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
 //                        inputFragment.setArguments(quoteBundle);
 //                        loadFragment(inputFragment, INPUT_FRAGMENT);
 //                    }
-
+                    highlighInput();
                     HealthInputFragment inputFragment = new HealthInputFragment();
                     inputFragment.setArguments(quoteBundle);
                     loadFragment(inputFragment, INPUT_FRAGMENT);
@@ -105,6 +129,7 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                     }
 
                     if (tabFragment != null) {
+                        highlighQuote();
                         tabFragment.setArguments(quoteBundle);
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
 
@@ -114,19 +139,24 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
                                 HealthQuoteFragment quoteFragment = new HealthQuoteFragment();
                                 quoteFragment.setArguments(quoteBundle);
                                 loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                                highlighQuote();
                             } else {
 
-                                Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(HealthQuoteBottomTabsActivity.this, "Tap get quote", Toast.LENGTH_SHORT).show();
+
+                                return false;
                             }
                         } else {
 
-                            Toast.makeText(HealthQuoteBottomTabsActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(HealthQuoteBottomTabsActivity.this, "Tap get  quote", Toast.LENGTH_SHORT).show();
+
+                            return false;
                         }
                     }
 
                     return true;
                 case R.id.navigation_buy:
-                    return true;
+                    return false;
             }
 
             return false;
@@ -136,7 +166,16 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        HealthQuoteBottomTabsActivity.this.finish();
+
+      //  HealthQuoteBottomTabsActivity.this.finish();
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            HealthQuoteBottomTabsActivity.this.finish();
+        }
+
+
     }
 
     @Override

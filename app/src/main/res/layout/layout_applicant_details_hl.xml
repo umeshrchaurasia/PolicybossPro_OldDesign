@@ -29,9 +29,14 @@
 
             <EditText
                 android:id="@+id/etNameOfApplicant"
-                android:inputType="text"
+
+                android:maxLines="1"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                android:drawableRight="@drawable/vector_person"
+                android:inputType="textCapWords"
                 style="@style/Style.edittext" />
         </android.support.design.widget.TextInputLayout>
+
 
 
                <LinearLayout
@@ -63,7 +68,7 @@
                     android:background="@drawable/customeborder_blue"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Male"
+                    android:text="MALE"
                     android:textColor="@color/colorPrimary" />
 
                 <TextView
@@ -76,7 +81,7 @@
                     android:background="@drawable/customeborder"
                     android:gravity="center"
                     android:padding="5dp"
-                    android:text="Female"
+                    android:text="FEMALE"
                     android:textColor="@color/description_text" />
 
 

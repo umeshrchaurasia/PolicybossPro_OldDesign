@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.motor.privatecar.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,7 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 
 /**
@@ -151,6 +153,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
         public TextView txtQuoteDate, txtVehicleName, txtPersonName, txtCrnNo;
         LinearLayout llDetails;
         ImageView txtOverflowMenu;
+
         public QuoteItem(View itemView) {
             super(itemView);
             txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
@@ -164,6 +167,7 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
 
     public void refreshAdapter(List<QuoteListEntity> list) {
         mQuoteListFiltered = list;
+        mQuoteList = list;
     }
 
     @Override
@@ -178,23 +182,23 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
                     List<QuoteListEntity> filteredList = new ArrayList<>();
                     for (QuoteListEntity row : mQuoteList) {
                         CarMasterEntity carMasterEntity = new CarMasterEntity();
-                        try {
+                        carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+                                .getVarientDetails(
+                                        "" + row.getMotorRequestEntity().getVehicle_id());
 
-                            carMasterEntity = new DBPersistanceController(mFrament.getActivity())
-                                    .getVarientDetails(
-                                            "" + row.getMotorRequestEntity().getVehicle_id());
-
-                        } catch (Exception e) {
-
-                        }
                         if (row.getMotorRequestEntity().getFirst_name().toLowerCase().contains(charString.toLowerCase())
                                 || row.getMotorRequestEntity().getLast_name().toLowerCase().contains(charString.toLowerCase())
-                                || carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
-                                || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())
+
                                 || String.valueOf(row.getMotorRequestEntity().getCrn()).contains(charString.toLowerCase())) {
 
                             filteredList.add(row);
                         }
+
+                        if (carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
+                                || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())) {
+                            filteredList.add(row);
+                        }
+
                     }
 
                     mQuoteListFiltered = filteredList;
@@ -203,6 +207,45 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
                 FilterResults filterResults = new FilterResults();
                 filterResults.values = mQuoteListFiltered;
                 return filterResults;
+
+//                List<QuoteListEntity> filteredList = new ArrayList<>();
+//                if (charString.isEmpty()) {
+//                    mQuoteListFiltered = mQuoteList;
+//                } else {
+//                    for (QuoteListEntity row : mQuoteList) {
+//                        CarMasterEntity carMasterEntity = new CarMasterEntity();
+//                        try {
+//
+//                            carMasterEntity = new DBPersistanceController(mFrament.getActivity())
+//                                    .getVarientDetails(
+//                                            "" + row.getMotorRequestEntity().getVehicle_id());
+//
+//                        } catch (Exception e) {
+//
+//                        }
+//                        if (row.getMotorRequestEntity().getFirst_name().toLowerCase().contains(charString.toLowerCase())
+//                                || row.getMotorRequestEntity().getLast_name().toLowerCase().contains(charString.toLowerCase())
+//                                || carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
+//                                || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())
+//                                || String.valueOf(row.getMotorRequestEntity().getCrn()).contains(charString.toLowerCase())) {
+//
+//                            filteredList.add(row);
+//                        }
+//                    }
+//
+//                    mQuoteListFiltered = filteredList;
+//                    FilterResults filterResults = new FilterResults();
+//                    filterResults.values = filteredList;
+//                    return filterResults;
+//                }
+//
+//                if (filteredList.size() > 0) {
+//                    mQuoteListFiltered = filteredList;
+//                }
+//
+//                FilterResults filterResults = new FilterResults();
+//                filterResults.values = mQuoteListFiltered;
+//                return filterResults;
             }
 
             @Override

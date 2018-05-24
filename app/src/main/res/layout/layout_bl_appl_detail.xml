@@ -99,14 +99,15 @@
             android:layout_weight="1"
             android:hint="Name Of Applicant">
 
-
-
-                <EditText
+            <EditText
                 android:id="@+id/etNameOfApplicant"
-                android:text=""
-                android:inputType="text"
+                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
+                android:drawableRight="@drawable/vector_person"
                 android:maxLines="1"
+                android:inputType="textCapWords"
                 style="@style/Style.edittext" />
+
+
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -115,7 +116,7 @@
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:hint="Contact">
+            android:hint="Mobile No">
 
             <EditText
                 android:id="@+id/etcontact"

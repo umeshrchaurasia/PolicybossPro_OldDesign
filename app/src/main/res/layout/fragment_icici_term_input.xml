@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <ScrollView
+        android:id="@+id/mainScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="90">
@@ -29,7 +30,7 @@
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
                     android:layout_marginTop="8dp"
-                    app:cardElevation="2dp">
+                    app:cardElevation="10dp">
 
 
                     <LinearLayout
@@ -111,6 +112,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:layout_weight="1"
                                     android:gravity="left"
+                                    android:textColor="@color/header_dark_text"
                                     android:textStyle="bold" />
                             </LinearLayout>
 
@@ -137,7 +139,7 @@
                     android:layout_marginBottom="8dp"
                     android:layout_marginLeft="2dp"
                     android:layout_marginRight="2dp"
-                    app:cardElevation="2dp">
+                    app:cardElevation="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -194,9 +196,9 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
                                         android:text="1000000"
-                                        android:textColor="@color/header_text_color"
+                                        android:textColor="@color/black"
                                         android:textSize="13sp"
-                                        android:textStyle="bold" />
+                                         />
 
 
                                 </LinearLayout>
@@ -218,18 +220,30 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
                                     android:gravity="center_vertical|center_horizontal"
                                     android:minHeight="60dp"
-                                    android:orientation="vertical">
+                                    android:orientation="horizontal">
 
                                     <TextView
                                         android:id="@+id/txtPlanNAme"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
+                                        android:layout_weight="80"
+                                        android:gravity="center"
                                         android:text="IProtectSmart"
-                                        android:textColor="@color/header_text_color"
+                                        android:textColor="@color/black"
                                         android:textSize="13sp"
-                                        android:textStyle="bold" />
+                                         />
+
+                                    <ImageView
+                                        android:id="@+id/ivInfo"
+                                        android:layout_width="0dp"
+                                        android:layout_height="24dp"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_weight="20"
+                                        android:src="@drawable/infop" />
 
 
                                 </LinearLayout>
@@ -267,9 +281,9 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="5dp"
                                             android:text="20 Yrs."
-                                            android:textColor="@color/header_text_color"
+                                            android:textColor="@color/black"
                                             android:textSize="13sp"
-                                            android:textStyle="bold" />
+                                             />
 
 
                                     </LinearLayout>
@@ -300,9 +314,9 @@
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="5dp"
                                             android:text="38 Yrs."
-                                            android:textColor="@color/header_text_color"
+                                            android:textColor="@color/black"
                                             android:textSize="13sp"
-                                            android:textStyle="bold" />
+                                             />
 
 
                                     </LinearLayout>
@@ -323,29 +337,52 @@
                                 android:gravity="center_horizontal|center_vertical"
                                 android:orientation="vertical">
 
-                                <TextView
-                                    android:id="@+id/txtFinalPremium"
+                                <LinearLayout
                                     android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1"
+                                    android:gravity="bottom">
+
+                                    <TextView
+                                        android:id="@+id/txtFinalPremium"
+                                        style="@style/TextViewStyle.Large"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="5dp"
+                                        android:layout_marginRight="5dp"
+                                        android:background="#ff5c61"
+                                        android:gravity="center"
+                                        android:minHeight="35dp"
+                                        android:textColor="@android:color/white" />
+                                </LinearLayout>
+
+
+                                <LinearLayout
+                                    android:minHeight="35dp"
                                     android:layout_marginLeft="5dp"
                                     android:layout_marginRight="5dp"
-                                    android:background="#ff5c61"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_marginTop="5dp"
+                                    android:layout_weight="1"
                                     android:gravity="center"
-                                    android:minHeight="30dp"
-                                    android:text="103890/year"
-                                    android:textColor="@android:color/white"
-                                    android:textSize="10sp" />
+                                    android:orientation="horizontal">
 
+                                    <ImageView
+                                        android:layout_weight="1"
+                                        android:id="@+id/ivPdf"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:src="@drawable/pdf_icon" />
 
-
-
-
-                                <ImageView
-                                    android:id="@+id/ivBuy"
-                                    android:layout_width="35dp"
-                                    android:layout_height="35dp"
-                                    android:layout_marginTop="8dp"
-                                    android:src="@drawable/cart" />
+                                    <ImageView
+                                        android:layout_weight="1"
+                                        android:id="@+id/ivBuy"
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginLeft="3dp"
+                                        android:src="@drawable/cart" />
+                                </LinearLayout>
                             </LinearLayout>
 
 
@@ -389,23 +426,24 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Email">
+                        android:hint="Permium term">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="Option"
+                            android:text="Payment term"
                             android:textColor="@color/blue"
                             android:textSize="10sp" />
 
                         <Spinner
-                            android:id="@+id/spICICIOptions"
+                            android:id="@+id/spICICIPremiumTerm"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:dropDownWidth="200dp" />
+                            android:dropDownWidth="200dp"
+                            android:entries="@array/icici_payment_term" />
 
                     </android.support.design.widget.TextInputLayout>
 
@@ -448,26 +486,26 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Permium term">
+                        android:hint="Email">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="Payment term"
+                            android:text="Option"
                             android:textColor="@color/blue"
                             android:textSize="10sp" />
 
                         <Spinner
-                            android:id="@+id/spICICIPremiumTerm"
+                            android:id="@+id/spICICIOptions"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
                             android:layout_height="40dp"
-                            android:dropDownWidth="200dp"
-                            android:entries="@array/icici_payment_term" />
+                            android:dropDownWidth="200dp" />
 
                     </android.support.design.widget.TextInputLayout>
+
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/tilPincode"
@@ -490,7 +528,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="5dp"
                     android:background="@color/header_light_text"
                     android:gravity="center"
                     android:orientation="horizontal">
@@ -509,7 +547,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="8dp"
                     android:gravity="top"
                     android:orientation="horizontal">
 
@@ -580,7 +618,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -589,7 +628,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
                         android:text="Sum Assured"
                         android:textAllCaps="true"
@@ -608,10 +647,10 @@
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
                         android:gravity="center"
                         android:inputType="number"
-                        android:maxLength="15"
+                        android:maxLength="10"
                         android:textSize="14sp" />
 
                     <Button
@@ -627,7 +666,8 @@
                     android:id="@+id/llICICILumpSumpPerc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -637,7 +677,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
                         android:text="LUMPSUM(%)"
                         android:textAllCaps="true"
@@ -656,9 +696,11 @@
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
+                        android:focusable="false"
                         android:gravity="center"
                         android:inputType="number"
+                        android:maxLength="3"
                         android:textSize="14sp" />
 
                     <Button
@@ -673,7 +715,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -682,7 +725,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
                         android:text="Policy Term"
                         android:textAllCaps="true"
@@ -701,9 +744,10 @@
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
                         android:gravity="center"
                         android:inputType="number"
+                        android:maxLength="2"
                         android:textSize="14sp" />
 
                     <Button
@@ -718,7 +762,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -727,7 +772,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
                         android:text="Premium Term"
                         android:textAllCaps="true"
@@ -746,9 +791,10 @@
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
                         android:gravity="center"
                         android:inputType="number"
+                        android:maxLength="2"
                         android:textSize="14sp" />
 
                     <Button
@@ -764,7 +810,8 @@
                     android:id="@+id/llCritical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -773,7 +820,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
                         android:text="Critical illness"
                         android:textAllCaps="true"
@@ -792,9 +839,10 @@
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
                         android:gravity="center"
                         android:inputType="number"
+                        android:maxLength="10"
                         android:textSize="14sp" />
 
                     <Button
@@ -810,7 +858,8 @@
                     android:id="@+id/llAccidental"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:layout_margin="5dp"
+                    android:background="@color/term_background"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp"
@@ -819,7 +868,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="35"
+                        android:layout_weight="40"
                         android:gravity="center|left"
                         android:text="ACCIDENTAL DEATH BENEFIT"
                         android:textSize="12dp" />
@@ -837,9 +886,10 @@
                         style="@style/Style.edittext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="45"
+                        android:layout_weight="40"
                         android:gravity="center"
                         android:inputType="number"
+                        android:maxLength="10"
                         android:textSize="14sp" />
 
                     <Button

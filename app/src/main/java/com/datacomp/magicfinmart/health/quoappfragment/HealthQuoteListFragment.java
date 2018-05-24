@@ -21,6 +21,7 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.HealthActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.text.SimpleDateFormat;
@@ -32,6 +33,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 
@@ -41,7 +43,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteA
 public class HealthQuoteListFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber {
 
     public static final String HEALTH_INPUT_FRAGMENT = "input_fragment_bottom";
-
+    public static final String FROM_QUOTE = "from_quote";
 
     FloatingActionButton btnAddQuote;
     RecyclerView rvHealthQuoteList;
@@ -114,6 +116,12 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
         intent.putExtra(HEALTH_INPUT_FRAGMENT, healthQuote);
         startActivity(intent);
     }
+
+    //redirect to input quote bottom
+    public void redirectToInputQuote(HealthQuote healthQuote) {
+        startActivity(new Intent(getActivity(), HealthQuoteBottomTabsActivity.class).putExtra(FROM_QUOTE, healthQuote));
+    }
+
 
     private void initView(View view) {
         ivSearch = (ImageView) view.findViewById(R.id.ivSearch);
@@ -199,7 +207,6 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
                 List<HealthQuote> list =((HealthQuoteAppResponse) response).getMasterData().getQuote();
                 if (list.size() > 0) {
                     isHit = false;
-                    Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
 
                     for (HealthQuote entity : list) {
                         if (!mQuoteList.contains(entity)) {
@@ -218,6 +225,7 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
     public void OnFailure(Throwable t) {
         cancelDialog();
     }
+
 
     //endregion
 }

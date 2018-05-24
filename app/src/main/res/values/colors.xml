@@ -26,9 +26,10 @@
     <color name="hdr_white">#f0f0f0</color>
     <color name="bg_white">#f1f1f1</color>
     <color name="seperator_white">#dadada</color>
+    <color name="bg_popup">#f7f7f7</color>
     <color name="progress_blue">#009fe3</color>
     <color name="progress_grey">#cecece</color>
-
+    <color name="term_background">#deedf4</color>
 
     <!--mintpro-->
     <color name="background">#FFEFF3F6</color>

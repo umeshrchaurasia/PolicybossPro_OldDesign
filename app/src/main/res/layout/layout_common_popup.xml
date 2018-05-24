@@ -31,8 +31,9 @@
             android:layout_height="45dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
+            android:layout_alignParentTop="true"
             android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             android:src="@drawable/finmart_logo"
             android:visibility="visible" />
 

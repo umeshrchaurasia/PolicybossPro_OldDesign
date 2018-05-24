@@ -78,7 +78,7 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
     private void fetchQuoteApplication() {
 
         showDialog("Fetching.., Please wait.!");
-        new QuoteApplicationController(this).getQuoteAppList(0,0,"", "",
+        new QuoteApplicationController(this).getQuoteAppList(0, 0, "", "",
                 new DBPersistanceController(this).getUserData().getFBAId(),
                 10,
                 "",
@@ -90,9 +90,16 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
         cancelDialog();
         if (response instanceof QuoteApplicationResponse) {
             if (((QuoteApplicationResponse) response).getMasterData() != null) {
-                mAdapter = new BikeActivityTabsPagerAdapter(getSupportFragmentManager(),
-                        ((QuoteApplicationResponse) response).getMasterData());
-                viewPager.setAdapter(mAdapter);
+
+                if (((QuoteApplicationResponse) response).getMasterData().getQuote().size() != 0
+                ||((QuoteApplicationResponse) response).getMasterData().getApplication().size() != 0) {
+                    mAdapter = new BikeActivityTabsPagerAdapter(getSupportFragmentManager(),
+                            ((QuoteApplicationResponse) response).getMasterData());
+                    viewPager.setAdapter(mAdapter);
+                } else {
+                    finish();
+                    startActivity(new Intent(this, BikeAddQuoteActivity.class));
+                }
             }
 
         } else if (response instanceof BikeMasterResponse) {

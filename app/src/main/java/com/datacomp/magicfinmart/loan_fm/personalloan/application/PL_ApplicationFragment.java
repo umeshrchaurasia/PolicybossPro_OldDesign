@@ -25,24 +25,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLoanResponse;
 
 
 /**
  * Created by IN-RB on 12-01-2018.
  */
 
-public class PL_ApplicationFragment  extends BaseFragment  implements View.OnClickListener{
+public class PL_ApplicationFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriberFM {
     RecyclerView rvApplicationList;
     PersonalLoanApplicationAdapter personalLoanApplicationAdapter;
     List<FmPersonalLoanRequest> mApplicationList;
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
+    boolean isHit = false;
 
     public PL_ApplicationFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -59,13 +66,69 @@ public class PL_ApplicationFragment  extends BaseFragment  implements View.OnCli
         }
 
         //rvApplicationList.setAdapter(null);
-        personalLoanApplicationAdapter = new PersonalLoanApplicationAdapter(PL_ApplicationFragment.this,mApplicationList);
+        personalLoanApplicationAdapter = new PersonalLoanApplicationAdapter(PL_ApplicationFragment.this, mApplicationList);
         rvApplicationList.setAdapter(personalLoanApplicationAdapter);
 
+
+        rvApplicationList.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int lastCompletelyVisibleItemPosition = 0;
+
+                lastCompletelyVisibleItemPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+
+
+                if (lastCompletelyVisibleItemPosition == mApplicationList.size() - 1) {
+                    if (!isHit) {
+                        isHit = true;
+                        fetchQuoteApplication(mApplicationList.size());
+
+                    }
+                }
+            }
+        });
 
 
         return view;
 
+    }
+
+    private void fetchQuoteApplication(int size) {
+        new MainLoanController(getActivity()).getPLQuoteApplication(size, 2,
+                String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()), this);
+    }
+
+    @Override
+    public void OnSuccessFM(APIResponseFM response, String message) {
+
+        cancelDialog();
+        if (response instanceof FmPersonalLoanResponse) {
+            if (((FmPersonalLoanResponse) response).getMasterData() != null) {
+
+                List<FmPersonalLoanRequest> list = ((FmPersonalLoanResponse) response).getMasterData().getApplication();
+
+                if (list.size() > 0) {
+                    isHit = false;
+                    for (FmPersonalLoanRequest entity : list) {
+                        if (!mApplicationList.contains(entity)) {
+                            mApplicationList.add(entity);
+                        }
+                    }
+                }
+
+            }
+
+        }
+
+        personalLoanApplicationAdapter.refreshAdapter(mApplicationList);
+        personalLoanApplicationAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
     }
 
     private void initView(View view) {
@@ -84,6 +147,7 @@ public class PL_ApplicationFragment  extends BaseFragment  implements View.OnCli
 
 
     }
+
     private void setListener() {
         ivSearch.setOnClickListener(this);
         ivAdd.setOnClickListener(this);
@@ -107,6 +171,7 @@ public class PL_ApplicationFragment  extends BaseFragment  implements View.OnCli
             }
         });
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -124,15 +189,15 @@ public class PL_ApplicationFragment  extends BaseFragment  implements View.OnCli
                 break;
         }
     }
-    public void callnumber(String mobNumber)
-    {
+
+    public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
     }
 
-    public void redirectPersonalLoanApply(String ApplNum){
-        Intent intent=new Intent(getActivity(), PersonalLoanApplyActivity.class);
-        intent.putExtra(Utility.PLLOAN_APPLICATION,ApplNum);
-        intent.putExtra("TypePage","PL");
+    public void redirectPersonalLoanApply(String ApplNum) {
+        Intent intent = new Intent(getActivity(), PersonalLoanApplyActivity.class);
+        intent.putExtra(Utility.PLLOAN_APPLICATION, ApplNum);
+        intent.putExtra("TypePage", "PL");
         startActivity(intent);
 
     }

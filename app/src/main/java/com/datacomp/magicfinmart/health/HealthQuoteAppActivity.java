@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -72,7 +73,7 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
 
     private void fetchHealthQuoteApplication() {
         showDialog("Fetching.., Please wait.!");
-        new HealthController(this).getHealthQuoteApplicationList(0,0,
+        new HealthController(this).getHealthQuoteApplicationList(0, 0,
                 String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()),
                 this);
     }
@@ -83,9 +84,15 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
         if (response instanceof HealthQuoteAppResponse) {
             if (((HealthQuoteAppResponse) response).getMasterData() != null) {
 
-                mAdapter = new HealthActivityTabsPagerAdapter(getSupportFragmentManager(),
-                        ((HealthQuoteAppResponse) response));
-                viewPager.setAdapter(mAdapter);
+                if (((HealthQuoteAppResponse) response).getMasterData().getQuote().size() != 0
+                        || ((HealthQuoteAppResponse) response).getMasterData().getApplication().size() != 0) {
+                    mAdapter = new HealthActivityTabsPagerAdapter(getSupportFragmentManager(),
+                            ((HealthQuoteAppResponse) response));
+                    viewPager.setAdapter(mAdapter);
+                } else {
+                    finish();
+                    startActivity(new Intent(this, HealthQuoteBottomTabsActivity.class));
+                }
             }
 
         }

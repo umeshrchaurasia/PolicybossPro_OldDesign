@@ -131,6 +131,15 @@ public class DateTimePicker {
         dialog.show();
     }
 
+    public static void showHealthAgeePicker(Context mContex, int age, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        calendar.add(Calendar.YEAR, -age);
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        dialog.show();
+    }
+
     public static void showHealthParentAgeDatePicker(Context mContex, DatePickerDialog.OnDateSetListener callBack) {
         final Calendar calendar = Calendar.getInstance();
         DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
@@ -182,6 +191,29 @@ public class DateTimePicker {
         return cal;
     }
 
+    public static void showDataPickerDialogBeforeTwentyOneTest(Context mContex, Calendar cal, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        //always shows 1 day ahead in calender
+        // added 1 day in calender
+        //calendar.add(Calendar.DATE,1);
+        calendar.add(Calendar.YEAR, -21);
+        calendar.add(Calendar.DATE, -1);
+
+
+        // disable all before date,
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        if (cal != null) {
+            //set existing date to calender
+            dialog.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        }
+
+        dialog.show();
+    }
+
     public static void showDataPickerDialogBeforeTwentyOne(Context mContex, DatePickerDialog.OnDateSetListener callBack) {
         final Calendar calendar = Calendar.getInstance();
 
@@ -196,6 +228,32 @@ public class DateTimePicker {
 
         // disable all before date,
         dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        /*if (cal != null) {
+            dialog.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        }*/
+
+        dialog.show();
+    }
+
+    public static void testDatePicker(Context mContex, Calendar cal, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+
+        DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        //always shows 1 day ahead in calender
+        // added 1 day in calender
+        //calendar.add(Calendar.DATE,1);
+        calendar.add(Calendar.YEAR, -21);
+        calendar.add(Calendar.DATE, -1);
+
+
+        // disable all before date,
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        if (cal != null) {
+            dialog.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        }
+
         dialog.show();
     }
 

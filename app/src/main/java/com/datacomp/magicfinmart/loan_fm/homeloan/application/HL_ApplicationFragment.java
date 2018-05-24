@@ -184,9 +184,6 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
 
                 if (list.size() > 0) {
                     isHit = false;
-                    Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
-
-
                     for (FmHomeLoanRequest entity : list) {
                         if (!mApplicationList.contains(entity)) {
                             mApplicationList.add(entity);

@@ -33,6 +33,17 @@ public class ConstantEntity extends RealmObject {
 
     private String POSPTraining;
 
+    private String MPSStatus;
+
+    public String getMPSStatus() {
+        return MPSStatus;
+    }
+
+    public void setMPSStatus(String MPSStatus) {
+
+
+    }
+
     public String getVersionCode() {
         return VersionCode;
     }

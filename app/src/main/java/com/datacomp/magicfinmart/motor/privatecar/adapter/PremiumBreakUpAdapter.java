@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 /**
@@ -49,7 +50,9 @@ public class PremiumBreakUpAdapter extends RecyclerView.Adapter<PremiumBreakUpAd
 
 
     }
-
+    private double getDigitPrecision(double value) {
+        return Double.parseDouble(new DecimalFormat("##.##").format(value));
+    }
 
     @Override
     public int getItemCount() {
@@ -68,7 +71,8 @@ public class PremiumBreakUpAdapter extends RecyclerView.Adapter<PremiumBreakUpAd
         }
     }
 
-    private long getRound(String strText) {
-        return Math.round(Double.parseDouble(strText));
+    private double getRound(String strText) {
+        double value =Double.parseDouble(strText);
+        return Double.parseDouble(new DecimalFormat("##.##").format(value));
     }
 }

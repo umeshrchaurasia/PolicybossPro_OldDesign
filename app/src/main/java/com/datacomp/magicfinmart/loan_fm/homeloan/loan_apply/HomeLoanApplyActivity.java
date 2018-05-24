@@ -38,6 +38,7 @@ import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -62,6 +63,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveRespo
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.RBCustomerResponse;
 
+import static com.datacomp.magicfinmart.BaseFragment.stringToDate;
+
 
 public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickListener, CompoundButton.OnCheckedChangeListener, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber, IResponseSubcriberERP {
 
@@ -76,6 +79,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     // region Control Declaration
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    //server conversion date format
+    SimpleDateFormat formatServer = new SimpleDateFormat("yyyy-MM-dd");
 
     Spinner spTitle, spNatureOfOrg, spNatureOfBus, spResidence;
     RelativeLayout rlPLInfo, rlAddress, rlEmployment, rlFinancial;
@@ -453,44 +458,44 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         // region  CAPS Text
 
-        etFirstName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etLastName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etFatherName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etFirstName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+       etLastName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+      //  etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etFatherName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etNationality.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etUniversity.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etMoMaidenName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etNationality.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etUniversity.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
+        etMoMaidenName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etSpouceName.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etNoOfDepen.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etIDNumber.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etSpouceName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(20)});
+      //  etNoOfDepen.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etIDNumber.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etAddress1ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etAddress2ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etCountryPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress1ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress2ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etCountryPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etLandlineNoContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etLandlineNoContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etAddress1ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etAddress2ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+     //   etLandlineNoContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+   //     etLandlineNoContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etAddress1ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress2ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
 
-        etAddress3ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etLandmakContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etLandmakContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress3ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etLandmakContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etLandmakContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
 
-        etDesig.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etCurrJob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etNameOfOrg.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etAddress1ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etDesig.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+     //   etCurrJob.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etNameOfOrg.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
+        etAddress1ED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
 
-        etAddress2ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etAddress3ED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etLandmakED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etCountryED.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etAddress2ED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress3ED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etLandmakED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
+        etCountryED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
         //endregion
 
@@ -548,7 +553,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         if (flag) {
             textInpLayTurnOver.setHint("*Turn Over");
             textInpLayDepreciation.setHint("*Depreciation");
-            textInpLayDirRem.setHint("*Directors Remuneration");
+            textInpLayDirRem.setHint("*Director's Remuneration");
             textInpLayProfAftTax.setHint("*Profit After Tax");
 
             textInpLayCurrJob.setHint("Current Job(YRS)");
@@ -571,7 +576,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
             textInpLayTurnOver.setHint("Turn Over");
             textInpLayDepreciation.setHint("Depreciation");
-            textInpLayDirRem.setHint("Directors Remuneration");
+            textInpLayDirRem.setHint("Director's Remuneration");
             textInpLayProfAftTax.setHint("Profit After Tax");
 
 //            etTurnOver.setText("");
@@ -646,6 +651,10 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         etTotalIncome.setText("" +  BigDecimal.valueOf(total).toPlainString());
 
+    }
+
+    private double getDigitPrecision(double value) {
+        return Double.parseDouble(new DecimalFormat("##").format(value));
     }
 
     private void getResAddrToPermAddress() {
@@ -1483,7 +1492,12 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             }
         }
 
-        etDob.setText(getDDMMYYYPattern(rbCustomerEntity.getApplicantDOB(), "yyyy-MM-dd"));
+        if (rbCustomerEntity.getApplicantDOB() != null) {
+            etDob.setTag(R.id.etDob, dateToCalendar(stringToDate(formatServer, rbCustomerEntity.getApplicantDOB())));
+
+            etDob.setText(getDDMMYYYPattern(rbCustomerEntity.getApplicantDOB(), "yyyy-MM-dd"));
+        }
+
 
         if (rbCustomerEntity.getApplicantGender().equals("M")) {
             setMale_gender();
@@ -1551,22 +1565,32 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     //endregion
 
+
     //region datePickerDialog Applicant
     protected View.OnClickListener datePickerDialogApplicant = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             Constants.hideKeyBoard(view, HomeLoanApplyActivity.this);
-            DateTimePicker.showDataPickerDialogBeforeTwentyOne(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+            if (view.getId() == R.id.etDob) {
+                DateTimePicker.showDataPickerDialogBeforeTwentyOneTest(view.getContext(), (Calendar) view.getTag(R.id.etDob),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(year, monthOfYear, dayOfMonth);
-                    String currentDay = simpleDateFormat.format(calendar.getTime());
-                    etDob.setText(currentDay);
-                    //etDate.setTag(R.id.et_date, calendar.getTime());
-                }
-            });
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etDob.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                etDob.setTag(R.id.et_DOB, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
         }
     };
     //endregion
@@ -1941,12 +1965,12 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
                     etDirRem.requestFocus();
                     etDirRem.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                    etDirRem.setError("Enter Directors Remuneration");
+                    etDirRem.setError("Enter Director's Remuneration");
                     return false;
 
                 } else {
                     etDirRem.requestFocus();
-                    etDirRem.setError("Enter Directors Remuneration");
+                    etDirRem.setError("Enter Director's Remuneration");
                     return false;
 
                 }

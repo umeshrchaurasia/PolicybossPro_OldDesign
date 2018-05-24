@@ -37,8 +37,8 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
         init_widgets();
         listMemberList = new ArrayList<>();
 
-        if (getIntent().getParcelableExtra(HealthInputFragment.MEMBER_LIST) != null) {
-            healthQuote = getIntent().getParcelableExtra(HealthInputFragment.MEMBER_LIST);
+        if (getIntent().getParcelableExtra(HealthQuoteFragment.MEMBER_LIST) != null) {
+            healthQuote = getIntent().getParcelableExtra(HealthQuoteFragment.MEMBER_LIST);
             popupMemberDetail();
         }
 
@@ -78,6 +78,15 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
             List<MemberListEntity> updateMember = new ArrayList<>();
             List<MemberListEntity> listMember = healthQuote.getHealthRequest().getMemberList();
 
+
+            for (int i = 0; i < listMember.size(); i++) {
+
+                MemberListEntity entity = listMember.get(i);
+                if (entity.getMemberDOBTemp() == null || entity.getMemberDOBTemp().equals("")) {
+                    showAlert("Please Enter Date Of Birth");
+                    return;
+                }
+            }
             // region  Duplication Check for : Adult Gender
 
             //region for Family
@@ -282,7 +291,7 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
 
             Intent intent = new Intent();
             intent.putExtra(UPDATE_MEMBER_QUOTE, healthQuote);
-            setResult(HealthInputFragment.REQUEST_MEMBER, intent);
+            setResult(HealthQuoteFragment.REQUEST_MEMBER, intent);
             finish();
 
         }

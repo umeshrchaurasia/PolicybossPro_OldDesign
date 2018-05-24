@@ -81,13 +81,12 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
                     android:orientation="horizontal"
                     android:weightSum="5">
 
                     <LinearLayout
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="2"
                         android:orientation="vertical">
 
@@ -100,21 +99,41 @@
                             android:textAllCaps="true" />
 
                         <TextView
+                            android:text="123423"
+                            android:textStyle="bold"
                             android:id="@+id/txtCRN"
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:gravity="center"
                             android:textAllCaps="true" />
                     </LinearLayout>
 
-                    <ImageView
-                        android:id="@+id/imgProgressStatus"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="3"
+
+                    <LinearLayout
                         android:paddingLeft="8dp"
-                        android:paddingRight="8dp" />
+                        android:paddingRight="8dp"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="3"
+                        android:orientation="vertical">
+
+                        <TextView
+                            style="@style/TextStyle.TextSmall"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="App Status"
+                            android:textAllCaps="true" />
+
+                        <ImageView
+                            android:src="@mipmap/status_25"
+                            android:id="@+id/imgProgressStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            />
+                    </LinearLayout>
+
                 </LinearLayout>
 
                 <View
@@ -147,6 +166,7 @@
                             android:textAllCaps="true" />
 
                         <TextView
+                            android:textStyle="bold"
                             android:id="@+id/txtVehicleNo"
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
@@ -170,6 +190,7 @@
                             android:textAllCaps="true" />
 
                         <TextView
+                            android:textStyle="bold"
                             android:id="@+id/txtCreatedDate"
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"

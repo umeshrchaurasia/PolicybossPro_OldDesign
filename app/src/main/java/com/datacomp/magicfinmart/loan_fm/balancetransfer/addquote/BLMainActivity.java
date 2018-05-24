@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -35,6 +37,8 @@ public class BLMainActivity extends BaseActivity {
 
     FmBalanceLoanRequest fmBalanceLoanRequest;
     boolean isQuoteVisible = true;
+    ImageView ivHdrInput,  ivHdrQuote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,8 @@ public class BLMainActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
+        ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -62,6 +68,20 @@ public class BLMainActivity extends BaseActivity {
 
 
     }
+
+    public void highlighInput()
+    {
+        ivHdrInput.setVisibility(View.VISIBLE);
+        ivHdrQuote.setVisibility(View.GONE);
+    }
+
+    public void highlighQuote()
+    {
+        ivHdrQuote.setVisibility(View.VISIBLE);
+        ivHdrInput.setVisibility(View.GONE);
+
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -78,10 +98,12 @@ public class BLMainActivity extends BaseActivity {
 
                     }
                     if (tabFragment != null) {
+                        highlighInput();
                         tabFragment.setArguments(quoteBundle);
                         loadFragment(tabFragment, INPUT_FRAGMENT_BL);
 
                     } else {
+                        highlighInput();
                         InputFragment_bl inputFragment = new InputFragment_bl();
                         inputFragment.setArguments(quoteBundle);
                         loadFragment(inputFragment, INPUT_FRAGMENT_BL);
@@ -93,16 +115,19 @@ public class BLMainActivity extends BaseActivity {
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT_BL);
                     if (tabFragment != null) {
+                        highlighQuote();
                         loadFragment(tabFragment, QUOTE_FRAGMENT_BL);
 
                     } else {
                         if (quoteBundle != null) {
+                            highlighQuote();
                             QuoteFragment_bl quoteFragment = new QuoteFragment_bl();
                             quoteFragment.setArguments(quoteBundle);
                             loadFragment(quoteFragment, QUOTE_FRAGMENT_BL);
                         } else {
 
                             Toast.makeText(BLMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
                     return true;
@@ -120,7 +145,13 @@ public class BLMainActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        BLMainActivity.this.finish();
+
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            BLMainActivity.this.finish();
+        }
     }
 
     private void loadFragment(Fragment fragment, String TAG) {

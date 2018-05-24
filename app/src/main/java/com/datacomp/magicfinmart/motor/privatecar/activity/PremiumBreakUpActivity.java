@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -56,7 +57,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
     PremiumBreakUpAddonAdapter addonAdapterNew;
-    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium, txtIDV, txtFinalPremium, btnBuy, tvAddonTotal;
+    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium, txtIDV, txtFinalPremium, tvAddonTotal;
+    LinearLayout btnBuy;
     ImageView ivCross, ivShare;
     Button btnBackToQuote;
     CardView cvAddon;
@@ -115,7 +117,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     private void bindData() {
         if (responseEntity != null) {
-            txtIDV.setText("\u20B9 " + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            txtIDV.setText("" + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Code());
             if (responseEntity.getFinal_premium_without_addon() != null && !responseEntity.getFinal_premium_without_addon().equals("")) {
                 tvTotalPremium.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getFinal_premium_without_addon()))));
@@ -134,7 +136,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 //tvGst.setText(getRupeesRound(responseEntity.getPremium_Breakup().getService_tax()));
                 txtFinalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
             }
-            tvAddonTotal.setText("" + Math.round(addOnTotal));
+            tvAddonTotal.setText("" + getRound("" + addOnTotal));
         }
     }
 
@@ -189,17 +191,27 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         tvNetPremium = (TextView) findViewById(R.id.tvNetPremium);
         ivCross = (ImageView) findViewById(R.id.ivCross);
         ivShare = (ImageView) findViewById(R.id.ivShare);
-        btnBuy = (TextView) findViewById(R.id.btnBuy);
+        btnBuy = (LinearLayout) findViewById(R.id.btnBuy);
         btnBackToQuote = (Button) findViewById(R.id.btnBackToQuote);
         cvAddon = (CardView) findViewById(R.id.cvAddon);
         txtIDV = (TextView) findViewById(R.id.txtIDV);
         txtFinalPremium = (TextView) findViewById(R.id.txtFinalPremium);
         tvAddonTotal = (TextView) findViewById(R.id.tvAddonTotal);
         //ivCross.setImageResource(dbPersistanceController.getInsurerImage(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())));
-        Glide.with(this)
+        /*Glide.with(this)
                 //.load(dbgetProfessionalID1(Integer.parseInt(responseEntity.getInsurer().getInsurer_ID())))
                 .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurer().getInsurer_Logo_Name())
-                .into(ivCross);
+                .into(ivCross);*/
+        try {
+
+            int logo = new DBPersistanceController(this)
+                    .getInsurerLogo(Integer.parseInt(responseEntity.getInsurer_Id()));
+
+            Glide.with(this).load(logo)
+                    .into(ivCross);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -349,7 +361,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 //return gson.toJson(carMasterEntity);
                 try {
 
-                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name());
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name() +" "+ summaryEntity.getRequest_Core().getLast_name());
                     jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name() + " - " + carMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
@@ -367,7 +379,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
                 try {
 
-                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name());
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name()+" "+ summaryEntity.getRequest_Core().getLast_name());
                     jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
@@ -511,6 +523,10 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         return true;
     }
 
+    private double getRound(String strText) {
+        double value = Double.parseDouble(strText);
+        return Double.parseDouble(new DecimalFormat("##.##").format(value));
+    }
 
     public void updateAddonToserver(List<MobileAddOn> addOnList) {
         SaveAddOnRequestEntity entity = new SaveAddOnRequestEntity();

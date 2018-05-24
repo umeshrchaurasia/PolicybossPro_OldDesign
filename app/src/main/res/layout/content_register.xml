@@ -78,6 +78,7 @@
                         <EditText
                             android:id="@+id/etFirstName"
                             style="@style/Style.edittext"
+
                             android:drawableRight="@drawable/vector_person" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -449,7 +450,9 @@
             android:layout_marginLeft="@dimen/view_spacing_small"
             android:layout_marginRight="@dimen/view_spacing_small"
             android:layout_marginTop="8dp"
+            android:minHeight="36dp"
             android:text="SUBMIT"
+            android:textStyle="normal"
             android:visibility="visible" />
 
     </LinearLayout>

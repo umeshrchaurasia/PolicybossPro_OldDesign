@@ -7,18 +7,18 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorApplicationFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
+import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -47,6 +47,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
     FragmentTransaction transactionSim;
     MotorRequestEntity motorRequestEntity;
     boolean isQuoteVisible = true;
+    ImageView ivHdrInput, ivHdrQuote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +56,8 @@ public class InputQuoteBottmActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
+        ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -134,6 +137,18 @@ public class InputQuoteBottmActivity extends BaseActivity {
         //transactionSim.commitAllowingStateLoss();
     }
 
+    public void highlighInput() {
+        ivHdrInput.setVisibility(View.VISIBLE);
+        ivHdrQuote.setVisibility(View.GONE);
+    }
+
+    public void highlighQuote() {
+        ivHdrQuote.setVisibility(View.VISIBLE);
+        ivHdrInput.setVisibility(View.GONE);
+
+    }
+
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -149,32 +164,38 @@ public class InputQuoteBottmActivity extends BaseActivity {
                         }
 
                         if (tabFragment != null) {
+                            highlighInput();
                             tabFragment.setArguments(quoteBundle);
                             loadFragment(tabFragment, INPUT_FRAGMENT);
 
                         } else {
+                            highlighInput();
                             InputFragment inputFragment = new InputFragment();
                             inputFragment.setArguments(quoteBundle);
                             loadFragment(inputFragment, INPUT_FRAGMENT);
                         }
                     } else {
                         Toast.makeText(InputQuoteBottmActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                        return false;
                     }
                     return true;
                 case R.id.navigation_quote:
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
                     if (tabFragment != null) {
+                        highlighQuote();
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
 
                     } else {
                         if (quoteBundle != null) {
+                            highlighQuote();
                             QuoteFragment quoteFragment = new QuoteFragment();
                             quoteFragment.setArguments(quoteBundle);
                             loadFragment(quoteFragment, QUOTE_FRAGMENT);
                         } else {
 
                             Toast.makeText(InputQuoteBottmActivity.this, "Tap get Quotes ", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
 
@@ -189,7 +210,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
 //                        loadFragment(new BuyFragment(), INPUT_FRAGMENT);
 //                    }
 
-                    return true;
+                    return false;
             }
 
             return false;
@@ -199,7 +220,12 @@ public class InputQuoteBottmActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (isQuoteVisible) {
-            finish();
+            if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+            {
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            } else {
+                InputQuoteBottmActivity.this.finish();
+            }
         } else {
             Toast.makeText(InputQuoteBottmActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
         }

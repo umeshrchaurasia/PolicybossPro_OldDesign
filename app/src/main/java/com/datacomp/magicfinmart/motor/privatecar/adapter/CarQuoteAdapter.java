@@ -4,6 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -14,6 +15,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
+import com.datacomp.magicfinmart.utility.ClickListener;
+import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
+import com.datacomp.magicfinmart.utility.RecyclerTouchListener;
 
 import java.util.List;
 
@@ -57,9 +61,9 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
         try {
             if (responseEntity.getPremium_Breakup() != null) {
                 if (responseEntity.isAddonApplied()) {
-                    holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
+                    holder.txtFinalPremium.setText("\u20B9" + " " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
                 } else {
-                    holder.txtFinalPremium.setText("\u20B9" + Math.round(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium())));
+                    holder.txtFinalPremium.setText("\u20B9" + " " + Math.round(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium())));
                 }
 
             } else {
@@ -70,7 +74,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             Toast.makeText(mContext.getActivity(), "Magna Insurer final premium Null", Toast.LENGTH_SHORT).show();
         }
 
-        holder.txtIDV.setText("\u20B9" + String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
+        holder.txtIDV.setText(String.valueOf(responseEntity.getLM_Custom_Request().getVehicle_expected_idv()));
 
         try {
 
@@ -95,7 +99,54 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
                 ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
+
+        holder.rvAddOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext.getActivity(), "CLICK", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
+                holder.rvAddOn, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                ((QuoteFragment) mContext).
+                        redirectToPopUpPremium(responseEntity, response.getSummary(),
+                                responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
+
+  /*
+        holder.llAddon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((QuoteFragment) mContext).
+                        redirectToPopUpPremium(responseEntity, response.getSummary(),
+                                responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });*/
+
         holder.txtPremiumBreakUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
+
+        holder.imgInsurerLogo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
+        holder.llIdv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
@@ -111,19 +162,20 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
 
         if (responseEntity.getListAppliedAddons() != null) {
             if (responseEntity.getListAppliedAddons().size() != 0) {
-                holder.llAddon.setVisibility(View.VISIBLE);
+                holder.rvAddOn.setVisibility(View.VISIBLE);
                 holder.rvAddOn.setHasFixedSize(true);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext.getActivity(), 2);
                 holder.rvAddOn.setLayoutManager(mLayoutManager);
                 GridAddonAdapter adapter = new GridAddonAdapter(mContext.getActivity(), responseEntity.getListAppliedAddons());
                 holder.rvAddOn.setAdapter(adapter);
             } else {
-                holder.llAddon.setVisibility(View.GONE);
+                holder.rvAddOn.setVisibility(View.GONE);
             }
         } else {
-            holder.llAddon.setVisibility(View.GONE);
+            holder.rvAddOn.setVisibility(View.GONE);
         }
     }
+
 
     @Override
     public int getItemCount() {
@@ -143,12 +195,13 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
     public class BikeQuoteItem extends RecyclerView.ViewHolder {
         public TextView txtInsurerName, txtIDV, txtFinalPremium, txtPremiumBreakUp, txtBuy;
         ImageView imgInsurerLogo;
-        LinearLayout llAddon;
+        LinearLayout llIdv;
         RecyclerView rvAddOn;
 
         public BikeQuoteItem(View itemView) {
             super(itemView);
-            llAddon = (LinearLayout) itemView.findViewById(R.id.llAddon);
+            llIdv = (LinearLayout) itemView.findViewById(R.id.llIdv);
+            // llAddon = (LinearLayout) itemView.findViewById(R.id.llAddon);
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtInsurerName = (TextView) itemView.findViewById(R.id.txtInsuranceCompName);
             txtIDV = (TextView) itemView.findViewById(R.id.txtIDV);

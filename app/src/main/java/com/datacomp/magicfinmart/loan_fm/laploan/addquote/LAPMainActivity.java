@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -43,7 +44,7 @@ public class LAPMainActivity extends BaseActivity {
     FmHomeLoanRequest fmHomeLoanRequest;
     //HomeLoanRequest homeLoanRequestEntity;
     boolean isQuoteVisible = true;
-
+    ImageView ivHdrInput,  ivHdrQuote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +52,9 @@ public class LAPMainActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
+        ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
+
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -73,6 +77,19 @@ public class LAPMainActivity extends BaseActivity {
 
     }
 
+    public void highlighInput()
+    {
+        ivHdrInput.setVisibility(View.VISIBLE);
+        ivHdrQuote.setVisibility(View.GONE);
+    }
+
+    public void highlighQuote()
+    {
+        ivHdrQuote.setVisibility(View.VISIBLE);
+        ivHdrInput.setVisibility(View.GONE);
+
+    }
+
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -89,10 +106,12 @@ public class LAPMainActivity extends BaseActivity {
 
                     }
                     if (tabFragment != null) {
+                        highlighInput();
                         tabFragment.setArguments(quoteBundle);
                         loadFragment(tabFragment, INPUT_FRAGMENT);
 
                     } else {
+                        highlighInput();
                         InputFragment_LAP inputFragment = new InputFragment_LAP();
                         inputFragment.setArguments(quoteBundle);
                         loadFragment(inputFragment, INPUT_FRAGMENT);
@@ -103,16 +122,19 @@ public class LAPMainActivity extends BaseActivity {
 
                     tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
                     if (tabFragment != null) {
+                        highlighQuote();
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
 
                     } else {
                         if (quoteBundle != null) {
+                            highlighQuote();
                             QuoteFragment_LAP quoteFragment = new QuoteFragment_LAP();
                             quoteFragment.setArguments(quoteBundle);
                             loadFragment(quoteFragment, QUOTE_FRAGMENT);
                         } else {
 
                             Toast.makeText(LAPMainActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            return false;
                         }
                     }
                     return true;
@@ -120,7 +142,7 @@ public class LAPMainActivity extends BaseActivity {
                 case R.id.navigation_buy:
 
 
-                    return true;
+                    return false;
             }
 
             return false;
@@ -128,12 +150,20 @@ public class LAPMainActivity extends BaseActivity {
     };
 
 
-
     @Override
-        public void onBackPressed() {
-            super.onBackPressed();
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
+        {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
             LAPMainActivity.this.finish();
         }
+
+
+    }
+
     private void loadFragment(Fragment fragment, String TAG) {
         transactionSim = getSupportFragmentManager().beginTransaction();
         transactionSim.replace(R.id.frame_layout, fragment, TAG);
@@ -143,12 +173,12 @@ public class LAPMainActivity extends BaseActivity {
 
     }
 
-        private void CheckAllBottomMenu() {
-            int size = bottomNavigationView.getMenu().size();
-            for (int i = 0; i < size; i++) {
-                bottomNavigationView.getMenu().getItem(i).setCheckable(true);
-            }
+    private void CheckAllBottomMenu() {
+        int size = bottomNavigationView.getMenu().size();
+        for (int i = 0; i < size; i++) {
+            bottomNavigationView.getMenu().getItem(i).setCheckable(true);
         }
+    }
 
 
     @Override

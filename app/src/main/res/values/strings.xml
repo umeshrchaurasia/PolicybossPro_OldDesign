@@ -12,6 +12,8 @@
     <string name="Emp_detail">Employment &amp; Income Details</string>
     <string name="Emp_Mode_Credit">Select Employment &amp; Mode OF Credit</string>
 
+    <string name="materail_count">new Images are available for downloading.\nContinue???</string>
+
     <string-array name="ncb_percent">
         <item>0</item>
         <item>20</item>
@@ -19,6 +21,22 @@
         <item>35</item>
         <item>45</item>
         <item>50</item>
+    </string-array>
+
+    <string-array name="month_array">
+        <item>MONTH</item>
+        <item>JAN</item>
+        <item>FEB</item>
+        <item>MAR</item>
+        <item>APR</item>
+        <item>MAY</item>
+        <item>JUN</item>
+        <item>JUL</item>
+        <item>AUG</item>
+        <item>SEP</item>
+        <item>OCT</item>
+        <item>NOV</item>
+        <item>DEC</item>
     </string-array>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -543,6 +561,30 @@
         <item>SINGLE PAY</item>
         <item>LIMITED PAY</item>
     </string-array>
+
+
+    <!--Term hdfc-->
+    <string-array name="hdfc_options">
+        <item>LIFE</item>
+        <item>3D LIFE</item>
+        <item>LIFE LONG PROTECTION</item>
+        <item>3D LIFE LONG PROTECTION</item>
+        <item>EXTRA LIFE</item>
+        <item>EXTRA LIFE INCOME</item>
+        <item>INCOME OPTION</item>
+        <item>INCOME REPLACEMENT</item>
+        <item>RETURN OF PREMIUM</item>
+    </string-array>
+
+    <string-array name="hdfc_premium_frequency">
+        <item>YEARLY</item>
+        <item>HALF YEARLY</item>
+        <item>QUARTERLY</item>
+        <item>MONTHLY</item>
+        <item>SINGLE</item>
+    </string-array>
+
+
     <string name="title_activity_compare_ti_activity">COMPARE TERM INSURANCE</string>
 
     <string-array name="educationList">
@@ -557,7 +599,83 @@
     <string name="sell_everything_digitally">Sell everything <b>DIGITALLY!!</b></string>
     <string name="welcome_slide_1_text">India’s First And Most Comprehensive Business Enabling Platform For Financial Advisors</string>
 
+    <string-array name="ExistingCustomerKotakPL">
+        <item>Are You Existing Customer</item>
+        <item>Yes</item>
+        <item>No</item>
 
+    </string-array>
+
+    <string-array name="ExistingCustomerTypeKotakPL">
+        <item>Existing Customer Type Master</item>
+        <item>Bank</item>
+        <item>Loan</item>
+
+    </string-array>
+    <string-array name="QualificationKotakPL">
+        <item>Qualification</item>
+        <item>Post Graduate</item>
+        <item>Graduate</item>
+        <item>Professional</item>
+        <item>Under Graduate</item>
+        <item>Vocational</item>
+    </string-array>
+
+    <string-array name="EmploymentTypeKotakPL">
+        <item>Employment Type</item>
+        <item>Salaried</item>
+
+    </string-array>
+
+    <string-array name="PreferredMailingAddressKotakPL">
+        <item>Preferred Mailing Address</item>
+        <item>Residence Address</item>
+        <item>Office Address</item>
+
+    </string-array>
+    <string-array name="ResidenceTypeKotakPL">
+        <item>Owned by self/spouse</item>
+        <item>Owned by parents</item>
+        <item>Rented - With Family </item>
+        <item>Rented - With Friends </item>
+        <item>Rented - Bachelor Staying Alone </item>
+        <item>Owned by parents</item>
+        <item>Paying Guest </item>
+        <item>Hostel/Guest House/Hotel </item>
+        <item>Company Provided - Staying Alone</item>
+        <item>Company Provided - Staying With Family</item>
+    </string-array>
+
+    <string-array name="RequestedLoanTenureKotakPL">
+        <item>Requested Loan Tenure </item>
+        <item>12 Months</item>
+        <item>24 Months</item>
+        <item>36 Months</item>
+        <item>48 Months</item>
+        <item>60 Months</item>
+    </string-array>
+
+    <string-array name="RelationshipWithCoAppKotakPL">
+        <item>Relationship With Co-applicant</item>
+        <item>Spouse</item>
+        <item>Father</item>
+        <item>Mother</item>
+        <item>Brother</item>
+        <item>Son</item>
+        <item>Daughter</item>
+    </string-array>
+
+    <string-array name="exp_organization">
+        <item>Organization Category</item>
+        <item>Public Ltd</item>
+        <item>Private Ltd</item>
+        <item>MNC</item>
+        <item>Central/State Govt</item>
+        <item>Proprietorship</item>
+        <item>LLP</item>
+        <item>Partnership firm</item>
+        <item>Others including Society/Trust/AOP</item>
+    </string-array>
     <string-array name="exp_employment_salaried">
         <item>Select Employment &amp; Mode OF Credit</item>
         <item>Salaried: Account Transfer</item>
@@ -567,7 +685,6 @@
         <item>Others</item>
 
     </string-array>
-
     <string-array name="exp_residence_type">
         <item>Residence Type</item>
         <item>Owned by Self-Spouse</item>
@@ -584,28 +701,6 @@
         <item>Property identified - Under Construction</item>
         <item>LAP</item>
     </string-array>
-
-    <string-array name="exp_tenure">
-        <item>Tenure</item>
-        <item>12 months</item>
-        <item>24 months</item>
-        <item>36 months</item>
-        <item>48 months</item>
-        <item>60 months</item>
-    </string-array>
-
-    <string-array name="exp_organization">
-        <item>Organization Category</item>
-        <item>Public Ltd</item>
-        <item>Private Ltd</item>
-        <item>MNC</item>
-        <item>Central/State Govt</item>
-        <item>Proprietorship</item>
-        <item>LLP</item>
-        <item>Partnership firm</item>
-        <item>Others including Society/Trust/AOP</item>
-    </string-array>
-
     <string-array name="exp_qualification">
         <item>Qualificaion</item>
         <item>Under Graduate</item>
@@ -614,16 +709,39 @@
         <item>Professional</item>
         <item>Other</item>
     </string-array>
-
-
-    <string-array name="exp_loan_account">
-        <item>Property Identified &amp; ready to occupy</item>
-        <item>In Search Of Property</item>
-        <item>Resale Property</item>
-        <item>For Construction</item>
-        <item>Property identified - Under Construction</item>
-        <item>LAP</item>
+    <string-array name="exp_tenure">
+        <item>Tenure</item>
+        <item>12 months</item>
+        <item>24 months</item>
+        <item>36 months</item>
+        <item>48 months</item>
+        <item>60 months</item>
     </string-array>
     <string name="title_activity_health_check_up_list">HEALTH CHECK UP PLANS</string>
+    <string name="title_activity_early_salary">Early Salary</string>
 
+
+    <string-array name="CityEarlySal">
+        <item>Select City</item>
+        <item>Mumbai</item>
+        <item>Thane</item>
+        <item>Navi-Mumbai</item>
+        <item>Delhi</item>
+        <item>Noida</item>
+        <item>Gurgaon</item>
+        <item>Gaziabad</item>
+        <item>Faridabad</item>
+        <item>Pune</item>
+        <item>PMPC</item>
+        <item>Hyderabad</item>
+        <item>Secunderabad</item>
+        <item>Bangalore</item>
+        <item>Gandhinagar</item>
+        <item>Jaipur</item>
+        <item>Chennai</item>
+    </string-array>
+    <string name="mps_popup_text">Congratulations and welcome to the Magic-Finmart Family. As our privileged associate, you are eligible to an exclusive Magic Platinum Subscription (MPS) for </string>
+    <string name="know_more_mps_desc">Magic Platinum Subscription (MPS) is an exclusive offer from Datatcomp, available to Finmart Business Associates only. In this subscrition you pay ₹
+        </string>
+    <string name="know_more_mps_desc_2"> to use Datacomp\'s following four premium applications FREE:</string>
 </resources>

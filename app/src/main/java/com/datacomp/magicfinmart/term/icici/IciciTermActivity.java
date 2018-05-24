@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -21,11 +23,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFin
 public class IciciTermActivity extends BaseActivity {
 
     private static String INPUT_FRAGMENT = "input_term_icici";
-    private static String QUOTE_FRAGMENT = "quote_term";
+    private static String QUOTE_FRAGMENT = "quote_term_icici";
 
 
-    public static String INPUT_DATA = "input_term_data";
-    public static String QUOTE_DATA = "quote_term_data";
+    public static String INPUT_DATA = "input_term_data_icici";
+    public static String QUOTE_DATA = "quote_term_data_icici";
 
     private static String BUY_FRAGMENT = "buy";
 
@@ -34,7 +36,7 @@ public class IciciTermActivity extends BaseActivity {
     Fragment tabFragment = null;
     FragmentTransaction transactionSim;
     TermFinmartRequest termFinmartRequest;
-
+    ImageView ivHdrInput, ivHdrQuote;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +44,8 @@ public class IciciTermActivity extends BaseActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ivHdrInput = (ImageView) findViewById(R.id.ivHdrInput);
+        ivHdrQuote = (ImageView) findViewById(R.id.ivHdrQuote);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNavigation);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -56,8 +60,9 @@ public class IciciTermActivity extends BaseActivity {
 
         if (getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT) != null) {
             termFinmartRequest = getIntent().getParcelableExtra(TermQuoteListFragment.TERM_INPUT_FRAGMENT);
-            quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
-            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            quoteBundle.putParcelable(INPUT_DATA, null);
+            quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
         } else {
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
         }
@@ -74,17 +79,30 @@ public class IciciTermActivity extends BaseActivity {
                 case R.id.navigation_input:
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (termFinmartRequest != null) {
+                        quoteBundle.putParcelable(QUOTE_DATA, null);
                         quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
                     }
 
                     IciciTermInputFragment inputFragment = new IciciTermInputFragment();
                     inputFragment.setArguments(quoteBundle);
                     loadFragment(inputFragment, INPUT_FRAGMENT);
-
+                    highlighInput();
                     return true;
                 case R.id.navigation_quote:
 
-                    tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
+                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
+                    if (termFinmartRequest != null) {
+                        quoteBundle.putParcelable(INPUT_DATA, null);
+                        quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
+                        IciciTermInputFragment quoteFragment = new IciciTermInputFragment();
+                        quoteFragment.setArguments(quoteBundle);
+                        loadFragment(quoteFragment, INPUT_FRAGMENT);
+                        highlighQuote();
+                    } else {
+                        Toast.makeText(IciciTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                    }
+
+                    /*tabFragment = getSupportFragmentManager().findFragmentByTag(QUOTE_FRAGMENT);
 
                     if (termFinmartRequest != null) {
                         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
@@ -93,13 +111,14 @@ public class IciciTermActivity extends BaseActivity {
                     if (tabFragment != null) {
                         tabFragment.setArguments(quoteBundle);
                         loadFragment(tabFragment, QUOTE_FRAGMENT);
-
+                        highlighQuote();
                     } else {
                         if (quoteBundle != null) {
                             if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
                                 //IciciTermQuoteFragment quoteFragment = new IciciTermQuoteFragment();
                                 //quoteFragment.setArguments(quoteBundle);
                                 //loadFragment(quoteFragment, QUOTE_FRAGMENT);
+                                highlighQuote();
                             } else {
 
                                 Toast.makeText(IciciTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
@@ -108,7 +127,7 @@ public class IciciTermActivity extends BaseActivity {
 
                             Toast.makeText(IciciTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
-                    }
+                    }*/
 
                     return true;
                 case R.id.navigation_buy:
@@ -142,9 +161,10 @@ public class IciciTermActivity extends BaseActivity {
 
     public void redirectToQuote(TermFinmartRequest termFinmartRequest) {
         this.termFinmartRequest = termFinmartRequest;
-        quoteBundle = new Bundle();
+        /*quoteBundle = new Bundle();
         quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
-        bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+        bottomNavigationView.setSelectedItemId(R.id.navigation_quote);*/
+        highlighQuote();
     }
 
     public void redirectToInput(TermFinmartRequest termFinmartRequest) {
@@ -154,8 +174,8 @@ public class IciciTermActivity extends BaseActivity {
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
     }
 
-    public void updateRequestID(int termrequestyID) {
-        this.termFinmartRequest.setTermRequestId(termrequestyID);
+    public void updateRequest(TermFinmartRequest termFinmartRequest) {
+        this.termFinmartRequest = termFinmartRequest;
     }
 
     @Override
@@ -179,6 +199,17 @@ public class IciciTermActivity extends BaseActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void highlighInput() {
+        ivHdrInput.setVisibility(View.VISIBLE);
+        ivHdrQuote.setVisibility(View.GONE);
+    }
+
+    public void highlighQuote() {
+        ivHdrQuote.setVisibility(View.VISIBLE);
+        ivHdrInput.setVisibility(View.GONE);
+
     }
 
 }

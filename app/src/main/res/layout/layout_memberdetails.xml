@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -54,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal"
-                android:padding="4dp">
+                android:padding="3dp">
 
                 <RadioButton
                     android:id="@+id/rbMale"
@@ -76,6 +78,7 @@
                 style="@style/TextInputLayoutStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
                 android:layout_weight="1">
                 <!-- varient -->
                 <Spinner
@@ -91,7 +94,36 @@
 
 
         </LinearLayout>
+
+        <android.support.design.widget.TextInputLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="Date of Birth">
+
+
+            <EditText
+                android:id="@+id/etDOB"
+                style="@style/Style.edittext"
+                android:drawableRight="@drawable/vector_date"
+                android:focusable="false" />
+
+        </android.support.design.widget.TextInputLayout>
+
+
+
+
+
     </LinearLayout>
+
+    <View
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="2dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/seperator"/>
+
 
 
 </LinearLayout>

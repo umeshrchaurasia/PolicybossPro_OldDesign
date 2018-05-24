@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
@@ -58,10 +60,30 @@ public class CommonWebViewActivity extends BaseActivity {
                 downloadPdf(url, name);
             }
         });
-        if (isNetworkConnected())
+        if (isNetworkConnected()) {
             settingWebview();
-        else
+            startCountDownTimer();
+        } else
             Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+    }
+
+    private void startCountDownTimer() {
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+                //here you can have your logic to set text to edittext
+            }
+
+            public void onFinish() {
+                try {
+                    cancelDialog();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }.start();
     }
 
     private boolean isNetworkConnected() {
@@ -98,10 +120,13 @@ public class CommonWebViewActivity extends BaseActivity {
         MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
         webView.setWebViewClient(new WebViewClient() {
+
+
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 // TODO show you progress image
                 showDialog();
+                // new ProgressAsync().execute();
                 super.onPageStarted(view, url, favicon);
             }
 
@@ -122,6 +147,26 @@ public class CommonWebViewActivity extends BaseActivity {
         Log.d("URL", url);
         //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
         webView.loadUrl(url);
+    }
+
+
+    private class ProgressAsync extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+
+            for (int i = 0; i < 8000000; i++) {
+
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            cancelDialog();
+        }
     }
 
     @Override

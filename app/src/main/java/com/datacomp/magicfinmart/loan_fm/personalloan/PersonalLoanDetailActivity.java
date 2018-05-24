@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -26,7 +27,8 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
     Toolbar toolbar;
     ViewPager viewPager;
     ActivityTabsPagerAdapter_PL mAdapter;
-    LoginResponseEntity loginEntity ;
+    LoginResponseEntity loginEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,10 +42,10 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        loginEntity =  new DBPersistanceController(this).getUserData();
+        loginEntity = new DBPersistanceController(this).getUserData();
 
-      //  mAdapter = new ActivityTabsPagerAdapter_PL(getSupportFragmentManager());
-      //  viewPager.setAdapter(mAdapter);
+        //  mAdapter = new ActivityTabsPagerAdapter_PL(getSupportFragmentManager());
+        //  viewPager.setAdapter(mAdapter);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -64,6 +66,7 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
             }
         });
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -74,7 +77,7 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
 
         showDialog("Fetching.., Please wait.!");
 
-        new MainLoanController(this).getPLQuoteApplication(String.valueOf(loginEntity.getFBAId()), PersonalLoanDetailActivity.this);
+        new MainLoanController(this).getPLQuoteApplication(0,0,String.valueOf(loginEntity.getFBAId()), PersonalLoanDetailActivity.this);
 
 
     }
@@ -85,10 +88,16 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
         if (response instanceof FmPersonalLoanResponse) {
             if (((FmPersonalLoanResponse) response).getMasterData() != null) {
 
-                PersonalMainEntity plQuoteApplicationEntity =((FmPersonalLoanResponse)response).getMasterData();
+                PersonalMainEntity plQuoteApplicationEntity = ((FmPersonalLoanResponse) response).getMasterData();
 
-                mAdapter = new ActivityTabsPagerAdapter_PL(getSupportFragmentManager(),plQuoteApplicationEntity);
-                viewPager.setAdapter(mAdapter);
+                if (plQuoteApplicationEntity.getQuote().size() != 0
+                        || plQuoteApplicationEntity.getApplication().size() != 0) {
+                    mAdapter = new ActivityTabsPagerAdapter_PL(getSupportFragmentManager(), plQuoteApplicationEntity);
+                    viewPager.setAdapter(mAdapter);
+                } else {
+                    finish();
+                    startActivity(new Intent(this, PLMainActivity.class));
+                }
             }
 
         }
@@ -97,7 +106,7 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(this,t.getMessage(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
 
     }
 

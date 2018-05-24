@@ -45,22 +45,23 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="25"
-
                         android:background="@drawable/bordertbl"
                         android:gravity="center_vertical|center_horizontal"
                         android:orientation="vertical">
 
                         <ImageView
                             android:id="@+id/ivBankLogo"
-                            android:layout_width="62dp"
-                            android:layout_height="42dp"
-                            android:gravity="center_vertical|center_horizontal" />
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="80"
+                            android:scaleType="centerCrop" />
 
                         <TextView
                             android:id="@+id/tvBankName"
                             style="@style/TextViewStyle.Small"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="0dp"
+                            android:layout_weight="20"
                             android:ellipsize="end"
                             android:focusable="false"
                             android:focusableInTouchMode="false"
@@ -266,21 +267,32 @@
                         android:orientation="vertical"
                         android:padding="5dp">
 
-                        <TextView
-                            android:id="@+id/btnApply"
-                            style="@style/ButtonStyle"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
                             android:background="#f38d1e"
-                            android:drawableLeft="@mipmap/buy"
-                            android:gravity="center_vertical|center_horizontal"
-                            android:minHeight="0dp"
-                            android:minWidth="90dp"
-                            android:drawablePadding="8dp"
+                            android:gravity="center"
+                            android:orientation="horizontal"
                             android:paddingBottom="5dp"
+                            android:paddingTop="5dp">
 
-                            android:paddingTop="5dp"
-                            android:text="BUY"
-                            android:textColor="@android:color/white" />
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@mipmap/buy" />
+
+                            <TextView
+                                android:id="@+id/btnApply"
+                                style="@style/TextStyle.TextLarge"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:gravity="left|center_vertical"
+                                android:minHeight="30dp"
+                                android:text="BUY"
+                                android:textColor="@android:color/white" />
+                        </LinearLayout>
+
                     </LinearLayout>
 
                 </TableRow>
@@ -449,7 +461,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="5dp"
                         android:paddingLeft="10dp"
-                        android:text="E-Approvl Available"
+                        android:text="E-Approval Available"
                         android:textAppearance="@style/TextViewStyle.Medium"
                         android:textColor="@color/black" />
 

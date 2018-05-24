@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -18,10 +19,15 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableString;
+import android.text.style.StyleSpan;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -31,6 +37,8 @@ import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
+import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
+import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
@@ -52,10 +60,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MpsDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 
@@ -71,6 +82,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     String versionNAme;
     PackageInfo pinfo;
     PrefManager prefManager;
+    int forceUpdate;
+    ConstantEntity constantEntity;
+    AlertDialog mpsDialog;
 
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
@@ -131,13 +145,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         List<String> rtoDesc = db.getRTOListNames();
 
-        // set first fragement selected.
-        navigationView.getMenu().getItem(0).setChecked(true);
 
         if (savedInstanceState == null) {
-            getSupportActionBar().setTitle("MAGIC FIN-MART");
-            Fragment fragment = new DashboardFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
+            selectHome();
+
 
         }
 
@@ -203,9 +214,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Refer A Friend : Refer A Friend button in menu "), Constants.REFER), null);
                         break;
                     case R.id.nav_mps:
-                        showDialog();
+                        // DialogMPS();
+                        // showDialog();
                         new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
-                        new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+
+                        // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
                         //startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
                         break;
                     case R.id.nav_helpfeedback:
@@ -238,6 +251,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.replace(R.id.frame, fragment);
                     fragmentTransaction.commit();
+
                     return true;
                 }
                 return false;
@@ -269,6 +283,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         actionBarDrawerToggle.syncState();
     }
 
+    public void selectHome() {
+        getSupportActionBar().setTitle("MAGIC FIN-MART");
+        Fragment fragment = new DashboardFragment();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frame, fragment).commit();
+    }
+
     // endregion
 
 
@@ -276,11 +296,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
-        txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
+        //txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
 
-        txtEntityName.setText("Magic Finmart v" + versionNAme);
-        txtDetails.setText("" + loginResponseEntity.getFullName());
-        txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
+        txtEntityName.setText("Magic Finmart  v" + versionNAme);
+        txtDetails.setText("" + loginResponseEntity.getFullName()
+                + " (FBA ID : " + loginResponseEntity.getFBAId() + ")");
+        //txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
         if (db.getAccountData() == null) {
             new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
@@ -449,21 +470,73 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (response instanceof MpsResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
-                if (((MpsResponse) response).getMasterData().getPaymentURL() != null) {
-                    startActivity(new Intent(this, CommonWebViewActivity.class)
-                            .putExtra("URL", ((MpsResponse) response).getMasterData().getPaymentURL())
-                            .putExtra("NAME", "MPS")
-                            .putExtra("TITLE", "MPS"));
-                }
+                prefManager.removeMps();
+                prefManager.setMPS(((MpsResponse) response).getMasterData());
+                DialogMPS();
+
             }
         } else if (response instanceof MyAcctDtlResponse) {
             if (response.getStatusNo() == 0) {
-
                 if (((MyAcctDtlResponse) response).getMasterData().get(0) != null) {
-
                     db.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
+                }
+            }
+        }
+        if (response instanceof ConstantsResponse) {
+            constantEntity = ((ConstantsResponse) response).getMasterData();
+            if (response.getStatusNo() == 0) {
+
+                //region check for new vwesion
+                int serverVersionCode = Integer.parseInt(((ConstantsResponse) response).getMasterData().getVersionCode());
+                if (pinfo != null && pinfo.versionCode < serverVersionCode) {
+                    forceUpdate = Integer.parseInt(((ConstantsResponse) response).getMasterData().getIsForceUpdate());
+                    if (forceUpdate == 1) {
+                        // forced update app
+                        openPopUp(navigationView, "UPDATE", "New version available on play store!!!! Please update.", "OK", false);
+                    } else {
+                        // aap with less version but not forced update
+                        if (prefManager.getUpdateShown()) {
+                            prefManager.setIsUpdateShown(false);
+                            openPopUp(navigationView, "UPDATE", "New version available on play store!!!! Please update.", "OK", true);
+                        }
+                    }
+
+                    if (new DBPersistanceController(this).getUserData().getIsFirstLogin() == 1) {
+                        for (Fragment frg :
+                                getSupportFragmentManager().getFragments()) {
+
+                            if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
+                                if (!frg.isVisible()) {
+                                    Log.d("TAG", "CONSTANTS");
+                                    DialogMPS();
+                                }
+                            }
+                        }
+                    }
+
+                } else if (((ConstantsResponse) response).getMasterData().
+                        getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
+
+                    for (Fragment frg :
+                            getSupportFragmentManager().getFragments()) {
+
+                        if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
+                            if (!frg.isVisible()) {
+                                if (prefManager.getMps() != null) {
+                                    DialogMPS();
+                                }
+                            }
+                        } else {
+                            if (prefManager.getMps() != null) {
+                                DialogMPS();
+                            }
+                        }
+                    }
 
                 }
+                //endregion
+
+                hideNavigationItem();
             }
         }
 
@@ -489,6 +562,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     protected void onResume() {
         super.onResume();
+
+        if (prefManager.getMps() == null) {
+            new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+        }
+
+        // set first fragement selected.
+        selectHome();
+
+
+        // new MasterController(this).getConstants(this);
+
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
     }
@@ -521,4 +605,83 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         else
             nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
     }
+
+    //region mps dialog
+
+    public void DialogMPS() {
+        if (prefManager.getMps() != null) {
+            AlertDialog.Builder mpsAlertBuilder;
+            mpsAlertBuilder = new AlertDialog.Builder(this);
+            mpsAlertBuilder.setCancelable(true);
+            // builder.setTitle("PREMIUM DETAIL");
+            LayoutInflater inflater = this.getLayoutInflater();
+            View view = inflater.inflate(R.layout.layout_dialog_mps, null);
+            mpsAlertBuilder.setView(view);
+
+            if (mpsDialog == null) {
+                mpsDialog = mpsAlertBuilder.create();
+            }
+
+            TextView txtDesc = (TextView) view.findViewById(R.id.txtDesc);
+            TextView txtKnowMore = (TextView) view.findViewById(R.id.txtKnowMore);
+            TextView txtGetMPS = (TextView) view.findViewById(R.id.txtGetMPS);
+            TextView txtLater = (TextView) view.findViewById(R.id.txtLater);
+
+            txtDesc.setText("");
+            txtDesc.append(getResources().getString(R.string.mps_popup_text));
+
+            String amount = " \u20B9" + prefManager.getMps().getTotalAmt() + "/- ";
+            SpannableString ss1 = new SpannableString(amount);
+            ss1.setSpan(new StyleSpan(Typeface.BOLD), 0, ss1.length(), 0);
+            String normalText = getResources().getString(R.string.mps_popup_text);
+            txtDesc.setText("");
+            txtDesc.append(normalText);
+            txtDesc.append(ss1);
+            txtDesc.append("(Incl. GST) only");
+
+            txtLater.setTag(R.id.txtLater, mpsDialog);
+            txtGetMPS.setTag(R.id.txtGetMPS, mpsDialog);
+            txtKnowMore.setTag(R.id.txtKnowMore, mpsDialog);
+
+            txtKnowMore.setOnClickListener(onClickListener);
+            txtGetMPS.setOnClickListener(onClickListener);
+            txtLater.setOnClickListener(onClickListener);
+
+            if (!mpsDialog.isShowing())
+                mpsDialog.show();
+        }
+
+    }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            switch (v.getId()) {
+                case R.id.txtKnowMore:
+                    ((AlertDialog) v.getTag(R.id.txtKnowMore)).dismiss();
+                    android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.frame, new KnowMoreMPSFragment());
+                    fragmentTransaction.commit();
+                    break;
+                case R.id.txtGetMPS:
+                    ((AlertDialog) v.getTag(R.id.txtGetMPS)).dismiss();
+                    redirectMPS();
+
+                    break;
+                case R.id.txtLater:
+                    ((AlertDialog) v.getTag(R.id.txtLater)).dismiss();
+                    break;
+
+            }
+        }
+    };
+
+    public void redirectMPS() {
+        android.support.v4.app.FragmentTransaction fragmentTransaction;
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.frame, new MPSFragment());
+        fragmentTransaction.commit();
+    }
+    //endregion
 }

@@ -3,10 +3,12 @@ package com.datacomp.magicfinmart.health.compare;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.widget.GridLayoutManager;
+import android.os.Handler;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.LinearSmoothScroller;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,17 +27,16 @@ import com.datacomp.magicfinmart.utility.SortbyInsurer;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 
 public class HealthCompareActivity extends BaseActivity {
 
-    RecyclerView rvBenefits, rvBenefitsOptions;
+    RecyclerView rvBenefits;//, rvBenefitsOptions;
     List<HealthQuoteEntity> listHealthQuote;
     HealthCompareViewAdapter mAdapter;
     Spinner spBenefits;
@@ -43,8 +44,14 @@ public class HealthCompareActivity extends BaseActivity {
     ArrayList<String> listBenefits;
     ArrayList<BenefitsEntity> list9Benefits;
     ArrayAdapter<String> benefitsAdapter;
-    HealthNineBenefitsViewAdapter mBenefitsAdapter;
+    //HealthNineBenefitsViewAdapter mBenefitsAdapter;
     TextView txtSelectedBenefits;
+
+    ViewPager vpBenefits;
+    ScrollingBenefitsAdapter scrollingBenefitsAdapter;
+    Timer timer;
+    int page = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +69,6 @@ public class HealthCompareActivity extends BaseActivity {
             List<HealthQuoteEntity> list = getIntent().getParcelableArrayListExtra(HealthQuoteFragment.HEALTH_COMPARE);
 
             listHealthQuote = new ArrayList<>(removeDuplicate(list));
-
             fillBenefits();
             bindBenefits();
 
@@ -70,7 +76,7 @@ public class HealthCompareActivity extends BaseActivity {
 
         // spBenefits.setSelection(0);
         updateBenefits("Room Rent Limit");
-        mBenefitsAdapter.updateList(0);
+        // mBenefitsAdapter.updateList(0);
 
 
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +179,7 @@ public class HealthCompareActivity extends BaseActivity {
         }
 
         mAdapter.refreshSelection(listHealthQuote);
+        scrollingBenefitsAdapter.notifyDataSetChanged();
 
     }
 
@@ -188,15 +195,37 @@ public class HealthCompareActivity extends BaseActivity {
     }
 
     private void init() {
+        vpBenefits = (ViewPager) findViewById(R.id.vpBenefits);
+        // vpBenefits.setPageMargin(-700);
+
         btnBack = (Button) findViewById(R.id.btnBack);
         txtSelectedBenefits = (TextView) findViewById(R.id.txtSelectedBenefits);
         spBenefits = (Spinner) findViewById(R.id.spBenefits);
         rvBenefits = (RecyclerView) findViewById(R.id.rvBenefits);
         rvBenefits.setLayoutManager(new LinearLayoutManager(this));
 
-        rvBenefitsOptions = (RecyclerView) findViewById(R.id.rvBenefitsOptions);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        rvBenefitsOptions.setLayoutManager(layoutManager);
+        //rvBenefitsOptions = (RecyclerView) findViewById(R.id.rvBenefitsOptions);
+        //RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(HealthCompareActivity.this) {
+            @Override
+            public void smoothScrollToPosition(RecyclerView recyclerView, RecyclerView.State state, int position) {
+                LinearSmoothScroller smoothScroller = new LinearSmoothScroller(HealthCompareActivity.this) {
+                    private static final float SPEED = 4000f;// Change this value (default=25f)
+
+                    @Override
+                    protected float calculateSpeedPerPixel(DisplayMetrics displayMetrics) {
+                        return SPEED / displayMetrics.densityDpi;
+                    }
+                };
+                smoothScroller.setTargetPosition(position);
+                startSmoothScroll(smoothScroller);
+            }
+
+        };
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        //rvBenefitsOptions.setLayoutManager(layoutManager);
+
     }
 
     private void fillBenefits() {
@@ -227,11 +256,49 @@ public class HealthCompareActivity extends BaseActivity {
 
                 listBenefits.add(0, "Select Other Benefits");
 
-                mBenefitsAdapter = new HealthNineBenefitsViewAdapter(this, list9Benefits);
-                rvBenefitsOptions.setAdapter(mBenefitsAdapter);
+                //mBenefitsAdapter = new HealthNineBenefitsViewAdapter(this, list9Benefits);
+                //rvBenefitsOptions.setAdapter(mBenefitsAdapter);
+
+                scrollingBenefitsAdapter = new ScrollingBenefitsAdapter(this,
+                        list9Benefits);
+                vpBenefits.setAdapter(scrollingBenefitsAdapter);
+                pageSwitcher(1);
             }
         }
     }
+
+    public void pageSwitcher(int seconds) {
+        timer = new Timer(); // At this line a new Thread will be created
+        timer.scheduleAtFixedRate(new RemindTask(), 0, seconds * 1000); // delay
+        // in
+        // milliseconds
+    }
+
+    class RemindTask extends TimerTask {
+
+        @Override
+        public void run() {
+
+            // As the TimerTask run on a seprate thread from UI thread we have
+            // to call runOnUiThread to do work on UI thread.
+            runOnUiThread(new Runnable() {
+                public void run() {
+
+                    if (page > list9Benefits.size()) { // In my case the number of pages are 5
+                        //timer.cancel();
+
+                        page = 0;
+                        vpBenefits.setCurrentItem(page);
+                        page++;
+                    } else {
+                        vpBenefits.setCurrentItem(page++);
+                    }
+                }
+            });
+
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

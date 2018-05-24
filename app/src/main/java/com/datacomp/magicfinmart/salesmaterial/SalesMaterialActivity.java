@@ -1,12 +1,22 @@
 package com.datacomp.magicfinmart.salesmaterial;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
@@ -18,6 +28,8 @@ import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +37,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CompanyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
 
 public class SalesMaterialActivity extends BaseActivity implements IResponseSubcriber {
 
@@ -34,6 +48,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     SalesMaterialAdapter mAdapter;
     List<SalesProductEntity> mlistSalesProduct;
     DBPersistanceController dbPersistanceController;
+    List<CompanyEntity> companyLst;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +69,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     }
 
     private void init() {
+        companyLst = new ArrayList<CompanyEntity>();
         rvSalesMaterial = (RecyclerView) findViewById(R.id.rvSalesMaterial);
         rvSalesMaterial.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
@@ -63,10 +79,10 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     @Override
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
-        boolean isUpdate =false;
+        boolean isUpdate = false;
         if (response instanceof SalesMaterialProductResponse) {
-           mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
-           // mlistSalesProduct =  getProducttList();
+             mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
+            //mlistSalesProduct = getProducttList();
 
             List<SalesProductEntity> compLst = dbPersistanceController.getCompanyList();
             if (compLst != null) {
@@ -75,8 +91,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
                         for (SalesProductEntity oldComEntiy : compLst) {
                             if (mlistSalesProduct.get(i).getProduct_Id() == oldComEntiy.getProduct_Id()) {
 
-                                if(oldComEntiy.getOldCount() >  mlistSalesProduct.get(i).getCount() )
-                                {
+                                if (oldComEntiy.getOldCount() > mlistSalesProduct.get(i).getCount()) {
                                     isUpdate = true;
                                     break;
                                 }
@@ -95,7 +110,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
             // case 1 : for first time when db data is empty OR Server list size is change ie product is increased / decreased
             // case 2 : if sever product count is lesss than db product count than db should update
 
-            if (compLst.size() != mlistSalesProduct.size()  || isUpdate) {
+            if (compLst.size() != mlistSalesProduct.size() || isUpdate) {
                 for (int i = 0; i < mlistSalesProduct.size(); i++) {
 
                     mlistSalesProduct.get(i).setOldCount(0);
@@ -117,10 +132,13 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 //
 //            }
 
-           // endregion
+            // endregion
 
             mAdapter = new SalesMaterialAdapter(this, mlistSalesProduct);
             rvSalesMaterial.setAdapter(mAdapter);
+        } else if (response instanceof SalesPromotionResponse) {
+            companyLst = ((SalesPromotionResponse) response).getMasterData().getCompany();
+
         }
     }
 
@@ -130,11 +148,19 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    public void redirectToApplyMain(SalesProductEntity salesProductEntity) {
+    public void redirectToApplyMain(SalesProductEntity entity, int pos) {
 
-        Intent intent = new Intent(this, SalesDetailActivity.class);
-        intent.putExtra(Constants.PRODUCT_ID, salesProductEntity);
-        startActivity(intent);
+        if (entity.getCount() > entity.getOldCount()) {
+            alertCount(entity, pos);
+        } else {
+
+            Intent intent = new Intent(SalesMaterialActivity.this, SalesDetailActivity.class);
+            intent.putExtra(Constants.PRODUCT_ID, entity);
+            startActivity(intent);
+
+        }
+
+
     }
 
     @Override
@@ -161,19 +187,113 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     }
 
 
+    public List<SalesProductEntity> getProducttList() {
+        List<SalesProductEntity> EmploymentEntityList = new ArrayList<SalesProductEntity>();
 
-        public List<SalesProductEntity> getProducttList() {
-            List<SalesProductEntity> EmploymentEntityList = new ArrayList<SalesProductEntity>();
+        EmploymentEntityList.add(new SalesProductEntity(1, "Health Insurance", "http://bo.mgfm.in/uploads/sales_material/440Your-Search.jpg", 5));
+        EmploymentEntityList.add(new SalesProductEntity(2, "Motor Insurance", "http://qa.mgfm.in/uploads/salesmaterial/motor.png", 5));
+        EmploymentEntityList.add(new SalesProductEntity(3, "Health Assure", "http://qa.mgfm.in/uploads/salesmaterial/healthassure.png", 2));
+        EmploymentEntityList.add(new SalesProductEntity(4, "Loans", "http://qa.mgfm.in/uploads/salesmaterial/loans.png", 2));
+        EmploymentEntityList.add(new SalesProductEntity(5, "Health Insurance", "http://qa.mgfm.in/uploads/salesmaterial/finpeace.png", 4));
 
-            EmploymentEntityList.add(new SalesProductEntity(1, "Health Insurance","http://qa.mgfm.in/uploads/salesmaterial/health.png",0));
-            EmploymentEntityList.add(new SalesProductEntity(2, "Motor Insurance","http://qa.mgfm.in/uploads/salesmaterial/motor.png",2));
-            EmploymentEntityList.add(new SalesProductEntity(3, "Health Assure","http://qa.mgfm.in/uploads/salesmaterial/healthassure.png",1));
-            EmploymentEntityList.add(new SalesProductEntity(4, "Loans","http://qa.mgfm.in/uploads/salesmaterial/loans.png",1));
-            EmploymentEntityList.add(new SalesProductEntity(5, "Health Insurance","http://qa.mgfm.in/uploads/salesmaterial/finpeace.png",0));
+        return EmploymentEntityList;
+    }
 
-            return EmploymentEntityList;
+
+    private void alertCount(final SalesProductEntity salesProductEntity, final int position) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        int count = (salesProductEntity.getCount() - salesProductEntity.getOldCount());
+        ImageView ivCross;
+        Button btnLater, btnDownload;
+        TextView txtMessage;
+
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.layout_material_count_popup, null);
+
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        txtMessage = (TextView) dialogView.findViewById(R.id.txtMessage);
+        btnLater = (Button) dialogView.findViewById(R.id.btnLater);
+        btnDownload = (Button) dialogView.findViewById(R.id.btnDownload);
+        ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+        txtMessage.setText(count + " " + getString(R.string.materail_count));
+
+
+        ivCross.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+
+        btnLater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+
+            }
+        });
+
+
+        btnDownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                mAdapter.updateList(salesProductEntity, position);
+
+                Intent intent = new Intent(SalesMaterialActivity.this, SalesDetailActivity.class);
+                intent.putExtra(Constants.PRODUCT_ID, salesProductEntity);
+                startActivity(intent);
+
+            }
+        });
+
+
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
+
+
+    public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
+        URL NotifyPhotoUrl;
+        String imgURL;
+
+        public createBitmapFromURL(String imgURL) {
+            this.imgURL = imgURL;
         }
 
 
+        @Override
+        protected void onPreExecute() {
 
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap networkBitmap = null;
+
+            try {
+                NotifyPhotoUrl = new URL(imgURL);
+                networkBitmap = BitmapFactory.decodeStream(
+                        NotifyPhotoUrl.openConnection().getInputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + NotifyPhotoUrl);
+            }
+
+            return networkBitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+
+            // bitmap_image = result;
+        }
+    }
 }

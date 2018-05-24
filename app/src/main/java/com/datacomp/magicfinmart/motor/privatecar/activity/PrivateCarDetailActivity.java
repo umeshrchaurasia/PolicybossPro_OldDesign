@@ -98,10 +98,17 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         if (response instanceof QuoteApplicationResponse) {
             if (((QuoteApplicationResponse) response).getMasterData() != null) {
 
-                mAdapter = new ActivityTabsPagerAdapter(getSupportFragmentManager(),
-                        ((QuoteApplicationResponse) response).getMasterData());
-                viewPager.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
+                if ((((QuoteApplicationResponse) response).getMasterData().getQuote().size() != 0)
+                        || ((QuoteApplicationResponse) response).getMasterData().getApplication().size() != 0) {
+
+                    mAdapter = new ActivityTabsPagerAdapter(getSupportFragmentManager(),
+                            ((QuoteApplicationResponse) response).getMasterData());
+                    viewPager.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    finish();
+                    startActivity(new Intent(this, InputQuoteBottmActivity.class));
+                }
             }
         } else if (response instanceof CarMasterResponse) {
         }

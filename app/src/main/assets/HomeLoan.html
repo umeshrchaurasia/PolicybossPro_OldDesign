@@ -39,7 +39,7 @@ ul li {margin:2px; padding:4px !important;}
 <div class="container">
     <div class="col-md-12">
         <br>
-        <p>Dear <b class="red-txt" id="name">Test User</b></p>
+        <p>Dear <b class="red-txt" id="name">Test User</b>,</p>
         <p>Please find below Your Home Loan quotations.</p>
     </div>
 
@@ -68,7 +68,7 @@ ul li {margin:2px; padding:4px !important;}
 
     <div class="col-md-12">
         <br>
-        <p>P.S: The about Quotations are subject to verification by respective insurance</p>
+        <p>P.S: The above Quotations are subject to verification by respective banks</p>
         <h5><b>
             Please feel free to contact me for more details and renewal</b></h5>
     </div>
@@ -97,11 +97,11 @@ ul li {margin:2px; padding:4px !important;}
     function init(bikeReponse, userReponse, otherReponse) {
 
         userReponse = JSON.parse(userReponse);
-      
+
 
         document.getElementById('name').innerHTML = otherReponse;
-      
-        
+
+
         document.getElementById('pospName').innerHTML = userReponse.pospNAme;
         document.getElementById('pospPhoto').src = userReponse.pospPhotoUrl;
         document.getElementById('deg').innerHTML = userReponse.pospDesg;
@@ -113,7 +113,7 @@ ul li {margin:2px; padding:4px !important;}
 
 
         var HTML = "";
-       
+
         document.getElementById('divHL').innerHTML = HTML;
 
         for (var i = 0; i < response.data.length; i++) {
@@ -123,8 +123,8 @@ ul li {margin:2px; padding:4px !important;}
             HTML = HTML +     '<tbody>';
             HTML = HTML +     '  <tr>';
             HTML = HTML +     '<td><img src="'+response.data[i].Bank_Logo+'" class="img-responsive center" /><span style="font-size:8px;">' + response.data[i].Bank_Code + ' <span></td>';
-            HTML = HTML +     ' <td style="border-right:0px;"><p>LOAN AMOUNT</p><h5><b>₹ '+response.data[i].LoanRequired+'</b></h5></td>';
-            HTML = HTML + '<td style="border-left:0px;"><p>EMI</p><h5><b>₹ ' + response.data[i].emi + '</b></h5></td>';
+            HTML = HTML +     ' <td ><p>LOAN AMOUNT</p><h5><b>₹ '+response.data[i].LoanRequired+'</b></h5></td>';
+            HTML = HTML + '<td ><p>EMI</p><h5><b>₹ ' + response.data[i].emi + '</b></h5></td>';
             HTML = HTML + ' <td><p>EMI PER LAC</p><h5><b>₹ ' + Math.round(response.data[i].emi/response.data[i].LoanRequired * 100000) + '</b></h5></td>';
             HTML = HTML +     '</tr>';
             HTML = HTML + '<tr>';
@@ -135,8 +135,8 @@ ul li {margin:2px; padding:4px !important;}
             {
                 HTML = HTML + '<td><p>' + response.data[i].roi_type + '</p><h5><b>' + response.data[i].roi + '</b></h5> </td>';
             }
-            HTML = HTML + '<td style="border-right:0px;"><p>PROCESSING FEE</p> <h5><b>₹ ' + response.data[i].processingfee + '</b></h5></td>';
-            HTML = HTML + '<td style="border-left:0px;"><p>TENURE</p><h5><b>' + response.data[i].LoanTenure + '</b></h5></td>';
+            HTML = HTML + '<td ><p>PROCESSING FEE</p> <h5><b>₹ ' + response.data[i].processingfee + '</b></h5></td>';
+            HTML = HTML + '<td ><p>TENURE</p><h5><b>' + response.data[i].LoanTenure + '</b></h5></td>';
             HTML = HTML +     '<td>&nbsp;</td>';
             HTML = HTML +     '</tr>';
             HTML = HTML +     '</tbody>';
