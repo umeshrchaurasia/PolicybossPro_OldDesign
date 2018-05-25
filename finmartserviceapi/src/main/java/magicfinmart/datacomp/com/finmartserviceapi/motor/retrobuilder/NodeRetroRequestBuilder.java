@@ -22,7 +22,7 @@ public abstract class NodeRetroRequestBuilder {
 
     // live url
     // public static String URL = "http://horizon.policyboss.com:5000";
-    //public static String PROPOSAL_BASE_URL = "http://www.policyboss.com/";
+    // public static String PROPOSAL_BASE_URL = "http://www.policyboss.com/";
 
 
     protected Retrofit build() {
