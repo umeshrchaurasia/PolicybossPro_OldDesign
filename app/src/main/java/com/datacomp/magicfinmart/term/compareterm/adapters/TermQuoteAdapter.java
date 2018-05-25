@@ -18,25 +18,20 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 
 public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.TermQuoteItem> {
 
 
     Fragment mContext;
-    TermCompareQuoteResponse response;
 
     List<TermCompareResponseEntity> listQuotes;
     DBPersistanceController dbPersistanceController;
 
-    public TermQuoteAdapter(Fragment mContext, TermCompareQuoteResponse response) {
+    public TermQuoteAdapter(Fragment mContext, List<TermCompareResponseEntity> listQuotes) {
         this.mContext = mContext;
-        this.response = response;
+        this.listQuotes = listQuotes;
         dbPersistanceController = new DBPersistanceController(mContext.getContext());
-        if (response.getMasterData() != null)
-            this.listQuotes = response.getMasterData().getResponse();
-        else
-            this.listQuotes = null;
+
     }
 
     @Override
@@ -100,12 +95,6 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
         } else {
             return 0;
         }
-    }
-
-    public void setQuoteResponse(TermCompareQuoteResponse response) {
-        this.response = response;
-        if (response.getMasterData() != null)
-            this.listQuotes = response.getMasterData().getResponse();
     }
 
     public class TermQuoteItem extends RecyclerView.ViewHolder {

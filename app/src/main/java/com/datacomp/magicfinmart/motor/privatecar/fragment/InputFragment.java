@@ -1407,10 +1407,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                                 etRegDate.setTag(R.id.etRegDate, calendar);
 
-                                Calendar calendar1 = Calendar.getInstance();
+                                /*Calendar calendar1 = Calendar.getInstance();
                                 calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
                                 String expDate = simpleDateFormat.format(calendar1.getTime());
-                                etExpDate.setText(expDate);
+                                etExpDate.setText(expDate);*/
                             }
                         }
                     });

@@ -35,6 +35,7 @@ import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +44,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
@@ -74,8 +76,9 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     LinearLayout llCompareAll;
     RecyclerView rvTerm;
     CardView cvInputDetails;
-    TermCompareQuoteResponse termCompareQuoteResponse;
+    List<TermCompareResponseEntity> termCompareResponseEntities;
     int insurerID, termRequestId = 0, age = 0;
+    String crn = "";
     TermQuoteAdapter mAdapter;
 
     //Headers
@@ -94,6 +97,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         policyYear = dbPersistanceController.getPremYearList();
         termRequestEntity = new TermRequestEntity();
         termFinmartRequest = new TermFinmartRequest();
+        termCompareResponseEntities = new ArrayList<TermCompareResponseEntity>();
         init_adapters();
 
         adapter_listener();
@@ -218,7 +222,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
             tvCrn.setText("");
             tvCrn.append("CRN  ");
-            String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+            //String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
             SpannableString CRN = new SpannableString(crn);
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
             CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
@@ -304,6 +308,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        Constants.hideKeyBoard(view, getActivity());
         switch (view.getId()) {
 
             case R.id.tvMale:
@@ -577,7 +582,8 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof TermCompareQuoteResponse) {
             cancelDialog();
-            this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
+            processResponse((TermCompareQuoteResponse) response);
+            /*this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
             mainScroll.fullScroll(ScrollView.FOCUS_UP);
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
             //rvTerm.setAdapter(mAdapter);
@@ -589,13 +595,12 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
             termFinmartRequest.setTermRequestId(termRequestId);
             bindHeaders();
             bindQuotes();
-            changeInputQuote(false);
+            changeInputQuote(false);*/
         }
-
     }
 
     private void bindQuotes() {
-        mAdapter = new TermQuoteAdapter(TermInputFragment.this, termCompareQuoteResponse);
+        mAdapter = new TermQuoteAdapter(TermInputFragment.this, termCompareResponseEntities);
         rvTerm.setAdapter(mAdapter);
         // tvCrn.setText("" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID());
     }
@@ -605,5 +610,32 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
         changeInputQuote(true);
+    }
+
+    private void processResponse(TermCompareQuoteResponse termCompareQuoteResponse) {
+        mainScroll.fullScroll(ScrollView.FOCUS_UP);
+        if (termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getResponse() != null) {
+            if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
+
+                for (int i = 0; i < termCompareQuoteResponse.getMasterData().getResponse().size(); i++) {
+                    TermCompareResponseEntity termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(i);
+                    if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
+                        termCompareResponseEntities.add(termCompareResponseEntity);
+                    }
+                }
+
+                crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+                termRequestEntity.setCrn(crn);
+                termFinmartRequest.setTermRequestEntity(termRequestEntity);
+                if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
+                    termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
+                termFinmartRequest.setTermRequestId(termRequestId);
+                bindHeaders();
+                bindQuotes();
+                changeInputQuote(false);
+            } else {
+                Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

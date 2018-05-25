@@ -79,7 +79,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     // quote
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn, filter;
     ImageView ivEdit, ivInfo;
-    TermCompareQuoteResponse termCompareQuoteResponse;
+    TermCompareResponseEntity termCompareResponseEntity;
     CardView cvInputDetails, cvQuoteDetails;
     View layoutCompare;
 
@@ -153,6 +153,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     };
     boolean isEdit = false;
     int termRequestId = 0;
+    String crn = "";
     AdapterView.OnItemSelectedListener optionSelected = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -378,7 +379,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
             tvCrn.setText("");
             tvCrn.append("CRN  ");
-            String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+            //String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
             SpannableString CRN = new SpannableString(crn);
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
             CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
@@ -393,7 +394,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void bindQuotes() {
-        final TermCompareResponseEntity responseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(0);
+        final TermCompareResponseEntity responseEntity = termCompareResponseEntity;
         txtPlanNAme.setText("" + responseEntity.getProductPlanName());
         txtCover.setText("\u20B9 " + responseEntity.getSumAssured());
         txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + " Yrs.");
@@ -708,20 +709,20 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 break;
 
             case R.id.ivBuy:
-                new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(), "39", "" + dbPersistanceController.getUserData().getFBAId(), "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getNetPremium(), this);
+                new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(), "39", "" + dbPersistanceController.getUserData().getFBAId(), "" + termCompareResponseEntity.getNetPremium(), this);
                 startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                        .putExtra("URL", termCompareQuoteResponse.getMasterData().getResponse().get(0).getProposerPageUrl())
+                        .putExtra("URL", termCompareResponseEntity.getProposerPageUrl())
                         .putExtra("NAME", "ICICI PRUDENTIAL")
                         .putExtra("TITLE", "ICICI PRUDENTIAL"));
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life Ins Buy"), Constants.LIFE_INS), null);
 
                 break;
             case R.id.ivPdf:
-                if (termCompareQuoteResponse != null && termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl().equals("")) {
+                if (termCompareResponseEntity != null && termCompareResponseEntity.getPdfUrl().equals("")) {
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(new Intent(getActivity(), KnowledgeGuruWebviewActivity.class)
-                            .putExtra("URL", "https://docs.google.com/viewer?url=" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl())
+                            .putExtra("URL", "https://docs.google.com/viewer?url=" + termCompareResponseEntity.getPdfUrl())
                             .putExtra("NAME", "CLICK TO PROTECT 3D")
                             .putExtra("TITLE", "CLICK TO PROTECT 3D"));
 
@@ -742,7 +743,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 break;
             case R.id.ivInfo:
                 //((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
-                OpenPoupWnidow(termCompareQuoteResponse.getMasterData().getResponse().get(0).getKeyFeatures().split("\\|"));
+                OpenPoupWnidow(termCompareResponseEntity.getKeyFeatures().split("\\|"));
                 break;
             case R.id.txtICICILumpSum:
             case R.id.txtICICIRegularIncome:
@@ -1441,7 +1442,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         cancelDialog();
 
         if (response instanceof TermCompareQuoteResponse) {
-            mainScroll.fullScroll(ScrollView.FOCUS_UP);
+            processResponse((TermCompareQuoteResponse) response);
+            /*mainScroll.fullScroll(ScrollView.FOCUS_UP);
             this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
             this.cvInputDetails.requestFocus();
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
@@ -1454,7 +1456,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             termFinmartRequest.setTermRequestId(termRequestId);
             bindHeaders();
             bindQuotes();
-            hideShowLayout(false);
+            hideShowLayout(false);*/
         }
 
     }
@@ -1463,6 +1465,30 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void processResponse(TermCompareQuoteResponse termCompareQuoteResponse) {
+        mainScroll.fullScroll(ScrollView.FOCUS_UP);
+        if (termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getResponse() != null) {
+            if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
+                this.termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(0);
+                crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+                termRequestEntity.setCrn(crn);
+                termFinmartRequest.setTermRequestEntity(termRequestEntity);
+                if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
+                    termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
+                termFinmartRequest.setTermRequestId(termRequestId);
+                bindHeaders();
+                hideShowLayout(false);
+                if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
+                    bindQuotes();
+                } else {
+                    Toast.makeText(getActivity(), "" + termCompareResponseEntity.getQuoteStatus(), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     private void setPopUpInfo() {
@@ -1511,7 +1537,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         // Get a reference for the custom view close button
         ImageButton closeButton = (ImageButton) customView.findViewById(R.id.imgClose);
         TextView tvTitle = (TextView) customView.findViewById(R.id.tvTitle);
-        tvTitle.setText("BENEFIT OF " + termCompareQuoteResponse.getMasterData().getResponse().get(0).getProductPlanName());
+        tvTitle.setText("BENEFIT OF " + termCompareResponseEntity.getProductPlanName());
         rvIprotectSmart = (RecyclerView) customView.findViewById(R.id.rvIprotectSmart);
         rvIprotectSmart.setHasFixedSize(true);
 
