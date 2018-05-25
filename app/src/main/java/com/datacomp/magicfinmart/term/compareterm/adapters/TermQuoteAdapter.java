@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.compareterm.TermQuoteFragment;
+import com.datacomp.magicfinmart.term.compareterm.TermInputFragment;
 
 import java.util.List;
 
@@ -51,6 +51,9 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
         holder.txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium() + "/Year");
         // holder.txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
 
+        /*if(responseEntity.getInsurerId()==39){
+            holder.imgInsurerLogo.setImageDrawable();
+        }*/
         Glide.with(mContext)
                 .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurerLogoName())
                 .into(holder.imgInsurerLogo);
@@ -58,20 +61,20 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
         holder.txtCustomise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+                ((TermInputFragment) mContext).redirectToCustomize(responseEntity);
             }
         });
-        holder.txtRiders.setOnClickListener(new View.OnClickListener() {
+        /*holder.txtRiders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
-        });
+        });*/
 
         holder.txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TermQuoteFragment) mContext).redirectToBuy(responseEntity);
+                ((TermInputFragment) mContext).redirectToBuy(responseEntity);
             }
         });
 
@@ -109,7 +112,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtAge = (TextView) itemView.findViewById(R.id.txtAge);
             txtCustomise = (TextView) itemView.findViewById(R.id.txtCustomise);
-            txtRiders = (TextView) itemView.findViewById(R.id.txtRiders);
+            //txtRiders = (TextView) itemView.findViewById(R.id.txtRiders);
             txtPlanNAme = (TextView) itemView.findViewById(R.id.txtPlanNAme);
             txtCover = (TextView) itemView.findViewById(R.id.txtCover);
             txtFinalPremium = (TextView) itemView.findViewById(R.id.txtFinalPremium);

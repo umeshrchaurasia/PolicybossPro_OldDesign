@@ -154,7 +154,6 @@ public class TermQuoteFragment extends BaseFragment implements View.OnClickListe
             cancelDialog();
             this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
             //mAdapter = new TermQuoteAdapter(TermQuoteFragment.this, termCompareQuoteResponse);
-            rvTerm.setAdapter(mAdapter);
             tvCrn.setText("" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID());
         }
 

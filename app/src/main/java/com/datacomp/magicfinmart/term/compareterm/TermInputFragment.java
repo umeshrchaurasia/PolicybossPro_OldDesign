@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -300,6 +301,8 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         //Compare All
         llCompareAll = (LinearLayout) view.findViewById(R.id.llCompareAll);
         rvTerm = (RecyclerView) view.findViewById(R.id.rvTerm);
+        rvTerm.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvTerm.setHasFixedSize(true);
         cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
         mainScroll = (ScrollView) view.findViewById(R.id.mainScroll);
         layoutCompare = (View) view.findViewById(R.id.layoutCompare);
@@ -637,5 +640,16 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void redirectToBuy(TermCompareResponseEntity termCompareResponseEntity) {
+
+    }
+
+    public void redirectToCustomize(TermCompareResponseEntity termCompareResponseEntity) {
+        if (termCompareResponseEntity.getInsurerId() == 28)
+            ((CompareTermActivity) getActivity()).redirectToHdfcQuote(termCompareResponseEntity);
+        else if(termCompareResponseEntity.getInsurerId() == 39)
+            ((CompareTermActivity) getActivity()).redirectToIciciQuote(termCompareResponseEntity);
     }
 }

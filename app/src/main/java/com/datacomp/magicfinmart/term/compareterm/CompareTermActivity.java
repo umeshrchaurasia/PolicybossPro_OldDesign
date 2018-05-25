@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,8 +17,11 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.term.hdfc.HdfcInputFragment;
+import com.datacomp.magicfinmart.term.icici.IciciTermInputFragment;
 import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 
 public class CompareTermActivity extends BaseActivity {
@@ -27,6 +31,9 @@ public class CompareTermActivity extends BaseActivity {
 
     public static String INPUT_DATA = "input_term_data_compare";
     public static String QUOTE_DATA = "quote_term_data_compare";
+    public static String OTHER_QUOTE_DATA = "quote_term_data_other";
+    public static String OTHER_QUOTE_DATA_RESPONSE = "quote_term_data_other_response";
+
 
     private static String BUY_FRAGMENT = "buy";
 
@@ -36,6 +43,7 @@ public class CompareTermActivity extends BaseActivity {
     FragmentTransaction transactionSim;
     TermFinmartRequest termFinmartRequest;
     ImageView ivHdrInput, ivHdrQuote;
+    boolean fromOtherQuote = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,6 +151,8 @@ public class CompareTermActivity extends BaseActivity {
     //endregion
 
     private void loadFragment(Fragment fragment, String TAG) {
+        String backStateName = fragment.getClass().getName();
+        Log.d("Fragment - ", backStateName + "    TAG - " + TAG);
         transactionSim = getSupportFragmentManager().beginTransaction();
         transactionSim.replace(R.id.frame_layout, fragment, TAG);
         transactionSim.addToBackStack(TAG);
@@ -153,7 +163,17 @@ public class CompareTermActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        CompareTermActivity.this.finish();
+        if (fromOtherQuote) {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
+            fromOtherQuote = false;
+        } else {
+            if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId()) {
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            } else {
+                CompareTermActivity.this.finish();
+            }
+        }
+
     }
 
     @Override
@@ -191,13 +211,10 @@ public class CompareTermActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
             case R.id.action_home:
-
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-
                 finish();
                 break;
         }
@@ -213,5 +230,29 @@ public class CompareTermActivity extends BaseActivity {
         ivHdrQuote.setVisibility(View.VISIBLE);
         ivHdrInput.setVisibility(View.GONE);
 
+    }
+
+    public void redirectToHdfcQuote(TermCompareResponseEntity termCompareResponseEntity) {
+        quoteBundle.putParcelable(OTHER_QUOTE_DATA, termFinmartRequest);
+        quoteBundle.putParcelable(OTHER_QUOTE_DATA_RESPONSE, termCompareResponseEntity);
+        quoteBundle.putParcelable(INPUT_DATA, null);
+        quoteBundle.putParcelable(QUOTE_DATA, null);
+        HdfcInputFragment quoteFragment = new HdfcInputFragment();
+        quoteFragment.setArguments(quoteBundle);
+        loadFragment(quoteFragment, INPUT_FRAGMENT);
+        highlighQuote();
+        fromOtherQuote = true;
+    }
+
+    public void redirectToIciciQuote(TermCompareResponseEntity termCompareResponseEntity) {
+        quoteBundle.putParcelable(OTHER_QUOTE_DATA, termFinmartRequest);
+        quoteBundle.putParcelable(OTHER_QUOTE_DATA_RESPONSE, termCompareResponseEntity);
+        quoteBundle.putParcelable(INPUT_DATA, null);
+        quoteBundle.putParcelable(QUOTE_DATA, null);
+        IciciTermInputFragment quoteFragment = new IciciTermInputFragment();
+        quoteFragment.setArguments(quoteBundle);
+        loadFragment(quoteFragment, INPUT_FRAGMENT);
+        highlighQuote();
+        fromOtherQuote = true;
     }
 }

@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruWebviewActivity;
+import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -66,6 +67,8 @@ import static java.util.Calendar.YEAR;
  */
 
 public class HdfcInputFragment extends BaseFragment implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
+
+    //region variables
 
     //region header views
     LinearLayout llGender, llSmoker;
@@ -122,6 +125,8 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     String crn = "";
     int age = 0;
 
+    //endregion
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -151,6 +156,14 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
                 termRequestId = termFinmartRequest.getTermRequestId();
                 changeInputQuote(true);
+            } else if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null) {
+                termCompareResponseEntity = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA_RESPONSE);
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA);
+                termRequestEntity = termFinmartRequest.getTermRequestEntity();
+                termRequestId = termFinmartRequest.getTermRequestId();
+                bindHeaders();
+                bindQuotes();
+                fromCompare();
             } else {
                 changeInputQuote(true);
             }
@@ -294,12 +307,12 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
             tvCrn.setText("");
             tvCrn.append("CRN  ");
-            //String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
-            SpannableString CRN = new SpannableString(crn);
+            String crn = "" + termCompareResponseEntity.getCustomerReferenceID();
+            SpannableString CRN = new SpannableString("" + crn);
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
             CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
             tvCrn.append(CRN);
-            termRequestEntity.setCrn(crn);
+            termRequestEntity.setCrn("" + crn);
             termFinmartRequest.setTermRequestEntity(termRequestEntity);
 
             // tvAge.setText("" + termRequestEntity.getInsuredDOB());
@@ -1108,6 +1121,14 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             cvInputDetails.setVisibility(View.VISIBLE);
             cvQuoteDetails.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void fromCompare() {
+        btnGetQuote.setText("UPDATE QUOTE");
+        tilPincode.setVisibility(View.INVISIBLE);
+        layoutCompare.setVisibility(View.GONE);
+        cvInputDetails.setVisibility(View.VISIBLE);
+        cvQuoteDetails.setVisibility(View.VISIBLE);
     }
 
     private void manipulateInputs(String s) {
