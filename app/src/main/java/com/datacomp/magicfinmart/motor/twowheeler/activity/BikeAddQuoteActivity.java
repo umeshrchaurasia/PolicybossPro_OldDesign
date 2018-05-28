@@ -222,10 +222,10 @@ public class BikeAddQuoteActivity extends BaseActivity {
             if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId()) {
                 bottomNavigationView.setSelectedItemId(R.id.navigation_input);
             } else {
-                BikeAddQuoteActivity.this.finish();
+                finish();
             }
         } else {
-            Toast.makeText(BikeAddQuoteActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BikeAddQuoteActivity.this, "Please wait.. Fetching all quotes", Toast.LENGTH_SHORT).show();
         }
 
 
