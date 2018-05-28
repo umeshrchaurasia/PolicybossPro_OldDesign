@@ -9,8 +9,9 @@
     tools:context="com.datacomp.magicfinmart.salesmaterial.SalesShareActivity"
     tools:showIn="@layout/activity_sales_share">
 
-    <ImageView
+    <com.datacomp.magicfinmart.utility.TouchImageView
         android:id="@+id/ivProduct"
+        android:src="@drawable/drop_down_arrow"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"/>

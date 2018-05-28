@@ -77,7 +77,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     //region headers
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
     ImageView ivEdit, ivInfo;
-    TermCompareQuoteResponse termCompareQuoteResponse;
+    TermCompareResponseEntity termCompareResponseEntity;
     CardView cvInputDetails, cvQuoteDetails;
     LinearLayout layoutCompare;
     ScrollView mainScroll;
@@ -119,6 +119,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     DBPersistanceController dbPersistanceController;
     Spinner spHDFCOptions, spHdfcPremFrq;
     int termRequestId = 0;
+    String crn = "";
     int age = 0;
 
     @Override
@@ -293,7 +294,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
             tvCrn.setText("");
             tvCrn.append("CRN  ");
-            String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+            //String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
             SpannableString CRN = new SpannableString(crn);
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
             CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
@@ -308,7 +309,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void bindQuotes() {
-        final TermCompareResponseEntity responseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(0);
+        final TermCompareResponseEntity responseEntity = termCompareResponseEntity;
         txtPlanNAme.setText("" + responseEntity.getProductPlanName());
         txtCover.setText("\u20B9 " + responseEntity.getSumAssured());
         txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + " Yrs.");
@@ -845,28 +846,28 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
+        Constants.hideKeyBoard(view, getActivity());
         switch (view.getId()) {
 
 
             case R.id.ivBuy:
-                Constants.hideKeyBoard(ivBuy, getActivity());
                 new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(),
                         "39",
                         "" + dbPersistanceController.getUserData().getFBAId(),
-                        "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getNetPremium(), this);
+                        "" + termCompareResponseEntity.getNetPremium(), this);
                 startActivity(new Intent(getActivity(), KnowledgeGuruWebviewActivity.class)
-                        .putExtra("URL", termCompareQuoteResponse.getMasterData().getResponse().get(0).getProposerPageUrl())
+                        .putExtra("URL", termCompareResponseEntity.getProposerPageUrl())
                         .putExtra("NAME", "CLICK TO PROTECT 3D")
                         .putExtra("TITLE", "CLICK TO PROTECT 3D"));
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life Ins Buy"), Constants.LIFE_INS), null);
 
                 break;
             case R.id.ivPdf:
-                if (termCompareQuoteResponse != null && termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl().equals("")) {
+                if (termCompareResponseEntity != null && termCompareResponseEntity.getPdfUrl().equals("")) {
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                            .putExtra("URL", termCompareQuoteResponse.getMasterData().getResponse().get(0).getPdfUrl())
+                            .putExtra("URL", termCompareResponseEntity.getPdfUrl())
                             .putExtra("NAME", "CLICK TO PROTECT 3D")
                             .putExtra("TITLE", "CLICK TO PROTECT 3D"));
 
@@ -888,7 +889,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
             case R.id.ivInfo:
 
-                OpenPoupWnidow(termCompareQuoteResponse.getMasterData().getResponse().get(0).getKeyFeatures().split("\\|"));
+                OpenPoupWnidow(termCompareResponseEntity.getKeyFeatures().split("\\|"));
                 break;
             case R.id.tvMale:
                 isMale = true;
@@ -981,7 +982,8 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof TermCompareQuoteResponse) {
             cancelDialog();
-            this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
+            processResponse((TermCompareQuoteResponse) response);
+            /*this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
             mainScroll.fullScroll(ScrollView.FOCUS_UP);
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
             //rvTerm.setAdapter(mAdapter);
@@ -993,7 +995,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             termFinmartRequest.setTermRequestId(termRequestId);
             bindHeaders();
             bindQuotes();
-            changeInputQuote(false);
+            changeInputQuote(false);*/
         }
 
     }
@@ -1003,6 +1005,30 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
         changeInputQuote(true);
+    }
+
+    private void processResponse(TermCompareQuoteResponse termCompareQuoteResponse) {
+        mainScroll.fullScroll(ScrollView.FOCUS_UP);
+        if (termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getResponse() != null) {
+            if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
+                this.termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(0);
+                crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+                termRequestEntity.setCrn(crn);
+                termFinmartRequest.setTermRequestEntity(termRequestEntity);
+                if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
+                    termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
+                termFinmartRequest.setTermRequestId(termRequestId);
+                bindHeaders();
+                changeInputQuote(false);
+                if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
+                    bindQuotes();
+                } else {
+                    Toast.makeText(getActivity(), "" + termCompareResponseEntity.getQuoteStatus(), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     //region datepicker
@@ -1862,7 +1888,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         // Get a reference for the custom view close button
         ImageButton closeButton = (ImageButton) customView.findViewById(R.id.imgClose);
         TextView tvTitle = (TextView) customView.findViewById(R.id.tvTitle);
-        tvTitle.setText("BENEFIT OF " + termCompareQuoteResponse.getMasterData().getResponse().get(0).getProductPlanName());
+        tvTitle.setText("BENEFIT OF " + termCompareResponseEntity.getProductPlanName());
         rvIprotectSmart = (RecyclerView) customView.findViewById(R.id.rvIprotectSmart);
         rvIprotectSmart.setHasFixedSize(true);
 
