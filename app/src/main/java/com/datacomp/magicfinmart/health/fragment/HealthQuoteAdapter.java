@@ -61,14 +61,14 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         holder.txtPlanName.setText("" + entity.getPlanName());
         holder.txtProductName.setText("" + entity.getProductName());
 
-        int finalPremium = 0;
+        /*int finalPremium = 0;
         if (entity.getServicetaxincl().toLowerCase().equals("e")) {
             finalPremium = (int) Math.round(entity.getNetPremium());
         } else if (entity.getServicetaxincl().toLowerCase().equals("i")) {
             finalPremium = (int) Math.round(entity.getGrossPremium());
-        }
+        }*/
 
-        holder.txtFinalPremium.setText("\u20B9 " + finalPremium + "/Year");
+        holder.txtFinalPremium.setText("\u20B9 " + (int) Math.round(entity.getDisplayPremium()) + "/Year");
 
         Glide.with(mContext).load(entity.getInsurerLogoName())
                 .into(holder.imgInsurer);

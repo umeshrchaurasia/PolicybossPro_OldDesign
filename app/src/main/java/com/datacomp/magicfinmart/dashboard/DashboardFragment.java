@@ -167,7 +167,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                         getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
                     if (getActivity() != null && prefManager.getMps() != null) {
 
-                        ((HomeActivity) getActivity()).DialogMPS();
+                      //  ((HomeActivity) getActivity()).DialogMPS();
                     }
                 }
                 //endregion

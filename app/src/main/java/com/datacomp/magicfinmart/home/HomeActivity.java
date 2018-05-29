@@ -141,6 +141,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (loginResponseEntity != null) {
             init_headers();
+
         }
 
         List<String> rtoDesc = db.getRTOListNames();
@@ -215,7 +216,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_mps:
                         // DialogMPS();
-                        // showDialog();
+                        showDialog();
                         new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
 
                         // new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
@@ -467,12 +468,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
         if (response instanceof MpsResponse) {
-            cancelDialog();
+
             if (response.getStatusNo() == 0) {
+
                 prefManager.removeMps();
                 prefManager.setMPS(((MpsResponse) response).getMasterData());
-                DialogMPS();
+                if (loginResponseEntity.getIsFirstLogin() == 1) {
+                    DialogMPS();
+                } else {
+                    DialogMPS();
+                }
 
             }
         } else if (response instanceof MyAcctDtlResponse) {
@@ -508,7 +515,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
                                 if (!frg.isVisible()) {
                                     Log.d("TAG", "CONSTANTS");
-                                    DialogMPS();
+                                    //DialogMPS();
                                 }
                             }
                         }
@@ -517,7 +524,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 } else if (((ConstantsResponse) response).getMasterData().
                         getMPSStatus().toLowerCase().equalsIgnoreCase("p")) {
 
-                    for (Fragment frg :
+                    /*for (Fragment frg :
                             getSupportFragmentManager().getFragments()) {
 
                         if (frg instanceof MPSFragment || frg instanceof KnowMoreMPSFragment) {
@@ -531,7 +538,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 DialogMPS();
                             }
                         }
-                    }
+                    }*/
 
                 }
                 //endregion
@@ -571,7 +578,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         selectHome();
 
 
-        // new MasterController(this).getConstants(this);
+        new MasterController(this).getConstants(this);
 
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 

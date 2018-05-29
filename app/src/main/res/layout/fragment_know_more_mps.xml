@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="45"
             android:padding="@dimen/view_spacing_small"
-            android:text="Benefits" />
+            android:text="Benefit" />
     </LinearLayout>
 
     <LinearLayout

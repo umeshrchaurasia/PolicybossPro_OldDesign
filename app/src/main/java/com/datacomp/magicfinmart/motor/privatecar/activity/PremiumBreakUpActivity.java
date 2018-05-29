@@ -25,6 +25,8 @@ import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapterEntity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAddonAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAddonEntity;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
+import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
@@ -331,6 +333,9 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 if (Utility.checkShareStatus(this) == 1) {
                     jsonShareString = getShareData();
                     if (jsonShareString != null && responseJson != null) {
+                        QuoteFragment.isShowing = false;
+                        BikeQuoteFragment.isShowing = false;
+
                         if (getIntent().hasExtra("RESPONSE_BIKE")) {
                             Intent intent = new Intent(this, ShareQuoteActivity.class);
                             intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_SINGLE_QUOTE");

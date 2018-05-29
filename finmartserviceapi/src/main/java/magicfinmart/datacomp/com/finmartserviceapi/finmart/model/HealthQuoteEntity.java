@@ -3,7 +3,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HealthQuoteEntity implements Parcelable {
@@ -63,6 +62,7 @@ public class HealthQuoteEntity implements Parcelable {
     private int Deductible_Amount;
     private double NetPremium;
     private double GrossPremium;
+
     private String DiscountPercent;
     private String Premium;
     private String Group_name;
@@ -76,7 +76,16 @@ public class HealthQuoteEntity implements Parcelable {
     //for compare check
     private boolean isCompare;
     private boolean isMore;
+    private double displayPremium;
 
+
+    public double getDisplayPremium() {
+        return displayPremium;
+    }
+
+    public void setDisplayPremium(double displayPremium) {
+        this.displayPremium = displayPremium;
+    }
 
     public String getServicetaxincl() {
         return servicetaxincl;
@@ -353,6 +362,7 @@ public class HealthQuoteEntity implements Parcelable {
         this.LstbenfitsFive = LstbenfitsFive;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -393,6 +403,7 @@ public class HealthQuoteEntity implements Parcelable {
         dest.writeTypedList(this.LstbenfitsFive);
         dest.writeByte(this.isCompare ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isMore ? (byte) 1 : (byte) 0);
+        dest.writeDouble(this.displayPremium);
         dest.writeInt(this.totalChilds);
     }
 
@@ -433,6 +444,7 @@ public class HealthQuoteEntity implements Parcelable {
         this.LstbenfitsFive = in.createTypedArrayList(BenefitsEntity.CREATOR);
         this.isCompare = in.readByte() != 0;
         this.isMore = in.readByte() != 0;
+        this.displayPremium = in.readDouble();
         this.totalChilds = in.readInt();
     }
 
