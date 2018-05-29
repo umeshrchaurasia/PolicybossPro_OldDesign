@@ -104,8 +104,8 @@ public class MPSFragment extends BaseFragment {
         public void onClick(View v) {
             startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                     .putExtra("URL", new PrefManager(getActivity()).getMps().getPaymentURL())
-                    .putExtra("NAME", "MPS")
-                    .putExtra("TITLE", "MPS"));
+                    .putExtra("NAME", "MAGIC PLATINUM SUBS.")
+                    .putExtra("TITLE", "MAGIC PLATINUM SUBS."));
         }
     };
 
