@@ -3,7 +3,6 @@ package com.datacomp.magicfinmart.health.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,9 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -289,24 +285,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         new HealthController(getActivity()).getHealthQuoteExp(healthQuote, this);
     }
 
-
-    //    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        if (requestCode == REQUEST_MEMBER) {
-//            if (data != null) {
-//                healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
-//
-//                //TODO: Health Quote accepted.
-//                //1. pass bundle to quote fragment
-//                //2. trigger quote fragment
-//                // commented by rahul
-//                //  ((HealthQuoteBottomTabsActivity) getActivity()).redirectToQuote(healthQuote);
-//            }
-//        }
-//    }
-
-
     @Override
     public void OnSuccess(APIResponse response, String message) {
         //hideLoader();
@@ -321,6 +299,24 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 listChild = ((HealthQuoteExpResponse) response).getMasterData()
                         .getHealth_quote().getChild();
 
+
+                for (int i = 0; i < listHeader.size(); i++) {
+
+                    if (listHeader.get(i).getServicetaxincl().equalsIgnoreCase("e"))
+                        listHeader.get(i).setDisplayPremium(listHeader.get(i).getNetPremium());
+                    else if (listHeader.get(i).getServicetaxincl().equalsIgnoreCase("i"))
+                        listHeader.get(i).setDisplayPremium(listHeader.get(i).getGrossPremium());
+
+                }
+
+                for (int i = 0; i < listChild.size(); i++) {
+
+                    if (listChild.get(i).getServicetaxincl().equalsIgnoreCase("e"))
+                        listChild.get(i).setDisplayPremium(listChild.get(i).getNetPremium());
+                    else if (listChild.get(i).getServicetaxincl().equalsIgnoreCase("i"))
+                        listChild.get(i).setDisplayPremium(listChild.get(i).getGrossPremium());
+
+                }
 
                 prepareChild();
 

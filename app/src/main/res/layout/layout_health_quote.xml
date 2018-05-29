@@ -20,7 +20,7 @@
             android:layout_height="48dp"
             android:layout_margin="2dp"
             android:layout_weight="35"
-            android:scaleType="centerInside" />
+            android:scaleType="fitStart" />
 
         <View
             android:layout_width="1dp"
@@ -137,8 +137,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="4dp"
                 android:textAllCaps="true"
-                android:textStyle="bold"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txtPlanName"

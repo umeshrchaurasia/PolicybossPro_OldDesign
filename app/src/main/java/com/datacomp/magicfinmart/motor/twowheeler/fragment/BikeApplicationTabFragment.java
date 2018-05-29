@@ -106,7 +106,7 @@ public class BikeApplicationTabFragment extends BaseFragment implements View.OnC
 
             if (list.size() > 0) {
                 isHit = false;
-                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
 
 
                 for (ApplicationListEntity entity : list) {
