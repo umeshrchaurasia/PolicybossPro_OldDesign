@@ -396,7 +396,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 return false;
             }
         }
-        if (!isValidePhoneNumber(etMobile)) {
+        /*if (!isValidePhoneNumber(etMobile)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etMobile.requestFocus();
                 etMobile.setError("Enter Mobile");
@@ -407,7 +407,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 etMobile.setError("Enter Mobile");
                 return false;
             }
-        }
+        }*/
         if (etPincode.getText().toString().isEmpty()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etPincode.requestFocus();
@@ -554,6 +554,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setTermRequest() {
+        termRequestEntity.setLumpsumPercentage("0");
         //termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
 
         if (isMale)
@@ -868,7 +869,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                         "28",
                         "" + dbPersistanceController.getUserData().getFBAId(),
                         "" + termCompareResponseEntity.getNetPremium(), this);
-                startActivity(new Intent(getActivity(), KnowledgeGuruWebviewActivity.class)
+                startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", termCompareResponseEntity.getProposerPageUrl())
                         .putExtra("NAME", "CLICK TO PROTECT 3D")
                         .putExtra("TITLE", "CLICK TO PROTECT 3D"));

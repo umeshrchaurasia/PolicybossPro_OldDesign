@@ -22,7 +22,7 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
     ViewPager viewPager;
     Toolbar toolbar;
     TermActivityTabsPagerAdapter mAdapter;
-    int compId = 0;
+    int compId = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +35,7 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
             compId = getIntent().getIntExtra(Constants.LIFE_INS, 0);
             if (compId == 39) {
                 getSupportActionBar().setTitle("ICICI PRUDENTIAL");
-            } else if (compId == 1001) {
+            } else if (compId == 0) {
                 getSupportActionBar().setTitle("COMPARE TERM INSURANCE");
             } else if (compId == 28) {
                 getSupportActionBar().setTitle("CLICK TO PROTECT 3D");

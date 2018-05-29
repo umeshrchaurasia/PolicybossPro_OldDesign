@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -148,12 +149,12 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        TextView txtOverflowMenu, txtCreatedDate, txtCRN, txtPersonName, txtTermPpt, txtSum, txtStatusDate, txtMode, txtStatus, txtPremium;
-
+        TextView txtCreatedDate,txtCRN,txtPersonName,txtTermPpt,txtSum,txtStatusDate,txtMode,txtStatus,txtPremium;
+        ImageView txtOverflowMenu;
 
         public ApplicationItem(View itemView) {
             super(itemView);
-            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+            txtOverflowMenu = (ImageView) itemView.findViewById(R.id.txtOverflowMenu);
             txtCreatedDate = (TextView) itemView.findViewById(R.id.txtCreatedDate);
             txtCRN = (TextView) itemView.findViewById(R.id.txtCRN);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);

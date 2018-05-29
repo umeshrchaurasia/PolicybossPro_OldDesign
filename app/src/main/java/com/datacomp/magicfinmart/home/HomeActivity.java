@@ -564,7 +564,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         super.onResume();
 
         if (prefManager.getMps() == null) {
-            new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
+            //new MasterController(HomeActivity.this).getMpsData(HomeActivity.this);
         }
 
         // set first fragement selected.

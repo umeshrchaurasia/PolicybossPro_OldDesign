@@ -10,7 +10,7 @@
         android:id="@+id/mainScroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="90">
+        android:layout_weight="92">
 
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
@@ -1209,6 +1209,6 @@
         style="@style/ButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_weight="8"
         android:text="Get quote" />
 </LinearLayout>

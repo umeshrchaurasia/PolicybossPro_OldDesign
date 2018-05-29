@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.term.compareterm;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -88,6 +89,7 @@ public class CompareTermActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
+                    Log.d("CompareTermActivity", "navigation_input selected");
                     highlighInput();
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                     if (termFinmartRequest != null) {
@@ -101,7 +103,7 @@ public class CompareTermActivity extends BaseActivity {
 
                     return true;
                 case R.id.navigation_quote:
-
+                    Log.d("CompareTermActivity", "navigation_quote selected");
                     tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
 
                     if (termFinmartRequest != null) {
@@ -160,10 +162,32 @@ public class CompareTermActivity extends BaseActivity {
         transactionSim.commit();
     }
 
+    private void loadFragmentWithBack(Fragment fragment, String TAG) {
+        String backStateName = fragment.getClass().getName();
+        Log.d("Fragment - ", backStateName + "    TAG - " + TAG);
+        transactionSim = getSupportFragmentManager().beginTransaction();
+        transactionSim.add(R.id.frame_layout, fragment, TAG);
+        transactionSim.addToBackStack("other");
+        transactionSim.show(fragment);
+        transactionSim.commit();
+    }
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (fromOtherQuote) {
+
+        if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
+            //getSupportFragmentManager().popBackStack();
+           getSupportFragmentManager().popBackStack("other", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        } else {
+            if (ivHdrQuote.getVisibility()==View.VISIBLE) {
+                bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+            } else {
+                CompareTermActivity.this.finish();
+            }
+        }
+
+        /*if (fromOtherQuote) {
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
             fromOtherQuote = false;
         } else {
@@ -172,7 +196,7 @@ public class CompareTermActivity extends BaseActivity {
             } else {
                 CompareTermActivity.this.finish();
             }
-        }
+        }*/
 
     }
 
@@ -193,6 +217,7 @@ public class CompareTermActivity extends BaseActivity {
     public void redirectToInput(TermFinmartRequest termFinmartRequest) {
         this.termFinmartRequest = termFinmartRequest;
         quoteBundle = new Bundle();
+        quoteBundle.putParcelable(QUOTE_DATA, null);
         quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
     }
@@ -239,7 +264,7 @@ public class CompareTermActivity extends BaseActivity {
         quoteBundle.putParcelable(QUOTE_DATA, null);
         HdfcInputFragment quoteFragment = new HdfcInputFragment();
         quoteFragment.setArguments(quoteBundle);
-        loadFragment(quoteFragment, INPUT_FRAGMENT);
+        loadFragmentWithBack(quoteFragment, INPUT_FRAGMENT);
         highlighQuote();
         fromOtherQuote = true;
     }
@@ -251,7 +276,7 @@ public class CompareTermActivity extends BaseActivity {
         quoteBundle.putParcelable(QUOTE_DATA, null);
         IciciTermInputFragment quoteFragment = new IciciTermInputFragment();
         quoteFragment.setArguments(quoteBundle);
-        loadFragment(quoteFragment, INPUT_FRAGMENT);
+        loadFragmentWithBack(quoteFragment, INPUT_FRAGMENT);
         highlighQuote();
         fromOtherQuote = true;
     }

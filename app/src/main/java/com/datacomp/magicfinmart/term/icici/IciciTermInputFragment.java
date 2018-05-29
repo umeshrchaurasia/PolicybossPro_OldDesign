@@ -643,7 +643,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 if (termCompareResponseEntity != null && termCompareResponseEntity.getPdfUrl().equals("")) {
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
                 } else {
-                    startActivity(new Intent(getActivity(), KnowledgeGuruWebviewActivity.class)
+                    startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                             .putExtra("URL", "https://docs.google.com/viewer?url=" + termCompareResponseEntity.getPdfUrl())
                             .putExtra("NAME", "CLICK TO PROTECT 3D")
                             .putExtra("TITLE", "CLICK TO PROTECT 3D"));
@@ -977,6 +977,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void setTermRequest() {
+        //termRequestEntity.setLumpsumPercentage("0");
         //termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
 
         if (isMale)

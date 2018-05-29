@@ -5,22 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
-    android:layout_marginLeft="2dp"
-    android:layout_marginRight="2dp"
-    app:cardElevation="2dp">
+    app:cardElevation="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="3dp">
+        android:background="@drawable/borderthealthcheckup"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
+            android:background="@drawable/borderthealthcheckup"
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal"
             android:weightSum="4">
@@ -268,7 +265,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/ll"
-            android:background="@drawable/bordertbl"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@color/divider"
             android:orientation="vertical"
             android:visibility="visible">
 
@@ -276,7 +276,8 @@
                 android:id="@+id/rvAddOn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/divider" />
+                android:background="@color/divider"
+                android:paddingBottom="5dp" />
 
         </LinearLayout>
 
