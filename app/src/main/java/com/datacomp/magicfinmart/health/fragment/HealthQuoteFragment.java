@@ -276,7 +276,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
     public void popUpHealthMemberDetails(HealthQuoteEntity entity) {
-        buyHealthQuoteEntity =entity;
+        buyHealthQuoteEntity = entity;
 
         Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
         intent.putExtra(MEMBER_LIST, healthQuote);
@@ -285,7 +285,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     public void fetchQuotes() {
         //visibleLoader();
-        showDialog("Please wait.., Fetching quotes");
+        showDialog("Wait.. Fetching quotes");
         new HealthController(getActivity()).getHealthQuoteExp(healthQuote, this);
     }
 
@@ -390,6 +390,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         builder.setView(view);
         ImageView imgInsurerLogo = (ImageView) view.findViewById(R.id.imgInsurerLogo);
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
+        TextView txtProductName = (TextView) view.findViewById(R.id.txtProductName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
         Button btnOk = (Button) view.findViewById(R.id.btnOk);
@@ -420,6 +421,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         Glide.with(this).load(buyHealthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);
+        txtProductName.setText("" + buyHealthQuoteEntity.getProductName());
         txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());
         txtEstPremium.setText("\u20B9 " + finalPremium);
         txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));
@@ -436,7 +438,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                     }
                 });*/
 
-       // AlertDialog dialog = builder.create();
+        // AlertDialog dialog = builder.create();
         dialog.show();
         TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
         msgTxt.setTextSize(12.0f);

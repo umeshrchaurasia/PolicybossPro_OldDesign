@@ -632,7 +632,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                 int varientIndex = 0;
                 for (int i = 0; i < variantList.size(); i++) {
-                    String variantName = carMasterEntity.getVariant_Name();
+                    String variantName = carMasterEntity.getVariant_Name() + " (" + carMasterEntity.getCubic_Capacity() + "cc)";
+
                     if (variantList.get(i).equalsIgnoreCase(variantName)) {
                         varientIndex = i;
                         break;

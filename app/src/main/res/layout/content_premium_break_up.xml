@@ -15,7 +15,7 @@
 
         <TextView
             android:id="@+id/txtPlanName"
-            style="@style/TextStyle.TextMedium"
+            style="@style/TextStyle.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -23,6 +23,7 @@
             android:ellipsize="end"
             android:gravity="left|center_vertical"
             android:lines="2"
+            android:text="PREMIUM BREAKUP"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
