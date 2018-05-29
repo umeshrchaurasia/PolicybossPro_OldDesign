@@ -74,7 +74,9 @@
                                 android:id="@+id/etFirstName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
-                                android:inputType="text"
+
+                                android:inputType="textCapWords"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLength="50"
                                 android:maxLines="1" />
 
@@ -91,7 +93,8 @@
                                 android:id="@+id/etMiddleName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
-                                android:inputType="text"
+                                android:inputType="textCapWords"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLength="50"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -113,7 +116,8 @@
                                 android:id="@+id/etLastName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
-                                android:inputType="text"
+                                android:inputType="textCapWords"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLength="50"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -532,7 +536,7 @@
                                 style="@style/Style.edittext"
                                 android:enabled="false"
                                 android:inputType="text"
-                                android:text="13.99%"
+                                android:text="16%"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 

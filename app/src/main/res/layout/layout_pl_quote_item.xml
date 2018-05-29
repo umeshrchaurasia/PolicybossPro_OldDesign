@@ -48,10 +48,10 @@
 
                         <ImageView
                             android:id="@+id/ivBankLogo"
-                            android:layout_width="62dp"
-                            android:layout_height="42dp"
-                            android:gravity="center_vertical|center_horizontal" />
-
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="80"
+                            android:scaleType="centerCrop" />
                         <TextView
                             android:id="@+id/tvBankName"
                             style="@style/TextViewStyle.Small"

@@ -246,7 +246,7 @@
 
     <string-array name="icici_salary_account_opened">
         <item>Salary Account Opened</item>
-        <item> Greater than 2 Months </item>
+        <item>Greater than 2 Months</item>
         <item> Less than 3 Months</item>
 
     </string-array>
@@ -634,12 +634,12 @@
 
     </string-array>
     <string-array name="ResidenceTypeKotakPL">
-        <item>Owned by self/spouse</item>
-        <item>Owned by parents</item>
+        <item>Owned by Self/Spouse</item>
+        <item>Owned by Sarents</item>
         <item>Rented - With Family </item>
         <item>Rented - With Friends </item>
         <item>Rented - Bachelor Staying Alone </item>
-        <item>Owned by parents</item>
+        <item>Owned By Parents</item>
         <item>Paying Guest </item>
         <item>Hostel/Guest House/Hotel </item>
         <item>Company Provided - Staying Alone</item>
@@ -681,24 +681,24 @@
         <item>Salaried: Account Transfer</item>
         <item>Salaried: By Cheque</item>
         <item>Salaried: By Cash</item>
-        <item>Self employed</item>
+        <item>Self Employed</item>
         <item>Others</item>
 
     </string-array>
     <string-array name="exp_residence_type">
         <item>Residence Type</item>
-        <item>Owned by Self-Spouse</item>
-        <item>Owned by Parents/Sibling</item>
-        <item>Owned by Relative</item>
-        <item>Rented with Family</item>
-        <item>Rented with Friends</item>
+        <item>Owned By Self-Spouse</item>
+        <item>Owned By Parents/Sibling</item>
+        <item>Owned By Relative</item>
+        <item>Rented With Family</item>
+        <item>Rented With Friends</item>
         <item>Rented- Staying Alone</item>
         <item>Hostel</item>
         <item>Company Lease</item>
 
         <item>Resale Property</item>
         <item>For Construction</item>
-        <item>Property identified - Under Construction</item>
+        <item>Property Identified - Under Construction</item>
         <item>LAP</item>
     </string-array>
     <string-array name="exp_qualification">
