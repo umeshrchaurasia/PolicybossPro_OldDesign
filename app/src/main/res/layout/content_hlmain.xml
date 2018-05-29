@@ -17,14 +17,25 @@
         android:layout_alignParentBottom="true"
         android:animateLayoutChanges="true" />
 
+    <View
+        android:id="@+id/viewHeader"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimaryDark"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:weightSum="100">
+    </View>
+
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/app_bar"
+        android:layout_below="@+id/viewHeader"
         android:layout_gravity="bottom"
-        android:layout_marginTop="-20dp"
+
         app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
@@ -33,11 +44,12 @@
     <LinearLayout
         android:id="@+id/lyheader"
         android:layout_width="match_parent"
-        android:layout_height="8dp"
+        android:layout_height="5dp"
         android:layout_below="@+id/bottomNavigation"
         android:background="@color/colorPrimaryDark"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
+        android:visibility="visible"
         android:weightSum="100">
 
         <LinearLayout
@@ -51,8 +63,8 @@
 
                 android:id="@+id/ivHdrInput"
                 android:layout_width="0dp"
-                android:layout_height="3dp"
-                android:layout_marginBottom="5dp"
+                android:layout_height="2dp"
+                android:layout_marginBottom="0dp"
                 android:layout_weight="70"
                 android:visibility="visible"
                 android:src="@drawable/rect_shape" />
@@ -70,7 +82,7 @@
 
                 android:id="@+id/ivHdrQuote"
                 android:layout_width="0dp"
-                android:layout_height="3dp"
+                android:layout_height="2dp"
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="4dp"
                 android:layout_weight="70"
@@ -92,7 +104,7 @@
                 android:id="@+id/ivHdrParent3"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="0dp"
                 android:layout_weight="65"
                 android:src="@drawable/rect_shape" />
 
@@ -100,5 +112,6 @@
 
 
     </LinearLayout>
+
 
 </RelativeLayout>

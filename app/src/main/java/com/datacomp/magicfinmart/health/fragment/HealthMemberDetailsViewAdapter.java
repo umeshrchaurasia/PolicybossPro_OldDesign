@@ -127,7 +127,13 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
         holder.rbFemale.setTag(R.id.llMarried, entity);
         holder.swUnMarried.setTag(R.id.swUnMarried, entity);
         holder.txtMarried.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-
+        if(entity.getMemberDOB() != null)
+        {
+            holder.etDOB.setText(entity.getMemberDOB().toString());
+        }else {
+            holder.etDOB.setText("");
+        }
+        //entity.setMemberDOB(currentDay);
 
         holder.spHealthRelation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -215,7 +221,6 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
             holder.rbFemale.setChecked(true);
             entity.setMemberGender("F");
 
-
             if (PolicyFor.toLowerCase().equals("family")) {
 
                 if (entity.getAge() >= 18) {
@@ -228,9 +233,9 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
                 }
 
             } else {
-                if (entity.getAge() >= 18) {
-                    holder.spHealthRelation.setSelection(2);
-                }
+
+                holder.spHealthRelation.setSelection(2);
+
             }
 
         } else if (position == 2) {
