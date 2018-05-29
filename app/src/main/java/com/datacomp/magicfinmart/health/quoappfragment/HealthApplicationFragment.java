@@ -110,7 +110,7 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
 
             if (list.size() > 0) {
                 isHit = false;
-                Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
 
 
                 for (HealthApplication entity : list) {

@@ -127,7 +127,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
             healthQuote.setAgent_source("App");
             healthQuote.setFba_id(new DBPersistanceController(getContext()).getUserData().getFBAId());
             //default self selected
-            btnSelf.performClick();
+            btnFamily.performClick();
         }
 
 
@@ -1563,10 +1563,7 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
             showAlert("Select two member");
             blnchk = false;
-        }
-
-
-        else if(blnAge == false) {
+        } else if (blnAge == false) {
             showAlert("Age should  be greater than or equal to 36 years");
             blnchk = false;
 
@@ -1673,11 +1670,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
     @Override
     public boolean onTouch(View view, MotionEvent event) {
 
-        if(editText != null)
-        {
-            if(editText.getId() == view.getId()  &&   mPopupWindow.isShowing() )
-            {
-                return false ;
+        if (editText != null) {
+            if (editText.getId() == view.getId() && mPopupWindow.isShowing()) {
+                return false;
             }
         }
 

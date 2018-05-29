@@ -3,7 +3,6 @@ package com.datacomp.magicfinmart.health.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -11,9 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.SpannableString;
-import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -276,7 +272,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
 
     public void popUpHealthMemberDetails(HealthQuoteEntity entity) {
-        buyHealthQuoteEntity =entity;
+        buyHealthQuoteEntity = entity;
 
         Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
         intent.putExtra(MEMBER_LIST, healthQuote);
@@ -285,27 +281,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     public void fetchQuotes() {
         //visibleLoader();
-        showDialog("Please wait.., Fetching quotes");
+        showDialog("Wait.. Fetching quotes");
         new HealthController(getActivity()).getHealthQuoteExp(healthQuote, this);
     }
-
-
-    //    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        if (requestCode == REQUEST_MEMBER) {
-//            if (data != null) {
-//                healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
-//
-//                //TODO: Health Quote accepted.
-//                //1. pass bundle to quote fragment
-//                //2. trigger quote fragment
-//                // commented by rahul
-//                //  ((HealthQuoteBottomTabsActivity) getActivity()).redirectToQuote(healthQuote);
-//            }
-//        }
-//    }
-
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -321,6 +299,24 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 listChild = ((HealthQuoteExpResponse) response).getMasterData()
                         .getHealth_quote().getChild();
 
+
+                for (int i = 0; i < listHeader.size(); i++) {
+
+                    if (listHeader.get(i).getServicetaxincl().equalsIgnoreCase("e"))
+                        listHeader.get(i).setDisplayPremium(listHeader.get(i).getNetPremium());
+                    else if (listHeader.get(i).getServicetaxincl().equalsIgnoreCase("i"))
+                        listHeader.get(i).setDisplayPremium(listHeader.get(i).getGrossPremium());
+
+                }
+
+                for (int i = 0; i < listChild.size(); i++) {
+
+                    if (listChild.get(i).getServicetaxincl().equalsIgnoreCase("e"))
+                        listChild.get(i).setDisplayPremium(listChild.get(i).getNetPremium());
+                    else if (listChild.get(i).getServicetaxincl().equalsIgnoreCase("i"))
+                        listChild.get(i).setDisplayPremium(listChild.get(i).getGrossPremium());
+
+                }
 
                 prepareChild();
 
@@ -390,6 +386,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         builder.setView(view);
         ImageView imgInsurerLogo = (ImageView) view.findViewById(R.id.imgInsurerLogo);
         TextView txtPlanName = (TextView) view.findViewById(R.id.txtPlanName);
+        TextView txtProductName = (TextView) view.findViewById(R.id.txtProductName);
         TextView txtEstPremium = (TextView) view.findViewById(R.id.txtEstPremium);
         TextView txtInsPremium = (TextView) view.findViewById(R.id.txtInsPremium);
         Button btnOk = (Button) view.findViewById(R.id.btnOk);
@@ -420,6 +417,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         Glide.with(this).load(buyHealthQuoteEntity.getInsurerLogoName())
                 .into(imgInsurerLogo);
+        txtProductName.setText("" + buyHealthQuoteEntity.getProductName());
         txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());
         txtEstPremium.setText("\u20B9 " + finalPremium);
         txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));
@@ -436,7 +434,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                     }
                 });*/
 
-       // AlertDialog dialog = builder.create();
+        // AlertDialog dialog = builder.create();
         dialog.show();
         TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
         msgTxt.setTextSize(12.0f);

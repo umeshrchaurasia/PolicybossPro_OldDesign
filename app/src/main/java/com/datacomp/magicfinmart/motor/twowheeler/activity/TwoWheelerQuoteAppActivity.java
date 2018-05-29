@@ -77,7 +77,7 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
 
     private void fetchQuoteApplication() {
 
-        showDialog("Fetching.., Please wait.!");
+        showDialog("Fetching.. Please wait.!");
         new QuoteApplicationController(this).getQuoteAppList(0, 0, "", "",
                 new DBPersistanceController(this).getUserData().getFBAId(),
                 10,
@@ -92,7 +92,7 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
             if (((QuoteApplicationResponse) response).getMasterData() != null) {
 
                 if (((QuoteApplicationResponse) response).getMasterData().getQuote().size() != 0
-                ||((QuoteApplicationResponse) response).getMasterData().getApplication().size() != 0) {
+                        || ((QuoteApplicationResponse) response).getMasterData().getApplication().size() != 0) {
                     mAdapter = new BikeActivityTabsPagerAdapter(getSupportFragmentManager(),
                             ((QuoteApplicationResponse) response).getMasterData());
                     viewPager.setAdapter(mAdapter);

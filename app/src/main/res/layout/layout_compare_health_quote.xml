@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/lightgrey_border"
     android:layout_marginBottom="@dimen/view_spacing_small"
+    android:background="@drawable/lightgrey_border"
 
     android:orientation="vertical">
 
@@ -20,8 +20,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:background="@color/white"
-        android:layout_height="22dp" />
+        android:layout_height="22dp"
+        android:background="@color/white" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -44,9 +44,9 @@
                 android:id="@+id/imgInsurerLogo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_gravity="center"
                 android:layout_margin="4dp"
+                android:layout_weight="1"
                 android:scaleType="fitCenter" />
 
             <View
@@ -56,19 +56,39 @@
                 android:layout_marginRight="@dimen/view_spacing_small"
                 android:background="@color/bg" />
 
-            <TextView
-                android:id="@+id/txtPlanName"
-                style="@style/TextStyle.TextMedium"
+            <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="4dp"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:padding="12dp"
-                android:layout_margin="4dp"
-                android:textAllCaps="true"
-                android:textColor="@color/black" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/txtProductName"
+                    style="@style/TextStyle.TextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="6dp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/txtPlanName"
+                    style="@style/TextStyle.TextSmall"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="6dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="4dp"
+                    android:textAllCaps="true"
+                    android:textColor="@color/black" />
 
 
+            </LinearLayout>
         </TableRow>
 
         <View

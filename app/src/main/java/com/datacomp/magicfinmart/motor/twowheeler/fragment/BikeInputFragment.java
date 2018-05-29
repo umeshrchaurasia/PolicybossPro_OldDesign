@@ -422,18 +422,26 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                 TextView tv = (TextView) convertView
                         .findViewById(android.R.id.text1);
-                tv.setText(monthList.get(position));
-                if (!spMonth.isEnabled()) {
-                    tv.setTextColor(Color.GRAY);
-                } else {
+
+
+                try {
+                    tv.setText(monthList.get(position));
+
+                    if (!spMonth.isEnabled()) {
+                        tv.setTextColor(Color.GRAY);
+                    } else {
+                        tv.setTextColor(Color.BLACK);
+                    }
+                    convertView.setPadding(8, convertView.getPaddingTop(), 0, convertView.getPaddingBottom());
                     tv.setTextColor(Color.BLACK);
+                    if (position == 0)
+                        tv.setTextSize(10f);
+                    else
+                        tv.setTextSize(12f);
+
+                } catch (Exception e) {
+
                 }
-                convertView.setPadding(8, convertView.getPaddingTop(), 0, convertView.getPaddingBottom());
-                tv.setTextColor(Color.BLACK);
-                if (position == 0)
-                    tv.setTextSize(10f);
-                else
-                    tv.setTextSize(12f);
                 return convertView;
             }
         };
@@ -592,8 +600,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             //region spinner selection
 
             int varientIndex = 0;
+            String varName = carMasterEntity.getVariant_Name() + " (" + carMasterEntity.getCubic_Capacity() + "cc)";
+
             for (int i = 0; i < variantList.size(); i++) {
-                if (variantList.get(i).matches(carMasterEntity.getVariant_Name())) {
+                if (variantList.get(i).equalsIgnoreCase(varName)) {
                     varientIndex = i;
                     break;
                 }
@@ -629,8 +639,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     else
                         mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
                     calendarReg.setTime(simpleDateFormat.parse(mfDate));
+
                     setYearMonthAdapter(calendarReg);
                 }
+
                 if (masterData.getPurchase_Date() != null) {
                     String mf = changeDateFormat(masterData.getPurchase_Date());
                     String mfDate = displayFormat.format(simpleDateFormat.parse(mf));

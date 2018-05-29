@@ -57,7 +57,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     RecyclerView rvOwnDamage, rvLiability, rvAddonPremium;
     PremiumBreakUpAdapter damageAdapter, liabilityAdapter, addonAdapter;
     PremiumBreakUpAddonAdapter addonAdapterNew;
-    TextView txtPlanName, tvTotalPremium, tvGst, tvNetPremium, txtIDV, txtFinalPremium, tvAddonTotal;
+    TextView tvTotalPremium, tvGst, tvNetPremium, txtIDV, txtFinalPremium, tvAddonTotal;
     LinearLayout btnBuy;
     ImageView ivCross, ivShare;
     Button btnBackToQuote;
@@ -118,7 +118,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     private void bindData() {
         if (responseEntity != null) {
             txtIDV.setText("" + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
-            txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Code());
+            // txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Code());
             if (responseEntity.getFinal_premium_without_addon() != null && !responseEntity.getFinal_premium_without_addon().equals("")) {
                 tvTotalPremium.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getFinal_premium_without_addon()))));
                 tvGst.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getTotalGST()))));
@@ -185,7 +185,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         rvLiability = (RecyclerView) findViewById(R.id.rvLiability);
         rvAddonPremium = (RecyclerView) findViewById(R.id.rvAddonPremium);
 
-        txtPlanName = (TextView) findViewById(R.id.txtPlanName);
+        //txtPlanName = (TextView) findViewById(R.id.txtPlanName);
         tvTotalPremium = (TextView) findViewById(R.id.tvTotalPremium);
         tvGst = (TextView) findViewById(R.id.tvGst);
         tvNetPremium = (TextView) findViewById(R.id.tvNetPremium);
@@ -222,7 +222,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             damageList.add(new PremiumBreakUpAdapterEntity("Basic OD", ownDamageEntity.getOd_basic()));
         }
         if (!ownDamageEntity.getOd_disc().equals("0")) {
-            damageList.add(new PremiumBreakUpAdapterEntity("OD Discount", ownDamageEntity.getOd_disc()));
+            damageList.add(new PremiumBreakUpAdapterEntity("OD Discount", "-" + ownDamageEntity.getOd_disc()));
         }
         if (!ownDamageEntity.getOd_non_elect_access().equals("0")) {
             damageList.add(new PremiumBreakUpAdapterEntity("NEA Premium", ownDamageEntity.getOd_non_elect_access()));
@@ -243,7 +243,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             damageList.add(new PremiumBreakUpAdapterEntity("AAI Discount", ownDamageEntity.getOd_disc_aai()));
         }
         if (!ownDamageEntity.getOd_disc_ncb().equals("0")) {
-            damageList.add(new PremiumBreakUpAdapterEntity("NCB", ownDamageEntity.getOd_disc_ncb()));
+            damageList.add(new PremiumBreakUpAdapterEntity("NCB", "-" + ownDamageEntity.getOd_disc_ncb()));
         }
         if (!ownDamageEntity.getOd_loading().equals("0")) {
             damageList.add(new PremiumBreakUpAdapterEntity("Underwriter Loading", ownDamageEntity.getOd_loading()));
@@ -361,7 +361,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 //return gson.toJson(carMasterEntity);
                 try {
 
-                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name() +" "+ summaryEntity.getRequest_Core().getLast_name());
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name() + " " + summaryEntity.getRequest_Core().getLast_name());
                     jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name() + " - " + carMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
@@ -379,7 +379,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
                 try {
 
-                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name()+" "+ summaryEntity.getRequest_Core().getLast_name());
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name() + " " + summaryEntity.getRequest_Core().getLast_name());
                     jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());

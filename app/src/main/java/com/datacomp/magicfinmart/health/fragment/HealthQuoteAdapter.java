@@ -61,14 +61,14 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         holder.txtPlanName.setText("" + entity.getPlanName());
         holder.txtProductName.setText("" + entity.getProductName());
 
-        int finalPremium = 0;
+        /*int finalPremium = 0;
         if (entity.getServicetaxincl().toLowerCase().equals("e")) {
             finalPremium = (int) Math.round(entity.getNetPremium());
         } else if (entity.getServicetaxincl().toLowerCase().equals("i")) {
             finalPremium = (int) Math.round(entity.getGrossPremium());
-        }
+        }*/
 
-        holder.txtFinalPremium.setText("\u20B9 " + finalPremium + "/Year");
+        holder.txtFinalPremium.setText("\u20B9 " + (int) Math.round(entity.getDisplayPremium()) + "/Year");
 
         Glide.with(mContext).load(entity.getInsurerLogoName())
                 .into(holder.imgInsurer);
@@ -145,7 +145,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 }
             } else {
                 if (b) {
-                    ((HealthQuoteFragment) mContext).showAlert("Please select only four plans to compare.");
+                    ((HealthQuoteFragment) mContext).showAlert("You can select only four plans to compare.");
                 } else {
                     checkCount = checkCount - 1;
                     entity.setCompare(b);
@@ -153,6 +153,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 }
                 entity.setCompare(false);
             }
+
             updateCheckBox(entity);
 
         }
@@ -214,8 +215,8 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 break;
 
             case R.id.txtBuy:
-              //  ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
-                ((HealthQuoteFragment) mContext). popUpHealthMemberDetails(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+                //  ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+                ((HealthQuoteFragment) mContext).popUpHealthMemberDetails(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
                 break;
 
             case R.id.llBenefits:
@@ -260,7 +261,8 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
     private void updateCheckBox(HealthQuoteEntity entity) {
         for (int i = 0; i < listHealthQuotes.size(); i++) {
-            if (listHealthQuotes.get(i).getPlanID() == entity.getPlanID()) {
+            if (listHealthQuotes.get(i).getPlanID() == entity.getPlanID()
+                    && listHealthQuotes.get(i).getSumInsured() == entity.getSumInsured()) {
                 listHealthQuotes.get(i).setCompare(entity.isCompare());
             }
         }
