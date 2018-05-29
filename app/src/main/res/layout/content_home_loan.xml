@@ -13,7 +13,7 @@
         android:layout_below="@+id/lyheader"
         android:layout_marginBottom="2dp"
         android:layout_marginTop="2dp"
-        android:scrollbars="none">
+        android:scrollbars="vertical">
 
         <android.support.v7.widget.CardView
             style="@style/CardViewStyle"
