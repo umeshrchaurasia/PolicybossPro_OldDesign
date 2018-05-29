@@ -161,7 +161,11 @@ public class ShareQuoteActivity extends BaseActivity {
                     setOtherDetails();
                     new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.LAP), null);
                     break;
-
+                case "TERM_HDFC_QUOTE":
+                    TermHdfcQuote();
+                    setOtherDetails();
+                    new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.LIFE_INS), null);
+                    break;
 
             }
         }
@@ -370,6 +374,22 @@ public class ShareQuoteActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void TermHdfcQuote() {
+        if (getIntent().hasExtra("RESPONSE")) {
+            //hdfc term
+            respone = getIntent().getStringExtra("RESPONSE");
+
+        }
+        if (getIntent().hasExtra("NAME")) {
+            //bike
+            otherData = getIntent().getStringExtra("NAME");
+        }
+        url = "file:///android_asset/hdfc_term.html";
+        title = "CLICK TO PROTECT 3D";
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle(title);
     }
 
     private void LapAllQuote() {

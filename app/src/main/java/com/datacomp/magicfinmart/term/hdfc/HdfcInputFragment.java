@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
@@ -32,11 +33,12 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruWebviewActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
+import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
+import com.google.gson.Gson;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -100,8 +102,8 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     View customView, customViewSelection;
     RecyclerView rvIprotectSmart;
     HdfcIProtectAdapter adapter;
-
-
+    Gson gson = new Gson();
+    String responseJson = "";
     //endregion
 
     //region hdfc specific
@@ -877,7 +879,9 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case R.id.ivPdf:
-                if (termCompareResponseEntity != null && termCompareResponseEntity.getPdfUrl().equals("")) {
+
+                shareTermHdfc();
+                /*if (termCompareResponseEntity != null && termCompareResponseEntity.getPdfUrl().equals("")) {
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
@@ -885,7 +889,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                             .putExtra("NAME", "CLICK TO PROTECT 3D")
                             .putExtra("TITLE", "CLICK TO PROTECT 3D"));
 
-                }
+                }*/
                 break;
             case R.id.btnGetQuote:
 
@@ -987,6 +991,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         }
     }
 
+
     public void fetchQuotes() {
         showDialog();
         new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
@@ -997,6 +1002,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         if (response instanceof TermCompareQuoteResponse) {
             cancelDialog();
             processResponse((TermCompareQuoteResponse) response);
+            new AsyncShareJson().execute();
             /*this.termCompareQuoteResponse = (TermCompareQuoteResponse) response;
             mainScroll.fullScroll(ScrollView.FOCUS_UP);
             //mAdapter = new TermQuoteAdapter(IciciTermQuoteFragment.this, termCompareQuoteResponse);
@@ -1947,5 +1953,38 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     }
 
+
+    class AsyncShareJson extends AsyncTask<Void, Void, String> {
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            if (termCompareResponseEntity != null) {
+                int uptoAge = Integer.parseInt(termRequestEntity.getPPT()) + caluclateAge(etDOB.getText().toString());
+                termCompareResponseEntity.setPPT(uptoAge);
+                responseJson = gson.toJson(termCompareResponseEntity);
+            }
+
+            return responseJson;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            responseJson = s;
+        }
+
+    }
+
+    private void shareTermHdfc() {
+        if (responseJson.equals("") && termCompareResponseEntity != null) {
+            new AsyncShareJson().execute();
+        } else {
+            Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
+            intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "TERM_HDFC_QUOTE");
+            intent.putExtra("RESPONSE", responseJson);
+            intent.putExtra("NAME", termRequestEntity.getContactName());
+            startActivity(intent);
+        }
+    }
 }
 
