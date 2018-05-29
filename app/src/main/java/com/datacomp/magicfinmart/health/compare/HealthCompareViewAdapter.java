@@ -46,7 +46,7 @@ public class HealthCompareViewAdapter extends RecyclerView.Adapter<HealthCompare
         HealthQuoteEntity healthQuoteEntity = listBenefits.get(position);
 
         holder.txtInsurerName.setText(healthQuoteEntity.getInsurerName());
-        holder.txtPlanName.setText(healthQuoteEntity.getPlanName());
+        holder.txtPlanName.setText(healthQuoteEntity.getProductName());
 
         Glide.with(mContext).load(healthQuoteEntity.getInsurerLogoName())
                 .into(holder.imgInsurerLogo);

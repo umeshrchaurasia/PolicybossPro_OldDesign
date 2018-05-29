@@ -41,7 +41,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
     List<String> temrelationShip;
     List<String> childRelationShip;
     int adultCount = 0;
-    SimpleDateFormat simpleDateFormat ;
+    SimpleDateFormat simpleDateFormat;
 
 
     // data is passed into the constructor
@@ -178,7 +178,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
             @Override
             public void onClick(View view) {
                 if (view.getId() == R.id.etDOB) {
-                    DateTimePicker.showHealthAgeePicker(view.getContext(),entity.getAge(),  new DatePickerDialog.OnDateSetListener() {
+                    DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                             if (view1.isShown()) {
@@ -427,7 +427,6 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
         return relationAdapter;
     }
-
 
 
 }

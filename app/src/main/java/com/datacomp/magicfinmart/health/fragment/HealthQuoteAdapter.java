@@ -145,7 +145,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 }
             } else {
                 if (b) {
-                    ((HealthQuoteFragment) mContext).showAlert("Please select only four plans to compare.");
+                    ((HealthQuoteFragment) mContext).showAlert("You can select only four plans to compare.");
                 } else {
                     checkCount = checkCount - 1;
                     entity.setCompare(b);
@@ -153,6 +153,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 }
                 entity.setCompare(false);
             }
+
             updateCheckBox(entity);
 
         }
@@ -214,8 +215,8 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
                 break;
 
             case R.id.txtBuy:
-              //  ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
-                ((HealthQuoteFragment) mContext). popUpHealthMemberDetails(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+                //  ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+                ((HealthQuoteFragment) mContext).popUpHealthMemberDetails(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
                 break;
 
             case R.id.llBenefits:
@@ -260,7 +261,8 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
     private void updateCheckBox(HealthQuoteEntity entity) {
         for (int i = 0; i < listHealthQuotes.size(); i++) {
-            if (listHealthQuotes.get(i).getPlanID() == entity.getPlanID()) {
+            if (listHealthQuotes.get(i).getPlanID() == entity.getPlanID()
+                    && listHealthQuotes.get(i).getSumInsured() == entity.getSumInsured()) {
                 listHealthQuotes.get(i).setCompare(entity.isCompare());
             }
         }

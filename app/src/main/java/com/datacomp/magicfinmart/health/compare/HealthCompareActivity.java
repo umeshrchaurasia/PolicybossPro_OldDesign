@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -49,6 +51,7 @@ public class HealthCompareActivity extends BaseActivity {
 
     ViewPager vpBenefits;
     ScrollingBenefitsAdapter scrollingBenefitsAdapter;
+    ScrollView svContainer;
     Timer timer;
     int page = 0;
 
@@ -181,6 +184,9 @@ public class HealthCompareActivity extends BaseActivity {
         mAdapter.refreshSelection(listHealthQuote);
         scrollingBenefitsAdapter.notifyDataSetChanged();
 
+        //to Scroll up
+        svContainer.smoothScrollBy(0, 0);
+
     }
 
     private void resetBenefits() {
@@ -195,6 +201,8 @@ public class HealthCompareActivity extends BaseActivity {
     }
 
     private void init() {
+        svContainer = (ScrollView) findViewById(R.id.svContainer);
+
         vpBenefits = (ViewPager) findViewById(R.id.vpBenefits);
         // vpBenefits.setPageMargin(-700);
 
@@ -262,7 +270,7 @@ public class HealthCompareActivity extends BaseActivity {
                 scrollingBenefitsAdapter = new ScrollingBenefitsAdapter(this,
                         list9Benefits);
                 vpBenefits.setAdapter(scrollingBenefitsAdapter);
-                pageSwitcher(1);
+                pageSwitcher(3);
             }
         }
     }
