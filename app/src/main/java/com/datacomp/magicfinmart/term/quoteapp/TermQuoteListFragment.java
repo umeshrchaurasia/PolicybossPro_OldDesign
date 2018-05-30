@@ -41,7 +41,7 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
     public static final String TERM_INPUT_FRAGMENT = "input_term_fragment_bottom";
     public static final String TERM_FOR_INPUT_FRAGMENT = "for_term_input";
     FloatingActionButton fbAddQuote;
-    int compId = 0;
+    int compId = 1000;
 
     List<TermFinmartRequest> listQuote;
     TermQuoteAdapter mAdapter;
@@ -141,9 +141,9 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
         if (v.getId() == R.id.fbAddQuote
                 || v.getId() == R.id.tvAdd) {
             switch (compId) {
-                case 1001://compare term
+                case 0://compare term
                     Intent intentCompare = new Intent(getActivity(), CompareTermActivity.class);
-                    intentCompare.putExtra(TERM_FOR_INPUT_FRAGMENT, 1001);
+                    intentCompare.putExtra(TERM_FOR_INPUT_FRAGMENT, 0);
                     //intent.putExtra(TERM_INPUT_FRAGMENT, null);
                     startActivity(intentCompare);
                     break;
@@ -184,7 +184,7 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
             intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
             intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
             startActivity(intent);
-        } else if (whichTerm == 1001) {
+        } else if (whichTerm == 0) {
             Intent intent = new Intent(getActivity(), CompareTermActivity.class);
             intent.putExtra(TERM_FOR_INPUT_FRAGMENT, whichTerm);
             intent.putExtra(TERM_INPUT_FRAGMENT, termFinmartRequest);
@@ -211,8 +211,8 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
             new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "1", this);
         }else  if(compId == 28){
             new TermInsuranceController(getActivity()).getTermQuoteApplicationList(28, count, "1", this);
-        }else  if(compId == 1001){
-            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(1001, count, "1", this);
+        }else  if(compId == 0){
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(0, count, "1", this);
         }else  if(compId == 1){
             new TermInsuranceController(getActivity()).getTermQuoteApplicationList(1, count, "1", this);
         }

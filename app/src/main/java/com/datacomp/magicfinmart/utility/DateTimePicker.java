@@ -13,12 +13,17 @@ import java.util.concurrent.TimeUnit;
 public class DateTimePicker {
     static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-    public static void showDatePickerDialog(Context mContex, DatePickerDialog.OnDateSetListener callBack) {
+    public static void showDatePickerDialog(Context mContex, Calendar cal, DatePickerDialog.OnDateSetListener callBack) {
         final Calendar calendar = Calendar.getInstance();
 
         DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        if (cal != null) {
+            //set existing date to calender
+            dialog.updateDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
+        }
 
         dialog.show();
     }

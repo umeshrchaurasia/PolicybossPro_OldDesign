@@ -37,7 +37,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruWebviewActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcIProtectAdapter;
-import com.datacomp.magicfinmart.term.quoteapp.TermQuoteListFragment;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -107,140 +106,23 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
     LinearLayout llCompareAll;
     ScrollView mainScroll;
+
     //region icici form
     Spinner spICICIOptions, spICICIPremiumTerm, spICICIPremiumFrequency;
-
     TextView txtICICILumpSum, txtICICIRegularIncome, txtICICIIncreasingIncome, txtICICILumpSumRegular;
     EditText etSumICICIAssured, etICICIPolicyTerm, etICICIPremiumTerm,
             etICICICriticalIllness, etICICIAccidentalBenefits, etICICILumpSumpPerc;
     Button minusICICISum, plusICICISum, minusICICIPTerm, plusICICIPTerm,
             minusICICIPreTerm, plusICICIPreTerm, minusICICICritical, plusICICICritical,
             minusICICIAcc, plusICICIAcc, minusICICILumpSumpPerc, plusICICILumpSumpPerc;
-
-
-    ArrayAdapter<String> policyOptionsAdapter, policyTermAdapter, premiumFrequencyAdapter;
-
-
     LinearLayout llICICIAccidental, llICICICritical, llICICILumpSumpPerc;
+
     //endregion
 
-    int insurerID;
-    boolean canChangePremiumTerm = true;
-    int age = 0;
-    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
-        @Override
-        public void onClick(final View view) {
-            Constants.hideKeyBoard(view, getActivity());
-
-            //region dob
-
-            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                @Override
-                public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                    if (view1.isShown()) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(year, monthOfYear, dayOfMonth);
-                        String currentDay = simpleDateFormat.format(calendar.getTime());
-                        etDOB.setText(currentDay);
-                        age = caluclateAge(calendar);
-                        //setPolicyTerm((75 - age));
-                    }
-                }
-            });
-
-            //endregion
-        }
-    };
-    boolean isEdit = false;
-    int termRequestId = 0;
+    boolean isEdit = false, canChangePremiumTerm = true;
+    int termRequestId = 0, insurerID, age = 0;
     String crn = "";
-    AdapterView.OnItemSelectedListener optionSelected = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (parent.getId() == R.id.spICICIOptions) {
-                manipulateInputs(spICICIOptions.getSelectedItem().toString());
 
-            } else if (parent.getId() == R.id.spICICIPremiumFrequency) {
-                switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
-                    case 0:
-                        termRequestEntity.setFrequency("yearly");
-                        break;
-                    case 1:
-                        termRequestEntity.setFrequency("Half Yearly");
-                        break;
-                    case 2:
-                        termRequestEntity.setFrequency("Monthly");
-                        break;
-                }
-
-            } else if (parent.getId() == R.id.spICICIPremiumTerm) {
-
-                String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
-                String[] listPremiumFrequency = getActivity().getResources()
-                        .getStringArray(R.array.icici_premium_frequency);
-
-                final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
-                final List<String> premiumFreqList = new ArrayList<>(Arrays.asList(listPremiumFrequency));
-
-                switch (spICICIPremiumTerm.getSelectedItemPosition()) {
-                    case 0://regular pay
-                        canChangePremiumTerm = true;
-                        termRequestEntity.setPremiumPaymentOption("Regular Pay");
-                        if (etICICIPremiumTerm.getText().toString().equals("1")) {
-                            etICICIPremiumTerm.setText("20");
-                        }
-                        break;
-                    case 1:// single pay
-                        termRequestEntity.setPremiumPaymentOption("Single Pay");
-                        optionsList.remove("LIFE AND HEALTH");
-                        optionsList.remove("ALL IN ONE");
-
-                        premiumFreqList.remove("HALF YEARLY");
-                        premiumFreqList.remove("MONTHLY");
-                        canChangePremiumTerm = false;
-                        etICICIPremiumTerm.setText("1");
-                        etICICIPremiumTerm.setEnabled(false);
-                        //setPolicyTerm((75 - age));
-                        break;
-                    case 2://limited pay
-                        termRequestEntity.setPremiumPaymentOption("Limited Pay");
-                        canChangePremiumTerm = true;
-                        //setPolicyTerm((75 - age));
-                        /*if ((75 - age) > 30) {
-                            optionsList.remove("LIFE AND HEALTH");
-                            optionsList.remove("ALL IN ONE");
-                        }*/
-                        if (etICICIPremiumTerm.getText().toString().equals("1")) {
-                            etICICIPremiumTerm.setText("20");
-                        }
-                        break;
-
-                }
-                if (!isEdit) {
-                    ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
-                            , android.R.layout.simple_spinner_item
-                            , optionsList);
-
-                    spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spICICIOptions.setAdapter(spAdapterOptions);
-
-                    ArrayAdapter<String> spAdapterPremiumFreq = new ArrayAdapter<String>(getActivity()
-                            , android.R.layout.simple_spinner_item
-                            , premiumFreqList);
-
-                    spAdapterPremiumFreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    spICICIPremiumFrequency.setAdapter(spAdapterPremiumFreq);
-                    isEdit = false;
-                }
-
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -258,7 +140,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         //init_adapters();
 
         //adapter_listener();
-        if (getArguments() != null) {
+       /* if (getArguments() != null) {
             if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null) {
                 termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
                 termRequestId = termFinmartRequest.getTermRequestId();
@@ -266,14 +148,46 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             }
 
             insurerID = getArguments().getInt(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT);
-            bindICICI();
+            setDefaultsIcici();
             bindInput(termFinmartRequest);
         }
-        hideShowLayout(true);
+        changeInputQuote(true);*/
+        setDefaultsIcici();
+        if (getArguments() != null) {
+            if (getArguments().getParcelable(IciciTermActivity.QUOTE_DATA) != null) {
+                termFinmartRequest = getArguments().getParcelable(IciciTermActivity.QUOTE_DATA);
+                termRequestEntity = termFinmartRequest.getTermRequestEntity();
+                termRequestId = termFinmartRequest.getTermRequestId();
+                int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
+                termFinmartRequest.setFba_id(fba_id);
+                fetchQuotes();
+            } else if (getArguments().getParcelable(IciciTermActivity.INPUT_DATA) != null) {
+                termFinmartRequest = getArguments().getParcelable(IciciTermActivity.INPUT_DATA);
+                termRequestEntity = termFinmartRequest.getTermRequestEntity();
+                termRequestId = termFinmartRequest.getTermRequestId();
+                changeInputQuote(true);
+                isEdit = true;
+            } else if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null) {
+                termCompareResponseEntity = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA_RESPONSE);
+                termFinmartRequest = getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA);
+                termRequestEntity = termFinmartRequest.getTermRequestEntity();
+                termRequestId = termFinmartRequest.getTermRequestId();
+                bindHeaders();
+                bindQuotes();
+                fromCompare();
+            } else {
+                changeInputQuote(true);
+            }
+            //bindICICI();
+            if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null)
+                bindInput(termFinmartRequest);
+        }
+
+
         return view;
     }
 
-    private void bindICICI() {
+    private void setDefaultsIcici() {
         etSumICICIAssured.setText("10,000,000");
         etICICICriticalIllness.setText("100,000");
         etICICIAccidentalBenefits.setText("10,000,000");
@@ -379,7 +293,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
             tvCrn.setText("");
             tvCrn.append("CRN  ");
-            //String crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
+            String crn = "" + termCompareResponseEntity.getCustomerReferenceID();
             SpannableString CRN = new SpannableString(crn);
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
             CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
@@ -427,7 +341,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         }*/
     }
 
-    private void hideShowLayout(boolean isInput) {
+    private void changeInputQuote(boolean isInput) {
         if (isInput) {
             //((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
             btnGetQuote.setText("GET QUOTE");
@@ -443,6 +357,14 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             cvInputDetails.setVisibility(View.VISIBLE);
             cvQuoteDetails.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void fromCompare() {
+        btnGetQuote.setText("UPDATE QUOTE");
+        tilPincode.setVisibility(View.INVISIBLE);
+        layoutCompare.setVisibility(View.GONE);
+        cvInputDetails.setVisibility(View.VISIBLE);
+        cvQuoteDetails.setVisibility(View.VISIBLE);
     }
 
     private void bindInput(TermFinmartRequest termFinmartRequest) {
@@ -721,7 +643,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 if (termCompareResponseEntity != null && termCompareResponseEntity.getPdfUrl().equals("")) {
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
                 } else {
-                    startActivity(new Intent(getActivity(), KnowledgeGuruWebviewActivity.class)
+                    startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                             .putExtra("URL", "https://docs.google.com/viewer?url=" + termCompareResponseEntity.getPdfUrl())
                             .putExtra("NAME", "CLICK TO PROTECT 3D")
                             .putExtra("TITLE", "CLICK TO PROTECT 3D"));
@@ -739,7 +661,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
             case R.id.ivEdit:
                 ((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
-                hideShowLayout(true);
+                changeInputQuote(true);
                 break;
             case R.id.ivInfo:
                 //((IciciTermActivity) getActivity()).redirectToInput(termFinmartRequest);
@@ -1055,6 +977,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void setTermRequest() {
+        //termRequestEntity.setLumpsumPercentage("0");
         //termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
 
         if (isMale)
@@ -1479,7 +1402,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
                 bindHeaders();
-                hideShowLayout(false);
+                changeInputQuote(false);
                 if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
                     bindQuotes();
                 } else {
@@ -1573,4 +1496,121 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         mPopupWindow.setFocusable(true);
 
     }
+
+    //region dob
+    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
+        @Override
+        public void onClick(final View view) {
+            Constants.hideKeyBoard(view, getActivity());
+
+
+            DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                @Override
+                public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                    if (view1.isShown()) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(year, monthOfYear, dayOfMonth);
+                        String currentDay = simpleDateFormat.format(calendar.getTime());
+                        etDOB.setText(currentDay);
+                        age = caluclateAge(calendar);
+                        //setPolicyTerm((75 - age));
+                    }
+                }
+            });
+
+
+        }
+    };
+    //endregion
+
+    //region adapter listener
+    AdapterView.OnItemSelectedListener optionSelected = new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (parent.getId() == R.id.spICICIOptions) {
+                manipulateInputs(spICICIOptions.getSelectedItem().toString());
+
+            } else if (parent.getId() == R.id.spICICIPremiumFrequency) {
+                switch (spICICIPremiumFrequency.getSelectedItemPosition()) {
+                    case 0:
+                        termRequestEntity.setFrequency("yearly");
+                        break;
+                    case 1:
+                        termRequestEntity.setFrequency("Half Yearly");
+                        break;
+                    case 2:
+                        termRequestEntity.setFrequency("Monthly");
+                        break;
+                }
+
+            } else if (parent.getId() == R.id.spICICIPremiumTerm) {
+
+                String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
+                String[] listPremiumFrequency = getActivity().getResources()
+                        .getStringArray(R.array.icici_premium_frequency);
+
+                final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
+                final List<String> premiumFreqList = new ArrayList<>(Arrays.asList(listPremiumFrequency));
+
+                switch (spICICIPremiumTerm.getSelectedItemPosition()) {
+                    case 0://regular pay
+                        canChangePremiumTerm = true;
+                        termRequestEntity.setPremiumPaymentOption("Regular Pay");
+                        if (etICICIPremiumTerm.getText().toString().equals("1")) {
+                            etICICIPremiumTerm.setText("20");
+                        }
+                        break;
+                    case 1:// single pay
+                        termRequestEntity.setPremiumPaymentOption("Single Pay");
+                        optionsList.remove("LIFE AND HEALTH");
+                        optionsList.remove("ALL IN ONE");
+
+                        premiumFreqList.remove("HALF YEARLY");
+                        premiumFreqList.remove("MONTHLY");
+                        canChangePremiumTerm = false;
+                        etICICIPremiumTerm.setText("1");
+                        etICICIPremiumTerm.setEnabled(false);
+                        //setPolicyTerm((75 - age));
+                        break;
+                    case 2://limited pay
+                        termRequestEntity.setPremiumPaymentOption("Limited Pay");
+                        canChangePremiumTerm = true;
+                        //setPolicyTerm((75 - age));
+                        /*if ((75 - age) > 30) {
+                            optionsList.remove("LIFE AND HEALTH");
+                            optionsList.remove("ALL IN ONE");
+                        }*/
+                        if (etICICIPremiumTerm.getText().toString().equals("1")) {
+                            etICICIPremiumTerm.setText("20");
+                        }
+                        break;
+
+                }
+                if (!isEdit) {
+                    ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
+                            , android.R.layout.simple_spinner_item
+                            , optionsList);
+
+                    spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spICICIOptions.setAdapter(spAdapterOptions);
+
+                    ArrayAdapter<String> spAdapterPremiumFreq = new ArrayAdapter<String>(getActivity()
+                            , android.R.layout.simple_spinner_item
+                            , premiumFreqList);
+
+                    spAdapterPremiumFreq.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spICICIPremiumFrequency.setAdapter(spAdapterPremiumFreq);
+                    isEdit = false;
+                }
+
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+
+        }
+    };
+
+    //endregion
 }

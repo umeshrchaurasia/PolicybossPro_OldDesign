@@ -2,12 +2,15 @@ package com.datacomp.magicfinmart.term.compareterm;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -32,6 +35,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.compareterm.adapters.TermQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -44,9 +48,12 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.term.TermInsuranceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TermCompareResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 
 import static java.util.Calendar.DATE;
@@ -72,7 +79,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     TermFinmartRequest termFinmartRequest;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-    ScrollView mainScroll;
+    NestedScrollView mainScroll;
     LinearLayout llCompareAll;
     RecyclerView rvTerm;
     CardView cvInputDetails;
@@ -300,8 +307,10 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         //Compare All
         llCompareAll = (LinearLayout) view.findViewById(R.id.llCompareAll);
         rvTerm = (RecyclerView) view.findViewById(R.id.rvTerm);
+        rvTerm.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvTerm.setHasFixedSize(true);
         cvInputDetails = (CardView) view.findViewById(R.id.cvInputDetails);
-        mainScroll = (ScrollView) view.findViewById(R.id.mainScroll);
+        mainScroll = (NestedScrollView) view.findViewById(R.id.mainScroll);
         layoutCompare = (View) view.findViewById(R.id.layoutCompare);
 
     }
@@ -386,6 +395,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setTermRequest() {
+        termRequestEntity.setLumpsumPercentage("0");
         termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
 
         if (isMale)
@@ -420,7 +430,8 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         termRequestEntity.setSupportsAgentID("1682");
         termRequestEntity.setPincode(etPincode.getText().toString());
 
-        termFinmartRequest.setTermRequestId(0);
+        termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
+        //termFinmartRequest.setTermRequestId(0);
         termFinmartRequest.setTermRequestEntity(termRequestEntity);
     }
 
@@ -600,7 +611,8 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void bindQuotes() {
-        mAdapter = new TermQuoteAdapter(TermInputFragment.this, termCompareResponseEntities);
+        int uptoAge = Integer.parseInt(termRequestEntity.getPPT()) + caluclateAge(etDOB.getText().toString());
+        mAdapter = new TermQuoteAdapter(TermInputFragment.this, termCompareResponseEntities, "" + uptoAge);
         rvTerm.setAdapter(mAdapter);
         // tvCrn.setText("" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID());
     }
@@ -616,7 +628,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         mainScroll.fullScroll(ScrollView.FOCUS_UP);
         if (termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getResponse() != null) {
             if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
-
+                termCompareResponseEntities.clear();
                 for (int i = 0; i < termCompareQuoteResponse.getMasterData().getResponse().size(); i++) {
                     TermCompareResponseEntity termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(i);
                     if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
@@ -637,5 +649,25 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    public void redirectToBuy(TermCompareResponseEntity termCompareResponseEntity) {
+        new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(),
+                "" + termFinmartRequest.getTermRequestEntity().getInsurerId(),
+                "" + dbPersistanceController.getUserData().getFBAId(),
+                "" + termCompareResponseEntity.getNetPremium(), this);
+        startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                .putExtra("URL", termCompareResponseEntity.getProposerPageUrl())
+                .putExtra("NAME", "CLICK TO PROTECT 3D")
+                .putExtra("TITLE", "CLICK TO PROTECT 3D"));
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life Ins Buy"), Constants.LIFE_INS), null);
+
+    }
+
+    public void redirectToCustomize(TermCompareResponseEntity termCompareResponseEntity) {
+        if (termCompareResponseEntity.getInsurerId() == 28)
+            ((CompareTermActivity) getActivity()).redirectToHdfcQuote(termCompareResponseEntity);
+        else if (termCompareResponseEntity.getInsurerId() == 39)
+            ((CompareTermActivity) getActivity()).redirectToIciciQuote(termCompareResponseEntity);
     }
 }

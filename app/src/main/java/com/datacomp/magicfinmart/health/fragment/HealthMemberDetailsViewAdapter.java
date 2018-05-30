@@ -178,7 +178,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
             @Override
             public void onClick(View view) {
                 if (view.getId() == R.id.etDOB) {
-                    DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    DateTimePicker.showDatePickerDialog(view.getContext(), null, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                             if (view1.isShown()) {
