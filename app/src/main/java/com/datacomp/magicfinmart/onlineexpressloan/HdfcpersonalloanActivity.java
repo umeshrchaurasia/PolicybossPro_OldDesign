@@ -33,6 +33,7 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.ParseException;
@@ -212,27 +213,34 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
     }
     //region datepicker
 
+
+    //region datePickerDialog Applicant
     protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            Constants.hideKeyBoard(view, HdfcpersonalloanActivity.this);
             if (view.getId() == R.id.etDOB) {
-                DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etDOB.setText(currentDay);
-                        }
-                    }
-                });
-            }
+                DateTimePicker.showExpressAgeDatePicker_21(view.getContext(), (Calendar) view.getTag(R.id.etDOB),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etDOB.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                etDOB.setTag(R.id.etDOB, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
         }
     };
-
     //endregion
 
     @Override
@@ -367,6 +375,11 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                     return;
                 } else {
                     etNetIncome.setError(null);
+                }
+
+                if((Double.valueOf(etNetIncome.getText().toString()) < 20000))
+                {
+                    showAlert("Net Income should be equal or greater than 20 thousands");
                 }
 
                 if (!isEmpty(etyrs_of_emp)) {

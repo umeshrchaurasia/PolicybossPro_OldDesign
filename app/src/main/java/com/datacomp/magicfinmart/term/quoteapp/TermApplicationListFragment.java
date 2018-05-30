@@ -13,11 +13,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.TermActivityTabsPagerAdapter;
+import com.datacomp.magicfinmart.term.TermQuoteApplicationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,16 +31,17 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApp
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TermApplicationListFragment extends BaseFragment implements View.OnClickListener,IResponseSubcriber{
+public class TermApplicationListFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber {
 
     List<TermFinmartRequest> listApplication;
     TermApplicationAdapter mAdapter;
     RecyclerView rvTermApplication;
-
+    int compId = 1000;
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
     EditText etSearch;
     boolean isHit = false;
+
     public TermApplicationListFragment() {
         // Required empty public constructor
     }
@@ -58,6 +59,7 @@ public class TermApplicationListFragment extends BaseFragment implements View.On
         if (getArguments().getParcelableArrayList(TermActivityTabsPagerAdapter.TERM_APPLICATION_LIST) != null) {
             listApplication = getArguments().getParcelableArrayList(TermActivityTabsPagerAdapter.TERM_APPLICATION_LIST);
         }
+        compId = ((TermQuoteApplicationActivity) getActivity()).getCompId();
         mAdapter = new TermApplicationAdapter(this, listApplication);
         rvTermApplication.setAdapter(mAdapter);
         rvTermApplication.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -119,7 +121,19 @@ public class TermApplicationListFragment extends BaseFragment implements View.On
 
     public void fetchMoreQuotes(int count) {
         //showDialog("Fetching.., Please wait.!");
-        new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "2", this);
+
+        if (compId == 39) {
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "2", this);
+        } else if (compId == 28) {
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(28, count, "2", this);
+        } else if (compId == 0) {
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(0, count, "2", this);
+        } else if (compId == 1) {
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(1, count, "2", this);
+        } else if (compId == 43) {
+            new TermInsuranceController(getActivity()).getTermQuoteApplicationList(43, count, "2", this);
+        }
+        //new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "2", this);
     }
 
     private void setTextWatcher() {

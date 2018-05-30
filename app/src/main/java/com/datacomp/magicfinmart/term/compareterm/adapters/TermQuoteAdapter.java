@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.compareterm.TermQuoteFragment;
+import com.datacomp.magicfinmart.term.compareterm.TermInputFragment;
 
 import java.util.List;
 
@@ -23,13 +23,14 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
 
 
     Fragment mContext;
-
+    String age;
     List<TermCompareResponseEntity> listQuotes;
     DBPersistanceController dbPersistanceController;
 
-    public TermQuoteAdapter(Fragment mContext, List<TermCompareResponseEntity> listQuotes) {
+    public TermQuoteAdapter(Fragment mContext, List<TermCompareResponseEntity> listQuotes, String age) {
         this.mContext = mContext;
         this.listQuotes = listQuotes;
+        this.age = age;
         dbPersistanceController = new DBPersistanceController(mContext.getContext());
 
     }
@@ -47,31 +48,43 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
 
         holder.txtPlanNAme.setText("" + responseEntity.getProductPlanName());
         holder.txtCover.setText("" + responseEntity.getSumAssured());
+        holder.txtAge.setText("" + age);
         holder.txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + "Yrs.");
-        holder.txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium() + "/Year");
+        holder.txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium());
         // holder.txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
 
-        Glide.with(mContext)
-                .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurerLogoName())
-                .into(holder.imgInsurerLogo);
+        /*if(responseEntity.getInsurerId()==39){
+            holder.imgInsurerLogo.setImageDrawable();
+        }*/
+        if (responseEntity.getInsurerId() == 39)
+            holder.imgInsurerLogo.setImageResource(R.drawable.icici_life_icon);
+        else if (responseEntity.getInsurerId() == 28)
+            holder.imgInsurerLogo.setImageResource(R.drawable.hdfc_life_icon);
+        else if (responseEntity.getInsurerId() == 0)
+            holder.imgInsurerLogo.setImageResource(R.drawable.icici_life_icon);
+        else {
+            Glide.with(mContext)
+                    .load("http://www.policyboss.com/Images/insurer_logo/" + responseEntity.getInsurerLogoName())
+                    .into(holder.imgInsurerLogo);
+        }
 
         holder.txtCustomise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+                ((TermInputFragment) mContext).redirectToCustomize(responseEntity);
             }
         });
-        holder.txtRiders.setOnClickListener(new View.OnClickListener() {
+        /*holder.txtRiders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
-        });
+        });*/
 
         holder.txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((TermQuoteFragment) mContext).redirectToBuy(responseEntity);
+                ((TermInputFragment) mContext).redirectToBuy(responseEntity);
             }
         });
 
@@ -109,7 +122,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtAge = (TextView) itemView.findViewById(R.id.txtAge);
             txtCustomise = (TextView) itemView.findViewById(R.id.txtCustomise);
-            txtRiders = (TextView) itemView.findViewById(R.id.txtRiders);
+            //txtRiders = (TextView) itemView.findViewById(R.id.txtRiders);
             txtPlanNAme = (TextView) itemView.findViewById(R.id.txtPlanNAme);
             txtCover = (TextView) itemView.findViewById(R.id.txtCover);
             txtFinalPremium = (TextView) itemView.findViewById(R.id.txtFinalPremium);

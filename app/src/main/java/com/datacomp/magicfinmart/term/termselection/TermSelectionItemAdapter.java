@@ -64,9 +64,10 @@ public class TermSelectionItemAdapter extends RecyclerView.Adapter<RecyclerView.
                 ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.icici_life_icon);
             else if (termSelectionEntity.getCompantID() == 28)
                 ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.hdfc_life_icon);
-            else if (termSelectionEntity.getCompantID() == 1001)
+            else if (termSelectionEntity.getCompantID() == 0)
                 ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.icici_life_icon);
-
+            else
+                ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.icici_life_icon);
 
             ((DashboardItemHolder) holder).txtProductName.setText(termSelectionEntity.getCompanyName());
             ((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {

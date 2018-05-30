@@ -92,27 +92,29 @@
                     android:layout_marginTop="5dp"
                     android:gravity="left|center_vertical"
                     android:text="20/89"
-                    android:textAllCaps="true" />
+                    android:textAllCaps="true"
+                    android:textStyle="bold" />
 
                 <TextView
+                    style="@style/TextStyle.TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="left|center_vertical"
                     android:text="App no"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextSmall"
                     android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/txtCRN"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:gravity="left|center_vertical"
                     android:text="164646"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextMedium" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -125,43 +127,45 @@
                 android:paddingTop="8dp">
 
                 <TextView
+                    style="@style/TextStyle.TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
                     android:text="sum"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextSmall"
                     android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/txtSum"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left|center_vertical"
                     android:text="20/89"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextMedium" />
+                    android:textStyle="bold" />
 
                 <TextView
+                    style="@style/TextStyle.TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="left|center_vertical"
                     android:text="status date"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextSmall"
                     android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/txtStatusDate"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:gravity="left|center_vertical"
                     android:text="164646"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextMedium" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -174,43 +178,45 @@
                 android:paddingTop="8dp">
 
                 <TextView
+                    style="@style/TextStyle.TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
                     android:text="mode"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextSmall"
                     android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/txtMode"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left|center_vertical"
                     android:text="20/89"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextMedium" />
+                    android:textStyle="bold" />
 
                 <TextView
+                    style="@style/TextStyle.TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:gravity="left|center_vertical"
                     android:text="status"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextSmall"
                     android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/txtStatus"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="2dp"
                     android:gravity="left|center_vertical"
                     android:text="164646"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextMedium" />
+                    android:textStyle="bold" />
             </LinearLayout>
 
             <LinearLayout
@@ -223,34 +229,33 @@
                 android:paddingTop="8dp">
 
                 <TextView
+                    style="@style/TextStyle.TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="left|center_vertical"
                     android:text="premium"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextSmall"
                     android:textSize="9sp" />
 
                 <TextView
                     android:id="@+id/txtPremium"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:gravity="left|center_vertical"
                     android:text="20/89"
                     android:textAllCaps="true"
-                    style="@style/TextStyle.TextMedium" />
+                    android:textStyle="bold" />
 
 
-                <TextView
+                <ImageView
+                    android:src="@drawable/dot"
                     android:id="@+id/txtOverflowMenu"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"
-                    android:gravity="center_horizontal|center_vertical"
-                    android:text="@string/threedots"
-                    android:textAllCaps="true"
-                    android:textStyle="bold" />
+                    android:gravity="right" />
             </LinearLayout>
 
         </LinearLayout>

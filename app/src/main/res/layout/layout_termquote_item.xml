@@ -2,23 +2,22 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card_view_spinner"
-    style="@style/CardViewStyle"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginTop="4dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="3dp">
+    android:layout_marginBottom="8dp"
+    app:cardElevation="5dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/borderthealthcheckup"
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/ll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
+            android:background="@drawable/borderthealthcheckup"
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal"
             android:weightSum="4">
@@ -36,7 +35,7 @@
                     android:gravity="center"
                     android:padding="6dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/finmart_logo" />
+                    android:src="@drawable/hdfc_life_icon" />
 
                 <View
                     android:layout_width="match_parent"
@@ -87,18 +86,31 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
                     android:gravity="center_vertical|center_horizontal"
                     android:minHeight="60dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/txtPlanNAme"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="80"
+                        android:gravity="center"
                         android:text="IProtectSmart"
                         android:textColor="@color/header_text_color"
                         android:textSize="13sp"
                         android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/ivInfo"
+                        android:layout_width="0dp"
+                        android:layout_height="24dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_weight="20"
+                        android:src="@drawable/infop"
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
@@ -194,6 +206,7 @@
 
                 <TextView
                     android:id="@+id/txtFinalPremium"
+                    style="@style/TextViewStyle.Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -201,37 +214,46 @@
                     android:background="#ff5c61"
                     android:gravity="center"
                     android:minHeight="30dp"
-                    android:text="103890/year"
-                    android:textColor="@android:color/white"
-                    android:textSize="10sp" />
+                    android:text="999999"
+                    android:textColor="@android:color/white" />
 
-                <TextView
-                    android:id="@+id/txtRiders"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/search_gray"
+                    android:layout_marginTop="15dp"
                     android:gravity="center"
-                    android:minHeight="30dp"
-                    android:text="+RIDERS"
-                    android:textColor="@android:color/white"
-                    android:textSize="10sp" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/txtCustomise"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@color/progress_blue"
-                    android:gravity="center"
-                    android:minHeight="30dp"
-                    android:text="CUSTOMISE"
-                    android:textColor="@android:color/white"
-                    android:textSize="10sp" />
+                    <TextView
+                        android:id="@+id/txtCustomise"
+                        style="@style/TextViewStyle.Medium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@color/progress_blue"
+                        android:gravity="center"
+                        android:minHeight="30dp"
+                        android:text="CUSTOMISE"
+                        android:textColor="@android:color/white" />
+
+                    <ImageView
+                        android:id="@+id/ivPdf"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:src="@drawable/pdf_icon"
+                        android:visibility="gone" />
+
+                    <ImageView
+                        android:id="@+id/ivBuy"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_marginLeft="3dp"
+                        android:src="@drawable/cart"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+
             </LinearLayout>
 
 
@@ -242,7 +264,11 @@
             android:id="@+id/llAddon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bordertbl"
+            android:layout_below="@+id/ll"
+            android:layout_marginBottom="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="1dp"
+            android:background="@color/divider"
             android:orientation="vertical"
             android:visibility="visible">
 
@@ -250,9 +276,11 @@
                 android:id="@+id/rvAddOn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/divider" />
+                android:background="@color/divider"
+                android:paddingBottom="5dp" />
 
         </LinearLayout>
 
-    </LinearLayout>
+    </RelativeLayout>
+
 </android.support.v7.widget.CardView>

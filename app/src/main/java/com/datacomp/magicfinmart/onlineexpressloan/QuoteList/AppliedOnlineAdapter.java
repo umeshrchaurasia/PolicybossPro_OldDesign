@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
 
@@ -53,13 +55,46 @@ public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedOnlineAdap
         AppliedOnlineAdapter.ViewHolder hold = (AppliedOnlineAdapter.ViewHolder) holder;
 
 
-        hold.txtAppNo.setText(entity.getApplicationID());
-        hold.txtBankName.setText(entity.getBank_Code());
-        hold.txtCreditType.setText(entity.getFullName());
-       // hold.txtEmail.setText(entity.get());
-        hold.txtName.setText(entity.getFullName());
-        hold.txtMobile.setText(entity.getMobileNo());
-        hold.txtloantype.setText(entity.getLoanType());
+        if (entity.getApplicationID() != null) {
+            holder.txtApplicationNumber.setText(""+String.valueOf(entity.getApplicationID()));
+        }else
+        {
+            holder.txtApplicationNumber.setText("");
+        }
+
+
+        if (entity.getCreatedDate() != null) {
+            holder.txtApplicationDate.setText("" + entity.getCreatedDate());
+        }else
+        {
+            holder.txtApplicationDate.setText("");
+        }
+
+        if(entity.getLoanType().toUpperCase().equals("PL"))
+        {
+            hold.txtLoanType.setText("Personal Loan");
+        }
+        else
+        {
+            hold.txtLoanType.setText("Short Term PL");
+        }
+
+
+        hold.txtPersonName.setText(entity.getFullName());
+
+        hold.txtloanamount.setText(entity.getLoanAmount());
+        try {
+            Glide.with(mContext)
+                    .load(entity.getDocument1())
+                    .into(holder.imgbankLogo);
+
+
+            //change Fresco
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     public void refreshAdapter(List<ExpressQuoteEntity> list) {
@@ -115,17 +150,19 @@ public class AppliedOnlineAdapter extends RecyclerView.Adapter<AppliedOnlineAdap
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView txtName, txtEmail, txtMobile, txtBankName, txtCreditType, txtAppNo, txtloantype;
+        TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName,txtLoanType;
+        ImageView imgbankLogo;
 
         ViewHolder(View v) {
             super(v);
-            txtName = (TextView) v.findViewById(R.id.txtName);
-            txtEmail = (TextView) v.findViewById(R.id.txtEmail);
-            txtMobile = (TextView) v.findViewById(R.id.txtMobile);
-            txtBankName = (TextView) v.findViewById(R.id.txtBankName);
-            txtCreditType = (TextView) v.findViewById(R.id.txtCreditType);
-            txtAppNo = (TextView) v.findViewById(R.id.txtAppNo);
-            txtloantype = (TextView) v.findViewById(R.id.txtloantype);
+
+            txtLoanType = (TextView) v.findViewById(R.id.txtLoanType);
+            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+            txtApplicationDate = (TextView) itemView.findViewById(R.id.txtApplicationDate);
+            txtApplicationNumber = (TextView) itemView.findViewById(R.id.txtApplicationNumber);
+            txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
+            txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
+            imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
         }
     }
 

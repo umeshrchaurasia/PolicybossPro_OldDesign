@@ -44,13 +44,15 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            >
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/personal_loan_img" />
+                android:src="@drawable/knowledge_loan_icon" />
 
             <View
                 android:layout_width="1dp"
@@ -80,13 +82,14 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/insurace_img" />
+                android:src="@drawable/knowledge_insurace_icon" />
 
             <View
                 android:layout_width="1dp"
@@ -116,13 +119,14 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="10dp"
-                android:src="@drawable/knowledge_guru" />
+                android:src="@drawable/knowledge_guru_other_product" />
 
             <View
                 android:layout_width="1dp"
