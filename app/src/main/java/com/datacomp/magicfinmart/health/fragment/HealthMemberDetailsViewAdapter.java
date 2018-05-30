@@ -22,10 +22,12 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
@@ -42,7 +44,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
     List<String> childRelationShip;
     int adultCount = 0;
     SimpleDateFormat simpleDateFormat;
-
+     public Calendar calendarMain ;
 
     // data is passed into the constructor
     HealthMemberDetailsViewAdapter(Context context, List<MemberListEntity> listMemberList, String policyFor, int adultCount) {
@@ -52,6 +54,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
         this.adultCount = adultCount;
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         relationShip = Arrays.asList(mContext.getResources().getStringArray(R.array.health_relationship));
+         calendarMain = Calendar.getInstance();
         this.PolicyFor = policyFor;
         setFamilyList();
         setChildyList();
@@ -180,11 +183,24 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
             }
         });
 
+
+
+
         holder.etDOB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (view.getId() == R.id.etDOB) {
-                    DateTimePicker.showDatePickerDialogHealth(view.getContext(), null, new DatePickerDialog.OnDateSetListener() {
+
+                    if(entity.getMemberDOB() != null)
+                    {
+                        try {
+                            Date date = simpleDateFormat.parse(entity.getMemberDOB().toString());
+                            calendarMain = dateToCalendar(date);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    DateTimePicker.showDatePickerDialogHealth(view.getContext(), calendarMain, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                             if (view1.isShown()) {
@@ -204,6 +220,7 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
         if (position == 0) {     //  Self
             //enable llmaried
+           // holder.etDOB.setOnClickListener(this);
             holder.llMarried.setVisibility(View.VISIBLE);
             holder.rbMale.setChecked(true);
             holder.spHealthRelation.setSelection(1);
@@ -432,6 +449,17 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
 
         return relationAdapter;
     }
+
+
+    //Convert Date to Calendar
+    public Calendar dateToCalendar(Date date) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        return calendar;
+
+    }
+
 
 
 }
