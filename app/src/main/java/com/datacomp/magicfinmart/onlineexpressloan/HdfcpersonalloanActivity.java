@@ -278,7 +278,11 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                     etLoanAmount.setError(null);
                 }
 
-
+                if((Double.valueOf(etNetIncome.getText().toString()) < 50000))
+                {
+                    showAlert("Net Income should be equal or greater than 50 thousands");
+                    return;
+                }
 
                 if (!isValidPan(etPancard)) {
                     etPancard.setError("Invalid Pan card");
@@ -380,7 +384,9 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                 if((Double.valueOf(etNetIncome.getText().toString()) < 20000))
                 {
                     showAlert("Net Income should be equal or greater than 20 thousands");
+                    return;
                 }
+
 
                 if (!isEmpty(etyrs_of_emp)) {
                     etyrs_of_emp.setError("Enter No of Years in Employment");

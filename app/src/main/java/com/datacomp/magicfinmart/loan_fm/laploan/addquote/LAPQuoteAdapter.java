@@ -39,7 +39,7 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
     public class BankQuotesItem extends RecyclerView.ViewHolder {
 
 
-        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply, tvEligibleLoan, tvEmiperlac;
+        TextView tvLoanAmt, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee, btnApply, tvEligibleLoan, tvEmiperlac,tvBestRatetype;
         ImageView ivBankLogo,ivArrow;
         LinearLayout rvhlknowmore;
         LinearLayout llivArrow;
@@ -62,6 +62,7 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
 
             ivArrow = (ImageView) itemView.findViewById(R.id.ivArrow);
             llivArrow=(LinearLayout) itemView.findViewById(R.id.llivArrow);
+            tvBestRatetype = (TextView) itemView.findViewById(R.id.tvBestRatetype);
 
             ///
 
@@ -92,6 +93,7 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
         final QuoteEntity quoteEntity = quoteEntities.get(position);
         holder.tvEligibleLoan.setText("" + "\u20B9" + " " + String.format("%.0f", quoteEntity.getLoan_eligible()));
         holder.tvBestRate.setText("" + quoteEntity.getRoi() + " %");
+        holder.tvBestRatetype.setText(""+quoteEntity.getRoi_type());
         holder.tvBankName.setText("" + quoteEntity.getBank_Code());
         holder.tvBestEmi.setText("" + "\u20B9" + " " + String.format("%.0f", quoteEntity.getEmi()));
         holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure() + " Years");

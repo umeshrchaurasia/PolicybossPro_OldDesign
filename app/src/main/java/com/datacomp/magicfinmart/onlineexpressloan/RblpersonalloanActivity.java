@@ -681,7 +681,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         public void onClick(View view) {
             Constants.hideKeyBoard(view, RblpersonalloanActivity.this);
             if (view.getId() == R.id.etJoin) {
-                DateTimePicker.showDatePickerDialog_DateSelect(view.getContext(), (Calendar) view.getTag(R.id.etJoin),
+                DateTimePicker.showExpressCurrentDatePicker(view.getContext(), (Calendar) view.getTag(R.id.etJoin),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -709,7 +709,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         public void onClick(View view) {
             Constants.hideKeyBoard(view, RblpersonalloanActivity.this);
             if (view.getId() == R.id.etLivingSince) {
-                DateTimePicker.showDatePickerDialog_DateSelect(view.getContext(), (Calendar) view.getTag(R.id.etLivingSince),
+                DateTimePicker.showExpressCurrentDatePicker(view.getContext(), (Calendar) view.getTag(R.id.etLivingSince),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -780,6 +780,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         if((Double.valueOf(etMonthlyIncome.getText().toString()) < 25000))
         {
             showAlert("Monthly Income should be equal or greater than 25 thousands");
+            return false;
         }
 
         if (!isEmpty(etMobile)) {
@@ -895,8 +896,8 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
         if (loanAmnt < 100000 || loanAmnt > 2000000) {
             showAlert("Loan amount should be between 1 Lac to 20 Lacs");
-            return false;
-        }
+        return false;
+    }
 
         if (spTenure.getSelectedItemPosition() == 0) {
             showAlert("Select Tenure");
