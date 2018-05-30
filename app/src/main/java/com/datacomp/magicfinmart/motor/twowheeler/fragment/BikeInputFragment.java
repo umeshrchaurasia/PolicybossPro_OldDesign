@@ -1304,18 +1304,21 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             //region policy expirydate
             else if (view.getId() == R.id.etExpDate) {
-                Calendar calendar = Calendar.getInstance();
-                Date regDate = new Date();
-                if (etRegDate.getText().toString().isEmpty()) {
-                    regDate = calendar.getTime();
-                } else {
-                    try {
+                Calendar calendar = null;
+                try {
+                    calendar = Calendar.getInstance();
+                    Date regDate = new Date();
+                    if (etRegDate.getText().toString().isEmpty()) {
+                        regDate = calendar.getTime();
+                    } else {
+
                         regDate = displayFormat.parse(etRegDate.getText().toString());
                         calendar.setTime(regDate);
-                    } catch (ParseException e) {
-                        regDate = calendar.getTime();
-                        e.printStackTrace();
+
                     }
+                } catch (ParseException e) {
+                    //regDate = calendar.getTime();
+                    e.printStackTrace();
                 }
 
                 DateTimePicker.BikepolicyExpValidation(view.getContext(), calendar, new DatePickerDialog.OnDateSetListener() {

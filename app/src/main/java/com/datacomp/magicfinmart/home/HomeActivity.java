@@ -141,16 +141,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (loginResponseEntity != null) {
             init_headers();
-
         }
 
-        List<String> rtoDesc = db.getRTOListNames();
+//        List<String> rtoDesc = db.getRTOListNames();
 
 
         if (savedInstanceState == null) {
             selectHome();
-
-
         }
 
 
@@ -575,7 +572,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
 
         // set first fragement selected.
-        selectHome();
+        //selectHome();
 
 
         new MasterController(this).getConstants(this);

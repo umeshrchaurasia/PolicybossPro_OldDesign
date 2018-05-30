@@ -99,7 +99,7 @@ public class HealthCompareActivity extends BaseActivity {
             HealthQuoteEntity entity = list.get(i);
             for (int j = 0; j < quoteList.size(); j++) {
                 HealthQuoteEntity en = quoteList.get(j);
-                if (en.getInsurerId() == entity.getInsurerId()) {
+                if (en.getInsurerId() == entity.getInsurerId() && en.getProductName() != entity.getProductName()) {
                     isAdd = false;
                 } else {
                     isAdd = true;
