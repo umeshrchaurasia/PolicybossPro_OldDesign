@@ -35,7 +35,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewHeader"
         android:layout_gravity="bottom"
-
         app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
