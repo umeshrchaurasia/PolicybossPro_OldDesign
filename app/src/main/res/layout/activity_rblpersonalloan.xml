@@ -74,7 +74,9 @@
                                 android:id="@+id/etFirstName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
+
                                 android:inputType="text"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:maxLength="50"
                                 android:maxLines="1" />
 
@@ -92,6 +94,7 @@
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
                                 android:inputType="text"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:maxLength="50"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -114,6 +117,7 @@
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
                                 android:inputType="text"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:maxLength="50"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -532,7 +536,7 @@
                                 style="@style/Style.edittext"
                                 android:enabled="false"
                                 android:inputType="text"
-                                android:text="13.99%"
+                                android:text="16%"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -629,9 +633,9 @@
                                 <EditText
                                     android:id="@+id/etEmployerName"
                                     style="@style/Style.edittext"
-
+                                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                     android:inputType="text"
-                                    android:maxLength="50"
+                                    android:maxLength="100"
                                     android:maxLines="1"
                                     android:text="" />
                             </android.support.design.widget.TextInputLayout>
@@ -701,13 +705,13 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="*phone No">
+                                android:hint="*Phone No">
 
                                 <EditText
                                     android:id="@+id/etOffphoneNo"
                                     style="@style/Style.edittext"
                                     android:inputType="number"
-                                    android:maxLength="10"
+                                    android:maxLength="15"
                                     android:maxLines="1" />
 
                             </android.support.design.widget.TextInputLayout>

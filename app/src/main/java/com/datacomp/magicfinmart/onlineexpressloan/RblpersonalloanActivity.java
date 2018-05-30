@@ -35,6 +35,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.ICICICreditApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.google.gson.Gson;
 
@@ -90,7 +91,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     ArrayAdapter<String> cityAdapter;
     List<String> cityList;
 
-    final double roi = 0.013;
+
     int BankID = 0;
     String LoanType = "";
 
@@ -478,12 +479,13 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     }
 
     private void setListner() {
-        etDOB.setOnClickListener(datePickerDialog);
-        etJoin.setOnClickListener(datePickerDialog);
-        etLivingSince.setOnClickListener(datePickerDialog);
+        etDOB.setOnClickListener(datePickerDialogApplicant);
+        etJoin.setOnClickListener(datePickerDialogApplicantjoin);
+        etLivingSince.setOnClickListener(datePickerDialogApplicantLivingSince);
         etLoanAmount.addTextChangedListener(loanAmountTextWatcher);
         btnSubmit.setOnClickListener(this);
-        etOffPancard.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+  //      etOffPancard.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etOffPancard.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
 
         spTenure.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -525,6 +527,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
 
     private void getEmiandProcessingFee() {
         double emi;
+         double roi =0;
         if (etLoanAmount.getText().length() == 0  ||  spTenure.getSelectedItemPosition() == 0) {
             return;
         }
@@ -532,6 +535,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         etLoanReq.setText(etLoanAmount.getText().toString());
         double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
 
+        roi=   ((double) 16/ 12)/100;
         emi = loanAmnt * roi * (Math.pow(1 + roi, getTenure()) / (Math.pow(1 + roi, getTenure()) - 1));
 
         etQuteEMI.setText(String.valueOf(getDigitPrecision(emi)));
@@ -643,53 +647,92 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     //endregion
 
     //region datepicker
-
-    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
+    //region datePickerDialog Applicant
+    protected View.OnClickListener datePickerDialogApplicant = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+            Constants.hideKeyBoard(view, RblpersonalloanActivity.this);
             if (view.getId() == R.id.etDOB) {
-                DateTimePicker.showExpressAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etDOB.setText(currentDay);
-                        }
-                    }
-                });
-            } else if (view.getId() == R.id.etJoin) {
-                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etJoin.setText(currentDay);
-                        }
-                    }
-                });
-            } else if (view.getId() == R.id.etLivingSince) {
-                DateTimePicker.showDatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
-                        if (view1.isShown()) {
-                            Calendar calendar = Calendar.getInstance();
-                            calendar.set(year, monthOfYear, dayOfMonth);
-                            String currentDay = simpleDateFormat.format(calendar.getTime());
-                            etLivingSince.setText(currentDay);
-                        }
-                    }
-                });
-            }
+                DateTimePicker.showExpressAgeDatePickerRbl(view.getContext(), (Calendar) view.getTag(R.id.etDOB),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
 
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etDOB.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                etDOB.setTag(R.id.etDOB, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
         }
     };
 
+    //region datePickerDialog Applicant
+    protected View.OnClickListener datePickerDialogApplicantjoin = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Constants.hideKeyBoard(view, RblpersonalloanActivity.this);
+            if (view.getId() == R.id.etJoin) {
+                DateTimePicker.showDatePickerDialog_DateSelect(view.getContext(), (Calendar) view.getTag(R.id.etJoin),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etJoin.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                etJoin.setTag(R.id.etJoin, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
+        }
+    };
+
+    //region datePickerDialog Applicant
+    protected View.OnClickListener datePickerDialogApplicantLivingSince = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Constants.hideKeyBoard(view, RblpersonalloanActivity.this);
+            if (view.getId() == R.id.etLivingSince) {
+                DateTimePicker.showDatePickerDialog_DateSelect(view.getContext(), (Calendar) view.getTag(R.id.etLivingSince),
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+
+                                Calendar calendar = Calendar.getInstance();
+                                //TODO:set tag to DOB -- nilesh
+                                //Calendar calSelectedPrev = Calendar.getInstance();
+
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                //calSelectedPrev.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = simpleDateFormat.format(calendar.getTime());
+                                etLivingSince.setText(currentDay);
+                                //TODO:set tag to DOB -- nilesh
+                                etLivingSince.setTag(R.id.etLivingSince, calendar);
+                                //etDate.setTag(R.id.et_date, calendar.getTime());
+                            }
+                        });
+            }
+        }
+    };
     //endregion
+
+
 
 
     private boolean validateRbl() {

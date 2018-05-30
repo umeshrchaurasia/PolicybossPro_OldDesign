@@ -74,7 +74,9 @@ tools:context="com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity">
                             android:id="@+id/etFirstName"
                             style="@style/Style.edittext"
                             android:drawableRight="@drawable/vector_person"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                             android:inputType="text"
+
                             android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -89,6 +91,7 @@ tools:context="com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity">
                             android:id="@+id/etLastName"
                             style="@style/Style.edittext"
                             android:drawableRight="@drawable/vector_person"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                             android:inputType="text"
                             android:maxLines="1" />
 
@@ -140,7 +143,7 @@ tools:context="com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity">
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="*Email">
+                        android:hint="*Email Id">
 
                         <EditText
                             android:id="@+id/etEmail"
@@ -233,7 +236,7 @@ tools:context="com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity">
                     <android.support.design.widget.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.7"
                         android:visibility="visible"
                         android:hint="*Monthly Take Home Salary">
 
