@@ -220,7 +220,7 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
         public void onClick(View view) {
             Constants.hideKeyBoard(view, HdfcpersonalloanActivity.this);
             if (view.getId() == R.id.etDOB) {
-                DateTimePicker.showExpressAgeDatePicker_18(view.getContext(), (Calendar) view.getTag(R.id.etDOB),
+                DateTimePicker.showExpressAgeDatePicker_21(view.getContext(), (Calendar) view.getTag(R.id.etDOB),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
@@ -375,6 +375,11 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                     return;
                 } else {
                     etNetIncome.setError(null);
+                }
+
+                if((Double.valueOf(etNetIncome.getText().toString()) < 20000))
+                {
+                    showAlert("Net Income should be equal or greater than 20 thousands");
                 }
 
                 if (!isEmpty(etyrs_of_emp)) {

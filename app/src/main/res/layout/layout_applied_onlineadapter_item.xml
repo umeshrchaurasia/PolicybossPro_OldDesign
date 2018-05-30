@@ -14,142 +14,214 @@
     app:cardElevation="2dp">
 
     <LinearLayout
+        android:id="@+id/lyParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
             android:weightSum="100">
 
-            <LinearLayout
+
+            <TextView
+                android:id="@+id/txtPersonName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="60"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtName"
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Nilesh Birhade"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/txtEmail"
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="nileshbirhade@gmail.com"
-                    android:textSize="11sp" />
-
-                <TextView
-                    android:id="@+id/txtMobile"
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="9930089092"
-                    android:textSize="11sp" />
+                android:layout_gravity="center"
+                android:layout_weight="90"
+                android:gravity="center"
+                android:lines="2"
+                android:textAllCaps="true"
+                android:textAppearance="@style/TextStyle.TextMedium"
+                android:textColor="@color/header_dark_text"
+                android:textStyle="bold" />
 
 
-            </LinearLayout>
 
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="@color/divider" />
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="40"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtBankName"
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Bank"
-                    android:textColor="@color/black" />
-
-                <TextView
-                    android:id="@+id/txtCreditType"
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="nileshbirhade@gmail.com"
-                    android:textSize="11sp" />
-
-            </LinearLayout>
         </LinearLayout>
 
         <View
+            android:id="@+id/view1"
             android:layout_width="match_parent"
-            android:layout_height="1.2dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="4dp"
-            android:background="@color/divider" />
+            android:layout_height="1.4dp"
+            android:background="@color/seperator" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
             android:weightSum="100">
+
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="50"
+                android:layout_height="match_parent"
+                android:layout_weight="29.6"
+                android:background="@drawable/bordertbl"
+                android:gravity="center_vertical|center_horizontal"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="App No"
-                    android:textSize="11sp" />
+                <ImageView
+                    android:gravity="center_vertical|center_horizontal"
+                    android:id="@+id/imgbankLogo"
+                    android:layout_width="62dp"
+                    android:layout_height="42dp" />
 
-                <TextView
-                    android:id="@+id/txtAppNo"
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="55555"
-                    android:textColor="@color/black" />
+
 
             </LinearLayout>
 
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.4"
+                android:background="@color/seperator" />
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:layout_weight="50"
+                android:layout_weight="70"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/TextStyle.TextMedium"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Loan Type"
-                    android:textSize="11sp" />
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:weightSum="100">
 
-                <TextView
-                    android:id="@+id/txtloantype"
-                    style="@style/TextStyle.TextMedium"
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="App No"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/header_light_text"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/txtApplicationNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/header_dark_text"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Loan Type"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/header_light_text"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/txtLoanType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/header_dark_text"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view3"
+                    android:visibility="visible"
+                    android:layout_width="match_parent"
+                    android:layout_height="1.4dp"
+                    android:background="@color/seperator" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Pre sactioned"
-                    android:textColor="@color/black" />
+                    android:orientation="horizontal"
+                    android:padding="4dp"
+                    android:weightSum="100">
+
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Loan Amount"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/header_light_text"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/txtloanamount"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/header_dark_text"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="50"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="App date"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/header_light_text"
+                            android:textSize="9sp" />
+
+                        <TextView
+                            android:id="@+id/txtApplicationDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:textAllCaps="true"
+                            android:textAppearance="@style/TextStyle.TextMedium"
+                            android:textColor="@color/header_dark_text"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>
-
     </LinearLayout>
 </android.support.v7.widget.CardView>

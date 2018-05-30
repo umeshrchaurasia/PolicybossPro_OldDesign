@@ -212,6 +212,10 @@ public class EarlySalaryActivity extends BaseActivity implements View.OnClickLis
                 etAge.setError(null);
             }
 
+            if((Integer.valueOf(etAge.getText().toString()) < 21))
+            {
+                showAlert("Age should be equal or greater than 21 ");
+            }
             if (!isEmpty(etLoanAmount)) {
                 etLoanAmount.setError("Invalid loan amount");
                 etLoanAmount.setFocusable(true);

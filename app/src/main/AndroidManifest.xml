@@ -1026,6 +1026,8 @@
         </activity>
         <activity
             android:name=".onlineexpressloan.HdfcpersonalloanActivity"
+
+            android:label="@string/title_activity_hdfc_term"
             android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:screenOrientation="portrait" />
 

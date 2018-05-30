@@ -66,15 +66,16 @@
                         android:layout_height="fill_parent"
                         android:layout_marginTop="8dp">
 
-
                         <Spinner
                             android:id="@+id/spbranchlocation"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight=".6"
-                            android:maxLines="1"
-                            android:gravity="center" />
+
+                            android:gravity="center"
+                            android:visibility="visible" />
+
 
 
                         <android.support.design.widget.TextInputLayout
@@ -108,6 +109,7 @@
                                 android:id="@+id/etCustomerName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:inputType="text"
                                 android:maxLength="30"
                                 android:maxLines="1" />
@@ -300,7 +302,7 @@
                                 android:id="@+id/etLandline1"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
-                                android:maxLength="10"
+                                android:maxLength="15"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -315,7 +317,7 @@
                                 android:id="@+id/etLandline2"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
-                                android:maxLength="10"
+                                android:maxLength="15"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
