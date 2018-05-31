@@ -417,7 +417,7 @@
 
                             <EditText
                                 android:inputType="textCapWords"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:id="@+id/etFirstName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person" />
@@ -433,7 +433,7 @@
 
                             <EditText
                                 android:inputType="textCapWords"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:id="@+id/etLastName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person" />

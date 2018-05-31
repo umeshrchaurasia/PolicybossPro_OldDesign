@@ -262,6 +262,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     private void updateCheckBox(HealthQuoteEntity entity) {
         for (int i = 0; i < listHealthQuotes.size(); i++) {
             if (listHealthQuotes.get(i).getPlanID() == entity.getPlanID()
+                    && listHealthQuotes.get(i).getProductName() == entity.getProductName()
                     && listHealthQuotes.get(i).getSumInsured() == entity.getSumInsured()) {
                 listHealthQuotes.get(i).setCompare(entity.isCompare());
             }

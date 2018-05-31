@@ -136,12 +136,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         if(bitmap_image != null) {
             notificationBuilder.setStyle(BigPicstyle);
+            notificationBuilder.setLargeIcon(bitmap_image);
         }else{
             notificationBuilder.setStyle(BigTextstyle);
+            notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
         }
 
         notificationBuilder
-                .setSmallIcon(R.drawable.finmart_logo)
+                .setSmallIcon(R.mipmap.ic_launcher)
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
                 .setContentTitle(NotifyData.get("title"))
                 .setContentText(NotifyData.get("body"))
@@ -149,7 +151,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setSound(defaultSoundUri)
                 .setTicker("Finmart")
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
-                .setLargeIcon(bitmap_image)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setWhen(System.currentTimeMillis())
                 .setVisibility(NOTIFICATION_ID)
@@ -204,6 +205,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     public Bitmap getBitmapfromUrl(String imageUrl) {
         try {
+
+            if(imageUrl.trim().equals(""))
+            {
+                return null;
+            }
             URL url = new URL(imageUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setDoInput(true);

@@ -158,40 +158,38 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     private void bindHeaders() {
 
-        if (healthQuote.getHealthRequest().getMemberList().size() > 1) {
+        if (healthQuote.getHealthRequest().getMemberList() != null &&
+                healthQuote.getHealthRequest().getMemberList().size() > 1) {
             txtCoverType.setText(FLOATER);
         } else {
             txtCoverType.setText(INDIVIDUAL);
         }
         tvCount.setTag(R.id.tvCount, 0);
         tvCount.setText(SHARE_TEXT);
-//        String cover = "COVER :" + "<b>" + String.valueOf(healthQuote.getHealthRequest().getSumInsured()) + "</b>";
-//        txtCoverAmount.setText(Html.fromHtml(cover));
         textCover.setText("COVER - ");
         txtCoverAmount.setText(healthQuote.getHealthRequest().getSumInsured());
-
-
         bindImages(healthQuote.getHealthRequest().getMemberList());
 
     }
 
     private void bindImages(List<MemberListEntity> listmember) {
+        if (listmember != null) {
+            for (int i = 0; i < listmember.size(); i++) {
 
-        for (int i = 0; i < listmember.size(); i++) {
+                ImageView imageview = new ImageView(getActivity());
+                LinearLayout.LayoutParams params = new LinearLayout
+                        .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-            ImageView imageview = new ImageView(getActivity());
-            LinearLayout.LayoutParams params = new LinearLayout
-                    .LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                imageview.setPadding(2, 0, 2, 0);
 
-            imageview.setPadding(2, 0, 2, 0);
+                if (listmember.get(i).getAge() >= 18)
+                    imageview.setImageResource(R.mipmap.adult);
+                else
+                    imageview.setImageResource(R.mipmap.child);
 
-            if (listmember.get(i).getAge() >= 18)
-                imageview.setImageResource(R.mipmap.adult);
-            else
-                imageview.setImageResource(R.mipmap.child);
-
-            imageview.setLayoutParams(params);
-            llMembers.addView(imageview);
+                imageview.setLayoutParams(params);
+                llMembers.addView(imageview);
+            }
         }
     }
 
@@ -456,7 +454,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             for (int j = 0; j < listChild.size(); j++) {
                 HealthQuoteEntity child = listChild.get(j);
-                if (header.getInsurerId() == child.getInsurerId()) {
+                //TODO: Prepare child as per insurer id and product name
+                if (header.getInsurerId() == child.getInsurerId()
+                        && header.getProductName().equalsIgnoreCase(child.getProductName())) {
                     childList.add(child);
                 }
             }
@@ -512,7 +512,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             //remove item from list
             for (Iterator<HealthQuoteEntity> iter = listCompare.listIterator(); iter.hasNext(); ) {
                 HealthQuoteEntity a = iter.next();
-                if (a.getInsurerId() == entity.getInsurerId() && a.getPlanID() == entity.getPlanID()) {
+                if (a.getInsurerId() == entity.getInsurerId() && a.getPlanID() == entity.getPlanID()
+                        && a.getProductName().equalsIgnoreCase(entity.getProductName())) {
                     iter.remove();
                 }
             }
