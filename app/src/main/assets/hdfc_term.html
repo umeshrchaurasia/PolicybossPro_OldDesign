@@ -23,7 +23,7 @@ body {font-size:13px;}
 .tbl2 td {text-align:left;}
 .tbl2 p {color:#999;font-size: 10px;}
 .box-shadow {box-shadow: 1px 1px 3px 0px #ccc;}
-.amount {background: #f95f67;padding: 5px 15px;font-size: 16px;color: #fff; display:block; text-align:center;margin: 40% 0; width:87px}
+.amount {background: #f95f67;padding: 5px 15px;font-size: 16px;color: #fff; display:block; text-align:center;margin: 40% 0; white-space:nowrap;}
 .center {display: block;margin:0 auto;margin-top:10px;}
 .brd-left {border-right:1px solid #eee !important;}
 .bg-gray {background:#ddd;}
@@ -34,6 +34,7 @@ ul li {padding:8px;list-style-type:none; border-bottom:1px solid #ccc;}
 .txt-lft td {text-align:left !important;}
 h4{font-size:16px !important;}
 h5 b{font-size:13px !important;}
+
 </style>
 </head>
 
@@ -58,7 +59,7 @@ h5 b{font-size:13px !important;}
                     <td rowspan="2"><a href="#" class="amount">₹ 13949</a></td>
                 </tr>
                 <tr>
-                    <td><p>COVER</p><h5><b>Care + UAR </b></h5></td>
+                    <td><p>COVER</p><h5><b style="white-space:nowrap">Care + UAR </b></h5></td>
                     <td><p>PAYABLE FOR</p><h5><b>5 Yrs.</b></h5></td>
                     <td><p>UP TO AGE</p><h5><b>35 Yrs.</b></h5></td>
 
@@ -85,10 +86,10 @@ h5 b{font-size:13px !important;}
                     <td><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
                              onerror=this.src="file:///android_asset/profile_pic.png" width="100"
                              class="img-responsive"/></td>
-                    <td><h4 id="pospName" class="red-txt">Test User</h4>
-                        <p id="deg" class="posp-txt">Landmark POSP</p>
-                        <p id="phone" class="blue-txt">98XXXXXXXX</p>
-                        <p id="email" class="posp-txt">XXXXX@gmail.com</p></td>
+                    <td style="text-align:left !important;"><h4 id="pospName" class="red-txt">Test User</h4>
+                        <p id="deg" class="posp-txt" style="margin-top:-7px">Landmark POSP</p>
+                        <h4 id="phone" class="posp-txt" style="margin-top:-9px; color: #4FB4E9;">98XXXXXXXX</h4>
+                        <b>  <p id="email" class="posp-txt" style="margin-top:-9px">XXXXX@gmail.com</p> </b></td>
                 </tr>
             </table>
         </div>
@@ -101,7 +102,7 @@ h5 b{font-size:13px !important;}
 
 
     function init(bikeReponse, userReponse, otherReponse) {
-              
+
 
         document.getElementById('name').innerHTML = otherReponse;
 
@@ -124,44 +125,31 @@ h5 b{font-size:13px !important;}
 
       //  for (var i = 0; i < response.length; i++) {
 
-           
-          
+
+
             HTML = HTML +   '<div class="col-md-12" id="divTerm">';
             HTML = HTML + '<div class="box-shadow">';
             HTML = HTML + '<table class="table table-bordered tbl2">';
             HTML = HTML + '<tbody>';
             HTML = HTML + '<tr>';
-	      
+
             HTML = HTML + '<td><img src="file:///android_asset/hdfc_life_icon.jpg" class="img-responsive center" /></td>';
             HTML = HTML + '<td colspan="2"><h4 class="text-center">'+response.ProductPlanName+'</h4></td>';
             HTML = HTML + '<td rowspan="2"><a href="#" class="amount">₹ '+response.NetPremium+'</a></td>';
             HTML = HTML + '</tr>';
             HTML = HTML +   '<tr>';
-            HTML = HTML + '<td><p>COVER</p><h5><b>₹ '+response.SumAssured+' </b></h5> </td>';
+            HTML = HTML + '<td><p>COVER</p><h5><b style="white-space:nowrap">₹ '+response.SumAssured+' </b></h5> </td>';
 	        HTML = HTML + '<td><p>PAYABLE FOR</p><h5><b>'+response.PolicyTermYear+' Yrs.</h5></b></td>';
 	        HTML = HTML + '<td><p>UP TO AGE</p><h5><b>'+response.PPT+' Yrs.</b></h5></td>';
-		  
+
             HTML = HTML +'</tr></tbody></table></div></div>';
-           
+
 
      //   }
 
         document.getElementById('divTerm').innerHTML = HTML;
 
-       
-
-
-
-
-
-
-
-
-
-
     }
-
-
 
 
 </script>
