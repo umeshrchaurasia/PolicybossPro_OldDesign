@@ -251,7 +251,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
             CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
             tvCrn.append(CRN);
-            termRequestEntity.setCrn(crn);
+            termRequestEntity.setExisting_ProductInsuranceMapping_Id(crn);
             termFinmartRequest.setTermRequestEntity(termRequestEntity);
 
             // tvAge.setText("" + termRequestEntity.getInsuredDOB());
@@ -374,17 +374,21 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 etPincode.setText("" + termRequestEntity.getPincode());
 
                 if (termRequestEntity.getIs_TabaccoUser().equals("true")) {
+                    isSmoker = true;
                     tvYes.setBackgroundResource(R.drawable.customeborder_blue);
                     tvNo.setBackgroundResource(R.drawable.customeborder);
                 } else {
+                    isSmoker = false;
                     tvNo.setBackgroundResource(R.drawable.customeborder_blue);
                     tvYes.setBackgroundResource(R.drawable.customeborder);
                 }
 
                 if (termRequestEntity.getInsuredGender().equals("M")) {
+                    isMale = true;
                     tvMale.setBackgroundResource(R.drawable.customeborder_blue);
                     tvFemale.setBackgroundResource(R.drawable.customeborder);
                 } else {
+                    isMale = false;
                     tvFemale.setBackgroundResource(R.drawable.customeborder_blue);
                     tvMale.setBackgroundResource(R.drawable.customeborder);
                 }
@@ -901,7 +905,12 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             case R.id.txtICICILumpSum:
             case R.id.txtICICIRegularIncome:
             case R.id.txtICICIIncreasingIncome:
+                incomeSelection(((TextView) view).getText().toString());
+                break;
             case R.id.txtICICILumpSumRegular:
+                if (etICICILumpSumpPerc.getText().toString().equals("0") ||
+                        etICICILumpSumpPerc.getText().toString().equals(""))
+                    etICICILumpSumpPerc.setText("50");
                 incomeSelection(((TextView) view).getText().toString());
                 break;
             case R.id.plusICICISum:
@@ -949,6 +958,10 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     private void fetchQuotes() {
         showDialog("Please Wait!!!");
         new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
+    }
+
+    private void updateCrnToServer() {
+        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, null);
     }
 
     private void changeLumpsumPercent(boolean b) {
@@ -1236,7 +1249,6 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
         //termRequestEntity.setInsurerId(0);
         termRequestEntity.setSessionID("");
-        termRequestEntity.setExisting_ProductInsuranceMapping_Id("");
         termRequestEntity.setContactName(etFirstName.getText().toString() + " " + etLastName.getText().toString());
         termRequestEntity.setContactEmail("finmarttest@gmail.com");
         termRequestEntity.setContactMobile(etMobile.getText().toString());
@@ -1333,7 +1345,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 return false;
             }
         }
-        if (!isValidePhoneNumber(etMobile)) {
+       /* if (!isValidePhoneNumber(etMobile)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etMobile.requestFocus();
                 etMobile.setError("Enter Mobile");
@@ -1344,7 +1356,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 etMobile.setError("Enter Mobile");
                 return false;
             }
-        }
+        }*/
         if (etPincode.getText().toString().isEmpty()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etPincode.requestFocus();
@@ -1629,12 +1641,12 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
                 this.termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(0);
                 crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
-                termRequestEntity.setCrn(crn);
+                termRequestEntity.setExisting_ProductInsuranceMapping_Id(crn);
                 termFinmartRequest.setTermRequestEntity(termRequestEntity);
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
-
+                //updateCrnToServer();
                 if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
                     bindHeaders();
                     changeInputQuote(false);

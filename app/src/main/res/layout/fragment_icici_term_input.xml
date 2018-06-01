@@ -187,7 +187,7 @@
                                         style="@style/TextViewStyle.Small"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="COVER"
+                                        android:text="Cover"
                                         android:textAllCaps="true" />
 
                                     <TextView
@@ -270,7 +270,7 @@
                                             style="@style/TextViewStyle.Small"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="POLICY TERM"
+                                            android:text="Policy Term"
                                             android:textAllCaps="true" />
 
                                         <TextView
@@ -302,7 +302,7 @@
                                             style="@style/TextViewStyle.Small"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="UP TO AGE"
+                                            android:text="Up To Age"
                                             android:textAllCaps="true" />
 
                                         <TextView
@@ -429,9 +429,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="Payment term"
+                            android:text="Payment Term"
                             android:textColor="@color/blue"
-                            android:textSize="10sp" />
+                            android:textSize="14sp" />
 
                         <Spinner
                             android:id="@+id/spICICIPremiumTerm"
@@ -456,7 +456,7 @@
                             android:gravity="left"
                             android:text="Premium Frequency"
                             android:textColor="@color/blue"
-                            android:textSize="10sp" />
+                            android:textSize="14sp" />
 
                         <Spinner
                             android:id="@+id/spICICIPremiumFrequency"
@@ -491,7 +491,7 @@
                             android:gravity="left"
                             android:text="Option"
                             android:textColor="@color/blue"
-                            android:textSize="10sp" />
+                            android:textSize="14sp" />
 
                         <Spinner
                             android:id="@+id/spICICIOptions"
@@ -675,7 +675,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="40"
                         android:gravity="center|left"
-                        android:text="LUMPSUM(%)"
+                        android:text="Lumpsum(%)"
                         android:textAllCaps="true"
                         android:textSize="12dp" />
 

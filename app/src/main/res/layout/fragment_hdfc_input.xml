@@ -187,8 +187,8 @@
                                         style="@style/TextViewStyle.Small"
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
-                                        android:text="COVER"
-                                        android:textAllCaps="true" />
+                                        android:text="cover"
+                                        />
 
                                     <TextView
                                         android:id="@+id/txtCover"
@@ -272,8 +272,8 @@
                                             style="@style/TextViewStyle.Small"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="POLICY TERM"
-                                            android:textAllCaps="true" />
+                                            android:text="Policy Term"
+                                            />
 
                                         <TextView
                                             android:id="@+id/txtPolicyTerm"
@@ -305,7 +305,7 @@
                                             style="@style/TextViewStyle.Small"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="UP TO AGE"
+                                            android:text="Up To Age"
                                             android:textAllCaps="true" />
 
                                         <TextView
@@ -353,7 +353,7 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="5dp"
+                                    android:layout_marginTop="15dp"
                                     android:gravity="center"
                                     android:orientation="horizontal">
 

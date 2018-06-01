@@ -15,13 +15,11 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
 
 /**
@@ -56,7 +54,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
         if (holder instanceof QuoteItem) {
             final TermFinmartRequest quote = mQuoteListFiltered.get(position);
             holder.txtPersonName.setText(quote.getTermRequestEntity().getContactName());
-            holder.txtCustRefNo.setText(quote.getTermRequestEntity().getCrn());
+            holder.txtCustRefNo.setText(quote.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id());
             holder.txtQuoteDate.setText(quote.getTermRequestEntity().getCreated_date());
             holder.llDetails.setTag(R.id.llDetails, quote);
             holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, quote);
@@ -118,7 +116,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
     public class QuoteItem extends RecyclerView.ViewHolder {
 
         //  public ImageView ivTripleDot;
-        public TextView txtQuoteDate, txtCustRefNo, txtPersonName ;
+        public TextView txtQuoteDate, txtCustRefNo, txtPersonName;
         LinearLayout llDetails;
         ImageView txtOverflowMenu;
 
@@ -152,7 +150,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Quot
                         // name match condition. this might differ depending on your requirement
                         // here we are looking for name or phone number match
                         if (row.getTermRequestEntity().getContactName().toLowerCase().contains(charString.toLowerCase())
-                                || row.getTermRequestEntity().getCrn().toLowerCase().contains(charString.toLowerCase())) {
+                                || row.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }
