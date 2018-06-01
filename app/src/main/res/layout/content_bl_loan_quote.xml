@@ -157,7 +157,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="Curr Int Rate" />
+                            android:text="Curr. Int Rate" />
 
                         <TextView
                             android:id="@+id/txtblcurrRate"

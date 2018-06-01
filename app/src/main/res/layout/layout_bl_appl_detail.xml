@@ -161,7 +161,7 @@
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:hint="CURR INT RATE">
+            android:hint="CURR. INT RATE">
 
             <EditText
                 android:id="@+id/etCurrInc"
