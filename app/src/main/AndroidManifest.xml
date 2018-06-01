@@ -1001,32 +1001,21 @@
         <activity
             android:name=".term.compareterm.CompareTermActivity"
             android:label="@string/title_activity_compare_ti_activity"
-            android:parentActivityName=".term.termselection.TermSelectionActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
         <activity
             android:name=".onlineexpressloan.KotakpersonalloanActivity"
             android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".term.icici.IciciTermActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
             android:label="@string/title_activity_icici_term"
-            android:parentActivityName=".term.termselection.TermSelectionActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.datacomp.magicfinmart.term.termselection.TermSelectionActivity" />
-        </activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
         <activity
             android:name=".onlineexpressloan.HdfcpersonalloanActivity"
-
             android:label="@string/title_activity_hdfc_term"
             android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:screenOrientation="portrait" />
@@ -1057,16 +1046,10 @@
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
         <activity
-            android:label="CLICK TO PROTECT 3D"
             android:name=".term.hdfc.HdfcTermActivity"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"
-            android:parentActivityName=".term.termselection.TermSelectionActivity"
-            android:screenOrientation="portrait">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".term.termselection.TermSelectionActivity" />
-
-        </activity>
+            android:label="CLICK TO PROTECT 3D"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
     </application>
 
 </manifest>

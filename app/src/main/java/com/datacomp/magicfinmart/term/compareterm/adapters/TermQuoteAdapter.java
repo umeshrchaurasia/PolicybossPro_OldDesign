@@ -43,7 +43,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
     }
 
     @Override
-    public void onBindViewHolder(TermQuoteItem holder, int position) {
+    public void onBindViewHolder(final TermQuoteItem holder, int position) {
         final TermCompareResponseEntity responseEntity = listQuotes.get(position);
 
         holder.txtPlanNAme.setText("" + responseEntity.getProductPlanName());
@@ -74,13 +74,24 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
                 ((TermInputFragment) mContext).redirectToCustomize(responseEntity);
             }
         });
-        /*holder.txtRiders.setOnClickListener(new View.OnClickListener() {
+        holder.tvBenefits.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                holder.llAddon.setVisibility(View.VISIBLE);
+                holder.tvBenefits.setVisibility(View.GONE);
+                holder.tvBenefitsBelow.setVisibility(View.VISIBLE);
                 //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
-        });*/
-
+        });
+        holder.tvBenefitsBelow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                holder.llAddon.setVisibility(View.GONE);
+                holder.tvBenefits.setVisibility(View.VISIBLE);
+                holder.tvBenefitsBelow.setVisibility(View.GONE);
+                //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
         holder.txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +100,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
         });
 
         if (responseEntity.getKeyFeatures() != null) {
-            holder.llAddon.setVisibility(View.VISIBLE);
+            //holder.llAddon.setVisibility(View.VISIBLE);
             holder.rvAddOn.setHasFixedSize(true);
             RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext.getActivity(), 2);
             holder.rvAddOn.setLayoutManager(mLayoutManager);
@@ -111,7 +122,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
     }
 
     public class TermQuoteItem extends RecyclerView.ViewHolder {
-        public TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, txtRiders;
+        public TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, tvBenefits, tvBenefitsBelow;
         ImageView imgInsurerLogo;
         LinearLayout llAddon;
         RecyclerView rvAddOn;
@@ -122,7 +133,8 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtAge = (TextView) itemView.findViewById(R.id.txtAge);
             txtCustomise = (TextView) itemView.findViewById(R.id.txtCustomise);
-            //txtRiders = (TextView) itemView.findViewById(R.id.txtRiders);
+            tvBenefits = (TextView) itemView.findViewById(R.id.tvBenefits);
+            tvBenefitsBelow = (TextView) itemView.findViewById(R.id.tvBenefitsBelow);
             txtPlanNAme = (TextView) itemView.findViewById(R.id.txtPlanNAme);
             txtCover = (TextView) itemView.findViewById(R.id.txtCover);
             txtFinalPremium = (TextView) itemView.findViewById(R.id.txtFinalPremium);

@@ -141,7 +141,11 @@ public class HdfcTermActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        HdfcTermActivity.this.finish();
+        if (ivHdrQuote.getVisibility() == View.VISIBLE) {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            HdfcTermActivity.this.finish();
+        }
     }
 
     @Override
@@ -179,7 +183,9 @@ public class HdfcTermActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.action_home:
 
                 Intent intent = new Intent(this, HomeActivity.class);

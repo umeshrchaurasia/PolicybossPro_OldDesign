@@ -37,6 +37,7 @@ public class IciciTermActivity extends BaseActivity {
     FragmentTransaction transactionSim;
     TermFinmartRequest termFinmartRequest;
     ImageView ivHdrInput, ivHdrQuote;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,7 +151,11 @@ public class IciciTermActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        IciciTermActivity.this.finish();
+        if (ivHdrQuote.getVisibility() == View.VISIBLE) {
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+        } else {
+            IciciTermActivity.this.finish();
+        }
     }
 
     @Override
@@ -170,6 +175,7 @@ public class IciciTermActivity extends BaseActivity {
     public void redirectToInput(TermFinmartRequest termFinmartRequest) {
         this.termFinmartRequest = termFinmartRequest;
         quoteBundle = new Bundle();
+        quoteBundle.putParcelable(QUOTE_DATA, null);
         quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
         bottomNavigationView.setSelectedItemId(R.id.navigation_input);
     }
@@ -189,12 +195,13 @@ public class IciciTermActivity extends BaseActivity {
 
         switch (item.getItemId()) {
 
+            case android.R.id.home:
+                onBackPressed();
+                break;
             case R.id.action_home:
-
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
-
                 finish();
                 break;
         }
