@@ -62,7 +62,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="Applicant Name" />
+                            android:text="APPLICANT NAME" />
 
                         <TextView
                             android:id="@+id/txtAppName"
@@ -135,7 +135,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="BT Type" />
+                            android:text="BT TYPE" />
 
                         <TextView
                             android:id="@+id/txtType"
@@ -156,7 +156,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="Curr. Int Rate" />
+                            android:text="CURR. INT RATE" />
 
                         <TextView
                             android:id="@+id/txtblcurrRate"

@@ -25,7 +25,7 @@
                 android:id="@+id/txtInputSummry"
                 android:background="@color/white"
                 android:text="SELECT LOAN TYPE"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="0dp"
                 android:layout_marginBottom="6dp"
                 android:textColor="@color/black"
                 android:gravity="center_horizontal"
@@ -121,6 +121,7 @@
             <EditText
                 android:id="@+id/etcontact"
                 style="@style/Style.edittext"
+                android:drawableRight="@drawable/vector_mobile"
                 android:digits="0123456789"
                 android:maxLength="10"
                 android:ems="10"
@@ -141,7 +142,7 @@
             android:layout_width="0dp"
             android:layout_marginRight="1dp"
             android:layout_weight="1"
-            android:hint="OUTSTANDING AMOUNT">
+            android:hint="Outstanding Amount">
 
 
 
@@ -161,7 +162,7 @@
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
             android:layout_weight="1"
-            android:hint="CURR. INT RATE">
+            android:hint="Curr. Int Rate">
 
             <EditText
                 android:id="@+id/etCurrInc"
@@ -188,8 +189,8 @@
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
 
-            android:layout_weight="60"
-            android:hint="REM. LOAN TENURE (YRS)">
+            android:layout_weight="50"
+            android:hint="Rem. Loan Tenure (yrs)">
 
 
             <EditText
