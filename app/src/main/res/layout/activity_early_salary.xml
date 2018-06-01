@@ -150,7 +150,7 @@ tools:context="com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity">
                             android:id="@+id/etEmail"
                             style="@style/Style.edittext"
 
-                            android:inputType="text"
+                            android:inputType="textEmailAddress"
                             android:maxLines="1" />
                     </android.support.design.widget.TextInputLayout>
 
