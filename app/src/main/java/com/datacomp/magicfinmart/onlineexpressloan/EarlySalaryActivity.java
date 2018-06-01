@@ -240,7 +240,7 @@ public class EarlySalaryActivity extends BaseActivity implements View.OnClickLis
                 return;
             } else {
                 etTakeHomeSal.setError(null);
-            }it
+            }
 
                 if((Double.valueOf(etTakeHomeSal.getText().toString()) < 5000))
                 {
