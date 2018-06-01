@@ -372,13 +372,15 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             TermRequestEntity termRequestEntity = termFinmartRequest.getTermRequestEntity();
             if (termRequestEntity != null) {
 
-                if (termRequestEntity.getPremiumPaymentOption().equals("Regular Pay")) {
+                if (termRequestEntity.getPremiumPaymentOption().equalsIgnoreCase("Regular Pay")) {
                     spICICIPremiumTerm.setSelection(0);
-                } else if (termRequestEntity.getPremiumPaymentOption().equals("Single Pay")) {
+                } else if (termRequestEntity.getPremiumPaymentOption().equalsIgnoreCase("Single Pay")) {
                     spICICIPremiumTerm.setSelection(1);
-                } else if (termRequestEntity.getPremiumPaymentOption().equals("Limited Pay")) {
+                } else if (termRequestEntity.getPremiumPaymentOption().equalsIgnoreCase("Limited Pay")) {
                     spICICIPremiumTerm.setSelection(2);
                 }
+
+
                 String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
                 final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
                 ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
@@ -387,13 +389,13 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
                 spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spICICIOptions.setAdapter(spAdapterOptions);
-                if (termRequestEntity.getPlanTaken().equals("Life")) {
+                if (termRequestEntity.getPlanTaken().equalsIgnoreCase("Life")) {
                     spICICIOptions.setSelection(0);
-                } else if (termRequestEntity.getPlanTaken().equals("Life Plus")) {
+                } else if (termRequestEntity.getPlanTaken().equalsIgnoreCase("Life Plus")) {
                     spICICIOptions.setSelection(1);
-                } else if (termRequestEntity.getPlanTaken().equals("Life and Health")) {
+                } else if (termRequestEntity.getPlanTaken().equalsIgnoreCase("Life and Health")) {
                     spICICIOptions.setSelection(2);
-                } else if (termRequestEntity.getPlanTaken().equals("All in One")) {
+                } else if (termRequestEntity.getPlanTaken().equalsIgnoreCase("All in One")) {
                     spICICIOptions.setSelection(3);
                 }
 
