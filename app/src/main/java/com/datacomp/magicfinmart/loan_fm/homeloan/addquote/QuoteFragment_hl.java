@@ -276,6 +276,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             bankSaveRequest = new BankSaveRequest();
             bankSaveRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
             bankSaveRequest.setBank_id((entity.getBank_Id()));
+
             bankSaveRequest.setType("HML");
 
             buyLoanQuerystring = new BuyLoanQuerystring();
