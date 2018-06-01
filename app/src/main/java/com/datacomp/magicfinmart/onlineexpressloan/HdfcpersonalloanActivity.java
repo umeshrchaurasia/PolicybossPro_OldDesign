@@ -131,7 +131,8 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
 
 
         etPancard = (EditText) findViewById(R.id.etPancard);
-        etPancard.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        etPancard.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+
         //endregion
 
         //region company detail
@@ -278,9 +279,15 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                     etLoanAmount.setError(null);
                 }
 
-                if((Double.valueOf(etNetIncome.getText().toString()) < 50000))
+                if((Double.valueOf(etNetIncome.getText().toString()) < 20000))
                 {
-                    showAlert("Net Income should be equal or greater than 50 thousands");
+                    showAlert("Net Income should be equal or greater than 20 thousands");
+                    return;
+                }
+
+                if((Double.valueOf(etLoanAmount.getText().toString()) < 100000 ))
+                {
+                    showAlert("Loan Amount should be equal or greater than 1 lacs");
                     return;
                 }
 
@@ -538,9 +545,10 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
         if (response instanceof HdfcPers_SaveResponse) {
             if (response.getStatusNo() == 0) {
                // if (((HdfcPers_SaveResponse) response).get().getApplicationId().length() > 1) {
-                    dialogMessage(true, ((HdfcPers_SaveResponse) response).getMessage(), response.getMessage());
+
+                dialogMessage(true, "", ((HdfcPers_SaveResponse) response).getMessage());
                // } else {
-               //     dialogMessage(false, "", ((HdfcPers_SaveResponse) response).getMessage());
+                 //   dialogMessage(false, "", ((HdfcPers_SaveResponse) response).getMessage());
                // }
             }
         }

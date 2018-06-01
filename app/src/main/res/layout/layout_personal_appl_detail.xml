@@ -166,7 +166,7 @@
                     android:layout_width="0dp"
                     android:layout_marginRight="1dp"
                     android:layout_weight="1"
-                    android:hint="Mothly Income">
+                    android:hint="Monthly Income">
 
 
                     <EditText
@@ -185,7 +185,7 @@
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
-                    android:hint="EMI,If Any">
+                    android:hint="Existing EMI(If Any)">
 
                     <EditText
                         android:id="@+id/etEMI"

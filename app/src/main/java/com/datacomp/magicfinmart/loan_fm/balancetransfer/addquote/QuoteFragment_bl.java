@@ -24,6 +24,7 @@ import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import com.google.gson.Gson;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -187,7 +188,8 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                     txtAppName.setText("" + blLoanRequest.getApplicantName().toUpperCase());
                     txtLoanAmnt.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
 
-                    txtLoanTenure.setText("" + Double.toString(blLoanRequest.getLoanterm()) + " Years");
+                  //  txtLoanTenure.setText("" + Double.toString(blLoanRequest.getLoanterm()) + " Years");
+                    txtLoanTenure.setText("" + getDigitPrecision(blLoanRequest.getLoanterm()) + " Years");
 
                     if (Integer.toString(blLoanRequest.getProduct_id()).matches("5")) {
                         txtType.setText("HOME LOAN");
@@ -245,7 +247,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                 try {
                     txtAppName.setText("" + blLoanRequest.getApplicantName().toUpperCase());
                     txtLoanAmnt.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
-                    txtLoanTenure.setText("" + Double.toString(blLoanRequest.getLoanterm()) + " Years");
+                    txtLoanTenure.setText("" + getDigitPrecision(blLoanRequest.getLoanterm()) + " Years");
 
                     if (Integer.toString(blLoanRequest.getProduct_id()).matches("5")) {
                         txtType.setText("HOME LOAN");
@@ -405,5 +407,10 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
         if (view.getId() == R.id.ivShare) {
             dialog.cancel();
         }
+    }
+
+    private String getDigitPrecision(double value) {
+      //  return Double.parseDouble(new DecimalFormat("##").format(value));
+        return new DecimalFormat("##").format(value);
     }
 }

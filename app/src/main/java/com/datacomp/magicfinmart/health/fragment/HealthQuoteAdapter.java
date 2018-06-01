@@ -255,7 +255,8 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
         removeRefresh(list);
 
-        //TODO: Reduce count of total quote display.
+        //TODO: Reduce count of total quote display
+
         ((HealthQuoteFragment) mContext).shareTextCount(totalRemoved, false);
     }
 

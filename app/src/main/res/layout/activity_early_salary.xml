@@ -76,7 +76,7 @@ tools:context="com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity">
                             android:drawableRight="@drawable/vector_person"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                             android:inputType="textCapWords"
-
+                            android:maxLength="200"
                             android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -93,6 +93,7 @@ tools:context="com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity">
                             android:drawableRight="@drawable/vector_person"
                             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                             android:inputType="textCapWords"
+                            android:maxLength="200"
                             android:maxLines="1" />
 
                     </android.support.design.widget.TextInputLayout>

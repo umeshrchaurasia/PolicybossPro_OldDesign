@@ -201,7 +201,7 @@
                         <EditText
                             android:id="@+id/etPancard"
                             style="@style/Style.edittext"
-                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
                             android:inputType="textCapCharacters"
                             android:maxLength="10"
                             android:maxLines="1" />

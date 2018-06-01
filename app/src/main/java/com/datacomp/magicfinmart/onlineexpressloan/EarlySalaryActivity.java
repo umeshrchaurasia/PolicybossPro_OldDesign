@@ -225,6 +225,12 @@ public class EarlySalaryActivity extends BaseActivity implements View.OnClickLis
                 etLoanAmount.setError(null);
             }
 
+
+            if((Double.valueOf(etLoanAmount.getText().toString()) < 10000 ))
+            {
+                showAlert("Loan Amount should be equal or greater than 1 thousands");
+                return;
+            }
             if (rbSal.isChecked()) {
 
 
@@ -235,6 +241,12 @@ public class EarlySalaryActivity extends BaseActivity implements View.OnClickLis
             } else {
                 etTakeHomeSal.setError(null);
             }
+
+                if((Double.valueOf(etTakeHomeSal.getText().toString()) < 5000))
+                {
+                    showAlert("Take Home Salary should be equal or greater than 5 thousands");
+                    return;
+                }
         }
             //endregion
             //region Request Entity
