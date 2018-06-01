@@ -398,7 +398,8 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void updateCrnToServer() {
-        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, null);
+        if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
+            new TermInsuranceController(getActivity()).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
 
     private void setTermRequest() {
@@ -648,7 +649,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
-                //updateCrnToServer();
+                updateCrnToServer();
                 bindHeaders();
                 bindQuotes();
                 changeInputQuote(false);

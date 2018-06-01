@@ -961,7 +961,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void updateCrnToServer() {
-        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, null);
+        if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
+            new TermInsuranceController(getActivity()).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
 
     private void changeLumpsumPercent(boolean b) {
@@ -1646,7 +1647,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
-                //updateCrnToServer();
+                updateCrnToServer();
                 if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
                     bindHeaders();
                     changeInputQuote(false);

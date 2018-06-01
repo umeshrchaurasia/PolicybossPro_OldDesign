@@ -1000,7 +1000,8 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
     private void updateCrnToServer() {
-        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, null);
+        if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
+            new TermInsuranceController(getActivity()).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -1044,7 +1045,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
-               // updateCrnToServer();
+                updateCrnToServer();
                 if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
                     bindHeaders();
                     changeInputQuote(false);
