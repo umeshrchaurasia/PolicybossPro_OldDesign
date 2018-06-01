@@ -48,8 +48,8 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
 
         holder.txtPlanNAme.setText("" + responseEntity.getProductPlanName());
         holder.txtCover.setText("" + responseEntity.getSumAssured());
-        holder.txtAge.setText("" + age);
-        holder.txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + "Yrs.");
+        holder.txtAge.setText("" + age +  " Yrs.");
+        holder.txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + " Yrs.");
         holder.txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium());
         // holder.txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
 

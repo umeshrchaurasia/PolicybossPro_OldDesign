@@ -25,7 +25,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -398,7 +397,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void updateCrnToServer() {
-        if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
+        if (termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id() != null && !termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
             new TermInsuranceController(getActivity()).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
 
@@ -493,7 +492,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 return false;
             }
         }
-        if (!isValidePhoneNumber(etMobile)) {
+        /*if (!isValidePhoneNumber(etMobile)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etMobile.requestFocus();
                 etMobile.setError("Enter Mobile");
@@ -504,7 +503,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 etMobile.setError("Enter Mobile");
                 return false;
             }
-        }
+        }*/
         if (etPincode.getText().toString().isEmpty()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etPincode.requestFocus();
@@ -632,7 +631,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void processResponse(TermCompareQuoteResponse termCompareQuoteResponse) {
-        mainScroll.fullScroll(ScrollView.FOCUS_UP);
+
         if (termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getResponse() != null) {
             if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
                 termCompareResponseEntities.clear();
@@ -657,6 +656,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
             }
         }
+        mainScroll.scrollTo(0, 0);
     }
 
     public void redirectToBuy(TermCompareResponseEntity termCompareResponseEntity) {

@@ -295,7 +295,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
-        android:text="SEE ALL BENEFIT"
+        android:text="SEE ALL BENEFITS"
         android:textColor="@color/black"
         android:visibility="visible" />
 
@@ -314,13 +314,13 @@
         android:layout_alignBottom="@+id/view5"
         android:layout_centerHorizontal="true"
         android:background="@drawable/borderthealthcheckup"
-        android:drawableBottom="@drawable/ic_arrow_up"
+        android:drawableBottom="@android:drawable/arrow_up_float"
         android:gravity="center"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
-        android:text="SEE ALL BENEFIT"
+        android:text="SEE ALL BENEFITS"
         android:textColor="@color/black"
         android:visibility="gone" />
 

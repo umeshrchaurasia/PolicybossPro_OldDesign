@@ -8,8 +8,7 @@
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/mainScroll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/btnGetQuote"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true">
 
         <LinearLayout
@@ -242,7 +241,6 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
     <Button
         android:id="@+id/btnGetQuote"
         style="@style/ButtonStyle"
@@ -250,4 +248,5 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:text="Get quote" />
+
 </RelativeLayout>

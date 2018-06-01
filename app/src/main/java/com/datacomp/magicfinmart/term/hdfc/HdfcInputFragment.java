@@ -1035,7 +1035,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     private void processResponse(TermCompareQuoteResponse termCompareQuoteResponse) {
         /*mainScroll.fullScroll(ScrollView.FOCUS_UP);*/
-        mainScroll.scrollTo(0,0);
+
         if (termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getResponse() != null) {
             if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
                 this.termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(0);
@@ -1057,6 +1057,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
             }
         }
+        mainScroll.scrollTo(0,0);
     }
 
     //region datepicker
