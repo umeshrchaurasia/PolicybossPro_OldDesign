@@ -15,7 +15,7 @@ public class RBCustomerEntity {
      * ApplicantGender : F
      * ApplicantSource : 1
      * ApplicantIncome : 250000
-     * ApplicantObligations : 0
+     * ApplicantObligatione0
      * ApplicantDOB : 1980-01-01
      * CoApplicantYes : N
      * CoApplicantGender :

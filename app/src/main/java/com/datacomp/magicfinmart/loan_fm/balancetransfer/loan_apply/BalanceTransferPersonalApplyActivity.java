@@ -1464,6 +1464,16 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             }
         }
 
+        if (rbCustomerEntity.getApplicantGender() != null) {
+
+            if(rbCustomerEntity.getApplicantGender().toUpperCase().equals("F"))
+            {
+                spTitle.setSelection(2);
+            }else{
+                spTitle.setSelection(0);
+            }
+
+        }
         if (rbCustomerEntity.getApplicantDOB() != null) {
             etDob.setTag(R.id.etDob, dateToCalendar(stringToDate(formatServer, rbCustomerEntity.getApplicantDOB())));
 
@@ -2357,6 +2367,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             //setEmpSalaried
             case R.id.btnSubmit:
 
+                manageTaskBar();
                 if (validatePL_Info() == false) {
                     if (llPlInfo.getVisibility() == View.GONE) {
 
@@ -2386,7 +2397,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
                     }
                 } else {
-                    manageTaskBar();
+                   // manageTaskBar();
                     isSubmit = true;
                     saveData(1);
                 }

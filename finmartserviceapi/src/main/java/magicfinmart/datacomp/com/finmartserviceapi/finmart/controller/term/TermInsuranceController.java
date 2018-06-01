@@ -16,6 +16,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteE
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteToAppResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UpdateCRNResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -200,9 +201,9 @@ public class TermInsuranceController implements ITermInsurance {
         body.put("Existing_ProductInsuranceMapping_Id", "" + crn);
         body.put("fba_id", "" + new DBPersistanceController(mContext).getUserData().getFBAId());
 
-        termNetworkService.updateCRN(body).enqueue(new Callback<HealthQuoteExpResponse>() {
+        termNetworkService.updateCRN(body).enqueue(new Callback<UpdateCRNResponse>() {
             @Override
-            public void onResponse(Call<HealthQuoteExpResponse> call, Response<HealthQuoteExpResponse> response) {
+            public void onResponse(Call<UpdateCRNResponse> call, Response<UpdateCRNResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
@@ -215,7 +216,7 @@ public class TermInsuranceController implements ITermInsurance {
             }
 
             @Override
-            public void onFailure(Call<HealthQuoteExpResponse> call, Throwable t) {
+            public void onFailure(Call<UpdateCRNResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

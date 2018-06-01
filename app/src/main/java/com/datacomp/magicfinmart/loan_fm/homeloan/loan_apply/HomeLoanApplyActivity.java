@@ -118,7 +118,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             txtEmpNatureSalaried, txtEmpNatureSelfEmp;
 
     TextInputLayout textInpLayCurrJob, textInpLayTotalExp,
-            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax,textInpLaySpouseName;
+            textInpLayTurnOver, textInpLayDepreciation, textInpLayDirRem, textInpLayProfAftTax, textInpLaySpouseName;
     //endregion
 
     // region Variable Declaration
@@ -136,8 +136,6 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
     boolean isAppliction = false;
     String AppID = "0";
-
-
 
 
     String TypePage = "";
@@ -186,7 +184,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             isAppliction = true;
 
             TypePage = getIntent().getExtras().getString("TypePage", "");
-			if (TypePage.equals("HL")) {
+            if (TypePage.equals("HL")) {
                 getSupportActionBar().setTitle("HOME LOAN");
             } else {
                 getSupportActionBar().setTitle("LOAN AGAINST PROPERTY");
@@ -458,47 +456,46 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         // region  CAPS Text
 
-        etFirstName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
-       etLastName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
-      //  etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
-        etFatherName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etFirstName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etLastName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        //  etDob.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+        etFatherName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etPan.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
-        etNationality.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
-        etUniversity.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
-        etMoMaidenName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etPan.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etNationality.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etUniversity.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
+        etMoMaidenName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etSpouceName.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(20)});
-      //  etNoOfDepen.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
-        etIDNumber.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etSpouceName.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(20)});
+        //  etNoOfDepen.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etIDNumber.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-        etAddress1ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etAddress2ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etCountryPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etAddress1ContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress2ContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etCountryPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
-     //   etLandlineNoContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
-   //     etLandlineNoContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
-        etAddress1ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etAddress2ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        //   etLandlineNoContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        //     etLandlineNoContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etAddress1ContInfoPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress2ContInfoPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
 
-        etAddress3ContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etLandmakContInfoPA.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
-        etAddress3ContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etLandmakContInfoRAP.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
+        etAddress3ContInfoPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etLandmakContInfoPA.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
+        etAddress3ContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etLandmakContInfoRAP.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
 
-        etDesig.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
-     //   etCurrJob.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
-        etNameOfOrg.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
-        etAddress1ED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etDesig.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        //   etCurrJob.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etNameOfOrg.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(100)});
+        etAddress1ED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
 
-        etAddress2ED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etAddress3ED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
-        etLandmakED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
-        etCountryED.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
+        etAddress2ED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etAddress3ED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(200)});
+        etLandmakED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(150)});
+        etCountryED.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(25)});
 
         //endregion
-
 
 
     }
@@ -618,12 +615,11 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         textView1.setBackgroundResource(R.drawable.customeborder);
         textView1.setTextColor(ContextCompat.getColor(HomeLoanApplyActivity.this, R.color.description_text));
 
-        if(MaritalStatus.equals("MARRIED"))
-        {
+        if (MaritalStatus.equals("MARRIED")) {
             textInpLaySpouseName.setHint("*Spouse Name");
             etSpouceName.setEnabled(true);
 
-        }else{
+        } else {
             textInpLaySpouseName.setHint("Spouse Name");
             etSpouceName.setText("");
             etSpouceName.setError(null);
@@ -636,7 +632,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
     }
 
     private void settotal() {
-        long  netIncome = 0, othIncome = 0;
+        long netIncome = 0, othIncome = 0;
 
 
         if (!etNetIncome.getText().toString().trim().equals("")) {
@@ -647,9 +643,9 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             othIncome = Long.valueOf(etOtherIncome.getText().toString());
         }
 
-        double total =  netIncome + othIncome;
+        double total = netIncome + othIncome;
 
-        etTotalIncome.setText("" +  BigDecimal.valueOf(total).toPlainString());
+        etTotalIncome.setText("" + BigDecimal.valueOf(total).toPlainString());
 
     }
 
@@ -787,10 +783,9 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
             //region Financial INFO
             erpLoanRequest.setGross_Income(etGrossIncome.getText().toString().trim());
-			  if (!etNetIncome.getText().toString().equals("")) {
-            erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
-			  }else
-            {
+            if (!etNetIncome.getText().toString().equals("")) {
+                erpLoanRequest.setNet_Income(etNetIncome.getText().toString().trim());
+            } else {
                 erpLoanRequest.setNet_Income("0");
 
             }
@@ -963,10 +958,9 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             erpLoanRequest.setProp_Terms(rbCustomerEntity.getLoanTenure());//
             erpLoanRequest.setProp_Id_Type(rbCustomerEntity.getPropertyID());
             erpLoanRequest.setProp_Processing_Fee(rbCustomerEntity.getProcessing_fee());
-            if(AppID.trim().equals(""))
-            {
+            if (AppID.trim().equals("")) {
                 erpLoanRequest.setApplnId(0);
-            }else{
+            } else {
                 erpLoanRequest.setApplnId(Integer.valueOf(AppID));
             }
 
@@ -1490,6 +1484,17 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             if (i == 1) {
                 etLastName.setText(name[i]);
             }
+        }
+
+        //005
+        if (rbCustomerEntity.getApplicantGender() != null) {
+
+            if (rbCustomerEntity.getApplicantGender().toUpperCase().equals("F")) {
+                spTitle.setSelection(2);
+            } else {
+                spTitle.setSelection(0);
+            }
+
         }
 
         if (rbCustomerEntity.getApplicantDOB() != null) {
@@ -2341,9 +2346,9 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             case R.id.txtOTH:
                 managePL_Common(CategoryType, "OTH", txtOTH, txtGEN, txtSC, txtST, txtOBC);
                 break;
-                //endregion
+            //endregion
 
-                // region PL INFO IDType
+            // region PL INFO IDType
             case R.id.txtPORT:
                 managePL_IDTYPE("P-PORT", txtPORT, txtVOTER, txtDRV);
                 break;
@@ -2371,7 +2376,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             case R.id.txteducatOTH:
                 managePL_Common(EducationType, "OTH", txteducatOTH, txtPGRAD, txtMATR, txtUGRAD, txtGRAD);
                 break;
-                //endregion
+            //endregion
 
             case R.id.txtEmpNatureSalaried:
                 setEmpSalaried("Salaried", false, txtEmpNatureSalaried, txtEmpNatureSelfEmp);
@@ -2385,6 +2390,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
             //setEmpSalaried
             case R.id.btnSubmit:
 
+                manageTaskBar();
                 if (validatePL_Info() == false) {
                     if (llPlInfo.getVisibility() == View.GONE) {
 
@@ -2414,7 +2420,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
                     }
                 } else {
-                    manageTaskBar();
+                   // manageTaskBar();
                     isSubmit = true;
                     saveData(1);
                 }
@@ -2489,8 +2495,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         cancelDialog();
         if (response instanceof ERPSaveResponse) {
             if (response.getStatusId() == 0) {
-                AppID  = ""+ ((ERPSaveResponse) response).getResult();
-               // Toast.makeText(this, String.valueOf(AppID), Toast.LENGTH_LONG).show();
+                AppID = "" + ((ERPSaveResponse) response).getResult();
+                // Toast.makeText(this, String.valueOf(AppID), Toast.LENGTH_LONG).show();
                 if (isSubmit) {
                     Toast.makeText(this, "Data save successfully..", Toast.LENGTH_SHORT).show();
                     if (TypePage.equals("HL")) {
@@ -2688,7 +2694,6 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
     }
-
 
 
     //endregion
