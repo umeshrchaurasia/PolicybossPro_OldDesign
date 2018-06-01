@@ -35,7 +35,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bordertbl"
-                    android:minHeight="70dp"
+                    android:minHeight="60dp"
                     android:weightSum="100">
 
                     <LinearLayout
@@ -49,6 +49,7 @@
                         <ImageView
                             android:gravity="center_vertical|center_horizontal"
                             android:id="@+id/ivBankLogo"
+                            android:layout_marginTop="2dp"
                             android:layout_width="62dp"
                             android:layout_height="42dp" />
 
@@ -62,7 +63,8 @@
                             android:focusable="false"
                             android:focusableInTouchMode="false"
                             android:gravity="center"
-                            android:maxLines="1"
+                            android:maxLines="3"
+                            android:textSize="9dp"
                             android:textColor="@color/black"/>
 
                     </LinearLayout>
@@ -159,7 +161,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bordertbl"
-                    android:minHeight="70dp"
+                    android:minHeight="60dp"
                     android:weightSum="100">
 
                     <LinearLayout
