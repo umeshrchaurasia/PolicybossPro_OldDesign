@@ -279,15 +279,16 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                     etLoanAmount.setError(null);
                 }
 
+
                 if((Double.valueOf(etNetIncome.getText().toString()) < 20000))
                 {
                     showAlert("Net Income should be equal or greater than 20 thousands");
                     return;
                 }
 
-                if((Double.valueOf(etLoanAmount.getText().toString()) < 100000 ))
-                {
-                    showAlert("Loan Amount should be equal or greater than 1 lacs");
+                double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
+                if (loanAmnt < 75000 || loanAmnt > 8000000) {
+                    showAlert("Loan amount should be between 75 Thousands Lac to 80 Lacs");
                     return;
                 }
 
