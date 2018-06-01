@@ -195,10 +195,9 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
-                                        android:text="1000000"
+                                        android:text=""
                                         android:textColor="@color/black"
-                                        android:textSize="13sp"
-                                         />
+                                        android:textSize="13sp" />
 
 
                                 </LinearLayout>
@@ -234,8 +233,7 @@
                                         android:gravity="center"
                                         android:text="IProtectSmart"
                                         android:textColor="@color/black"
-                                        android:textSize="13sp"
-                                         />
+                                        android:textSize="13sp" />
 
                                     <ImageView
                                         android:id="@+id/ivInfo"
@@ -280,10 +278,9 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="5dp"
-                                            android:text="20 Yrs."
+                                            android:text=""
                                             android:textColor="@color/black"
-                                            android:textSize="13sp"
-                                             />
+                                            android:textSize="13sp" />
 
 
                                     </LinearLayout>
@@ -313,10 +310,9 @@
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginTop="5dp"
-                                            android:text="38 Yrs."
+                                            android:text=""
                                             android:textColor="@color/black"
-                                            android:textSize="13sp"
-                                             />
+                                            android:textSize="13sp" />
 
 
                                     </LinearLayout>
@@ -358,29 +354,29 @@
 
 
                                 <LinearLayout
-                                    android:minHeight="35dp"
-                                    android:layout_marginLeft="5dp"
-                                    android:layout_marginRight="5dp"
                                     android:layout_width="match_parent"
                                     android:layout_height="0dp"
+                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginRight="5dp"
                                     android:layout_marginTop="5dp"
                                     android:layout_weight="1"
                                     android:gravity="center"
+                                    android:minHeight="35dp"
                                     android:orientation="horizontal">
 
                                     <ImageView
-                                        android:layout_weight="1"
                                         android:id="@+id/ivPdf"
                                         android:layout_width="0dp"
                                         android:layout_height="match_parent"
+                                        android:layout_weight="1"
                                         android:src="@drawable/pdf_icon" />
 
                                     <ImageView
-                                        android:layout_weight="1"
                                         android:id="@+id/ivBuy"
                                         android:layout_width="0dp"
                                         android:layout_height="match_parent"
                                         android:layout_marginLeft="3dp"
+                                        android:layout_weight="1"
                                         android:src="@drawable/cart" />
                                 </LinearLayout>
                             </LinearLayout>
@@ -426,7 +422,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Permium term">
+                        android:hint="Premium Term">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -451,14 +447,14 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Permium term">
+                        android:hint="Premium Term">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
                             android:gravity="left"
-                            android:text="Permium frequency"
+                            android:text="Premium Frequency"
                             android:textColor="@color/blue"
                             android:textSize="10sp" />
 

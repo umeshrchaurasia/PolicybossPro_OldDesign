@@ -17,6 +17,7 @@
 
     <style>
       body {font-size:12px;}
+      .table>tbody>tr>td {padding:6px;}
 .blu-heading {padding:10px;border:1px solid #4d62b5;color:#4d62b5;font-size: 16px;}
 .red-txt {color:#b60d2a;}
 .tbl1 {text-align:center;}
@@ -24,30 +25,35 @@
 .col-md-12 {padding:0px;}
 .tbl2 td {border:0px !important;text-align:center;}
 .box-shadow {box-shadow: 1px 1px 3px 0px #ccc;}
-.amount {background: #f95f67;padding: 5px 15px;margin: 4px;font-size: 16px;color: #fff;}
-.center {display: block;margin:0 auto; margin-top:2px;}
+/*.amount {background: #f95f67;padding: 5px 15px;margin: 4px;font-size: 16px;color: #fff;width:95px !important}*/
+.amount {
+    background: #f95f67;
+    padding: 5px 15px;
+    font-size: 16px;
+    color: #fff;
+    width: 95px !important;
+    display: block;
+    margin: 0 auto;
+    margin-top: -10px;
+}
+.center {display: block;margin:0 auto; margin-top:2px;height:45px;}
 .brd-left {border-right:1px solid #eee !important;}
 .bg-gray {background:#f5f5f5;}
 .glyphicon {    font-weight: normal;font-size: 10px; color:#666;margin-right:4px;}
 ul li {margin:2px; padding:4px !important;}
 .center-txt td {padding:0px;}
 .img-pad {padding:0px !important;margin:0px !important;padding-left: 2px;}
-.img-pad img {padding:0px;margin:0px;}
+/*.img-pad img {padding:0px;margin:0px;}*/
 .list1 {margin:0px; padding:0px;text-align:left}
-.list1 li {overflow:hidden;float:left;text-decoration:none;width: 45%; list-style-type:none; font-size:10px;margin:0px;padding-left:2px !important;}
+.list1 li {overflow:hidden;float:left;text-decoration:none;width: 50%; list-style-type:none; font-size:10px;margin:0px;padding-left:2px !important;}
 .no-padding {padding : 1px !important;margin:0px;}
-h4 {padding:0px;margin:2px;}
-p {padding:0px;margin:2px;}
  .red-txt {
             color: #b60d2a;
         }
-  .blue-txt {
-            color: #4FB4E9;font-size:19px;
-        }
-.posp-txt {
-            font-size:14px;
-        }
+        .blue-txt {
+            color: #4FB4E9;
 
+        }
     </style>
 </head>
 
@@ -69,12 +75,12 @@ p {padding:0px;margin:2px;}
                 </tr>
 
                 <tr>
-                    <td id="cc">2016 119/CC</td>
-                    <td>Policy Exp. Date : <b><span id="expDate">21-03-2018</span></b></td>
+                    <td id="cc" style="text-align:left;">2016 119/CC</td>
+                    <td style="text-align:left;">Policy Exp. Date : <b><span id="expDate">21-03-2018</span></b></td>
                 </tr>
                 <tr>
-                    <td>Present NCB : <b><span id="ncbPercent">0</span>%</b></td>
-                    <td>Claim In Present Year : <span><b id="claim">yes</b></span></td>
+                    <td style="text-align:left;">Present NCB : <b><span id="ncbPercent">0</span>%</b></td>
+                    <td style="text-align:left;">Claim In Present Year : <span><b id="claim">yes</b></span></td>
                 </tr>
             </table>
         </div>
@@ -114,7 +120,7 @@ p {padding:0px;margin:2px;}
     </div>
 
     <div class="col-md-12">
-        <p>P.S: The about Quotations are subject to verification by respective insurers</p>
+        <p>P.S: The above Quotations are subject to verification by respective insurers</p>
         <h5><b>
             Please feel free to contact me for more details and renewal</b></h5>
     </div>
@@ -127,9 +133,9 @@ p {padding:0px;margin:2px;}
                              onerror=this.src="file:///android_asset/profile_pic.png" width="100"
                              class="img-responsive"/></td>
                     <td><h4 id="pospName" class="red-txt">Test User</h4>
-                        <p id="deg" class="posp-txt">Landmark POSP</p>
-                        <p id="phone" class="blue-txt">98XXXXXXXX</p>
-                        <p id="email" class="posp-txt">XXXXX@gmail.com</p></td>
+                        <p style="margin-top:-7px" id="deg" class="posp-txt">Landmark POSP</p>
+                        <h4 style="margin-top:-9px" id="phone" class="blue-txt">98XXXXXXXX</h4>
+                        <b > <p id="email" class="posp-txt" style="margin-top:-9px">XXXXX@gmail.com</p> </b></td>
                 </tr>
             </table>
         </div>
@@ -178,7 +184,7 @@ p {padding:0px;margin:2px;}
 
       document.getElementById('cc').innerHTML = otherDetails.CC;
       document.getElementById('ncbPercent').innerHTML = response.Summary.Request_Core.vehicle_ncb_current;
-      document.getElementById('claim').innerHTML = response.Summary.Request_Core.is_claim_exists;
+      document.getElementById('claim').innerHTML = response.Summary.Request_Core.is_claim_exists.toUpperCase();;
 
       document.getElementById('pospName').innerHTML = otherDetails.pospNAme;
       document.getElementById('pospPhoto').src = otherDetails.pospPhotoUrl;
@@ -200,52 +206,39 @@ p {padding:0px;margin:2px;}
         for (var i = 0; i < response.Response.length; i++) {
             if (response.Response[i].Error_Code == "") {
 
-                //var imgSrc = "http://www.policyboss.com/Images/insurer_logo/" +  response.Response[i].Insurer_Logo_Name;
-                //document.getElementById('value1').src = imgSrc;
-
+                HTML = HTML + ' <div class="col-md-12">';
                 HTML = HTML + ' <div class="table-responsive box-shadow">';
 
                 HTML = HTML + ' <table class="table table-bordered tbl2">';
                 HTML = HTML + '<tbody>';
                 HTML = HTML + '<tr>';
-                HTML = HTML + ' <td rowspan="2" class="img-pad"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="img-responsive center" /></td>';
-                HTML = HTML + '<td>IDV</td>';
-                HTML = HTML + '<td>PREMIIUM</td>';
+                HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 0px !important;"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="img-responsive center" /></td>';
+                HTML = HTML + '<td style="text-align:left;">IDV</td>';
+                HTML = HTML + '<td class="red-txt">PREMIUM</td>';
                 HTML = HTML + '</tr>';
                 HTML = HTML + '<tr>';
-                HTML = HTML + ' <td> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
+                HTML = HTML + ' <td style="text-align:left;"> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                 HTML = HTML + ' <td><span class="amount">₹ ' + Math.round(response.Response [i].Premium_Breakup.final_premium) + '</span></td>';
                 HTML = HTML + '</tr>';
                 HTML = HTML + '</tbody>';
                 HTML = HTML + '</table>';
-                HTML = HTML + '<table class="table bg-gray text-center" style="display:none">';
-                HTML = HTML + '<tbody class="center-txt">';
-
-                HTML = HTML + '<td>';
-                HTML = HTML + '  <ul class="list1">';
-
-                HTML = HTML + '   </ul>';
-                HTML = HTML + '</td>';
+                HTML = HTML + '</div>';
 
 
-
-               // alert(Object.keys(response.Response[i].Addon_List).length);
-
-
-
+                HTML = HTML + ' <div class="col-md-12">';
 
                 HTML = HTML + ' <div class="table-responsive box-shadow">';
-                if (response.Response[i].listAppliedAddons.length != 0) {
+
 
                     HTML = HTML + ' <table class="table table-bordered tbl2">';
                     HTML = HTML + '<tbody>';
                     HTML = HTML + '<tr>';
-                    HTML = HTML + ' <td rowspan="2" class="img-pad"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="img-responsive center" /></td>';
-                    HTML = HTML + '<td>IDV</td>';
-                    HTML = HTML + '<td>PREMIIUM</td>';
+                    HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 0px !important;"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="img-responsive center" /></td>';
+                    HTML = HTML + '<td style="text-align:left;">IDV</td>';
+                    HTML = HTML + '<td class="red-txt">PREMIIUM</td>';
                     HTML = HTML + '</tr>';
                     HTML = HTML + '<tr>';
-                    HTML = HTML + ' <td> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
+                    HTML = HTML + ' <td style="text-align:left;"> ' + response.Response [i].LM_Custom_Request.vehicle_expected_idv + '</td>';
                     HTML = HTML + ' <td><a href="#" class="amount">₹ ' +  Math.round( response.Response[i].final_premium_with_addon) + '</a></td>';
                     HTML = HTML + '</tr>';
                     HTML = HTML + '</tbody>';
@@ -257,7 +250,6 @@ p {padding:0px;margin:2px;}
                     HTML = HTML + '  <ul class="list1">';
                     if (response.Response[i].Addon_List != null) {
                         if (response.Response[i].Addon_List.hasOwnProperty ('addon_zero_dep_cover') && response.Response[i].Addon_List.addon_zero_dep_cover != 0) {
-                            alert(response.Response[i].Addon_List.addon_zero_dep_cover);
 
                             HTML = HTML + ' <li><span class="glyphicon glyphicon-ok"></span> ' + addon_list.addon_zero_dep_cover +
                                 ' (' + response.Response [i].Addon_List.addon_zero_dep_cover + ')' + '</li>';
@@ -382,8 +374,10 @@ p {padding:0px;margin:2px;}
                 HTML = HTML + '</table>';
                 HTML = HTML + '</div>';
 
-            }
-        }
+
+              HTML = HTML + '</div>';
+              }
+
       document.getElementById('divshow').innerHTML = HTML;
       Android.processComplete();
     }

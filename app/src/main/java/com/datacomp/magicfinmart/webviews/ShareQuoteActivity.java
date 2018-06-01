@@ -338,7 +338,7 @@ public class ShareQuoteActivity extends BaseActivity {
             otherData = getIntent().getStringExtra("NAME");
         }
         url = "file:///android_asset/PersonalLoan.html";
-        title = "HOME LOAN QUOTE";
+        title = "PERSONAL LOAN QUOTE";
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(title);
     }

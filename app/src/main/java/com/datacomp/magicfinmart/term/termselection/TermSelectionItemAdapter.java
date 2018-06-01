@@ -65,7 +65,7 @@ public class TermSelectionItemAdapter extends RecyclerView.Adapter<RecyclerView.
             else if (termSelectionEntity.getCompantID() == 28)
                 ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.hdfc_life_icon);
             else if (termSelectionEntity.getCompantID() == 0)
-                ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.icici_life_icon);
+                ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.compare_term_insurance_icon);
             else
                 ((DashboardItemHolder) holder).imgIcon.setImageResource(R.drawable.icici_life_icon);
 
