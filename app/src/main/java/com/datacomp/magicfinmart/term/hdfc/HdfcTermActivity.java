@@ -49,6 +49,7 @@ public class HdfcTermActivity extends BaseActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         //1. which insurer for enable input
         //2, check request
+        hideBoth();
         quoteBundle = new Bundle();
         if (getIntent().getIntExtra(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT, 0) != 0) {
             int insurerID = getIntent().getIntExtra(TermQuoteListFragment.TERM_FOR_INPUT_FRAGMENT, 0);
@@ -75,51 +76,33 @@ public class HdfcTermActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-                    highlighInput();
-                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
-                    if (termFinmartRequest != null) {
-                        quoteBundle.putParcelable(QUOTE_DATA, null);
-                        quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
-                    }
+                    if (ivHdrInput.getVisibility() != View.VISIBLE) {
+                        highlighInput();
+                        tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
+                        if (termFinmartRequest != null) {
+                            quoteBundle.putParcelable(QUOTE_DATA, null);
+                            quoteBundle.putParcelable(INPUT_DATA, termFinmartRequest);
+                        }
 
-                    HdfcInputFragment inputFragment = new HdfcInputFragment();
-                    inputFragment.setArguments(quoteBundle);
-                    loadFragment(inputFragment, INPUT_FRAGMENT);
+                        HdfcInputFragment inputFragment = new HdfcInputFragment();
+                        inputFragment.setArguments(quoteBundle);
+                        loadFragment(inputFragment, INPUT_FRAGMENT);
+                    }
                     return true;
                 case R.id.navigation_quote:
-
-                    tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
-                    if (termFinmartRequest != null) {
-                        quoteBundle.putParcelable(INPUT_DATA, null);
-                        quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
-                        HdfcInputFragment quoteFragment = new HdfcInputFragment();
-                        quoteFragment.setArguments(quoteBundle);
-                        loadFragment(quoteFragment, INPUT_FRAGMENT);
-                        highlighQuote();
-                    } else {
-                        Toast.makeText(HdfcTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
-                    }
-
-                    /*if (tabFragment != null) {
-                        tabFragment.setArguments(quoteBundle);
-                        loadFragment(tabFragment, INPUT_FRAGMENT);
-                        highlighQuote();
-                    } else {
-                        if (quoteBundle != null) {
-                            if (quoteBundle.getParcelable(QUOTE_DATA) != null) {
-                                //IciciTermQuoteFragment quoteFragment = new IciciTermQuoteFragment();
-                                //quoteFragment.setArguments(quoteBundle);
-                                //loadFragment(quoteFragment, QUOTE_FRAGMENT);
-                                highlighQuote();
-                            } else {
-                                Toast.makeText(HdfcTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
-                            }
+                    if (ivHdrQuote.getVisibility() != View.VISIBLE) {
+                        tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
+                        if (termFinmartRequest != null) {
+                            quoteBundle.putParcelable(INPUT_DATA, null);
+                            quoteBundle.putParcelable(QUOTE_DATA, termFinmartRequest);
+                            HdfcInputFragment quoteFragment = new HdfcInputFragment();
+                            quoteFragment.setArguments(quoteBundle);
+                            loadFragment(quoteFragment, INPUT_FRAGMENT);
+                            highlighQuote();
                         } else {
-
                             Toast.makeText(HdfcTermActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
                         }
-                    }*/
-
+                    }
                     return true;
                 case R.id.navigation_buy:
                     return true;
@@ -209,5 +192,9 @@ public class HdfcTermActivity extends BaseActivity {
 
     }
 
+    public void hideBoth() {
+        ivHdrQuote.setVisibility(View.GONE);
+        ivHdrInput.setVisibility(View.GONE);
+    }
 
 }

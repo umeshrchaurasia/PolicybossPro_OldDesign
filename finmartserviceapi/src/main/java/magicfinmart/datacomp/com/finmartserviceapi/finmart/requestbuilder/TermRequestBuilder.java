@@ -51,12 +51,12 @@ public class TermRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/smart-term-quote-to-application")
         Call<TermQuoteToAppResponse> convertQuoteToApp(@Body HashMap<String, String> body);
-/*
+
         @Headers("token:" + token)
-        @POST("/api/smart-health")
-        Call<HealthQuoteExpResponse> getHealthQuoteExp(@Body HealthQuote body);
+        @POST("/api/product-insurance-mappingId-update")
+        Call<HealthQuoteExpResponse> updateCRN(@Body HashMap<String, String> body);
 
-
+/*
         @Headers("token:" + token)
         @POST("/api/set-quote-application-smart-health")
         Call<HealthQuotetoAppResponse> convertHealthQuoteToApp(@Body HashMap<String, String> body);

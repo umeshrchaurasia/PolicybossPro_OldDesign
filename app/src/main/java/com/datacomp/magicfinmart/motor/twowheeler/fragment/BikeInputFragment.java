@@ -581,54 +581,53 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         String vehicleID = masterData.getVariant_Id();
         BikeMasterEntity carMasterEntity = dbController.getBikeVarientDetails(vehicleID);
         if (carMasterEntity != null) {
-            makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
-
-            //region make model
-
-            acMakeModel.setText(makeModel);
-            acMakeModel.performCompletion();
-
-            //endregion
-
-            //region varient list
-
-            variantList.clear();
-            variantList.addAll(dbController.getBikeVariantbyModelID(carMasterEntity.getModel_ID()));
-            varientAdapter.notifyDataSetChanged();
-            //endregion
-
-            //region spinner selection
-
-            int varientIndex = 0;
-            String varName = carMasterEntity.getVariant_Name() + " (" + carMasterEntity.getCubic_Capacity() + "cc)";
-
-            for (int i = 0; i < variantList.size(); i++) {
-                if (variantList.get(i).equalsIgnoreCase(varName)) {
-                    varientIndex = i;
-                    break;
-                }
-            }
-            spVarient.setSelection(varientIndex);
-
-            //endregion
-
-            //region Rto binding
-
-            acRto.setText(dbController.getRTOCityName(String.valueOf(masterData.getRTO_Code())));
-            acRto.performCompletion();
-            regplace = acRto.getText().toString();
-
-            //endregion
-
             try {
+                makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
+
+                //region make model
+
+                acMakeModel.setText(makeModel);
+                acMakeModel.performCompletion();
+
+                //endregion
+
+                //region varient list
+
+                variantList.clear();
+                variantList.addAll(dbController.getBikeVariantbyModelID(carMasterEntity.getModel_ID()));
+                varientAdapter.notifyDataSetChanged();
+                //endregion
+
+                //region spinner selection
+
+                int varientIndex = 0;
+                String varName = carMasterEntity.getVariant_Name() + " (" + carMasterEntity.getCubic_Capacity() + "cc)";
+
+                for (int i = 0; i < variantList.size(); i++) {
+                    if (variantList.get(i).equalsIgnoreCase(varName)) {
+                        varientIndex = i;
+                        break;
+                    }
+                }
+                spVarient.setSelection(varientIndex);
+
+                //endregion
+
+                //region Rto binding
+
+                acRto.setText(dbController.getRTOCityName(String.valueOf(masterData.getRTO_Code())));
+                acRto.performCompletion();
+                regplace = acRto.getText().toString();
+
+                //endregion
 
 
                 Calendar calendarReg = Calendar.getInstance();
                 if (masterData.getRegistration_Date() != null) {
                     String reg = changeDateFormat(masterData.getRegistration_Date());
-                    String regDate = displayFormat.format(simpleDateFormat.parse(reg));
-                    etRegDate.setText(regDate);
-                    calendarReg.setTime(simpleDateFormat.parse(reg));
+                    //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
+                    etRegDate.setText(reg);
+                    calendarReg.setTime(displayFormat.parse(reg));
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
                 if (masterData.getManufacture_Year() != null) {

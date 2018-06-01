@@ -46,7 +46,7 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
     public void onBindViewHolder(ApplicationItem holder, int position) {
         if (holder instanceof ApplicationItem) {
             TermFinmartRequest entity = mAppListFiltered.get(position);
-            holder.txtCRN.setText("" + entity.getTermRequestEntity().getCrn());
+            holder.txtCRN.setText("" + entity.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id());
             holder.txtCreatedDate.setText("" + entity.getTermRequestEntity().getCreated_date());
             holder.txtPersonName.setText("" + entity.getTermRequestEntity().getContactName());
 
@@ -187,7 +187,7 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
                     List<TermFinmartRequest> filteredList = new ArrayList<>();
                     for (TermFinmartRequest row : mAppList) {
                         if (row.getTermRequestEntity().getContactName().toLowerCase().contains(charString.toLowerCase())
-                                || row.getTermRequestEntity().getCrn().toLowerCase().contains(charString.toLowerCase())) {
+                                || row.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
                     }

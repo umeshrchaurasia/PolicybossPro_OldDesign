@@ -185,7 +185,7 @@
                     android:layout_width="0dp"
                     android:layout_marginLeft="1dp"
                     android:layout_weight="1"
-                    android:hint="Existing EMI(If Any">
+                    android:hint="Existing EMI(If Any)">
 
                     <EditText
                         android:id="@+id/etEMI"

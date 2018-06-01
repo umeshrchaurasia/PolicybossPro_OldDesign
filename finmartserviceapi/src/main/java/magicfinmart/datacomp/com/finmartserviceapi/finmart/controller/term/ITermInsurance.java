@@ -17,4 +17,5 @@ public interface ITermInsurance {
 
     void convertQuoteToApp(String termRequestId, String InsurerId, String fba_id, String NetPremium, IResponseSubcriber iResponseSubcriber);
 
+    void updateCRN(int termRequestID,int crn,IResponseSubcriber iResponseSubcriber);
 }

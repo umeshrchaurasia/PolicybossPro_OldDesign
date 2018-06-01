@@ -160,17 +160,21 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 etPincode.setText("" + termRequestEntity.getPincode());
 
                 if (termRequestEntity.getIs_TabaccoUser().equals("true")) {
+                    isSmoker = true;
                     tvYes.setBackgroundResource(R.drawable.customeborder_blue);
                     tvNo.setBackgroundResource(R.drawable.customeborder);
                 } else {
+                    isSmoker = false;
                     tvNo.setBackgroundResource(R.drawable.customeborder_blue);
                     tvYes.setBackgroundResource(R.drawable.customeborder);
                 }
 
                 if (termRequestEntity.getInsuredGender().equals("M")) {
+                    isMale = true;
                     tvMale.setBackgroundResource(R.drawable.customeborder_blue);
                     tvFemale.setBackgroundResource(R.drawable.customeborder);
                 } else {
+                    isMale = false;
                     tvFemale.setBackgroundResource(R.drawable.customeborder_blue);
                     tvMale.setBackgroundResource(R.drawable.customeborder);
                 }
@@ -233,7 +237,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
             CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
             tvCrn.append(CRN);
-            termRequestEntity.setCrn(crn);
+            termRequestEntity.setExisting_ProductInsuranceMapping_Id(crn);
             termFinmartRequest.setTermRequestEntity(termRequestEntity);
 
             // tvAge.setText("" + termRequestEntity.getInsuredDOB());
@@ -393,6 +397,10 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
 
+    private void updateCrnToServer() {
+        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, null);
+    }
+
     private void setTermRequest() {
         termRequestEntity.setLumpsumPercentage("0");
         termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
@@ -422,7 +430,6 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
         termRequestEntity.setInsurerId(0);
         termRequestEntity.setSessionID("");
-        termRequestEntity.setExisting_ProductInsuranceMapping_Id("");
         termRequestEntity.setContactName(etFirstName.getText().toString() + " " + etLastName.getText().toString());
         termRequestEntity.setContactEmail("finmarttest@gmail.com");
         termRequestEntity.setContactMobile(etMobile.getText().toString());
@@ -636,11 +643,12 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 }
 
                 crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
-                termRequestEntity.setCrn(crn);
+                termRequestEntity.setExisting_ProductInsuranceMapping_Id(crn);
                 termFinmartRequest.setTermRequestEntity(termRequestEntity);
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
+                //updateCrnToServer();
                 bindHeaders();
                 bindQuotes();
                 changeInputQuote(false);
