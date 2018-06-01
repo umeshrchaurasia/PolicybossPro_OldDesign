@@ -163,7 +163,7 @@ public class ShareQuoteActivity extends BaseActivity {
                     break;
                 case "TERM_HDFC_QUOTE":
                     TermHdfcQuote();
-                    setOtherDetails();
+                    setPospDetails();
                     new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData(from + " Share Clicked"), Constants.LIFE_INS), null);
                     break;
 

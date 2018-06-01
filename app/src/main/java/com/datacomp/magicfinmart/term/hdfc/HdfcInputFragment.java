@@ -219,17 +219,21 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 etPincode.setText("" + termRequestEntity.getPincode());
 
                 if (termRequestEntity.getIs_TabaccoUser().equals("true")) {
+                    isSmoker = true;
                     tvYes.setBackgroundResource(R.drawable.customeborder_blue);
                     tvNo.setBackgroundResource(R.drawable.customeborder);
                 } else {
+                    isSmoker = false;
                     tvNo.setBackgroundResource(R.drawable.customeborder_blue);
                     tvYes.setBackgroundResource(R.drawable.customeborder);
                 }
 
                 if (termRequestEntity.getInsuredGender().equals("M")) {
+                    isMale = true;
                     tvMale.setBackgroundResource(R.drawable.customeborder_blue);
                     tvFemale.setBackgroundResource(R.drawable.customeborder);
                 } else {
+                    isMale = false;
                     tvFemale.setBackgroundResource(R.drawable.customeborder_blue);
                     tvMale.setBackgroundResource(R.drawable.customeborder);
                 }
@@ -310,7 +314,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             CRN.setSpan(new StyleSpan(Typeface.BOLD), 0, crn.length(), 0);
             CRN.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, crn.length(), 0);
             tvCrn.append(CRN);
-            termRequestEntity.setCrn("" + crn);
+            termRequestEntity.setExisting_ProductInsuranceMapping_Id("" + crn);
             termFinmartRequest.setTermRequestEntity(termRequestEntity);
 
             // tvAge.setText("" + termRequestEntity.getInsuredDOB());
@@ -583,7 +587,6 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
         //termRequestEntity.setInsurerId(0);
         termRequestEntity.setSessionID("");
-        termRequestEntity.setExisting_ProductInsuranceMapping_Id("");
         termRequestEntity.setContactName(etFirstName.getText().toString() + " " + etLastName.getText().toString());
         termRequestEntity.setContactEmail("finmarttest@gmail.com");
         termRequestEntity.setContactMobile(etMobile.getText().toString());
@@ -996,7 +999,9 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         showDialog();
         new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
-
+    private void updateCrnToServer() {
+        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, null);
+    }
     @Override
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof TermCompareQuoteResponse) {
@@ -1028,17 +1033,18 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void processResponse(TermCompareQuoteResponse termCompareQuoteResponse) {
-        mainScroll.fullScroll(ScrollView.FOCUS_UP);
+        /*mainScroll.fullScroll(ScrollView.FOCUS_UP);*/
+        mainScroll.scrollTo(0,0);
         if (termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getResponse() != null) {
             if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
                 this.termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(0);
                 crn = "" + termCompareQuoteResponse.getMasterData().getResponse().get(0).getCustomerReferenceID();
-                termRequestEntity.setCrn(crn);
+                termRequestEntity.setExisting_ProductInsuranceMapping_Id(crn);
                 termFinmartRequest.setTermRequestEntity(termRequestEntity);
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
-
+               // updateCrnToServer();
                 if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
                     bindHeaders();
                     changeInputQuote(false);
@@ -1375,8 +1381,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void CalculateLumsumAmt() {
-        int txtSumAssu = 0;
-        double AdbPercentage = 0;
+        long AdbPercentage = 0,txtSumAssu=0;
 
         long txtMntlyIncomOnDeath = 0;
 
@@ -1384,13 +1389,13 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             txtMntlyIncomOnDeath = Long.parseLong(etIncDeath.getText().toString().replaceAll("\\,", ""));
         }
         if (!etICICISumAssured.getText().toString().equals("")) {
-            txtSumAssu = Integer.parseInt(etICICISumAssured.getText().toString().replaceAll("\\,", ""));
+            txtSumAssu = Long.parseLong(etICICISumAssured.getText().toString().replaceAll("\\,", ""));
             hfLumsumPayOutOnDeath = txtSumAssu;
         }
 
 
         if (!etAdb.getText().toString().equals("")) {
-            AdbPercentage = Double.parseDouble(etAdb.getText().toString());
+            AdbPercentage = Long.parseLong(etAdb.getText().toString());
             if (AdbPercentage > 100) {
                 AdbPercentage = 100;
                 etAdb.setText("100");
@@ -1412,9 +1417,9 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     public void SetLumsumPayOutOnDeath() {
-        int SumInsu = 0;
+        long SumInsu = 0;
         if (!etICICISumAssured.getText().toString().equals("")) {
-            SumInsu = Integer.parseInt(etICICISumAssured.getText().toString().replaceAll("\\,", ""));
+            SumInsu = Long.parseLong(etICICISumAssured.getText().toString().replaceAll("\\,", ""));
             hfLumsumPayOutOnDeath = SumInsu;
         }
     }

@@ -79,31 +79,34 @@ public class TermInsuranceController implements ITermInsurance {
         termNetworkService.getTermCompareQuotes(entity).enqueue(new Callback<TermCompareQuoteResponse>() {
             @Override
             public void onResponse(Call<TermCompareQuoteResponse> call, Response<TermCompareQuoteResponse> response) {
-
-                if (response.body() != null) {
-                    if (response.body().getStatusNo() == 0) {
-                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                if (iResponseSubcriber != null) {
+                    if (response.body() != null) {
+                        if (response.body().getStatusNo() == 0) {
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        } else {
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        }
                     } else {
-                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
                     }
-                } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
                 }
 
             }
 
             @Override
             public void onFailure(Call<TermCompareQuoteResponse> call, Throwable t) {
-                if (t instanceof ConnectException) {
-                    iResponseSubcriber.OnFailure(t);
-                } else if (t instanceof SocketTimeoutException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof UnknownHostException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof NumberFormatException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
-                } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
                 }
             }
         });

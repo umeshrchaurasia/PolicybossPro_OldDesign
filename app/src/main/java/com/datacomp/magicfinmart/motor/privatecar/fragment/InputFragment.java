@@ -657,12 +657,15 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 acRto.setText(dbController.getRTOCityName(String.valueOf(masterData.getRTO_Code())));
                 acRto.performCompletion();
                 regplace = acRto.getText().toString();
+
+                //endregion
+
                 Calendar calendarReg = Calendar.getInstance();
                 if (masterData.getRegistration_Date() != null) {
                     String reg = changeDateFormat(masterData.getRegistration_Date());
-                    String regDate = displayFormat.format(simpleDateFormat.parse(reg));
-                    etRegDate.setText(regDate);
-                    calendarReg.setTime(simpleDateFormat.parse(reg));
+                    //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
+                    etRegDate.setText(reg);
+                    calendarReg.setTime(displayFormat.parse(reg));
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
                 if (masterData.getManufacture_Year() != null) {
@@ -687,6 +690,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     //etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getRegistration_Date())));
                 }
                 // etCC.setText("" + masterData.getCubic_Capacity() + "CC");
+                etExpDate.setEnabled(true);
+
                 etCC.setText(carMasterEntity.getCubic_Capacity() + "CC");
                 //  setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
 

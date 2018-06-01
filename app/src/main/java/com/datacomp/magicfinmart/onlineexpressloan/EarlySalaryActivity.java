@@ -212,7 +212,7 @@ public class EarlySalaryActivity extends BaseActivity implements View.OnClickLis
                 etAge.setError(null);
             }
 
-            if((Integer.valueOf(etAge.getText().toString()) < 21))
+            if((Integer.valueOf(etAge.getText().toString()) <= 21))
             {
                 showAlert("Age should be equal or greater than 21 ");
                 return;
@@ -226,9 +226,9 @@ public class EarlySalaryActivity extends BaseActivity implements View.OnClickLis
             }
 
 
-            if((Double.valueOf(etLoanAmount.getText().toString()) < 10000 ))
+            if((Double.valueOf(etLoanAmount.getText().toString()) > 100000 ))
             {
-                showAlert("Loan Amount should be equal or greater than 1 thousands");
+                showAlert("Maximum loan amount allowed only 1 lacs");
                 return;
             }
             if (rbSal.isChecked()) {
@@ -242,9 +242,9 @@ public class EarlySalaryActivity extends BaseActivity implements View.OnClickLis
                 etTakeHomeSal.setError(null);
             }
 
-                if((Double.valueOf(etTakeHomeSal.getText().toString()) < 5000))
+                if((Double.valueOf(etTakeHomeSal.getText().toString()) < 20000))
                 {
-                    showAlert("Take Home Salary should be equal or greater than 5 thousands");
+                    showAlert("Take Home Salary should be equal or greater than 20 thousands");
                     return;
                 }
         }
@@ -286,7 +286,8 @@ public class EarlySalaryActivity extends BaseActivity implements View.OnClickLis
         if (response instanceof EarlySalaryLoanResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
-                dialogMessage(true, ((EarlySalaryLoanResponse) response).getMessage(), response.getMessage());
+            //    dialogMessage(true, ((EarlySalaryLoanResponse) response).getMessage());
+                dialogMessage(true, "", ((EarlySalaryLoanResponse) response).getMessage());
 
             }
         }
