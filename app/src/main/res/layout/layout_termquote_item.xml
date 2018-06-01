@@ -289,7 +289,7 @@
         android:layout_alignBottom="@+id/view4"
         android:layout_centerHorizontal="true"
         android:background="@drawable/borderthealthcheckup"
-        android:drawableBottom="@drawable/ic_vector_down"
+        android:drawableBottom="@android:drawable/arrow_down_float"
         android:gravity="center"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"

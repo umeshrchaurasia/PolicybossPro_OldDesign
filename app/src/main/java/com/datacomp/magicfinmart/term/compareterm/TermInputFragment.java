@@ -638,7 +638,8 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 for (int i = 0; i < termCompareQuoteResponse.getMasterData().getResponse().size(); i++) {
                     TermCompareResponseEntity termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(i);
                     if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
-                        termCompareResponseEntities.add(termCompareResponseEntity);
+                        if (termCompareResponseEntity.getInsurerId() != 43)// removing edelwise
+                            termCompareResponseEntities.add(termCompareResponseEntity);
                     }
                 }
 
