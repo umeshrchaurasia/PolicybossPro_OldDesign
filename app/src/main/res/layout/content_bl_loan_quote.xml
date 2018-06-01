@@ -12,7 +12,7 @@
         android:id="@+id/txtInputSummry"
         style="@style/TextViewStyle.Large"
         android:layout_marginBottom="6dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:background="@color/white"
         android:gravity="center_horizontal"
         android:text="INPUT SUMMARY"
@@ -27,8 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-
+        android:layout_marginTop="4dp"
         app:cardElevation="2dp">
         <LinearLayout
             android:padding="5dp"
@@ -63,7 +62,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="Applicant Name" />
+                            android:text="APPLICANT NAME" />
 
                         <TextView
                             android:id="@+id/txtAppName"
@@ -136,7 +135,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="BT Type" />
+                            android:text="BT TYPE" />
 
                         <TextView
                             android:id="@+id/txtType"
@@ -157,7 +156,7 @@
 
                         <TextView
                             style="@style/TextViewStyle.VerySmall"
-                            android:text="Curr Int Rate" />
+                            android:text="CURR. INT RATE" />
 
                         <TextView
                             android:id="@+id/txtblcurrRate"

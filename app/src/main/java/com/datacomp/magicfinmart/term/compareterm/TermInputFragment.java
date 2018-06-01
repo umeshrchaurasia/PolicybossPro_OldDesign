@@ -115,7 +115,6 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
             bindInput(termFinmartRequest);
         }*/
 
-        setDefaultValues();
         if (getArguments() != null) {
             if (getArguments().getParcelable(CompareTermActivity.INPUT_DATA) != null) {
                 termFinmartRequest = getArguments().getParcelable(CompareTermActivity.INPUT_DATA);
@@ -130,6 +129,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 termFinmartRequest.setFba_id(fba_id);
                 fetchQuotes();
             } else {
+                setDefaultValues();
                 changeInputQuote(true);
             }
             //bindICICI();
@@ -211,11 +211,10 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
 
             tvPolicyTerm.setText("");
             tvPolicyTerm.append("TERM  ");
-            SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm());
-            TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
-            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getPolicyTerm().length(), 0);
+            SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm() + " Years");
+            TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, TERM.length(), 0);
+            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, TERM.length(), 0);
             tvPolicyTerm.append(TERM);
-            tvPolicyTerm.append(" Years");
 
             if (termRequestEntity.getInsuredGender().equals("M"))
                 tvGender.setText("MALE");

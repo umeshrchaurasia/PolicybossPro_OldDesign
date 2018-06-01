@@ -181,7 +181,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical|left"
-                            android:text="FLOATING"
+                            android:text=""
+                            android:id="@+id/tvBestRatetype"
                             android:paddingLeft="5dp"
                             style="@style/TextViewStyle.Small"
                             android:textColor="@color/text_edit_color"></TextView>

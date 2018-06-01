@@ -71,7 +71,7 @@
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
-                            android:layout_weight=".6"
+                            android:layout_weight=".7"
 
                             android:gravity="center"
                             android:visibility="visible" />
@@ -81,7 +81,7 @@
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_weight="0.4"
+                            android:layout_weight="0.3"
                             android:hint="Branch Code">
 
                             <TextView
@@ -110,7 +110,7 @@
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
                                 android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
-                                android:inputType="text"
+                                android:inputType="textCapWords"
                                 android:maxLength="30"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -197,12 +197,15 @@
                             android:layout_weight="1"
                             android:hint="*Pancard">
 
-                            <EditText
-                                android:id="@+id/etPancard"
-                                style="@style/Style.edittext"
-                                android:maxLength="10"
-                                android:maxLines="1" />
-                        </android.support.design.widget.TextInputLayout>
+
+                        <EditText
+                            android:id="@+id/etPancard"
+                            style="@style/Style.edittext"
+                            android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+                            android:inputType="textCapCharacters"
+                            android:maxLength="10"
+                            android:maxLines="1" />
+                    </android.support.design.widget.TextInputLayout>
 
                         <Spinner
                             android:id="@+id/spIncomeSource"

@@ -23,6 +23,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical|center_horizontal"
             android:orientation="horizontal"
+            android:background="@drawable/bordertbl"
             android:weightSum="100">
 
             <LinearLayout
@@ -47,7 +48,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:gravity="center"
-                    android:maxLines="1"
+                    android:maxLines="3"
                     android:paddingLeft="5dp"
                     android:textColor="@color/black" />
 
@@ -239,6 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="24"
                 android:gravity="center"
+                android:padding="5dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -247,8 +249,8 @@
                     android:background="#f38d1e"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp">
+                    android:paddingBottom="0dp"
+                    android:paddingTop="0dp">
 
                     <ImageView
                         android:layout_width="wrap_content"

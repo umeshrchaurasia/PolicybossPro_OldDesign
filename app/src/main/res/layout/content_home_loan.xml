@@ -33,7 +33,7 @@
                     style="@style/TextViewStyle.Large"
 
                     android:layout_marginBottom="3dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="6dp"
                     android:background="@color/white"
                     android:gravity="center"
                     android:text="PROPERTY TYPE"
@@ -44,7 +44,7 @@
                     layout="@layout/layout_property_info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp" />
+                    android:layout_marginTop="0dp" />
 
                 <!--Applicant Detail-->
 

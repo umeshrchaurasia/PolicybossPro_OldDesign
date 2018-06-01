@@ -133,6 +133,8 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
         if(entity.getMemberDOB() != null)
         {
             holder.etDOB.setText(entity.getMemberDOB().toString());
+            entity.setMemberDOBTemp(entity.getMemberDOB().toString());
+
         }else {
             holder.etDOB.setText("");
         }
@@ -196,6 +198,8 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
                         try {
                             Date date = simpleDateFormat.parse(entity.getMemberDOB().toString());
                             calendarMain = dateToCalendar(date);
+//                            calendarMain.set(Calendar.MONTH ,Calendar.JANUARY);
+//                            calendarMain.set(Calendar.DAY_OF_MONTH ,1);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }

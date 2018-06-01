@@ -38,7 +38,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
 
     public class PLQuotesItem extends RecyclerView.ViewHolder {
 
-        TextView tvEligibleLoan, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee,tvEmiperlac, btnApply;
+        TextView tvEligibleLoan, tvBestRate, tvBankName, tvBestEmi, tvLoanTenure, tvProcessingFee,tvEmiperlac, btnApply,tvBestRatetype;
         ImageView ivBankLogo,ivArrow;
         LinearLayout rvhlknowmore;
         LinearLayout llivArrow;
@@ -59,6 +59,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
            // ivInfo = (ImageView) itemView.findViewById(R.id.ivInfo);
             tvEmiperlac =(TextView)itemView.findViewById(R.id.tvEmiperlac);
 
+            tvBestRatetype = (TextView) itemView.findViewById(R.id.tvBestRatetype);
 
             rvhlknowmore = (LinearLayout) itemView.findViewById(R.id.rvhlknowmore);
 
@@ -93,6 +94,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
         // textViewloanemi.setText("" + "\u20B9" + BigDecimal.valueOf(((EmiCalculatorResponse)response).getData().getAmount()).toPlainString());
         holder.tvEligibleLoan.setText("" + "\u20B9"+" " +String.format("%.0f", quoteEntity.getLoan_eligible()));
         holder.tvBestRate.setText(""  + quoteEntity.getRoi() + " %");
+        holder.tvBestRatetype.setText(""+quoteEntity.getRoi_type());
         holder.tvBankName.setText("" + quoteEntity.getBank_Code());
         holder.tvBestEmi.setText(""+ "\u20B9" +" " +  String.format("%.0f", quoteEntity.getEmi()) );
         holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure()+ " Years");

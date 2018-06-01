@@ -40,12 +40,10 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 import com.google.gson.Gson;
 
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -115,9 +113,6 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     EditText etICICISumAssured, etICICIPolicyTerm, etICICIPremiumTerm, etHDFCSAInc,
             etIncDeath, etIncPeriod, etINCREASING, etAdb;
 
-    int minSumAssured, maxSumAssured, minPolicyTerm, maxPolicyTerm, minPremiumTerm, maxPremiumTerm,
-            minHDFCSAInc, maxHDFCSAInc, minIncDeath, maxIncDeath, minIncPeriod, maxIncPeriod,
-            minINCREASING, maxINCREASING, minAdb, maxAdb;
     long hfLumsumPayOutOnDeath, hfLumsumAmt;
     //endregion
 
@@ -168,6 +163,8 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 fromCompare();
             } else {
                 changeInputQuote(true);
+                tvNo.performClick();
+                tvMale.performClick();
             }
             //bindICICI();
             if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null)
@@ -190,15 +187,15 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 } else if (termRequestEntity.getPlanTaken().equals("3D Life Long Protection")) {
                     spHDFCOptions.setSelection(3);
                 } else if (termRequestEntity.getPlanTaken().equals("Extra Life")) {
-                    spHDFCOptions.setSelection(3);
+                    spHDFCOptions.setSelection(4);
                 } else if (termRequestEntity.getPlanTaken().equals("Extra Life Income")) {
-                    spHDFCOptions.setSelection(3);
+                    spHDFCOptions.setSelection(5);
                 } else if (termRequestEntity.getPlanTaken().equals("Income Option")) {
-                    spHDFCOptions.setSelection(3);
+                    spHDFCOptions.setSelection(6);
                 } else if (termRequestEntity.getPlanTaken().equals("Income Replacement")) {
-                    spHDFCOptions.setSelection(3);
+                    spHDFCOptions.setSelection(7);
                 } else if (termRequestEntity.getPlanTaken().equals("Return of Premium")) {
-                    spHDFCOptions.setSelection(3);
+                    spHDFCOptions.setSelection(8);
                 }
 
                 if (termRequestEntity.getFrequency().equals("Yearly")) {
@@ -291,11 +288,10 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
             tvPolicyTerm.setText("");
             tvPolicyTerm.append("TERM  ");
-            SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm());
-            TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, termRequestEntity.getPolicyTerm().length(), 0);
-            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, termRequestEntity.getPolicyTerm().length(), 0);
+            SpannableString TERM = new SpannableString(termRequestEntity.getPolicyTerm() + " Years");
+            TERM.setSpan(new StyleSpan(Typeface.BOLD), 0, TERM.length(), 0);
+            TERM.setSpan(new ForegroundColorSpan(getActivity().getResources().getColor(R.color.header_dark_text)), 0, TERM.length(), 0);
             tvPolicyTerm.append(TERM);
-            tvPolicyTerm.append(" Years");
 
             if (termRequestEntity.getInsuredGender().equals("M"))
                 tvGender.setText("MALE");
@@ -451,6 +447,9 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 return false;
             }
 
+        } else {
+            CalculateLumsumAmt();
+            ChkSumAssu();
         }
 
         if (etICICIPolicyTerm.getText().toString().isEmpty()) {
@@ -647,16 +646,14 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setDefaultValues() {
-        etICICISumAssured.setText("10,000,000");
+        etICICISumAssured.setText("10000000");
         etICICIPolicyTerm.setText("20");
         etICICIPremiumTerm.setText("20");
         etHDFCSAInc.setText("10");
-        etIncDeath.setText("25,000");
+        etIncDeath.setText("25000");
         etIncPeriod.setText("20");
         etINCREASING.setText("5");
         etAdb.setText("100");
-        tvNo.performClick();
-        tvMale.performClick();
     }
 
 
@@ -901,7 +898,10 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 break;
 
             case R.id.ivEdit:
-                ((HdfcTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null)
+                    ((CompareTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                else
+                    ((HdfcTermActivity) getActivity()).redirectToInput(termFinmartRequest);
                 changeInputQuote(true);
                 break;
 
@@ -1038,9 +1038,10 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
-                bindHeaders();
-                changeInputQuote(false);
+
                 if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
+                    bindHeaders();
+                    changeInputQuote(false);
                     bindQuotes();
                 } else {
                     Toast.makeText(getActivity(), "" + termCompareResponseEntity.getQuoteStatus(), Toast.LENGTH_SHORT).show();
@@ -1121,7 +1122,10 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             cvInputDetails.setVisibility(View.GONE);
             cvQuoteDetails.setVisibility(View.GONE);
         } else {
-            ((HdfcTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+            if (getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) != null)
+                ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+            else
+                ((HdfcTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
             btnGetQuote.setText("UPDATE QUOTE");
             tilPincode.setVisibility(View.INVISIBLE);
             layoutCompare.setVisibility(View.GONE);
@@ -1480,7 +1484,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 etHDFCSAInc.setEnabled(true);
             }
 
-            etICICISumAssured.setText("" + NumberFormat.getNumberInstance(Locale.US).format(txtSumAssu));
+            etICICISumAssured.setText("" + (txtSumAssu));
         }
 
     }
@@ -1552,8 +1556,8 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
         }
 
-        //NumberFormat.getNumberInstance(Locale.US).format(sumAssured);
-        etICICISumAssured.setText("" + NumberFormat.getNumberInstance(Locale.US).format(SumInsu));
+        // (sumAssured);
+        etICICISumAssured.setText("" + (SumInsu));
     }
 
     private void changePolicyTerm(boolean b) {
@@ -1589,7 +1593,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 term = 10;
             }
         }
-        etICICIPolicyTerm.setText("" + NumberFormat.getNumberInstance(Locale.US).format(term));
+        etICICIPolicyTerm.setText("" + (term));
         if (spHdfcPremFrq.getSelectedItemPosition() != 4) {
 
             if (!etICICIPolicyTerm.getText().toString().equals("") && !etICICIPremiumTerm.getText().toString().equals("")) {
@@ -1618,7 +1622,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         } else {
             term = 10;
         }
-        etICICIPolicyTerm.setText("" + NumberFormat.getNumberInstance(Locale.US).format(term));
+        etICICIPolicyTerm.setText("" + (term));
 
         if (!etICICIPolicyTerm.getText().toString().equals("") && !etICICIPremiumTerm.getText().toString().equals("")) {
             int txtPolicyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString().replaceAll("\\,", ""));
@@ -1663,7 +1667,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 term = 10;
             }
         }
-        etICICIPremiumTerm.setText("" + NumberFormat.getNumberInstance(Locale.US).format(term));
+        etICICIPremiumTerm.setText("" + (term));
         if (spHdfcPremFrq.getSelectedItemPosition() != 4) {
 
             if (!etICICIPolicyTerm.getText().toString().equals("") && !etICICIPremiumTerm.getText().toString().equals("")) {
@@ -1692,7 +1696,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         } else {
             term = 10;
         }
-        etICICIPremiumTerm.setText("" + NumberFormat.getNumberInstance(Locale.US).format(term));
+        etICICIPremiumTerm.setText("" + (term));
 
         if (!etICICIPolicyTerm.getText().toString().equals("") && !etICICIPremiumTerm.getText().toString().equals("")) {
             int txtPolicyTerm = Integer.parseInt(etICICIPolicyTerm.getText().toString().replaceAll("\\,", ""));
@@ -1738,7 +1742,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                         CalculateLumsumAmt();
                     }
 
-                    editText.setText("" + NumberFormat.getNumberInstance(Locale.US).format(term));
+                    editText.setText("" + (term));
                 }
             }
 
@@ -1768,7 +1772,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                         CalculateLumsumAmt();
                     }
 
-                    editText.setText("" + NumberFormat.getNumberInstance(Locale.US).format(term));
+                    editText.setText("" + (term));
                 }
             }
         }
@@ -1792,7 +1796,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             value = 1;
         }
 
-        editText.setText("" + NumberFormat.getNumberInstance(Locale.US).format(value));
+        editText.setText("" + (value));
     }
 
     private void changeIncDeath(boolean b) {
@@ -1852,7 +1856,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 //$('#hfLumsumPayOutOnDeath').val(Lumsum);
             }
         }
-        etIncDeath.setText("" + NumberFormat.getNumberInstance(Locale.US).format(Income));
+        etIncDeath.setText("" + (Income));
 
 
     }

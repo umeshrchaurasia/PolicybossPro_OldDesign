@@ -361,13 +361,13 @@
                                         android:id="@+id/ivPdf"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp"
-                                        android:src="@drawable/pdf_icon" />
+                                        android:src="@drawable/share_icon_white" />
 
                                     <ImageView
                                         android:id="@+id/ivBuy"
                                         android:layout_width="30dp"
                                         android:layout_height="30dp"
-                                        android:layout_marginLeft="3dp"
+                                        android:layout_marginLeft="5dp"
                                         android:src="@drawable/cart" />
                                 </LinearLayout>
 
@@ -417,7 +417,7 @@
 
                             <EditText
                                 android:inputType="textCapWords"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:id="@+id/etFirstName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person" />
@@ -433,7 +433,7 @@
 
                             <EditText
                                 android:inputType="textCapWords"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:id="@+id/etLastName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person" />
