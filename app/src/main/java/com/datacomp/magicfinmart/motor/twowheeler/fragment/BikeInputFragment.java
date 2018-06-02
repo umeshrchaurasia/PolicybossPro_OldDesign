@@ -559,8 +559,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                 if (getDaysDiff(expDate, currDate) < 90) {
                     cvNcb.setVisibility(View.VISIBLE);
+                    llNCB.setVisibility(View.VISIBLE);
                 } else {
                     cvNcb.setVisibility(View.GONE);
+                    llNCB.setVisibility(View.INVISIBLE);
                 }
                 //etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
             }
@@ -1303,24 +1305,21 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             //region policy expirydate
             else if (view.getId() == R.id.etExpDate) {
-                Calendar calendar = null;
-                try {
-                    calendar = Calendar.getInstance();
-                    Date regDate = new Date();
-                    if (etRegDate.getText().toString().isEmpty()) {
-                        regDate = calendar.getTime();
-                    } else {
-
+                Date regDate = new Date();
+                if (etRegDate.getText().toString().isEmpty()) {
+                    Calendar calendar = Calendar.getInstance();
+                    regDate = calendar.getTime();
+                } else {
+                    try {
                         regDate = displayFormat.parse(etRegDate.getText().toString());
-                        calendar.setTime(regDate);
-
+                    } catch (ParseException e) {
+                        Calendar calendar = Calendar.getInstance();
+                        regDate = calendar.getTime();
+                        e.printStackTrace();
                     }
-                } catch (ParseException e) {
-                    //regDate = calendar.getTime();
-                    e.printStackTrace();
                 }
 
-                DateTimePicker.BikepolicyExpValidation(view.getContext(), calendar, new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.policyExpValidation(view.getContext(), regDate, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -1332,8 +1331,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                             etExpDate.setText(expDate);
                             if (getDaysDiff(expDate, currDate) < 90) {
                                 cvNcb.setVisibility(View.VISIBLE);
+                                llNCB.setVisibility(View.VISIBLE);
                             } else {
                                 cvNcb.setVisibility(View.GONE);
+                                llNCB.setVisibility(View.INVISIBLE);
                             }
                         }
                     }

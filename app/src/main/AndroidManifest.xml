@@ -772,7 +772,7 @@
                 android:value=".inspection.selfdeclaration.PhotoCaptureActivity" />
         </activity>
         <activity
-            android:name=".term.TermQuoteApplicationActivity"
+            android:name=".term.quoteapp.TermQuoteApplicationActivity"
             android:label="@string/title_activity_term_quote_application"
             android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"

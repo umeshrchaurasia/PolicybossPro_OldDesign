@@ -877,8 +877,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 } else {
                     startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                             .putExtra("URL", "https://docs.google.com/viewer?url=" + termCompareResponseEntity.getPdfUrl())
-                            .putExtra("NAME", "CLICK TO PROTECT 3D")
-                            .putExtra("TITLE", "CLICK TO PROTECT 3D"));
+                            .putExtra("NAME", "ICICI PRUDENTIAL")
+                            .putExtra("TITLE", "ICICI PRUDENTIAL"));
 
                 }
 

@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term;
+package com.datacomp.magicfinmart.term.termselection;
 
 import android.os.Bundle;
 import android.os.Parcelable;

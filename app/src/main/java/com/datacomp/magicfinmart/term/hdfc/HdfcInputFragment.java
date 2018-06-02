@@ -868,7 +868,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
             case R.id.ivBuy:
                 new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(),
-                        "39",
+                        "28",
                         "" + dbPersistanceController.getUserData().getFBAId(),
                         "" + termCompareResponseEntity.getNetPremium(), this);
                 startActivity(new Intent(getActivity(), CommonWebViewActivity.class)

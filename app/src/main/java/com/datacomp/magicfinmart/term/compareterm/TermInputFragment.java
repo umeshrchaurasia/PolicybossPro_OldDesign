@@ -90,6 +90,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     //Headers
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
     ImageView ivEdit, ivInfo;
+    boolean isEdit = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -148,6 +149,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         try {
             TermRequestEntity termRequestEntity = termFinmartRequest.getTermRequestEntity();
             if (termRequestEntity != null) {
+                isEdit = true;
                 etDOB.setText("" + termRequestEntity.getInsuredDOB());
                 etSumAssured.setText("" + termRequestEntity.getSumAssured());
                 String[] splitStr = termRequestEntity.getContactName().split("\\s+");
@@ -259,7 +261,11 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         spPolicyTerm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spPremTerm.setSelection(position);
+                if (!isEdit) {
+                    spPremTerm.setSelection(position);
+                } else {
+                    isEdit = false;
+                }
             }
 
             @Override
@@ -348,12 +354,17 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 changeInputQuote(true);
                 break;
             case R.id.btnGetQuote:
-
-                if (isValidInput()) {
-                    setTermRequest();
-                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
-                    fetchQuotes();
+                if (btnGetQuote.getText().toString().toLowerCase().contains("get")) {
+                    if (isValidInput()) {
+                        setTermRequest();
+                        //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                        fetchQuotes();
+                    }
+                } else {
+                    ((CompareTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                    changeInputQuote(true);
                 }
+
                /* if (isValidInput()) {
                     setTermRequest();
                     ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
@@ -586,7 +597,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
             cvInputDetails.setVisibility(View.GONE);
         } else {
             ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
-            btnGetQuote.setText("UPDATE QUOTE");
+            btnGetQuote.setText("Back To Input");
             layoutCompare.setVisibility(View.GONE);
             llCompareAll.setVisibility(View.GONE);
             rvTerm.setVisibility(View.VISIBLE);
