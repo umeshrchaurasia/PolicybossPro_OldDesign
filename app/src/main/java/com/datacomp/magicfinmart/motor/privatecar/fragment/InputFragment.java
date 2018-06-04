@@ -663,9 +663,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 Calendar calendarReg = Calendar.getInstance();
                 if (masterData.getRegistration_Date() != null) {
                     String reg = changeDateFormat(masterData.getRegistration_Date());
-                    //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
-                    etRegDate.setText(reg);
-                    calendarReg.setTime(displayFormat.parse(reg));
+                    String regDate = displayFormat.format(simpleDateFormat.parse(reg));
+                    etRegDate.setText(regDate);
+                    calendarReg.setTime(displayFormat.parse(regDate));
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
                 if (masterData.getManufacture_Year() != null) {

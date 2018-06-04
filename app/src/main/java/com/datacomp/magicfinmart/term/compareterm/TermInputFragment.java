@@ -667,6 +667,9 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
             } else {
                 Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
             }
+            if (termCompareResponseEntities.size() == 0) {
+                Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_LONG).show();
+            }
         }
         mainScroll.scrollTo(0, 0);
     }
