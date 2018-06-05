@@ -512,7 +512,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         etBankAcNo = (EditText) findViewById(R.id.etBankAcNo);
         etAccountType = (EditText) findViewById(R.id.etAccountType);
         etIfscCode = (EditText) findViewById(R.id.etIfscCode);
-        etIfscCode.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etIfscCode.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(15)});
 
         erMicrCode = (EditText) findViewById(R.id.erMicrCode);
         etBankBranch = (EditText) findViewById(R.id.etBankBranch);
