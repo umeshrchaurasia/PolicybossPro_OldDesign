@@ -155,7 +155,7 @@ public class TermApplicationListFragment extends BaseFragment implements View.On
     @Override
     public void OnSuccess(APIResponse response, String message) {
         if (response instanceof TermQuoteApplicationResponse) {
-            List<TermFinmartRequest> list = ((TermQuoteApplicationResponse) response).getMasterData().getQuote();
+            List<TermFinmartRequest> list = ((TermQuoteApplicationResponse) response).getMasterData().getApplication();
             if (list.size() > 0) {
                 isHit = false;
                 //Toast.makeText(getActivity(), "fetching more...", Toast.LENGTH_SHORT).show();
