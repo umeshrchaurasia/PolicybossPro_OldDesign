@@ -54,7 +54,9 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             item.txtOverflowMenu.setOnClickListener(this);
 
             try {
-                if (Integer.parseInt(entity.getApplnStatus()) == 25) {
+                if (Integer.parseInt(entity.getApplnStatus()) == 0) {
+                    item.imgStatus.setImageResource(R.mipmap.status_0);
+                } else if (Integer.parseInt(entity.getApplnStatus()) == 25) {
                     item.imgStatus.setImageResource(R.mipmap.status_25);
                 } else if (Integer.parseInt(entity.getApplnStatus()) == 50) {
                     item.imgStatus.setImageResource(R.mipmap.status_50);
