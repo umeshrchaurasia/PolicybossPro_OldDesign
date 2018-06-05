@@ -130,11 +130,11 @@ public class BaseActivity extends AppCompatActivity {
     public void dialogExit() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Exit");
-        builder.setMessage("Do you really want to close application?");
+        builder.setMessage("Do you want to exit the application?");
         builder.setCancelable(false);
 
         builder.setPositiveButton(
-                "EXIT",
+                "YES",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -143,7 +143,7 @@ public class BaseActivity extends AppCompatActivity {
                 });
 
         builder.setNegativeButton(
-                "CANCEL",
+                "NO",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();

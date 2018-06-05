@@ -559,8 +559,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                 if (getDaysDiff(expDate, currDate) < 90) {
                     cvNcb.setVisibility(View.VISIBLE);
+                    llNCB.setVisibility(View.VISIBLE);
                 } else {
                     cvNcb.setVisibility(View.GONE);
+                    llNCB.setVisibility(View.INVISIBLE);
                 }
                 //etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
             }
@@ -625,9 +627,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 Calendar calendarReg = Calendar.getInstance();
                 if (masterData.getRegistration_Date() != null) {
                     String reg = changeDateFormat(masterData.getRegistration_Date());
-                    //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
-                    etRegDate.setText(reg);
-                    calendarReg.setTime(displayFormat.parse(reg));
+                    String regDate = displayFormat.format(simpleDateFormat.parse(reg));
+                    etRegDate.setText(regDate);
+                    calendarReg.setTime(displayFormat.parse(regDate));
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
                 if (masterData.getManufacture_Year() != null) {
@@ -1175,7 +1177,15 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     public String getVarient(String varientWithCC) {
         String[] parts = varientWithCC.split("\\(");
-        return parts[0];
+        if(parts[0].equals(""))
+        {
+            String[] parts_sec= parts[1].split("\\(");
+            return "("+parts_sec[0];
+        }
+        else {
+            return parts[0];
+        }
+
     }
 
     private int getMonth(String date) {
@@ -1303,21 +1313,17 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             //region policy expirydate
             else if (view.getId() == R.id.etExpDate) {
-                Calendar calendar = null;
-                try {
-                    calendar = Calendar.getInstance();
-                    Date regDate = new Date();
-                    if (etRegDate.getText().toString().isEmpty()) {
-                        regDate = calendar.getTime();
-                    } else {
-
+                Calendar calendar = Calendar.getInstance();
+                Date regDate = new Date();
+                if (etRegDate.getText().toString().isEmpty()) {
+                    regDate = calendar.getTime();
+                } else {
+                    try {
                         regDate = displayFormat.parse(etRegDate.getText().toString());
-                        calendar.setTime(regDate);
-
+                    } catch (ParseException e) {
+                        regDate = calendar.getTime();
+                        e.printStackTrace();
                     }
-                } catch (ParseException e) {
-                    //regDate = calendar.getTime();
-                    e.printStackTrace();
                 }
 
                 DateTimePicker.BikepolicyExpValidation(view.getContext(), calendar, new DatePickerDialog.OnDateSetListener() {
@@ -1332,8 +1338,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                             etExpDate.setText(expDate);
                             if (getDaysDiff(expDate, currDate) < 90) {
                                 cvNcb.setVisibility(View.VISIBLE);
+                                llNCB.setVisibility(View.VISIBLE);
                             } else {
                                 cvNcb.setVisibility(View.GONE);
+                                llNCB.setVisibility(View.INVISIBLE);
                             }
                         }
                     }

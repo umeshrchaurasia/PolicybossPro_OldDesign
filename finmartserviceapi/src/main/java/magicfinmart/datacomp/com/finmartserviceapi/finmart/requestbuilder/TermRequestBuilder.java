@@ -2,20 +2,12 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import java.util.HashMap;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BenefitsListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DeleteTermQuoteResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteCompareResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermCompareQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TermQuoteToAppResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UpdateCRNResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -54,7 +46,7 @@ public class TermRequestBuilder extends FinmartRetroRequestBuilder {
 
         @Headers("token:" + token)
         @POST("/api/product-insurance-mappingId-update")
-        Call<HealthQuoteExpResponse> updateCRN(@Body HashMap<String, String> body);
+        Call<UpdateCRNResponse> updateCRN(@Body HashMap<String, String> body);
 
 /*
         @Headers("token:" + token)

@@ -14,7 +14,10 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TermFinmartRequest;
@@ -27,7 +30,7 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
     Fragment fragment;
     List<TermFinmartRequest> mAppList;
     List<TermFinmartRequest> mAppListFiltered;
-
+    SimpleDateFormat displayDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     public TermApplicationAdapter(Fragment context, List<TermFinmartRequest> mApplicationList) {
         this.fragment = context;
         mAppList = mApplicationList;
@@ -47,12 +50,12 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
         if (holder instanceof ApplicationItem) {
             TermFinmartRequest entity = mAppListFiltered.get(position);
             holder.txtCRN.setText("" + entity.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id());
-            holder.txtCreatedDate.setText("" + entity.getTermRequestEntity().getCreated_date());
+            holder.txtCreatedDate.setText("" + changeDateFormat(entity.getTermRequestEntity().getCreated_date()));
             holder.txtPersonName.setText("" + entity.getTermRequestEntity().getContactName());
 
             holder.txtTermPpt.setText(entity.getTermRequestEntity().getPolicyTerm() + "/" + entity.getTermRequestEntity().getPPT());
             holder.txtSum.setText("" + entity.getTermRequestEntity().getSumAssured());
-            holder.txtStatusDate.setText("" + entity.getTermRequestEntity().getCreated_date());
+            holder.txtStatusDate.setText("" + changeDateFormat(entity.getTermRequestEntity().getCreated_date()));
 
             holder.txtMode.setText("" + entity.getTermRequestEntity().getFrequency());
             if (entity.getStatusProgress() == 0)
@@ -204,5 +207,18 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
                 notifyDataSetChanged();
             }
         };
+    }
+
+    public String changeDateFormat(String date) {
+
+        SimpleDateFormat spf = new SimpleDateFormat("dd-MM-yyyy"); // 30/10/2010
+        Date newDate = null;
+        try {
+            newDate = spf.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return displayDateFormat.format(newDate);
     }
 }

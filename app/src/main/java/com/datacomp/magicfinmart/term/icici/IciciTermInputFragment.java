@@ -8,6 +8,8 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -475,21 +477,45 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
         optionList = new ArrayList<>(Arrays.asList(listOption));
 
-        ICICIOptionsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, optionList);
+        ICICIOptionsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, optionList){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                view.setPadding(0, view.getPaddingTop(), 0, view.getPaddingBottom());
+                return view;
+            }
+        };
         spICICIOptions.setAdapter(ICICIOptionsAdapter);
 
 
         String[] listPremiumTerm = getActivity().getResources().getStringArray(R.array.icici_payment_term);
         premiumTermList = new ArrayList<>(Arrays.asList(listPremiumTerm));
 
-        ICICIPremiumTermAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumTermList);
+        ICICIPremiumTermAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumTermList){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                view.setPadding(0, view.getPaddingTop(), 0, view.getPaddingBottom());
+                return view;
+            }
+        };
         spICICIPremiumTerm.setAdapter(ICICIPremiumTermAdapter);
 
 
         String[] listPremiumFreq = getActivity().getResources().getStringArray(R.array.icici_premium_frequency);
         frequenctList = new ArrayList<>(Arrays.asList(listPremiumFreq));
 
-        ICICIPremiumFrequencyAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, frequenctList);
+        ICICIPremiumFrequencyAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, frequenctList){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                view.setPadding(0, view.getPaddingTop(), 0, view.getPaddingBottom());
+                return view;
+            }
+        };
         spICICIPremiumFrequency.setAdapter(ICICIPremiumFrequencyAdapter);
 
     }
@@ -877,8 +903,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 } else {
                     startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                             .putExtra("URL", "https://docs.google.com/viewer?url=" + termCompareResponseEntity.getPdfUrl())
-                            .putExtra("NAME", "CLICK TO PROTECT 3D")
-                            .putExtra("TITLE", "CLICK TO PROTECT 3D"));
+                            .putExtra("NAME", "ICICI PRUDENTIAL")
+                            .putExtra("TITLE", "ICICI PRUDENTIAL"));
 
                 }
 
@@ -961,7 +987,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void updateCrnToServer() {
-        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, null);
+        if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
+            new TermInsuranceController(getActivity()).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
 
     private void changeLumpsumPercent(boolean b) {
@@ -1646,7 +1673,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
-                //updateCrnToServer();
+                updateCrnToServer();
                 if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
                     bindHeaders();
                     changeInputQuote(false);

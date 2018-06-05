@@ -157,6 +157,7 @@ public class CompareTermActivity extends BaseActivity {
 
         if (getSupportFragmentManager().getBackStackEntryCount() > 0) {
             //getSupportFragmentManager().popBackStack();
+            getSupportActionBar().setTitle("COMPARE TERM INSURANCE");
             getSupportFragmentManager().popBackStack("other", FragmentManager.POP_BACK_STACK_INCLUSIVE);
         } else {
             if (ivHdrQuote.getVisibility() == View.VISIBLE) {
@@ -229,6 +230,9 @@ public class CompareTermActivity extends BaseActivity {
     }
 
     public void redirectToHdfcQuote(TermCompareResponseEntity termCompareResponseEntity) {
+
+        getSupportActionBar().setTitle("CLICK TO PROTECT 3D");
+
         quoteBundle.putParcelable(OTHER_QUOTE_DATA, termFinmartRequest);
         quoteBundle.putParcelable(OTHER_QUOTE_DATA_RESPONSE, termCompareResponseEntity);
         quoteBundle.putParcelable(INPUT_DATA, null);
@@ -241,6 +245,7 @@ public class CompareTermActivity extends BaseActivity {
     }
 
     public void redirectToIciciQuote(TermCompareResponseEntity termCompareResponseEntity) {
+        getSupportActionBar().setTitle("ICICI PRUDENTIAL");
         quoteBundle.putParcelable(OTHER_QUOTE_DATA, termFinmartRequest);
         quoteBundle.putParcelable(OTHER_QUOTE_DATA_RESPONSE, termCompareResponseEntity);
         quoteBundle.putParcelable(INPUT_DATA, null);

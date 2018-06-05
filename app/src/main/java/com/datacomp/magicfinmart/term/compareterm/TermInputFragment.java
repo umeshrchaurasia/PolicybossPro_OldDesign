@@ -25,7 +25,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -91,6 +90,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     //Headers
     TextView tvSum, tvGender, tvSmoker, tvAge, tvPolicyTerm, tvCrn;
     ImageView ivEdit, ivInfo;
+    boolean isEdit = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -149,6 +149,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         try {
             TermRequestEntity termRequestEntity = termFinmartRequest.getTermRequestEntity();
             if (termRequestEntity != null) {
+                isEdit = true;
                 etDOB.setText("" + termRequestEntity.getInsuredDOB());
                 etSumAssured.setText("" + termRequestEntity.getSumAssured());
                 String[] splitStr = termRequestEntity.getContactName().split("\\s+");
@@ -260,7 +261,11 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         spPolicyTerm.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                spPremTerm.setSelection(position);
+                if (!isEdit) {
+                    spPremTerm.setSelection(position);
+                } else {
+                    isEdit = false;
+                }
             }
 
             @Override
@@ -349,12 +354,17 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 changeInputQuote(true);
                 break;
             case R.id.btnGetQuote:
-
-                if (isValidInput()) {
-                    setTermRequest();
-                    //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
-                    fetchQuotes();
+                if (btnGetQuote.getText().toString().toLowerCase().contains("get")) {
+                    if (isValidInput()) {
+                        setTermRequest();
+                        //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
+                        fetchQuotes();
+                    }
+                } else {
+                    ((CompareTermActivity) getActivity()).redirectToInput(termFinmartRequest);
+                    changeInputQuote(true);
                 }
+
                /* if (isValidInput()) {
                     setTermRequest();
                     ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
@@ -398,7 +408,8 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void updateCrnToServer() {
-        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, null);
+        if (termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id() != null && !termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
+            new TermInsuranceController(getActivity()).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
 
     private void setTermRequest() {
@@ -492,7 +503,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 return false;
             }
         }
-        if (!isValidePhoneNumber(etMobile)) {
+        /*if (!isValidePhoneNumber(etMobile)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etMobile.requestFocus();
                 etMobile.setError("Enter Mobile");
@@ -503,7 +514,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 etMobile.setError("Enter Mobile");
                 return false;
             }
-        }
+        }*/
         if (etPincode.getText().toString().isEmpty()) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etPincode.requestFocus();
@@ -586,7 +597,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
             cvInputDetails.setVisibility(View.GONE);
         } else {
             ((CompareTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
-            btnGetQuote.setText("UPDATE QUOTE");
+            btnGetQuote.setText("Back To Input");
             layoutCompare.setVisibility(View.GONE);
             llCompareAll.setVisibility(View.GONE);
             rvTerm.setVisibility(View.VISIBLE);
@@ -631,14 +642,15 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void processResponse(TermCompareQuoteResponse termCompareQuoteResponse) {
-        mainScroll.fullScroll(ScrollView.FOCUS_UP);
+
         if (termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getResponse() != null) {
             if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
                 termCompareResponseEntities.clear();
                 for (int i = 0; i < termCompareQuoteResponse.getMasterData().getResponse().size(); i++) {
                     TermCompareResponseEntity termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(i);
                     if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
-                        termCompareResponseEntities.add(termCompareResponseEntity);
+                        if (termCompareResponseEntity.getInsurerId() != 43)// removing edelwise
+                            termCompareResponseEntities.add(termCompareResponseEntity);
                     }
                 }
 
@@ -648,14 +660,18 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
-                //updateCrnToServer();
+                updateCrnToServer();
                 bindHeaders();
                 bindQuotes();
                 changeInputQuote(false);
             } else {
                 Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
             }
+            if (termCompareResponseEntities.size() == 0) {
+                Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_LONG).show();
+            }
         }
+        mainScroll.scrollTo(0, 0);
     }
 
     public void redirectToBuy(TermCompareResponseEntity termCompareResponseEntity) {

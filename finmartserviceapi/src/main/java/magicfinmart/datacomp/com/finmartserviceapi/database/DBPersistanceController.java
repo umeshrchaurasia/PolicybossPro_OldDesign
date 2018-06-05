@@ -761,16 +761,26 @@ public class DBPersistanceController {
 
         hasMapCarInsuranceImage.put(1, R.drawable.car_1);
         hasMapCarInsuranceImage.put(2, R.drawable.car_2);
+        hasMapCarInsuranceImage.put(3, R.drawable.car_3);
         hasMapCarInsuranceImage.put(4, R.drawable.car_4);
+        hasMapCarInsuranceImage.put(5, R.drawable.car_5);
+        hasMapCarInsuranceImage.put(6, R.drawable.car_6);
         hasMapCarInsuranceImage.put(7, R.drawable.car_7);
+        hasMapCarInsuranceImage.put(8, R.drawable.car_8);
         hasMapCarInsuranceImage.put(9, R.drawable.car_9);
         hasMapCarInsuranceImage.put(10, R.drawable.car_10);
         hasMapCarInsuranceImage.put(11, R.drawable.car_11);
         hasMapCarInsuranceImage.put(12, R.drawable.car_12);
+        hasMapCarInsuranceImage.put(13, R.drawable.car_13);
         hasMapCarInsuranceImage.put(14, R.drawable.car_14);
+        hasMapCarInsuranceImage.put(15, R.drawable.car_15);
+        hasMapCarInsuranceImage.put(16, R.drawable.car_16);
+        hasMapCarInsuranceImage.put(17, R.drawable.car_17);
+        hasMapCarInsuranceImage.put(18, R.drawable.car_18);
         hasMapCarInsuranceImage.put(19, R.drawable.car_19);
         hasMapCarInsuranceImage.put(33, R.drawable.car_33);
         hasMapCarInsuranceImage.put(35, R.drawable.car_35);
+        hasMapCarInsuranceImage.put(41, R.drawable.car_41);
     }
 
     public int getInsurerLogo(int insurerID) {

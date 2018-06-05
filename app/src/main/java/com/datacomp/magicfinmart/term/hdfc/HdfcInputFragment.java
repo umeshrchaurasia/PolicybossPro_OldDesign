@@ -868,7 +868,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
             case R.id.ivBuy:
                 new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(),
-                        "39",
+                        "28",
                         "" + dbPersistanceController.getUserData().getFBAId(),
                         "" + termCompareResponseEntity.getNetPremium(), this);
                 startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
@@ -1000,7 +1000,8 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
     private void updateCrnToServer() {
-        new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, null);
+        if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
+            new TermInsuranceController(getActivity()).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -1034,7 +1035,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
     private void processResponse(TermCompareQuoteResponse termCompareQuoteResponse) {
         /*mainScroll.fullScroll(ScrollView.FOCUS_UP);*/
-        mainScroll.scrollTo(0,0);
+
         if (termCompareQuoteResponse.getMasterData() != null && termCompareQuoteResponse.getMasterData().getResponse() != null) {
             if (termCompareQuoteResponse.getMasterData().getResponse().size() != 0) {
                 this.termCompareResponseEntity = termCompareQuoteResponse.getMasterData().getResponse().get(0);
@@ -1044,7 +1045,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 if (termCompareQuoteResponse.getMasterData().getLifeTermRequestID() != 0)
                     termRequestId = termCompareQuoteResponse.getMasterData().getLifeTermRequestID();
                 termFinmartRequest.setTermRequestId(termRequestId);
-               // updateCrnToServer();
+                updateCrnToServer();
                 if (termCompareResponseEntity.getQuoteStatus().equals("Success")) {
                     bindHeaders();
                     changeInputQuote(false);
@@ -1056,6 +1057,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 Toast.makeText(getActivity(), "No Quotes Found.", Toast.LENGTH_SHORT).show();
             }
         }
+        mainScroll.scrollTo(0,0);
     }
 
     //region datepicker

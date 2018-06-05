@@ -45,7 +45,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsRes
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DashboardFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, ILocationStateListener, BaseFragment.PopUpListener {
+public class DashboardFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriber, /*ILocationStateListener,*/ BaseFragment.PopUpListener {
 
     RecyclerView rvHome;
     DashboardRowAdapter mAdapter;
@@ -55,8 +55,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     ConstantEntity constantEntity;
     PrefManager prefManager;
     int forceUpdate;
-    LocationTracker locationTracker;
-    Location location;
+    //LocationTracker locationTracker;
+    //Location location;
     TextView tvKnowledge, tvPendingCAses, tvSalesMat;
 
     public DashboardFragment() {
@@ -72,15 +72,15 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
         //region init location
-        locationTracker = new LocationTracker(getActivity());
+        //locationTracker = new LocationTracker(getActivity());
         //location callback method
-        locationTracker.setLocationStateListener(this);
+        //locationTracker.setLocationStateListener(this);
 
         //GoogleApiClient initialisation and location update
-        locationTracker.init();
+        //locationTracker.init();
 
         //GoogleApiclient connect
-        locationTracker.onResume();
+        //locationTracker.onResume();
         //endregion
 
         initialise(view);
@@ -209,7 +209,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
     }
 
-    @Override
+    /*@Override
     public void onLocationChanged(Location location) {
         location = locationTracker.mLocation;
     }
@@ -222,7 +222,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
     @Override
     public void onConnectionFailed() {
         location = null;
-    }
+    }*/
 
     @Override
     public void onClick(View v) {

@@ -35,7 +35,7 @@
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="snap|enterAlways|enterAlwaysCollapsed"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:titleTextAppearance="@style/TextStyle.Toolbar"
+                app:titleTextAppearance="@style/TextStyle.ToolbarSmall"
                 app:titleTextColor="@color/white" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -74,7 +74,7 @@
             app:itemBackground="@color/colorPrimaryDark"
             app:itemIconTint="@drawable/nav_item_color_state"
             app:itemTextColor="@drawable/nav_item_color_state"
-            app:menu="@menu/navigation" />
+            app:menu="@menu/navigationloan" />
 
         <LinearLayout
             android:id="@+id/lyheader"

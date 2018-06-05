@@ -48,8 +48,8 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
 
         holder.txtPlanNAme.setText("" + responseEntity.getProductPlanName());
         holder.txtCover.setText("" + responseEntity.getSumAssured());
-        holder.txtAge.setText("" + age);
-        holder.txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + "Yrs.");
+        holder.txtAge.setText("" + age + " Yrs.");
+        holder.txtPolicyTerm.setText(responseEntity.getPolicyTermYear() + " Yrs.");
         holder.txtFinalPremium.setText("\u20B9 " + responseEntity.getNetPremium());
         // holder.txtFinalPremium.setText("\u20B9 " + Math.round(Double.parseDouble(responseEntity.getFinal_premium_with_addon())));
 
@@ -79,6 +79,8 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
             public void onClick(View v) {
                 holder.llAddon.setVisibility(View.VISIBLE);
                 holder.tvBenefits.setVisibility(View.GONE);
+                holder.ivDownArrow.setVisibility(View.VISIBLE);
+                holder.ivUpArrow.setVisibility(View.GONE);
                 holder.tvBenefitsBelow.setVisibility(View.VISIBLE);
                 //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
@@ -89,6 +91,8 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
                 holder.llAddon.setVisibility(View.GONE);
                 holder.tvBenefits.setVisibility(View.VISIBLE);
                 holder.tvBenefitsBelow.setVisibility(View.GONE);
+                holder.ivDownArrow.setVisibility(View.GONE);
+                holder.ivUpArrow.setVisibility(View.VISIBLE);
                 //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
@@ -123,7 +127,7 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
 
     public class TermQuoteItem extends RecyclerView.ViewHolder {
         public TextView txtPlanNAme, txtCover, txtFinalPremium, txtPolicyTerm, txtAge, txtCustomise, tvBenefits, tvBenefitsBelow;
-        ImageView imgInsurerLogo;
+        ImageView imgInsurerLogo, ivUpArrow, ivDownArrow;
         LinearLayout llAddon;
         RecyclerView rvAddOn;
 
@@ -139,6 +143,8 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
             txtCover = (TextView) itemView.findViewById(R.id.txtCover);
             txtFinalPremium = (TextView) itemView.findViewById(R.id.txtFinalPremium);
             imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
+            ivUpArrow = (ImageView) itemView.findViewById(R.id.ivUpArrow);
+            ivDownArrow = (ImageView) itemView.findViewById(R.id.ivDownArrow);
             txtPolicyTerm = (TextView) itemView.findViewById(R.id.txtPolicyTerm);
         }
     }

@@ -256,11 +256,11 @@
 
 
     <LinearLayout
-        android:layout_marginTop="-1dp"
         android:id="@+id/llAddon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll"
+        android:layout_marginTop="-1dp"
         android:animateLayoutChanges="true"
         android:background="@drawable/border_term_benefit"
         android:orientation="vertical"
@@ -289,13 +289,12 @@
         android:layout_alignBottom="@+id/view4"
         android:layout_centerHorizontal="true"
         android:background="@drawable/borderthealthcheckup"
-        android:drawableBottom="@drawable/ic_vector_down"
-        android:gravity="center"
+        android:gravity="top"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
-        android:text="SEE ALL BENEFIT"
+        android:text="SEE ALL BENEFITS"
         android:textColor="@color/black"
         android:visibility="visible" />
 
@@ -314,14 +313,29 @@
         android:layout_alignBottom="@+id/view5"
         android:layout_centerHorizontal="true"
         android:background="@drawable/borderthealthcheckup"
-        android:drawableBottom="@drawable/ic_arrow_up"
         android:gravity="center"
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:paddingTop="5dp"
-        android:text="SEE ALL BENEFIT"
+        android:text="SEE ALL BENEFITS"
         android:textColor="@color/black"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/ivUpArrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignBottom="@+id/view5"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/up"
+        android:visibility="gone" />
+
+    <ImageView
+        android:id="@+id/ivDownArrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignBottom="@+id/view4"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/down" />
 </RelativeLayout>

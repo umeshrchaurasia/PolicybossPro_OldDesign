@@ -100,27 +100,15 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             }
         });
 
-        holder.rvAddOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext.getActivity(), "CLICK", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
         holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
                 holder.rvAddOn, new ClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(View view) {
                 ((QuoteFragment) mContext).
                         redirectToPopUpPremium(responseEntity, response.getSummary(),
                                 responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
 
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
         }));
 
   /*

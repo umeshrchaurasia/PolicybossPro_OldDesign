@@ -26,6 +26,7 @@ import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.utility.ClickListener;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 import com.datacomp.magicfinmart.utility.RecyclerTouchListener;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
@@ -126,7 +127,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof HeaderRow) {
 
@@ -137,18 +138,24 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((InsuranceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((InsuranceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listIns));
 
-            ((InsuranceHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
+            ((InsuranceHolder) holder).rvDashboard.addOnItemTouchListener(
+                    new RecyclerItemClickListener(((InsuranceHolder) holder).rvDashboard,
+                            new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    switchMenus(listIns.get(position).getProductId());
+                                }
+                            }));
+
+            /*((InsuranceHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
                     ((InsuranceHolder) holder).rvDashboard, new ClickListener() {
                 @Override
-                public void onClick(View view, int position) {
-                    switchMenus(listIns.get(position).getProductId());
-                }
-
-                @Override
-                public void onLongClick(View view, int position) {
+                public void onClick(View view) {
 
                 }
-            }));
+
+
+            }));*/
 
         } else if (holder instanceof LoanHolder) {
             final List<DashboardEntity> listLoan = mReal.getLoanProductList();
@@ -156,18 +163,23 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((LoanHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((LoanHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listLoan));
 
-            ((LoanHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
+            ((LoanHolder) holder).rvDashboard.addOnItemTouchListener(
+                    new RecyclerItemClickListener(((LoanHolder) holder).rvDashboard,
+                            new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    switchMenus(listLoan.get(position).getProductId());
+                                }
+                            }));
+
+        /*    ((LoanHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
                     ((LoanHolder) holder).rvDashboard, new ClickListener() {
                 @Override
-                public void onClick(View view, int position) {
+                public void onClick(View view) {
                     switchMenus(listLoan.get(position).getProductId());
                 }
 
-                @Override
-                public void onLongClick(View view, int position) {
-
-                }
-            }));
+            }));*/
 
         } else if (holder instanceof MoreServiceHolder) {
             final List<DashboardEntity> listMore = mReal.getMoreProductList();
@@ -175,18 +187,23 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore));
 
+            ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(
+                    new RecyclerItemClickListener(((MoreServiceHolder) holder).rvDashboard,
+                            new RecyclerItemClickListener.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View view, int position) {
+                                    switchMenus(listMore.get(position).getProductId());
+                                }
+                            }));
+          /*
             ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
                     ((MoreServiceHolder) holder).rvDashboard, new ClickListener() {
                 @Override
-                public void onClick(View view, int position) {
+                public void onClick(View view) {
                     switchMenus(listMore.get(position).getProductId());
                 }
 
-                @Override
-                public void onLongClick(View view, int position) {
-
-                }
-            }));
+            }));*/
         }
 
     }

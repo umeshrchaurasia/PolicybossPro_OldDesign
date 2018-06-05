@@ -1,4 +1,4 @@
-package com.datacomp.magicfinmart.term;
+package com.datacomp.magicfinmart.term.quoteapp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +11,10 @@ import android.view.MenuItem;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
+import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
+import com.datacomp.magicfinmart.term.termselection.TermActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -113,13 +117,39 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
         if (response instanceof TermQuoteApplicationResponse) {
             if (((TermQuoteApplicationResponse) response).getMasterData() != null) {
 
-                mAdapter = new TermActivityTabsPagerAdapter(getSupportFragmentManager(),
+                /*mAdapter = new TermActivityTabsPagerAdapter(getSupportFragmentManager(),
                         ((TermQuoteApplicationResponse) response));
                 viewPager.setAdapter(mAdapter);
+
+               */
+                if ((((TermQuoteApplicationResponse) response).getMasterData().getQuote().size() != 0)
+                        || ((TermQuoteApplicationResponse) response).getMasterData().getApplication().size() != 0) {
+
+                    mAdapter = new TermActivityTabsPagerAdapter(getSupportFragmentManager(),
+                            ((TermQuoteApplicationResponse) response));
+                    viewPager.setAdapter(mAdapter);
+                    mAdapter.notifyDataSetChanged();
+                } else {
+                    finish();
+                    startRespectiveActivity();
+                    //startActivity(new Intent(this, InputQuoteBottmActivity.class));
+                }
+
+
             }
 
         }
 
+    }
+
+    private void startRespectiveActivity() {
+        if (compId == 39) {
+            startActivity(new Intent(this, IciciTermActivity.class));
+        } else if (compId == 0) {
+            startActivity(new Intent(this, CompareTermActivity.class));
+        } else if (compId == 28) {
+            startActivity(new Intent(this, HdfcTermActivity.class));
+        }
     }
 
     @Override
