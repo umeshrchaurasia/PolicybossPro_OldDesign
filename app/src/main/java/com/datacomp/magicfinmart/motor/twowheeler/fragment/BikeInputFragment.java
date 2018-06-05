@@ -1175,16 +1175,17 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         else return "";
     }
 
-    public String getVarient(String varientWithCC) {
-        String[] parts = varientWithCC.split("\\(");
-        if(parts[0].equals(""))
-        {
-            String[] parts_sec= parts[1].split("\\(");
-            return "("+parts_sec[0];
+    public String getVarient(String str) {
+        int i=str.indexOf('(');
+        int k =str.indexOf('(');
+        while(k>=0){
+            k =str.indexOf('(', k+1);
+            if(k==-1)
+                k=-1;
+            else
+                i=k;
         }
-        else {
-            return parts[0];
-        }
+        return str.substring(0,i);
 
     }
 
