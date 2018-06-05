@@ -1177,7 +1177,15 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
     public String getVarient(String varientWithCC) {
         String[] parts = varientWithCC.split("\\(");
-        return parts[0];
+        if(parts[0].equals(""))
+        {
+            String[] parts_sec= parts[1].split("\\(");
+            return "("+parts_sec[0];
+        }
+        else {
+            return parts[0];
+        }
+
     }
 
     private int getMonth(String date) {
