@@ -800,6 +800,9 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 break;
 
             case R.id.btnGetHealthQuote:
+
+                Constants.hideKeyBoard(btnGetHealthQuote, getActivity());
+
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote health : get quote button for health"), Constants.HEALTH_INS), null);
                 //region validation
                 memberList.clear();

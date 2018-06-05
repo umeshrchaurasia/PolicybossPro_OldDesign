@@ -79,13 +79,14 @@
                 android:id="@+id/llApp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_vertical|center_horizontal"
                 android:orientation="horizontal"
                 android:padding="8dp"
                 android:weightSum="100">
 
                 <LinearLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="50"
                     android:orientation="vertical">
 
@@ -102,19 +103,36 @@
                     <TextView
                         android:id="@+id/txtCRN"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:textAllCaps="true"
                         android:textAppearance="@style/TextStyle.TextMedium"
                         android:textColor="@color/black" />
                 </LinearLayout>
 
-
-                <ImageView
-                    android:id="@+id/imgProgressStatus"
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="50" />
+                    android:layout_weight="50"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="App status"
+                        android:textAllCaps="true"
+                        android:textAppearance="@style/TextStyle.TextMedium"
+                        android:textColor="@color/header_light_text"
+                        android:textSize="9sp" />
+
+                    <ImageView
+                        android:layout_gravity="center"
+                        android:id="@+id/imgProgressStatus"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+
 
             </LinearLayout>
 

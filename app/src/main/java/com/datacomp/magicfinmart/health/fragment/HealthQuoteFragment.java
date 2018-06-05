@@ -106,6 +106,9 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         registerPopUp(this);
         initView(view);
         setListener();
+
+        Constants.hideKeyBoard(ivEdit, getActivity());
+
         listCompare = new ArrayList<>();
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<Integer, List<HealthQuoteEntity>>();

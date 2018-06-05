@@ -125,7 +125,9 @@ public class BaseFragment extends Fragment {
     }
 
     protected void showDialog(String msg) {
+
         dialog = ProgressDialog.show(getActivity(), "", msg, true);
+
     }
 
     public void sendSms(String mobNumber) {
@@ -285,7 +287,7 @@ public class BaseFragment extends Fragment {
     public void showAlert(String strBody) {
         try {
             android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
-            builder.setTitle("Error");
+            builder.setTitle("Finmart");
 
             builder.setMessage(strBody);
             String positiveText = "Ok";

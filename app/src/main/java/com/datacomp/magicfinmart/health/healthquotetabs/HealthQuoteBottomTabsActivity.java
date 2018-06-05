@@ -21,7 +21,11 @@ import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
 import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
 import com.datacomp.magicfinmart.home.HomeActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntity;
 
 public class HealthQuoteBottomTabsActivity extends BaseActivity {
 
@@ -60,12 +64,39 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
 
         if (getIntent().getParcelableExtra(HealthQuoteListFragment.FROM_QUOTE) != null) {
             healthQuote = getIntent().getParcelableExtra(HealthQuoteListFragment.FROM_QUOTE);
+
+            // reassign age to Member list
+            List<MemberListEntity> member = new ArrayList<>();
+            for (int i = 0; i < healthQuote.getHealthRequest().getMemberList().size(); i++) {
+                MemberListEntity entity = healthQuote.getHealthRequest().getMemberList().get(i);
+                entity.setAge(getAgeFromDate(entity.getMemberDOB()));
+                member.add(entity);
+            }
+
+            healthQuote.getHealthRequest().setMemberList(member);
+
             quoteBundle = new Bundle();
             quoteBundle.putParcelable(QUOTE_DATA, healthQuote);
             bottomNavigationView.setSelectedItemId(R.id.navigation_quote);
-        }
 
-        else{
+        } else if (getIntent().getParcelableExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT) != null) {
+            healthQuote = getIntent().getParcelableExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT);
+            // reassign age to Member list
+            List<MemberListEntity> member = new ArrayList<>();
+            for (int i = 0; i < healthQuote.getHealthRequest().getMemberList().size(); i++) {
+                MemberListEntity entity = healthQuote.getHealthRequest().getMemberList().get(i);
+                entity.setAge(getAgeFromDate(entity.getMemberDOB()));
+                member.add(entity);
+            }
+
+            healthQuote.getHealthRequest().setMemberList(member);
+
+            quoteBundle = new Bundle();
+            quoteBundle.putParcelable(INPUT_DATA, healthQuote);
+
+            bottomNavigationView.setSelectedItemId(R.id.navigation_input);
+
+        } else {
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
         }
 
@@ -167,9 +198,8 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
-      //  HealthQuoteBottomTabsActivity.this.finish();
-        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId())
-        {
+        //  HealthQuoteBottomTabsActivity.this.finish();
+        if (R.id.navigation_quote == bottomNavigationView.getSelectedItemId()) {
             bottomNavigationView.setSelectedItemId(R.id.navigation_input);
         } else {
             HealthQuoteBottomTabsActivity.this.finish();
