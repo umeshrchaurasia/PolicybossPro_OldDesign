@@ -108,7 +108,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
         });
 
 
-        holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
+        /*holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
                 holder.rvAddOn, new ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -121,7 +121,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             public void onLongClick(View view, int position) {
 
             }
-        }));
+        }));*/
 
   /*
         holder.llAddon.setOnClickListener(new View.OnClickListener() {

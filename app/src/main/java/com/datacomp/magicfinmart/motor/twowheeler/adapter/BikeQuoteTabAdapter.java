@@ -13,10 +13,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.fragment.MotorQuoteFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteTabFragment;
 
 import java.text.SimpleDateFormat;
@@ -25,7 +23,6 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 
 /**
@@ -201,10 +198,11 @@ public class BikeQuoteTabAdapter extends RecyclerView.Adapter<BikeQuoteTabAdapte
                                 || String.valueOf(row.getMotorRequestEntity().getCrn()).contains(charString.toLowerCase())) {
                             filteredList.add(row);
                         }
-
-                        if (carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
-                                || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())) {
-                            filteredList.add(row);
+                        if (carMasterEntity != null) {
+                            if (carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
+                                    || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())) {
+                                filteredList.add(row);
+                            }
                         }
                     }
 
