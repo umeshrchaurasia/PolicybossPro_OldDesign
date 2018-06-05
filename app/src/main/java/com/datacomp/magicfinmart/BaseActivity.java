@@ -63,6 +63,24 @@ public class BaseActivity extends AppCompatActivity {
     int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
     PopUpListener popUpListener;
 
+    public int getAgeFromDate(String birthdate) {
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Calendar bithDate = Calendar.getInstance();
+            bithDate.setTime(dateFormat.parse(birthdate));
+            Calendar today = Calendar.getInstance();
+            int curYear = today.get(Calendar.YEAR);
+            int dobYear = bithDate.get(Calendar.YEAR);
+
+            return curYear - dobYear;
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public static Calendar dateToCalendar(Date date) {
 
         Calendar calendar = Calendar.getInstance();
