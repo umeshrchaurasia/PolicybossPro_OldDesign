@@ -126,7 +126,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof HeaderRow) {
 
@@ -140,14 +140,11 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((InsuranceHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
                     ((InsuranceHolder) holder).rvDashboard, new ClickListener() {
                 @Override
-                public void onClick(View view, int position) {
+                public void onClick(View view) {
                     switchMenus(listIns.get(position).getProductId());
                 }
 
-                @Override
-                public void onLongClick(View view, int position) {
 
-                }
             }));
 
         } else if (holder instanceof LoanHolder) {
@@ -159,14 +156,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((LoanHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
                     ((LoanHolder) holder).rvDashboard, new ClickListener() {
                 @Override
-                public void onClick(View view, int position) {
+                public void onClick(View view) {
                     switchMenus(listLoan.get(position).getProductId());
                 }
 
-                @Override
-                public void onLongClick(View view, int position) {
-
-                }
             }));
 
         } else if (holder instanceof MoreServiceHolder) {
@@ -178,14 +171,10 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             ((MoreServiceHolder) holder).rvDashboard.addOnItemTouchListener(new RecyclerTouchListener(mContext,
                     ((MoreServiceHolder) holder).rvDashboard, new ClickListener() {
                 @Override
-                public void onClick(View view, int position) {
+                public void onClick(View view) {
                     switchMenus(listMore.get(position).getProductId());
                 }
 
-                @Override
-                public void onLongClick(View view, int position) {
-
-                }
             }));
         }
 

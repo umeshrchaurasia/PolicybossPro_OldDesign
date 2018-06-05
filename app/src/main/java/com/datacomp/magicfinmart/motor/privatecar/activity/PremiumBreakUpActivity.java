@@ -117,6 +117,13 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         new AsyncShareJson().execute();
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        QuoteFragment.isShowing = false;
+        BikeQuoteFragment.isShowing = false;
+    }
+
     private void bindData() {
         if (responseEntity != null) {
             txtIDV.setText("" + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
@@ -316,6 +323,9 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
+        QuoteFragment.isShowing = false;
+        BikeQuoteFragment.isShowing = false;
+
         switch (view.getId()) {
             case R.id.ivCross:
                 finish();
@@ -333,8 +343,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 if (Utility.checkShareStatus(this) == 1) {
                     jsonShareString = getShareData();
                     if (jsonShareString != null && responseJson != null) {
-                        QuoteFragment.isShowing = false;
-                        BikeQuoteFragment.isShowing = false;
+
 
                         if (getIntent().hasExtra("RESPONSE_BIKE")) {
                             Intent intent = new Intent(this, ShareQuoteActivity.class);
