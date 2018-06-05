@@ -116,7 +116,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
             }
         });*/
 
-        holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
+      /*  holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
                 holder.rvAddOn, new ClickListener() {
             @Override
             public void onClick(View view) {
@@ -125,7 +125,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
                         responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
 
-        }));
+        }));*/
         holder.txtBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
