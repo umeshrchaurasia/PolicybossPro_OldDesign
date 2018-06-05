@@ -20,10 +20,10 @@ public class FinmartRetroRequestBuilder {
     // production url
     //public static String URL = "http://api.magicfinmart.com";
     // Test Environment url
-    //public static String URL = "http://qa.mgfm.in";
+    public static String URL = "http://qa.mgfm.in";
 
     //UAT
-    public static String URL = "http://uat.mgfm.in";
+    //public static String URL = "http://uat.mgfm.in";
 
 
     public static final String token = "1234567890";
@@ -40,9 +40,9 @@ public class FinmartRetroRequestBuilder {
                     .create();
 
             okhttp3.OkHttpClient okHttpClient = new okhttp3.OkHttpClient.Builder()
-                    .connectTimeout(1, TimeUnit.MINUTES)
-                    .writeTimeout(1, TimeUnit.MINUTES)
-                    .readTimeout(1, TimeUnit.MINUTES)
+                    .connectTimeout(3, TimeUnit.MINUTES)
+                    .writeTimeout(3, TimeUnit.MINUTES)
+                    .readTimeout(3, TimeUnit.MINUTES)
                     .addInterceptor(interceptor)
                     .build();
 
