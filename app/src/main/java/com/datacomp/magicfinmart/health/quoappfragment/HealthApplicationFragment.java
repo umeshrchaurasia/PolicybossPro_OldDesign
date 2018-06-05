@@ -186,15 +186,16 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
     }
 
     public void redirectToQuote(HealthApplication entity) {
+
         if (entity.getHealthRequest().getPBStatus().toLowerCase().equals("a")) {
-            HealthQuote healthQuote = new HealthQuote();
+      /*      HealthQuote healthQuote = new HealthQuote();
             healthQuote.setFba_id(entity.getFba_id());
             healthQuote.setHealthRequest(entity.getHealthRequest());
             healthQuote.setCrn(entity.getCrn());
             healthQuote.setAgent_source(entity.getAgent_source());
             Intent intent = new Intent(getActivity(), HealthQuoteBottomTabsActivity.class);
             intent.putExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT, healthQuote);
-            startActivity(intent);
+            startActivity(intent);*/
         } else if (entity.getHealthRequest().getPBStatus().toLowerCase().equals("am")) {
             openPopUp(etSearch, "Message", "Payment link is already sent to customer", "OK", true);
         } else if (entity.getHealthRequest().getPBStatus().toLowerCase().equals("ps")) {

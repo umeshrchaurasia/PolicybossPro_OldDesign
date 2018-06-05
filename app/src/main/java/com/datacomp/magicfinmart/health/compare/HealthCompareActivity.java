@@ -241,8 +241,17 @@ public class HealthCompareActivity extends BaseActivity {
 
         if (listHealthQuote != null) {
             if (listHealthQuote.get(0) != null) {
-                for (int i = 0; i < listHealthQuote.get(0).getLstbenfitsFive().size(); i++) {
-                    BenefitsEntity entity = listHealthQuote.get(0).getLstbenfitsFive().get(i);
+
+                int benefitsFoundIndex = 0;
+                for (int i = 0; i < listHealthQuote.size(); i++) {
+                    if (listHealthQuote.get(i).getLstbenfitsFive().size() > 0) {
+                        benefitsFoundIndex = i;
+                        break;
+                    }
+                }
+
+                for (int i = 0; i < listHealthQuote.get(benefitsFoundIndex).getLstbenfitsFive().size(); i++) {
+                    BenefitsEntity entity = listHealthQuote.get(benefitsFoundIndex).getLstbenfitsFive().get(i);
                     if (entity.getBeneID() == 1
                             || entity.getBeneID() == 2
                             || entity.getBeneID() == 3

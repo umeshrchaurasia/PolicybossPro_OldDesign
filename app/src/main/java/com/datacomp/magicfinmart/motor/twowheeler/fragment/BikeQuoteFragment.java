@@ -218,10 +218,17 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     private void updateCrn() {
         if (bikePremiumResponse != null) {
             if (bikePremiumResponse.getSummary().getPB_CRN() != null) {
-                tvCrn.setText("CRN :" + bikePremiumResponse.getSummary().getPB_CRN());
 
-                if (!bikePremiumResponse.getSummary().getPB_CRN().equals(""))
+
+                if (!bikePremiumResponse.getSummary().getPB_CRN().equals("")) {
                     motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
+                    tvCrn.setText("CRN :" + bikePremiumResponse.getSummary().getPB_CRN());
+                } else {
+                    if (!motorRequestEntity.getCrn().equalsIgnoreCase("")) {
+                        tvCrn.setText("CRN :" + motorRequestEntity.getCrn());
+                        motorRequestEntity.setCrn(bikePremiumResponse.getSummary().getPB_CRN());
+                    }
+                }
 
                 boolean isQuoteFetch = false;
                 if (webViewLoader.getVisibility() == View.GONE) {
@@ -326,7 +333,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
 
