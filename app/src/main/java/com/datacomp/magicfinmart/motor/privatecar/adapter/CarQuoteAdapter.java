@@ -100,7 +100,15 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             }
         });
 
-        holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
+        holder.rvAddOn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((QuoteFragment) mContext).
+                        redirectToPopUpPremium(responseEntity, response.getSummary(),
+                                responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
+      /*  holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
                 holder.rvAddOn, new ClickListener() {
             @Override
             public void onClick(View view) {
@@ -109,7 +117,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
                                 responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
 
-        }));
+        }));*/
 
   /*
         holder.llAddon.setOnClickListener(new View.OnClickListener() {
