@@ -51,7 +51,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     }
 
     @Override
-    public void onBindViewHolder(BikeQuoteItem holder, int position) {
+    public void onBindViewHolder(BikeQuoteItem holder, final int position) {
 
         final ResponseEntity responseEntity = listQuotes.get(position);
 
@@ -119,16 +119,12 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
                 holder.rvAddOn, new ClickListener() {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(View view) {
                 ((BikeQuoteFragment) mContext).redirectToPopUpPremium(responseEntity,
                         response.getSummary(),
                         responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
 
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
         }));
         holder.txtBuy.setOnClickListener(new View.OnClickListener() {
             @Override
