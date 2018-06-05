@@ -168,7 +168,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             txtCoverType.setText(INDIVIDUAL);
         }
         tvCount.setTag(R.id.tvCount, 0);
-        tvCount.setText(SHARE_TEXT);
+        tvCount.setText("0 "+SHARE_TEXT);
         textCover.setText("COVER - ");
         txtCoverAmount.setText(healthQuote.getHealthRequest().getSumInsured());
         bindImages(healthQuote.getHealthRequest().getMemberList());
