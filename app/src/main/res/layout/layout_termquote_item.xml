@@ -296,7 +296,7 @@
         android:paddingTop="5dp"
         android:text="SEE ALL BENEFITS"
         android:textColor="@color/black"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <View
         android:id="@+id/view5"
@@ -320,7 +320,7 @@
         android:paddingTop="5dp"
         android:text="SEE ALL BENEFITS"
         android:textColor="@color/black"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/ivUpArrow"
@@ -329,9 +329,10 @@
         android:layout_alignBottom="@+id/view5"
         android:layout_centerHorizontal="true"
         android:src="@drawable/up"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/ivDownArrow"
         android:layout_width="15dp"
         android:layout_height="15dp"
