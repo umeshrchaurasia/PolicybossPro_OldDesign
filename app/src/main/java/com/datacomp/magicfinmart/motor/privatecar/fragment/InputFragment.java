@@ -1906,6 +1906,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
         spYear.setSelection(yearIndex);
 
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
+
         spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
     }
 
@@ -1925,6 +1929,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
         }
         spYear.setSelection(yearIndex);
+
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
 
         spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
     }

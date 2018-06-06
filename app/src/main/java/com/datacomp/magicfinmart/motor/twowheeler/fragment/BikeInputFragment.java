@@ -628,9 +628,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 Calendar calendarReg = Calendar.getInstance();
                 if (masterData.getRegistration_Date() != null) {
                     String reg = changeDateFormat(masterData.getRegistration_Date());
-                    String regDate = displayFormat.format(simpleDateFormat.parse(reg));
-                    etRegDate.setText(regDate);
-                    calendarReg.setTime(displayFormat.parse(regDate));
+                    //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
+                    etRegDate.setText(reg);
+                    calendarReg.setTime(displayFormat.parse(reg));
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
                 if (masterData.getManufacture_Year() != null) {
@@ -647,19 +647,15 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                 if (masterData.getPurchase_Date() != null) {
                     String mf = changeDateFormat(masterData.getPurchase_Date());
-                    String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
-                    etMfgDate.setText(mfDate);
+                    //String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
+                    etMfgDate.setText(mf);
                     //etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getPurchase_Date())));
                 } else {
                     String mf = changeDateFormat(masterData.getRegistration_Date());
-                    String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
-                    etMfgDate.setText(mfDate);
+                    //String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
+                    etMfgDate.setText(mf);
                     //etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getRegistration_Date())));
                 }
-
-                //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
-
-                // etMfgDate.setText(changeDateFormat(masterData.getPurchase_Date()));
 
                 etExpDate.setEnabled(true);
 
@@ -780,6 +776,33 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             }
         });
 */
+        //endregion
+
+        // region year adapter
+
+        spYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 1) {
+                    int selectedMonth = spMonth.getSelectedItemPosition();
+                    monthList.clear();
+                    monthList.addAll(getMonthList(Calendar.getInstance().get(Calendar.MONTH)));
+                    MonthAdapter.notifyDataSetChanged();
+                    spMonth.setSelection(selectedMonth);
+                } else {
+                    int selectedMonth = spMonth.getSelectedItemPosition();
+                    monthList.clear();
+                    monthList.addAll(getMonthList(12));
+                    MonthAdapter.notifyDataSetChanged();
+                    spMonth.setSelection(selectedMonth);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
         //endregion
     }
 
@@ -1741,6 +1764,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         }
         spYear.setSelection(yearIndex);
 
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
+
         spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
     }
 
@@ -1760,6 +1787,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             }
         }
         spYear.setSelection(yearIndex);
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
 
         spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
     }
