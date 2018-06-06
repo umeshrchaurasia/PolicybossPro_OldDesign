@@ -172,6 +172,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         makeModelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, makeModelList);
         acMakeModel.setAdapter(makeModelAdapter);
         acMakeModel.setThreshold(2);
+        acMakeModel.setSelection(0);
         //endregion
 
         //region Autocomplete RTO
@@ -689,7 +690,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 makeModel = makeModelAdapter.getItem(position).toString();
 
                 modelId = dbController.getBikeModelID(getModel(acMakeModel.getText().toString()));
-
+                acMakeModel.setSelection(0);
                 if (modelId != "") {
                    /* fuelList.clear();
                     fuelList.addAll(dbController.getFuelTypeByModelId(modelId));
@@ -754,6 +755,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 regplace = cityAdapter.getItem(position).toString();
                 Constants.hideKeyBoard(acRto, getActivity());
+                acRto.setSelection(0);
             }
         });
 
