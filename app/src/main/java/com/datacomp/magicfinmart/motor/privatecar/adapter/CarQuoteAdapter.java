@@ -55,7 +55,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
     public void onBindViewHolder(BikeQuoteItem holder, int position) {
 
         final ResponseEntity responseEntity = listQuotes.get(position);
-
+        holder.rvAddOn.setTag(R.id.rvAddOn, responseEntity);
         holder.txtInsurerName.setText(responseEntity.getInsurer().getInsurer_Name());
         // holder.txtIDV.setText(responseEntity);
         try {
@@ -96,38 +96,24 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
         holder.txtFinalPremium.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 ((QuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
 
-        holder.rvAddOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ((QuoteFragment) mContext).
-                        redirectToPopUpPremium(responseEntity, response.getSummary(),
-                                responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
-            }
-        });
-      /*  holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
+
+        holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
                 holder.rvAddOn, new ClickListener() {
             @Override
             public void onClick(View view) {
+                ResponseEntity responseEntity = (ResponseEntity) view.getTag(R.id.llAddonName);
                 ((QuoteFragment) mContext).
                         redirectToPopUpPremium(responseEntity, response.getSummary(),
                                 responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
 
-        }));*/
+        }));
 
-  /*
-        holder.llAddon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((QuoteFragment) mContext).
-                        redirectToPopUpPremium(responseEntity, response.getSummary(),
-                                responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
-            }
-        });*/
 
         holder.txtPremiumBreakUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +148,9 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
                 holder.rvAddOn.setHasFixedSize(true);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext.getActivity(), 2);
                 holder.rvAddOn.setLayoutManager(mLayoutManager);
-                GridAddonAdapter adapter = new GridAddonAdapter(mContext.getActivity(), responseEntity.getListAppliedAddons());
+                GridAddonAdapter adapter = new GridAddonAdapter(mContext.getActivity(),
+                        responseEntity.getListAppliedAddons()
+                        , responseEntity);
                 holder.rvAddOn.setAdapter(adapter);
             } else {
                 holder.rvAddOn.setVisibility(View.GONE);

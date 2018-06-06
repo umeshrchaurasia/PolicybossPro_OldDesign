@@ -14,6 +14,7 @@ import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.AppliedAddonsPremiumBreakup;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 
 /**
  * Created by IN-RB on 17-11-2017.
@@ -22,12 +23,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.model.AppliedAddonsPrem
 public class GridAddonAdapter extends RecyclerView.Adapter<GridAddonAdapter.AddonItem> {
 
     Activity context;
-
+    ResponseEntity mResponseEntity;
     List<AppliedAddonsPremiumBreakup> listAppliedAddon;
 
-    public GridAddonAdapter(Activity context, List<AppliedAddonsPremiumBreakup> list) {
+    public GridAddonAdapter(Activity context, List<AppliedAddonsPremiumBreakup> list, ResponseEntity responseEntity) {
         this.context = context;
         this.listAppliedAddon = list;
+        this.mResponseEntity = responseEntity;
     }
 
     @Override
@@ -41,6 +43,7 @@ public class GridAddonAdapter extends RecyclerView.Adapter<GridAddonAdapter.Addo
     public void onBindViewHolder(final AddonItem holder, final int position) {
 
         if (holder instanceof AddonItem) {
+            holder.llAddonName.setTag(R.id.llAddonName, mResponseEntity);
             holder.addonName.setText("" + listAppliedAddon.get(position).getAddonName()
                     + " ( " + "\u20B9" + String.valueOf(Math.round(listAppliedAddon.get(position).getPriceAddon()) + ")"));
 

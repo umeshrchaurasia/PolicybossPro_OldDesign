@@ -109,23 +109,19 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
                 ((BikeQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });
-       /* holder.rvAddOn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((BikeQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
-            }
-        });*/
 
-      /*  holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
+
+        holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
                 holder.rvAddOn, new ClickListener() {
             @Override
             public void onClick(View view) {
+                ResponseEntity responseEntity = (ResponseEntity) view.getTag(R.id.llAddonName);
                 ((BikeQuoteFragment) mContext).redirectToPopUpPremium(responseEntity,
                         response.getSummary(),
                         responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
 
-        }));*/
+        }));
         holder.txtBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,7 +135,9 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
                 holder.rvAddOn.setHasFixedSize(true);
                 RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mContext.getActivity(), 2);
                 holder.rvAddOn.setLayoutManager(mLayoutManager);
-                GridAddonAdapter adapter = new GridAddonAdapter(mContext.getActivity(), responseEntity.getListAppliedAddons());
+                GridAddonAdapter adapter = new GridAddonAdapter(mContext.getActivity(),
+                        responseEntity.getListAppliedAddons(),
+                        responseEntity);
                 holder.rvAddOn.setAdapter(adapter);
             } else {
                 holder.rvAddOn.setVisibility(View.GONE);
