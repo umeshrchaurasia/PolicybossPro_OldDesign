@@ -165,6 +165,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 termRequestId = termFinmartRequest.getTermRequestId();
                 bindHeaders();
                 bindQuotes();
+                bindInputFromOther(termFinmartRequest);
                 fromCompare();
             } else {
                 changeInputQuote(true);
@@ -173,7 +174,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 txtICICILumpSum.performClick();
             }
             //bindICICI();
-            if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null)
+            if (termFinmartRequest != null && termFinmartRequest.getTermRequestEntity() != null && getArguments().getParcelable(CompareTermActivity.OTHER_QUOTE_DATA) == null)
                 bindInput(termFinmartRequest);
         }
 
@@ -376,7 +377,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     spICICIPremiumFrequency.setSelection(0);
                 } else if (termRequestEntity.getFrequency().equals("Half Yearly")) {
                     spICICIPremiumFrequency.setSelection(1);
-                } else if (termRequestEntity.getFrequency().equals("yearly")) {
+                } else if (termRequestEntity.getFrequency().equals("Monthly")) {
                     spICICIPremiumFrequency.setSelection(2);
                 }
 
@@ -435,6 +436,74 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 //spICICIPremiumTerm.setOnItemSelectedListener(optionSelected);
                 //spICICIPremiumFrequency.setOnItemSelectedListener(optionSelected);
                 //spICICIOptions.setOnItemSelectedListener(optionSelected);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void bindInputFromOther(TermFinmartRequest termFinmartRequest) {
+        try {
+            TermRequestEntity termRequestEntity = termFinmartRequest.getTermRequestEntity();
+            if (termRequestEntity != null) {
+
+                isEdit = true;
+                spICICIPremiumTerm.setSelection(0);
+
+                String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
+                final List<String> optionsList = new ArrayList<>(Arrays.asList(listOption));
+                ArrayAdapter<String> spAdapterOptions = new ArrayAdapter<String>(getActivity()
+                        , android.R.layout.simple_spinner_item
+                        , optionsList);
+
+                spAdapterOptions.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spICICIOptions.setAdapter(spAdapterOptions);
+                spICICIOptions.setSelection(0);
+                spICICIPremiumFrequency.setSelection(0);
+
+                String[] splitStr = termRequestEntity.getContactName().split("\\s+");
+                etFirstName.setText("" + splitStr[0]);
+                etLastName.setText("" + splitStr[1]);
+                etMobile.setText("" + termRequestEntity.getContactMobile());
+                etDOB.setText("" + termRequestEntity.getInsuredDOB());
+                etPincode.setText("" + termRequestEntity.getPincode());
+
+                if (termRequestEntity.getIs_TabaccoUser().equals("true")) {
+                    isSmoker = true;
+                    tvYes.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvNo.setBackgroundResource(R.drawable.customeborder);
+                } else {
+                    isSmoker = false;
+                    tvNo.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvYes.setBackgroundResource(R.drawable.customeborder);
+                }
+
+                if (termRequestEntity.getInsuredGender().equals("M")) {
+                    isMale = true;
+                    tvMale.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvFemale.setBackgroundResource(R.drawable.customeborder);
+                } else {
+                    isMale = false;
+                    tvFemale.setBackgroundResource(R.drawable.customeborder_blue);
+                    tvMale.setBackgroundResource(R.drawable.customeborder);
+                }
+                incomeSelection("LUMP SUM");
+
+
+                if (termRequestEntity.getCIBenefit() != null)
+                    etICICICriticalIllness.setText("" + termRequestEntity.getCIBenefit());
+
+                if (termRequestEntity.getADHB() != null)
+                    etICICIAccidentalBenefits.setText("" + termRequestEntity.getADHB());
+
+                if (termRequestEntity.getLumpsumPercentage() != null)
+                    etICICILumpSumpPerc.setText("" + termRequestEntity.getLumpsumPercentage());
+
+                etSumAssured.setText("" + termRequestEntity.getSumAssured());
+                etICICIPolicyTerm.setText("" + termRequestEntity.getPolicyTerm());
+                etICICIPremiumTerm.setText("" + termRequestEntity.getPPT());
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -922,7 +991,6 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 }
 
             case R.id.btnGetQuote:
-
                 if (isValidInput()) {
                     setTermRequest();
                     //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
@@ -1673,6 +1741,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        changeInputQuote(true);
     }
 
     private void processResponse(TermCompareQuoteResponse termCompareQuoteResponse) {
@@ -1692,6 +1761,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     changeInputQuote(false);
                     bindQuotes();
                 } else {
+                    changeInputQuote(true);
                     Toast.makeText(getActivity(), "" + termCompareResponseEntity.getQuoteStatus(), Toast.LENGTH_SHORT).show();
                 }
             } else {

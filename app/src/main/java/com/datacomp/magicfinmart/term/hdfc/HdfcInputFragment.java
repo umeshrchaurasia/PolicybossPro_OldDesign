@@ -1580,9 +1580,9 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
             if (term != 0) {
                 term = (term) + 1;
-                if (spHdfcPremFrq.getSelectedItemPosition() == 4) {
+                /*if (spHdfcPremFrq.getSelectedItemPosition() == 4) {
                     term = 1;
-                }
+                }*/
             } else {
                 term = 10;
             }
@@ -1592,9 +1592,9 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
                 if ((term) < min) {
                     term = min;
                 }
-                if (spHdfcPremFrq.getSelectedItemPosition() == 4) {
+                /*if (spHdfcPremFrq.getSelectedItemPosition() == 4) {
                     term = 1;
-                }
+                }*/
 
             } else {
                 term = 10;
