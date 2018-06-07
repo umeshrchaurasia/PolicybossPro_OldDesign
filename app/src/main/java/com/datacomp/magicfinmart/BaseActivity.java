@@ -211,6 +211,10 @@ public class BaseActivity extends AppCompatActivity {
     protected void showDialog(String msg) {
         if (dialog == null)
             dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+        else{
+            if (!dialog.isShowing())
+                dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+        }
     }
 
     public void sendSms(String mobNumber) {

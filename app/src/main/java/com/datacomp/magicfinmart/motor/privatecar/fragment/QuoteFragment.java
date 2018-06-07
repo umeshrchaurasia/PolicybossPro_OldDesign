@@ -1,15 +1,12 @@
 package com.datacomp.magicfinmart.motor.privatecar.fragment;
 
 import android.app.Activity;
-import android.app.ActivityManager;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,13 +23,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.SortbyInsurerMotor;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.CarQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -40,6 +37,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.realm.Realm;
@@ -320,23 +318,24 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
             bikePremiumResponse = (BikePremiumResponse) response;
             //save quote to our server.
-            if (getActivity() != null) {
-                if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == 1) {
+            /*if (getActivity() != null) {
+                if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == MotorController.NO_OF_SERVER_HITS) {
                     saveQuoteToServer(bikePremiumResponse);
                 }
-            }
+            }*/
 
             rebindAdapter(bikePremiumResponse);
             updateCrn();
 
 
             if (getActivity() != null) {
-                if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
-                        || Constants.getSharedPreference(getActivity())
-                        .getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
+                if (Constants.getSharedPreference(getActivity())
+                        .getInt(Utility.QUOTE_COUNTER, 0) > MotorController.NO_OF_SERVER_HITS) {
 
+                    Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
                     webViewLoader.setVisibility(View.GONE);
                     updateCrn();
+                    saveQuoteToServer(bikePremiumResponse);
                     new AsyncAddon().execute();
 
 
@@ -920,7 +919,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 //endregion
             }
         }
-
+        Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
         rebindAdapter(bikePremiumResponse);
     }
 

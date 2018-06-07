@@ -31,6 +31,7 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
     List<TermFinmartRequest> mAppList;
     List<TermFinmartRequest> mAppListFiltered;
     SimpleDateFormat displayDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+
     public TermApplicationAdapter(Fragment context, List<TermFinmartRequest> mApplicationList) {
         this.fragment = context;
         mAppList = mApplicationList;
@@ -56,8 +57,10 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
             holder.txtTermPpt.setText(entity.getTermRequestEntity().getPolicyTerm() + "/" + entity.getTermRequestEntity().getPPT());
             holder.txtSum.setText("" + entity.getTermRequestEntity().getSumAssured());
             holder.txtStatusDate.setText("" + changeDateFormat(entity.getTermRequestEntity().getCreated_date()));
-
-            holder.txtMode.setText("" + entity.getTermRequestEntity().getFrequency());
+            if (entity.getTermRequestEntity().getFrequency().toLowerCase().equals("annual"))
+                holder.txtMode.setText("YEARLY");
+            else
+                holder.txtMode.setText("" + entity.getTermRequestEntity().getFrequency());
             if (entity.getStatusProgress() == 0)
                 holder.txtStatus.setText("LINK SENT");
             else
@@ -152,7 +155,7 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        TextView txtCreatedDate,txtCRN,txtPersonName,txtTermPpt,txtSum,txtStatusDate,txtMode,txtStatus,txtPremium;
+        TextView txtCreatedDate, txtCRN, txtPersonName, txtTermPpt, txtSum, txtStatusDate, txtMode, txtStatus, txtPremium;
         ImageView txtOverflowMenu;
 
         public ApplicationItem(View itemView) {

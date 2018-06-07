@@ -422,7 +422,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Premium Term">
+                        android:hint="Payment Term">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -447,7 +447,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Premium Term">
+                        android:hint="Premium Frequency">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -482,7 +482,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Email">
+                        android:hint="Option">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -494,6 +494,7 @@
                             android:textSize="14sp" />
 
                         <Spinner
+                            android:entries="@array/icici_options"
                             android:id="@+id/spICICIOptions"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="match_parent"
