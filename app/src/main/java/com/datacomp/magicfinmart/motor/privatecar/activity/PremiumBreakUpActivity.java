@@ -374,9 +374,13 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
                 //return gson.toJson(carMasterEntity);
                 try {
-
-                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name() + " " + summaryEntity.getRequest_Core().getLast_name());
-                    jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name() + " - " + carMasterEntity.getCubic_Capacity() + "CC");
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name());
+                    if (summaryEntity.getRequest_Core().getLast_name() != null && !summaryEntity.getRequest_Core().getLast_name().equals(""))
+                        jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name() + " " + summaryEntity.getRequest_Core().getLast_name());
+                    if (!summaryEntity.getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
+                        jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name() + " -  " + summaryEntity.getRequest_Core().getRegistration_no());
+                    else
+                        jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name() + " - " + carMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
                     jsonObject.put("NCB", summaryEntity.getRequest_Core().getVehicle_ncb_current());
@@ -393,8 +397,17 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
                 try {
 
-                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name() + " " + summaryEntity.getRequest_Core().getLast_name());
-                    jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
+                    jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name());
+                    if (summaryEntity.getRequest_Core().getLast_name() != null && !summaryEntity.getRequest_Core().getLast_name().equals(""))
+                        jsonObject.put("NAME", summaryEntity.getRequest_Core().getFirst_name() + " " + summaryEntity.getRequest_Core().getLast_name());
+
+                    if (!summaryEntity.getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
+                        jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name() + " -  " + summaryEntity.getRequest_Core().getRegistration_no());
+                    else
+                        jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
+
+
+                    // jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
                     jsonObject.put("NCB", summaryEntity.getRequest_Core().getVehicle_ncb_current());

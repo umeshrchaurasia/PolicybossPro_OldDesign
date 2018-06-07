@@ -172,6 +172,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         makeModelAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, makeModelList);
         acMakeModel.setAdapter(makeModelAdapter);
         acMakeModel.setThreshold(2);
+        acMakeModel.setSelection(0);
 
         //endregion
 
@@ -180,6 +181,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         };
         acRto.setAdapter(cityAdapter);
+
         //endregion
 
         //region spinner Fuel
@@ -721,6 +723,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 makeModel = makeModelAdapter.getItem(position).toString();
 
                 modelId = dbController.getModelID(getModel(acMakeModel.getText().toString()));
+                acMakeModel.setSelection(0);
 
                 if (modelId != "") {
                     fuelList.clear();
@@ -787,6 +790,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 regplace = cityAdapter.getItem(position).toString();
                 Constants.hideKeyBoard(acRto, getActivity());
+                acRto.setSelection(0);
             }
 
         });
@@ -1902,6 +1906,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
         spYear.setSelection(yearIndex);
 
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
+
         spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
     }
 
@@ -1921,6 +1929,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
         }
         spYear.setSelection(yearIndex);
+
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
 
         spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
     }

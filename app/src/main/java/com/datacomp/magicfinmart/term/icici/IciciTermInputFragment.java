@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -150,7 +151,8 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 termRequestId = termFinmartRequest.getTermRequestId();
                 int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
                 termFinmartRequest.setFba_id(fba_id);
-                fetchQuotes();
+                showDialog("Please Wait!!!");
+                fetchWithDelay();
             } else if (getArguments().getParcelable(IciciTermActivity.INPUT_DATA) != null) {
                 termFinmartRequest = getArguments().getParcelable(IciciTermActivity.INPUT_DATA);
                 termRequestEntity = termFinmartRequest.getTermRequestEntity();
@@ -177,6 +179,17 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
 
         return view;
+    }
+
+    private void fetchWithDelay() {
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                btnGetQuote.performClick();
+            }
+        }, 2000);
     }
 
     private void setDefaultsIcici() {
@@ -477,7 +490,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         String[] listOption = getActivity().getResources().getStringArray(R.array.icici_options);
         optionList = new ArrayList<>(Arrays.asList(listOption));
 
-        ICICIOptionsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, optionList){
+        ICICIOptionsAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, optionList) {
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -492,7 +505,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         String[] listPremiumTerm = getActivity().getResources().getStringArray(R.array.icici_payment_term);
         premiumTermList = new ArrayList<>(Arrays.asList(listPremiumTerm));
 
-        ICICIPremiumTermAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumTermList){
+        ICICIPremiumTermAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, premiumTermList) {
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -507,7 +520,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         String[] listPremiumFreq = getActivity().getResources().getStringArray(R.array.icici_premium_frequency);
         frequenctList = new ArrayList<>(Arrays.asList(listPremiumFreq));
 
-        ICICIPremiumFrequencyAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, frequenctList){
+        ICICIPremiumFrequencyAdapter = new ArrayAdapter(getActivity(), android.R.layout.simple_list_item_1, frequenctList) {
             @NonNull
             @Override
             public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -987,7 +1000,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void updateCrnToServer() {
-        if ( termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()!=null &&!termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
+        if (termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id() != null && !termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id().equals(""))
             new TermInsuranceController(getActivity()).updateCRN(termFinmartRequest.getTermRequestId(), Integer.parseInt(termFinmartRequest.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id()), this);
     }
 

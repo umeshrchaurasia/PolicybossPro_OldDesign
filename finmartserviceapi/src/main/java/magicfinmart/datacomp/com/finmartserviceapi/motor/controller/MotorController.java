@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.motor.controller;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
+import android.util.Log;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -33,7 +34,8 @@ import retrofit2.Response;
 public class MotorController implements IMotor {
 
     public static int SLEEP_DELAY = 5000; // 5 seconds delay.
-    public static int NO_OF_SERVER_HITS = 10;
+    public static int NO_OF_SERVER_HITS = 8;
+    public static int MIN_NO_OF_SERVER_HITS = 5;
     MotorQuotesRequestBuilder.MotorQuotesNetworkService motorQuotesNetworkService;
     Context mContext;
     Handler handler;
@@ -47,8 +49,8 @@ public class MotorController implements IMotor {
         dbPersistanceController = new DBPersistanceController(mContext);
         constantEntity = dbPersistanceController.getConstantsData();
         try {
-            SLEEP_DELAY = Integer.parseInt(constantEntity.getPBHitTime());
-            NO_OF_SERVER_HITS = Integer.parseInt(constantEntity.getPBNoOfHits());
+            //SLEEP_DELAY = Integer.parseInt(constantEntity.getPBHitTime());
+            //NO_OF_SERVER_HITS = Integer.parseInt(constantEntity.getPBNoOfHits());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -139,7 +141,7 @@ public class MotorController implements IMotor {
         //TODO  remove this line
         //entity.setSearch_reference_number("SRN-QNTUQYKE-N9MM-3QDH-VE3C-DGLYMOEWERPY");
 
-        if (Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0) < NO_OF_SERVER_HITS) {
+        if (Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0) <= NO_OF_SERVER_HITS) {
             Utility.getSharedPreferenceEditor(mContext).putInt(Utility.QUOTE_COUNTER,
                     Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0) + 1)
                     .commit();
@@ -167,11 +169,15 @@ public class MotorController implements IMotor {
 
                     MotorRunnable runnable = new MotorRunnable(productID);
 
-                    if (!response.body().getSummary().getStatusX().equals("complete")) {
+                   /* if (response.body().getSummary().getStatusX().equals("complete") &&
+                            Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0) > MIN_NO_OF_SERVER_HITS) {
 
+                        Utility.getSharedPreferenceEditor(mContext).remove(Utility.QUOTE_COUNTER).commit();
+                        handler.removeCallbacks(runnable);
+                    } else {
                         if (Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0) < NO_OF_SERVER_HITS) {
                             //server request for pending quotes
-
+                            Log.d("COUNTER", "" + Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0));
                             handler.postDelayed(runnable, SLEEP_DELAY);
                         } else {
                             //remove handler
@@ -179,9 +185,19 @@ public class MotorController implements IMotor {
                             //remove stored counters
                             Utility.getSharedPreferenceEditor(mContext).remove(Utility.QUOTE_COUNTER).commit();
                         }
+
+
+                    }*/
+
+                    if (Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0) <= NO_OF_SERVER_HITS) {
+                        //server request for pending quotes
+                        Log.d("COUNTER", "" + Utility.getSharedPreference(mContext).getInt(Utility.QUOTE_COUNTER, 0));
+                        handler.postDelayed(runnable, SLEEP_DELAY);
                     } else {
-                        Utility.getSharedPreferenceEditor(mContext).remove(Utility.QUOTE_COUNTER).commit();
+                        //remove handler
                         handler.removeCallbacks(runnable);
+                        //remove stored counters
+                        Utility.getSharedPreferenceEditor(mContext).remove(Utility.QUOTE_COUNTER).commit();
                     }
 
                 } else {

@@ -125,8 +125,12 @@ public class BaseFragment extends Fragment {
     }
 
     protected void showDialog(String msg) {
-
-        dialog = ProgressDialog.show(getActivity(), "", msg, true);
+        if (dialog == null)
+            dialog = ProgressDialog.show(getActivity(), "", msg, true);
+        else {
+            if (!dialog.isShowing())
+                dialog = ProgressDialog.show(getActivity(), "", msg, true);
+        }
 
     }
 

@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +28,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PremiumBreakUpActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.SortbyInsurerMotor;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.AddonPopUpAdapter;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeQuoteAdapter;
@@ -37,6 +37,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.realm.Realm;
@@ -294,9 +295,12 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             updateCrn();
 
             if (getActivity() != null) {
-                if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
+               /* if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
                         || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
-
+*/
+                    if (Constants.getSharedPreference(getActivity())
+                            .getInt(Utility.QUOTE_COUNTER, 0) > MotorController.NO_OF_SERVER_HITS){
+                    Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
                     webViewLoader.setVisibility(View.GONE);
                     updateCrn();
                     new BikeQuoteFragment.AsyncAddon().execute();
@@ -901,7 +905,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 //endregion
             }
         }
-
+        Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
         rebindAdapter(bikePremiumResponse);
     }
 
