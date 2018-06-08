@@ -1694,7 +1694,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        //motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("");
 
         if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
