@@ -1006,7 +1006,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     Constants.hideKeyBoard(etreg4, getActivity());
                     tvDontKnow.performClick();
                     btnGetQuote.setVisibility(View.VISIBLE);
-                    showDialog("Fetching Car Details...");
+                    showDialog("Fetching car details...");
                     new FastLaneController(getActivity()).getVechileDetails(regNo, this);
                 }
                 break;
@@ -1164,7 +1164,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 } else {
                     setInputParametersNewCAR();
                 }
-                showDialog("Please Wait. Fetching Quotes!!!");
+                showDialog("Please wait... fetching quotes");
                 new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
 
                 break;
@@ -1838,7 +1838,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        //motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("");
 
         if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");

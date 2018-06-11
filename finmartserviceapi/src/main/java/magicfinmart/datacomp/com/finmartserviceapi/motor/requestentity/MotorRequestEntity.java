@@ -194,8 +194,8 @@ public class MotorRequestEntity implements Parcelable {
         this.pa_paid_driver_si = "";
         this.vehicle_expected_idv = 0;
         this.first_name = "";
-        this.middle_name = "";
-        this.last_name = "";
+        this.middle_name = " ";
+        this.last_name = " ";
         this.mobile = "";
         this.email = "";
         this.crn = "";

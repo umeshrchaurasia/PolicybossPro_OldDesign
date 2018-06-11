@@ -969,7 +969,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     Constants.hideKeyBoard(etreg4, getActivity());
                     tvDontKnow.performClick();
                     btnGetQuote.setVisibility(View.VISIBLE);
-                    showDialog("Fetching Details...");
+                    showDialog("Fetching details...");
                     new FastLaneController(getActivity()).getVechileDetails(regNo, this);
                 }
                 break;
@@ -1118,7 +1118,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 } else {
                     setInputParametersNewCAR();
                 }
-                showDialog("Please Wait. Fetching Quotes!!!");
+                showDialog("Please Wait... fetching quotes");
                 new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
 
                 break;
@@ -1334,16 +1334,16 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
     public String getVarient(String str) {
-        int i=str.indexOf('(');
-        int k =str.indexOf('(');
-        while(k>=0){
-            k =str.indexOf('(', k+1);
-            if(k==-1)
-                k=-1;
+        int i = str.indexOf('(');
+        int k = str.indexOf('(');
+        while (k >= 0) {
+            k = str.indexOf('(', k + 1);
+            if (k == -1)
+                k = -1;
             else
-                i=k;
+                i = k;
         }
-        return str.substring(0,i);
+        return str.substring(0, i);
 
     }
 
@@ -1584,7 +1584,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        //motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("");
 
 
         motorRequestEntity.setExternal_bifuel_type("");
@@ -1671,7 +1671,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        //motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("");
 
 
         /*if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {

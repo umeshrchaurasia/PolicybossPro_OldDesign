@@ -168,7 +168,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             txtCoverType.setText(INDIVIDUAL);
         }
         tvCount.setTag(R.id.tvCount, 0);
-        tvCount.setText("0 "+SHARE_TEXT);
+        tvCount.setText("0 " + SHARE_TEXT);
         textCover.setText("COVER - ");
         txtCoverAmount.setText(healthQuote.getHealthRequest().getSumInsured());
         bindImages(healthQuote.getHealthRequest().getMemberList());
@@ -239,9 +239,14 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             case (REQUEST_MEMBER): {
                 if (data != null) {
-                    healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
+                    if ((HealthQuote)data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE) != null){
+                        healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
                     // commented by rahul
                     redirectToBuy(buyHealthQuoteEntity);
+                    }
+                    else if(data.getParcelableArrayListExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_DOB )!=null){
+                        healthQuote.getHealthRequest().setMemberList(data.<MemberListEntity>getParcelableArrayListExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_DOB));
+                    }
                 }
             }
             break;
@@ -282,7 +287,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     public void fetchQuotes() {
         //visibleLoader();
-        showDialog("Wait.. Fetching quotes");
+        showDialog("Please wait.. fetching quotes");
         new HealthController(getActivity()).getHealthQuoteExp(healthQuote, this);
     }
 
@@ -644,4 +649,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         }
     }
+
+
 }

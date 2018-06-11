@@ -36,14 +36,14 @@
                     <ImageView
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_weight="10"
+                        android:layout_weight="20"
                         android:scaleType="centerInside"
                         android:src="@mipmap/car_icon" />
 
                     <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="80"
+                        android:layout_weight="60"
                         android:orientation="vertical">
 
                         <TextView
@@ -82,7 +82,7 @@
                         android:id="@+id/ivEdit"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_weight="10"
+                        android:layout_weight="20"
                         android:scaleType="centerInside"
                         android:src="@drawable/edit_icon" />
                 </LinearLayout>
@@ -199,8 +199,8 @@
                     android:layout_weight="35"
                     android:text="WITH ADD-ON"
                     android:textAllCaps="true"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
 
                 <!--<LinearLayout
                     android:layout_width="match_parent"
@@ -260,12 +260,12 @@
                 android:scaleType="fitCenter" />
 
             <android.support.v7.widget.RecyclerView
-                android:layout_marginBottom="8dp"
                 android:id="@+id/bikeQuoteRecycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@+id/filter"
-                android:layout_below="@+id/webViewLoader">
+                android:layout_below="@+id/webViewLoader"
+                android:layout_marginBottom="8dp">
 
             </android.support.v7.widget.RecyclerView>
         </LinearLayout>

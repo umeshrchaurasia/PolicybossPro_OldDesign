@@ -73,6 +73,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         Glide.with(mContext).load(entity.getInsurerLogoName())
                 .into(holder.imgInsurer);
 
+        holder.llCount.setTag(R.id.llCount, entity);
         holder.txtNoOfInsurer.setTag(R.id.txtNoOfInsurer, entity);
         holder.chkCompare.setTag(R.id.chkCompare, entity);
 
@@ -99,16 +100,19 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             holder.txtNoOfInsurer.setText(" + \n" + String.valueOf(entity.getTotalChilds() + " More"));
             holder.imgDropDown.setVisibility(View.VISIBLE);
             holder.txtNoOfInsurer.setOnClickListener(this);
+            holder.llCount.setOnClickListener(this);
         } else if (!entity.getIsMore() && entity.getTotalChilds() == 0) {
             holder.llCount.setVisibility(View.GONE);
             holder.txtNoOfInsurer.setText("");
             holder.imgDropDown.setVisibility(View.GONE);
             holder.txtNoOfInsurer.setOnClickListener(null);
+            holder.llCount.setOnClickListener(null);
         } else {
             holder.llCount.setVisibility(View.VISIBLE);
             holder.txtNoOfInsurer.setText(HIDE_OPTIONS);
             holder.imgDropDown.setVisibility(View.VISIBLE);
             holder.txtNoOfInsurer.setOnClickListener(this);
+            holder.llCount.setOnClickListener(this);
         }
 
         if (entity.getLstbenfitsFive() != null) {
@@ -207,6 +211,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
+            case R.id.llCount:
             case R.id.txtNoOfInsurer:
 
                 if (((TextView) view).getText() != HIDE_OPTIONS) {

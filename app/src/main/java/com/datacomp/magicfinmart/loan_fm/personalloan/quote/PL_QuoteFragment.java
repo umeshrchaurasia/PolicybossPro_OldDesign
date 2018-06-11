@@ -142,7 +142,7 @@ public class PL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void removeQuotePL(FmPersonalLoanRequest entity) {
 
         removeQuoteEntity = entity;
-        showDialog("Please wait,Removing quote..");
+        showDialog("Please wait.. removing quote..");
         new MainLoanController(getContext()).getdelete_personalrequest("" + entity.getLoan_requestID(), this);
 
     }

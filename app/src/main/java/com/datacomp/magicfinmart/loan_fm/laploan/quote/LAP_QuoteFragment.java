@@ -40,7 +40,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteP
  * Created by IN-RB on 22-01-2018.
  */
 
-public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickListener,IResponseSubcriberFM {
+public class LAP_QuoteFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriberFM {
     public static final String FROM_QUOTE = "hl_from_quote";
     FloatingActionButton lapAddQuote;
 
@@ -48,7 +48,7 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
     LapLoan_QuoteAdapter lapLoan_QuoteAdapter;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     List<FmHomeLoanRequest> mQuoteList;
-    FmHomeLoanRequest  removeQuoteEntity;
+    FmHomeLoanRequest removeQuoteEntity;
 
     ImageView ivSearch, ivAdd;
     TextView tvAdd, tvSearch;
@@ -59,6 +59,7 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
     public LAP_QuoteFragment() {
 
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,13 +69,12 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
         setListener();
         setTextWatcher();
         mQuoteList = new ArrayList<>();
-        if(getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_LAP.QUOTE_LIST) != null)
-        {
+        if (getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_LAP.QUOTE_LIST) != null) {
             mQuoteList = getArguments().getParcelableArrayList(ActivityTabsPagerAdapter_LAP.QUOTE_LIST);
 
         }
 
-        lapLoan_QuoteAdapter = new LapLoan_QuoteAdapter(LAP_QuoteFragment.this,mQuoteList);
+        lapLoan_QuoteAdapter = new LapLoan_QuoteAdapter(LAP_QuoteFragment.this, mQuoteList);
         rvlapQuoteList.setAdapter(lapLoan_QuoteAdapter);
 
         rvlapQuoteList.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -133,9 +133,9 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
         tvSearch.setOnClickListener(this);
     }
 
-    public void redirectQuoteLAP(FmHomeLoanRequest request){
-        Intent intent=new Intent(getActivity(), LAPMainActivity.class);
-        intent.putExtra( FROM_QUOTE,request);
+    public void redirectQuoteLAP(FmHomeLoanRequest request) {
+        Intent intent = new Intent(getActivity(), LAPMainActivity.class);
+        intent.putExtra(FROM_QUOTE, request);
         startActivity(intent);
 
     }
@@ -143,10 +143,11 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
     public void removeQuoteLAP(FmHomeLoanRequest entity) {
 
         removeQuoteEntity = entity;
-        showDialog("Please wait,Removing quote..");
-          new MainLoanController(getContext()).getdelete_loanrequest("" + entity.getLoan_requestID(),this);
+        showDialog("Please wait.. removing quote..");
+        new MainLoanController(getContext()).getdelete_loanrequest("" + entity.getLoan_requestID(), this);
 
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -172,8 +173,8 @@ public class LAP_QuoteFragment  extends BaseFragment implements View.OnClickList
                 break;
         }
     }
-    public void callnumber(String mobNumber)
-    {
+
+    public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
     }
 
