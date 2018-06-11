@@ -193,7 +193,10 @@ public class BikeAddQuoteActivity extends BaseActivity {
                             loadFragment(quoteFragment, BIKE_QUOTE_FRAGMENT);
                         } else {
 
-                            Toast.makeText(BikeAddQuoteActivity.this, "Please fill all inputs", Toast.LENGTH_SHORT).show();
+                            BikeInputFragment fragment = (BikeInputFragment) getSupportFragmentManager().findFragmentByTag(BIKE_INPUT_FRAGMENT);
+                            if (fragment != null)
+                                fragment.getQuote();
+                            // Toast.makeText(InputQuoteBottmActivity.this, "Tap get Quotes ", Toast.LENGTH_SHORT).show();
                             return false;
                         }
                     }
@@ -225,7 +228,7 @@ public class BikeAddQuoteActivity extends BaseActivity {
                 finish();
             }
         } else {
-            Toast.makeText(BikeAddQuoteActivity.this, "Please wait.. Fetching all quotes", Toast.LENGTH_SHORT).show();
+            Toast.makeText(BikeAddQuoteActivity.this, "Please Wait fetching Quotes!!!", Toast.LENGTH_SHORT).show();
         }
 
 
@@ -294,7 +297,7 @@ public class BikeAddQuoteActivity extends BaseActivity {
                     finish();
                     return true;
                 } else {
-                    Toast.makeText(BikeAddQuoteActivity.this, "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BikeAddQuoteActivity.this, "Please Wait fetching Quotes!!!", Toast.LENGTH_SHORT).show();
                     return false;
                 }
 

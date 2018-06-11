@@ -1134,6 +1134,139 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         }
     }
 
+    public  void getQuote(){
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("TW Get quote : get quote button for TW "), Constants.TWO_WHEELER), null);
+        //region validations
+        if (makeModel == null || makeModel.equals("")) {
+            acMakeModel.requestFocus();
+            acMakeModel.setError("Enter Make,Model");
+            return;
+        }
+        if (!isEmpty(etRegDate)) {
+            etRegDate.requestFocus();
+            etRegDate.setError("Enter Reg Date");
+            return;
+        }
+        if (!isEmpty(etMfgDate)) {
+            etMfgDate.requestFocus();
+            etMfgDate.setError("Enter Mfg Date");
+            return;
+        }
+        if (regplace == null || regplace.equals("")) {
+            acRto.requestFocus();
+            acRto.setError("Enter Rto");
+            return;
+        }
+        if (switchNewRenew.isChecked()) {
+            if (!isEmpty(etExpDate)) {
+                etExpDate.requestFocus();
+                etExpDate.setError("Enter Expiry Date");
+                return;
+            }
+            if (spPrevIns.getSelectedItemPosition() == 0) {
+                spPrevIns.requestFocus();
+                Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+        if (etCustomerName.getText().toString().equals("")) {
+            etCustomerName.requestFocus();
+            etCustomerName.setError("Enter Name");
+            return;
+        } else {
+            String[] fullName = etCustomerName.getText().toString().split(" ");
+            if (fullName.length == 1) {
+                if (fullName[0].length() < 2) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("First Name should be greater than 1 character");
+                    return;
+                }
+            } else if (fullName.length == 2) {
+                if (fullName[0].length() < 2) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("First Name should be greater than 1 character");
+                    return;
+                }
+                if (fullName[1].length() < 2) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("Last Name should be greater than 1 character");
+                    return;
+                }
+            } else if (fullName.length == 3) {
+                if (fullName[0].length() < 2) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("First Name should be greater than 1 character");
+                    return;
+                }
+                if (fullName[2].length() < 2) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("Last Name should be greater than 1 character");
+                    return;
+                }
+            }
+
+        }
+                /*if (!isValidePhoneNumber(etMobile)) {
+                    etMobile.requestFocus();
+                    etMobile.setError("Enter Mobile");
+                    return;
+                }*/
+
+
+        if (spFuel.getSelectedItemPosition() == 0) {
+            Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
+            spFuel.requestFocus();
+            return;
+        }
+
+        if (spVarient.getSelectedItemPosition() == 0) {
+            Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
+            spVarient.requestFocus();
+            return;
+        }
+
+        if (dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()),
+                getModel(acMakeModel.getText().toString()),
+                getMake(acMakeModel.getText().toString())) == "") {
+            acMakeModel.requestFocus();
+            acMakeModel.setError("Enter Make,Model");
+            return;
+        }
+
+        if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
+            acRto.requestFocus();
+            acRto.setError("Enter Rto");
+            return;
+        }
+
+
+                /*if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)
+                        || spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
+                    if (etExtValue.getText().toString().equals("")) {
+                        etExtValue.requestFocus();
+                        etExtValue.setError("Enter Amount");
+                        return;
+                    } else {
+                        int extval = Integer.parseInt(etExtValue.getText().toString());
+                        if (extval < 10000 || extval > 50000) {
+                            etExtValue.requestFocus();
+                            etExtValue.setError("Enter Amount between 10000 & 60000");
+                            return;
+                        }
+                    }
+                }*/
+
+        //endregion
+
+        //TODO uncomment this
+        if (switchNewRenew.isChecked()) {  //renew
+            setInputParametersReNewCar();
+        } else {
+            setInputParametersNewCAR();
+        }
+        showDialog("Please Wait fetching Quotes!!!");
+        new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
+    }
     @Override
     public void getVehicleNumber(View view, String vehicleNo) {
         switch (view.getId()) {
