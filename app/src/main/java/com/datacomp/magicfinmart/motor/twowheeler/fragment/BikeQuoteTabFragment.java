@@ -158,7 +158,7 @@ public class BikeQuoteTabFragment extends BaseFragment implements View.OnClickLi
     public void removeQuote(QuoteListEntity entity) {
 
         removeQuoteEntity = entity;
-        showDialog("Please wait,Removing quote..");
+        showDialog("Please wait.. removing quote");
         new QuoteApplicationController(getContext()).deleteQuote("" + entity.getVehicleRequestID(),
                 this);
 

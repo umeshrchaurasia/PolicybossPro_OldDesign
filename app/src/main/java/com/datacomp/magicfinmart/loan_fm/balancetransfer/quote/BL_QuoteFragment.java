@@ -147,7 +147,7 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void removeQuoteBL(FmBalanceLoanRequest entity) {
 
         removeQuoteEntity = entity;
-        showDialog("Please wait,Removing quote..");
+        showDialog("Please wait.. removing quote");
         new MainLoanController(getContext()).getdelete_balancerequest("" + entity.getBalanceTransferId(), this);
 
     }

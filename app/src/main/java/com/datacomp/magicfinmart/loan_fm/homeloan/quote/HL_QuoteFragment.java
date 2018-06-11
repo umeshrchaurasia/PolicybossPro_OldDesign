@@ -140,7 +140,7 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void removeQuoteHL(FmHomeLoanRequest entity) {
 
         removeQuoteEntity = entity;
-        showDialog("Please wait,Removing quote..");
+        showDialog("Please wait.. removing quote..");
         new MainLoanController(getContext()).getdelete_loanrequest("" + entity.getLoan_requestID(), this);
 
     }

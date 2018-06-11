@@ -65,8 +65,8 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/get-mps-data")
         Call<MpsResponse> getMpsData(@Body HashMap<String, String> body);
 
-       /* @Headers("token:1234567890")
-        @POST("/api/generate-otp")
-        Call<FastLaneDataResponse> getFastLaneData(@Body HashMap<String, String> body);*/
+        @Headers("token:1234567890")
+        @POST("/api/validated-cupon-code")
+        Call<MpsResponse> applyPromoCode(@Body HashMap<String, String> body);
     }
 }

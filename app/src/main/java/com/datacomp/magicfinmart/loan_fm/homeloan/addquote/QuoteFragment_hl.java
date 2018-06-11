@@ -85,7 +85,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             fmHomeLoanRequest = getArguments().getParcelable(HLMainActivity.HL_QUOTE_REQUEST);
             homeLoanRequest = fmHomeLoanRequest.getHomeLoanRequest();
 
-            showDialog("Wait..,Fetching quote");
+            showDialog("Please wait.. fetching quote");
             new HomeLoanController(getActivity()).getHomeLoan(homeLoanRequest, this);
         }
 
@@ -309,7 +309,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             }
         } else if (response instanceof BankForNodeResponse) {
             if (response.getStatusNo() == 0) {
-              //  ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+                //  ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
 
                 redirectToApplyLoan();
 

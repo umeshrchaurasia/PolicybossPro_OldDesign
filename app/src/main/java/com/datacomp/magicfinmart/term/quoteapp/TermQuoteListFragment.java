@@ -199,23 +199,22 @@ public class TermQuoteListFragment extends BaseFragment implements View.OnClickL
     public void removeQuote(TermFinmartRequest entity) {
 
         removeQuoteEntity = entity;
-        showDialog("Please wait,Removing quote..");
+        showDialog("Please wait.. removing quote");
         new TermInsuranceController(getActivity()).deleteTermQuote("" + entity.getTermRequestId(),
                 this);
     }
 
     public void fetchMoreQuotes(int count) {
         //showDialog("Fetching.., Please wait.!");
-        if (compId == 39){
+        if (compId == 39) {
             new TermInsuranceController(getActivity()).getTermQuoteApplicationList(39, count, "1", this);
-        }else  if(compId == 28){
+        } else if (compId == 28) {
             new TermInsuranceController(getActivity()).getTermQuoteApplicationList(28, count, "1", this);
-        }else  if(compId == 0){
+        } else if (compId == 0) {
             new TermInsuranceController(getActivity()).getTermQuoteApplicationList(0, count, "1", this);
-        }else  if(compId == 1){
+        } else if (compId == 1) {
             new TermInsuranceController(getActivity()).getTermQuoteApplicationList(1, count, "1", this);
-        }
-        else  if(compId == 43){
+        } else if (compId == 43) {
             new TermInsuranceController(getActivity()).getTermQuoteApplicationList(43, count, "1", this);
         }
 

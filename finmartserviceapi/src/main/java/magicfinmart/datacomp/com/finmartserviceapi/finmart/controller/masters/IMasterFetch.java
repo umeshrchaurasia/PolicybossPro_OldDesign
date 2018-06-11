@@ -25,4 +25,6 @@ public interface IMasterFetch {
 
     public void getMpsData(IResponseSubcriber iResponseSubcriber);
 
+    public void applyMPSPromoCode(String promoCode, IResponseSubcriber iResponseSubcriber);
+
 }

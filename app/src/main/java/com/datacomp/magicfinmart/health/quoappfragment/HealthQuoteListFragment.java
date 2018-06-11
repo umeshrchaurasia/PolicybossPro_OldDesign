@@ -96,15 +96,15 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
                 }
             }
         });
-         return view;
+        return view;
     }
 
     private void fetchMoreQuotes(int size) {
 
-          //  showDialog("Fetching.., Please wait.!");
-            new HealthController(getActivity()).getHealthQuoteApplicationList(size,1,
-                    String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()),
-                    this);
+        //  showDialog("Fetching.., Please wait.!");
+        new HealthController(getActivity()).getHealthQuoteApplicationList(size, 1,
+                String.valueOf(new DBPersistanceController(getActivity()).getUserData().getFBAId()),
+                this);
 
     }
 
@@ -164,7 +164,7 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
     public void removeQuote(HealthQuote entity) {
 
         removeQuoteEntity = entity;
-        showDialog("Please wait,Removing quote..");
+        showDialog("Please wait.. removing quote");
         new HealthController(getContext()).deleteQuote("" + entity.getHealthRequestId(),
                 this);
 
@@ -201,10 +201,10 @@ public class HealthQuoteListFragment extends BaseFragment implements View.OnClic
                 mQuoteList.remove(removeQuoteEntity);
 
             }
-        }else if (response instanceof HealthQuoteAppResponse) {
+        } else if (response instanceof HealthQuoteAppResponse) {
             if (((HealthQuoteAppResponse) response).getMasterData() != null) {
 
-                List<HealthQuote> list =((HealthQuoteAppResponse) response).getMasterData().getQuote();
+                List<HealthQuote> list = ((HealthQuoteAppResponse) response).getMasterData().getQuote();
                 if (list.size() > 0) {
                     isHit = false;
 

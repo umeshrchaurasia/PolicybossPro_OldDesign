@@ -89,7 +89,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
             String json = gson.toJson(blLoanRequest);
             int i = json.length();
-            showDialog("Wait..,Fetching quote");
+            showDialog("Please wait.. fetching quote");
             new PersonalLoanController(getActivity()).getBLQuote(blLoanRequest, this);
         }
         return view;
@@ -188,7 +188,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                     txtAppName.setText("" + blLoanRequest.getApplicantName().toUpperCase());
                     txtLoanAmnt.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
 
-                  //  txtLoanTenure.setText("" + Double.toString(blLoanRequest.getLoanterm()) + " Years");
+                    //  txtLoanTenure.setText("" + Double.toString(blLoanRequest.getLoanterm()) + " Years");
                     txtLoanTenure.setText("" + getDigitPrecision(blLoanRequest.getLoanterm()) + " Years");
 
                     if (Integer.toString(blLoanRequest.getProduct_id()).matches("5")) {
@@ -226,8 +226,8 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     private void bindQuotes_NoData() {
 
 
-            txtInputSummry.setVisibility(View.VISIBLE);
-            cvInputSummary.setVisibility(View.VISIBLE);
+        txtInputSummry.setVisibility(View.VISIBLE);
+        cvInputSummary.setVisibility(View.VISIBLE);
 //            llgraph.setVisibility(View.VISIBLE);
 //            llshare.setVisibility(View.VISIBLE);
 //            mAdapter = new BLQuoteAdapter(this, getblDispalyResponse.getData().getBank_data(), getblDispalyResponse, blLoanRequest.getLoanamount());
@@ -243,21 +243,21 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 //                txtCount.setVisibility(View.GONE);
 //            }
 
-            if (blLoanRequest != null) {
-                try {
-                    txtAppName.setText("" + blLoanRequest.getApplicantName().toUpperCase());
-                    txtLoanAmnt.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
-                    txtLoanTenure.setText("" + getDigitPrecision(blLoanRequest.getLoanterm()) + " Years");
+        if (blLoanRequest != null) {
+            try {
+                txtAppName.setText("" + blLoanRequest.getApplicantName().toUpperCase());
+                txtLoanAmnt.setText("" + BigDecimal.valueOf(Math.ceil(blLoanRequest.getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
+                txtLoanTenure.setText("" + getDigitPrecision(blLoanRequest.getLoanterm()) + " Years");
 
-                    if (Integer.toString(blLoanRequest.getProduct_id()).matches("5")) {
-                        txtType.setText("HOME LOAN");
-                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("14")) {
-                        txtType.setText("PERSONAL LOAN");
-                    } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("2")) {
-                        txtType.setText("LAP");
-                    }
+                if (Integer.toString(blLoanRequest.getProduct_id()).matches("5")) {
+                    txtType.setText("HOME LOAN");
+                } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("14")) {
+                    txtType.setText("PERSONAL LOAN");
+                } else if (Integer.toString(blLoanRequest.getProduct_id()).matches("2")) {
+                    txtType.setText("LAP");
+                }
 
-                    txtcurrRate.setText("" + blLoanRequest.getLoaninterest());
+                txtcurrRate.setText("" + blLoanRequest.getLoaninterest());
 
 //                    if (savingBlList != null) {
 //
@@ -273,10 +273,10 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 //
 //                    }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
 
 
     }
@@ -340,7 +340,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
             }
         } else if (response instanceof BankForNodeResponse) {
             if (response.getStatusNo() == 0) {
-             //   ((BLMainActivity) getActivity()).redirectInput(fmBalanceLoanRequest);
+                //   ((BLMainActivity) getActivity()).redirectInput(fmBalanceLoanRequest);
                 redirectToApplyLoanBT(fmBalanceLoanRequest);
 
             }
@@ -410,7 +410,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     }
 
     private String getDigitPrecision(double value) {
-      //  return Double.parseDouble(new DecimalFormat("##").format(value));
+        //  return Double.parseDouble(new DecimalFormat("##").format(value));
         return new DecimalFormat("##").format(value);
     }
 }
