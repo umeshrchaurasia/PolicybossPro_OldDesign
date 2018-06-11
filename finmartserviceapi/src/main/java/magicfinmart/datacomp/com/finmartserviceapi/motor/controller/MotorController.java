@@ -33,7 +33,7 @@ import retrofit2.Response;
 
 public class MotorController implements IMotor {
 
-    public static int SLEEP_DELAY = 5000; // 5 seconds delay.
+    public static int SLEEP_DELAY = 3000; // 5 seconds delay.
     public static int NO_OF_SERVER_HITS = 8;
     public static int MIN_NO_OF_SERVER_HITS = 5;
     MotorQuotesRequestBuilder.MotorQuotesNetworkService motorQuotesNetworkService;

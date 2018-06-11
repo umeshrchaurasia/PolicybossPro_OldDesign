@@ -1451,7 +1451,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        //motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("");
 
 
         motorRequestEntity.setExternal_bifuel_type("");
@@ -1538,7 +1538,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        //motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("");
 
 
         /*if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {

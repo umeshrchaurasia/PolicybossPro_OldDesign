@@ -176,9 +176,13 @@ ul li {margin:2px; padding:4px !important;}
 
       var response= JSON.parse(bikeReponse);
       var otherDetails =JSON.parse(userReponse);
-
-      document.getElementById('name').innerHTML = response.Summary.Request_Core.first_name + " " + response.Summary.Request_Core.last_name;
-
+       if(response.Summary.Request_Core.last_name!=null && response.Summary.Request_Core.last_name != ""){
+        document.getElementById('name').innerHTML = response.Summary.Request_Core.first_name + " " + response.Summary.Request_Core.last_name;
+        }
+        else
+        {
+        document.getElementById('name').innerHTML = response.Summary.Request_Core.first_name;
+        }
       document.getElementById('regNo').innerHTML = otherDetails.CAR_NAME;
       document.getElementById('expDate').innerHTML = response.Summary.Request_Core.policy_expiry_date;
 

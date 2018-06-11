@@ -1463,12 +1463,24 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         @Override
                         public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                             if (view1.isShown()) {
-                                Calendar calendar = Calendar.getInstance();
+                                /*Calendar calendar = Calendar.getInstance();
                                 calendar.set(year, monthOfYear, dayOfMonth);
                                 String currentDay = displayFormat.format(calendar.getTime());
                                 etRegDate.setText(currentDay);
                                 etMfgDate.setText(currentDay);
+                                setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));*/
+
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.set(year, monthOfYear, dayOfMonth);
+                                String currentDay = displayFormat.format(calendar.getTime());
+                                etRegDate.setText(currentDay);
+
+                                calendar.set(year, monthOfYear, 01);
+                                String currentDay1 = displayFormat.format(calendar.getTime());
+                                etMfgDate.setText(currentDay1);
                                 setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
+
+                                etRegDate.setTag(R.id.etRegDate, calendar);
                             }
                         }
                     });
@@ -1596,7 +1608,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        //motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("");
 
         if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
@@ -1682,7 +1694,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setLast_name("");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
-        //motorRequestEntity.setCrn(0);
+        motorRequestEntity.setCrn("");
 
         if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
