@@ -1006,7 +1006,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     Constants.hideKeyBoard(etreg4, getActivity());
                     tvDontKnow.performClick();
                     btnGetQuote.setVisibility(View.VISIBLE);
-                    showDialog("Fetching Car Details...");
+                    showDialog("Fetching car details...");
                     new FastLaneController(getActivity()).getVechileDetails(regNo, this);
                 }
                 break;
@@ -1164,7 +1164,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 } else {
                     setInputParametersNewCAR();
                 }
-                showDialog("Please Wait. Fetching Quotes!!!");
+                showDialog("Please wait... fetching quotes");
                 new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
 
                 break;
@@ -1321,16 +1321,16 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     public String getVarient(String str) {
-        int i=str.indexOf('(');
-        int k =str.indexOf('(');
-        while(k>=0){
-            k =str.indexOf('(', k+1);
-            if(k==-1)
-                k=-1;
+        int i = str.indexOf('(');
+        int k = str.indexOf('(');
+        while (k >= 0) {
+            k = str.indexOf('(', k + 1);
+            if (k == -1)
+                k = -1;
             else
-                i=k;
+                i = k;
         }
-        return str.substring(0,i);
+        return str.substring(0, i);
     }
 
     private int getMonth(String date) {

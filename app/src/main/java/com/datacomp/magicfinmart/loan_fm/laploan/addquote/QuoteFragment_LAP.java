@@ -44,7 +44,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResp
  * Created by IN-RB on 30-01-2018.
  */
 
-public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM,BaseFragment.PopUpListener  {
+public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, BaseFragment.PopUpListener {
 
     private static String INPUT_FRAGMENT = "input";
 
@@ -67,6 +67,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
     BuyLoanQuerystring buyLoanQuerystring;
     int QuoteID = 0;
     ImageView ivShare;
+
     public QuoteFragment_LAP() {
         // Required empty public constructor
     }
@@ -84,7 +85,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         if (getArguments() != null) {
             fmHomeLoanRequest = getArguments().getParcelable(LAPMainActivity.HL_QUOTE_REQUEST);
             homeLoanRequest = fmHomeLoanRequest.getHomeLoanRequest();
-            showDialog("Wait..,Fetching quote");
+            showDialog("Please wait.. fetching quote");
             new HomeLoanController(getActivity()).getHomeLoan(homeLoanRequest, this);
         }
 
@@ -97,7 +98,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
     }
 
     private void initialise_widget(View view) {
-        ivShare = (ImageView)view.findViewById(R.id.ivShare);
+        ivShare = (ImageView) view.findViewById(R.id.ivShare);
         ivShare.setOnClickListener(this);
         txtInputSummary = (TextView) view.findViewById(R.id.txtInputSummary);
         txtPropertyType = (TextView) view.findViewById(R.id.txtPropertyType);
@@ -154,9 +155,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
 
                     txtMonthlyIncome.setText("" + homeLoanRequest.getApplicantIncome());
                     txtExistEmi.setText("" + homeLoanRequest.getApplicantObligations());
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -207,6 +206,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
 
 
     }
+
     private String getProperty(String id) {
         String strProp = "";
         if (id.equals("1")) {
@@ -249,8 +249,8 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
 //                loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
 //            }
             ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
-        }else if(v.getId() == R.id.ivShare){
-            if(getQuoteResponse!=null){
+        } else if (v.getId() == R.id.ivShare) {
+            if (getQuoteResponse != null) {
                 Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "LAP_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getQuoteResponse);
@@ -276,7 +276,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
     private void setFmBankRequest(QuoteEntity entity) {
 
 
-        try{
+        try {
             bankSaveRequest = new BankSaveRequest();
             bankSaveRequest.setLoan_requestID(fmHomeLoanRequest.getLoan_requestID());
             bankSaveRequest.setBank_id((entity.getBank_Id()));
@@ -286,17 +286,15 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
             buyLoanQuerystring.setType("LAP");
             buyLoanQuerystring.setBankId(entity.getBank_Id());
 
-            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf( entity.getLoan_eligible()));
-            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf( entity.getProcessingfee()));
+            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf(entity.getLoan_eligible()));
+            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
             buyLoanQuerystring.setQuote_id(QuoteID);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());
             buyLoanQuerystring.setMobileNo(fmHomeLoanRequest.getHomeLoanRequest().getContact());
             buyLoanQuerystring.setCity(fmHomeLoanRequest.getHomeLoanRequest().getCity());
 
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
 
@@ -312,10 +310,9 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
                 ((LAPMainActivity) getActivity()).updateRequest(fmHomeLoanRequest, true);
 
             }
-        }else if(response instanceof BankForNodeResponse)
-        {
+        } else if (response instanceof BankForNodeResponse) {
             if (response.getStatusNo() == 0) {
-               // ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
+                // ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
 
                 redirectToApplyLoan();
             }

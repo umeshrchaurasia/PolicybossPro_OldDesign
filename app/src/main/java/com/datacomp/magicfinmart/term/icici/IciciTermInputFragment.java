@@ -151,7 +151,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 termRequestId = termFinmartRequest.getTermRequestId();
                 int fba_id = new DBPersistanceController(getActivity()).getUserData().getFBAId();
                 termFinmartRequest.setFba_id(fba_id);
-                showDialog("Please Wait!!!");
+                showDialog("Please Wait..");
                 fetchWithDelay();
             } else if (getArguments().getParcelable(IciciTermActivity.INPUT_DATA) != null) {
                 termFinmartRequest = getArguments().getParcelable(IciciTermActivity.INPUT_DATA);
@@ -1063,7 +1063,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
     }
 
     private void fetchQuotes() {
-        showDialog("Please Wait!!!");
+        showDialog("Please Wait..");
         new TermInsuranceController(getActivity()).getTermInsurer(termFinmartRequest, this);
     }
 
