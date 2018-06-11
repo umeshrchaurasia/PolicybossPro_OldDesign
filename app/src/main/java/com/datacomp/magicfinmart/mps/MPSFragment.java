@@ -15,23 +15,29 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MpsDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 
 public class MPSFragment extends BaseFragment implements IResponseSubcriber {
     Button btnPayNow, btnApplyPromo;
     CheckBox chkAgree;
     TextView txtTermsCondition, txtSubscriptionAmount, txtGSTAmount, txtTotalAmount, txtPromoCode;
     LinearLayout llPromo;
+    EditText etPromoCode;
 
     public MPSFragment() {
     }
@@ -95,6 +101,15 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
         @Override
         public void onClick(View v) {
 
+            if (etPromoCode.getText().toString().equalsIgnoreCase("")) {
+                etPromoCode.setError("Enter Promo Code");
+                etPromoCode.setFocusable(true);
+                return;
+            } else {
+                showDialog("Verifying Promo Code");
+                new MasterController(getActivity()).
+                        applyMPSPromoCode(etPromoCode.getText().toString(), MPSFragment.this);
+            }
         }
     };
 
@@ -137,6 +152,7 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
         txtSubscriptionAmount = (TextView) view.findViewById(R.id.txtSubscriptionAmount);
         txtGSTAmount = (TextView) view.findViewById(R.id.txtGSTAmount);
         txtTotalAmount = (TextView) view.findViewById(R.id.txtTotalAmount);
+        etPromoCode = (EditText) view.findViewById(R.id.etPromoCode);
         chkAgree = (CheckBox) view.findViewById(R.id.chkAgree);
         btnPayNow = (Button) view.findViewById(R.id.btnPayNow);
         btnApplyPromo = (Button) view.findViewById(R.id.btnApplyPromo);
@@ -144,12 +160,23 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        Constants.hideKeyBoard(btnApplyPromo, getActivity());
+        if (response instanceof MpsResponse) {
+            if (response.getStatusNo() == 0) {
+                new PrefManager(getActivity()).removeMps();
+                new PrefManager(getActivity()).setMPS(((MpsResponse) response).getMasterData());
+                bindData(((MpsResponse) response).getMasterData());
+            }
+            Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
 
-        bindData(null);
+        }
     }
 
     @Override
     public void OnFailure(Throwable t) {
-
+        cancelDialog();
+        Constants.hideKeyBoard(btnApplyPromo, getActivity());
+        Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

@@ -311,6 +311,44 @@ public class MasterController implements IMasterFetch {
     }
 
     @Override
+    public void applyMPSPromoCode(String promoCode, final IResponseSubcriber iResponseSubcriber) {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("PromoCode", "" + promoCode);
+
+        masterNetworkService.applyPromoCode(body).enqueue(new Callback<MpsResponse>() {
+            @Override
+            public void onResponse(Call<MpsResponse> call, Response<MpsResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        //new AsyncConstants(mContext, response.body().getMasterData()).execute();
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MpsResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
     public void getMpsData(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
         body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
