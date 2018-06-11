@@ -130,15 +130,15 @@ public class HealthMemberDetailsViewAdapter extends RecyclerView.Adapter<HealthM
         holder.rbFemale.setTag(R.id.llMarried, entity);
         holder.swUnMarried.setTag(R.id.swUnMarried, entity);
         holder.txtMarried.setTextColor(mContext.getResources().getColor(R.color.colorAccent));
-        if(entity.getMemberDOB() != null)
+        if(entity.getMemberDOBTemp() != null)
         {
             holder.etDOB.setText(entity.getMemberDOB().toString());
-            entity.setMemberDOBTemp(entity.getMemberDOB().toString());
+           // entity.setMemberDOBTemp(entity.getMemberDOB().toString());
 
         }else {
             holder.etDOB.setText("");
         }
-        //entity.setMemberDOB(currentDay);
+
 
         holder.spHealthRelation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
