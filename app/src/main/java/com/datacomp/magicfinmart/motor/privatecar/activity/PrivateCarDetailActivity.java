@@ -84,7 +84,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
 
     private void fetchQuoteApplication() {
 
-        showDialog("Fetching.., Please wait.!");
+        showDialog(getResources().getString(R.string.fetching_msg));
         new QuoteApplicationController(this).getQuoteAppList(0, 0, "", "",
                 new DBPersistanceController(this).getUserData().getFBAId(),
                 1,

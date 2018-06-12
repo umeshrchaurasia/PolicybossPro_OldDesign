@@ -1006,6 +1006,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden"></activity>
         <activity
             android:name=".onlineexpressloan.KotakpersonalloanActivity"
+            android:label="@string/title_activity_kotak_term"
             android:parentActivityName=".onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity"
             android:screenOrientation="portrait" />
         <activity

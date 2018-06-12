@@ -2,6 +2,7 @@ package com.datacomp.magicfinmart.motor.twowheeler.fragment;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
@@ -13,6 +14,8 @@ import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +34,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
 import com.datacomp.magicfinmart.location.LocationTracker;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
@@ -112,6 +116,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     Spinner spMonth, spYear;
     ArrayAdapter<String> MonthAdapter, YearAdapter;
     ArrayList<String> yearList, monthList;
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -1118,7 +1128,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 } else {
                     setInputParametersNewCAR();
                 }
-                showDialog("Please Wait... fetching quotes");
+                showDialog(getResources().getString(R.string.fetching_msg));
                 new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
 
                 break;
@@ -1633,6 +1643,14 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             case android.R.id.home:
                 getActivity().finish();
                 return true;
+
+            case R.id.action_home:
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+                getActivity().finish();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -1862,4 +1880,13 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         }
         return monthList;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        // TODO Add your menu entries here
+        inflater.inflate(R.menu.home_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
 }
