@@ -78,9 +78,11 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
             @Override
             public void onClick(View v) {
                 holder.llAddon.setVisibility(View.VISIBLE);
+
                 holder.tvBenefits.setVisibility(View.GONE);
-                holder.ivDownArrow.setVisibility(View.VISIBLE);
-                holder.ivUpArrow.setVisibility(View.GONE);
+                holder.ivDownArrow.setVisibility(View.GONE);
+
+                holder.ivUpArrow.setVisibility(View.VISIBLE);
                 holder.tvBenefitsBelow.setVisibility(View.VISIBLE);
                 //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
@@ -89,10 +91,12 @@ public class TermQuoteAdapter extends RecyclerView.Adapter<TermQuoteAdapter.Term
             @Override
             public void onClick(View v) {
                 holder.llAddon.setVisibility(View.GONE);
+
                 holder.tvBenefits.setVisibility(View.VISIBLE);
+                holder.ivDownArrow.setVisibility(View.VISIBLE);
+
+                holder.ivUpArrow.setVisibility(View.GONE);
                 holder.tvBenefitsBelow.setVisibility(View.GONE);
-                holder.ivDownArrow.setVisibility(View.GONE);
-                holder.ivUpArrow.setVisibility(View.VISIBLE);
                 //((TermQuoteFragment) mContext).redirectToPopUpPremium(responseEntity, response.getSummary(), responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
         });

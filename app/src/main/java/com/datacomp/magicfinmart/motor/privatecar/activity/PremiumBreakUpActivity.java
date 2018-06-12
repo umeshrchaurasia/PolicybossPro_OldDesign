@@ -24,7 +24,7 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapterEntity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAddonAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAddonEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.PremiumBreakUpAddonEntity;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteFragment;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -641,7 +641,13 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
 
     public double applyPositiveAddons(List<MobileAddOn> addOnList) {
 
-        ResponseEntity entity = responseEntity;
+        ResponseEntity entity = null;
+        try {
+            entity = (ResponseEntity) responseEntity.clone();
+        } catch (CloneNotSupportedException e) {
+            entity = responseEntity;
+            e.printStackTrace();
+        }
 
         double addonValue = 0;
         entity.setAddonApplied(false);
@@ -1015,6 +1021,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         bindData();
         return addonValue;
     }
+
+
 }
 
 

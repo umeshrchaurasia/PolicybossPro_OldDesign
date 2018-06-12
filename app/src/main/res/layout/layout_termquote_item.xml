@@ -296,7 +296,16 @@
         android:paddingTop="5dp"
         android:text="SEE ALL BENEFITS"
         android:textColor="@color/black"
-        android:visibility="gone" />
+        />
+
+    <ImageView
+        android:visibility="visible"
+        android:id="@+id/ivDownArrow"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignBottom="@+id/view4"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/down" />
 
     <View
         android:id="@+id/view5"
@@ -307,7 +316,7 @@
 
     <TextView
         android:id="@+id/tvBenefitsBelow"
-        style="@style/TextViewStyle.Small"
+        style="@style/TextViewStyle.VerySmall"
         android:layout_width="wrap_content"
         android:layout_height="36dp"
         android:layout_alignBottom="@+id/view5"
@@ -320,7 +329,7 @@
         android:paddingTop="5dp"
         android:text="SEE ALL BENEFITS"
         android:textColor="@color/black"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/ivUpArrow"
@@ -329,14 +338,7 @@
         android:layout_alignBottom="@+id/view5"
         android:layout_centerHorizontal="true"
         android:src="@drawable/up"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
-    <ImageView
-        android:visibility="gone"
-        android:id="@+id/ivDownArrow"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_alignBottom="@+id/view4"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/down" />
+
 </RelativeLayout>
