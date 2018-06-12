@@ -133,9 +133,16 @@ public class AppliedCreditListActivity extends BaseActivity implements View.OnCl
         cancelDialog();
         if (response instanceof AppliedCreditCardResponse) {
             if (response.getStatusNo() == 0) {
-                mCreditCardEntityList = ((AppliedCreditCardResponse) response).getMasterData();
-                mAdapter = new AppliedCreditCardsAdapter(this, mCreditCardEntityList);
-                rvAppliedCreditCards.setAdapter(mAdapter);
+
+                if(((AppliedCreditCardResponse) response).getMasterData().size() >0) {
+                    mCreditCardEntityList = ((AppliedCreditCardResponse) response).getMasterData();
+                    mAdapter = new AppliedCreditCardsAdapter(this, mCreditCardEntityList);
+                    rvAppliedCreditCards.setAdapter(mAdapter);
+                }else{
+                    finish();
+                    startActivity(new Intent(this, CreditCardActivity.class));
+
+                }
             }
         }
     }

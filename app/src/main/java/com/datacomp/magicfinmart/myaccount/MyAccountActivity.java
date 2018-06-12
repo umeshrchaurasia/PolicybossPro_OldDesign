@@ -408,7 +408,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         if ((etSubHeading.getText().toString().trim().length() > 0) || (etMobileNo.getText().toString().trim().length() > 0) ||
                 (etEmailId.getText().toString().trim().length() > 0)) {
 
-            registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString());
+            registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString().toUpperCase());
             registerRequestEntity.setMobile_1("" + etMobileNo.getText().toString());
             registerRequestEntity.setEmailId("" + etEmailId.getText().toString());
             registerRequestEntity.setType("1");
@@ -423,7 +423,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         if ((etSubHeading_posp.getText().toString().trim().length() > 0) || (etMobileNo_posp.getText().toString().trim().length() > 0) ||
                 (etEmailId_posp.getText().toString().trim().length() > 0)) {
 
-            registerRequestEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString());
+            registerRequestEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString().toUpperCase());
             registerRequestEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
             registerRequestEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
             registerRequestEntity.setType("4");
@@ -474,11 +474,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private void saveMain() {
         registerRequestEntity.setType("0");
-        registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString());
+        registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString().toUpperCase());
         registerRequestEntity.setMobile_1("" + etMobileNo.getText().toString());
         registerRequestEntity.setEmailId("" + etEmailId.getText().toString());
 
-        registerRequestEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString());
+        registerRequestEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString().toUpperCase());
         registerRequestEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
         registerRequestEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
 
@@ -860,7 +860,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             setCurrentAcc();
         }
 
-        etSubHeading_posp.setText("" + accountDtlEntity.getDisplayDesignation());
+        etSubHeading_posp.setText("" + accountDtlEntity.getDisplayDesignation().toString().toUpperCase());
         etMobileNo_posp.setText("" + accountDtlEntity.getDisplayPhoneNo());
         etEmailId_posp.setText("" + accountDtlEntity.getDisplayEmail());
 
@@ -883,11 +883,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     private void saveAcctDtlToDB(int type) {
         if (accountDtlEntity != null) {
             if (type == 1) {
-                accountDtlEntity.setDesignation("" + etSubHeading.getText().toString());
+                accountDtlEntity.setDesignation("" + etSubHeading.getText().toString().toString().toUpperCase());
                 accountDtlEntity.setEditMobiNumb("" + etMobileNo.getText().toString());
                 accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString());
             } else if (type == 4) {
-                accountDtlEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString());
+                accountDtlEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString().toUpperCase());
                 accountDtlEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
                 accountDtlEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
             } else if (type == 0) {
@@ -895,7 +895,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 accountDtlEntity.setEditMobiNumb("" + etMobileNo.getText().toString());
                 accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString());
 
-                accountDtlEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString());
+                accountDtlEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString().toString());
                 accountDtlEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
                 accountDtlEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
             }

@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -181,7 +182,8 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
 
     public class QuoteItem extends RecyclerView.ViewHolder {
 
-        public TextView txtPersonName,  txtOverflowMenu,  txtloanamount , txtQuoteDate,tvQuoteDate,tvloanamount,txttype,tvtype;
+        public TextView txtPersonName,    txtloanamount , txtQuoteDate,tvQuoteDate,tvloanamount,txttype,tvtype;
+        public ImageView txtOverflowMenu;
 
 
         public QuoteItem(View itemView) {
@@ -189,7 +191,7 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
             txtQuoteDate = (TextView) itemView.findViewById(R.id.txtQuoteDate);
             txtloanamount = (TextView) itemView.findViewById(R.id.txtloanamount);
             txtPersonName = (TextView) itemView.findViewById(R.id.txtPersonName);
-            txtOverflowMenu = (TextView) itemView.findViewById(R.id.txtOverflowMenu);
+            txtOverflowMenu = (ImageView) itemView.findViewById(R.id.txtOverflowMenu);
 
             tvloanamount = (TextView) itemView.findViewById(R.id.tvloanamount);
             tvQuoteDate = (TextView) itemView.findViewById(R.id.tvQuoteDate);

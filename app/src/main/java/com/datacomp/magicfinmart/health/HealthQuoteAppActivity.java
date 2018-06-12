@@ -72,7 +72,7 @@ public class HealthQuoteAppActivity extends BaseActivity implements IResponseSub
     }
 
     private void fetchHealthQuoteApplication() {
-        showDialog("Fetching.., Please wait.!");
+        showDialog(getResources().getString(R.string.fetching_msg));
         new HealthController(this).getHealthQuoteApplicationList(0, 0,
                 String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()),
                 this);
