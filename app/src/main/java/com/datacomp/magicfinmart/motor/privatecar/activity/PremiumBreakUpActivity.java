@@ -24,7 +24,6 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapter;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAdapterEntity;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.PremiumBreakUpAddonAdapter;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.model.PremiumBreakUpAddonEntity;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteFragment;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -50,6 +49,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.model.AppliedAddonsPrem
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.LiabilityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.MobileAddOn;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.OwnDamageEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.motor.model.PremiumBreakUpAddonEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.SummaryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
@@ -107,14 +107,18 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         damageList = getDamageList();
         liabilityList = getLiabilityList();
         //addonList = getAddonList();
-        addonListNew = getAddonListNew();
+        if (responseEntity != null && responseEntity.getPremiumBreakUpAddonEntities() != null && responseEntity.getPremiumBreakUpAddonEntities().size() > 0)
+            addonListNew = responseEntity.getPremiumBreakUpAddonEntities();
+        else
+            addonListNew = getAddonListNew();
+
         initRecyclers();
         setListeners();
-        if (listMobileAddOn != null)
-            addOnTotal = applyPositiveAddons(listMobileAddOn);
+        /*if (listMobileAddOn != null)
+            addOnTotal = applyPositiveAddons(listMobileAddOn);*/
 
-        bindData();
-        new AsyncShareJson().execute();
+        bindData(responseEntity);
+        /*new AsyncShareJson().execute();*/
     }
 
     @Override
@@ -124,7 +128,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         BikeQuoteFragment.isShowing = false;
     }
 
-    private void bindData() {
+    private void bindData(ResponseEntity responseEntity) {
         if (responseEntity != null) {
             txtIDV.setText("" + responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             // txtPlanName.setText("" + responseEntity.getInsurer().getInsurer_Code());
@@ -137,13 +141,13 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 //tvGst.setText(getRupeesRound(responseEntity.getTotalGST()));
             } else {
 
-                tvTotalPremium.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getPremium_Breakup().getFinal_premium()))));
+                tvTotalPremium.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getPremium_Breakup().getNet_premium()))));
                 tvGst.setText("\u20B9 " + String.valueOf(getDigitPrecision(Double.parseDouble(responseEntity.getPremium_Breakup().getService_tax()))));
-                tvNetPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
+                tvNetPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
 
                 //tvTotalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
                 //tvGst.setText(getRupeesRound(responseEntity.getPremium_Breakup().getService_tax()));
-                txtFinalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getNet_premium()));
+                txtFinalPremium.setText(getRupeesRound(responseEntity.getPremium_Breakup().getFinal_premium()));
             }
             tvAddonTotal.setText("" + getRound("" + addOnTotal));
         }
@@ -340,7 +344,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.ivShare:
-                if (Utility.checkShareStatus(this) == 1) {
+                /*if (Utility.checkShareStatus(this) == 1) {
                     jsonShareString = getShareData();
                     if (jsonShareString != null && responseJson != null) {
 
@@ -361,7 +365,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     }
                 } else {
                     openPopUp(ivShare, "Message", "Your POSP status is INACTIVE", "OK", true);
-                }
+                }*/
+                new AsyncShareJson().execute();
                 break;
 
         }
@@ -380,11 +385,12 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     if (!summaryEntity.getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
                         jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name() + " -  " + summaryEntity.getRequest_Core().getRegistration_no());
                     else
-                        jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name() + " - " + carMasterEntity.getCubic_Capacity() + "CC");
+                        jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name() );
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
                     jsonObject.put("NCB", summaryEntity.getRequest_Core().getVehicle_ncb_current());
                     jsonObject.put("CLAIM", summaryEntity.getRequest_Core().getIs_claim_exists());
+                    jsonObject.put("VECHILE_CC",  carMasterEntity.getCubic_Capacity() + "CC");
 
                     return jsonObject.toString();
                 } catch (Exception e) {
@@ -404,7 +410,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     if (!summaryEntity.getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
                         jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name() + " -  " + summaryEntity.getRequest_Core().getRegistration_no());
                     else
-                        jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
+                        jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() );
 
 
                     // jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
@@ -412,7 +418,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
                     jsonObject.put("NCB", summaryEntity.getRequest_Core().getVehicle_ncb_current());
                     jsonObject.put("CLAIM", summaryEntity.getRequest_Core().getIs_claim_exists());
-
+                    jsonObject.put("VECHILE_CC",  bikeMasterEntity.getCubic_Capacity() + "CC");
                     return jsonObject.toString();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -530,6 +536,29 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         @Override
         protected void onPostExecute(String s) {
             responseJson = s;
+
+            if (Utility.checkShareStatus(PremiumBreakUpActivity.this) == 1) {
+                jsonShareString = getShareData();
+                if (jsonShareString != null && responseJson != null) {
+
+
+                    if (getIntent().hasExtra("RESPONSE_BIKE")) {
+                        Intent intent = new Intent(PremiumBreakUpActivity.this, ShareQuoteActivity.class);
+                        intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BIKE_SINGLE_QUOTE");
+                        intent.putExtra("RESPONSE", responseJson);
+                        intent.putExtra("OTHER", jsonShareString);
+                        startActivity(intent);
+                    } else if (getIntent().hasExtra("RESPONSE_CAR")) {
+                        Intent intent = new Intent(PremiumBreakUpActivity.this, ShareQuoteActivity.class);
+                        intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_SINGLE_QUOTE");
+                        intent.putExtra("RESPONSE", responseJson);
+                        intent.putExtra("OTHER", jsonShareString);
+                        startActivity(intent);
+                    }
+                }
+            } else {
+                openPopUp(ivShare, "Message", "Your POSP status is INACTIVE", "OK", true);
+            }
         }
 
     }
@@ -640,7 +669,6 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
     }
 
     public double applyPositiveAddons(List<MobileAddOn> addOnList) {
-
         ResponseEntity entity = null;
         try {
             entity = (ResponseEntity) responseEntity.clone();
@@ -1011,18 +1039,21 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
             entity.setTotalAddonAplied("" + addonValue);
             double finalPremWithGST = finalPremWithoutGST + (finalPremWithoutGST * Constants.GST);
             entity.setFinal_premium_with_addon("" + finalPremWithGST);
-            entity.setListAppliedAddons(listAppliedAddonPremium);
-
-
+            //entity.setListAppliedAddons(listAppliedAddonPremium);
+            entity.setPremiumBreakUpAddonEntities(addonListNew);
+            responseEntity = entity;
             //endregion
         }
 
         addOnTotal = addonValue;
-        bindData();
+        bindData(entity);
         return addonValue;
     }
 
 
+    public void updateAddonList(List<PremiumBreakUpAddonEntity> premiumBreakupEntities) {
+        this.addonListNew = premiumBreakupEntities;
+    }
 }
 
 

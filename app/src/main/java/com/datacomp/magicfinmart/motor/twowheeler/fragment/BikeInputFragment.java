@@ -1144,78 +1144,79 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         }
     }
 
-    public  void getQuote(){
-        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("TW Get quote : get quote button for TW "), Constants.TWO_WHEELER), null);
-        //region validations
-        if (makeModel == null || makeModel.equals("")) {
-            acMakeModel.requestFocus();
-            acMakeModel.setError("Enter Make,Model");
-            return;
-        }
-        if (!isEmpty(etRegDate)) {
-            etRegDate.requestFocus();
-            etRegDate.setError("Enter Reg Date");
-            return;
-        }
-        if (!isEmpty(etMfgDate)) {
-            etMfgDate.requestFocus();
-            etMfgDate.setError("Enter Mfg Date");
-            return;
-        }
-        if (regplace == null || regplace.equals("")) {
-            acRto.requestFocus();
-            acRto.setError("Enter Rto");
-            return;
-        }
-        if (switchNewRenew.isChecked()) {
-            if (!isEmpty(etExpDate)) {
-                etExpDate.requestFocus();
-                etExpDate.setError("Enter Expiry Date");
+    public void getQuote() {
+        if (cvInput.getVisibility() == View.VISIBLE) {
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("TW Get quote : get quote button for TW "), Constants.TWO_WHEELER), null);
+            //region validations
+            if (makeModel == null || makeModel.equals("")) {
+                acMakeModel.requestFocus();
+                acMakeModel.setError("Enter Make,Model");
                 return;
             }
-            if (spPrevIns.getSelectedItemPosition() == 0) {
-                spPrevIns.requestFocus();
-                Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
+            if (!isEmpty(etRegDate)) {
+                etRegDate.requestFocus();
+                etRegDate.setError("Enter Reg Date");
                 return;
             }
-        }
-        if (etCustomerName.getText().toString().equals("")) {
-            etCustomerName.requestFocus();
-            etCustomerName.setError("Enter Name");
-            return;
-        } else {
-            String[] fullName = etCustomerName.getText().toString().split(" ");
-            if (fullName.length == 1) {
-                if (fullName[0].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("First Name should be greater than 1 character");
+            if (!isEmpty(etMfgDate)) {
+                etMfgDate.requestFocus();
+                etMfgDate.setError("Enter Mfg Date");
+                return;
+            }
+            if (regplace == null || regplace.equals("")) {
+                acRto.requestFocus();
+                acRto.setError("Enter Rto");
+                return;
+            }
+            if (switchNewRenew.isChecked()) {
+                if (!isEmpty(etExpDate)) {
+                    etExpDate.requestFocus();
+                    etExpDate.setError("Enter Expiry Date");
                     return;
                 }
-            } else if (fullName.length == 2) {
-                if (fullName[0].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("First Name should be greater than 1 character");
-                    return;
-                }
-                if (fullName[1].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("Last Name should be greater than 1 character");
-                    return;
-                }
-            } else if (fullName.length == 3) {
-                if (fullName[0].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("First Name should be greater than 1 character");
-                    return;
-                }
-                if (fullName[2].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("Last Name should be greater than 1 character");
+                if (spPrevIns.getSelectedItemPosition() == 0) {
+                    spPrevIns.requestFocus();
+                    Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
                     return;
                 }
             }
+            if (etCustomerName.getText().toString().equals("")) {
+                etCustomerName.requestFocus();
+                etCustomerName.setError("Enter Name");
+                return;
+            } else {
+                String[] fullName = etCustomerName.getText().toString().split(" ");
+                if (fullName.length == 1) {
+                    if (fullName[0].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("First Name should be greater than 1 character");
+                        return;
+                    }
+                } else if (fullName.length == 2) {
+                    if (fullName[0].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("First Name should be greater than 1 character");
+                        return;
+                    }
+                    if (fullName[1].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("Last Name should be greater than 1 character");
+                        return;
+                    }
+                } else if (fullName.length == 3) {
+                    if (fullName[0].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("First Name should be greater than 1 character");
+                        return;
+                    }
+                    if (fullName[2].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("Last Name should be greater than 1 character");
+                        return;
+                    }
+                }
 
-        }
+            }
                 /*if (!isValidePhoneNumber(etMobile)) {
                     etMobile.requestFocus();
                     etMobile.setError("Enter Mobile");
@@ -1223,31 +1224,31 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 }*/
 
 
-        if (spFuel.getSelectedItemPosition() == 0) {
-            Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
-            spFuel.requestFocus();
-            return;
-        }
+            if (spFuel.getSelectedItemPosition() == 0) {
+                Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
+                spFuel.requestFocus();
+                return;
+            }
 
-        if (spVarient.getSelectedItemPosition() == 0) {
-            Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
-            spVarient.requestFocus();
-            return;
-        }
+            if (spVarient.getSelectedItemPosition() == 0) {
+                Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
+                spVarient.requestFocus();
+                return;
+            }
 
-        if (dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()),
-                getModel(acMakeModel.getText().toString()),
-                getMake(acMakeModel.getText().toString())) == "") {
-            acMakeModel.requestFocus();
-            acMakeModel.setError("Enter Make,Model");
-            return;
-        }
+            if (dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()),
+                    getModel(acMakeModel.getText().toString()),
+                    getMake(acMakeModel.getText().toString())) == "") {
+                acMakeModel.requestFocus();
+                acMakeModel.setError("Enter Make,Model");
+                return;
+            }
 
-        if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
-            acRto.requestFocus();
-            acRto.setError("Enter Rto");
-            return;
-        }
+            if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
+                acRto.requestFocus();
+                acRto.setError("Enter Rto");
+                return;
+            }
 
 
                 /*if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)
@@ -1266,17 +1267,19 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     }
                 }*/
 
-        //endregion
+            //endregion
 
-        //TODO uncomment this
-        if (switchNewRenew.isChecked()) {  //renew
-            setInputParametersReNewCar();
-        } else {
-            setInputParametersNewCAR();
+            //TODO uncomment this
+            if (switchNewRenew.isChecked()) {  //renew
+                setInputParametersReNewCar();
+            } else {
+                setInputParametersNewCAR();
+            }
+            showDialog("Please Wait fetching Quotes!!!");
+            new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
         }
-        showDialog("Please Wait fetching Quotes!!!");
-        new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
     }
+
     @Override
     public void getVehicleNumber(View view, String vehicleNo) {
         switch (view.getId()) {
@@ -1590,8 +1593,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setPa_paid_driver_si("0");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
-        motorRequestEntity.setMiddle_name("");
-        motorRequestEntity.setLast_name("");
+        motorRequestEntity.setMiddle_name(" ");
+        motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn("");
@@ -1677,8 +1680,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setPa_paid_driver_si("0");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
-        motorRequestEntity.setMiddle_name("");
-        motorRequestEntity.setLast_name("");
+        motorRequestEntity.setMiddle_name(" ");
+        motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn("");
@@ -1903,6 +1906,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
     public void setYearMonthAdapter(Calendar calendar) {
+
+        yearList.clear();
+        yearList.addAll(getYearList(calendar.get(Calendar.YEAR)));
+        YearAdapter.notifyDataSetChanged();
 
         int yearIndex = 0;
         for (int i = 0; i < yearList.size(); i++) {

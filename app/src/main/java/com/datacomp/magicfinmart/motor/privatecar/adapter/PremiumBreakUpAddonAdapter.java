@@ -77,10 +77,12 @@ public class PremiumBreakUpAddonAdapter extends RecyclerView.Adapter<PremiumBrea
                         if (premiumBreakUpAdapterEntity.getName().toLowerCase()
                                 .equals(listMobileAddOn.get(i).getAddonName().toLowerCase())) {
                             listMobileAddOn.get(i).setSelected(true);
+                            premiumBreakupEntities.get(position).setSelected(true);
                         }
                     }
 
                     //mobileAddOn.setSelected(true);
+                    ((PremiumBreakUpActivity) context).updateAddonList(premiumBreakupEntities);
                     ((PremiumBreakUpActivity) context).applyPositiveAddons(listMobileAddOn);
                     ((PremiumBreakUpActivity) context).updateAddonToserver(listMobileAddOn);
                 } else {
@@ -88,9 +90,11 @@ public class PremiumBreakUpAddonAdapter extends RecyclerView.Adapter<PremiumBrea
                         if (premiumBreakUpAdapterEntity.getName().toLowerCase()
                                 .equals(listMobileAddOn.get(i).getAddonName().toLowerCase())) {
                             listMobileAddOn.get(i).setSelected(false);
+                            premiumBreakupEntities.get(position).setSelected(false);
                         }
                     }
                     //mobileAddOn.setSelected(false);
+                    ((PremiumBreakUpActivity) context).updateAddonList(premiumBreakupEntities);
                     ((PremiumBreakUpActivity) context).applyPositiveAddons(listMobileAddOn);
                     ((PremiumBreakUpActivity) context).updateAddonToserver(listMobileAddOn);
 

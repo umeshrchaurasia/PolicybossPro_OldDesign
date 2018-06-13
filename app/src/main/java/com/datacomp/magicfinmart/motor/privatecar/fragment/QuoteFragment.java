@@ -928,6 +928,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         for (int i = 0; i < mobileAddOnAll.size(); i++) {
             mobileAddOnAll.get(i).setSelected(true);
         }
+        for (int j = 0; j < bikePremiumResponse.getResponse().size(); j++) {
+            bikePremiumResponse.getResponse().get(j).setPremiumBreakUpAddonEntities(null);
+        }
         applyPositiveAddons(mobileAddOnAll);
         updateAddonToserver(mobileAddOnAll);
     }
@@ -1277,7 +1280,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                                 responseEntity.setFinal_premium_with_addon(entity.getFinal_premium_with_addon());
                                 responseEntity.setFinal_premium_without_addon(entity.getFinal_premium_without_addon());
                                 responseEntity.setTotalGST(entity.getTotalGST());
+                                responseEntity.setPremiumBreakUpAddonEntities(entity.getPremiumBreakUpAddonEntities());
                                 bikePremiumResponse.getResponse().set(i, responseEntity);
+                                break;
                             }
                         }
 
