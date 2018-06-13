@@ -1190,7 +1190,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
     }
 
-    public   void getQuote() {
+    public void getQuote() {
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), Constants.PRIVATE_CAR), null);
         //region validations
         if (makeModel == null || makeModel.equals("")) {
@@ -1758,8 +1758,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setPa_paid_driver_si("0");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
-        motorRequestEntity.setMiddle_name("");
-        motorRequestEntity.setLast_name("");
+        motorRequestEntity.setMiddle_name(" ");
+        motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn("");
@@ -1844,8 +1844,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setPa_paid_driver_si("0");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
-        motorRequestEntity.setMiddle_name("");
-        motorRequestEntity.setLast_name("");
+        motorRequestEntity.setMiddle_name(" ");
+        motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn("");
@@ -2118,7 +2118,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         inflater.inflate(R.menu.home_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
-
 
 
 }

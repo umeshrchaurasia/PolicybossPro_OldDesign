@@ -577,8 +577,8 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setPa_paid_driver_si("0");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
-        motorRequestEntity.setMiddle_name("");
-        motorRequestEntity.setLast_name("");
+        motorRequestEntity.setMiddle_name(" ");
+        motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn("0");
@@ -639,8 +639,8 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setPa_paid_driver_si("0");
         motorRequestEntity.setVehicle_expected_idv(0);
         motorRequestEntity.setFirst_name("");
-        motorRequestEntity.setMiddle_name("");
-        motorRequestEntity.setLast_name("");
+        motorRequestEntity.setMiddle_name(" ");
+        motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn("0");
