@@ -1254,7 +1254,9 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                                 responseEntity.setFinal_premium_with_addon(entity.getFinal_premium_with_addon());
                                 responseEntity.setFinal_premium_without_addon(entity.getFinal_premium_without_addon());
                                 responseEntity.setTotalGST(entity.getTotalGST());
+                                responseEntity.setPremiumBreakUpAddonEntities(entity.getPremiumBreakUpAddonEntities());
                                 bikePremiumResponse.getResponse().set(i, responseEntity);
+                                break;
                             }
                         }
 
