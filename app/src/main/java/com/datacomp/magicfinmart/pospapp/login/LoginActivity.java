@@ -248,7 +248,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void showAlert(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setTitle("Please Contact FSM");
-        builder.setMessage(message);
+        builder.setMessage("Training not schedule please contact customer care (022 - 66048200)");
         builder.setCancelable(false);
 
         builder.setPositiveButton(
