@@ -126,24 +126,34 @@
             android:text="Have a Promo Code?"
             android:textColor="?attr/colorPrimary" />
 
+        <TextView
+            android:id="@+id/txtMessage"
+            style="@style/TextStyle.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="left"
+            android:text="Promo code verify successfully."
+            android:textColor="@color/uvv_green"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/llPromo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="16dp"
             android:orientation="horizontal"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="70"
+                android:layout_height="wrap_content"
+                android:layout_weight="80"
                 android:hint="Enter the Promo Code">
 
                 <EditText
                     android:id="@+id/etPromoCode"
                     style="@style/Style.edittext"
-                    android:layout_height="match_parent"
                     android:inputType="number"
                     android:maxLines="1" />
 
@@ -152,11 +162,16 @@
             <Button
                 android:id="@+id/btnApplyPromo"
                 android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="30"
-                android:background="?attr/colorPrimary"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="20"
+                android:background="@drawable/bordertbl_blue"
+                android:minHeight="36dp"
                 android:text="APPLY"
-                android:textColor="@android:color/white" />
+                android:textSize="12sp"
+                android:textColor="?attr/colorPrimary" />
+
+
         </LinearLayout>
 
     </LinearLayout>

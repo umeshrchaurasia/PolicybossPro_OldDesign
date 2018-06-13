@@ -35,7 +35,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 public class MPSFragment extends BaseFragment implements IResponseSubcriber {
     Button btnPayNow, btnApplyPromo;
     CheckBox chkAgree;
-    TextView txtTermsCondition, txtSubscriptionAmount, txtGSTAmount, txtTotalAmount, txtPromoCode;
+    TextView txtTermsCondition, txtMessage, txtSubscriptionAmount, txtGSTAmount, txtTotalAmount, txtPromoCode;
     LinearLayout llPromo;
     EditText etPromoCode;
 
@@ -56,6 +56,7 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
             @Override
             public void onClick(View v) {
                 llPromo.setVisibility(View.VISIBLE);
+                txtMessage.setVisibility(View.GONE);
             }
         });
 
@@ -107,6 +108,7 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
                 return;
             } else {
                 showDialog("Verifying Promo Code");
+
                 new MasterController(getActivity()).
                         applyMPSPromoCode(etPromoCode.getText().toString(), MPSFragment.this);
             }
@@ -156,6 +158,7 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
         chkAgree = (CheckBox) view.findViewById(R.id.chkAgree);
         btnPayNow = (Button) view.findViewById(R.id.btnPayNow);
         btnApplyPromo = (Button) view.findViewById(R.id.btnApplyPromo);
+        txtMessage = (TextView) view.findViewById(R.id.txtMessage);
     }
 
     @Override
@@ -167,15 +170,21 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
                 new PrefManager(getActivity()).removeMps();
                 new PrefManager(getActivity()).setMPS(((MpsResponse) response).getMasterData());
                 bindData(((MpsResponse) response).getMasterData());
+                txtMessage.setVisibility(View.VISIBLE);
+                llPromo.setVisibility(View.GONE);
+            } else {
+                llPromo.setVisibility(View.VISIBLE);
+                txtMessage.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
-            Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
-
         }
     }
 
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
+        txtMessage.setVisibility(View.GONE);
+        llPromo.setVisibility(View.VISIBLE);
         Constants.hideKeyBoard(btnApplyPromo, getActivity());
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }

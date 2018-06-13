@@ -1,7 +1,10 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 
+import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
 /**
  * Created by Nilesh Birhade on 05-04-2018.
@@ -460,7 +463,8 @@ public class TermRequestEntity implements Parcelable {
         this.LumpsumPercentage = LumpsumPercentage;
     }
 
-    public TermRequestEntity() {
+    public TermRequestEntity(Context context) {
+        this.FBAID = String.valueOf(new DBPersistanceController(context).getUserData().getFBAId());
     }
 
 

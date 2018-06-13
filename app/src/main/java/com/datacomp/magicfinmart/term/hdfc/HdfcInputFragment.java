@@ -134,7 +134,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
         setPopUpInfo();
         // set initial values
         dbPersistanceController = new DBPersistanceController(getActivity());
-        termRequestEntity = new TermRequestEntity();
+        termRequestEntity = new TermRequestEntity(getActivity());
         termFinmartRequest = new TermFinmartRequest();
         setDefaultValues();
         //init_adapters();

@@ -102,7 +102,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         // set initial values
         dbPersistanceController = new DBPersistanceController(getActivity());
         policyYear = dbPersistanceController.getPremYearList();
-        termRequestEntity = new TermRequestEntity();
+        termRequestEntity = new TermRequestEntity(getActivity());
         termFinmartRequest = new TermFinmartRequest();
         termCompareResponseEntities = new ArrayList<TermCompareResponseEntity>();
         init_adapters();
