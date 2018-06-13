@@ -1191,147 +1191,150 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     public void getQuote() {
-        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), Constants.PRIVATE_CAR), null);
-        //region validations
-        if (makeModel == null || makeModel.equals("")) {
-            acMakeModel.requestFocus();
-            acMakeModel.setError("Enter Make,Model");
-            return;
-        }
+        if (cvInput.getVisibility() == View.VISIBLE) {
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), Constants.PRIVATE_CAR), null);
+            //region validations
+            if (makeModel == null || makeModel.equals("")) {
+                acMakeModel.requestFocus();
+                acMakeModel.setError("Enter Make,Model");
+                return;
+            }
 
-        if (!isEmpty(etRegDate)) {
-            etRegDate.requestFocus();
-            etRegDate.setError("Enter Reg Date");
-            return;
-        }
+            if (!isEmpty(etRegDate)) {
+                etRegDate.requestFocus();
+                etRegDate.setError("Enter Reg Date");
+                return;
+            }
                 /*if (!isEmpty(etMfgDate)) {
                     etMfgDate.requestFocus();
                     etMfgDate.setError("Enter Mfg Date");
                     return;
                 }*/
-        if (spYear.getSelectedItemPosition() == 0) {
-            spYear.requestFocus();
-            Toast.makeText(getActivity(), "Select Mfg Year", Toast.LENGTH_SHORT).show();
-        }
+            if (spYear.getSelectedItemPosition() == 0) {
+                spYear.requestFocus();
+                Toast.makeText(getActivity(), "Select Mfg Year", Toast.LENGTH_SHORT).show();
+            }
 
-        if (spMonth.getSelectedItemPosition() == 0) {
-            spYear.requestFocus();
-            Toast.makeText(getActivity(), "Select Mfg Month", Toast.LENGTH_SHORT).show();
-        }
-        if (regplace == null || regplace.equals("")) {
-            acRto.requestFocus();
-            acRto.setError("Enter Rto");
-            return;
-        }
-        if (switchNewRenew.isChecked()) {
-            if (!isEmpty(etExpDate)) {
-                etExpDate.requestFocus();
-                etExpDate.setError("Enter Expiry Date");
+            if (spMonth.getSelectedItemPosition() == 0) {
+                spYear.requestFocus();
+                Toast.makeText(getActivity(), "Select Mfg Month", Toast.LENGTH_SHORT).show();
+            }
+            if (regplace == null || regplace.equals("")) {
+                acRto.requestFocus();
+                acRto.setError("Enter Rto");
                 return;
             }
-            if (spPrevIns.getSelectedItemPosition() == 0) {
-                spPrevIns.requestFocus();
-                Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
+            if (switchNewRenew.isChecked()) {
+                if (!isEmpty(etExpDate)) {
+                    etExpDate.requestFocus();
+                    etExpDate.setError("Enter Expiry Date");
+                    return;
+                }
+                if (spPrevIns.getSelectedItemPosition() == 0) {
+                    spPrevIns.requestFocus();
+                    Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+
+            if (etCustomerName.getText().toString().equals("")) {
+                etCustomerName.requestFocus();
+                etCustomerName.setError("Enter Name");
                 return;
-            }
-        }
+            } else {
+                String[] fullName = etCustomerName.getText().toString().trim().split(" ");
+                if (fullName.length == 1) {
+                    if (fullName[0].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("First Name should be greater than 1 character");
+                        return;
+                    }
+                } else if (fullName.length == 2) {
+                    if (fullName[0].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("First Name should be greater than 1 character");
+                        return;
+                    }
+                    if (fullName[1].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("Last Name should be greater than 1 character");
+                        return;
+                    }
+                } else if (fullName.length == 3) {
+                    if (fullName[0].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("First Name should be greater than 1 character");
+                        return;
+                    }
+                    if (fullName[2].length() < 2) {
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("Last Name should be greater than 1 character");
+                        return;
+                    }
+                }
 
-        if (etCustomerName.getText().toString().equals("")) {
-            etCustomerName.requestFocus();
-            etCustomerName.setError("Enter Name");
-            return;
-        } else {
-            String[] fullName = etCustomerName.getText().toString().trim().split(" ");
-            if (fullName.length == 1) {
-                if (fullName[0].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("First Name should be greater than 1 character");
-                    return;
-                }
-            } else if (fullName.length == 2) {
-                if (fullName[0].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("First Name should be greater than 1 character");
-                    return;
-                }
-                if (fullName[1].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("Last Name should be greater than 1 character");
-                    return;
-                }
-            } else if (fullName.length == 3) {
-                if (fullName[0].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("First Name should be greater than 1 character");
-                    return;
-                }
-                if (fullName[2].length() < 2) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("Last Name should be greater than 1 character");
-                    return;
-                }
             }
-
-        }
                 /*if (!isValidePhoneNumber(etMobile)) {
                     etMobile.requestFocus();
                     etMobile.setError("Enter Mobile");
                     return;
                 }*/
 
-        if (spFuel.getSelectedItemPosition() == 0) {
-            Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
-            spFuel.requestFocus();
-            return;
-        }
-
-        if (spVarient.getSelectedItemPosition() == 0) {
-            Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
-            spVarient.requestFocus();
-            return;
-        }
-
-        if (dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()),
-                getModel(acMakeModel.getText().toString()),
-                getMake(acMakeModel.getText().toString())) == "") {
-            acMakeModel.requestFocus();
-            acMakeModel.setError("Enter Make,Model");
-            return;
-        }
-
-        if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
-            acRto.requestFocus();
-            acRto.setError("Enter Rto");
-            return;
-        }
-
-
-        if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)
-                || spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
-            if (etExtValue.getText().toString().equals("")) {
-                etExtValue.requestFocus();
-                etExtValue.setError("Enter Amount");
+            if (spFuel.getSelectedItemPosition() == 0) {
+                Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
+                spFuel.requestFocus();
                 return;
-            } else {
-                int extval = Integer.parseInt(etExtValue.getText().toString());
-                if (extval < 10000 || extval > 60000) {
+            }
+
+            if (spVarient.getSelectedItemPosition() == 0) {
+                Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
+                spVarient.requestFocus();
+                return;
+            }
+
+            if (dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()),
+                    getModel(acMakeModel.getText().toString()),
+                    getMake(acMakeModel.getText().toString())) == "") {
+                acMakeModel.requestFocus();
+                acMakeModel.setError("Enter Make,Model");
+                return;
+            }
+
+            if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
+                acRto.requestFocus();
+                acRto.setError("Enter Rto");
+                return;
+            }
+
+
+            if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)
+                    || spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
+                if (etExtValue.getText().toString().equals("")) {
                     etExtValue.requestFocus();
-                    etExtValue.setError("Enter Amount between 10000 & 60000");
+                    etExtValue.setError("Enter Amount");
                     return;
+                } else {
+                    int extval = Integer.parseInt(etExtValue.getText().toString());
+                    if (extval < 10000 || extval > 60000) {
+                        etExtValue.requestFocus();
+                        etExtValue.setError("Enter Amount between 10000 & 60000");
+                        return;
+                    }
                 }
             }
+
+            //endregion
+
+            //TODO uncomment this
+            if (switchNewRenew.isChecked()) {  //renew
+                setInputParametersReNewCar();
+            } else {
+                setInputParametersNewCAR();
+            }
+            showDialog("Please Wait. Fetching Quotes!!!");
+            new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
         }
 
-        //endregion
-
-        //TODO uncomment this
-        if (switchNewRenew.isChecked()) {  //renew
-            setInputParametersReNewCar();
-        } else {
-            setInputParametersNewCAR();
-        }
-        showDialog("Please Wait. Fetching Quotes!!!");
-        new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
     }
 
     @Override
@@ -2068,6 +2071,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     public void setYearMonthAdapter(Calendar calendar) {
+
+        yearList.clear();
+        yearList.addAll(getYearList(calendar.get(Calendar.YEAR)));
+        YearAdapter.notifyDataSetChanged();
 
         int yearIndex = 0;
         for (int i = 0; i < yearList.size(); i++) {
