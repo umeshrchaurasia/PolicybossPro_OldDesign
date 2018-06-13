@@ -231,7 +231,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             case (RESULT_COMPARE): {
                 if (resultCode == RESULT_COMPARE) {
                     if (data.getParcelableExtra("BUY") != null) {
-                        redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
+                      //  redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
+                        popUpHealthMemberDetails((HealthQuoteEntity) data.getParcelableExtra("BUY"));
                     }
                 }
                 break;
