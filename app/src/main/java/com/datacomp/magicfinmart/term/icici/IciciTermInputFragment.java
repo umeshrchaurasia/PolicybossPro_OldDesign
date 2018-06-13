@@ -137,7 +137,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
         // set initial values
         dbPersistanceController = new DBPersistanceController(getActivity());
         policyYear = dbPersistanceController.getPremYearList();
-        termRequestEntity = new TermRequestEntity();
+        termRequestEntity = new TermRequestEntity(getActivity());
         termFinmartRequest = new TermFinmartRequest();
         init_adapters();
 

@@ -77,19 +77,19 @@ ul li {margin:2px; padding:4px !important;}
         <div class="table-responsive">
             <table class="table table-bordered tbl1 text-left">
                 <tr>
-                    <td colspan="2" style="text-align:center !important;" id="lblvehiclename"><b>HONDA
-                        ACCORD -</b> &nbsp;<b>2016 119/CC</b></td>
+                    <td colspan="3" style="text-align:center !important;" ><b><span id="lblvehiclename">HONDA
+                        ACCORD - &nbsp;<b>2016 119/CC</b></span></b></td>
                 </tr>
 
                 <tr>
-
-                    <td style="text-align:left;">Policy Expiring on <br><span id="polexpiringdate">21-03-2017</span></td>
-                    <td style="text-align:left;">Policy Exp. Date<br><span id="polexpdate">21-03-2018</span></td>
+                    <td style="text-align:left;"><b><span id="lblcc"></span></b></td>
+                    <td style="text-align:left;">Policy Expiring on :<br><b><span id="polexpiringdate">21-03-2017</span></b></td>
+                    <td style="text-align:left;">Policy Exp. Date :<br><b><span id="polexpdate">21-03-2018</span></b></td>
                 </tr>
                 <tr>
-                    <td style="text-align:left;">Present NCB: <span id="NCB">0</span>%</td>
-                    <td style="text-align:left;">Claim In Present Year  : <span id="PYN"></span></td>
-
+                    <td style="text-align:left;">Present NCB: <b><span id="NCB">0</span>%</b></td>
+                    <td style="text-align:left;">Claim In Present Year  : <b><span id="PYN"></span></b></td>
+                    <td style="text-align:left;"></td>
                 </tr>
             </table>
         </div>
@@ -239,7 +239,7 @@ ul li {margin:2px; padding:4px !important;}
                 <tr>
                     <td><span>₹ </span><span id="spnTotPrem">10,690</span></td>
                     <td><span>₹ </span><span id="spnGST">1,690</span></td>
-                    <td><span>₹ </span><span id="spnNetPrem">12,294</span></td>
+                    <td><span>₹ </span><span id="spnNetPrem"  style="color: #4FB4E9;">12,294</span></td>
                 </tr>
             </table>
         </div>
@@ -254,10 +254,10 @@ ul li {margin:2px; padding:4px !important;}
     <div class="col-md-12">
         <div class="img-responsive">
             <table class="table table-striped">
-                <tr>
-                    <td><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
-                             onerror=this.src="file:///android_asset/profile_pic.png" width="100"
-                             class="img-responsive"/></td>
+                <tr style="width:100%">
+                    <td style="width:30%"><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
+                                               onerror=this.src="file:///android_asset/profile_pic.png" width="100"
+                                               class="img-responsive"  style="height:16%"/></td>
                     <td style="text-align:left !important;"><h4 id="pospName" class="red-txt">Test User</h4>
                         <h5 id="deg" class="posp-txt" style="margin-top:-6px">Landmark POSP</h5>
                         <h4 id="phone" class="posp-txt" style="margin-top:-7px; color: #4FB4E9;">98XXXXXXXX</h4>
@@ -332,6 +332,7 @@ ul li {margin:2px; padding:4px !important;}
 
         document.getElementById('name').innerHTML =  otherReponse.NAME;
         document.getElementById('lblvehiclename').innerHTML = otherReponse.VECHILE_NAME;
+        document.getElementById('lblcc').innerHTML = otherReponse.VECHILE_CC;
         document.getElementById('polexpiringdate').innerHTML = otherReponse.MFG_DATE;
          var pomfgdate = otherReponse.MFG_DATE.split("-");
          var polymfdate = "";
@@ -506,6 +507,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
             HTML = HTML + '   </ul>';
             HTML = HTML + '</td>';
         }
+        if (response.isAddonApplied) {
   if (TotalAddOn != 0)
         {
              TotalPrem = 0;
@@ -519,7 +521,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
 
         HTML = HTML + '</tr>               </tbody>';
 
-
+}
 
         //}
         // }
@@ -540,7 +542,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_basic') && response.Premium_Breakup.own_damage.od_basic != 0) {
 
                     OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_basic + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.own_damage.od_basic * 100) / 100 + '</td>';
+                    OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_basic + '</td> <td style="width:30%">' + Math.round(response.Premium_Breakup.own_damage.od_basic * 100) / 100 + '</td>';
                     OwnDamage = OwnDamage + '</tr>';
                 }
 
@@ -554,7 +556,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_disc') && response.Premium_Breakup.own_damage.od_disc != 0) {
 
                     OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_disc + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.own_damage.od_disc * 100) / 100 + '</td>';
+                    OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_disc + '</td> <td style="width:30%"> -' + Math.round(response.Premium_Breakup.own_damage.od_disc * 100) / 100 + '</td>';
                     OwnDamage = OwnDamage + '</tr>';
                 }
                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_disc_aai') && response.Premium_Breakup.own_damage.od_disc_aai != 0) {
@@ -572,13 +574,13 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_disc_ncb') && response.Premium_Breakup.own_damage.od_disc_ncb != 0) {
 
                     OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_disc_ncb + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.own_damage.od_disc_ncb * 100) / 100 + '</td>';
+                    OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_disc_ncb + '</td> <td style="width:30%">-' + Math.round(response.Premium_Breakup.own_damage.od_disc_ncb * 100) / 100 + '</td>';
                     OwnDamage = OwnDamage + '</tr>';
                 }
                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_disc_vol_deduct') && response.Premium_Breakup.own_damage.od_disc_vol_deduct != 0) {
 
                     OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_disc_vol_deduct + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.own_damage.od_disc_vol_deduct * 100) / 100 + '</td>';
+                    OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_disc_vol_deduct + '</td> <td style="width:30%">' + Math.round(response.Premium_Breakup.own_damage.od_disc_vol_deduct * 100) / 100 + '</td>';
                     OwnDamage = OwnDamage + '</tr>';
                 }
                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_elect_access') && response.Premium_Breakup.own_damage.od_elect_access != 0) {
@@ -590,7 +592,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_final_premium') && response.Premium_Breakup.own_damage.od_final_premium != 0) {
 
                     OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_final_premium + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.own_damage.od_final_premium * 100) / 100 + '</td>';
+                    OwnDamage = OwnDamage + ' <td style="width:70%"><b>' + owndamage_list.od_final_premium + '<b></td> <td style="width:30%"> <b>' + Math.round(response.Premium_Breakup.own_damage.od_final_premium * 100) / 100 + '<b></td>';
                     OwnDamage = OwnDamage + '</tr>';
                 }
                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_loading') && response.Premium_Breakup.own_damage.od_loading != 0) {
@@ -678,7 +680,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                 if (response.Premium_Breakup.liability.hasOwnProperty('tp_final_premium') && response.Premium_Breakup.liability.tp_final_premium != 0) {
 
                     Lib = Lib + '<tr>';
-                    Lib = Lib + ' <td style="width:70%">' + liability_list.tp_final_premium + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.liability.tp_final_premium * 100) / 100 + '</td>';
+                    Lib = Lib + ' <td style="width:70%"><b>' + liability_list.tp_final_premium + '</b></td> <td style="width:30%"> <b>' + Math.round(response.Premium_Breakup.liability.tp_final_premium * 100) / 100 + '</b></td>';
                     Lib = Lib + '</tr>';
                 }
 
@@ -874,6 +876,8 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
            document.getElementById('spnTotPrem').innerHTML = spTotPrem.toFixed(2);
         document.getElementById('spnGST').innerHTML = spnGST.toFixed(2);
         document.getElementById('spnNetPrem').innerHTML = Math.round(response.Premium_Breakup.final_premium * 100) / 100;
+ if (response.isAddonApplied) {
+
  if(TotalAddOn != 0)
         {
             var DispTax = parseFloat(response.Premium_Breakup.service_tax) + parseFloat(TotalAddOnTax);
@@ -888,8 +892,9 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
         {
             document.getElementById("tblAddOn").style.display = "none";
         }
-
+}
     }
+
 
 
 

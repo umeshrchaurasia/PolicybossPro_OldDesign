@@ -408,7 +408,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         if ((etSubHeading.getText().toString().trim().length() > 0) || (etMobileNo.getText().toString().trim().length() > 0) ||
                 (etEmailId.getText().toString().trim().length() > 0)) {
 
-            registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString().toUpperCase());
+            registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString());
             registerRequestEntity.setMobile_1("" + etMobileNo.getText().toString());
             registerRequestEntity.setEmailId("" + etEmailId.getText().toString());
             registerRequestEntity.setType("1");
@@ -474,7 +474,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private void saveMain() {
         registerRequestEntity.setType("0");
-        registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString().toUpperCase());
+        registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString());
         registerRequestEntity.setMobile_1("" + etMobileNo.getText().toString());
         registerRequestEntity.setEmailId("" + etEmailId.getText().toString());
 
@@ -883,7 +883,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     private void saveAcctDtlToDB(int type) {
         if (accountDtlEntity != null) {
             if (type == 1) {
-                accountDtlEntity.setDesignation("" + etSubHeading.getText().toString().toString().toUpperCase());
+                accountDtlEntity.setDesignation("" + etSubHeading.getText().toString().toString());
                 accountDtlEntity.setEditMobiNumb("" + etMobileNo.getText().toString());
                 accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString());
             } else if (type == 4) {
