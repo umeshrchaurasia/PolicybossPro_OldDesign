@@ -180,7 +180,7 @@
 
                 <TextView
                     android:id="@+id/txtPersonName"
-                    style="@style/TextStyle.TextMedium"
+                    style="@style/TextStyle.TextSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -193,6 +193,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -208,13 +209,12 @@
 
                     <TextView
                         android:id="@+id/txttype"
-                        style="@style/TextViewStyle.Medium"
+                        style="@style/TextStyle.TextSmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="left"
-                        android:textAllCaps="true"
-
-                       />
+                        android:textStyle="bold"
+                        android:textColor="@color/header_light_text" />
 
 
                 </LinearLayout>
@@ -234,9 +234,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-
                     android:text="Loan Amount"
-
                     android:textAllCaps="true"
                     android:textColor="@color/header_light_text" />
 

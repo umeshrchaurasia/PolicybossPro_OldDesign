@@ -593,11 +593,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etSubHeading.requestFocus();
                 etSubHeading.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSubHeading.setError("Enter Sub Heading");
+                etSubHeading.setError("Enter Designation");
                 return false;
             } else {
                 etSubHeading.requestFocus();
-                etSubHeading.setError("Enter Sub Heading");
+                etSubHeading.setError("Enter Designation");
                 return false;
             }
         } else if (!isEmpty(etMobileNo)) {
@@ -667,11 +667,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etSubHeading_posp.requestFocus();
                 etSubHeading_posp.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etSubHeading_posp.setError("Enter Sub Heading");
+                etSubHeading_posp.setError("Enter Designation");
                 return false;
             } else {
                 etSubHeading_posp.requestFocus();
-                etSubHeading_posp.setError("Enter Sub Heading");
+                etSubHeading_posp.setError("Enter Designation");
                 return false;
             }
         } else if (!isEmpty(etMobileNo_posp)) {
@@ -707,7 +707,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 etEmailId_posp.requestFocus();
                 etEmailId_posp.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-                etEmailId_posp.setError("Enter Sub Heading");
+                etEmailId_posp.setError("Enter Email ID");
                 return false;
             } else {
                 etEmailId_posp.requestFocus();

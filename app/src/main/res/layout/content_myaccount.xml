@@ -83,7 +83,7 @@
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:hint="SUB HEADING">
+                            android:hint="DESIGNATION">
 
                             <EditText
                                 android:id="@+id/etSubHeading"
@@ -787,7 +787,7 @@
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_weight="1"
-                            android:hint="SUB HEADING">
+                            android:hint="DESIGNATION">
 
                             <EditText
                                 android:id="@+id/etSubHeading_posp"
