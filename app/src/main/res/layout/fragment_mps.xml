@@ -147,15 +147,13 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="70"
+                android:layout_height="wrap_content"
+                android:layout_weight="80"
                 android:hint="Enter the Promo Code">
 
                 <EditText
-
                     android:id="@+id/etPromoCode"
                     style="@style/Style.edittext"
-                    android:layout_height="match_parent"
                     android:inputType="number"
                     android:maxLines="1" />
 
@@ -165,10 +163,12 @@
                 android:id="@+id/btnApplyPromo"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="30"
+                android:layout_marginLeft="8dp"
+                android:layout_weight="20"
                 android:background="@drawable/bordertbl_blue"
-                android:minHeight="42dp"
+                android:minHeight="36dp"
                 android:text="APPLY"
+                android:textSize="12sp"
                 android:textColor="?attr/colorPrimary" />
 
 

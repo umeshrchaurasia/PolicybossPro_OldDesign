@@ -56,6 +56,7 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
             @Override
             public void onClick(View v) {
                 llPromo.setVisibility(View.VISIBLE);
+                txtMessage.setVisibility(View.GONE);
             }
         });
 
@@ -107,6 +108,7 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
                 return;
             } else {
                 showDialog("Verifying Promo Code");
+
                 new MasterController(getActivity()).
                         applyMPSPromoCode(etPromoCode.getText().toString(), MPSFragment.this);
             }
