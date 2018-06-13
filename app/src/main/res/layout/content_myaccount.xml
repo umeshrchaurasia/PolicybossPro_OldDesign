@@ -87,6 +87,7 @@
 
                             <EditText
                                 android:id="@+id/etSubHeading"
+                                android:inputType="textCapWords"
                                 style="@style/Style.edittext" />
                         </android.support.design.widget.TextInputLayout>
                     </LinearLayout>
