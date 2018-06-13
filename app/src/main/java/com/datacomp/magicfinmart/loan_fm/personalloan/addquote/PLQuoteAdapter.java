@@ -105,10 +105,11 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
         double emiperlac = (quoteEntity.getEmi() / loanr) * 100000;
         holder.tvEmiperlac.setText(""+ "\u20B9"+" "  + String.format("%.2f", emiperlac));
 
+        //05
 
-        Glide.with(mContext)
-                .load(quoteEntity.getBank_Logo())
-                .into(holder.ivBankLogo);
+//        Glide.with(mContext)
+//                .load(quoteEntity.getBank_Logo())
+//                .into(holder.ivBankLogo);
         //change Fresco
 
         if (quoteEntity.isIskeyvisible()) {
