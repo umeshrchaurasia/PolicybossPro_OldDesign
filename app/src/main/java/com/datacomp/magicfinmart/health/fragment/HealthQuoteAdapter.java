@@ -211,7 +211,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.llCount:
+            //case R.id.llCount:
             case R.id.txtNoOfInsurer:
 
                 if (((TextView) view).getText() != HIDE_OPTIONS) {
