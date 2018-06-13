@@ -43,7 +43,7 @@
                     android:padding="2dp"
                     android:textColor="#474747"
                     android:textStyle="bold"
-                    android:text="ADD QUOTE" />
+                    android:text="ADD TICKET" />
             </LinearLayout>
 
             <LinearLayout
