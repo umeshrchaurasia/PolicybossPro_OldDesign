@@ -75,7 +75,7 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
 
     private void fetchQuoteApplication() {
 
-        showDialog("Fetching.., Please wait.!");
+        showDialog(getResources().getString(R.string.fetching_msg));
 
         new MainLoanController(this).getPLQuoteApplication(0,0,String.valueOf(loginEntity.getFBAId()), PersonalLoanDetailActivity.this);
 

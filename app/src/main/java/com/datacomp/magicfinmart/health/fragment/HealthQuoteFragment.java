@@ -231,7 +231,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             case (RESULT_COMPARE): {
                 if (resultCode == RESULT_COMPARE) {
                     if (data.getParcelableExtra("BUY") != null) {
-                        redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
+                      //  redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
+                        popUpHealthMemberDetails((HealthQuoteEntity) data.getParcelableExtra("BUY"));
                     }
                 }
                 break;
@@ -239,9 +240,14 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             case (REQUEST_MEMBER): {
                 if (data != null) {
-                    healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
+                    if ((HealthQuote)data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE) != null){
+                        healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
                     // commented by rahul
                     redirectToBuy(buyHealthQuoteEntity);
+                    }
+                    else if(data.getParcelableArrayListExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_DOB )!=null){
+                        healthQuote.getHealthRequest().setMemberList(data.<MemberListEntity>getParcelableArrayListExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_DOB));
+                    }
                 }
             }
             break;
@@ -644,4 +650,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         }
     }
+
+
 }

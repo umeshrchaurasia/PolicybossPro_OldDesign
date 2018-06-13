@@ -57,6 +57,11 @@ public class TermRequestEntity implements Parcelable {
     private String SumAssured;
     private String InsuredDOB;
     private String PaymentModeValue;
+    /**
+     * FBAID :
+     */
+
+    private String FBAID;
 
     /**
      * LumpsumPercentage : 0
@@ -455,6 +460,18 @@ public class TermRequestEntity implements Parcelable {
         this.LumpsumPercentage = LumpsumPercentage;
     }
 
+    public TermRequestEntity() {
+    }
+
+
+    public String getFBAID() {
+        return FBAID;
+    }
+
+    public void setFBAID(String FBAID) {
+        this.FBAID = FBAID;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -469,6 +486,7 @@ public class TermRequestEntity implements Parcelable {
         dest.writeString(this.SumAssured);
         dest.writeString(this.InsuredDOB);
         dest.writeString(this.PaymentModeValue);
+        dest.writeString(this.FBAID);
         dest.writeString(this.PolicyCommencementDate);
         dest.writeString(this.CityName);
         dest.writeString(this.State);
@@ -507,9 +525,6 @@ public class TermRequestEntity implements Parcelable {
         dest.writeString(this.crn);
     }
 
-    public TermRequestEntity() {
-    }
-
     protected TermRequestEntity(Parcel in) {
         this.pincode = in.readString();
         this.PolicyTerm = in.readString();
@@ -518,6 +533,7 @@ public class TermRequestEntity implements Parcelable {
         this.SumAssured = in.readString();
         this.InsuredDOB = in.readString();
         this.PaymentModeValue = in.readString();
+        this.FBAID = in.readString();
         this.PolicyCommencementDate = in.readString();
         this.CityName = in.readString();
         this.State = in.readString();

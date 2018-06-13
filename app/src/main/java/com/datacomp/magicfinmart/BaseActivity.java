@@ -13,6 +13,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -88,6 +89,7 @@ public class BaseActivity extends AppCompatActivity {
         return calendar;
 
     }
+
     public static String getYYYYMMDDPattern(String dateCal) {
 
         String dateSelected = "";
@@ -211,7 +213,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void showDialog(String msg) {
         if (dialog == null)
             dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
-        else{
+        else {
             if (!dialog.isShowing())
                 dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
         }
@@ -330,13 +332,20 @@ public class BaseActivity extends AppCompatActivity {
         Bitmap textBitmap = Bitmap.createBitmap(2000, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(textBitmap);
         canvas.drawColor(Color.WHITE);
+
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(textSize);
-        canvas.drawText("" + pospName, height + 20, startHeight + textSize + textMargin, paint);
-        canvas.drawText("" + pospDesg, height + 20, startHeight + 2 * textSize + 2 * textMargin, paint);
-        canvas.drawText("" + pospMob, height + 20, startHeight + 3 * textSize + 3 * textMargin, paint);
-        canvas.drawText("" + pospEmail, height + 20, startHeight + 4 * textSize + 4 * textMargin, paint);
+
+        Paint paintBold = new Paint();
+        paintBold.setColor(Color.BLACK);
+        paintBold.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+        paintBold.setTextSize(textSize + 1);
+        startHeight += 10;
+        canvas.drawText("" + pospName, height + 20, startHeight + textMargin, paintBold);
+        canvas.drawText("" + pospDesg, height + 20, startHeight + 1 * textSize + 2 * textMargin, paint);
+        canvas.drawText("" + pospMob, height + 20, startHeight + 2 * textSize + 3 * textMargin, paint);
+        canvas.drawText("" + pospEmail, height + 20, startHeight + 3 * textSize + 4 * textMargin, paint);
         //canvas.drawText("" + pospName + "\n" + pospDesg + "\n" + pospMob + "\n" + pospEmail, 10, 10, paint);
 
 

@@ -13,7 +13,7 @@
     <string name="Emp_Mode_Credit">Select Employment &amp; Mode OF Credit</string>
 
     <string name="materail_count">new Images are available for downloading.\nContinue???</string>
-
+    <string name="fetching_msg">Please Wait... fetching quotes</string>
     <string-array name="ncb_percent">
         <item>0</item>
         <item>20</item>
@@ -596,6 +596,7 @@
 
     <string name="title_activity_icici_term">ICICI PRUDENTIAL</string>
     <string name="title_activity_hdfc_term">HDFC PERSONAL LOAN</string>
+    <string name="title_activity_kotak_term">KOTAK PERSONAL LOAN</string>
     <string name="skin_walkthrogh">Already have an account? <b>Login</b></string>
     <string name="sell_everything_digitally">Sell everything <b>DIGITALLY!!</b></string>
     <string name="welcome_slide_1_text">India’s First And Most Comprehensive Business Enabling Platform For Financial Advisors</string>

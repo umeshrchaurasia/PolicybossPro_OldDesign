@@ -61,15 +61,16 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_marginTop="0dp">
+                        android:layout_marginTop="8dp">
 
 
 
                         <Spinner
                             android:id="@+id/spExistingCustomer"
                             style="@style/SpinnerStyle.Underlined"
+                            android:paddingBottom="5dp"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:entries="@array/ExistingCustomerKotakPL"
                             android:gravity="center" />
@@ -78,7 +79,7 @@
                             android:id="@+id/spCustomerTypeMaster"
                             style="@style/SpinnerStyle.Underlined"
                             android:layout_width="0dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:entries="@array/ExistingCustomerTypeKotakPL"
                             android:gravity="center"
@@ -89,7 +90,7 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="0dp">
 
                         <android.support.design.widget.TextInputLayout
                             android:layout_width="0dp"

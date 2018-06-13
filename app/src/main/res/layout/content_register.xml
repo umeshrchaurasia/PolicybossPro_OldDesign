@@ -78,7 +78,7 @@
                         <EditText
                             android:id="@+id/etFirstName"
                             style="@style/Style.edittext"
-
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                             android:drawableRight="@drawable/vector_person" />
 
                     </android.support.design.widget.TextInputLayout>
@@ -92,6 +92,7 @@
                         <EditText
                             android:id="@+id/etLastName"
                             style="@style/Style.edittext"
+                            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                             android:drawableRight="@drawable/vector_person" />
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>

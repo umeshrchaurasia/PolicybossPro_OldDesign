@@ -84,7 +84,7 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
 
     private void fetchQuoteApplication(int compId) {
 
-        showDialog("Fetching.., Please wait.!");
+        showDialog(getResources().getString(R.string.fetching_msg));
         new TermInsuranceController(this).getTermQuoteApplicationList(compId, 0, "0", this);
     }
 

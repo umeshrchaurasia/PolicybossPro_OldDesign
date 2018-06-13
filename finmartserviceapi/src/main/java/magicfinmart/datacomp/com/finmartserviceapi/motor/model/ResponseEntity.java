@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ResponseEntity implements Parcelable {
+public class ResponseEntity implements Cloneable, Parcelable {
     /**
      * Service_Log_Id : 100404
      * Service_Log_Unique_Id : ARN-TB5DBPM1-2SO8-OC26-HCCN-PPWBFPCARHLC
@@ -44,9 +44,18 @@ public class ResponseEntity implements Parcelable {
 
     //added by Nilesh : Require for applied premium tracking
     private List<AppliedAddonsPremiumBreakup> listAppliedAddons = new ArrayList<AppliedAddonsPremiumBreakup>();
+    List<PremiumBreakUpAddonEntity> premiumBreakUpAddonEntities = new ArrayList<PremiumBreakUpAddonEntity>();
     private AddonEntity Addon_List;
     private boolean isAddonApplied;
     private String final_premium_with_addon;
+
+    public List<PremiumBreakUpAddonEntity> getPremiumBreakUpAddonEntities() {
+        return premiumBreakUpAddonEntities;
+    }
+
+    public void setPremiumBreakUpAddonEntities(List<PremiumBreakUpAddonEntity> premiumBreakUpAddonEntities) {
+        this.premiumBreakUpAddonEntities = premiumBreakUpAddonEntities;
+    }
 
     public String getTotalAddonAplied() {
         return totalAddonAplied;
@@ -235,6 +244,14 @@ public class ResponseEntity implements Parcelable {
     }
 
 
+    public ResponseEntity() {
+    }
+
+    public Object clone() throws
+            CloneNotSupportedException {
+        return super.clone();
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -257,15 +274,13 @@ public class ResponseEntity implements Parcelable {
         dest.writeParcelable(this.Insurer, flags);
         dest.writeString(this.Call_Execution_Time);
         dest.writeTypedList(this.listAppliedAddons);
+        dest.writeTypedList(this.premiumBreakUpAddonEntities);
         dest.writeParcelable(this.Addon_List, flags);
         dest.writeByte(this.isAddonApplied ? (byte) 1 : (byte) 0);
         dest.writeString(this.final_premium_with_addon);
         dest.writeString(this.totalAddonAplied);
         dest.writeString(this.totalGST);
         dest.writeString(this.final_premium_without_addon);
-    }
-
-    public ResponseEntity() {
     }
 
     protected ResponseEntity(Parcel in) {
@@ -284,6 +299,7 @@ public class ResponseEntity implements Parcelable {
         this.Insurer = in.readParcelable(InsurerEntity.class.getClassLoader());
         this.Call_Execution_Time = in.readString();
         this.listAppliedAddons = in.createTypedArrayList(AppliedAddonsPremiumBreakup.CREATOR);
+        this.premiumBreakUpAddonEntities = in.createTypedArrayList(PremiumBreakUpAddonEntity.CREATOR);
         this.Addon_List = in.readParcelable(AddonEntity.class.getClassLoader());
         this.isAddonApplied = in.readByte() != 0;
         this.final_premium_with_addon = in.readString();

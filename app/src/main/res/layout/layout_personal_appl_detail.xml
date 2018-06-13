@@ -69,7 +69,7 @@
                             android:background="@drawable/customeborder_blue"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="Male"
+                            android:text="MALE"
                             android:textColor="@color/colorPrimary" />
 
                         <TextView
@@ -82,7 +82,7 @@
                             android:background="@drawable/customeborder"
                             android:gravity="center"
                             android:padding="5dp"
-                            android:text="Female"
+                            android:text="FEMALE"
                             android:textColor="@color/description_text" />
 
 

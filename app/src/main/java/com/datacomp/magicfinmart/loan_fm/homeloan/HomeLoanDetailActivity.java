@@ -80,7 +80,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
 
     private void fetchQuoteApplication() {
 
-        showDialog("Fetching.., Please wait.!");
+        showDialog(getResources().getString(R.string.fetching_msg));
 
 
         new MainLoanController(this).getHLQuoteApplicationData(0, 0, String.valueOf(loginEntity.getFBAId()),

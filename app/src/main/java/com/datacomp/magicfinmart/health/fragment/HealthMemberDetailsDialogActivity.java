@@ -21,6 +21,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MemberListEntit
 public class HealthMemberDetailsDialogActivity extends BaseActivity implements View.OnClickListener {
 
     public static final String UPDATE_MEMBER_QUOTE = "healthquote_update";
+    public static final String UPDATE_MEMBER_DOB = "healthquote_member_dob";
 
     HealthQuote healthQuote;
     Button btnContinue;
@@ -310,5 +311,12 @@ public class HealthMemberDetailsDialogActivity extends BaseActivity implements V
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+       // super.onBackPressed();
+        Intent intent = new Intent();
+        intent.putParcelableArrayListExtra(UPDATE_MEMBER_DOB, (ArrayList<MemberListEntity>)healthQuote.getHealthRequest().getMemberList());
+        setResult(HealthQuoteFragment.REQUEST_MEMBER, intent);
+        finish();
+    }
 }
