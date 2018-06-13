@@ -69,7 +69,7 @@ ul li {margin:2px; padding:4px !important;}
     <!--vechile details-->
     <div class="col-md-12">
         <div class="table-responsive">
-            <table class="table table-bordered tbl1">
+            <table class="table table-bordered tbl1" id="tblrenew">
                 <tr>
                     <td colspan="2"><b id="regNo">Volkswagon Polo - MH - 01 - CP - 3283</b></td>
                 </tr>
@@ -82,6 +82,17 @@ ul li {margin:2px; padding:4px !important;}
                     <td style="text-align:left;">Present NCB : <b><span id="ncbPercent">0</span>%</b></td>
                     <td style="text-align:left;">Claim In Present Year : <span><b id="claim">yes</b></span></td>
                 </tr>
+            </table>
+            <table class="table table-bordered tbl1" style="display:none" id="tblnew">
+                <tr>
+                    <td colspan="2" ><b id="lblVehiclenew">Volkswagon Polo - MH - 01 - CP - 3283</b></td>
+                </tr>
+
+                <tr>
+                    <td id="lblccnew" style="text-align:left;">2016 119/CC</td>
+                    <td  style="text-align:left;">Policy reg. Date : <b><span id="lblPolRegDatenew">21-03-2018</span></b></td>
+                </tr>
+
             </table>
         </div>
     </div>
@@ -128,14 +139,14 @@ ul li {margin:2px; padding:4px !important;}
     <div class="col-md-12">
         <div class="img-responsive">
             <table class="table table-striped">
-                <tr>
-                    <td><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
-                             onerror=this.src="file:///android_asset/profile_pic.png" width="100"
-                             class="img-responsive"/></td>
-                    <td><h4 id="pospName" class="red-txt">Test User</h4>
-                        <p style="margin-top:-7px" id="deg" class="posp-txt">Landmark POSP</p>
-                        <h4 style="margin-top:-9px" id="phone" class="blue-txt">98XXXXXXXX</h4>
-                        <b > <p id="email" class="posp-txt" style="margin-top:-9px">XXXXX@gmail.com</p> </b></td>
+                <tr style="width:100%">
+                    <td ><img src="img/profile_pic.png" id="pospPhoto" alt="Not Found"
+                              onerror=this.src="file:///android_asset/profile_pic.png" width="100"
+                              class="img-responsiv" style="height:56%" /></td>
+                    <td style="text-align:left !important;"><h4 id="pospName" class="red-txt">Test User</h4>
+                        <h5 id="deg" class="posp-txt" style="margin-top:-6px">Landmark POSP</h5>
+                        <h4 id="phone" class="posp-txt" style="margin-top:-7px; color: #4FB4E9;">98XXXXXXXX</h4>
+                        <b>  <h5 id="email" class="posp-txt" style="margin-top:-7px">XXXXX@gmail.com</h5> </b></td>
                 </tr>
             </table>
         </div>
@@ -176,13 +187,9 @@ ul li {margin:2px; padding:4px !important;}
 
       var response= JSON.parse(bikeReponse);
       var otherDetails =JSON.parse(userReponse);
-       if(response.Summary.Request_Core.last_name!=null && response.Summary.Request_Core.last_name != ""){
-        document.getElementById('name').innerHTML = response.Summary.Request_Core.first_name + " " + response.Summary.Request_Core.last_name;
-        }
-        else
-        {
-        document.getElementById('name').innerHTML = response.Summary.Request_Core.first_name;
-        }
+
+      document.getElementById('name').innerHTML = response.Summary.Request_Core.first_name + " " + response.Summary.Request_Core.last_name;
+
       document.getElementById('regNo').innerHTML = otherDetails.CAR_NAME;
       document.getElementById('expDate').innerHTML = response.Summary.Request_Core.policy_expiry_date;
 
@@ -204,8 +211,30 @@ ul li {margin:2px; padding:4px !important;}
         document.getElementById('expDate').innerHTML = polyexpdate;
 
 
+
+
         var HTML = "";
         document.getElementById('divshow').innerHTML="";
+
+         if (response.Summary.Request_Core.vehicle_insurance_type == "renew")
+        {
+            document.getElementById('tblnew').style.display = 'none';
+            document.getElementById('tblrenew').style.display = '';
+        }
+        else
+        {
+            document.getElementById('tblrenew').style.display = 'none';
+            document.getElementById('tblnew').style.display = '';
+              document.getElementById('lblPolRegDatenew').innerHTML = response.Summary.Request_Core.vehicle_registration_date;
+              document.getElementById('lblVehiclenew').innerHTML = otherDetails.CAR_NAME;
+               document.getElementById('lblccnew').innerHTML = otherDetails.CC;
+                var Policyreg = response.Summary.Request_Core.vehicle_registration_date;
+       Policyreg = Policyreg.split("-");
+           var Policyregdate = "";
+
+                Policyregdate = Policyreg[2] + '-' + Policyreg[1] + '-' + Policyreg[0];
+                 document.getElementById('lblPolRegDatenew').innerHTML = Policyregdate;
+        }
 
         for (var i = 0; i < response.Response.length; i++) {
             if (response.Response[i].Error_Code == "") {
@@ -216,7 +245,7 @@ ul li {margin:2px; padding:4px !important;}
                 HTML = HTML + ' <table class="table table-bordered tbl2">';
                 HTML = HTML + '<tbody>';
                 HTML = HTML + '<tr>';
-                HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 0px !important;"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="img-responsive center" /></td>';
+                HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 0px !important;"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="" /></td>';
                 HTML = HTML + '<td style="text-align:left;">IDV</td>';
                 HTML = HTML + '<td class="red-txt">PREMIUM</td>';
                 HTML = HTML + '</tr>';
@@ -230,14 +259,14 @@ ul li {margin:2px; padding:4px !important;}
 
 
                 HTML = HTML + ' <div class="col-md-12">';
-
+     if (Object.keys(response.Response[i].listAppliedAddons).length != 0) {
                 HTML = HTML + ' <div class="table-responsive box-shadow">';
 
 
                     HTML = HTML + ' <table class="table table-bordered tbl2">';
                     HTML = HTML + '<tbody>';
                     HTML = HTML + '<tr>';
-                    HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 0px !important;"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="img-responsive center" /></td>';
+                    HTML = HTML + ' <td rowspan="2" class="img-pad" style="border-right:1px solid #ccc !important;width:120px;padding-top: 0px !important;"><img  src="http://www.policyboss.com/Images/insurer_logo/' + response.Response [i].Insurer.Insurer_Logo_Name + '" class="" /></td>';
                     HTML = HTML + '<td style="text-align:left;">IDV</td>';
                     HTML = HTML + '<td class="red-txt">PREMIIUM</td>';
                     HTML = HTML + '</tr>';
@@ -377,7 +406,7 @@ ul li {margin:2px; padding:4px !important;}
                 HTML = HTML + '</tbody>';
                 HTML = HTML + '</table>';
                 HTML = HTML + '</div>';
-
+      }
 
               HTML = HTML + '</div>';
               }
