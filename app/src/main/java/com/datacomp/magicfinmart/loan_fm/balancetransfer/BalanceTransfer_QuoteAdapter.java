@@ -74,11 +74,11 @@ public class BalanceTransfer_QuoteAdapter extends RecyclerView.Adapter<BalanceTr
 
 
                 if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("5")) {
-                    holder.txttype.setText("HOME");
+                    holder.txttype.setText("HOME LOAN");
                 } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("14")) {
-                    holder.txttype.setText("PERSONAL");
+                    holder.txttype.setText("PERSONAL LOAN");
                 } else if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("2")) {
-                    holder.txttype.setText("LAP");
+                    holder.txttype.setText("LAP LOAN");
                 }
                 holder.txtloanamount.setText("" +  BigDecimal.valueOf(Math.ceil(entity.getBLLoanRequest().getLoanamount())).setScale(0, BigDecimal.ROUND_HALF_UP));
 

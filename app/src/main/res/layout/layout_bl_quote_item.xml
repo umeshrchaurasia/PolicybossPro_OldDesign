@@ -250,6 +250,7 @@
                     android:background="#f38d1e"
                     android:gravity="center"
                     android:orientation="horizontal"
+                    android:paddingRight="2dp"
                     android:paddingBottom="0dp"
                     android:paddingTop="0dp">
 
@@ -263,7 +264,8 @@
                         style="@style/TextStyle.TextLarge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="2dp"
+
                         android:gravity="left|center_vertical"
                         android:minHeight="30dp"
                         android:text="BUY"
