@@ -53,7 +53,7 @@
                         <ImageView
                             android:id="@+id/ivBankLogo"
                             android:layout_margin="2dp"
-                            android:scaleType="centerInside"
+                            android:scaleType="fitCenter"
                             android:layout_width="match_parent"
                             android:layout_height="42dp" />
 

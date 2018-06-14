@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
 import java.util.List;
@@ -50,8 +51,12 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             item.txtPendingDays.setText(String.valueOf(entity.getPendingdays()));
             item.txtType.setText(entity.getQatype());
 
+            Glide.with(mContex).load(entity.getBankImage())
+                    .into(item.imgInsurerLogo);
+
             item.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
             item.txtOverflowMenu.setOnClickListener(this);
+
 
             try {
                 if (Integer.parseInt(entity.getApplnStatus()) == 0) {
@@ -120,7 +125,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtCustName, txtType, txtCategory, txtPendingDays;
-        ImageView imgStatus;
+        ImageView imgStatus ,imgInsurerLogo;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -130,6 +135,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             txtType = (TextView) itemView.findViewById(R.id.txtType);
             txtPendingDays = (TextView) itemView.findViewById(R.id.txtPendingDays);
             imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
+            imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
         }
     }
 
