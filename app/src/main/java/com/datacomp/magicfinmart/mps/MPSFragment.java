@@ -172,8 +172,10 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
                 bindData(((MpsResponse) response).getMasterData());
                 txtMessage.setVisibility(View.VISIBLE);
                 llPromo.setVisibility(View.GONE);
+                txtPromoCode.setVisibility(View.GONE);
             } else {
                 llPromo.setVisibility(View.VISIBLE);
+                txtPromoCode.setVisibility(View.VISIBLE);
                 txtMessage.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -185,6 +187,7 @@ public class MPSFragment extends BaseFragment implements IResponseSubcriber {
         cancelDialog();
         txtMessage.setVisibility(View.GONE);
         llPromo.setVisibility(View.VISIBLE);
+        txtPromoCode.setVisibility(View.VISIBLE);
         Constants.hideKeyBoard(btnApplyPromo, getActivity());
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
