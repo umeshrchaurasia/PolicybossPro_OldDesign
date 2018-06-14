@@ -919,8 +919,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             Glide.with(MyAccountActivity.this)
                     .load(FileNmae)
                     .asBitmap()
-                    .diskCacheStrategy(DiskCacheStrategy.NONE)
-                    .skipMemoryCache(true)
+//                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+//                    .skipMemoryCache(true)
                     .into(target);
         }
 

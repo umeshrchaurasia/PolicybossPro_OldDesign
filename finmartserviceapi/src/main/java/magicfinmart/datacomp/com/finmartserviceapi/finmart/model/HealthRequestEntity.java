@@ -24,7 +24,7 @@ public class HealthRequestEntity implements Parcelable {
      * SourceType : APP
      * SumInsured : 300000
      * SupportsAgentID : 2
-     * fba_id : 123
+     * FBAID : 123
      * agent_source : App
      * Quote_Application_Status : Q
      * conversion_date : null
@@ -51,7 +51,7 @@ public class HealthRequestEntity implements Parcelable {
     private String SourceType;
     private String SumInsured;
     private int SupportsAgentID;
-    private int fba_id;
+    private int FBAID;
     private String agent_source;
     private String Quote_Application_Status;
     private String conversion_date;
@@ -232,12 +232,12 @@ public class HealthRequestEntity implements Parcelable {
         this.SupportsAgentID = SupportsAgentID;
     }
 
-    public int getFba_id() {
-        return fba_id;
+    public int getFBAID() {
+        return FBAID;
     }
 
-    public void setFba_id(int fba_id) {
-        this.fba_id = fba_id;
+    public void setFBAID(int FBAID) {
+        this.FBAID = FBAID;
     }
 
     public String getAgent_source() {
@@ -343,7 +343,7 @@ public class HealthRequestEntity implements Parcelable {
         dest.writeString(this.SourceType);
         dest.writeString(this.SumInsured);
         dest.writeInt(this.SupportsAgentID);
-        dest.writeInt(this.fba_id);
+        dest.writeInt(this.FBAID);
         dest.writeString(this.agent_source);
         dest.writeString(this.Quote_Application_Status);
         dest.writeString(this.conversion_date);
@@ -375,7 +375,7 @@ public class HealthRequestEntity implements Parcelable {
         this.SourceType = in.readString();
         this.SumInsured = in.readString();
         this.SupportsAgentID = in.readInt();
-        this.fba_id = in.readInt();
+        this.FBAID = in.readInt();
         this.agent_source = in.readString();
         this.Quote_Application_Status = in.readString();
         this.conversion_date = in.readString();
