@@ -1926,7 +1926,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             sumInsured = Long.parseLong(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
 
 
-        if (sumInsured >= maxAccidentalDeath) {
+        if (AccidentalDeath >= maxAccidentalDeath) {
             etICICIAccidentalBenefits.setText("" + (maxAccidentalDeath));
         } else {
             if (AccidentalDeath >= sumInsured)
@@ -1950,7 +1950,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
             sumInsured = Long.parseLong(etSumICICIAssured.getText().toString().replaceAll("\\,", ""));
 
 
-        if (sumInsured >= maxAccidentalDeath) {
+        if (AccidentalDeath >= maxAccidentalDeath) {
             etICICICriticalIllness.setText("" + (maxAccidentalDeath));
         } else {
             if (AccidentalDeath >= sumInsured)

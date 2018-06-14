@@ -116,7 +116,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         setListeners();
         /*if (listMobileAddOn != null)
             addOnTotal = applyPositiveAddons(listMobileAddOn);*/
-
+        if (responseEntity.getTotalAddonAplied() != null && !responseEntity.getTotalAddonAplied().equals(""))
+            addOnTotal = Double.parseDouble(responseEntity.getTotalAddonAplied());
         bindData(responseEntity);
         /*new AsyncShareJson().execute();*/
     }
@@ -385,12 +386,12 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     if (!summaryEntity.getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
                         jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " ," + carMasterEntity.getModel_Name() + " -  " + summaryEntity.getRequest_Core().getRegistration_no());
                     else
-                        jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name() );
+                        jsonObject.put("VECHILE_NAME", carMasterEntity.getMake_Name() + " " + carMasterEntity.getModel_Name());
                     jsonObject.put("POLICY_EXP", summaryEntity.getRequest_Core().getPolicy_expiry_date());
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
                     jsonObject.put("NCB", summaryEntity.getRequest_Core().getVehicle_ncb_current());
                     jsonObject.put("CLAIM", summaryEntity.getRequest_Core().getIs_claim_exists());
-                    jsonObject.put("VECHILE_CC",  carMasterEntity.getCubic_Capacity() + "CC");
+                    jsonObject.put("VECHILE_CC", carMasterEntity.getCubic_Capacity() + "CC");
 
                     return jsonObject.toString();
                 } catch (Exception e) {
@@ -410,7 +411,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     if (!summaryEntity.getRequest_Core().getRegistration_no().endsWith("-AA-1234"))
                         jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " ," + bikeMasterEntity.getModel_Name() + " -  " + summaryEntity.getRequest_Core().getRegistration_no());
                     else
-                        jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() );
+                        jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name());
 
 
                     // jsonObject.put("VECHILE_NAME", bikeMasterEntity.getMake_Name() + " " + bikeMasterEntity.getModel_Name() + " - " + bikeMasterEntity.getCubic_Capacity() + "CC");
@@ -418,7 +419,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     jsonObject.put("MFG_DATE", summaryEntity.getRequest_Core().getVehicle_manf_date());
                     jsonObject.put("NCB", summaryEntity.getRequest_Core().getVehicle_ncb_current());
                     jsonObject.put("CLAIM", summaryEntity.getRequest_Core().getIs_claim_exists());
-                    jsonObject.put("VECHILE_CC",  bikeMasterEntity.getCubic_Capacity() + "CC");
+                    jsonObject.put("VECHILE_CC", bikeMasterEntity.getCubic_Capacity() + "CC");
                     return jsonObject.toString();
                 } catch (Exception e) {
                     e.printStackTrace();

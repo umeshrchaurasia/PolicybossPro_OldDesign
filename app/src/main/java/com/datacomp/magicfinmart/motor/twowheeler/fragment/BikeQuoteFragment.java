@@ -1253,6 +1253,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                             if (responseEntity.getInsurer_Id().equalsIgnoreCase(entity.getInsurer_Id())) {
                                 responseEntity.setFinal_premium_with_addon(entity.getFinal_premium_with_addon());
                                 responseEntity.setFinal_premium_without_addon(entity.getFinal_premium_without_addon());
+                                responseEntity.setTotalAddonAplied(entity.getTotalAddonAplied());
                                 responseEntity.setTotalGST(entity.getTotalGST());
                                 responseEntity.setPremiumBreakUpAddonEntities(entity.getPremiumBreakUpAddonEntities());
                                 bikePremiumResponse.getResponse().set(i, responseEntity);
