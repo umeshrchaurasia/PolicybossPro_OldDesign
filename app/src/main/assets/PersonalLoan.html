@@ -40,7 +40,7 @@ ul li {margin:2px; padding:4px !important;}
     <div class="col-md-12">
         <br>
         <p>Dear <b class="red-txt" id="name"></b>,</p>
-        <p>Please find below Your Personal Loan quotations.</p>
+        <p>Please find below Your <b>Personal Loan </b> quotations.</p>
     </div>
 
 
@@ -127,7 +127,7 @@ ul li {margin:2px; padding:4px !important;}
             HTML = HTML + '<table class="table table-bordered tbl2" >';
             HTML = HTML +     '<tbody>';
             HTML = HTML +     '  <tr>';
-            HTML = HTML + '<td  rowspan="2" style="width:25%;"><img src="' + response.data[i].Bank_Logo + '" class="img-responsive center" /> <p style="text-align-center; font-size:11px;width: 7em;overflow:hidden; word-break: break-word; white-space: pre-line;text-align: left;  margin-top: 20px;  ">' + response.data[i].Bank_Code + '</p></td>';
+            HTML = HTML + '<td  rowspan="2" style="width:25%;"><img src="' + response.data[i].Bank_Logo + '" class="img-responsive center" /> <b><p style="text-align-center; font-size:11px;width: 7em;overflow:hidden; word-break: break-word; white-space: pre-line;text-align: left;  margin-top: 20px;  ">' + response.data[i].Bank_Code + '</p></b></td>';
             HTML = HTML + ' <td><p>LOAN AMOUNT</p><h5 style=" font-size:11px;"><b>₹ ' + response.data[i].loan_eligible + '</b></h5></td>';
             HTML = HTML + '<td><p>EMI</p><h5 style=" font-size:11px;"><b>₹ ' + response.data[i].emi + '</b></h5></td>';
             HTML = HTML + ' <td><p>EMI PER LAC</p><h5 style=" font-size:11px;"><b>₹ ' + emiperlac.toFixed(2) + '</b></h5></td>';

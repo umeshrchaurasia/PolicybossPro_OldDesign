@@ -121,7 +121,7 @@ ul li {margin:2px; padding:4px !important;}
         for (var i = 0; i < quotes.length; i++)
         {
 
-         HTML = HTML + '<div class="table-responsive box-shadow"><table class="table table-bordered tbl2"><tbody><tr><td style="width:40%;"><img  alt="No Image" src="' + quotes[i].InsurerLogoName + '" class="img-responsive center" /></td><td><p>SUM ASSURED</p><h5><b>₹ ' + quotes[i].SumInsured + '</b></h5></td><td><p>DEDUCTIBLE</p><h5><b>₹ ' + quotes[i].Deductible_Amount + '</b></h5></td></tr><tr><td><b style="font-size:14px;">' + quotes[i].ProductName + '</b><h5><b style="font-size:12px;">' + quotes[i].PlanName + ' </b></h5></td>';
+         HTML = HTML + '<div class=""><table class="table table-bordered tbl2"><tbody><tr><td style="width:40%;"><img  alt="No Image" src="' + quotes[i].InsurerLogoName + '" class="img-responsive center" /></td><td><p>SUM ASSURED</p><h5><b>₹ ' + quotes[i].SumInsured + '</b></h5></td><td><p>DEDUCTIBLE</p><h5><b>₹ ' + quotes[i].Deductible_Amount + '</b></h5></td></tr><tr><td><b style="font-size:14px;">' + quotes[i].ProductName + '</b><h5><b style="font-size:12px;">' + quotes[i].PlanName + ' </b></h5></td>';
             if (quotes[i].servicetaxincl.toLowerCase() == "e") {
                 HTML = HTML + '<td colspan="2"><p class="text-center" style="color:#f95f67">PREMIUM</p> <span  class="amount" > ₹ ' + quotes[i].NetPremium + '/Year</span></td>';
             }

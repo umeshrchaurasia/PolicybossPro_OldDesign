@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
@@ -231,17 +232,19 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 //redirect to knowledge guru
                 startActivity(new Intent(getActivity(), KnowledgeGuruActivity.class));
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Knowledge Guru : Knowledge Guru From Dashboard "), Constants.KNOWLEDGE_GURU), null);
+                MyApplication.getInstance().trackEvent( Constants.KNOWLEDGE_GURU,"Clicked","Knowledge Guru From Dashboard");
                 break;
             case R.id.tvPendingCAses:
                 //redirect to pending status
                 startActivity(new Intent(getContext(), PendingCasesActivity.class));
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Pending Cases : Pending Cases From Dashboard "), Constants.PENDING_CASES), null);
+                MyApplication.getInstance().trackEvent( Constants.PENDING_CASES,"Clicked","Pending Cases From Dashboard");
                 break;
             case R.id.tvSalesMat:
                 //redirect to sales
                 startActivity(new Intent(getContext(), SalesMaterialActivity.class));
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Sales Material : Sales Material From Dashboard "), Constants.SALES_MATERIAL), null);
-
+                MyApplication.getInstance().trackEvent( Constants.SALES_MATERIAL,"Clicked","Sales Material From Dashboard");
                 break;
         }
     }

@@ -43,7 +43,7 @@ public class MotorRequestEntity implements Parcelable {
     private String pa_named_passenger_si;
     private String pa_unnamed_passenger_si;
     private String pa_paid_driver_si;
-    private int vehicle_expected_idv;
+    private long vehicle_expected_idv;
     private String first_name;
     private String middle_name;
     private String last_name;
@@ -422,11 +422,11 @@ public class MotorRequestEntity implements Parcelable {
         this.pa_paid_driver_si = pa_paid_driver_si;
     }
 
-    public int getVehicle_expected_idv() {
+    public long getVehicle_expected_idv() {
         return vehicle_expected_idv;
     }
 
-    public void setVehicle_expected_idv(int vehicle_expected_idv) {
+    public void setVehicle_expected_idv(long vehicle_expected_idv) {
         this.vehicle_expected_idv = vehicle_expected_idv;
     }
 
@@ -641,7 +641,7 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.pa_named_passenger_si);
         dest.writeString(this.pa_unnamed_passenger_si);
         dest.writeString(this.pa_paid_driver_si);
-        dest.writeInt(this.vehicle_expected_idv);
+        dest.writeLong(this.vehicle_expected_idv);
         dest.writeString(this.first_name);
         dest.writeString(this.middle_name);
         dest.writeString(this.last_name);
@@ -702,7 +702,7 @@ public class MotorRequestEntity implements Parcelable {
         this.pa_named_passenger_si = in.readString();
         this.pa_unnamed_passenger_si = in.readString();
         this.pa_paid_driver_si = in.readString();
-        this.vehicle_expected_idv = in.readInt();
+        this.vehicle_expected_idv = in.readLong();
         this.first_name = in.readString();
         this.middle_name = in.readString();
         this.last_name = in.readString();
