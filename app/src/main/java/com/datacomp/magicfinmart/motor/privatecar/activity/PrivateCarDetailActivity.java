@@ -28,6 +28,7 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
     ViewPager viewPager;
     ActivityTabsPagerAdapter mAdapter;
     PrefManager prefManager;
+    DBPersistanceController dbPersistanceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +40,22 @@ public class PrivateCarDetailActivity extends BaseActivity implements IResponseS
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        dbPersistanceController = new DBPersistanceController(this);
 
+        if (dbPersistanceController.getCarMakeModel() != null && dbPersistanceController.getCarMakeModel().size() <= 0) {
+            new MasterController(this).getCarMaster(this);
+        }
+        if (dbPersistanceController.getRTOListNames() != null && dbPersistanceController.getRTOListNames().size() <= 0) {
+            new MasterController(this).getRTOMaster(this);
+        }
         prefManager = new PrefManager(this);
-        if (prefManager.IsCarMasterUpdate()) {
+       /* if (prefManager.IsCarMasterUpdate()) {
             new MasterController(this).getCarMaster(this);
         }
 
         if (prefManager.IsRtoMasterUpdate()) {
             new MasterController(this).getRTOMaster(this);
-        }
+        }*/
 
         tabLayout.setupWithViewPager(viewPager, true);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
