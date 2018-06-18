@@ -18,7 +18,7 @@ public class PrefManager {
 
     // Shared preferences file name
     private static final String PREF_NAME = "magic-finmart";
-
+    private static final String MOTOR_VERSION = "motor_master_version";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String IS_BIKE_MASTER_UPDATE = "isBikeMasterUpdate";
     private static final String IS_CAR_MASTER_UPDATE = "isCarMasterUpdate";
@@ -259,5 +259,24 @@ public class PrefManager {
 
     //endregion
 
+    //region clear Motor Master data
+    public boolean updateMotorVersion(String MotorVersion) {
+        pref.edit().remove(MOTOR_VERSION).commit();
+        return pref.edit().putString(MOTOR_VERSION, MotorVersion).commit();
+    }
+
+    public String getMotorVersion() {
+        return pref.getString(MOTOR_VERSION, "0");
+    }
+
+    //endregion
+
+    //region clear Motor Master data
+
+    public void clearMotorMaster() {
+        pref.edit().remove(IS_CAR_MASTER_UPDATE)
+                .remove(IS_BIKE_MASTER_UPDATE).commit();
+    }
+    //endregion
 
 }

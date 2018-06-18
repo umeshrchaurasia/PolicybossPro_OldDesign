@@ -163,7 +163,8 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     }
 
     public class BikeQuoteItem extends RecyclerView.ViewHolder {
-        public TextView txtInsurerName, txtIDV, txtFinalPremium, txtPremiumBreakUp, txtBuy;
+        public TextView txtInsurerName, txtIDV, txtFinalPremium, txtPremiumBreakUp;
+        LinearLayout txtBuy;
         ImageView imgInsurerLogo;
         LinearLayout llIdv;
         RecyclerView rvAddOn;
@@ -175,7 +176,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtInsurerName = (TextView) itemView.findViewById(R.id.txtInsuranceCompName);
             txtIDV = (TextView) itemView.findViewById(R.id.txtIDV);
-            txtBuy = (TextView) itemView.findViewById(R.id.txtBuy);
+            txtBuy = (LinearLayout) itemView.findViewById(R.id.txtBuy);
             txtFinalPremium = (TextView) itemView.findViewById(R.id.txtFinalPremium);
             imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
             txtPremiumBreakUp = (TextView) itemView.findViewById(R.id.txtPremiumBreakUp);

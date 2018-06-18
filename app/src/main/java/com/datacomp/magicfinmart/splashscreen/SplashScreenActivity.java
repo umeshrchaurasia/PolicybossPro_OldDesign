@@ -45,6 +45,10 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         loginResponseEntity = dbPersistanceController.getUserData();
 //        Utility.LOGIN_IP = Utility.getLocalIpAddress(this);
 
+        // By default set to 1.
+        prefManager.updateMotorVersion("1");
+
+
         prefManager.setIsUpdateShown(true);
         if (prefManager.IsBikeMasterUpdate())
             new MasterController(this).getBikeMaster(this);
