@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.salesmaterial;
 
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -23,12 +24,10 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CompanyEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
@@ -50,6 +51,12 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     DBPersistanceController dbPersistanceController;
     List<CompanyEntity> companyLst;
 
+    LoginResponseEntity loginResponseEntity;
+    String pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo;
+    String fbaNAme, fbaDesg = "FBA SUPPORT ASSISTANT", fbaEmail, fbaMobNo;
+    AccountDtlEntity accountDtlEntity;
+    URL pospPhotoUrl = null, fbaPhotoUrl = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +65,14 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(SalesMaterialActivity.this);
+        loginResponseEntity = dbPersistanceController.getUserData();
+        accountDtlEntity = dbPersistanceController.getAccountData();
         init();
         fetchProducts();
+        setOtherDetails();
+        setPospDetails();
+        new createBitmapFromURLPosp(pospPhotoUrl).execute();
+        new createBitmapFromURFba(fbaPhotoUrl).execute();
 
     }
 
@@ -81,7 +94,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         cancelDialog();
         boolean isUpdate = false;
         if (response instanceof SalesMaterialProductResponse) {
-             mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
+            mlistSalesProduct = ((SalesMaterialProductResponse) response).getMasterData();
             //mlistSalesProduct = getProducttList();
 
             List<SalesProductEntity> compLst = dbPersistanceController.getCompanyList();
@@ -260,12 +273,59 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     }
 
 
-    public class createBitmapFromURL extends AsyncTask<Void, Void, Bitmap> {
-        URL NotifyPhotoUrl;
-        String imgURL;
+    public class createBitmapFromURLPosp extends AsyncTask<Void, Void, Bitmap> {
+        URL url;
 
-        public createBitmapFromURL(String imgURL) {
-            this.imgURL = imgURL;
+        public createBitmapFromURLPosp(URL url) {
+            this.url = url;
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+            Bitmap networkBitmap = null;
+            try {
+
+                if (url == null) {
+                    AssetManager assetManager = getAssets();
+                    InputStream istr;
+                    try {
+                        istr = assetManager.open("file:///android_asset/profile_pic.png");
+                        networkBitmap = BitmapFactory.decodeStream(istr);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    networkBitmap = BitmapFactory.decodeStream(
+                            url.openConnection().getInputStream());
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: " + url);
+            }
+
+            return networkBitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            Bitmap pospDetails = createBitmap(result, pospNAme, pospDesg, PospMobNo, pospEmail);
+            saveImageToStorage(pospDetails, "pospSalesMaterialDetails");
+            // bitmap_image = result;
+        }
+    }
+
+    public class createBitmapFromURFba extends AsyncTask<Void, Void, Bitmap> {
+        URL url;
+
+        public createBitmapFromURFba(URL url) {
+            this.url = url;
         }
 
 
@@ -278,21 +338,189 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         @Override
         protected Bitmap doInBackground(Void... voids) {
             Bitmap networkBitmap = null;
-
             try {
-                NotifyPhotoUrl = new URL(imgURL);
-                networkBitmap = BitmapFactory.decodeStream(
-                        NotifyPhotoUrl.openConnection().getInputStream());
+
+                if (url == null) {
+                    AssetManager assetManager = getAssets();
+                    InputStream istr;
+                    try {
+                        istr = assetManager.open("file:///android_asset/profile_pic.png");
+                        networkBitmap = BitmapFactory.decodeStream(istr);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    networkBitmap = BitmapFactory.decodeStream(
+                            url.openConnection().getInputStream());
+                }
+
+
             } catch (IOException e) {
                 e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: " + NotifyPhotoUrl);
+                Log.e("TAG", "Could not load Bitmap from: " + url);
             }
 
             return networkBitmap;
         }
 
         protected void onPostExecute(Bitmap result) {
+            Bitmap fbaDetails = createBitmap(result, fbaNAme, fbaDesg, fbaMobNo, fbaEmail);
+            saveImageToStorage(fbaDetails, "fbaSalesMaterialDetails");
+            // bitmap_image = result;
+        }
+    }
 
+    private void setPospDetails() {
+        if (accountDtlEntity != null) {
+
+            if (loginResponseEntity != null) {
+                if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
+                    pospNAme = loginResponseEntity.getPOSPName();
+                } else {
+                    pospNAme = "POSP Name";
+                }
+            } else {
+                pospNAme = "POSP Name";
+            }
+
+            if (accountDtlEntity.getDisplayEmail() != null && !accountDtlEntity.getDisplayEmail().equals("")) {
+                pospEmail = accountDtlEntity.getDisplayEmail();
+            } else {
+                if (loginResponseEntity.getPOSEmail() != null && !loginResponseEntity.getPOSEmail().equals("")) {
+                    pospEmail = loginResponseEntity.getPOSEmail();
+                } else {
+                    pospEmail = "XXXXXX@finmart.com";
+                }
+            }
+
+            if (accountDtlEntity.getDisplayDesignation() != null && !accountDtlEntity.getDisplayDesignation().equals("")) {
+                pospDesg = accountDtlEntity.getDisplayDesignation();
+            } else {
+                pospDesg = "LandMark POSP";
+            }
+
+            if (accountDtlEntity.getDisplayPhoneNo() != null && !accountDtlEntity.getDisplayPhoneNo().equals("")) {
+                PospMobNo = accountDtlEntity.getDisplayPhoneNo();
+            } else {
+                if (loginResponseEntity.getPOSPMobile() != null && !loginResponseEntity.getPOSPMobile().equals("")) {
+                    PospMobNo = loginResponseEntity.getPOSPMobile();
+                } else {
+                    PospMobNo = "98XXXXXXXX";
+                }
+
+            }
+        } else {
+            pospNAme = "POSP Name";
+            pospEmail = "XXXXXX@finmart.com";
+            pospDesg = "LandMark POSP";
+            PospMobNo = "98XXXXXXXX";
+        }
+        //setting photo url
+        if (loginResponseEntity != null) {
+            if (loginResponseEntity.getPOSPProfileUrl() != null && !loginResponseEntity.getPOSPProfileUrl().equals("")) {
+                try {
+                    pospPhotoUrl = new URL(loginResponseEntity.getPOSPProfileUrl());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (pospPhotoUrl == null) {
+            try {
+                pospPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void setOtherDetails() {
+
+        if (accountDtlEntity != null) {
+
+            if (loginResponseEntity != null) {
+                if (loginResponseEntity.getFullName() != null && !loginResponseEntity.getFullName().equals("")) {
+                    fbaNAme = loginResponseEntity.getFullName();
+                } else {
+                    fbaNAme = "FBA Name";
+                }
+            } else {
+                fbaNAme = "FBA Name";
+            }
+
+            if (accountDtlEntity.getEditEmailId() != null && !accountDtlEntity.getEditEmailId().equals("")) {
+                fbaEmail = accountDtlEntity.getEditEmailId();
+            } else {
+                fbaEmail = "XXXXXX@finmart.com";
+            }
+
+            if (accountDtlEntity.getDesignation() != null && !accountDtlEntity.getDesignation().equals("")) {
+                fbaDesg = accountDtlEntity.getDesignation();
+            } else {
+                fbaDesg = "FBA SUPPORT ASSISTANT";
+            }
+
+            if (accountDtlEntity.getEditMobiNumb() != null && !accountDtlEntity.getEditMobiNumb().equals("")) {
+                fbaMobNo = accountDtlEntity.getEditMobiNumb();
+            } else {
+                fbaMobNo = "98XXXXXXXX";
+            }
+        } else {
+            fbaNAme = "FBA Name";
+            fbaEmail = "XXXXXX@finmart.com";
+            fbaDesg = "FBA SUPPORT ASSISTANT";
+            fbaMobNo = "98XXXXXXXX";
+        }
+        //setting photo url
+        if (loginResponseEntity != null) {
+            if (loginResponseEntity.getFBAProfileUrl() != null && !loginResponseEntity.getFBAProfileUrl().equals("")) {
+                try {
+                    fbaPhotoUrl = new URL(loginResponseEntity.getFBAProfileUrl());
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (fbaPhotoUrl == null) {
+            try {
+                fbaPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public class createBitmapUrl extends AsyncTask<URL, Void, Bitmap> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Bitmap doInBackground(URL... urls) {
+            Bitmap networkBitmap = null;
+            try {
+                for (URL url : urls) {
+                    if (url != null) {
+                        networkBitmap = BitmapFactory.decodeStream(
+                                url.openConnection().getInputStream());
+                        saveImageToStorage(networkBitmap, "fbaSalesMaterialDetails");
+                    }
+                }
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                Log.e("TAG", "Could not load Bitmap from: url");
+            }
+
+            return networkBitmap;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            Bitmap fbaDetails = createBitmap(result, fbaNAme, fbaDesg, fbaMobNo, fbaEmail);
+            saveImageToStorage(fbaDetails, "fbaSalesMaterialDetails");
             // bitmap_image = result;
         }
     }

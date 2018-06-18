@@ -313,6 +313,19 @@ public class BaseActivity extends AppCompatActivity {
         return outFile;
     }
 
+    public File getImageFromStorage(String name) {
+        try {
+            File dir = Utility.createDirIfNotExists();
+            String fileName = name + ".jpg";
+            File outFile = new File(dir, fileName);
+            return outFile;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public File createFile(String name) {
         FileOutputStream outStream = null;
 

@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
@@ -22,6 +21,8 @@ import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.TouchImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -71,18 +72,28 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         if (getIntent().hasExtra(Constants.PRODUCT_ID)) {
             salesProductEntity = getIntent().getExtras().getParcelable(Constants.PRODUCT_ID);
             //The key argument here must match that used in the other activity
-            switch (salesProductEntity.getProduct_Id()) {
+            /*switch (salesProductEntity.getProduct_Id()) {
                 case 1:
                 case 2:
-                    setPospDetails();
+                    //setPospDetails();
+                    try {
+                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("pospSalesMaterialDetails")));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     break;
 
                 case 3:
                 case 4:
                 case 5:
-                    setOtherDetails();
+                    //setOtherDetails();
+                    try {
+                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    }
                     break;
-            }
+            }*/
         }
 
 
@@ -93,7 +104,8 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         salesPhoto = BitmapFactory.decodeFile(docsEntity.getImage_path(), options);*/
         //salesPhoto = ((BitmapDrawable) ivProduct.getDrawable()).getBitmap();
 
-        new createBitmapFromURL(pospPhotoUrl).execute();
+        //new createBitmapFromURL(pospPhotoUrl).execute();
+        new createBitmapFromURLNew().execute();
     }
 
     private void initialize() {
@@ -101,11 +113,11 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
 
         if (getIntent().hasExtra(Constants.DOC_DATA)) {
             docsEntity = getIntent().getExtras().getParcelable(Constants.DOC_DATA);
-            Glide.with(this)
+            /*Glide.with(this)
                     .load(docsEntity.getImage_path())
                     .asBitmap()
                     .placeholder(getResources().getDrawable(R.drawable.ambulance))
-                    .into(ivProduct);
+                    .into(ivProduct);*/
 
         }
     }
@@ -367,6 +379,62 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
                 Log.e("TAG", "Could not load Bitmap from: " + e.getMessage());
 
             }
+        }
+    }
+
+    public class createBitmapFromURLNew extends AsyncTask<Void, Void, Bitmap> {
+
+        @Override
+        protected void onPreExecute() {
+            showDialog();
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+
+            switch (salesProductEntity.getProduct_Id()) {
+                case 1:
+                case 2:
+                    //setPospDetails();
+                    try {
+                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("pospSalesMaterialDetails")));
+                        URL salePhotoUrl = new URL(docsEntity.getImage_path());
+                        salesPhoto = BitmapFactory.decodeStream(
+                                salePhotoUrl.openConnection().getInputStream());
+                        if (combinedImage != null && salesPhoto != null) {
+                            combinedImage = combineImages(salesPhoto, combinedImage);
+                            //ivProduct.setImageBitmap(combinedImage);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+
+                case 3:
+                case 4:
+                case 5:
+                    //setOtherDetails();
+                    try {
+                        combinedImage = BitmapFactory.decodeStream(new FileInputStream(getImageFromStorage("fbaSalesMaterialDetails")));
+                        URL salePhotoUrl = new URL(docsEntity.getImage_path());
+                        salesPhoto = BitmapFactory.decodeStream(
+                                salePhotoUrl.openConnection().getInputStream());
+                        if (combinedImage != null && salesPhoto != null) {
+                            combinedImage = combineImages(salesPhoto, combinedImage);
+                            //ivProduct.setImageBitmap(combinedImage);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+            return combinedImage;
+        }
+
+        protected void onPostExecute(Bitmap result) {
+            ivProduct.setImageBitmap(result);
+            cancelDialog();
+
         }
     }
 
