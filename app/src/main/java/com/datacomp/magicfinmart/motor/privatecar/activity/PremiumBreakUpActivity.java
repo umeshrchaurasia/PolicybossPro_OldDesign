@@ -116,7 +116,8 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         setListeners();
         /*if (listMobileAddOn != null)
             addOnTotal = applyPositiveAddons(listMobileAddOn);*/
-        addOnTotal = Double.parseDouble(responseEntity.getTotalAddonAplied());
+        if (responseEntity.getTotalAddonAplied() != null && !responseEntity.getTotalAddonAplied().equals(""))
+            addOnTotal = Double.parseDouble(responseEntity.getTotalAddonAplied());
         bindData(responseEntity);
         /*new AsyncShareJson().execute();*/
     }

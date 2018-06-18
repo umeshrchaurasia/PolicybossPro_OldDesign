@@ -189,7 +189,7 @@ public class HealthApplicationFragment extends BaseFragment implements View.OnCl
 
         if (entity.getHealthRequest().getPBStatus().toLowerCase().equals("a")) {
       /*      HealthQuote healthQuote = new HealthQuote();
-            healthQuote.setFba_id(entity.getFba_id());
+            healthQuote.setFBAID(entity.getFBAID());
             healthQuote.setHealthRequest(entity.getHealthRequest());
             healthQuote.setCrn(entity.getCrn());
             healthQuote.setAgent_source(entity.getAgent_source());

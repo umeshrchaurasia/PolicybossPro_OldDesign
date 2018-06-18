@@ -413,6 +413,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
     }
 
     private void setTermRequest() {
+        //termRequestEntity.setExisting_ProductInsuranceMapping_Id("");
         termRequestEntity.setLumpsumPercentage("0");
         termRequestEntity.setPolicyTerm("" + dbPersistanceController.getPremYearID(spPolicyTerm.getSelectedItem().toString()));
 

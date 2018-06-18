@@ -108,7 +108,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
 
         if (motorRequestEntity.getVehicle_expected_idv() > 0) {
             etIdv.setText("" + motorRequestEntity.getVehicle_expected_idv());
-            sbIdv.setProgress(motorRequestEntity.getVehicle_expected_idv() / 1000);
+            sbIdv.setProgress((int)(motorRequestEntity.getVehicle_expected_idv() / 1000));
             tvProgress.setText("DESIRED IDV (" + motorRequestEntity.getVehicle_expected_idv() + ")");
         }
     }
@@ -272,9 +272,9 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
                     }
                 }
                 if (!etIdv.getText().toString().isEmpty()) {
-                    int idv = Integer.parseInt(etIdv.getText().toString());
-                    int minIdv = Integer.parseInt(summaryEntity.getVehicle_min_idv());
-                    int maxIdv = Integer.parseInt(summaryEntity.getVehicle_max_idv());
+                    long idv = Long.parseLong(etIdv.getText().toString());
+                    long minIdv = Long.parseLong(summaryEntity.getVehicle_min_idv());
+                    long maxIdv = Long.parseLong(summaryEntity.getVehicle_max_idv());
                     if (idv < minIdv || idv > maxIdv) {
                         etIdv.requestFocus();
                         etIdv.setError("Enter IDV between " + minIdv + " & " + maxIdv);
@@ -309,7 +309,7 @@ public class ModifyQuoteActivity extends BaseActivity implements View.OnClickLis
             motorRequestEntity.setNon_electrical_accessory(etNonElecAcc.getText().toString());
 
         if (!etIdv.getText().toString().isEmpty())
-            motorRequestEntity.setVehicle_expected_idv(Integer.parseInt(etIdv.getText().toString()));
+            motorRequestEntity.setVehicle_expected_idv(Long.parseLong(etIdv.getText().toString()));
 
         motorRequestEntity.setVoluntary_deductible(Integer.parseInt(spVolExcessAmt.getSelectedItem().toString()));
 
