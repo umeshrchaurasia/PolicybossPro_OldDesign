@@ -69,7 +69,7 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
 
     private void fetchPendingCases(int count) {
         if (count == 0)
-        showDialog("Please wait.., loading cases");
+        showDialog("Please wait.. loading cases");
 
 
         new PendingController(this).getPendingCases(count,0,

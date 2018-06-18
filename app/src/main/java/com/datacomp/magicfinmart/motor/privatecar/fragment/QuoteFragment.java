@@ -949,15 +949,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             if (webViewLoader.getVisibility() == View.GONE) {
 
 
-                int fbaID = new DBPersistanceController(getActivity()).getUserData().getFBAId();
-
-                String url = "http://qa.policyboss.com/";
-                //String url = "http://policyboss.com/";
                 String title = "";
                 String name = "";
-                url = url + "buynowprivatecar/4/" + entity.getService_Log_Unique_Id() + "/nonposp/" + fbaID;
                 title = "Motor Insurance";
-
                 String imgPath = "http://qa.policyboss.com/Images/insurer_logo/" + entity.getInsurer().getInsurer_Logo_Name();
                 //convert quote to application server
                 new QuoteApplicationController(getActivity()).convertQuoteToApp(

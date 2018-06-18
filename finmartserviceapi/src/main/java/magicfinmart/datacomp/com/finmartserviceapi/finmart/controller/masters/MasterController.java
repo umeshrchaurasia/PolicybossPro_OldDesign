@@ -8,6 +8,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.MasterRequestBuilder;
@@ -51,29 +52,33 @@ public class MasterController implements IMasterFetch {
                     if (response.body().getStatusNo() == 0) {
                         if (response.body().getMasterData() != null || response.body().getMasterData().size() != 0)
                             new AsyncCarMaster(mContext, response.body().getMasterData()).execute();
-
-                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        if (iResponseSubcriber != null)
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
 
                     } else {
-                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        if (iResponseSubcriber != null)
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                     }
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                    if (iResponseSubcriber != null)
+                        iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
                 }
             }
 
             @Override
             public void onFailure(Call<CarMasterResponse> call, Throwable t) {
-                if (t instanceof ConnectException) {
-                    iResponseSubcriber.OnFailure(t);
-                } else if (t instanceof SocketTimeoutException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof UnknownHostException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof NumberFormatException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
-                } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
                 }
             }
         });
@@ -94,27 +99,32 @@ public class MasterController implements IMasterFetch {
                         if (response.body().getMasterData() != null && response.body().getMasterData().size() != 0)
                             new AsyncBikeMaster(mContext, response.body().getMasterData()).execute();
 
-                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        if (iResponseSubcriber != null)
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
-                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        if (iResponseSubcriber != null)
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                     }
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                    if (iResponseSubcriber != null)
+                        iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
                 }
             }
 
             @Override
             public void onFailure(Call<BikeMasterResponse> call, Throwable t) {
-                if (t instanceof ConnectException) {
-                    iResponseSubcriber.OnFailure(t);
-                } else if (t instanceof SocketTimeoutException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof UnknownHostException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
-                } else if (t instanceof NumberFormatException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
-                } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                if (iResponseSubcriber != null) {
+                    if (t instanceof ConnectException) {
+                        iResponseSubcriber.OnFailure(t);
+                    } else if (t instanceof SocketTimeoutException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof UnknownHostException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                    } else if (t instanceof NumberFormatException) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                    }
                 }
             }
         });
@@ -283,7 +293,26 @@ public class MasterController implements IMasterFetch {
 
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
+
                         new AsyncConstants(mContext, response.body().getMasterData()).execute();
+
+                        //existing master version
+                        int motorVersion = Integer.parseInt(new PrefManager(mContext).getMotorVersion());
+
+                        //new version available hit to master
+                        if (Integer.parseInt(response.body().getMasterData().getUpdateMaster())
+                                > motorVersion) {
+
+                            //clear all master tags
+                            new PrefManager(mContext).clearMotorMaster();
+
+                            new PrefManager(mContext).updateMotorVersion
+                                    (response.body().getMasterData().getUpdateMaster());
+
+                            getCarMaster(null);
+                            getBikeMaster(null);
+                        }
+
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
