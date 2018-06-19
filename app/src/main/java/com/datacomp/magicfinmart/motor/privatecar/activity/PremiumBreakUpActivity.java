@@ -109,8 +109,11 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
         //addonList = getAddonList();
         if (responseEntity != null && responseEntity.getPremiumBreakUpAddonEntities() != null && responseEntity.getPremiumBreakUpAddonEntities().size() > 0)
             addonListNew = responseEntity.getPremiumBreakUpAddonEntities();
-        else
+        else {
             addonListNew = getAddonListNew();
+            responseEntity.setPremiumBreakUpAddonEntities(addonListNew);
+        }
+
 
         initRecyclers();
         setListeners();
@@ -336,6 +339,10 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 finish();
                 break;
             case R.id.btnBuy:
+                Intent resultIntent1 = new Intent();
+                resultIntent1.putExtra("PREMIUM", responseEntity);
+                setResult(Activity.RESULT_OK, resultIntent1);
+               // finish();
                 redirectToBuy(responseEntity.getService_Log_Unique_Id());
                 break;
             case R.id.btnBackToQuote:

@@ -27,7 +27,8 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
     Toolbar toolbar;
     ViewPager viewPager;
     BikeActivityTabsPagerAdapter mAdapter;
-    PrefManager prefManager;
+    /*PrefManager prefManager;*/
+    DBPersistanceController dbPersistanceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,9 +63,17 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
 
             }
         });
-        prefManager = new PrefManager(this);
-        if (prefManager.IsBikeMasterUpdate())
+        /*prefManager = new PrefManager(this);*/
+        dbPersistanceController = new DBPersistanceController(this);
+
+        if (dbPersistanceController.getBikeMakeModel() != null && dbPersistanceController.getBikeMakeModel().size() <= 0) {
             new MasterController(this).getBikeMaster(this);
+        }
+        if (dbPersistanceController.getRTOListNames() != null && dbPersistanceController.getRTOListNames().size() <= 0) {
+            new MasterController(this).getRTOMaster(this);
+        }
+        /*if (prefManager.IsBikeMasterUpdate())
+            new MasterController(this).getBikeMaster(this);*/
     }
 
     @Override
