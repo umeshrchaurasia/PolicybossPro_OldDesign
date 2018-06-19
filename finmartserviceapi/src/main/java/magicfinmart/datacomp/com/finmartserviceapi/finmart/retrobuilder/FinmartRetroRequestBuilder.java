@@ -20,10 +20,10 @@ public class FinmartRetroRequestBuilder {
     // production url
     //public static String URL = "http://api.magicfinmart.com";
     // Test Environment url
-    public static String URL = "http://qa.mgfm.in";
+    //public static String URL = "http://qa.mgfm.in";
 
     //UAT
-    //public static String URL = "http://uat.mgfm.in";
+    public static String URL = "http://uat.mgfm.in";
 
 
     public static final String token = "1234567890";

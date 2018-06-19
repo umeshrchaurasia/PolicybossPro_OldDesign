@@ -315,8 +315,10 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         }
 
         protected void onPostExecute(Bitmap result) {
-            Bitmap pospDetails = createBitmap(result, pospNAme, pospDesg, PospMobNo, pospEmail);
-            saveImageToStorage(pospDetails, "pospSalesMaterialDetails");
+            if (result != null) {
+                Bitmap pospDetails = createBitmap(result, pospNAme, pospDesg, PospMobNo, pospEmail);
+                saveImageToStorage(pospDetails, "pospSalesMaterialDetails");
+            }
             // bitmap_image = result;
         }
     }
@@ -364,8 +366,11 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         }
 
         protected void onPostExecute(Bitmap result) {
-            Bitmap fbaDetails = createBitmap(result, fbaNAme, fbaDesg, fbaMobNo, fbaEmail);
-            saveImageToStorage(fbaDetails, "fbaSalesMaterialDetails");
+            if (result != null) {
+                Bitmap fbaDetails = createBitmap(result, fbaNAme, fbaDesg, fbaMobNo, fbaEmail);
+                saveImageToStorage(fbaDetails, "fbaSalesMaterialDetails");
+            }
+
             // bitmap_image = result;
         }
     }

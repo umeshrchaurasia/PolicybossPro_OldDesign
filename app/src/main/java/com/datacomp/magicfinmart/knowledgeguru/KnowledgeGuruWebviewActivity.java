@@ -1,12 +1,15 @@
 package com.datacomp.magicfinmart.knowledgeguru;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -14,16 +17,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.webviews.MyWebViewClient;
 
-public class KnowledgeGuruWebviewActivity extends AppCompatActivity {
+public class KnowledgeGuruWebviewActivity extends BaseActivity {
 
     WebView webView;
     String url;
@@ -60,7 +66,36 @@ public class KnowledgeGuruWebviewActivity extends AppCompatActivity {
                 downloadPdf(url, name);
             }
         });
-        settingWebview();
+        if (isNetworkConnected()) {
+            settingWebview();
+            startCountDownTimer();
+        } else
+            Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+    }
+
+
+    private void startCountDownTimer() {
+        new CountDownTimer(30000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+                //here you can have your logic to set text to edittext
+            }
+
+            public void onFinish() {
+                try {
+                    cancelDialog();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }.start();
+    }
+
+    private boolean isNetworkConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return cm.getActiveNetworkInfo() != null;
     }
 
     private void downloadPdf(String url, String name) {
@@ -91,7 +126,7 @@ public class KnowledgeGuruWebviewActivity extends AppCompatActivity {
 
         MyWebViewClient webViewClient = new MyWebViewClient(this);
         webView.setWebViewClient(webViewClient);
-       /* webView.setWebViewClient(new WebViewClient() {
+        webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 // TODO show you progress image
@@ -110,7 +145,7 @@ public class KnowledgeGuruWebviewActivity extends AppCompatActivity {
             public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
                 return false;
             }
-        });*/
+        });
         webView.getSettings().setBuiltInZoomControls(true);
         Log.d("URL", url);
         //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
