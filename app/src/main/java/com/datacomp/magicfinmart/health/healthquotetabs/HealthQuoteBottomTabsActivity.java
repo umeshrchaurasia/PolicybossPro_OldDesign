@@ -67,10 +67,13 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
 
             // reassign age to Member list
             List<MemberListEntity> member = new ArrayList<>();
-            for (int i = 0; i < healthQuote.getHealthRequest().getMemberList().size(); i++) {
-                MemberListEntity entity = healthQuote.getHealthRequest().getMemberList().get(i);
-                entity.setAge(getAgeFromDate(entity.getMemberDOB()));
-                member.add(entity);
+            if (healthQuote.getHealthRequest().getMemberList() != null) {
+
+                for (int i = 0; i < healthQuote.getHealthRequest().getMemberList().size(); i++) {
+                    MemberListEntity entity = healthQuote.getHealthRequest().getMemberList().get(i);
+                    entity.setAge(getAgeFromDate(entity.getMemberDOB()));
+                    member.add(entity);
+                }
             }
 
             healthQuote.getHealthRequest().setMemberList(member);
@@ -83,12 +86,14 @@ public class HealthQuoteBottomTabsActivity extends BaseActivity {
             healthQuote = getIntent().getParcelableExtra(HealthQuoteListFragment.HEALTH_INPUT_FRAGMENT);
             // reassign age to Member list
             List<MemberListEntity> member = new ArrayList<>();
-            for (int i = 0; i < healthQuote.getHealthRequest().getMemberList().size(); i++) {
-                MemberListEntity entity = healthQuote.getHealthRequest().getMemberList().get(i);
-                entity.setAge(getAgeFromDate(entity.getMemberDOB()));
-                member.add(entity);
-            }
 
+            if (healthQuote.getHealthRequest().getMemberList() != null) {
+                for (int i = 0; i < healthQuote.getHealthRequest().getMemberList().size(); i++) {
+                    MemberListEntity entity = healthQuote.getHealthRequest().getMemberList().get(i);
+                    entity.setAge(getAgeFromDate(entity.getMemberDOB()));
+                    member.add(entity);
+                }
+            }
             healthQuote.getHealthRequest().setMemberList(member);
 
             quoteBundle = new Bundle();
