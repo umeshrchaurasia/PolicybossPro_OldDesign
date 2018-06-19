@@ -541,6 +541,8 @@ public class DBPersistanceController {
 
     //region previous insurer
 
+
+
     public List<String> getInsurerList() {
         MapInsurence();
         ArrayList<String> insurenceList = new ArrayList<String>(hashMapInsurence.keySet());
