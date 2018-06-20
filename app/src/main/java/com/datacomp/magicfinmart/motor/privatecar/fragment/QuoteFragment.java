@@ -218,8 +218,15 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
             txtCrn.setText("CRN :" + motorRequestEntity.getCrn());
 
+            int vehicleID = 0;
+            if (motorRequestEntity.getVehicle_id() != 0) {
+                vehicleID = motorRequestEntity.getVehicle_id();
+            } else if (motorRequestEntity.getVarid() != 0) {
+                vehicleID = motorRequestEntity.getVarid();
+            }
+
             carMasterEntity = databaseController.getVarientDetails(""
-                    + motorRequestEntity.getVehicle_id());
+                    + vehicleID);
 
             //car name + variant
             if (carMasterEntity != null) {
@@ -371,7 +378,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (getActivity() != null)
+            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
 

@@ -185,24 +185,33 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
             String fuelType = "";
 
-            carMasterEntity = databaseController.getBikeVarientDetails(
-                    "" + motorRequestEntity.getVehicle_id());
-
-            fuelType = carMasterEntity.getFuel_Name();
-            String rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
-
-            rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + " cc";
-            if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {
-                rtoName = rtoName + " | RTO : " + new DBPersistanceController(getActivity())
-                        .getBikeRTOName(String.valueOf(motorRequestEntity.getRto_id()));
-            } else {
-                //rtoName = rtoName + new DBPersistanceController(getActivity())
-                //        .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id()));
-
-                rtoName = rtoName + " | " + motorRequestEntity.getRegistration_no();
-
+            int vehicleID = 0;
+            if (motorRequestEntity.getVehicle_id() != 0) {
+                vehicleID = motorRequestEntity.getVehicle_id();
+            } else if (motorRequestEntity.getVarid() != 0) {
+                vehicleID = motorRequestEntity.getVarid();
             }
-            tvRtoName.setText(rtoName);
+
+            carMasterEntity = databaseController.getBikeVarientDetails(
+                    "" + vehicleID);
+
+            if (carMasterEntity != null) {
+                fuelType = carMasterEntity.getFuel_Name();
+                String rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + "cc";
+                rtoName = fuelType + " | " + carMasterEntity.getCubic_Capacity() + " cc";
+
+                if (motorRequestEntity.getRegistration_no().contains("-AA-1234")) {
+                    rtoName = rtoName + " | RTO : " + new DBPersistanceController(getActivity())
+                            .getBikeRTOName(String.valueOf(motorRequestEntity.getRto_id()));
+                } else {
+                    //rtoName = rtoName + new DBPersistanceController(getActivity())
+                    //        .getRTOCityName(String.valueOf(motorRequestEntity.getRto_id()));
+
+                    rtoName = rtoName + " | " + motorRequestEntity.getRegistration_no();
+
+                }
+                tvRtoName.setText(rtoName);
+            }
             tvCrn.setText("CRN :" + motorRequestEntity.getCrn());
         }
 
@@ -298,8 +307,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                /* if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
                         || Constants.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) >= MotorController.NO_OF_SERVER_HITS) {
 */
-                    if (Constants.getSharedPreference(getActivity())
-                            .getInt(Utility.QUOTE_COUNTER, 0) > MotorController.NO_OF_SERVER_HITS){
+                if (Constants.getSharedPreference(getActivity())
+                        .getInt(Utility.QUOTE_COUNTER, 0) > MotorController.NO_OF_SERVER_HITS) {
                     Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
                     webViewLoader.setVisibility(View.GONE);
                     updateCrn();
