@@ -492,7 +492,7 @@ public class DBPersistanceController {
 
         List<TermSelectionEntity> term = new ArrayList<TermSelectionEntity>();
         term.add(new TermSelectionEntity("COMPARE TERM INSURANCE", 0, ""));
-       // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANCE", 43, ""));
+        // term.add(new TermSelectionEntity("EDELWEISS TOKIO LIFE INSURANCE", 43, ""));
         term.add(new TermSelectionEntity("HDFC LIFE INSURANCE", 28, ""));
         term.add(new TermSelectionEntity("ICICI PRUDENTIAL LIFE INSURANCE", 39, ""));
         //term.add(new TermSelectionEntity("TATA AIA LIFE INSURANE", 1, ""));
@@ -520,7 +520,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Offer loans against property at attractive rates to your customers", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get lowest rate loan on your Credit Card from wide range of banks.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Save huge money for your customers on their existing loans.", R.drawable.balance_transfer));
-       dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.express_loan));
+        dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.express_loan));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "QUICK LEAD SUBMISSION", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
 
 
@@ -540,6 +540,7 @@ public class DBPersistanceController {
     //endregion
 
     //region previous insurer
+
 
     public List<String> getInsurerList() {
         MapInsurence();
@@ -1822,7 +1823,6 @@ public class DBPersistanceController {
         return hdfcpersonalloanbankbranch.get(addonName);
     }
 
-
     public String gethdfcplbankbranchrListName(String bankName) {
         hdfcpersonalloanbankbranch = new HashMap<String, String>();
         Maphdfcpersonalloanbankbranch();
@@ -1873,6 +1873,8 @@ public class DBPersistanceController {
 
 
     }
+
+    //endregion
 
     //region kotak pl employer namer
     public List<String> getEmplyerNAmeList() {
