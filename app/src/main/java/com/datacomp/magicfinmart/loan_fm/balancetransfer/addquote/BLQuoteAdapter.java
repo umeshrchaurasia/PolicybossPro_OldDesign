@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -46,6 +47,7 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
 
         TextView tvLoanAmt, tvBestRate, tvBankName, tvpf,tvdrop, tvLoanTenure, tvProcessingFee, btnApply,tvEligibleLoan;
         ImageView ivBankLogo;
+        LinearLayout llbtnApply;
 
         public BLQuotesItem(View view) {
             super(view);
@@ -58,7 +60,9 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
             tvProcessingFee = (TextView) itemView.findViewById(R.id.tvProcessingFee);
             btnApply = (TextView) itemView.findViewById(R.id.btnApply);
             ivBankLogo = (ImageView) itemView.findViewById(R.id.ivBankLogo);
-           // ivedit = (ImageView) itemView.findViewById(R.id.ivEdit);
+            llbtnApply=(LinearLayout) itemView.findViewById(R.id.llbtnApply);
+
+            // ivedit = (ImageView) itemView.findViewById(R.id.ivEdit);
            // tvEligibleLoan =(TextView)itemView.findViewById(R.id.tvEligibleLoan);
         }
     }
@@ -103,6 +107,19 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
                 //quote to app conversion
                 //((QuoteFragment_bl) mContext).quoteToApp();
                // ((QuoteFragment_bl) mContext).redirectToApplyLoan(quoteEntity,getblDispalyResponse.getUrl(), getblDispalyResponse.getQuote_id());
+
+
+            }
+        });
+
+        holder.llbtnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                ((QuoteFragment_bl) mContext).redirectToApplyBank(quoteEntity);
+                //quote to app conversion
+                //((QuoteFragment_bl) mContext).quoteToApp();
+                // ((QuoteFragment_bl) mContext).redirectToApplyLoan(quoteEntity,getblDispalyResponse.getUrl(), getblDispalyResponse.getQuote_id());
 
 
             }

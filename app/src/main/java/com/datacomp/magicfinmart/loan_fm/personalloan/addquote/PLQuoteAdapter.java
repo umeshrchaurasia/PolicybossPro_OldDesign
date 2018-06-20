@@ -47,7 +47,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
         LinearLayout rvhlknowmore;
         LinearLayout llivArrow;
         TextView tvDetailsCount1, tvDetailsCount2,tvDetailsCount3,tvDetailsCount4,tvDetailsCount5,tvDetailsCount6;
-        LinearLayout llbacklist;
+        LinearLayout llbacklist,llbtnApply;
 
 
         public PLQuotesItem(View view) {
@@ -71,6 +71,8 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
             llivArrow=(LinearLayout) itemView.findViewById(R.id.llivArrow);
 
             llbacklist = (LinearLayout) itemView.findViewById(R.id.llbacklist);
+            llbtnApply=(LinearLayout) itemView.findViewById(R.id.llbtnApply);
+
             // llkeyhigh = (LinearLayout) itemView.findViewById(R.id.llkeyhigh);
             tvDetailsCount1 = (TextView) itemView.findViewById(R.id.tvDetailsCount1);
             tvDetailsCount2 = (TextView) itemView.findViewById(R.id.tvDetailsCount2);
@@ -140,6 +142,20 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
 
             }
         });
+
+        //linear layout click
+        holder.llbtnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //bank
+                ((QuoteFragment_pl) mContext).redirectToApplyBank(quoteEntity);
+                //quote to app conversion
+                //  ((QuoteFragment_pl) mContext).quoteToApp();
+                //  ((QuoteFragment_pl) mContext).redirectToApplyLoan(quoteEntity,getPersonalLoanResponse.getUrl(), getPersonalLoanResponse.getQuote_id());
+
+            }
+        });
+
 
         holder.llivArrow.setOnClickListener(new View.OnClickListener() {
             @Override

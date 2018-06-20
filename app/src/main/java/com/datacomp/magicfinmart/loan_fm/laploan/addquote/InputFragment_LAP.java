@@ -236,7 +236,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             }
 
             if (homeLoanRequest.getApplicantNme() != null)
-                etNameOfApplicant.setText(homeLoanRequest.getApplicantNme());
+                etNameOfApplicant.setText(homeLoanRequest.getApplicantNme().trim());
 
 
             if (homeLoanRequest.getApplicantSource().matches("1")) {

@@ -177,7 +177,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         personalLoanRequest = fmPersonalLoanRequest.getPersonalLoanRequest();
         personalLoanRequest.setLoanRequired(etCostOfProp.getText().toString());
         personalLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
-        personalLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString());
+        personalLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString().trim());
 
         personalLoanRequest.setContact(etcontact.getText().toString());
         // region Default Salaried

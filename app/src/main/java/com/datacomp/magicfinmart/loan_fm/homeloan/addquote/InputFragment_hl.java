@@ -1136,7 +1136,7 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         homeLoanRequest.setLoanTenure(etTenureInYear.getText().toString());
         homeLoanRequest.setLoanRequired(txtMaxLoanAmntAllow.getText().toString());
         homeLoanRequest.setCity("" + acCity.getText().toString());
-        homeLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString());
+        homeLoanRequest.setApplicantNme(etNameOfApplicant.getText().toString().trim());
 
         homeLoanRequest.setApplicantGender(GenderApplicantSource);
         if (homeLoanRequest.getApplicantGender()=="M") {

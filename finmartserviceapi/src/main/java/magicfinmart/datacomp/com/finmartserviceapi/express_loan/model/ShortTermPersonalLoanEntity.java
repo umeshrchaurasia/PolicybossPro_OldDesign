@@ -14,6 +14,9 @@ public class ShortTermPersonalLoanEntity {
     private String Bank_Code;
     private String Document1;
     private int WebView;
+
+
+    private String WebViewUrl;
     private String ProductType;
 
     public int getBank_Id() {
@@ -54,6 +57,14 @@ public class ShortTermPersonalLoanEntity {
 
     public void setWebView(int WebView) {
         this.WebView = WebView;
+    }
+
+    public String getWebViewUrl() {
+        return WebViewUrl;
+    }
+
+    public void setWebViewUrl(String webViewUrl) {
+        WebViewUrl = webViewUrl;
     }
 
     public String getProductType() {
