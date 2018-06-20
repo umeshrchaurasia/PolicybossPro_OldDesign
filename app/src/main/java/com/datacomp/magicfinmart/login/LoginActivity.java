@@ -45,6 +45,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     TextView tvSignUp, tvForgotPass;
     Button btnSignIn;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
+
+    private static int PERMISSION_DENIED = 0;
+
     String[] perms = {
             "android.permission.CAMERA",
             "android.permission.ACCESS_FINE_LOCATION",
@@ -141,9 +144,17 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             // finish();
-                                            requestPermission();
+                                            if (2 > PERMISSION_DENIED) {
+                                                PERMISSION_DENIED++;
+                                                requestPermission();
+                                            } else {
+                                                dialogInterface.dismiss();
+
+                                            }
                                         }
                                     });
+                        } else {
+                            //  requestPermission();
                         }
                     }
                 }
@@ -152,7 +163,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(LoginActivity.this)
+        new AlertDialog.Builder(LoginActivity.this, R.style.AlertDialog_Theme)
+
                 .setTitle("Retry")
                 .setMessage(message)
                 .setPositiveButton("OK", okListener)

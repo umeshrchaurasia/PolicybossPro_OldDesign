@@ -26,7 +26,6 @@ public abstract class NodeRetroRequestBuilder {
     public static String PROPOSAL_BASE_URL = "http://www.policyboss.com/";
 
 
-
     protected Retrofit build() {
         if (restAdapter == null) {
 
