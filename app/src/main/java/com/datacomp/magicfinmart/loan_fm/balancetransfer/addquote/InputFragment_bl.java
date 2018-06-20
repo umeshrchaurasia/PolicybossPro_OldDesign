@@ -120,7 +120,7 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
         blLoanRequest.setLoanamount(Double.parseDouble(etOutstanding.getText().toString()));
         blLoanRequest.setLoanterm(Double.parseDouble(ettenureyrs.getText().toString()));
         blLoanRequest.setLoaninterest(Double.parseDouble(etCurrInc.getText().toString()));
-        blLoanRequest.setApplicantName(etNameOfApplicant.getText().toString());
+        blLoanRequest.setApplicantName(etNameOfApplicant.getText().toString().trim());
 
         blLoanRequest.setContact(etcontact.getText().toString());
 

@@ -4,7 +4,9 @@ import java.util.List;
 
 public  class ExpressLoanEntity {
         private List<PersonalLoanEntity> PersonalLoan;
-        private List<ShortTermPersonalLoanEntity> ShortTermPersonalLoan;
+      //  private List<ShortTermPersonalLoanEntity> ShortTermPersonalLoan;
+        private List<PersonalLoanEntity> HomeLoan;
+         private List<PersonalLoanEntity> BusinessLoan;
 
         public List<PersonalLoanEntity> getPersonalLoan() {
             return PersonalLoan;
@@ -14,14 +16,21 @@ public  class ExpressLoanEntity {
             this.PersonalLoan = PersonalLoan;
         }
 
-        public List<ShortTermPersonalLoanEntity> getShortTermPersonalLoan() {
-            return ShortTermPersonalLoan;
+        public List<PersonalLoanEntity> getHomeLoan() {
+            return HomeLoan;
         }
 
-        public void setShortTermPersonalLoan(List<ShortTermPersonalLoanEntity> ShortTermPersonalLoan) {
-            this.ShortTermPersonalLoan = ShortTermPersonalLoan;
+        public void setHomeLoan(List<PersonalLoanEntity> HomeLoan) {
+            this.HomeLoan = HomeLoan;
         }
 
+        public List<PersonalLoanEntity> getBusinessLoan() {
+            return BusinessLoan;
+        }
+
+        public void setBusinessLoan(List<PersonalLoanEntity> BusinessLoan) {
+            this.BusinessLoan = BusinessLoan;
+        }
 
 
 

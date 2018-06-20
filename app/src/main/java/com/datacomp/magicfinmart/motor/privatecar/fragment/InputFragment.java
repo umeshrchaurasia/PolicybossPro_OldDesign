@@ -689,6 +689,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
                     calendarReg.setTime(simpleDateFormat.parse(mfDate));
                     setYearMonthAdapter(calendarReg);
+                }else{
+                    setYearMonthAdapter(Calendar.getInstance());
                 }
                 if (masterData.getPurchase_Date() != null) {
                     String mf = changeDateFormat(masterData.getPurchase_Date());

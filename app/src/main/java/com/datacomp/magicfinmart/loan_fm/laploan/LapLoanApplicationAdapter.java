@@ -71,7 +71,7 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
                 holder.txtApplicationDate.setText("");
             }
 
-            holder.txtloanamount.setText(""+String.valueOf(entity.getHomeLoanRequest().getPropertyCost()));
+            holder.txtloanamount.setText(""+String.valueOf(entity.getHomeLoanRequest().getLoan_eligible()));
 
             if (entity.getHomeLoanRequest().getRBStatus() != null) {
 

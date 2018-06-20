@@ -46,7 +46,7 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
         LinearLayout rvhlknowmore;
         LinearLayout llivArrow;
         TextView tvDetailsCount1, tvDetailsCount2,tvDetailsCount3,tvDetailsCount4,tvDetailsCount5,tvDetailsCount6;
-        LinearLayout llbacklist;
+        LinearLayout llbacklist,llbtnApply;
 
         public BankQuotesItem(View view) {
             super(view);
@@ -65,6 +65,7 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
             ivArrow = (ImageView) itemView.findViewById(R.id.ivArrow);
             llivArrow=(LinearLayout) itemView.findViewById(R.id.llivArrow);
             tvBestRatetype = (TextView) itemView.findViewById(R.id.tvBestRatetype);
+            llbtnApply=(LinearLayout) itemView.findViewById(R.id.llbtnApply);
 
             ///
 
@@ -76,6 +77,8 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
             tvDetailsCount4 = (TextView) itemView.findViewById(R.id.tvDetailsCount4);
             tvDetailsCount5 = (TextView) itemView.findViewById(R.id.tvDetailsCount5);
             tvDetailsCount6 = (TextView) itemView.findViewById(R.id.tvDetailsCount6);
+
+           // llbtnApply.setVisibility(View.VISIBLE);
         }
     }
 
@@ -138,6 +141,25 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
 
             }
         });
+
+        //linear layout click
+        holder.llbtnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              //  holder.llbtnApply.setVisibility(View.GONE);
+                //bank
+
+                ((QuoteFragment_hl) mContext).redirectToApplyBank(quoteEntity);
+                //quote to app conversion
+                //  ((QuoteFragment_hl) mContext).quoteToApp();
+
+                //redirect to apply loan
+                //((QuoteFragment_hl) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
+
+            }
+        });
+
+
         holder.llivArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

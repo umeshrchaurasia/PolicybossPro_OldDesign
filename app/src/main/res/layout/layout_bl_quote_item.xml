@@ -246,6 +246,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/llbtnApply"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#f38d1e"

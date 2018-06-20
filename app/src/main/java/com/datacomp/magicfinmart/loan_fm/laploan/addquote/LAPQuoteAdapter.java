@@ -44,7 +44,7 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
         LinearLayout rvhlknowmore;
         LinearLayout llivArrow;
         TextView tvDetailsCount1, tvDetailsCount2,tvDetailsCount3,tvDetailsCount4,tvDetailsCount5,tvDetailsCount6;
-        LinearLayout llbacklist;
+        LinearLayout llbacklist,llbtnApply;
 
         public BankQuotesItem(View view) {
             super(view);
@@ -65,6 +65,7 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
             tvBestRatetype = (TextView) itemView.findViewById(R.id.tvBestRatetype);
 
             ///
+            llbtnApply=(LinearLayout) itemView.findViewById(R.id.llbtnApply);
 
             llbacklist = (LinearLayout) itemView.findViewById(R.id.llbacklist);
             // llkeyhigh = (LinearLayout) itemView.findViewById(R.id.llkeyhigh);
@@ -131,6 +132,21 @@ public class LAPQuoteAdapter extends RecyclerView.Adapter<LAPQuoteAdapter.BankQu
 
                 //redirect to apply loan
             //    ((QuoteFragment_LAP) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
+
+            }
+        });
+
+        //linear layout click
+        holder.llbtnApply.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //bank
+                ((QuoteFragment_LAP) mContext).redirectToApplyBank(quoteEntity);
+                //quote to app conversion
+                // ((QuoteFragment_LAP) mContext).quoteToApp();
+
+                //redirect to apply loan
+                //    ((QuoteFragment_LAP) mContext).redirectToApplyLoan(quoteEntity, getQuoteResponse.getUrl(), getQuoteResponse.getQuote_id());
 
             }
         });

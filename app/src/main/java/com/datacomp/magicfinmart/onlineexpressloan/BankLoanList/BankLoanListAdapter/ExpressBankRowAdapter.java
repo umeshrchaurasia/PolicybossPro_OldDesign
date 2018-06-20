@@ -20,8 +20,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ExpressLoa
 public class ExpressBankRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int ROW_PERSONAL = 0;
-    private static final int ROW_STPERSONAL = 1;
-    private static int TOTAL_ROW = 2;
+  //  private static final int ROW_STPERSONAL = 1;
+    private static final int ROW_homeloan = 1;
+    private static final int ROW_BuisnessLoan = 2;
+
+    private static int TOTAL_ROW = 3;
 
     Activity mContext;
     DBPersistanceController mReal;
@@ -51,12 +54,25 @@ public class ExpressBankRowAdapter extends RecyclerView.Adapter<RecyclerView.Vie
     }
 
 
-    public class STPersonalHolder extends RecyclerView.ViewHolder{
+    public class STHomeLoanHolder extends RecyclerView.ViewHolder{
 
         RecyclerView rvExpress;
         TextView txtTypeName;
 
-        public STPersonalHolder(View view) {
+        public STHomeLoanHolder(View view) {
+            super(view);
+
+            rvExpress = (RecyclerView) view.findViewById(R.id.rvExpress);
+            txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
+        }
+    }
+
+    public class STBusinessLoanlHolder extends RecyclerView.ViewHolder{
+
+        RecyclerView rvExpress;
+        TextView txtTypeName;
+
+        public STBusinessLoanlHolder(View view) {
             super(view);
 
             rvExpress = (RecyclerView) view.findViewById(R.id.rvExpress);
@@ -75,10 +91,16 @@ public class ExpressBankRowAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         R.layout.layout_express_recycler, parent, false);
                 return new ExpressBankRowAdapter.PersonalHolder(view);
 
-            case ROW_STPERSONAL:
+            case ROW_homeloan:
                 view = LayoutInflater.from(parent.getContext()).inflate(
                         R.layout.layout_express_recycler, parent, false);
-                return new ExpressBankRowAdapter.STPersonalHolder(view);
+                return new ExpressBankRowAdapter.STHomeLoanHolder(view);
+
+            case ROW_BuisnessLoan:
+                view = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.layout_express_recycler, parent, false);
+            return new ExpressBankRowAdapter.STBusinessLoanlHolder(view);
+
 
             default:
                 break;
@@ -95,12 +117,19 @@ public class ExpressBankRowAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             ((ExpressBankRowAdapter.PersonalHolder) holder).txtTypeName.setText("PERSONAL LOAN");
             ((ExpressBankRowAdapter.PersonalHolder) holder).rvExpress.setLayoutManager(new LinearLayoutManager(mContext));
             ((ExpressBankRowAdapter.PersonalHolder) holder).rvExpress.setAdapter(new ExpressBankPersonalItemAdapter(mContext,expressLoanEntity.getPersonalLoan()));
-        } else if(holder instanceof STPersonalHolder){
+        } else if(holder instanceof STHomeLoanHolder){
 
 
-            ((ExpressBankRowAdapter.STPersonalHolder) holder).txtTypeName.setText("SHORT-PERSONAL LOAN");
-            ((ExpressBankRowAdapter.STPersonalHolder) holder).rvExpress.setLayoutManager(new LinearLayoutManager(mContext));
-            ((ExpressBankRowAdapter.STPersonalHolder) holder).rvExpress.setAdapter(new ExpressBankSTPersonalItemAdapter(mContext,expressLoanEntity.getShortTermPersonalLoan()));
+            ((ExpressBankRowAdapter.STHomeLoanHolder) holder).txtTypeName.setText("HOME LOAN");
+            ((ExpressBankRowAdapter.STHomeLoanHolder) holder).rvExpress.setLayoutManager(new LinearLayoutManager(mContext));
+            ((ExpressBankRowAdapter.STHomeLoanHolder) holder).rvExpress.setAdapter(new ExpressBankPersonalItemAdapter(mContext,expressLoanEntity.getHomeLoan()));
+        }
+        else if(holder instanceof STBusinessLoanlHolder){
+
+
+            ((ExpressBankRowAdapter.STBusinessLoanlHolder) holder).txtTypeName.setText("BUSINESS LOAN");
+            ((ExpressBankRowAdapter.STBusinessLoanlHolder) holder).rvExpress.setLayoutManager(new LinearLayoutManager(mContext));
+            ((ExpressBankRowAdapter.STBusinessLoanlHolder) holder).rvExpress.setAdapter(new ExpressBankPersonalItemAdapter(mContext,expressLoanEntity.getBusinessLoan()));
         }
 
     }
@@ -119,8 +148,10 @@ public class ExpressBankRowAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
             case ROW_PERSONAL:
                 return ROW_PERSONAL;
-            case ROW_STPERSONAL:
-                return ROW_STPERSONAL;
+             case ROW_homeloan:
+                return ROW_homeloan;
+            case ROW_BuisnessLoan:
+                return ROW_BuisnessLoan;
 
             default:
                 break;

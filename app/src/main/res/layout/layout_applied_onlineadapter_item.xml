@@ -67,7 +67,8 @@
                 <ImageView
                     android:gravity="center_vertical|center_horizontal"
                     android:id="@+id/imgbankLogo"
-                    android:layout_width="62dp"
+                    android:layout_width="match_parent"
+                    android:scaleType="fitCenter"
                     android:layout_height="42dp" />
 
 

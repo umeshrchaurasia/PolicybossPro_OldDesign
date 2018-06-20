@@ -1477,12 +1477,28 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         String[] name = rbCustomerEntity.getApplicantNme().split(" ");
 
-        for (int i = 0; i < name.length; i++) {
-            if (i == 0) {
-                etFirstName.setText(name[i]);
+        if(name.length >2)
+        {
+            for (int i = 0; i < name.length; i++) {
+                if (i == 0) {
+                    etFirstName.setText(name[i]);
+                }
+                if (i == 1)
+                {
+                    etFatherName.setText(name[i]);
+                }
+                if (i == name.length-1) {
+                    etLastName.setText(name[i]);
+                }
             }
-            if (i == 1) {
-                etLastName.setText(name[i]);
+        }else {
+            for (int i = 0; i < name.length; i++) {
+                if (i == 0) {
+                    etFirstName.setText(name[i]);
+                }
+                if (i == 1) {
+                    etLastName.setText(name[i]);
+                }
             }
         }
 
