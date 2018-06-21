@@ -124,6 +124,11 @@ public class CCICICIRequestEntity {
     private String brokerid;
     private String ICICIRelationshipNumber;
     private int CreditCardDetailId;
+    /**
+     * email_id : test@gmail.com
+     */
+
+    private String email_id;
 
     public int getCreditCardDetailId() {
         return CreditCardDetailId;
@@ -595,5 +600,13 @@ public class CCICICIRequestEntity {
 
     public void setFba_id(int fba_id) {
         this.fba_id = fba_id;
+    }
+
+    public String getEmail_id() {
+        return email_id;
+    }
+
+    public void setEmail_id(String email_id) {
+        this.email_id = email_id;
     }
 }
