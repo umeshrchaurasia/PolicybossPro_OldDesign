@@ -69,7 +69,7 @@ public class HomeLoanApplicationAdapter extends RecyclerView.Adapter<HomeLoanApp
                 holder.txtApplicationDate.setText("");
             }
 
-            holder.txtloanamount.setText("" + String.valueOf(entity.getHomeLoanRequest().getLoan_eligible()));
+            holder.txtloanamount.setText("" + String.valueOf(entity.getHomeLoanRequest().getLoanRequired()));
 
             if (entity.getHomeLoanRequest().getRBStatus() != null) {
 

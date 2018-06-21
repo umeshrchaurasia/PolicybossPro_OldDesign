@@ -121,7 +121,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                                         .putExtra("LOAN_TYPE", plEntity.getProductType()));
                             } else if (plEntity.getBank_Code().toUpperCase().contains("TATA CAPITAL")) {
                                 mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                        .putExtra("URL", "http://www.rupeeboss.com/apply-iifl-loan")
+                                        .putExtra("URL", "http://www.rupeeboss.com/apply-tatacapital-loan")
                                         .putExtra("NAME", "TATA CAPITAL")
                                         .putExtra("TITLE", "TATA CAPITAL"));
                             }
@@ -144,7 +144,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
 
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL","http://www.rupeeboss.com/yesbank-home-loan")
                                             .putExtra("NAME", "YES BANK")
                                             .putExtra("TITLE", "YES BANK"));
                                 } else {
@@ -154,9 +154,9 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             } else if (plEntity.getBank_Code().toUpperCase().contains("KOTAK MAHINDRA")) {
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
-                                            .putExtra("NAME", "IIFL")
-                                            .putExtra("TITLE", "IIFL"));
+                                            .putExtra("URL", "http://www.rupeeboss.com/kotak-home-loan")
+                                            .putExtra("NAME", "KOTAK MAHINDRA")
+                                            .putExtra("TITLE", "KOTAK MAHINDRA"));
                                 } else {
                                     Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
                                 }
@@ -173,7 +173,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
 
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL", "http://www.rupeeboss.com/tata-capital-business-loan")
                                             .putExtra("NAME", "TATA CAPITAL")
                                             .putExtra("TITLE", "TATA CAPITAL"));
                                 } else {
@@ -183,31 +183,30 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             } else if (plEntity.getBank_Code().toUpperCase().contains("LENDINGKART")) {
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL", "http://www.rupeeboss.com/lendingkart")
                                             .putExtra("NAME", "LENDINGKART")
                                             .putExtra("TITLE", "LENDINGKART"));
                                 } else {
                                     Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
                                 }
-                            } else if (plEntity.getBank_Code().toUpperCase().contains("Tribe")) {
+                            }
+                            else if (plEntity.getBank_Code().toUpperCase().contains("CAPITAL")) {
 //
-//                                mContext.startActivity(new Intent(mContext, RblpersonalloanActivity.class)
-//                                        .putExtra("BANK_ID", plEntity.getBank_Id())
-//                                        .putExtra("LOAN_TYPE", plEntity.getProductType()));
 
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
-                                            .putExtra("NAME", "Tribe")
-                                            .putExtra("TITLE", "Tribe"));
+                                            .putExtra("URL", "http://www.rupeeboss.com/capitalfloat")
+                                            .putExtra("NAME", "Capital Float")
+                                            .putExtra("TITLE", "Capital Float"));
                                 } else {
                                     Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
                                 }
 
-                            } else if (plEntity.getBank_Code().toUpperCase().contains("HDFC")) {
+                            }
+                            else if (plEntity.getBank_Code().toUpperCase().contains("HDFC")) {
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL","http://www.rupeeboss.com/hdfc-business-loan")
                                             .putExtra("NAME", "HDFC")
                                             .putExtra("TITLE", "HDFC"));
                                 } else {
@@ -216,7 +215,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             } else if (plEntity.getBank_Code().toUpperCase().contains("EDELWEISS")) {
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL", "http://www.rupeeboss.com/edelweiss")
                                             .putExtra("NAME", "EDELWEISS")
                                             .putExtra("TITLE", "EDELWEISS"));
                                 } else {
@@ -225,7 +224,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             } else if (plEntity.getBank_Code().toUpperCase().contains("ADITYA BIRLA")) {
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL", "https://www.abfldirect.com/?utm_source=RUPEEBOSS&utm_medium=DSA&utm_campaign=DirectSME")
                                             .putExtra("NAME", "ADITYA BIRLA")
                                             .putExtra("TITLE", "ADITYA BIRLA"));
                                 } else {
@@ -275,7 +274,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                                         .putExtra("LOAN_TYPE", plEntity.getProductType()));
                             } else if (plEntity.getBank_Code().toUpperCase().contains("TATA CAPITAL")) {
                                 mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                        .putExtra("URL", "http://www.rupeeboss.com/apply-iifl-loan")
+                                        .putExtra("URL", "http://www.rupeeboss.com/apply-tatacapital-loan")
                                         .putExtra("NAME", "TATA CAPITAL")
                                         .putExtra("TITLE", "TATA CAPITAL"));
                             }
@@ -288,6 +287,34 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
 //                                        .putExtra("LOAN_TYPE", plEntity.getProductType()));
 //                            }
 
+                        case "HL":
+
+                            if (plEntity.getBank_Code().toUpperCase().contains("YES BANK")) {
+//
+//                                mContext.startActivity(new Intent(mContext, RblpersonalloanActivity.class)
+//                                        .putExtra("BANK_ID", plEntity.getBank_Id())
+//                                        .putExtra("LOAN_TYPE", plEntity.getProductType()));
+
+                                if (plEntity.getWebView() == 1) {
+                                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                                            .putExtra("URL","http://www.rupeeboss.com/yesbank-home-loan")
+                                            .putExtra("NAME", "YES BANK")
+                                            .putExtra("TITLE", "YES BANK"));
+                                } else {
+                                    Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                                }
+
+                            } else if (plEntity.getBank_Code().toUpperCase().contains("KOTAK MAHINDRA")) {
+                                if (plEntity.getWebView() == 1) {
+                                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                                            .putExtra("URL", "http://www.rupeeboss.com/kotak-home-loan")
+                                            .putExtra("NAME", "KOTAK MAHINDRA")
+                                            .putExtra("TITLE", "KOTAK MAHINDRA"));
+                                } else {
+                                    Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                            break;
 
                         case "BL":
 
@@ -299,7 +326,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
 
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL", "http://www.rupeeboss.com/tata-capital-business-loan")
                                             .putExtra("NAME", "TATA CAPITAL")
                                             .putExtra("TITLE", "TATA CAPITAL"));
                                 } else {
@@ -309,31 +336,30 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             } else if (plEntity.getBank_Code().toUpperCase().contains("LENDINGKART")) {
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL", "http://www.rupeeboss.com/lendingkart")
                                             .putExtra("NAME", "LENDINGKART")
                                             .putExtra("TITLE", "LENDINGKART"));
                                 } else {
                                     Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
                                 }
-                            } else if (plEntity.getBank_Code().toUpperCase().contains("Tribe")) {
+                            }
+                            else if (plEntity.getBank_Code().toUpperCase().contains("CAPITAL")) {
 //
-//                                mContext.startActivity(new Intent(mContext, RblpersonalloanActivity.class)
-//                                        .putExtra("BANK_ID", plEntity.getBank_Id())
-//                                        .putExtra("LOAN_TYPE", plEntity.getProductType()));
 
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
-                                            .putExtra("NAME", "Tribe")
-                                            .putExtra("TITLE", "Tribe"));
+                                            .putExtra("URL", "http://www.rupeeboss.com/capitalfloat")
+                                            .putExtra("NAME", "Capital Float")
+                                            .putExtra("TITLE", "Capital Float"));
                                 } else {
                                     Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
                                 }
 
-                            } else if (plEntity.getBank_Code().toUpperCase().contains("HDFC")) {
+                            }
+                            else if (plEntity.getBank_Code().toUpperCase().contains("HDFC")) {
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL","http://www.rupeeboss.com/hdfc-business-loan")
                                             .putExtra("NAME", "HDFC")
                                             .putExtra("TITLE", "HDFC"));
                                 } else {
@@ -342,7 +368,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             } else if (plEntity.getBank_Code().toUpperCase().contains("EDELWEISS")) {
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL", "http://www.rupeeboss.com/edelweiss")
                                             .putExtra("NAME", "EDELWEISS")
                                             .putExtra("TITLE", "EDELWEISS"));
                                 } else {
@@ -351,7 +377,7 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             } else if (plEntity.getBank_Code().toUpperCase().contains("ADITYA BIRLA")) {
                                 if (plEntity.getWebView() == 1) {
                                     mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                                            .putExtra("URL", plEntity.getWebViewUrl())
+                                            .putExtra("URL", "https://www.abfldirect.com/?utm_source=RUPEEBOSS&utm_medium=DSA&utm_campaign=DirectSME")
                                             .putExtra("NAME", "ADITYA BIRLA")
                                             .putExtra("TITLE", "ADITYA BIRLA"));
                                 } else {
@@ -360,8 +386,8 @@ public class ExpressBankPersonalItemAdapter extends RecyclerView.Adapter<Recycle
                             }
                             break;
 
-
                     }
+
 
 
                 }
