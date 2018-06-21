@@ -42,6 +42,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -101,7 +103,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_healthcontent_quote, container, false);
         registerPopUp(this);
         initView(view);
@@ -231,7 +232,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             case (RESULT_COMPARE): {
                 if (resultCode == RESULT_COMPARE) {
                     if (data.getParcelableExtra("BUY") != null) {
-                      //  redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
+                        //  redirectToBuy((HealthQuoteEntity) data.getParcelableExtra("BUY"));
                         popUpHealthMemberDetails((HealthQuoteEntity) data.getParcelableExtra("BUY"));
                     }
                 }
@@ -240,12 +241,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             case (REQUEST_MEMBER): {
                 if (data != null) {
-                    if ((HealthQuote)data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE) != null){
+                    if ((HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE) != null) {
                         healthQuote = (HealthQuote) data.getParcelableExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_QUOTE);
-                    // commented by rahul
-                    redirectToBuy(buyHealthQuoteEntity);
-                    }
-                    else if(data.getParcelableArrayListExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_DOB )!=null){
+                        // commented by rahul
+                        redirectToBuy(buyHealthQuoteEntity);
+                    } else if (data.getParcelableArrayListExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_DOB) != null) {
                         healthQuote.getHealthRequest().setMemberList(data.<MemberListEntity>getParcelableArrayListExtra(HealthMemberDetailsDialogActivity.UPDATE_MEMBER_DOB));
                     }
                 }
@@ -387,7 +387,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setCancelable(false);
-        // builder.setTitle("PREMIUM DETAIL");
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.layout_compare_health_quote, null);
         builder.setView(view);
@@ -428,20 +427,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         txtPlanName.setText("" + buyHealthQuoteEntity.getPlanName());
         txtEstPremium.setText("\u20B9 " + finalPremium);
         txtInsPremium.setText("\u20B9 " + Math.round(healthQuoteCompareResponse.getMasterData().getNetPremium()));
-
-       /* builder.setPositiveButton("BUY", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-
-            }
-        })
-                .setNegativeButton("CANCEL", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        dialog.dismiss();
-                    }
-                });*/
-
-        // AlertDialog dialog = builder.create();
         dialog.show();
         TextView msgTxt = (TextView) dialog.findViewById(android.R.id.message);
         msgTxt.setTextSize(12.0f);
@@ -460,17 +445,23 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
             HealthQuoteEntity header = listHeader.get(i);
             List<HealthQuoteEntity> childList = new ArrayList<>();
-
+            int childCount = 0;
             for (int j = 0; j < listChild.size(); j++) {
                 HealthQuoteEntity child = listChild.get(j);
                 //TODO: Prepare child as per insurer id and product name
+                if (header.getInsurerId() == child.getInsurerId())
+                //&& header.getProductName().equalsIgnoreCase(child.getProductName())) {
+                {
+                    childList.add(child);
+                }
                 if (header.getInsurerId() == child.getInsurerId()
                         && header.getProductName().equalsIgnoreCase(child.getProductName())) {
-                    childList.add(child);
+                    //child count with product name
+                    childCount++;
                 }
             }
 
-            header.setTotalChilds(childList.size());
+            header.setTotalChilds(childCount);
 
             listDataChild.put(header.getInsurerId(), childList);
             listDataHeader.add(header);
@@ -502,11 +493,20 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         adapter.refreshNewQuote(list);
     }
 
-    public void addMoreQuote(int insurerID) {
+    public void addMoreQuote(HealthQuoteEntity entity) {
 
-        List<HealthQuoteEntity> childList = listDataChild.get(insurerID);
-        refreshAdapter(childList);
-        shareTextCount((childList.size()), true);
+        List<HealthQuoteEntity> childList = listDataChild.get(entity.getInsurerId());
+        List<HealthQuoteEntity> preparedchildList = new ArrayList<>();
+
+        for (int i = 0; i < childList.size(); i++) {
+            if (entity.getInsurerId() == childList.get(i).getInsurerId()
+                    && entity.getProductName().equalsIgnoreCase(childList.get(i).getProductName())) {
+                preparedchildList.add(childList.get(i));
+            }
+        }
+
+        refreshAdapter(preparedchildList);
+        shareTextCount((preparedchildList.size()), true);
     }
 
     public void addRemoveCompare(HealthQuoteEntity entity, boolean isAdd) {
