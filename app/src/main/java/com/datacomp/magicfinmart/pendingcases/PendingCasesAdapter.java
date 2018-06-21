@@ -59,7 +59,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
 
 
             try {
-                if (Integer.parseInt(entity.getApplnStatus()) == 0) {
+                /*if (Integer.parseInt(entity.getApplnStatus()) == 0) {
                     item.imgStatus.setImageResource(R.mipmap.status_0);
                 } else if (Integer.parseInt(entity.getApplnStatus()) == 25) {
                     item.imgStatus.setImageResource(R.mipmap.status_25);
@@ -67,12 +67,59 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
                     item.imgStatus.setImageResource(R.mipmap.status_50);
                 } else if (Integer.parseInt(entity.getApplnStatus()) == 100) {
                     item.imgStatus.setImageResource(R.mipmap.status_100);
-                }
+                }*/
+
+                pgStatus(item.imgStatus, Integer.parseInt(entity.getApplnStatus()));
             } catch (Exception e) {
                 item.imgStatus.setImageResource(R.mipmap.status_25);
             }
         }
 
+    }
+
+    public void pgStatus(ImageView imgPg, int status) {
+        switch (status) {
+            case 0:
+                imgPg.setImageResource(R.mipmap.status_0);
+                break;
+            case 10:
+                imgPg.setImageResource(R.mipmap.status_10);
+                break;
+            case 20:
+                imgPg.setImageResource(R.mipmap.status_20);
+                break;
+            case 25:
+                imgPg.setImageResource(R.mipmap.status_25);
+                break;
+            case 30:
+                imgPg.setImageResource(R.mipmap.status_30);
+                break;
+            case 40:
+                imgPg.setImageResource(R.mipmap.status_40);
+                break;
+            case 50:
+                imgPg.setImageResource(R.mipmap.status_50);
+                break;
+            case 60:
+                imgPg.setImageResource(R.mipmap.status_60);
+                break;
+            case 70:
+                imgPg.setImageResource(R.mipmap.status_70);
+                break;
+            case 80:
+                imgPg.setImageResource(R.mipmap.status_80);
+                break;
+            case 90:
+                imgPg.setImageResource(R.mipmap.status_90);
+                break;
+            case 100:
+                imgPg.setImageResource(R.mipmap.status_100);
+                break;
+            default:
+                imgPg.setImageResource(R.mipmap.status_0);
+                break;
+
+        }
     }
 
 
@@ -125,7 +172,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtCustName, txtType, txtCategory, txtPendingDays;
-        ImageView imgStatus ,imgInsurerLogo;
+        ImageView imgStatus, imgInsurerLogo;
 
         public ApplicationItem(View itemView) {
             super(itemView);
