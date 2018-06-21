@@ -18,10 +18,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.laploan.ActivityTabsPagerAdapter_LAP;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
 
 import java.text.SimpleDateFormat;
@@ -29,6 +31,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
@@ -152,10 +157,19 @@ public class LAP_QuoteFragment extends BaseFragment implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.lapAddQuote:
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP LOAN : LAP LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.LAP), null);
+                MyApplication.getInstance().trackEvent( Constants.LAP,"Clicked","LAP LOAN QUOTES ADD WITH FLAOTING BUTTON");
+
                 startActivity(new Intent(getActivity(), LAPMainActivity.class));
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP LOAN : LAP LOAN QUOTES SEARCH"), Constants.LAP), null);
+                MyApplication.getInstance().trackEvent( Constants.LAP,"Clicked","LAP LOAN QUOTES SEARCH");
+
+
                 InputMethodManager inputMethodManager =
                         (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInputFromWindow(
@@ -169,6 +183,10 @@ public class LAP_QuoteFragment extends BaseFragment implements View.OnClickListe
                 break;
             case R.id.ivAdd:
             case R.id.tvAdd:
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP LOAN : LAP LOAN QUOTES ADD WITH TEXT BUTTON"), Constants.LAP), null);
+                MyApplication.getInstance().trackEvent( Constants.LAP,"Clicked","LAP LOAN QUOTES ADD WITH TEXT BUTTON");
+
+
                 startActivity(new Intent(getActivity(), LAPMainActivity.class));
                 break;
         }

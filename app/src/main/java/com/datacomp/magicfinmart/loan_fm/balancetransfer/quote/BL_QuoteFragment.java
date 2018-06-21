@@ -19,11 +19,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.ActivityTabsPagerAdapter_BL;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransfer_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
 
 import java.text.SimpleDateFormat;
@@ -31,6 +33,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
@@ -156,10 +161,19 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.blAddQuote:
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("BALANCE TRANSFER LOAN : BALANCE TRANSFER LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.BALANCE_TRANSFER), null);
+
+                MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","BALANCE TRANSFER LOAN QUOTES ADD WITH FLAOTING BUTTON");
+
                 startActivity(new Intent(getActivity(), BLMainActivity.class));
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("BALANCE TRANSFER LOAN : BALANCE TRANSFER LOAN QUOTES SEARCH"), Constants.BALANCE_TRANSFER), null);
+
+                MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","BALANCE TRANSFER LOAN QUOTES SEARCH");
+
                 InputMethodManager inputMethodManager =
                         (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInputFromWindow(
@@ -173,6 +187,11 @@ public class BL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.ivAdd:
             case R.id.tvAdd:
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("BALANCE TRANSFER LOAN : BALANCE TRANSFER LOAN QUOTES ADD WITH TEXT BUTTON"), Constants.BALANCE_TRANSFER), null);
+
+                MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","BALANCE TRANSFER LOAN QUOTES ADD WITH TEXT BUTTON");
+
                 startActivity(new Intent(getActivity(), BLMainActivity.class));
                 break;
         }
