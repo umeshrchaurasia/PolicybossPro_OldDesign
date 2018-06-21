@@ -163,9 +163,9 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
             case R.id.hlAddQuote:
 
 
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.HOME_LOAN_QUOTES), null);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.HOME_LOAN), null);
 
-                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","HOME LOAN QUOTES ADD WITH FLAOTING BUTTON");
+                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN,"Clicked","HOME LOAN QUOTES ADD WITH FLAOTING BUTTON");
 
 
                 startActivity(new Intent(getActivity(), HLMainActivity.class));
@@ -173,9 +173,9 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
             case R.id.tvSearch:
             case R.id.ivSearch:
 
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES  SEARCH"), Constants.HOME_LOAN_QUOTES), null);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES  SEARCH"), Constants.HOME_LOAN), null);
 
-                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","HOME LOAN QUOTES SEARCH");
+                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN,"Clicked","HOME LOAN QUOTES SEARCH");
 
 
                 InputMethodManager inputMethodManager =
@@ -191,9 +191,9 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.ivAdd:
             case R.id.tvAdd:
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES WITH TEXT BUTTON"), Constants.HOME_LOAN_QUOTES), null);
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES WITH TEXT BUTTON"), Constants.HOME_LOAN), null);
 
-                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","HOME LOAN QUOTES WITH TEXT BUTTON");
+                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN,"Clicked","HOME LOAN QUOTES WITH TEXT BUTTON");
 
                 startActivity(new Intent(getActivity(), HLMainActivity.class));
                 break;

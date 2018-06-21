@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -243,9 +244,18 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
         if (v.getId() == R.id.ivllEdit) {
 
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES  EDIT"), Constants.HOME_LOAN), null);
+
+            MyApplication.getInstance().trackEvent( Constants.HOME_LOAN,"Clicked","HOME LOAN QUOTES EDIT");
+
             ((HLMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
         } else if (v.getId() == R.id.ivShare) {
             if (getQuoteResponse != null) {
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES  SHARE"), Constants.HOME_LOAN), null);
+
+                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN,"Clicked","HOME LOAN QUOTES SHARE");
+
                 Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "HL_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getQuoteResponse);
@@ -318,9 +328,13 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     }
 
     public void redirectToApplyLoan() {
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy HL : Buy button for hl"), Constants.HOME_LOAN), null);
+        MyApplication.getInstance().trackEvent( Constants.HOME_LOAN,"Clicked","Buy HL : Buy button for hl");
+
+
         startActivity(new Intent(getContext(), HomeLoanApplyActivity.class)
                 .putExtra("BuyLoanQuery", buyLoanQuerystring));
-        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy HL : Buy button for hl"), Constants.HOME_LOAN), null);
+
     }
 
 
