@@ -18,16 +18,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.ActivityTabsPagerAdapter_HL;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
@@ -131,6 +136,13 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     }
 
     public void redirectQuoteHL(FmHomeLoanRequest request) {
+
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES  DISPLAY"), Constants.HOME_LOAN_QUOTES), null);
+
+        MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","HOME LOAN QUOTES DISPLAY");
+
+
+
         Intent intent = new Intent(getActivity(), HLMainActivity.class);
         intent.putExtra(FROM_QUOTE, request);
         startActivity(intent);
@@ -149,10 +161,23 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.hlAddQuote:
+
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.HOME_LOAN_QUOTES), null);
+
+                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","HOME LOAN QUOTES ADD WITH FLAOTING BUTTON");
+
+
                 startActivity(new Intent(getActivity(), HLMainActivity.class));
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES  SEARCH"), Constants.HOME_LOAN_QUOTES), null);
+
+                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","HOME LOAN QUOTES SEARCH");
+
+
                 InputMethodManager inputMethodManager =
                         (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInputFromWindow(
@@ -166,6 +191,10 @@ public class HL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.ivAdd:
             case R.id.tvAdd:
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN : HOME LOAN QUOTES WITH TEXT BUTTON"), Constants.HOME_LOAN_QUOTES), null);
+
+                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","HOME LOAN QUOTES WITH TEXT BUTTON");
+
                 startActivity(new Intent(getActivity(), HLMainActivity.class));
                 break;
         }
