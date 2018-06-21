@@ -215,7 +215,7 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
             case R.id.txtNoOfInsurer:
 
                 if (((TextView) view).getText() != HIDE_OPTIONS) {
-                    ((HealthQuoteFragment) mContext).addMoreQuote(((HealthQuoteEntity) view.getTag(R.id.txtNoOfInsurer)).getInsurerId());
+                    ((HealthQuoteFragment) mContext).addMoreQuote(((HealthQuoteEntity) view.getTag(R.id.txtNoOfInsurer)));
                     ((HealthQuoteEntity) view.getTag(R.id.txtNoOfInsurer)).setIsMore(true);
                     ((TextView) view).setText(HIDE_OPTIONS);
 
