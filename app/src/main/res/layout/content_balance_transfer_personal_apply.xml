@@ -2057,7 +2057,7 @@
                                 android:id="@+id/etGrossIncome"
                                 style="@style/Style.edittext"
                                 android:digits="0123456789"
-                                android:enabled="false"
+
                                 android:inputType="number"
                                 android:maxLength="10" />
 
