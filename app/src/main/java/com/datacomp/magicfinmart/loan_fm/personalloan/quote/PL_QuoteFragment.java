@@ -18,11 +18,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.ActivityTabsPagerAdapter_PL;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PesonalLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.utility.Constants;
 
 
 import java.text.SimpleDateFormat;
@@ -30,6 +32,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
@@ -151,10 +156,19 @@ public class PL_QuoteFragment extends BaseFragment implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.plAddQuote:
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES ADD WITH FLAOTING BUTTON"), Constants.PERSONA_LOAN), null);
+
+                MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","PERSONAL LOAN QUOTES ADD WITH FLAOTING BUTTON");
+
                 startActivity(new Intent(getActivity(), PLMainActivity.class));
                 break;
             case R.id.tvSearch:
             case R.id.ivSearch:
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES SEARCH"), Constants.PERSONA_LOAN), null);
+
+                MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","PERSONAL LOAN QUOTES SEARCH");
+
                 InputMethodManager inputMethodManager =
                         (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.toggleSoftInputFromWindow(
@@ -168,6 +182,10 @@ public class PL_QuoteFragment extends BaseFragment implements View.OnClickListen
                 break;
             case R.id.ivAdd:
             case R.id.tvAdd:
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES ADD WITH TEXT BUTTON"), Constants.PERSONA_LOAN), null);
+
+                MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","PERSONAL LOAN QUOTES ADD WITH TEXT BUTTON");
+
                 startActivity(new Intent(getActivity(), PLMainActivity.class));
                 break;
         }

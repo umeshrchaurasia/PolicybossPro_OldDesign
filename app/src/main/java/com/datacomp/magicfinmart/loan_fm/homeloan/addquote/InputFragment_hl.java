@@ -34,6 +34,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 
 import com.datacomp.magicfinmart.utility.Constants;
@@ -1079,6 +1080,11 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
             //endregion
 
             setApplicantDetails();
+
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN QUOTES: HOME LOAN QUOTES  APPLY"), Constants.HOME_LOAN_QUOTES), null);
+
+            MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","HOME LOAN QUOTES APPLY");
+
 
             ((HLMainActivity) getActivity()).getQuoteParameterBundle(fmHomeLoanRequest);
 
