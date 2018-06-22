@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -22,8 +23,8 @@ public abstract class NodeRetroRequestBuilder {
 
     // live url
 
-    public static String URL = "http://horizon.policyboss.com:5000";
-    public static String PROPOSAL_BASE_URL = "http://www.policyboss.com/";
+    //public static String URL = "http://horizon.policyboss.com:5000";
+    //public static String PROPOSAL_BASE_URL = "http://www.policyboss.com/";
 
 
     protected Retrofit build() {
@@ -43,7 +44,7 @@ public abstract class NodeRetroRequestBuilder {
                     .build();
 
             restAdapter = new Retrofit.Builder()
-                    .baseUrl(URL)
+                    .baseUrl(BuildConfig.NODE_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

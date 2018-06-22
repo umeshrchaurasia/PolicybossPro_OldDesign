@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -20,7 +21,7 @@ public abstract class PospRetroRequestBuilder {
    // public final static String secondaryUrl = "/EducationAppWebService.svc";
 
     //live url policyboss
-    protected String basicUrl = "http://edu.policyboss.com";
+    //protected String basicUrl = "http://edu.policyboss.com";
     public final static String secondaryUrl = "/eduappservice/EducationAppWebService.svc";
 
 
@@ -69,7 +70,7 @@ public abstract class PospRetroRequestBuilder {
                     .build();
 
             restAdapter = new Retrofit.Builder()
-                    .baseUrl(basicUrl)
+                    .baseUrl(BuildConfig.POSP_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

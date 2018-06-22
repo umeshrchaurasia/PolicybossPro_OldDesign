@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -18,7 +19,7 @@ public class HealthCheckUPRetroRequestBuilder {
     //protected String url = "http://services.rupeeboss.com/LoginDtls.svc/";
     static Retrofit restAdapter = null;
     // production url
-    public static String URL = "http://www.healthassure.in";
+    //public static String URL = "http://www.healthassure.in";
 
     public static final String token = "1234567890";
 
@@ -41,7 +42,7 @@ public class HealthCheckUPRetroRequestBuilder {
                     .build();
 
             restAdapter = new Retrofit.Builder()
-                    .baseUrl(URL)
+                    .baseUrl(BuildConfig.HEALTH_CHECKUP_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
