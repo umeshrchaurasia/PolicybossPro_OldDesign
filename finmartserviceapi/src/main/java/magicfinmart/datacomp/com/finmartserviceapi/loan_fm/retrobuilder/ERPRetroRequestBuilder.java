@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -17,7 +18,7 @@ public class ERPRetroRequestBuilder {
 
     static Retrofit restAdapter = null;
     // production url
-    public static String URL = "http://services.rupeeboss.com/LoginDtls.svc/";
+    //public static String URL = "http://services.rupeeboss.com/LoginDtls.svc/";
 
     //testing
     //public static String URL = "http://erp.rupeeboss.com:8063/LoginDtls.svc/";
@@ -40,7 +41,7 @@ public class ERPRetroRequestBuilder {
                     .build();
 
             restAdapter = new Retrofit.Builder()
-                    .baseUrl(URL)
+                    .baseUrl(BuildConfig.ERP_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

@@ -349,7 +349,7 @@ public class Utility {
         String ssid = "";
         if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
             ssid = new DBPersistanceController(context).getUserData().getPOSPNo();
-        String url = NodeRetroRequestBuilder.PROPOSAL_BASE_URL;
+        String url = BuildConfig.PROPOSAL_BASE_URL;
         url = url + "buynowprivatecar/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }
@@ -359,7 +359,7 @@ public class Utility {
         String ssid = "";
         if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
             ssid = new DBPersistanceController(context).getUserData().getPOSPNo();
-        String url = NodeRetroRequestBuilder.PROPOSAL_BASE_URL;
+        String url = BuildConfig.PROPOSAL_BASE_URL;
         url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }
