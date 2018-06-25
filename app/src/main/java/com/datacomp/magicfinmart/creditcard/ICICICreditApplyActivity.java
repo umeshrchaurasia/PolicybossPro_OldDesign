@@ -72,7 +72,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
     Spinner spResidenceType;
 
     //permanent address
-    EditText etPerFlatNo, etPerBuildingName, etPerArea, etPerPincode;
+    EditText etPerFlatNo, etPerBuildingName, etPerArea, etPerPincode, etPerEmail;
     AutoCompleteTextView acPerCity, acPerState;
     Spinner spPerResidenceType;
 
@@ -847,7 +847,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         etPerBuildingName = (EditText) findViewById(R.id.etPerBuildingName);
         etPerArea = (EditText) findViewById(R.id.etPerArea);
         etPerPincode = (EditText) findViewById(R.id.etPerPincode);
-
+        etPerEmail = (EditText) findViewById(R.id.etPerEmail);
         acPerCity = (AutoCompleteTextView) findViewById(R.id.acPerCity);
         acPerState = (AutoCompleteTextView) findViewById(R.id.acPerState);
         spPerResidenceType = (Spinner) findViewById(R.id.spPerResidenceType);
@@ -882,7 +882,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         public void onClick(View view) {
 
             if (view.getId() == R.id.etDOB) {
-                DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.showExpressAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -1196,6 +1196,11 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                     return;
                 }
 
+                if (!isValideEmailID(etPerEmail)) {
+                    etPerEmail.setError("Invalid Email ID");
+                    etPerEmail.setFocusable(true);
+                    return;
+                }
 
                 //endregion
 
@@ -1327,7 +1332,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                 requestEntity.setPerResidenceAddress3(etPerArea.getText().toString());
                 requestEntity.setPerResidencePincode(etPerPincode.getText().toString());
                 requestEntity.setPerResidenceState(acPerState.getText().toString());
-
+                requestEntity.setEmail_id(etPerEmail.getText().toString());
                 //contact
                 requestEntity.setResidenceMobileNo(etMobileNo.getText().toString());
                 requestEntity.setSTDCode(etStdCode.getText().toString());

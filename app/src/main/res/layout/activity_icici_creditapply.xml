@@ -883,14 +883,15 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:visibility="invisible">
+                                android:hint="Email Id(Personal)">
 
                                 <EditText
+                                    android:id="@+id/etPerEmail"
                                     style="@style/Style.edittext"
-                                    android:inputType="number"
-                                    android:maxLength="10"
+                                    android:inputType="text"
                                     android:maxLines="1" />
                             </android.support.design.widget.TextInputLayout>
+
 
 
                         </TableRow>

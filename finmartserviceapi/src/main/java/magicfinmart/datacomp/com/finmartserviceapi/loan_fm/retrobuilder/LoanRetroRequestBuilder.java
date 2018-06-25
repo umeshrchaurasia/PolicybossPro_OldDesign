@@ -6,6 +6,7 @@ import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
 
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -16,7 +17,7 @@ public abstract class LoanRetroRequestBuilder {
 
     static Retrofit restAdapter = null;
     // production url
-    public static String URL = "http://www.rupeeboss.com";
+    //public static String URL = "http://www.rupeeboss.com";
 
     public final static String SUB_URL = "/api";
 
@@ -38,7 +39,7 @@ public abstract class LoanRetroRequestBuilder {
                     .build();
 
             restAdapter = new Retrofit.Builder()
-                    .baseUrl(URL)
+                    .baseUrl(BuildConfig.LOAN_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();

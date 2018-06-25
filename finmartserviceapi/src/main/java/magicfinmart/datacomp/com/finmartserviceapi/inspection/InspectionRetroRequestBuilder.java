@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.concurrent.TimeUnit;
 
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -17,7 +18,7 @@ public abstract class InspectionRetroRequestBuilder {
     static Retrofit restAdapter = null;
     // production url
     //protected String url = "http://www.rupeeboss.com";
-    protected String url = "http://inspection.policyboss.com";
+    //protected String url = "http://inspection.policyboss.com";
 
 
     public final static String SUB_URL = "/api";
@@ -40,7 +41,7 @@ public abstract class InspectionRetroRequestBuilder {
                     .build();
 
             restAdapter = new Retrofit.Builder()
-                    .baseUrl(url)
+                    .baseUrl(BuildConfig.INSPECTION_URL)
                     .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
