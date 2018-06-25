@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 
@@ -186,7 +187,10 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
     public void onClick(View v) {
 
         if (v.getId() == R.id.btnGetQuote) {
-            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote BL : Get quote button for BL"), Constants.BALANCE_TRANSFER), null);
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote BL : Get quote button for BL APPLY"), Constants.BALANCE_TRANSFER), null);
+
+            MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","Get quote BL : Get quote button for BL APPLY");
+
             //region Validation
             //region Property Validation
             String Outstanding = etOutstanding.getText().toString();

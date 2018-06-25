@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -287,6 +288,10 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             setApp_FeMale_gender();
         } else if (v.getId() == R.id.btnGetQuote) {
             new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote PL : Get quote button for PL"), Constants.PERSONA_LOAN), null);
+
+            MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","Get quote PL : Get quote button for PL");
+
+
             //region Validation
             String NameOfApplicant = etNameOfApplicant.getText().toString();
             String DOB = getYYYYMMDDPattern(et_DOB.getText().toString());
@@ -336,6 +341,9 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
             // endregion
             setApplicantDetails();
+
+
+
 
             //  new PersonalLoanController(getActivity()).getPersonalLoan(personalLoanRequest, this);
             ((PLMainActivity) getActivity()).getQuoteParameterBundle(fmPersonalLoanRequest);

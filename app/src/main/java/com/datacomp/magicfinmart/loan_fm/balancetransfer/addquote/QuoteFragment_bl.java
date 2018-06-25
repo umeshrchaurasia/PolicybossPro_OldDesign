@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity;
@@ -141,6 +142,9 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 //    }
 
     public void redirectToApplyLoanBT(FmBalanceLoanRequest entity) {
+        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy BL : Buy button for BL"), Constants.BALANCE_TRANSFER), null);
+        MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","Buy BL : Buy button for BL");
+
 
         if (Integer.toString(entity.getBLLoanRequest().getProduct_id()).matches("5")) {
 //home
@@ -158,8 +162,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
                     .putExtra("BuyLoanQuery", buyLoanQuerystring));
 
         }
-        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy BL : Buy button for BL"), Constants.BALANCE_TRANSFER), null);
-        //
+         //
 
     }
 
@@ -378,10 +381,21 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ivllEdit) {
+
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("BALANCE TRANSFER : BALANCE TRANSFER QUOTES  EDIT"), Constants.BALANCE_TRANSFER), null);
+
+            MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","BALANCE TRANSFER QUOTES EDIT");
+
             ((BLMainActivity) getActivity()).redirectInput(fmBalanceLoanRequest);
         } else if (v.getId() == R.id.ivShare) {
 
             if (getblDispalyResponse != null) {
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("BALANCE TRANSFER : BALANCE TRANSFER QUOTES  SEARCH"), Constants.BALANCE_TRANSFER), null);
+
+                MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","BALANCE TRANSFER QUOTES SEARCH");
+
+
                 Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "BL_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getblDispalyResponse);

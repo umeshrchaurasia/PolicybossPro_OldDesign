@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -125,6 +126,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         startActivity(new Intent(getContext(), PersonalLoanApplyActivity.class)
                 .putExtra("BuyLoanQuery", buyLoanQuerystring));
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy PL : Buy button for PL"), Constants.PERSONA_LOAN), null);
+        MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","Buy PL : Buy button for PL");
     }
 
 
@@ -291,9 +293,21 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.ivllEdit) {
+
+
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES  EDIT"), Constants.PERSONA_LOAN), null);
+
+            MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","PERSONAL LOAN QUOTES EDIT");
+
+
             ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
         } else if (v.getId() == R.id.ivShare) {
             if (getPersonalLoanResponse != null) {
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES  SHARE"), Constants.PERSONA_LOAN), null);
+
+                MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","PERSONAL LOAN QUOTES SHARE");
+
                 Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "PL_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getPersonalLoanResponse);

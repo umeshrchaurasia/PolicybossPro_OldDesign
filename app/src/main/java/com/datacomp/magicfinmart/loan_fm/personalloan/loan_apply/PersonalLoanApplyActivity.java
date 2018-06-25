@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 
 import com.datacomp.magicfinmart.home.HomeActivity;
@@ -47,7 +48,10 @@ import java.util.Date;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseERP;
@@ -966,6 +970,11 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
             if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
+
+            new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Personal Loan : Application Save"), Constants.PERSONA_LOAN), null);
+
+            MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","Personal Loan : Application Save");
+
             new ErpLoanController(this).saveERPPersonalLoan(erpLoanRequest, PersonalLoanApplyActivity.this);
 
 
