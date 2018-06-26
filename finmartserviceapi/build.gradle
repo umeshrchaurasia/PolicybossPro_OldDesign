@@ -47,14 +47,15 @@ android {
         }
         uat {
             debuggable true
-            buildConfigField "String", "FINMART_URL", '"http://uat.mgfm.in"'
+            buildConfigField "String", "FINMART_URL", '"http://api.magicfinmart.com"'
             buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
             buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
-            buildConfigField "String", "ERP_URL", '"http://erp.rupeeboss.com:8063/LoginDtls.svc/"'
+            buildConfigField "String", "ERP_URL", '"http://services.rupeeboss.com/LoginDtls.svc/"'
             buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
-            buildConfigField "String", "NODE_URL", '"http://qa-horizon.policyboss.com:3000"'
-            buildConfigField "String", "PROPOSAL_BASE_URL", '"http://qa.policyboss.com/"'
+            buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
+            buildConfigField "String", "PROPOSAL_BASE_URL", '"http://www.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
+            signingConfig signingConfigs.debug
 
         }
     }

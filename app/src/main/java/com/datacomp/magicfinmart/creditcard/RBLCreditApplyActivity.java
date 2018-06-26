@@ -154,7 +154,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             Constants.hideKeyBoard(view, RBLCreditApplyActivity.this);
 
             if (view.getId() == R.id.etDob) {
-                DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.showExpressAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
