@@ -14,6 +14,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRe
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ChangePasswordResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -131,6 +132,44 @@ public class LoginController implements ILogin {
 
             @Override
             public void onFailure(Call<ChangePasswordResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void referFriend(String refType, String refCode, final IResponseSubcriber iResponseSubcriber) {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("ref_type", refType);
+        body.put("ref_code", refCode);
+
+        loginNetworkService.referFriend(body).enqueue(new Callback<ReferFriendResponse>() {
+            @Override
+            public void onResponse(Call<ReferFriendResponse> call, Response<ReferFriendResponse> response) {
+
+                if (response != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ReferFriendResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

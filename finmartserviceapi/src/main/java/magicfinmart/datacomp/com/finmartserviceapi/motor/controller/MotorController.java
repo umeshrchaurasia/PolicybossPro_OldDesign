@@ -79,6 +79,10 @@ public class MotorController implements IMotor {
             public void onResponse(Call<BikeUniqueResponse> call, Response<BikeUniqueResponse> response) {
                 if (response.body() != null) {
 
+                    if (response.body().getSummary() == null) {
+                        iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                        return;
+                    }
                     //for every new premium initiate counter should be 0
                     Utility.getSharedPreferenceEditor(mContext).remove(Utility.QUOTE_COUNTER).commit();
 
