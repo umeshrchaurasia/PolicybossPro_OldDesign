@@ -83,13 +83,30 @@ public class MotorApplicationAdapter extends RecyclerView.Adapter<MotorApplicati
                 }
             });
 
-            if (entity.getMotorRequestEntity().getStatusPercent() == 25 || entity.getMotorRequestEntity().getStatusPercent() == 0) {
+            int statusPercent = entity.getMotorRequestEntity().getStatusPercent();
+            if (statusPercent == 0) {
+                holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_10));
+            } else if (statusPercent == 50) {
+                holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_50));
+            } else if (statusPercent == 80) {
+                holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_80));
+            } else if (statusPercent == 90) {
+                holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_90));
+            } else if (statusPercent == 100) {
+                holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
+            } else if (statusPercent == 25) {
+                holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_25));
+            }
+
+           /* if (entity.getMotorRequestEntity().getStatusPercent() == 25
+                    || entity.getMotorRequestEntity().getStatusPercent() == 0) {
                 holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_25));
             } else if (entity.getMotorRequestEntity().getStatusPercent() == 50) {
                 holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_50));
             } else {
                 holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
-            }
+            }*/
+
             try {
 
                 int logo = new DBPersistanceController(fragment.getActivity())
