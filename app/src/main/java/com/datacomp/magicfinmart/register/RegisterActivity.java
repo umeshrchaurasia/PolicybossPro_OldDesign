@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
@@ -19,6 +20,7 @@ import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -26,7 +28,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TabWidget;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +84,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     String pass;
     PrefManager prefManager;
     TrackingRequestEntity trackingRequestEntity;
+    Spinner spReferal;
+    EditText etRefererCode;
+    TextInputLayout tilReferer;
+    boolean isVAlidPromo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +102,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         initWidgets();
         setListener();
         initLayouts();
+        setSpinnerListener();
         prefManager = new PrefManager(this);
         if (prefManager.IsInsuranceMasterUpdate()) {
             new MasterController(this).getInsuranceMaster(this);
@@ -105,6 +112,29 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             lifeList = dbPersistanceController.getLifeListNames();
             initMultiSelect();
         }
+    }
+
+    private void setSpinnerListener() {
+        spReferal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position == 0) {
+                    isVAlidPromo = true;
+                    tilReferer.setVisibility(View.GONE);
+                } else if (position == 1) {
+                    tilReferer.setVisibility(View.VISIBLE);
+                    tilReferer.setHint("Referer Code");
+                } else {
+                    tilReferer.setVisibility(View.VISIBLE);
+                    tilReferer.setHint("Referer Code");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void initMultiSelect() {
@@ -174,6 +204,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         rlProfessionalInfo.setOnClickListener(this);
         etMobile1.addTextChangedListener(mobileTextWatcher);
         etPincode.addTextChangedListener(pincodeTextWatcher);
+        etRefererCode.addTextChangedListener(refererTextWatcher);
         chbxGen.setOnCheckedChangeListener(this);
         chbxHealth.setOnCheckedChangeListener(this);
         chbxLife.setOnCheckedChangeListener(this);
@@ -231,6 +262,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         chbxPostal = (CheckBox) findViewById(R.id.chbxPostal);
         chbxBonds = (CheckBox) findViewById(R.id.chbxBonds);
 
+        etRefererCode = (EditText) findViewById(R.id.etRefererCode);
+        spReferal = (Spinner) findViewById(R.id.spReferal);
+        tilReferer = (TextInputLayout) findViewById(R.id.tilReferer);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
     }
 
@@ -283,9 +317,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
                         showOtpAlert();
                     } else {
-                        setProfessionInfo();
-                        showDialog();
-                        new RegisterController(this).registerFba(registerRequestEntity, this);
+                        if (isVAlidPromo) {
+                            setProfessionInfo();
+                            showDialog();
+                            new RegisterController(this).registerFba(registerRequestEntity, this);
+                        } else {
+                            Toast.makeText(this, "Enter Valid Promocode", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
                 break;
@@ -485,7 +523,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             if (response.getStatusNo() == 0) {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
-            }else {
+            } else {
                 showAlert(response.getMessage());
                 llPersonalInfo.setVisibility(View.VISIBLE);
                 llProfessionalInfo.setVisibility(View.GONE);
@@ -670,6 +708,27 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     };
 
+    TextWatcher refererTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() == 6) {
+                showDialog("Validating Promo code...");
+                new RegisterController(RegisterActivity.this).getCityState(etPincode.getText().toString(), RegisterActivity.this);
+
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
     //endregion
 
     //region datepicker
@@ -763,7 +822,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
         return true;
     }
-
 
 
     private boolean checkPR_Info() {

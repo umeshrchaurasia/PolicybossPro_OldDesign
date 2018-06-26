@@ -27,9 +27,11 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
+import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 
 public class CommonWebViewActivity extends BaseActivity {
 
@@ -208,7 +210,7 @@ public class CommonWebViewActivity extends BaseActivity {
 
     class MyJavaScriptInterface {
         @JavascriptInterface
-        public void AddNewMotorQuote() {
+        public void AddNewMotorQuote() { //Android.AddNewMotorQuote();
             Intent intent;
             if (url.contains("buynowTwoWheeler")) {
                 intent = new Intent(CommonWebViewActivity.this, TwoWheelerQuoteAppActivity.class);
@@ -221,7 +223,25 @@ public class CommonWebViewActivity extends BaseActivity {
         }
 
         @JavascriptInterface
-        public void RedirectToHomepage() {
+        public void AddNewHealthQuote() {//Android.AddNewHealthQuote();
+            Intent intent;
+            intent = new Intent(CommonWebViewActivity.this, HealthQuoteAppActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
+        @JavascriptInterface
+        public void AddNewTermQuote() {//Android.AddNewTermQuote();
+            Intent intent;
+            intent = new Intent(CommonWebViewActivity.this, TermSelectionActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            finish();
+        }
+
+        @JavascriptInterface
+        public void RedirectToHomepage() {//Android.RedirectToHomepage();
             Intent intent = new Intent(CommonWebViewActivity.this, HomeActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
