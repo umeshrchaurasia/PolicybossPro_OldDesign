@@ -8,7 +8,7 @@ android {
         release {
             keyAlias 'www.datacompwebtech.com'
             keyPassword 'dwtandkey'
-            storeFile file('D:/Signed APK/MagicFinmart/Keys/www.datacompwebtech.com.keystore')
+            storeFile file('www.datacompwebtech.com.keystore')
             storePassword 'dwtandkey'
         }
     }

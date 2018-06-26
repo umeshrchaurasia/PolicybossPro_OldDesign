@@ -49,6 +49,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -58,6 +59,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.Trackin
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 
@@ -122,9 +124,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                     isVAlidPromo = true;
                     tilReferer.setVisibility(View.GONE);
                 } else if (position == 1) {
+                    isVAlidPromo = false;
                     tilReferer.setVisibility(View.VISIBLE);
                     tilReferer.setHint("Referer Code");
                 } else {
+                    isVAlidPromo = false;
                     tilReferer.setVisibility(View.VISIBLE);
                     tilReferer.setHint("Referer Code");
                 }
@@ -443,6 +447,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else {
             registerRequestEntity.setStock("0");
         }
+        if (spReferal.getSelectedItemPosition() != 0) {
+            registerRequestEntity.setReferedby_code(etRefererCode.getText().toString().trim());
+        }
     }
 
     private void setRegisterPersonalRequest() {
@@ -535,6 +542,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             generalList = dbPersistanceController.getGeneralListNames();
             lifeList = dbPersistanceController.getLifeListNames();
             initMultiSelect();
+        }
+        if (response instanceof ReferFriendResponse) {
+            if (response.getStatusNo() == 0) {
+                isVAlidPromo = true;
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_LONG).show();
+            } else {
+                isVAlidPromo = false;
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -718,7 +734,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (s.length() == 6) {
                 showDialog("Validating Promo code...");
-                new RegisterController(RegisterActivity.this).getCityState(etPincode.getText().toString(), RegisterActivity.this);
+                new LoginController(RegisterActivity.this).referFriend("" + spReferal.getSelectedItemPosition(), etRefererCode.getText().toString(), RegisterActivity.this);
 
             }
         }

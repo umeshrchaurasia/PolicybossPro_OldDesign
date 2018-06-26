@@ -110,8 +110,18 @@ public class LoginResponseEntity extends RealmObject {
     private int rm_id;
     private String referraid;
     private String POSPNo;
+
+    public String getReferer_code() {
+        return referer_code;
+    }
+
+    public void setReferer_code(String referer_code) {
+        this.referer_code = referer_code;
+    }
+
     private String POSPProfileUrl;
     private String FBAProfileUrl;
+    private String referer_code;
 
     public int getFBAId() {
         return FBAId;
