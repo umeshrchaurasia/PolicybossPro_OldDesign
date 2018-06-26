@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
@@ -48,7 +49,10 @@ import java.util.Date;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseERP;
@@ -811,6 +815,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
+
             new ErpLoanController(this).saveERPPersonalLoan(erpLoanRequest, BalanceTransferPersonalApplyActivity.this);
         } else {
 
@@ -971,10 +976,15 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             if (SubmitType == 1) {
                 showDialog("Please wait...");
             }
+
             new ErpLoanController(this).saveERPPersonalLoan(erpLoanRequest, BalanceTransferPersonalApplyActivity.this);
 
 
         }
+        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer Personal LOAN : Application Save"), Constants.BALANCE_TRANSFER), null);
+
+        MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","Balance Transfer Personal LOAN : Application Save");
+
     }
 
 

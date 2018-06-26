@@ -842,6 +842,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
         else if (v.getId() == R.id.btnGetQuote) {
             //region Validation
             new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote HL : Get quote button for hl"), Constants.HOME_LOAN), null);
+
+            MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","Get quote HL : Get quote button for hl");
+
             //region Property Validation
             String CostOfProp = etCostOfProp.getText().toString();
             String TenureInYear = etTenureInYear.getText().toString();
@@ -1081,9 +1084,6 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             setApplicantDetails();
 
-            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("HOME LOAN QUOTES: HOME LOAN QUOTES  APPLY"), Constants.HOME_LOAN_QUOTES), null);
-
-            MyApplication.getInstance().trackEvent( Constants.HOME_LOAN_QUOTES,"Clicked","HOME LOAN QUOTES APPLY");
 
 
             ((HLMainActivity) getActivity()).getQuoteParameterBundle(fmHomeLoanRequest);

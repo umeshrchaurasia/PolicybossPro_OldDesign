@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -248,9 +249,20 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
 //            } else {
 //                loadFragment(new InputFragment_hl(), INPUT_FRAGMENT);
 //            }
+
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP LOAN : LAP LOAN QUOTES  EDIT"), Constants.LAP), null);
+
+            MyApplication.getInstance().trackEvent( Constants.LAP,"Clicked","LAP LOAN QUOTES EDIT");
+
             ((LAPMainActivity) getActivity()).redirectInput(fmHomeLoanRequest);
         } else if (v.getId() == R.id.ivShare) {
             if (getQuoteResponse != null) {
+
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP LOAN : LAP LOAN QUOTES  SHARE"), Constants.LAP), null);
+
+                MyApplication.getInstance().trackEvent( Constants.LAP,"Clicked","LAP LOAN QUOTES SHARE");
+
+
                 Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "LAP_ALL_QUOTE");
                 intent.putExtra("RESPONSE", getQuoteResponse);
@@ -323,6 +335,10 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         startActivity(new Intent(getContext(), HomeLoanApplyActivity.class)
                 .putExtra("BuyLoanQuery", buyLoanQuerystring));
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy LAP : Buy button for LAP"), Constants.LAP), null);
+
+        MyApplication.getInstance().trackEvent( Constants.LAP,"Clicked","Buy LAP : Buy button for LAP");
+
+
     }
 
     @Override
