@@ -59,12 +59,18 @@ public class HealthApplicationAdapter extends RecyclerView.Adapter<HealthApplica
 
                 Glide.with(fragment).load(healthApplication.getInsImage()).into(holder.imgInsurerLogo);
 
-                if (healthApplication.getHealthRequest().getStatusPercent() == 25 || healthApplication.getHealthRequest().getStatusPercent() == 0) {
-                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_25));
+                if (healthApplication.getHealthRequest().getStatusPercent() == 0) {
+                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_10));
                 } else if (healthApplication.getHealthRequest().getStatusPercent() == 50) {
                     holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_50));
-                } else {
+                } else if (healthApplication.getHealthRequest().getStatusPercent() == 80) {
+                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_80));
+                } else if (healthApplication.getHealthRequest().getStatusPercent() == 90) {
+                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_90));
+                } else if (healthApplication.getHealthRequest().getStatusPercent() == 100) {
                     holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
+                } else if (healthApplication.getHealthRequest().getStatusPercent() == 25) {
+                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_25));
                 }
 
             } catch (Exception e) {
