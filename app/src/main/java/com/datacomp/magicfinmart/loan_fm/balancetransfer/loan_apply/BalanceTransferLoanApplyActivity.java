@@ -2139,6 +2139,21 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
     private boolean validateFinancial_Info() {
 
+
+        if (!isEmpty(etGrossIncome)) {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                etGrossIncome.requestFocus();
+                etGrossIncome.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                etGrossIncome.setError("Enter Gross Income");
+                return false;
+            } else {
+                etGrossIncome.requestFocus();
+                etGrossIncome.setError("Enter Gross Income");
+                return false;
+            }
+        }
+
         if (!isEmpty(etNetIncome)) {
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
