@@ -1081,7 +1081,8 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
 
         etFatherName.setText(homeLoanApplyAppliEntity.getMiddle_Name());
         spTitle.setSelection(getTitlePos(homeLoanApplyAppliEntity.getTitle()));
-        etDob.setText(getDDMMYYYPattern(homeLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
+     //   etDob.setText(getDDMMYYYPattern(homeLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
+        etDob.setText(homeLoanApplyAppliEntity.getDOB());
         //etFatherName.setText("");
 
         if (homeLoanApplyAppliEntity.getGender().equals("Male")) {
@@ -1621,7 +1622,7 @@ public class HomeLoanApplyActivity extends BaseActivity implements View.OnClickL
                                 String currentDay = simpleDateFormat.format(calendar.getTime());
                                 etDob.setText(currentDay);
                                 //TODO:set tag to DOB -- nilesh
-                                etDob.setTag(R.id.et_DOB, calendar);
+                                etDob.setTag(R.id.etDob, calendar);
                                 //etDate.setTag(R.id.et_date, calendar.getTime());
                             }
                         });

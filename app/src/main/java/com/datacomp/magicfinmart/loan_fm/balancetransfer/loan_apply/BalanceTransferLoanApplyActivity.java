@@ -797,21 +797,23 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
             //endregion
 
             // region For Quote and Query string
+            if (homeLoanApplyAppliEntity != null) {
+                erpLoanRequest.setBankId(homeLoanApplyAppliEntity.getBankId());//qurystring
+                erpLoanRequest.setQuote_id(homeLoanApplyAppliEntity.getQuote_id());//qurystring
+                erpLoanRequest.setLoan_Requested(homeLoanApplyAppliEntity.getLoan_Requested());//
+                erpLoanRequest.setBrokerId(Integer.valueOf(homeLoanApplyAppliEntity.getBrokerId()));//Loanid
 
-            erpLoanRequest.setBankId(homeLoanApplyAppliEntity.getBankId());//qurystring
-            erpLoanRequest.setQuote_id(homeLoanApplyAppliEntity.getQuote_id());//qurystring
-            erpLoanRequest.setLoan_Requested(homeLoanApplyAppliEntity.getLoan_Requested());//
-            erpLoanRequest.setBrokerId(Integer.valueOf(homeLoanApplyAppliEntity.getBrokerId()));//Loanid
+
+                erpLoanRequest.setProductId(homeLoanApplyAppliEntity.getProductId());
 
 
-            erpLoanRequest.setProductId(homeLoanApplyAppliEntity.getProductId());
+                erpLoanRequest.setProp_Loan_Amount(homeLoanApplyAppliEntity.getProp_Loan_Amount());
+                erpLoanRequest.setProp_Terms(homeLoanApplyAppliEntity.getProp_Terms());//
+                erpLoanRequest.setProp_Id_Type(homeLoanApplyAppliEntity.getProp_Id_Type());
+                erpLoanRequest.setProp_Processing_Fee(homeLoanApplyAppliEntity.getProp_Processing_Fee());
+                erpLoanRequest.setApplnId(homeLoanApplyAppliEntity.getApplnId());
+            }
             erpLoanRequest.setIsCoApp(0);
-
-            erpLoanRequest.setProp_Loan_Amount(homeLoanApplyAppliEntity.getProp_Loan_Amount());
-            erpLoanRequest.setProp_Terms(homeLoanApplyAppliEntity.getProp_Terms());//
-            erpLoanRequest.setProp_Id_Type(homeLoanApplyAppliEntity.getProp_Id_Type());
-            erpLoanRequest.setProp_Processing_Fee(homeLoanApplyAppliEntity.getProp_Processing_Fee());
-            erpLoanRequest.setApplnId(homeLoanApplyAppliEntity.getApplnId());
             erpLoanRequest.setIs_ApplnComplete(SubmitType);//submit final
             erpLoanRequest.setIs_Confirm(0);//by default
             erpLoanRequest.setAppln_Source(TypePage);   // ie HL / LAP
@@ -1090,7 +1092,8 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
 
         etFatherName.setText(homeLoanApplyAppliEntity.getMiddle_Name());
         spTitle.setSelection(getTitlePos(homeLoanApplyAppliEntity.getTitle()));
-        etDob.setText(getDDMMYYYPattern(homeLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
+     //   etDob.setText(getDDMMYYYPattern(homeLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
+        etDob.setText(homeLoanApplyAppliEntity.getDOB());
         //etFatherName.setText("");
 
         if (homeLoanApplyAppliEntity.getGender().equals("Male")) {
@@ -1628,7 +1631,7 @@ public class BalanceTransferLoanApplyActivity extends BaseActivity implements Vi
                                 String currentDay = simpleDateFormat.format(calendar.getTime());
                                 etDob.setText(currentDay);
                                 //TODO:set tag to DOB -- nilesh
-                                etDob.setTag(R.id.et_DOB, calendar);
+                                etDob.setTag(R.id.etDob, calendar);
                                 //etDate.setTag(R.id.et_date, calendar.getTime());
                             }
                         });

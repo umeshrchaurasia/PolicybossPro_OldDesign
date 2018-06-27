@@ -771,12 +771,16 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
             erpLoanRequest.setTotal_Income(etTotalIncome.getText().toString().trim());
             //endregion
 
+            if (personalLoanApplyAppliEntity != null) {
+
+
+
             erpLoanRequest.setBankId(personalLoanApplyAppliEntity.getBankId());//qurystring
             erpLoanRequest.setQuote_id(personalLoanApplyAppliEntity.getQuote_id());//qurystring
             erpLoanRequest.setBrokerId(Integer.valueOf(personalLoanApplyAppliEntity.getBrokerId()));//Loanid
             erpLoanRequest.setProductId(personalLoanApplyAppliEntity.getProductId());
             // region For Quote and Query string
-
+            }
 
             if (!personalLoanApplyAppliEntity.getLoan_Amount().equals("")) {
                 erpLoanRequest.setLoan_Amount(personalLoanApplyAppliEntity.getLoan_Amount());
@@ -1051,7 +1055,8 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
 
         etFatherName.setText(personalLoanApplyAppliEntity.getMiddle_Name());
         spTitle.setSelection(getTitlePos(personalLoanApplyAppliEntity.getTitle()));
-        etDob.setText(getDDMMYYYPattern(personalLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
+     //   etDob.setText(getDDMMYYYPattern(personalLoanApplyAppliEntity.getDOB(), "MM-dd-yyyy"));
+        etDob.setText(personalLoanApplyAppliEntity.getDOB());
 
         if (personalLoanApplyAppliEntity.getGender().equals("Male")) {
             setMale_gender();
@@ -1593,7 +1598,7 @@ public class BalanceTransferPersonalApplyActivity extends BaseActivity implement
                                 String currentDay = simpleDateFormat.format(calendar.getTime());
                                 etDob.setText(currentDay);
                                 //TODO:set tag to DOB -- nilesh
-                                etDob.setTag(R.id.et_DOB, calendar);
+                                etDob.setTag(R.id.etDob, calendar);
                                 //etDate.setTag(R.id.et_date, calendar.getTime());
                             }
                         });

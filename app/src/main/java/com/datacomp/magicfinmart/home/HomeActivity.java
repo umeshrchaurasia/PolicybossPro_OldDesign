@@ -294,11 +294,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
-        //txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
+        txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
 
         txtEntityName.setText("Magic Finmart  v" + versionNAme);
         txtDetails.setText("" + loginResponseEntity.getFullName()
                 + " (FBA ID : " + loginResponseEntity.getFBAId() + ")");
+        txtFbaCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
         //txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
         if (db.getAccountData() == null) {

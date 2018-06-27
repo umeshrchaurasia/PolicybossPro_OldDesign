@@ -5,6 +5,14 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
  */
 
 public class RegisterRequestEntity {
+    public String getReferedby_code() {
+        return referedby_code;
+    }
+
+    public void setReferedby_code(String referedby_code) {
+        this.referedby_code = referedby_code;
+    }
+
     /**
      * FBAID : 0
      * FBALiveID : 0
@@ -95,6 +103,7 @@ public class RegisterRequestEntity {
      * StatActi :
      * FBAStat : R
      * SMID : 0
+
      * SM_Name :
      * POSPID : 0
      * BrokID : 0
@@ -102,6 +111,7 @@ public class RegisterRequestEntity {
      * password :
      */
 
+    String referedby_code;
     private int FBAID;
     private int FBALiveID;
 
