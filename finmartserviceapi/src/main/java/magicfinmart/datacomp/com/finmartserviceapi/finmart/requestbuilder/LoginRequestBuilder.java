@@ -9,6 +9,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ForgotRespon
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
@@ -43,5 +44,8 @@ public class LoginRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/change-password")
         Call<ChangePasswordResponse> changePassword(@Body HashMap<String, String> body);
 
+        @Headers("token:" + token)
+        @POST("/api/validate-refer-code")
+        Call<ReferFriendResponse> referFriend(@Body HashMap<String, String> body);
     }
 }

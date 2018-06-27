@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.CardView;
@@ -19,6 +20,7 @@ import android.text.style.StyleSpan;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -26,7 +28,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TabWidget;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -56,6 +59,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.Trackin
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 
@@ -82,6 +86,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     String pass;
     PrefManager prefManager;
     TrackingRequestEntity trackingRequestEntity;
+    Spinner spReferal;
+    EditText etRefererCode;
+    TextInputLayout tilReferer;
+    boolean isVAlidPromo = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +104,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         initWidgets();
         setListener();
         initLayouts();
+        setSpinnerListener();
         prefManager = new PrefManager(this);
         if (prefManager.IsInsuranceMasterUpdate()) {
             new MasterController(this).getInsuranceMaster(this);
@@ -105,6 +114,31 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             lifeList = dbPersistanceController.getLifeListNames();
             initMultiSelect();
         }
+    }
+
+    private void setSpinnerListener() {
+        spReferal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position == 0) {
+                    isVAlidPromo = true;
+                    tilReferer.setVisibility(View.GONE);
+                } else if (position == 1) {
+                    isVAlidPromo = false;
+                    tilReferer.setVisibility(View.VISIBLE);
+                    tilReferer.setHint("Referer Code");
+                } else {
+                    isVAlidPromo = false;
+                    tilReferer.setVisibility(View.VISIBLE);
+                    tilReferer.setHint("Referer Code");
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private void initMultiSelect() {
@@ -174,6 +208,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         rlProfessionalInfo.setOnClickListener(this);
         etMobile1.addTextChangedListener(mobileTextWatcher);
         etPincode.addTextChangedListener(pincodeTextWatcher);
+        etRefererCode.addTextChangedListener(refererTextWatcher);
         chbxGen.setOnCheckedChangeListener(this);
         chbxHealth.setOnCheckedChangeListener(this);
         chbxLife.setOnCheckedChangeListener(this);
@@ -231,6 +266,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         chbxPostal = (CheckBox) findViewById(R.id.chbxPostal);
         chbxBonds = (CheckBox) findViewById(R.id.chbxBonds);
 
+        etRefererCode = (EditText) findViewById(R.id.etRefererCode);
+        spReferal = (Spinner) findViewById(R.id.spReferal);
+        tilReferer = (TextInputLayout) findViewById(R.id.tilReferer);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
     }
 
@@ -283,9 +321,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
                         showOtpAlert();
                     } else {
-                        setProfessionInfo();
-                        showDialog();
-                        new RegisterController(this).registerFba(registerRequestEntity, this);
+                        if (isVAlidPromo) {
+                            setProfessionInfo();
+                            showDialog();
+                            new RegisterController(this).registerFba(registerRequestEntity, this);
+                        } else {
+                            Toast.makeText(this, "Enter Valid Promocode", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
                 break;
@@ -405,6 +447,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else {
             registerRequestEntity.setStock("0");
         }
+        if (spReferal.getSelectedItemPosition() != 0) {
+            registerRequestEntity.setReferedby_code(etRefererCode.getText().toString().trim());
+        }
     }
 
     private void setRegisterPersonalRequest() {
@@ -485,7 +530,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             if (response.getStatusNo() == 0) {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
-            }else {
+            } else {
                 showAlert(response.getMessage());
                 llPersonalInfo.setVisibility(View.VISIBLE);
                 llProfessionalInfo.setVisibility(View.GONE);
@@ -497,6 +542,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             generalList = dbPersistanceController.getGeneralListNames();
             lifeList = dbPersistanceController.getLifeListNames();
             initMultiSelect();
+        }
+        if (response instanceof ReferFriendResponse) {
+            if (response.getStatusNo() == 0) {
+                isVAlidPromo = true;
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_LONG).show();
+            } else {
+                isVAlidPromo = false;
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_LONG).show();
+            }
         }
     }
 
@@ -670,6 +724,27 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     };
 
+    TextWatcher refererTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() == 6) {
+                showDialog("Validating Promo code...");
+                new LoginController(RegisterActivity.this).referFriend("" + spReferal.getSelectedItemPosition(), etRefererCode.getText().toString(), RegisterActivity.this);
+
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
     //endregion
 
     //region datepicker
@@ -763,7 +838,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
         return true;
     }
-
 
 
     private boolean checkPR_Info() {

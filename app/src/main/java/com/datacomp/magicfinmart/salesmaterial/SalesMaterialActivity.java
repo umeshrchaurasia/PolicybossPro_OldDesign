@@ -27,6 +27,7 @@ import com.datacomp.magicfinmart.utility.Constants;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -495,38 +496,43 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         }
     }
 
-    public class createBitmapUrl extends AsyncTask<URL, Void, Bitmap> {
+    public class downloadBitmapFromUrl extends AsyncTask<String, Void, Void> {
+
+        Bitmap networkBitmap;
 
         @Override
         protected void onPreExecute() {
-            super.onPreExecute();
+            showDialog("Downloading...");
         }
 
         @Override
-        protected Bitmap doInBackground(URL... urls) {
-            Bitmap networkBitmap = null;
-            try {
-                for (URL url : urls) {
-                    if (url != null) {
+        protected Void doInBackground(String... strings) {
+
+            for (String string : strings) {
+
+                try {
+                    URL url = new URL(string);
+                    HttpURLConnection.setFollowRedirects(false);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("HEAD");
+                    if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
                         networkBitmap = BitmapFactory.decodeStream(
                                 url.openConnection().getInputStream());
                         saveImageToStorage(networkBitmap, "fbaSalesMaterialDetails");
                     }
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-
-
-            } catch (IOException e) {
-                e.printStackTrace();
-                Log.e("TAG", "Could not load Bitmap from: url");
             }
 
-            return networkBitmap;
+            return null;
         }
 
-        protected void onPostExecute(Bitmap result) {
-            Bitmap fbaDetails = createBitmap(result, fbaNAme, fbaDesg, fbaMobNo, fbaEmail);
-            saveImageToStorage(fbaDetails, "fbaSalesMaterialDetails");
-            // bitmap_image = result;
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            cancelDialog();
+            Toast.makeText(SalesMaterialActivity.this, "Image Downloaded", Toast.LENGTH_SHORT).show();
         }
     }
 }
