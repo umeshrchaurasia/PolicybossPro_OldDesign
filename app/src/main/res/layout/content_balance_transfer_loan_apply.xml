@@ -746,7 +746,7 @@
                                 android:id="@+id/etUniversity"
                                 style="@style/Style.edittext"
                                 android:inputType="text"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:maxLength="50"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
@@ -760,7 +760,7 @@
                             <EditText
                                 android:id="@+id/etMoMaidenName"
                                 style="@style/Style.edittext"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ "
                                 android:inputType="text"
                                 android:maxLength="25"
                                 android:maxLines="1" />
@@ -982,7 +982,6 @@
                             <EditText
                                 android:id="@+id/etAddress3ContInfoRAP"
                                 style="@style/Style.edittext"
-                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                 android:inputType="text"
                                 android:maxLength="200"
                                 android:maxLines="2" />

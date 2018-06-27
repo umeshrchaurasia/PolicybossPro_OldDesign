@@ -454,23 +454,23 @@
     <string name="icici_terms_con">I hereby confirm that I have read and understood the Rupeeboss Terms and Conditions applicable to this service and that all the details furnished by me above are true and correct. I further provide consent to Rupeeboss and its affiliates to contact me with reference to financial products and this consent shall override any registration with DNC/NDNC.</string>
     <string name="express_rbl_terms_con">I authorize RBL Bank to contact me. This will override registry on DND / NDNC *</string>
     <string name="title_activity_quick_lead">Quick Lead</string>
-    <string name="title_activity_balance_transfer_loan_apply">BalanceTransferLoanApplyActivity</string>
+    <string name="title_activity_balance_transfer_loan_apply">Balance Transfer Loan Apply Activity</string>
 
     <string name="title_activity_health_compare">Compare</string>
     <string name="title_activity_life_detail">LIFE INSURANCE</string>
-    <string name="title_activity_input_quote_bottm_life">InputQuoteBottmLifeActivity</string>
-    <string name="title_activity_compare_ins_detail">CompareInsDetailActivity</string>
+    <string name="title_activity_input_quote_bottm_life">Input Quote Bottom Life Activity</string>
+    <string name="title_activity_compare_ins_detail">Compare Ins Detail Activity</string>
     <string name="title_activity_compare_ins_main">COMPARE TERM INSURANCE</string>
     <string name="title_activity_balance_transfer_personal_apply">
-        BalanceTransferPersonalApplyActivity
+      Personal Loan - Balance Transfer  Activity
     </string>
-    <string name="title_activity_applied_online_loan_list">AppliedOnlineLoanListActivity</string>
-    <string name="title_activity_banklist">BanklistActivity</string>
+    <string name="title_activity_applied_online_loan_list">Applied Online Loan List Activity</string>
+    <string name="title_activity_banklist">Bank list Activity</string>
 
     <!--region inspect-->
     <string name="title_activity_splash_screen">Policyboss-Inspect</string>
     <!-- <string name="title_activity_home">HomeActivity</string>-->
-    <string name="title_activity_video_preview">VideoPreviewActivity</string>
+    <string name="title_activity_video_preview">Video Preview Activity</string>
     <string name="title_activity_self_declare">Self Declare</string>
     <string-array name="inspectionDetails">
         <item>FRONT / REAR</item>
