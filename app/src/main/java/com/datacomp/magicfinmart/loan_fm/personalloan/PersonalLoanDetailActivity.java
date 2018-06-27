@@ -28,6 +28,7 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
     ViewPager viewPager;
     ActivityTabsPagerAdapter_PL mAdapter;
     LoginResponseEntity loginEntity;
+    boolean blnVerify = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,14 @@ public class PersonalLoanDetailActivity extends BaseActivity implements IRespons
     @Override
     protected void onResume() {
         super.onResume();
-        fetchQuoteApplication();
+        if(!blnVerify) {
+            fetchQuoteApplication();
+        }
+    }
+
+    public void infoPopUpVerify()
+    {
+        blnVerify = true;
     }
 
     private void fetchQuoteApplication() {

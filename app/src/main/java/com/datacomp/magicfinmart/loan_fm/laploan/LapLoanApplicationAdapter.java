@@ -71,7 +71,7 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
                 holder.txtApplicationDate.setText("");
             }
 
-            holder.txtloanamount.setText(""+String.valueOf(entity.getHomeLoanRequest().getLoan_eligible()));
+            holder.txtloanamount.setText(""+String.valueOf(entity.getHomeLoanRequest().getLoanRequired()));
 
             if (entity.getHomeLoanRequest().getRBStatus() != null) {
 
@@ -132,6 +132,15 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
                 }
             });
 
+            holder.ivLeadInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    (( LAP_ApplicationFragment)fragment).openLeadDetailPopUp(entity.getHomeLoanRequest().getApplNumb());
+
+                }
+            });
+
             try {
                 Glide.with(fragment)
                         .load(entity.getHomeLoanRequest().getbank_image())
@@ -187,7 +196,7 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
-        ImageView imgbankLogo, imgStatus;
+        ImageView imgbankLogo, imgStatus ,ivLeadInfo;
         LinearLayout lyParent;
         View view1,view2,view3;
 
@@ -201,6 +210,7 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
             imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
             imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
             lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
+            ivLeadInfo  = (ImageView) itemView.findViewById(R.id.ivLeadInfo);
 
             view1 = (View) itemView.findViewById(R.id.view1);
             view2 = (View) itemView.findViewById(R.id.view2);

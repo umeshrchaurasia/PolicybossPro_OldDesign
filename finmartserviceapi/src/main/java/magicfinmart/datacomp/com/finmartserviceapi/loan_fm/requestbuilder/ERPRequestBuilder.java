@@ -6,6 +6,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpHome
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpPersonLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ShareMessageResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.retrobuilder.ERPRetroRequestBuilder;
@@ -43,6 +44,9 @@ public class ERPRequestBuilder extends ERPRetroRequestBuilder {
 
         @POST("/LoginDtls.svc/XMLService/dsplyMsgLnkDtlsForFinmart")
         Call<ShareMessageResponse> getShareData(@Body HashMap<String, String> body);
+
+        @POST("/LoginDtls.svc/XMLService/getleadHistory")
+        Call<LeadResponse> getLeadDetail(@Body HashMap<String, String> body);
 
     }
 }

@@ -132,6 +132,14 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
                 }
             });
 
+            holder.ivLeadInfo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    (( BL_ApplicationFragment)fragment).openLeadDetailPopUp(entity.getBLLoanRequest().getApplNumb());
+
+                }
+            });
             try {
                 Glide.with(fragment)
                         .load(entity.getBLLoanRequest().getBank_image())
@@ -190,7 +198,7 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtApplicationDate, txtApplicationNumber, txtloanamount, txtPersonName;
-        ImageView imgbankLogo,imgStatus;
+        ImageView imgbankLogo,imgStatus,ivLeadInfo;
         LinearLayout lyParent;
 
         public ApplicationItem(View itemView) {
@@ -203,6 +211,7 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
             imgbankLogo = (ImageView) itemView.findViewById(R.id.imgbankLogo);
             imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
             lyParent = (LinearLayout) itemView.findViewById(R.id.lyParent);
+            ivLeadInfo  = (ImageView) itemView.findViewById(R.id.ivLeadInfo);
         }
     }
 

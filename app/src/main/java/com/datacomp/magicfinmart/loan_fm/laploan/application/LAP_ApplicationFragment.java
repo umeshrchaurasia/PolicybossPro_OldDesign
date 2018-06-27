@@ -21,6 +21,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.laploan.ActivityTabsPagerAdapter_LAP;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanApplicationAdapter;
+import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
+import com.datacomp.magicfinmart.loan_fm.popup.LeadInfoPopupActivity;
 
 /**
  * Created by IN-RB on 22-01-2018.
@@ -131,6 +133,26 @@ public class LAP_ApplicationFragment extends BaseFragment implements View.OnClic
         startActivity(intent);
 
     }
+
+    public void openLeadDetailPopUp(String AppNumb)
+    {
+        Intent intent = new Intent(getActivity(), LeadInfoPopupActivity.class);
+        intent.putExtra("APPLICATION_NUMBER",AppNumb);
+        startActivityForResult(intent,Utility.LEAD_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == Utility.LEAD_REQUEST_CODE)
+        {
+            ((LapLoanDetailActivity)getActivity()).infoPopUpVerify();
+
+        }
+
+    }
+
 
     private void setTextWatcher() {
 //search

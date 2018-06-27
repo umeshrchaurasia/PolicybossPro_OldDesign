@@ -31,6 +31,7 @@ public class BalanceTransferDetailActivity extends BaseActivity implements IResp
     ViewPager viewPager;
     ActivityTabsPagerAdapter_BL mAdapter;
     LoginResponseEntity loginEntity;
+    boolean blnVerify = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,8 +74,16 @@ public class BalanceTransferDetailActivity extends BaseActivity implements IResp
     @Override
     protected void onResume() {
         super.onResume();
-        fetchQuoteApplication();
+        if(!blnVerify) {
+            fetchQuoteApplication();
+        }
     }
+
+    public void infoPopUpVerify()
+    {
+        blnVerify = true;
+    }
+
 
     private void fetchQuoteApplication() {
         showDialog("Please wait.. fetching quote");

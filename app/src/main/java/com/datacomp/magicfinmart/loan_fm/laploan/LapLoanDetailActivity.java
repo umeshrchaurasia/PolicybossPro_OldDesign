@@ -31,6 +31,7 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
     ViewPager viewPager;
     ActivityTabsPagerAdapter_LAP mAdapter;
     LoginResponseEntity loginEntity;
+    boolean blnVerify = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +75,16 @@ public class LapLoanDetailActivity extends BaseActivity implements IResponseSubc
     @Override
     protected void onResume() {
         super.onResume();
-        fetchQuoteApplication();
+        if(!blnVerify) {
+            fetchQuoteApplication();
+        }
     }
+
+    public void infoPopUpVerify()
+    {
+        blnVerify = true;
+    }
+
 
     private void fetchQuoteApplication() {
 

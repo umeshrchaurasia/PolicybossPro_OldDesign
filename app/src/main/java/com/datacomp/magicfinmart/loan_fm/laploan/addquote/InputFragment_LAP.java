@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 
 
@@ -825,6 +826,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         else if (v.getId() == R.id.btnGetQuote) {
             //region Validation
             new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote LAP : Get quote button for LAP"), Constants.LAP), null);
+              MyApplication.getInstance().trackEvent( Constants.LAP,"Clicked","Get quote LAP : Get quote button for LAP");
+
+
             //region Property Validation
             String CostOfProp = etCostOfProp.getText().toString();
             String TenureInYear = etTenureInYear.getText().toString();
@@ -1062,6 +1066,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
             //endregion
 
             setApplicantDetails();
+
 
             ((LAPMainActivity) getActivity()).getQuoteParameterBundle(fmHomeLoanRequest);
         }

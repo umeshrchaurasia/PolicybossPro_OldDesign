@@ -24,5 +24,7 @@ public interface IErpLoan {
 
     void getShareData(final IResponseSubcriber iResponseSubcriber);
 
+    void getLeadDetails(String LeadID, IResponseSubcriberERP iResponseSubcriber);
+
 
 }

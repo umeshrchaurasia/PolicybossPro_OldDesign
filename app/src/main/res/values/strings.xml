@@ -7,6 +7,7 @@
     <string name="login">Already have an account? Login</string>
     <string name="action_settings">Settings</string>
     <string name="threedots">&#8942;</string>
+
     <string name="file_provider_authority" translatable="false">com.datacomp.magicfinmart.fileprovider</string>
 
     <string name="Emp_detail">Employment &amp; Income Details</string>
@@ -746,4 +747,5 @@
     <string name="know_more_mps_desc">Magic Platinum Subscription (MPS) is an exclusive offer from Datatcomp, available to Finmart Business Associates only. In this subscrition you pay ₹
         </string>
     <string name="know_more_mps_desc_2"> to use Datacomp\'s following four premium applications FREE:</string>
+    <string name="title_activity_lead_info_popup">Lead Details</string>
 </resources>
