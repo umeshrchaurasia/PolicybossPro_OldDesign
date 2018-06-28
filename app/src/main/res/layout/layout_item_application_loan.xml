@@ -24,6 +24,7 @@
             android:weightSum="100">
 
 
+
             <TextView
                 android:id="@+id/txtPersonName"
                 style="@style/TextStyle.Title"
@@ -33,17 +34,26 @@
                 android:layout_weight="90"
                 android:gravity="center"
                 android:lines="2"
+                android:text="cdcd"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextStyle.TextMedium"
                 android:textColor="@color/header_dark_text"
                 android:textStyle="bold" />
 
+            <ImageView
+                android:id="@+id/ivLeadInfo"
+                android:scaleType="centerInside"
+                android:layout_weight="0"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/info_ic"/>
             <TextView
                 android:id="@+id/txtOverflowMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
+                android:layout_weight="5"
                 android:gravity="center"
+                android:layout_marginLeft="5dp"
                 android:text="@string/threedots"
                 android:textAppearance="@style/TextStyle.Title"
                 android:textStyle="bold" />

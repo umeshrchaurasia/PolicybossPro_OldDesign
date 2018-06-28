@@ -56,6 +56,7 @@ public class Utility {
     public static final String SECRET_KEY = "SECRET-VG9N6EVV-MIK3-1GFC-ZRBV-PE7XIQ8DV4GY";
     public static final String CLIENT_KEY = "CLIENT-WF4GWODI-HMEB-Q7M6-CLES-DEJCRF7XLRVI";
     public static final int CLIENT_ID = 3;
+    public static final int LEAD_REQUEST_CODE = 22;
 
     public static final String VERSION_CODE = "2.0";
     public static final String BIKEQUOTE_UNIQUEID = "bike_quote_uniqueid";

@@ -19,7 +19,9 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.ActivityTabsPagerAdapter_PL;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanApplicationAdapter;
+import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
+import com.datacomp.magicfinmart.loan_fm.popup.LeadInfoPopupActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -199,6 +201,25 @@ public class PL_ApplicationFragment extends BaseFragment implements View.OnClick
         intent.putExtra(Utility.PLLOAN_APPLICATION, ApplNum);
         intent.putExtra("TypePage", "PL");
         startActivity(intent);
+
+    }
+
+    public void openLeadDetailPopUp(String AppNumb)
+    {
+        Intent intent = new Intent(getActivity(), LeadInfoPopupActivity.class);
+        intent.putExtra("APPLICATION_NUMBER",AppNumb);
+        startActivityForResult(intent,Utility.LEAD_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == Utility.LEAD_REQUEST_CODE)
+        {
+           ((PersonalLoanDetailActivity)getActivity()).infoPopUpVerify();
+
+        }
 
     }
 }

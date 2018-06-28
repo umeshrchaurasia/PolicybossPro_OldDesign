@@ -21,8 +21,10 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.ActivityTabsPagerAdapter_BL;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferApplicationAdapter;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity;
+import com.datacomp.magicfinmart.loan_fm.popup.LeadInfoPopupActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -232,5 +234,24 @@ public class BL_ApplicationFragment extends BaseFragment implements View.OnClick
 
     public void callnumber(String mobNumber) {
         dialNumber(mobNumber);
+    }
+
+    public void openLeadDetailPopUp(String AppNumb)
+    {
+        Intent intent = new Intent(getActivity(), LeadInfoPopupActivity.class);
+        intent.putExtra("APPLICATION_NUMBER",AppNumb);
+        startActivityForResult(intent,Utility.LEAD_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == Utility.LEAD_REQUEST_CODE)
+        {
+            ((BalanceTransferDetailActivity)getActivity()).infoPopUpVerify();
+
+        }
+
     }
 }
