@@ -74,6 +74,7 @@
                             android:hint="First Name">
 
                             <EditText
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:id="@+id/etFirstName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
@@ -89,6 +90,7 @@
                             android:hint="Last Name">
 
                             <EditText
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:id="@+id/etLastName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"

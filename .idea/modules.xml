@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FM-ANDROID.iml" filepath="$PROJECT_DIR$/FM-ANDROID.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FM-ANDROID-NEW.iml" filepath="$PROJECT_DIR$/FM-ANDROID-NEW.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/finmartserviceapi/finmartserviceapi.iml" filepath="$PROJECT_DIR$/finmartserviceapi/finmartserviceapi.iml" />
     </modules>

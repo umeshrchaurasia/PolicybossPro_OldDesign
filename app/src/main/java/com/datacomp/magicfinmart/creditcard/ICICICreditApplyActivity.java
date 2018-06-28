@@ -10,6 +10,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -1404,9 +1405,9 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         if (response instanceof CCICICIResponse) {
             if (response.getStatusNo() == 0) {
                 if (((CCICICIResponse) response).getMasterData().getApplicationId().length() > 1) {
-                    dialogMessage(true, ((CCICICIResponse) response).getMasterData().getApplicationId(), response.getMessage());
+                    dialogMessage(true, ((CCICICIResponse) response).getMasterData().getApplicationId(), response.getMessage(), ((CCICICIResponse) response).getMasterData().getDecision());
                 } else {
-                    dialogMessage(false, "", ((CCRblResponse) response).getMessage());
+                    dialogMessage(false, "", ((CCRblResponse) response).getMessage(),((CCICICIResponse) response).getMasterData().getDecision());
                 }
             }
         }
@@ -1415,10 +1416,10 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        dialogMessage(false, t.getMessage(), "");
+        dialogMessage(false, t.getMessage(), "", "");
     }
 
-    private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage) {
+    private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage, String Decision) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
@@ -1426,9 +1427,11 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         StringBuilder Message = new StringBuilder();
         if (isSuccess) {
             builder.setTitle("Applied Successfully..!");
-            String strMessage = "Application No:" + AppNo + "\n\n";
+            String strMessage = "Application No: " + AppNo + "\n\n" ;
+            String DescText = "<b>" + Decision + "</b> ";
+            String Desc = "Decision: " + Html.fromHtml(DescText) + "\n\n";
             String success = displayMessage;
-            Message.append(strMessage + success);
+            Message.append(strMessage + Desc + success);
 
         } else {
             builder.setTitle("Failed ");

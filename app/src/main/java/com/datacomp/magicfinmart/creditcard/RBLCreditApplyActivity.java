@@ -10,6 +10,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.text.InputFilter;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -343,9 +344,9 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         if (response instanceof CCRblResponse) {
             if (response.getStatusNo() == 0) {
                 if (((CCRblResponse) response).getMasterData().getReferenceCode().length() > 1) {
-                    dialogMessage(true, ((CCRblResponse) response).getMasterData().getReferenceCode(), response.getMessage());
+                    dialogMessage(true, ((CCRblResponse) response).getMasterData().getReferenceCode(), response.getMessage(),((CCRblResponse) response).getMasterData().getStatusX());
                 } else {
-                    dialogMessage(false, "", ((CCRblResponse) response).getMessage());
+                    dialogMessage(false, "", ((CCRblResponse) response).getMessage(), ((CCRblResponse) response).getMasterData().getStatusX());
                 }
             }
         }
@@ -354,10 +355,10 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        dialogMessage(false, "", t.getMessage());
+        dialogMessage(false, "", t.getMessage(), "");
     }
 
-    private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage) {
+    private void dialogMessage(final boolean isSuccess, String AppNo, String displayMessage, String Decision) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(false);
@@ -366,8 +367,10 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         if (isSuccess) {
             builder.setTitle("Applied Successfully..!");
             String strMessage = "Application No:" + AppNo + "\n\n";
+            String DescText = "<b>" + Decision + "</b> ";
+            String Desc = "Decision: " + Html.fromHtml(DescText) + "\n\n";
             String success = displayMessage;
-            Message.append(strMessage + success);
+            Message.append(strMessage + Desc + success);
 
         } else {
             builder.setTitle("Failed ");
