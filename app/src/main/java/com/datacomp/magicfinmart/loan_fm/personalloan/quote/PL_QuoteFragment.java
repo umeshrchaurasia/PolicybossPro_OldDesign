@@ -152,6 +152,8 @@ public class PL_QuoteFragment extends BaseFragment implements View.OnClickListen
 
     }
 
+
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

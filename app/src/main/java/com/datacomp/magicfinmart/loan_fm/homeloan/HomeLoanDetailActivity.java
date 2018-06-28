@@ -31,6 +31,7 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     ViewPager viewPager;
     ActivityTabsPagerAdapter_HL mAdapter;
     LoginResponseEntity loginEntity;
+    boolean blnVerify = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +75,14 @@ public class HomeLoanDetailActivity extends BaseActivity implements IResponseSub
     @Override
     protected void onResume() {
         super.onResume();
+        if(!blnVerify) {
+            fetchQuoteApplication();
+        }
+    }
 
-        fetchQuoteApplication();
+    public void infoPopUpVerify()
+    {
+        blnVerify = true;
     }
 
     private void fetchQuoteApplication() {

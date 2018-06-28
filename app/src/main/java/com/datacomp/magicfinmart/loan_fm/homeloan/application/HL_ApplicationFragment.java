@@ -20,8 +20,10 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.ActivityTabsPagerAdapter_HL;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanApplicationAdapter;
+import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
+import com.datacomp.magicfinmart.loan_fm.popup.LeadInfoPopupActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,4 +205,24 @@ public class HL_ApplicationFragment extends BaseFragment implements View.OnClick
         cancelDialog();
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
+
+    public void openLeadDetailPopUp(String AppNumb)
+    {
+        Intent intent = new Intent(getActivity(), LeadInfoPopupActivity.class);
+        intent.putExtra("APPLICATION_NUMBER",AppNumb);
+        startActivityForResult(intent,Utility.LEAD_REQUEST_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == Utility.LEAD_REQUEST_CODE)
+        {
+            ((HomeLoanDetailActivity)getActivity()).infoPopUpVerify();
+
+        }
+
+    }
+
 }
