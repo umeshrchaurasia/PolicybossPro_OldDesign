@@ -31,7 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="85"
+                android:layout_weight="90"
                 android:gravity="center"
                 android:lines="2"
                 android:text="cdcd"
@@ -43,7 +43,7 @@
             <ImageView
                 android:id="@+id/ivLeadInfo"
                 android:scaleType="centerInside"
-                android:layout_weight="5"
+                android:layout_weight="0"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/info_ic"/>
@@ -51,8 +51,9 @@
                 android:id="@+id/txtOverflowMenu"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="10"
+                android:layout_weight="5"
                 android:gravity="center"
+                android:layout_marginLeft="5dp"
                 android:text="@string/threedots"
                 android:textAppearance="@style/TextStyle.Title"
                 android:textStyle="bold" />
