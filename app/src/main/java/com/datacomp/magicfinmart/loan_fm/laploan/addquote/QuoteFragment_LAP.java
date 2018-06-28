@@ -23,6 +23,8 @@ import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivi
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
+import java.math.BigDecimal;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
@@ -298,7 +300,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
             buyLoanQuerystring.setType("LAP");
             buyLoanQuerystring.setBankId(entity.getBank_Id());
 
-            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf(entity.getLoan_eligible()));
+            buyLoanQuerystring.setProp_Loan_Eligible(BigDecimal.valueOf(entity.getLoan_eligible()).toPlainString());
             buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
             buyLoanQuerystring.setQuote_id(QuoteID);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());

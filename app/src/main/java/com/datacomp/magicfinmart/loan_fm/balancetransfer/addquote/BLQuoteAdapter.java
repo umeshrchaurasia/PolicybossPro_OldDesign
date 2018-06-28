@@ -31,9 +31,9 @@ public class BLQuoteAdapter extends RecyclerView.Adapter<BLQuoteAdapter.BLQuotes
     List<BLEntity> quoteEntities;
 
     GetBLDispalyResponse getblDispalyResponse ;
-    Double LoanAmount=0.0;
+    long LoanAmount=0;
 
-    public BLQuoteAdapter(Fragment context, List<BLEntity> quoteEntities,GetBLDispalyResponse tmpgetgetblDispalyResponse,Double loanAmount ) {
+    public BLQuoteAdapter(Fragment context, List<BLEntity> quoteEntities,GetBLDispalyResponse tmpgetgetblDispalyResponse,long loanAmount ) {
         mContext = context;
         this.quoteEntities = quoteEntities;
         getblDispalyResponse = tmpgetgetblDispalyResponse;

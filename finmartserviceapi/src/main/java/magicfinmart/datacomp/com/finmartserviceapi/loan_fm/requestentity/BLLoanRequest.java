@@ -39,7 +39,7 @@ public class BLLoanRequest implements Parcelable {
 
     private int BalanceTransferId;
     private String applicantname;
-    private double loanamount;
+    private long loanamount;
     private double loaninterest;
     private double loanterm;
     private String Type;
@@ -112,11 +112,11 @@ public class BLLoanRequest implements Parcelable {
         this.applicantname = ApplicantName;
     }
 
-    public double getLoanamount() {
+    public long getLoanamount() {
         return loanamount;
     }
 
-    public void setLoanamount(double loanamount) {
+    public void setLoanamount(long loanamount) {
         this.loanamount = loanamount;
     }
 
@@ -320,7 +320,7 @@ public class BLLoanRequest implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.BalanceTransferId);
         dest.writeString(this.applicantname);
-        dest.writeDouble(this.loanamount);
+        dest.writeLong(this.loanamount);
         dest.writeDouble(this.loaninterest);
         dest.writeDouble(this.loanterm);
         dest.writeString(this.Type);
@@ -352,7 +352,7 @@ public class BLLoanRequest implements Parcelable {
     protected BLLoanRequest(Parcel in) {
         this.BalanceTransferId = in.readInt();
         this.applicantname = in.readString();
-        this.loanamount = in.readDouble();
+        this.loanamount = in.readLong();
         this.loaninterest = in.readDouble();
         this.loanterm = in.readDouble();
         this.Type = in.readString();

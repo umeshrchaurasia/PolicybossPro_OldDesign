@@ -173,7 +173,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
             cvInputSummary.setVisibility(View.VISIBLE);
             llgraph.setVisibility(View.VISIBLE);
             llshare.setVisibility(View.VISIBLE);
-            mAdapter = new BLQuoteAdapter(this, getblDispalyResponse.getData().getBank_data(), getblDispalyResponse, blLoanRequest.getLoanamount());
+            mAdapter = new BLQuoteAdapter(this, getblDispalyResponse.getData().getBank_data(), getblDispalyResponse,Long.valueOf(blLoanRequest.getLoanamount()));
             rvBLQuotes.setAdapter(mAdapter);
 
             savingBlList = getblDispalyResponse.getData().getSavings();
@@ -308,7 +308,7 @@ public class QuoteFragment_bl extends BaseFragment implements View.OnClickListen
 
             buyLoanQuerystring.setBankId(entity.getBank_Id());
 
-            buyLoanQuerystring.setProp_Loan_Eligible(String.valueOf(fmBalanceLoanRequest.getBLLoanRequest().getLoanamount()));
+            buyLoanQuerystring.setProp_Loan_Eligible(BigDecimal.valueOf(fmBalanceLoanRequest.getBLLoanRequest().getLoanamount()).toPlainString());
             buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
             buyLoanQuerystring.setQuote_id(QuoteID);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());

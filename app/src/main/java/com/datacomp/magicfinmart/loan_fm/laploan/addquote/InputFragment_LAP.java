@@ -152,7 +152,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
                              Bundle savedInstanceState) {
 
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.content_home_loan, container, false);
+        View view = inflater.inflate(R.layout.content_lap_loan, container, false);
         init_widgets(view);
 
         mReal = new DBPersistanceController(getActivity());
@@ -410,10 +410,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
         sbTenure = (SeekBar) view.findViewById(R.id.sbTenure);
 
 //
-        sbTenure.setMax(25);
+        sbTenure.setMax(10);
 
-        sbTenure.setProgress(15);//////
-        etTenureInYear.setText("20");
+        sbTenure.setProgress(10);//////
+        etTenureInYear.setText("15");
         acCity = (AutoCompleteTextView) view.findViewById(R.id.acCity);
 
         //endregion

@@ -118,7 +118,10 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
         // region  HomeLoanRequest Binding
 
         blLoanRequest = fmBalanceLoanRequest.getBLLoanRequest();
-        blLoanRequest.setLoanamount(Double.parseDouble(etOutstanding.getText().toString()));
+        blLoanRequest.setLoanamount(Long.valueOf(etOutstanding.getText().toString()));
+
+
+
         blLoanRequest.setLoanterm(Double.parseDouble(ettenureyrs.getText().toString()));
         blLoanRequest.setLoaninterest(Double.parseDouble(etCurrInc.getText().toString()));
         blLoanRequest.setApplicantName(etNameOfApplicant.getText().toString().trim());
