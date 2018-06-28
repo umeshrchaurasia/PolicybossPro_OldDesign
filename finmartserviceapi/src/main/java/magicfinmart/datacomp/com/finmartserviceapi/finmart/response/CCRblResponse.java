@@ -35,18 +35,18 @@ public class CCRblResponse extends APIResponse {
          */
 
         @SerializedName("Status")
-        private int StatusX;
+        private String StatusX;
         private String ReferenceCode;
         private String EligibleCard;
         private int Errorcode;
         private String Errorinfo;
         private String RequestIP;
 
-        public int getStatusX() {
+        public String getStatusX() {
             return StatusX;
         }
 
-        public void setStatusX(int StatusX) {
+        public void setStatusX(String StatusX) {
             this.StatusX = StatusX;
         }
 
