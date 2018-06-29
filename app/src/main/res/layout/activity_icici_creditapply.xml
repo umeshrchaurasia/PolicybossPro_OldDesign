@@ -25,10 +25,14 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="90">
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btnICICINext"
+        android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -1141,9 +1145,11 @@
         android:id="@+id/btnICICINext"
         style="@style/ButtonStyle.Colored"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:text="Next" />
+
+    </RelativeLayout>
 
 
 </LinearLayout>
