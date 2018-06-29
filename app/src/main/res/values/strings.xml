@@ -195,7 +195,7 @@
     </string-array>
 
     <string-array name="icici_qualification">
-        <item>Highest education qualification</item>
+        <item>Highest Education Qualification</item>
         <item>Under Graduate</item>
         <item>Graduate/Diploma</item>
         <item>Post Graduate</item>
@@ -211,7 +211,7 @@
     </string-array>
 
     <string-array name="icici_residence_type">
-        <item>Residence Type</item>
+        <item>Residence TYPE</item>
         <item>Owned by self/spouse</item>
         <item>Owned by parents/siblings</item>
         <item>Rented with Family</item>
@@ -247,8 +247,8 @@
 
     <string-array name="icici_salary_account_opened">
         <item>Salary Account Opened</item>
-        <item>Greater than 2 Months</item>
-        <item> Less than 3 Months</item>
+        <item>&lt; 2 MONTHS</item>
+        <item>&gt; 2 MONTHS</item>
 
     </string-array>
 
@@ -443,7 +443,7 @@
     <string name="title_activity_contact_us">CONTACT US</string>
     <string name="title_activity_about_us">ABOUT US</string>
     <string name="title_activity_sales_material">"Sales Material "</string>
-    <string name="title_activity_credit_card">"ICICI Credit Card "</string>
+    <string name="title_activity_credit_card">"Credit Card"</string>
     <string name="title_activity_rblcredit_apply">RBL Credit card</string>
     <string name="title_activity_applied_credit_list">Credit Card</string>
     <string name="title_activity_raise_ticket">RAISE A TICKET</string>

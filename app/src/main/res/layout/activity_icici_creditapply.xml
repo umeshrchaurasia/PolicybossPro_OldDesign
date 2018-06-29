@@ -448,7 +448,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Work area code">
+                            android:hint="Work Area Code">
 
                             <EditText
                                 android:id="@+id/etAreaCode"
@@ -618,7 +618,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Flat no/House No">
+                                android:hint="Flat no / House No">
 
                                 <EditText
                                     android:id="@+id/etFlatNo"
@@ -632,7 +632,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Building/Society Name">
+                                android:hint="Building / Society Name">
 
                                 <EditText
                                     android:id="@+id/etBuildingName"
@@ -651,7 +651,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Road/Area/Locality">
+                                android:hint="Road / Area / Locality">
 
                                 <EditText
                                     android:id="@+id/etArea"
@@ -1009,7 +1009,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="4dp"
                         android:layout_marginTop="4dp"
-                        android:text="Do you have a credit card " />
+                        android:text="Do You Have A Credit Card " />
 
                     <TableRow
                         android:layout_width="fill_parent"
