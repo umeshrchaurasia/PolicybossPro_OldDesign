@@ -239,7 +239,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Credit card applied">
+                        android:hint="Credit Card Applied">
 
                         <EditText
                             android:id="@+id/etCCApplied"
@@ -254,7 +254,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:hint="Processing fees">
+                        android:hint="Processing Fees">
 
                         <EditText
                             android:id="@+id/etProcessingFees"

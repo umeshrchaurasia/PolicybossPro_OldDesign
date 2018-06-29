@@ -150,9 +150,10 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:hint="Mother Maiden Name">
+                            android:hint="Mother's Maiden Name">
 
                             <EditText
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:id="@+id/etMotherName"
                                 style="@style/Style.edittext"
                                 android:drawableRight="@drawable/vector_person"
@@ -183,6 +184,7 @@
                             android:hint="Name to be printed on card">
 
                             <EditText
+                                android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "
                                 android:id="@+id/etCardName"
                                 style="@style/Style.edittext"
                                 android:inputType="text"

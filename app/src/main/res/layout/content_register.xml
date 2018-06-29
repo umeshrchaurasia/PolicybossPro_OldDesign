@@ -292,18 +292,74 @@
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
-                <android.support.design.widget.TextInputLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
-                    android:hint="State">
+                    android:gravity="bottom"
+                    android:orientation="horizontal">
 
-                    <EditText
-                        android:id="@+id/etState"
-                        style="@style/Style.edittext"
-                        android:drawableRight="@drawable/vector_state"
-                        android:editable="false" />
-                </android.support.design.widget.TextInputLayout>
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:layout_weight="1"
+                        android:hint="State">
+
+                        <EditText
+                            android:id="@+id/etState"
+                            style="@style/Style.edittext"
+                            android:drawableRight="@drawable/vector_state"
+                            android:editable="false" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Referrer">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:gravity="left"
+                            android:text="Referrer"
+                            android:textColor="@color/blue"
+                            android:textSize="14sp" />
+
+                        <Spinner
+                            android:id="@+id/spReferal"
+                            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:dropDownWidth="200dp"
+                            android:entries="@array/referal_array" />
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:orientation="horizontal">
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/tilReferer"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:hint="Referer Code">
+
+                        <EditText
+                            android:id="@+id/etRefererCode"
+                            style="@style/Style.edittext"
+                            android:layout_height="match_parent"
+                            android:drawableRight="@drawable/tickgreen"
+                            android:gravity="bottom" />
+
+                    </android.support.design.widget.TextInputLayout>
+                </LinearLayout>
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
@@ -439,53 +495,6 @@
                         android:text="Bonds/CFDs" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:orientation="horizontal">
-
-                    <android.support.design.widget.TextInputLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="1"
-                        android:hint="Permium term">
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="8dp"
-                            android:gravity="left"
-                            android:text="Referrer"
-                            android:textColor="@color/blue"
-                            android:textSize="14sp" />
-
-                        <Spinner
-                            android:id="@+id/spReferal"
-                            style="@style/Base.Widget.AppCompat.Spinner.Underlined"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:dropDownWidth="200dp"
-                            android:entries="@array/referal_array" />
-                    </android.support.design.widget.TextInputLayout>
-
-                    <android.support.design.widget.TextInputLayout
-                        android:id="@+id/tilReferer"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:hint="Referer Code">
-
-                        <EditText
-                            android:gravity="bottom"
-                            android:layout_height="match_parent"
-                            android:id="@+id/etRefererCode"
-                            style="@style/Style.edittext"
-                            android:drawableRight="@drawable/tickgreen" />
-
-                    </android.support.design.widget.TextInputLayout>
-                </LinearLayout>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
