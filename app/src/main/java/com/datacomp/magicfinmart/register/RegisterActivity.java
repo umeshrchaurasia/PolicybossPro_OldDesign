@@ -391,6 +391,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             etFirstName.setError("Enter First Name");
             return false;
         }
+        if (!isVAlidPromo) {
+            etRefererCode.requestFocus();
+            etRefererCode.setError("Enter Valid Promo Code");
+            return false;
+        }
         return true;
     }
 
@@ -544,6 +549,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             initMultiSelect();
         }
         if (response instanceof ReferFriendResponse) {
+            cancelDialog();
             if (response.getStatusNo() == 0) {
                 isVAlidPromo = true;
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_LONG).show();

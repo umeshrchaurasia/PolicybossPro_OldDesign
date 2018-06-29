@@ -67,6 +67,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("RBL CREDIT CARD");
         init();
         cityList = new ArrayList<>();
         cityList = new DBPersistanceController(this).getRblCity();
@@ -99,7 +100,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         etProcessingFees = (EditText) findViewById(R.id.etProcessingFees);
         etMobile = (EditText) findViewById(R.id.etMobile);
         etpancard = (EditText) findViewById(R.id.etpancard);
-        etpancard.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        etpancard.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
         etAddress1 = (EditText) findViewById(R.id.etAddress1);
         etAddress2 = (EditText) findViewById(R.id.etAddress2);
         etLandMark = (EditText) findViewById(R.id.etLandMark);

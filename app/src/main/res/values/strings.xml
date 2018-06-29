@@ -725,8 +725,7 @@
 
     <string-array name="referal_array">
         <item>SELF</item>
-        <item>DATACOMP CHANNEL</item>
-        <item>OTHERS</item>
+        <item>DATACOMP </item>
     </string-array>
     <string-array name="CityEarlySal">
         <item>Select City</item>
