@@ -102,7 +102,9 @@ public class HLQuoteAdapter extends RecyclerView.Adapter<HLQuoteAdapter.BankQuot
         holder.tvBankName.setText("" + quoteEntity.getBank_Code());
         holder.tvBestEmi.setText("" + "\u20B9" + " " + String.format("%.0f", quoteEntity.getEmi()));
         holder.tvLoanTenure.setText("" + quoteEntity.getLoanTenure() + " Years");
-        holder.tvProcessingFee.setText("" + "\u20B9" + " " + String.format("%.0f", quoteEntity.getProcessingfee()));
+     //   holder.tvProcessingFee.setText("" + "\u20B9" + " " +  BigDecimal.valueOf(String.format("%.0f",quoteEntity.getProcessingfee())));
+
+        holder.tvProcessingFee.setText("" + "\u20B9" + " " + String.format("%.0f", (quoteEntity.getProcessingfee())));
 
         double loanr = quoteEntity.getLoan_eligible();
         double emiperlac = (quoteEntity.getEmi() / loanr) * 100000;
