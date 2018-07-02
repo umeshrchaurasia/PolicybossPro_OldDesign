@@ -24,13 +24,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
@@ -916,12 +914,17 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     private void setDocumentUpload(int fileType, String FileNmae) {
         if (fileType == 1) {
             //ProfiePics
-            Glide.with(MyAccountActivity.this)
+            /*Glide.with(MyAccountActivity.this)
                     .load(FileNmae)
                     .asBitmap()
 //                    .diskCacheStrategy(DiskCacheStrategy.NONE)
 //                    .skipMemoryCache(true)
-                    .into(target);
+                    .into(target);*/
+            if (FileNmae != null && !FileNmae.equals(""))
+                Glide.with(MyAccountActivity.this)
+                        .load(FileNmae)
+                        .override(200, 200)
+                        .centerCrop().into(ivUser);
         }
 
         if (fileType == 2) {

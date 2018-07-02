@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.webviews;
 
 import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -119,8 +120,8 @@ public class CommonWebViewActivity extends BaseActivity {
         settings.setJavaScriptEnabled(true);
 
 
-        MyWebViewClient webViewClient = new MyWebViewClient(this);
-        webView.setWebViewClient(webViewClient);
+      /*  MyWebViewClient webViewClient = new MyWebViewClient(this);
+        webView.setWebViewClient(webViewClient);*/
         webView.setWebViewClient(new WebViewClient() {
 
 
@@ -140,7 +141,18 @@ public class CommonWebViewActivity extends BaseActivity {
             }
 
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.endsWith(".pdf")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(url), "application/pdf");
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        //user does not have a pdf viewer installed
+                        String googleDocs = "https://docs.google.com/viewer?url=";
+                        webView.loadUrl(googleDocs + url);
+                    }
+                }
                 return false;
             }
         });
