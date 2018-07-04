@@ -216,7 +216,7 @@ public class DBPersistanceController {
         List<String> listCarVariant = new ArrayList<>();
         List<CarMasterEntity> list = new ArrayList<>();
         listCarVariant.add("Variant");
-        if (fuelname.equals("Petrol") || fuelname.equals("Diesel") || fuelname.equals("CNG")) {
+        if (fuelname.toLowerCase().equals("petrol") || fuelname.toLowerCase().equals("diesel") || fuelname.toLowerCase().equals("cng") || fuelname.toLowerCase().equals("lpg")) {
 
             list = realm.where(CarMasterEntity.class)
                     .equalTo("Make_Name", make.trim())
@@ -314,7 +314,7 @@ public class DBPersistanceController {
 
         boolean isAddExternal = false;
         for (int i = 0; i < fuelType.size(); i++) {
-            if (fuelType.get(i).equals("Petrol")) {
+            if (fuelType.get(i).toLowerCase().equals("petrol")) {
                 isAddExternal = true;
                 break;
             }

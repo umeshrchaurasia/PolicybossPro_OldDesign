@@ -391,11 +391,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             etFirstName.setError("Enter First Name");
             return false;
         }
-        if (!isVAlidPromo) {
+      /*  if (!isVAlidPromo) {
             etRefererCode.requestFocus();
             etRefererCode.setError("Enter Valid Promo Code");
             return false;
-        }
+        }*/
         return true;
     }
 
@@ -556,6 +556,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             } else {
                 isVAlidPromo = false;
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_LONG).show();
+                etRefererCode.setText("");
             }
         }
     }

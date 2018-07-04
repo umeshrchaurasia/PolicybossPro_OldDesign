@@ -210,6 +210,8 @@ public class MotorRequestEntity implements Parcelable {
 
         if (loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
             this.ss_id = Integer.parseInt(loginResponseEntity.getPOSPNo());
+        else
+            this.ss_id = 5;
         this.ip_address = Utility.getLocalIpAddress(context);
     }
 

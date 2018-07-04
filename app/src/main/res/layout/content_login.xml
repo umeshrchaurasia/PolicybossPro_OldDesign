@@ -92,7 +92,7 @@
             android:padding="4dp">
 
             <TextView
-                android:visibility="gone"
+                android:visibility="visible"
                 android:id="@+id/tvSignUp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

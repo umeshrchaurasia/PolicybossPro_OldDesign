@@ -874,8 +874,13 @@
         <activity
             android:name=".pospapp.login.LoginActivity"
             android:label="@string/title_activity_login"
+            android:parentActivityName=".home.HomeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".home.HomeActivity" />
+        </activity>
         <activity
             android:name=".pospapp.register.RegisterActivity"
             android:label="@string/title_activity_register"
@@ -1086,8 +1091,7 @@
             android:name=".loan_fm.popup.LeadInfoPopupActivity"
             android:label="@string/title_activity_lead_info_popup"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme"
-          >
+            android:theme="@style/DialogTheme">
 
         </activity>
     </application>
