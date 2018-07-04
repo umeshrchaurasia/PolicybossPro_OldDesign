@@ -162,8 +162,8 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         spFuel.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (fuelList.get(position).equals(Constants.EXTERNAL_LPG)
-                        || fuelList.get(position).equals(Constants.EXTERNAL_CNG)) {
+                if (fuelList.get(position).equals(DBPersistanceController.EXTERNAL_LPG)
+                        || fuelList.get(position).equals(DBPersistanceController.EXTERNAL_CNG)) {
                     etExtValue.setFocusable(true);
                 } else {
                     etExtValue.setFocusable(false);

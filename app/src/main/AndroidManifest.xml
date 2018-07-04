@@ -136,7 +136,7 @@
             android:parentActivityName=".login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="stateAlwaysHidden|stateHidden">
+            android:windowSoftInputMode="stateAlwaysHidden|stateHidden|adjustResize">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.login.LoginActivity" />

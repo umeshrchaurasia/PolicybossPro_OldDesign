@@ -75,8 +75,8 @@ public class Constants {
 
     public static final Double GST = 0.18;
     public static final String SHARED_PREFERENCE_FINMART = "shared_finmart";
-    public static final String EXTERNAL_LPG = "External LPG";
-    public static final String EXTERNAL_CNG = "External CNG";
+   /* public static final String EXTERNAL_LPG = "External LPG";
+    public static final String EXTERNAL_CNG = "External CNG";*/
     public static String PERSONAL_LOAN_QUOTES = "personalloanquotes";
     public static String BL_LOAN_QUOTES = "balanceTransferloanquotes";
     public static String BL_LOAN_SERVICE = "balanceTransferloanservice";

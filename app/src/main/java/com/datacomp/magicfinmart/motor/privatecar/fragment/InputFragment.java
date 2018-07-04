@@ -689,7 +689,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
                     calendarReg.setTime(simpleDateFormat.parse(mfDate));
                     setYearMonthAdapter(calendarReg);
-                }else{
+                } else {
                     setYearMonthAdapter(Calendar.getInstance());
                 }
                 if (masterData.getPurchase_Date() != null) {
@@ -784,7 +784,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     //etCC.setText("" + dbController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
                     String strVarient = getVarient(spVarient.getSelectedItem().toString());
                     varientId = dbController.getVariantID(strVarient, getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-                    motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+                    if (varientId != null && !varientId.equals(""))
+                        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 }
 
             }
@@ -815,8 +816,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
 
-                if (fuelList.get(pos).equals(Constants.EXTERNAL_LPG)
-                        || fuelList.get(pos).equals(Constants.EXTERNAL_CNG)) {
+                if (fuelList.get(pos).equals(DBPersistanceController.EXTERNAL_LPG)
+                        || fuelList.get(pos).equals(DBPersistanceController.EXTERNAL_CNG)) {
                     etExtValue.setEnabled(true);
                     tilExt.setVisibility(View.VISIBLE);
                 } else {
@@ -1152,8 +1153,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 }
 
 
-                if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)
-                        || spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
+                if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)
+                        || spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
                     if (etExtValue.getText().toString().equals("")) {
                         etExtValue.requestFocus();
                         etExtValue.setError("Enter Amount");
@@ -1309,8 +1310,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
 
 
-            if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)
-                    || spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
+            if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)
+                    || spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
                 if (etExtValue.getText().toString().equals("")) {
                     etExtValue.requestFocus();
                     etExtValue.setError("Enter Amount");
@@ -1769,12 +1770,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn("");
 
-        if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
+        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
             motorRequestEntity.setIs_external_bifuel("yes");
             if (!etExtValue.getText().toString().equals(""))
                 motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
-        } else if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
+        } else if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
             motorRequestEntity.setExternal_bifuel_type("cng");
             motorRequestEntity.setIs_external_bifuel("yes");
             if (!etExtValue.getText().toString().equals(""))
@@ -1855,12 +1856,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setEmail("");
         motorRequestEntity.setCrn("");
 
-        if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_LPG)) {
+        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
             motorRequestEntity.setIs_external_bifuel("yes");
             if (!etExtValue.getText().toString().equals(""))
                 motorRequestEntity.setExternal_bifuel_value(Integer.parseInt(etExtValue.getText().toString()));
-        } else if (spFuel.getSelectedItem().toString().equals(Constants.EXTERNAL_CNG)) {
+        } else if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
             motorRequestEntity.setExternal_bifuel_type("cng");
             motorRequestEntity.setIs_external_bifuel("yes");
             if (!etExtValue.getText().toString().equals(""))

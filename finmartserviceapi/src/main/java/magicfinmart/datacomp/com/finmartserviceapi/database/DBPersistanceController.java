@@ -42,8 +42,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
 
 public class DBPersistanceController {
 
-    private static final String EXTERNAL_LPG = "External LPG";
-    private static final String EXTERNAL_CNG = "External CNG";
+    public static final String EXTERNAL_LPG = "External LPG";
+    public static final String EXTERNAL_CNG = "External CNG";
     Map<String, Integer> hashmapKotakPLCity;
 
     //HashMap<String, String> hashMapAddons;
@@ -216,7 +216,30 @@ public class DBPersistanceController {
         List<String> listCarVariant = new ArrayList<>();
         List<CarMasterEntity> list = new ArrayList<>();
         listCarVariant.add("Variant");
-        if (fuelname.toLowerCase().equals("petrol") || fuelname.toLowerCase().equals("diesel") || fuelname.toLowerCase().equals("cng") || fuelname.toLowerCase().equals("lpg")) {
+        String Fuel_ID = "";
+        if (fuelname.equals(EXTERNAL_LPG) || fuelname.equals(EXTERNAL_CNG)) {
+            CarMasterEntity carMasterEntity = realm.where(CarMasterEntity.class)
+                    .equalTo("Make_Name", make.trim())
+                    .equalTo("Model_Name", model.trim())
+                    .equalTo("Fuel_Name", "Petrol", Case.INSENSITIVE).findFirst();
+            if (carMasterEntity != null)
+                Fuel_ID = carMasterEntity.getFuel_ID();
+        } else {
+            CarMasterEntity carMasterEntity = realm.where(CarMasterEntity.class)
+                    .equalTo("Make_Name", make.trim())
+                    .equalTo("Model_Name", model.trim())
+                    .equalTo("Fuel_Name", fuelname.trim()).findFirst();
+            if (carMasterEntity != null)
+                Fuel_ID = carMasterEntity.getFuel_ID();
+        }
+
+        list = realm.where(CarMasterEntity.class)
+                .equalTo("Make_Name", make.trim())
+                .equalTo("Model_Name", model.trim())
+                .equalTo("Fuel_ID", Fuel_ID.trim())
+                .distinct("Variant_ID");
+
+        /*if (fuelname.toLowerCase().equals("petrol") || fuelname.toLowerCase().equals("diesel") || fuelname.toLowerCase().equals("cng") || fuelname.toLowerCase().equals("lpg")) {
 
             list = realm.where(CarMasterEntity.class)
                     .equalTo("Make_Name", make.trim())
@@ -228,9 +251,9 @@ public class DBPersistanceController {
             list = realm.where(CarMasterEntity.class)
                     .equalTo("Make_Name", make.trim())
                     .equalTo("Model_Name", model.trim())
-                    .equalTo("Fuel_Name", "Petrol")
+                    .equalTo("Fuel_Name", "Petrol", Case.INSENSITIVE)
                     .distinct("Variant_ID");
-        }
+        }*/
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);
@@ -304,7 +327,7 @@ public class DBPersistanceController {
         fuelType.add("Fuel Type");
         List<CarMasterEntity> list = realm.where(CarMasterEntity.class)
                 .equalTo("Model_ID", modelID)
-                .distinct("Fuel_ID");
+                .distinct("Fuel_Name");
 
         for (int i = 0; i < list.size(); i++) {
             CarMasterEntity entity = list.get(i);

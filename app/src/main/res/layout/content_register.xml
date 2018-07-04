@@ -346,6 +346,7 @@
                         android:hint="Referer Code">
 
                         <EditText
+                            android:maxLength="6"
                             android:id="@+id/etRefererCode"
                             style="@style/Style.edittext"
                             android:layout_height="match_parent"

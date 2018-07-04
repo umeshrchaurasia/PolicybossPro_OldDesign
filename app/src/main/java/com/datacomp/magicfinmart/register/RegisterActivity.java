@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -321,13 +322,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         new RegisterController(this).generateOtp(etMobile1.getText().toString(), this);
                         showOtpAlert();
                     } else {
-                        if (isVAlidPromo) {
-                            setProfessionInfo();
-                            showDialog();
-                            new RegisterController(this).registerFba(registerRequestEntity, this);
-                        } else {
-                            Toast.makeText(this, "Enter Valid Promocode", Toast.LENGTH_SHORT).show();
-                        }
+
+                        setProfessionInfo();
+                        showDialog();
+                        new RegisterController(this).registerFba(registerRequestEntity, this);
+
                     }
                 }
                 break;
@@ -452,9 +451,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else {
             registerRequestEntity.setStock("0");
         }
-        if (spReferal.getSelectedItemPosition() != 0) {
-            registerRequestEntity.setReferedby_code(etRefererCode.getText().toString().trim());
-        }
+        registerRequestEntity.setReferedby_code(etRefererCode.getText().toString().trim());
     }
 
     private void setRegisterPersonalRequest() {
@@ -552,10 +549,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 isVAlidPromo = true;
-                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_LONG).show();
+                Snackbar.make(etRefererCode, "" + response.getMessage(), Snackbar.LENGTH_LONG).show();
             } else {
                 isVAlidPromo = false;
-                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_LONG).show();
+                Snackbar.make(etRefererCode, "" + response.getMessage(), Snackbar.LENGTH_LONG).show();
                 etRefererCode.setText("");
             }
         }
