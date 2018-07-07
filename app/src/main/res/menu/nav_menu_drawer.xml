@@ -60,7 +60,11 @@
             android:icon="@drawable/inspection"
             android:title="INSPECTION"
             android:visible="true" />
-
+        <item
+            android:id="@+id/nav_franchise"
+            android:icon="@drawable/inspection"
+            android:title="FRANCHISE AGREEMENT"
+            android:visible="true" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"

@@ -112,6 +112,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("ICICI CREDIT CARD");
         creditCardEntity = new CreditCardEntity();
 
         requestEntity = new CCICICIRequestEntity();
@@ -864,7 +865,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         etMemberSince = (EditText) findViewById(R.id.etMemberSince);
         etCreditLimit = (EditText) findViewById(R.id.etCreditLimit);
         etPancard = (EditText) findViewById(R.id.etPancard);
-        etPancard.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
+        etPancard.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
 
         etBankName.setVisibility(View.GONE);
         etMemberSince.setVisibility(View.GONE);
@@ -883,7 +884,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         public void onClick(View view) {
 
             if (view.getId() == R.id.etDOB) {
-                DateTimePicker.showExpressAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.showIciciCreditCardDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {

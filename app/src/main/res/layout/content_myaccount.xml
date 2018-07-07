@@ -864,7 +864,6 @@
                     android:layout_height="200dp"
                     android:layout_centerInParent="true"
                     android:background="@drawable/image_border"
-                    android:scaleType="fitXY"
                     android:src="@drawable/user_blank" />
 
 
@@ -872,10 +871,11 @@
                     android:id="@+id/ivProfile"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_below="@+id/ivUser"
-                    android:layout_marginLeft="-30dp"
-                    android:layout_marginTop="-30dp"
-                    android:layout_toRightOf="@+id/ivUser"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginEnd="53dp"
+                    android:layout_marginRight="53dp"
                     android:src="@drawable/camera_new"
                     android:visibility="visible" />
 

@@ -158,11 +158,12 @@ public class LoginController implements ILogin {
             public void onResponse(Call<ReferFriendResponse> call, Response<ReferFriendResponse> response) {
 
                 if (response != null && response.body()!=null) {
-                    if (response.body().getStatusNo() == 0) {
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    /*if (response.body().getStatusNo() == 0) {
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
-                    }
+                    }*/
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
                 }

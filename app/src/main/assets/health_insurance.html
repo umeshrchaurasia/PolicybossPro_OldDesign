@@ -104,6 +104,9 @@ ul li {margin:2px; padding:4px !important;}
 
      function init(quoteResponse,UserResponse,otherDetails){
 
+        quoteResponse = quoteResponse.replace(/\n/g, " ");
+        quoteResponse = quoteResponse.replace(/\r/g, " ");
+
       var quotes= JSON.parse(quoteResponse);
       var user =JSON.parse(UserResponse);
       var other =JSON.parse(otherDetails);

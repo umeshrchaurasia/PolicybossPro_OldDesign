@@ -27,9 +27,9 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.retrobuilder.NodeRetroRequestBuilder;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -347,9 +347,10 @@ public class Utility {
 
     public static String getMotorUrl(Context context, String Service_Log_Unique_Id) {
         new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("Motor buy : buy button for motor"), "MOTOR INSURANCE"), null);
-        String ssid = "";
-        if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
-            ssid = new DBPersistanceController(context).getUserData().getPOSPNo();
+        LoginResponseEntity loginResponseEntity = new DBPersistanceController(context).getUserData();
+        String ssid = "5";
+        if (loginResponseEntity != null && loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
+            ssid = loginResponseEntity.getPOSPNo();
         String url = BuildConfig.PROPOSAL_BASE_URL;
         url = url + "buynowprivatecar/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
@@ -357,9 +358,10 @@ public class Utility {
 
     public static String getTwoWheelerUrl(Context context, String Service_Log_Unique_Id) {
         new TrackingController(context).sendData(new TrackingRequestEntity(new TrackingData("TW buy : buy button for TW"), "TWO WHEELER INSURANCE"), null);
-        String ssid = "";
-        if (new DBPersistanceController(context).getUserData().getPOSPNo() != null)
-            ssid = new DBPersistanceController(context).getUserData().getPOSPNo();
+        LoginResponseEntity loginResponseEntity = new DBPersistanceController(context).getUserData();
+        String ssid = "5";
+        if (loginResponseEntity != null && loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
+            ssid = loginResponseEntity.getPOSPNo();
         String url = BuildConfig.PROPOSAL_BASE_URL;
         url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;

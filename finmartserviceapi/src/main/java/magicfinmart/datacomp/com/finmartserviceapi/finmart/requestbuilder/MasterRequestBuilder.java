@@ -42,11 +42,11 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         Call<BikeMasterResponse> getBikeMaster(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @GET("/api/get-city-vehicle")
+        @POST("/api/get-city-vehicle")
         Call<CityMasterResponse> getAllCity();
 
         @Headers("token:" + token)
-        @GET("/api/get-insurance-company")
+        @POST("/api/get-insurance-company")
         Call<InsuranceMasterResponse> getInsuranceMasters();
 
         @Headers("token:" + token)

@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.webviews;
 
 import android.app.DownloadManager;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -19,7 +20,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.webkit.JavascriptInterface;
 import android.webkit.MimeTypeMap;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -119,8 +119,8 @@ public class CommonWebViewActivity extends BaseActivity {
         settings.setJavaScriptEnabled(true);
 
 
-        MyWebViewClient webViewClient = new MyWebViewClient(this);
-        webView.setWebViewClient(webViewClient);
+      /*  MyWebViewClient webViewClient = new MyWebViewClient(this);
+        webView.setWebViewClient(webViewClient);*/
         webView.setWebViewClient(new WebViewClient() {
 
 
@@ -140,15 +140,31 @@ public class CommonWebViewActivity extends BaseActivity {
             }
 
             @Override
-            public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                /*if (url.endsWith(".pdf")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(url), "application/pdf");
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        //user does not have a pdf viewer installed
+                        String googleDocs = "https://docs.google.com/viewer?url=";
+                        webView.loadUrl(googleDocs + url);
+                    }
+                }*/
                 return false;
             }
         });
         webView.getSettings().setBuiltInZoomControls(true);
         webView.addJavascriptInterface(new MyJavaScriptInterface(), "Android");
         Log.d("URL", url);
-        //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
-        webView.loadUrl(url);
+
+        if (url.endsWith(".pdf")) {
+            webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+        } else {
+            webView.loadUrl(url);
+        }
+        //webView.loadUrl(url);
     }
 
 

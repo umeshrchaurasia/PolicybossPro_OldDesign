@@ -231,7 +231,8 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             buyLoanQuerystring.setBankId(entity.getBank_Id());
 
             buyLoanQuerystring.setProp_Loan_Eligible(BigDecimal.valueOf(entity.getLoan_eligible()).toPlainString());
-            buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
+            buyLoanQuerystring.setProp_Processing_Fee(BigDecimal.valueOf(entity.getProcessingfee()).toPlainString());
+           // buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
             buyLoanQuerystring.setQuote_id(QuoteID);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());
             buyLoanQuerystring.setMobileNo(fmPersonalLoanRequest.getPersonalLoanRequest().getContact());

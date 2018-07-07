@@ -235,10 +235,10 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 String fuelType = "";
                 if (motorRequestEntity.getIs_external_bifuel().equals("yes")) {
                     if (motorRequestEntity.getExternal_bifuel_type().equals("lpg")) {
-                        fuelType = Constants.EXTERNAL_LPG;
+                        fuelType = DBPersistanceController.EXTERNAL_LPG;
                     }
                     if (motorRequestEntity.getExternal_bifuel_type().equals("cng")) {
-                        fuelType = Constants.EXTERNAL_CNG;
+                        fuelType = DBPersistanceController.EXTERNAL_CNG;
                     }
                 } else {
                     fuelType = carMasterEntity.getFuel_Name();
