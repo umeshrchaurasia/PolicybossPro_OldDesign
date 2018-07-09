@@ -1173,9 +1173,20 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         if (response instanceof kotakPers_SaveResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
-                dialogMessage(true, ((kotakPers_SaveResponse) response).getMessage(), response.getMessage());
+
+
+                if (((kotakPers_SaveResponse) response).getMasterData().getLead_Id().length() > 1) {
+
+                    dialogMessage(true, ((kotakPers_SaveResponse) response).getMasterData().getReferenceCode(), ((kotakPers_SaveResponse) response).getMessage());
+                } else {
+                    dialogMessage(false, "", ((kotakPers_SaveResponse) response).getMessage());
+                }
+               // dialogMessage(true, ((kotakPers_SaveResponse) response).getMessage(), response.getMessage());
 
             }
+
+
+
         } else if (response instanceof KotakPLEmployerNameResponse) {
             cancelDialog();
             prefManager.setIsEmployerNAmeUpdate(false);

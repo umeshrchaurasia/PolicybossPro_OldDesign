@@ -1116,6 +1116,12 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         if (response instanceof ExpressRbPersonalResponse) {
             if (response.getStatusNo() == 0) {
 
+                if (((ExpressRbPersonalResponse) response).getMasterData().getLead_Id().length() > 1) {
+
+                    dialogMessage(true, ((ExpressRbPersonalResponse) response).getMasterData().getLead_Id(), ((ExpressRbPersonalResponse) response).getMessage());
+                } else {
+                    dialogMessage(false, "", ((ExpressRbPersonalResponse) response).getMessage());
+                }
                // dialogMessage(true, (() response).getMessage(), response.getMessage());
                 dialogMessage(true, "", ((ExpressRbPersonalResponse) response).getMessage());
 

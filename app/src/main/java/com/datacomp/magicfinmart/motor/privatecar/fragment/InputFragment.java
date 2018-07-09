@@ -688,9 +688,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     else
                         mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
                     calendarReg.setTime(simpleDateFormat.parse(mfDate));
-                    setYearMonthAdapter(calendarReg);
+                    setYearMonthAdapterFastlane(calendarReg);
                 } else {
-                    setYearMonthAdapter(Calendar.getInstance());
+                    setYearMonthAdapterFastlane(Calendar.getInstance());
                 }
                 if (masterData.getPurchase_Date() != null) {
                     String mf = changeDateFormat(masterData.getPurchase_Date());
@@ -850,10 +850,22 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 1) {
                     int selectedMonth = spMonth.getSelectedItemPosition();
-                    monthList.clear();
-                    monthList.addAll(getMonthList(Calendar.getInstance().get(Calendar.MONTH)));
-                    MonthAdapter.notifyDataSetChanged();
-                    spMonth.setSelection(selectedMonth);
+                    try {
+                        Date Reg = displayFormat.parse(etRegDate.getText().toString());
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(Reg);
+                        monthList.clear();
+                        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+                        MonthAdapter.notifyDataSetChanged();
+                        spMonth.setSelection(selectedMonth);
+                    } catch (ParseException e) {
+                        monthList.clear();
+                        monthList.addAll(getMonthList(Calendar.getInstance().get(Calendar.MONTH)));
+                        MonthAdapter.notifyDataSetChanged();
+                        spMonth.setSelection(selectedMonth);
+                        e.printStackTrace();
+                    }
+
                 } else {
                     int selectedMonth = spMonth.getSelectedItemPosition();
                     monthList.clear();
@@ -2078,6 +2090,30 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         yearList.clear();
         yearList.addAll(getYearList(calendar.get(Calendar.YEAR)));
         YearAdapter.notifyDataSetChanged();
+
+        int yearIndex = 0;
+        for (int i = 0; i < yearList.size(); i++) {
+            String year = "" + calendar.get(Calendar.YEAR);
+            String vari = yearList.get(i);
+            if (year.equalsIgnoreCase(vari)) {
+                yearIndex = i;
+                break;
+            }
+        }
+        spYear.setSelection(yearIndex);
+
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
+
+        spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
+    }
+
+    public void setYearMonthAdapterFastlane(Calendar calendar) {
+
+        /*yearList.clear();
+        yearList.addAll(getYearList(calendar.get(Calendar.YEAR)));
+        YearAdapter.notifyDataSetChanged();*/
 
         int yearIndex = 0;
         for (int i = 0; i < yearList.size(); i++) {

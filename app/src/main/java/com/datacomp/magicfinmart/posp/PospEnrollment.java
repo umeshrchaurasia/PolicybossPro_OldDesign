@@ -477,7 +477,7 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         btnSave.setOnClickListener(this);
 
         etIfscCode.setOnFocusChangeListener(this);
-        etPan.setOnFocusChangeListener(this);
+        //etPan.setOnFocusChangeListener(this);
         etPincode.setOnFocusChangeListener(this);
 
 

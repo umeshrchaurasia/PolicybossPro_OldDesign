@@ -1,5 +1,6 @@
 package magicfinmart.datacomp.com.finmartserviceapi.express_loan.response;
 
+import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.MasterDataExpressLoan;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 
 /**
@@ -7,5 +8,40 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
  */
 
 public class HdfcPers_SaveResponse extends APIResponse {
+    /**
+     * MasterData : {"Lead_Id":"920419"}
+     */
+
+    private MasterDataExpressLoan MasterData;
+
+    public MasterDataExpressLoan getMasterData() {
+        return MasterData;
+    }
+
+    public void setMasterData(MasterDataExpressLoan MasterData) {
+        this.MasterData = MasterData;
+    }
+
+
+
+    /**
+     * MasterData : {"Lead_Id":"920256"}
+     */
+
+  /*  private MasterDataBean MasterData;
+
+    public MasterDataBean getMasterData() {
+        return MasterData;
+    }
+
+    public void setMasterData(MasterDataBean MasterData) {
+        this.MasterData = MasterData;
+    }*/
+
+
+
+
+
+
 
 }

@@ -638,9 +638,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 Calendar calendarReg = Calendar.getInstance();
                 if (masterData.getRegistration_Date() != null) {
                     String reg = changeDateFormat(masterData.getRegistration_Date());
-                    //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
-                    etRegDate.setText(reg);
-                    calendarReg.setTime(displayFormat.parse(reg));
+                    String regDate = displayFormat.format(simpleDateFormat.parse(reg));
+                    etRegDate.setText(regDate);
+                    calendarReg.setTime(displayFormat.parse(regDate));
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
                 if (masterData.getManufacture_Year() != null) {
@@ -651,8 +651,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     else
                         mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
                     calendarReg.setTime(simpleDateFormat.parse(mfDate));
-
-                    setYearMonthAdapter(calendarReg);
+                    setYearMonthAdapterFastlane(calendarReg);
+                } else {
+                    setYearMonthAdapterFastlane(Calendar.getInstance());
                 }
 
                 if (masterData.getPurchase_Date() != null) {
@@ -795,10 +796,21 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 1) {
                     int selectedMonth = spMonth.getSelectedItemPosition();
-                    monthList.clear();
-                    monthList.addAll(getMonthList(Calendar.getInstance().get(Calendar.MONTH)));
-                    MonthAdapter.notifyDataSetChanged();
-                    spMonth.setSelection(selectedMonth);
+                    try {
+                        Date Reg = displayFormat.parse(etRegDate.getText().toString());
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(Reg);
+                        monthList.clear();
+                        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+                        MonthAdapter.notifyDataSetChanged();
+                        spMonth.setSelection(selectedMonth);
+                    } catch (ParseException e) {
+                        monthList.clear();
+                        monthList.addAll(getMonthList(Calendar.getInstance().get(Calendar.MONTH)));
+                        MonthAdapter.notifyDataSetChanged();
+                        spMonth.setSelection(selectedMonth);
+                        e.printStackTrace();
+                    }
                 } else {
                     int selectedMonth = spMonth.getSelectedItemPosition();
                     monthList.clear();
@@ -1910,6 +1922,30 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         yearList.clear();
         yearList.addAll(getYearList(calendar.get(Calendar.YEAR)));
         YearAdapter.notifyDataSetChanged();
+
+        int yearIndex = 0;
+        for (int i = 0; i < yearList.size(); i++) {
+            String year = "" + calendar.get(Calendar.YEAR);
+            String vari = yearList.get(i);
+            if (year.equalsIgnoreCase(vari)) {
+                yearIndex = i;
+                break;
+            }
+        }
+        spYear.setSelection(yearIndex);
+
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
+
+        spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
+    }
+
+    public void setYearMonthAdapterFastlane(Calendar calendar) {
+
+        /*yearList.clear();
+        yearList.addAll(getYearList(calendar.get(Calendar.YEAR)));
+        YearAdapter.notifyDataSetChanged();*/
 
         int yearIndex = 0;
         for (int i = 0; i < yearList.size(); i++) {

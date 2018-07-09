@@ -549,12 +549,14 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
         cancelDialog();
         if (response instanceof HdfcPers_SaveResponse) {
             if (response.getStatusNo() == 0) {
-               // if (((HdfcPers_SaveResponse) response).get().getApplicationId().length() > 1) {
+                if (((HdfcPers_SaveResponse) response).getMasterData().getLead_Id().length() > 1) {
 
-                dialogMessage(true, "", ((HdfcPers_SaveResponse) response).getMessage());
-               // } else {
-                 //   dialogMessage(false, "", ((HdfcPers_SaveResponse) response).getMessage());
-               // }
+                    String appid= ((HdfcPers_SaveResponse) response).getMasterData().getLead_Id();
+
+                dialogMessage(true,appid , ((HdfcPers_SaveResponse) response).getMessage());
+                } else {
+                    dialogMessage(false, "", ((HdfcPers_SaveResponse) response).getMessage());
+                }
             }
         }
     }
