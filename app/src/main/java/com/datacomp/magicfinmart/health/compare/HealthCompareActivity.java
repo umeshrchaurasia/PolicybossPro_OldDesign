@@ -90,7 +90,7 @@ public class HealthCompareActivity extends BaseActivity {
         });
     }
 
-    private List<HealthQuoteEntity> removeDuplicate(List<HealthQuoteEntity> list) {
+    private List<HealthQuoteEntity> removeDuplicate1(List<HealthQuoteEntity> list) {
         List<HealthQuoteEntity> quoteList = new ArrayList<>();
 
         boolean isAdd = true;
@@ -99,7 +99,8 @@ public class HealthCompareActivity extends BaseActivity {
             HealthQuoteEntity entity = list.get(i);
             for (int j = 0; j < quoteList.size(); j++) {
                 HealthQuoteEntity en = quoteList.get(j);
-                if (en.getInsurerId() == entity.getInsurerId() && en.getProductName() != entity.getProductName()) {
+              //  if (en.getInsurerId() == entity.getInsurerId() && en.getProductName() != entity.getProductName()) {
+                if ((en.getInsurerId() == entity.getInsurerId()) && (en.getProductName().equals(entity.getProductName()))) {
                     isAdd = false;
                 } else {
                     isAdd = true;
@@ -112,6 +113,21 @@ public class HealthCompareActivity extends BaseActivity {
 
 
         return quoteList;
+    }
+
+    public List<HealthQuoteEntity>  removeDuplicate(List<HealthQuoteEntity> list) {
+
+        for(int i = 0; i < list.size(); i++) {
+            for(int j = i + 1; j < list.size(); j++) {
+
+                //    if (en.getInsurerId() == entity.getInsurerId() && en.getProductName() != entity.getProductName()) {
+                if( (list.get(i).getInsurerId() == (list.get(j).getInsurerId()))  &&  (list.get(i).getProductName().equals(list.get(j).getProductName()))){
+                    list.remove(j);
+                    j--;
+                }
+            }
+        }
+        return list;
     }
 
 
