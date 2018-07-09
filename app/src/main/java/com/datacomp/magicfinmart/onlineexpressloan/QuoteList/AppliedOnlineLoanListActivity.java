@@ -135,8 +135,14 @@ public class AppliedOnlineLoanListActivity extends BaseActivity implements View.
         if (response instanceof ExpressQuoteListResponse) {
             if (response.getStatusNo() == 0) {
                 mExpressQuoteEntityList = ((ExpressQuoteListResponse) response).getMasterData();
-                mAdapter = new AppliedOnlineAdapter(this, mExpressQuoteEntityList);
-                rvAppliedCreditCards.setAdapter(mAdapter);
+
+                if(mExpressQuoteEntityList.size() != 0) {
+                    mAdapter = new AppliedOnlineAdapter(this, mExpressQuoteEntityList);
+                    rvAppliedCreditCards.setAdapter(mAdapter);
+                }else{
+                    finish();
+                    startActivity(new Intent(this, BankLoanListActivity.class));
+                }
             }
         }
     }

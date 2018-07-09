@@ -86,7 +86,7 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
     AutoCompleteTextView acOffCity, acCity;
 
 
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     //spinner Adapters
     ArrayAdapter<String> residenceAdapter, salariedAdapter, tenureAdapter;
