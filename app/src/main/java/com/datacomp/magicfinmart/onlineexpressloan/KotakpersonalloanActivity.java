@@ -91,7 +91,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
     EditText etCoAppEmployerName, etCoAppNrtMonthlyIncome, etCoAppEMICurrentlyPay, etCoAppDOB;
     Spinner spRelationshipWithCoApp, spCoAppEmpType;
 
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
     Spinner spResidenceType, spCurrentAddressCity, spOfficeCity, spPerCity;
 

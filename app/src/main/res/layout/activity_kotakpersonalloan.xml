@@ -853,7 +853,8 @@
                                 android:id="@+id/etNetMonthIncome"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
-                                android:maxLength="5"
+                                android:digits="0123456789"
+                                android:maxLength="9"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
