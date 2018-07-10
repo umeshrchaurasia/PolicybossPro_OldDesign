@@ -71,7 +71,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
 
                 pgStatus(item.imgStatus, Integer.parseInt(entity.getApplnStatus()));
             } catch (Exception e) {
-                item.imgStatus.setImageResource(R.mipmap.status_25);
+                item.imgStatus.setImageResource(R.mipmap.status_0);
             }
         }
 

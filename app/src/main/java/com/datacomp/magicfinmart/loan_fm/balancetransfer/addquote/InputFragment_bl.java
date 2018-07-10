@@ -270,7 +270,7 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
                 }
             } else if (rbimglap.isChecked()) {
-                if (Double.parseDouble(TenureInYear) > 30) {
+                if (Double.parseDouble(TenureInYear) > 15) {
 
                     ettenureyrs.setError("Please Check Loan Tenure Year.");
                     ettenureyrs.requestFocus();

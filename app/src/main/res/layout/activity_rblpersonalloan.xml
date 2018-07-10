@@ -712,7 +712,7 @@
                                     android:id="@+id/etOffphoneNo"
                                     style="@style/Style.edittext"
                                     android:inputType="number"
-                                    android:maxLength="15"
+                                    android:maxLength="9"
                                     android:maxLines="1" />
 
                             </android.support.design.widget.TextInputLayout>

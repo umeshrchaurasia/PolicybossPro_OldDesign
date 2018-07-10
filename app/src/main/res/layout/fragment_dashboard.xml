@@ -9,25 +9,27 @@
     <!--<include layout="@layout/layout_dashboard_header" />-->
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/tvSalesMat"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:gravity="center"
-            android:drawableTop="@drawable/sales_material_icon"
             style="@style/TextViewStyle.Small"
-            android:text="SALES MATERIAL"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:textColor="@color/header_dark_text"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/sales_material_icon"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="SALES MATERIAL"
+            android:textColor="@color/header_dark_text" />
+
         <View
-            android:background="@color/black"
             android:layout_width="1dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/black" />
 
         <TextView
             android:id="@+id/tvPendingCAses"
@@ -40,29 +42,32 @@
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:text="PENDING CASES"
-            android:textColor="@color/header_dark_text"
-            />
+            android:textColor="@color/header_dark_text" />
+
         <View
-            android:background="@color/black"
             android:layout_width="1dp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:background="@color/black" />
+
         <TextView
             android:id="@+id/tvKnowledge"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            android:gravity="center"
-            android:drawableTop="@drawable/knowledge_guru_icon"
             style="@style/TextViewStyle.Small"
-            android:text="KNOWLDGE GURU"
-            android:layout_weight="1"
             android:layout_width="0dp"
-            android:textColor="@color/header_dark_text"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:drawableTop="@drawable/knowledge_guru_icon"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:text="KNOWLEDGE GURU"
+            android:textColor="@color/header_dark_text" />
     </LinearLayout>
+
     <View
-        android:background="@color/black"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="@color/black" />
+
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
@@ -72,12 +77,11 @@
         android:layout_marginEnd="0dp"
         android:layout_marginStart="0dp"
         android:background="@color/white"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:menu="@menu/dashboard_header_menu"
-android:visibility="gone"
-        />
+        app:menu="@menu/dashboard_header_menu" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvHome"
