@@ -20,8 +20,5 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
-
+-keepattributes SourceFile,LineNumberTable
 -ignorewarnings
-    -keep class * {
-        public private *;
-    }
