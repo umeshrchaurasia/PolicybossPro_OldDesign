@@ -44,7 +44,7 @@ public class FinmartRetroRequestBuilder {
                     .connectTimeout(3, TimeUnit.MINUTES)
                     .writeTimeout(3, TimeUnit.MINUTES)
                     .readTimeout(3, TimeUnit.MINUTES)
-                    .addInterceptor(interceptor)
+                    //.addInterceptor(interceptor)
                     .build();
 
             restAdapter = new Retrofit.Builder()

@@ -19,6 +19,20 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+#-keepattributes InnerClasses,EnclosingMethod
+#-dontoptimize
+#-keepattributes SourceFile,LineNumberTable
+#-ignorewarnings
 
--keepattributes SourceFile,LineNumberTable
 -ignorewarnings
+
+-keep class * {
+    public private *;
+}
+-keep class magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.** { *; }
+
+-optimizationpasses 5
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-dontpreverify
+-verbose

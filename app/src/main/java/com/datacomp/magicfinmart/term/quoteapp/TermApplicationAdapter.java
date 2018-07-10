@@ -11,6 +11,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 
@@ -51,7 +52,9 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
         if (holder instanceof ApplicationItem) {
             TermFinmartRequest entity = mAppListFiltered.get(position);
             if (entity != null) {
+
                 holder.txtCRN.setText("" + entity.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id());
+
                 holder.txtCreatedDate.setText("" + changeDateFormat(entity.getTermRequestEntity().getCreated_date()));
                 holder.txtPersonName.setText("" + entity.getTermRequestEntity().getContactName());
 
@@ -66,25 +69,10 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
                     holder.txtStatus.setText("LINK SENT");
                 else
                     holder.txtStatus.setText("---");
+
                 holder.txtPremium.setText("" + entity.getNetPremium());
 
 
-
-            /*try {
-
-                Glide.with(fragment).load(entity.getInsImage()).into(holder.imgInsurerLogo);
-
-                if (entity.getStatus_progress() == 25 || entity.getStatus_progress() == 0) {
-                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_25));
-                } else if (entity.getStatus_progress() == 50) {
-                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_50));
-                } else {
-                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
                 holder.txtCRN.setTag(R.id.txtCRN, entity);
                 holder.txtCreatedDate.setTag(R.id.txtCreatedDate, entity);
                 holder.txtPersonName.setTag(R.id.txtPersonName, entity);
@@ -97,8 +85,6 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
                 holder.txtOverflowMenu.setOnClickListener(this);
 
             }
-
-
         }
     }
 

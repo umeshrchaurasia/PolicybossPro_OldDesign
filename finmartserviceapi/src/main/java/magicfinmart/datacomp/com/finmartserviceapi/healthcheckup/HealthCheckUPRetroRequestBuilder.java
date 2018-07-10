@@ -38,7 +38,7 @@ public class HealthCheckUPRetroRequestBuilder {
                     .connectTimeout(10, TimeUnit.MINUTES)
                     .writeTimeout(10, TimeUnit.MINUTES)
                     .readTimeout(10, TimeUnit.MINUTES)
-                    .addInterceptor(interceptor)
+                   // .addInterceptor(interceptor)
                     .build();
 
             restAdapter = new Retrofit.Builder()
