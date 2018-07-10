@@ -127,11 +127,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 } else if (position == 1) {
                     isVAlidPromo = false;
                     tilReferer.setVisibility(View.VISIBLE);
-                    tilReferer.setHint("Referer Code");
+                    tilReferer.setHint("Referrer Code");
                 } else {
                     isVAlidPromo = false;
                     tilReferer.setVisibility(View.VISIBLE);
-                    tilReferer.setHint("Referer Code");
+                    tilReferer.setHint("Referrer Code");
                 }
             }
 

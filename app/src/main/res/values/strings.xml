@@ -683,9 +683,9 @@
         <item>Select Employment &amp; Mode OF Credit</item>
         <item>Salaried: Account Transfer</item>
         <item>Salaried: By Cheque</item>
-        <item>Salaried: By Cash</item>
-        <item>Self Employed</item>
-        <item>Others</item>
+        <!--<item>Salaried: By Cash</item>-->
+        <!--<item>Self Employed</item>-->
+        <!--<item>Others</item>-->
 
     </string-array>
     <string-array name="exp_residence_type">

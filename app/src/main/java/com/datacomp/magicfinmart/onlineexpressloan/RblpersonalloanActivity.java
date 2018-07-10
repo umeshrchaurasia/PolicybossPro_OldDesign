@@ -4,12 +4,11 @@ import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -32,13 +31,10 @@ import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.creditcard.ICICICreditApplyActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.loan_fm.balancetransfer.loan_apply.BalanceTransferLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.google.gson.Gson;
@@ -52,16 +48,9 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller.ExpressLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.RBLPesonalLoanReqEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.EarlySalaryLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.ExpressRbPersonalResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
-
-import static java.lang.Math.pow;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 
 public class RblpersonalloanActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
     CardView ccPersonal, ccCompantDetail, ccQuoteDetail;
@@ -1085,9 +1074,10 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         reqEntity.setLoanType(LoanType);
         reqEntity.setFBAID(String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()));
 
-       // String json = new Gson().toJson(reqEntity);
+        showDialog();
+      //  String json = new Gson().toJson(reqEntity);
 
-       // Toast.makeText(this,"Data" + json ,Toast.LENGTH_SHORT).show();
+      //  Toast.makeText(this,"Data" + json ,Toast.LENGTH_SHORT).show();
 
          new ExpressLoanController(this).saveRblPersonalLoan(reqEntity,RblpersonalloanActivity.this);
 
@@ -1116,14 +1106,14 @@ public class RblpersonalloanActivity extends BaseActivity implements View.OnClic
         if (response instanceof ExpressRbPersonalResponse) {
             if (response.getStatusNo() == 0) {
 
-                if (((ExpressRbPersonalResponse) response).getMasterData().getLead_Id().length() > 1) {
+                if (((ExpressRbPersonalResponse) response).getMasterData().getReferenceCode().length() > 1) {
 
-                    dialogMessage(true, ((ExpressRbPersonalResponse) response).getMasterData().getLead_Id(), ((ExpressRbPersonalResponse) response).getMessage());
+                    dialogMessage(true, ((ExpressRbPersonalResponse) response).getMasterData().getReferenceCode(), ((ExpressRbPersonalResponse) response).getMessage());
                 } else {
                     dialogMessage(false, "", ((ExpressRbPersonalResponse) response).getMessage());
                 }
-               // dialogMessage(true, (() response).getMessage(), response.getMessage());
-                dialogMessage(true, "", ((ExpressRbPersonalResponse) response).getMessage());
+
+            //    dialogMessage(true, "", ((ExpressRbPersonalResponse) response).getMessage());
 
             }
         }
