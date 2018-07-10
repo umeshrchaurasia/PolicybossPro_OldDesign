@@ -56,7 +56,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
     LinearLayout llCoApplicantDetail;
     CardView ccPersonal, ccCompantDetail, ccCurrentAddress, ccContactDetail;
     CheckBox chkSameAsAbove, chkTermsCondition;
-    Button btnKotakplNext,btnROICalc;
+    Button btnKotakplNext, btnROICalc;
 
     TextInputLayout tlProcessingFees, tlPLRateOff;
 
@@ -125,8 +125,8 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         init();
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            BankID = extras.getInt("BANK_ID",0);
-            LoanType = extras.getString("LOAN_TYPE","");
+            BankID = extras.getInt("BANK_ID", 0);
+            LoanType = extras.getString("LOAN_TYPE", "");
             //The key argument here must match that used in the other activity
         }
         setListener();
@@ -408,7 +408,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
         public void onClick(View view) {
 
             if (view.getId() == R.id.etDOB) {
-                DateTimePicker.showHealthAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.showKotakAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {
@@ -931,13 +931,13 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                         return;
                     }
                 }
-               // if (!isEmpty(etCoAppEmployerName)) {
-            //        etCoAppEmployerName.setError("Invalid date");
-              //      etCoAppEmployerName.setFocusable(true);
-              //      return;
-             //   } else {
-             //       etCoAppEmployerName.setError(null);
-             //   }
+                // if (!isEmpty(etCoAppEmployerName)) {
+                //        etCoAppEmployerName.setError("Invalid date");
+                //      etCoAppEmployerName.setFocusable(true);
+                //      return;
+                //   } else {
+                //       etCoAppEmployerName.setError(null);
+                //   }
 
                 if (!isEmpty(etNetMonthIncome)) {
                     etNetMonthIncome.setError("Invalid date");
@@ -1082,10 +1082,9 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 requestEntity.setProcFee(etProcessingFees.getText().toString());
 
 
-
                 if (rbYes.isChecked()) {
                     requestEntity.setIsCoApp("Y");
-                   if (spRelationshipWithCoApp.getSelectedItemPosition() == 0) {
+                    if (spRelationshipWithCoApp.getSelectedItemPosition() == 0) {
                         Toast.makeText(this, "Select relationship with co-applicant", Toast.LENGTH_SHORT).show();
                         return;
                     }
@@ -1093,7 +1092,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                     requestEntity.setCoAppReltn(String.valueOf(spRelationshipWithCoApp.getSelectedItem()));
                     requestEntity.setCoAppDOB(etCoAppDOB.getText().toString());
                     requestEntity.setCoAppEmpType(String.valueOf(spCoAppEmpType.getSelectedItemPosition()));
-                   requestEntity.setCoAppOrg(etCoAppEmployerName.getText().toString());
+                    requestEntity.setCoAppOrg(etCoAppEmployerName.getText().toString());
                     requestEntity.setCoAppNMI(etCoAppNrtMonthlyIncome.getText().toString());
                     requestEntity.setCoAppEmiCurPay(etCoAppEMICurrentlyPay.getText().toString());
 
@@ -1126,7 +1125,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
             }
 
 
-        }else if (v.getId() == R.id.btnROICalc) {
+        } else if (v.getId() == R.id.btnROICalc) {
 
             if (acEmployerName.getText().toString().length() == 0) {
                 acEmployerName.setError("Invalid Company");
@@ -1162,7 +1161,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
             }
 
             showDialog();
-            new ExpressLoanController(this).getKotakROICalList(etNetMonthIncome.getText().toString(),acEmployerName.getText().toString(),etReqLoanAmnt.getText().toString(), this);
+            new ExpressLoanController(this).getKotakROICalList(etNetMonthIncome.getText().toString(), acEmployerName.getText().toString(), etReqLoanAmnt.getText().toString(), this);
 
         }
     }
@@ -1181,10 +1180,9 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 } else {
                     dialogMessage(false, "", ((kotakPers_SaveResponse) response).getMessage());
                 }
-               // dialogMessage(true, ((kotakPers_SaveResponse) response).getMessage(), response.getMessage());
+                // dialogMessage(true, ((kotakPers_SaveResponse) response).getMessage(), response.getMessage());
 
             }
-
 
 
         } else if (response instanceof KotakPLEmployerNameResponse) {
@@ -1193,8 +1191,8 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
 
         } else if (response instanceof KotakROICalResponse) {
             cancelDialog();
-            etPLRateOff.setText(""+((KotakROICalResponse) response).getMasterData().getRoi().toString());
-            etProcessingFees.setText(""+((KotakROICalResponse) response).getMasterData().getProcFee());
+            etPLRateOff.setText("" + ((KotakROICalResponse) response).getMasterData().getRoi().toString());
+            etProcessingFees.setText("" + ((KotakROICalResponse) response).getMasterData().getProcFee());
         }
     }
 

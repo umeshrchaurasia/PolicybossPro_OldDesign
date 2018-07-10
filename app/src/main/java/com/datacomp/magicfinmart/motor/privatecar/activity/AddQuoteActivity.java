@@ -48,6 +48,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResp
 
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
+
 public class AddQuoteActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     CardView cvNewRenew, cvRegNo, cvInput;
