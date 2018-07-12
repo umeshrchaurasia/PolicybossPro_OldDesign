@@ -292,7 +292,7 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
 
                 double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
                 if (loanAmnt < 75000 || loanAmnt > 8000000) {
-                    showAlert("Loan amount should be between 75 Thousands Lac to 80 Lacs");
+                    showAlert("Loan amount should be between 75 Thousands to 80 Lacs");
                     return;
                 }
 

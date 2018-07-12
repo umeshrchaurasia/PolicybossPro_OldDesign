@@ -771,13 +771,13 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 //region validation permanent address
 
 
-                if (etOfficePhone.getText().toString().length() < 10) {
-                    etOfficePhone.setError("Invalid Phone number");
-                    etOfficePhone.setFocusable(true);
-                    return;
-                } else {
-                    etOfficePhone.setError(null);
-                }
+//                if (etOfficePhone.getText().toString().length() < 10) {
+//                    etOfficePhone.setError("Invalid Phone number");
+//                    etOfficePhone.setFocusable(true);
+//                    return;
+//                } else {
+//                    etOfficePhone.setError(null);
+//                }
 
                 if (etPerResidencePhnNo.getText().toString().length() < 10) {
                     etPerResidencePhnNo.setError("Invalid Phone number");

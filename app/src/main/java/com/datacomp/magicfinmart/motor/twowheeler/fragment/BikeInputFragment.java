@@ -637,8 +637,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
                 Calendar calendarReg = Calendar.getInstance();
                 if (masterData.getRegistration_Date() != null) {
-                    String reg = changeDateFormat(masterData.getRegistration_Date());
-                    String regDate = displayFormat.format(simpleDateFormat.parse(reg));
+                    String regDate = changeDateFormat(masterData.getRegistration_Date());
+                    //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
                     etRegDate.setText(regDate);
                     calendarReg.setTime(displayFormat.parse(regDate));
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
