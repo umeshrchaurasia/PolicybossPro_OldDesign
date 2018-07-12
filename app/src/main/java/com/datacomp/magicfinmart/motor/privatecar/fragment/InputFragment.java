@@ -734,7 +734,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 Constants.hideKeyBoard(acMakeModel, getActivity());
                 makeModel = makeModelAdapter.getItem(position).toString();
 
-                modelId = dbController.getModelID(getModel(acMakeModel.getText().toString()));
+                modelId = dbController.getModelID(getMake(acMakeModel.getText().toString()),getModel(acMakeModel.getText().toString()));
                 acMakeModel.setSelection(0);
 
                 if (modelId != "") {

@@ -203,8 +203,11 @@ public class DBPersistanceController {
         return listCarModel;
     }
 
-    public String getModelID(String modelName) {
-        CarMasterEntity entity = realm.where(CarMasterEntity.class).equalTo("Model_Name", modelName.trim()).findFirst();
+    public String getModelID(String makeName,String modelName) {
+        CarMasterEntity entity = realm.where(CarMasterEntity.class)
+                .equalTo("Make_Name", makeName.trim())
+                .equalTo("Model_Name", modelName.trim())
+                .findFirst();
         if (entity != null)
             return entity.getModel_ID();
         else
@@ -402,8 +405,11 @@ public class DBPersistanceController {
             return null;
     }
 
-    public String getBikeModelID(String modelName) {
-        BikeMasterEntity entity = realm.where(BikeMasterEntity.class).equalTo("Model_Name", modelName.trim()).findFirst();
+    public String getBikeModelID(String makeName,String modelName) {
+        BikeMasterEntity entity = realm.where(BikeMasterEntity.class)
+                .equalTo("Make_Name", makeName.trim())
+                .equalTo("Model_Name", modelName.trim())
+                .findFirst();
         if (entity != null)
             return entity.getModel_ID();
         else

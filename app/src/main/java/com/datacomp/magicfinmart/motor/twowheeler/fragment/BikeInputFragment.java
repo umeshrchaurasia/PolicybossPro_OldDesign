@@ -696,7 +696,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 Constants.hideKeyBoard(acMakeModel, getActivity());
                 makeModel = makeModelAdapter.getItem(position).toString();
 
-                modelId = dbController.getBikeModelID(getModel(acMakeModel.getText().toString()));
+                modelId = dbController.getBikeModelID(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()));
                 acMakeModel.setSelection(0);
                 if (modelId != "") {
                    /* fuelList.clear();

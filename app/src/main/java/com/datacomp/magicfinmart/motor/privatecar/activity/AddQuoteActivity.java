@@ -107,7 +107,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Constants.hideKeyBoard(acMakeModel, AddQuoteActivity.this);
-                modelId = databaseController.getModelID(getModel(acMakeModel.getText().toString()));
+                modelId = databaseController.getModelID(getMake(acMakeModel.getText().toString()),getModel(acMakeModel.getText().toString()));
 
                 fuelList = databaseController.getFuelTypeByModelId(modelId);
                 variantList = databaseController.getVariantbyModelID(modelId);
