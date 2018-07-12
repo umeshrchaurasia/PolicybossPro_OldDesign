@@ -770,30 +770,30 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
 
                 //region validation permanent address
 
+//
+//                if (etOfficePhone.getText().toString().length() < 10) {
+//                    etOfficePhone.setError("Invalid Phone number");
+//                    etOfficePhone.setFocusable(true);
+//                    return;
+//                } else {
+//                    etOfficePhone.setError(null);
+//                }
 
-                if (etOfficePhone.getText().toString().length() < 10) {
-                    etOfficePhone.setError("Invalid Phone number");
-                    etOfficePhone.setFocusable(true);
-                    return;
-                } else {
-                    etOfficePhone.setError(null);
-                }
-
-                if (etPerResidencePhnNo.getText().toString().length() < 10) {
-                    etPerResidencePhnNo.setError("Invalid Phone number");
-                    etPerResidencePhnNo.setFocusable(true);
-                    return;
-                } else {
-                    etPerResidencePhnNo.setError(null);
-                }
-
-                if (etResidencePhnNo.getText().toString().length() < 10) {
-                    etResidencePhnNo.setError("Invalid Phone number");
-                    etResidencePhnNo.setFocusable(true);
-                    return;
-                } else {
-                    etResidencePhnNo.setError(null);
-                }
+//                if (etPerResidencePhnNo.getText().toString().length() < 10) {
+//                    etPerResidencePhnNo.setError("Invalid Phone number");
+//                    etPerResidencePhnNo.setFocusable(true);
+//                    return;
+//                } else {
+//                    etPerResidencePhnNo.setError(null);
+//                }
+//
+//                if (etResidencePhnNo.getText().toString().length() < 10) {
+//                    etResidencePhnNo.setError("Invalid Phone number");
+//                    etResidencePhnNo.setFocusable(true);
+//                    return;
+//                } else {
+//                    etResidencePhnNo.setError(null);
+//                }
 
 
                 if (!isEmpty(etPerAdd1)) {
@@ -833,7 +833,7 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                 }
 
                 if (etPerPincode.getText().toString().length() < 6) {
-                    etPerPincode.setError("Invalid pan number");
+                    etPerPincode.setError("Invalid pin code ");
                     etPerPincode.setFocusable(true);
                     return;
                 } else {
@@ -849,13 +849,13 @@ public class KotakpersonalloanActivity extends BaseActivity implements View.OnCl
                     etPerResidencePhnNo.setError(null);
                 }
 
-                if (etPerResidencePhnNo.getText().toString().length() < 10) {
-                    etPerResidencePhnNo.setError("Invalid residence phone no");
-                    etPerResidencePhnNo.setFocusable(true);
-                    return;
-                } else {
-                    etPerResidencePhnNo.setError(null);
-                }
+//                if (etPerResidencePhnNo.getText().toString().length() < 10) {
+//                    etPerResidencePhnNo.setError("Invalid residence phone no");
+//                    etPerResidencePhnNo.setFocusable(true);
+//                    return;
+//                } else {
+//                    etPerResidencePhnNo.setError(null);
+//                }
 
                 //endregion
                 //region validation financial details

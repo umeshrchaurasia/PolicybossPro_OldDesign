@@ -1028,7 +1028,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                 }
 
 
-                if (!isValidePhoneNumber(etPhoneNumber)) {
+                if (!isEmpty(etPhoneNumber)) {
                     etPhoneNumber.setError("Invalid Mobile number");
                     etPhoneNumber.setFocusable(true);
                     return;

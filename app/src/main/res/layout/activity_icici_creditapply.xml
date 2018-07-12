@@ -469,7 +469,7 @@
                                 android:id="@+id/etPhoneNumber"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
-                                android:maxLength="10"
+                                android:maxLength="15"
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
 
@@ -961,7 +961,7 @@
                                 android:id="@+id/etTelephoneNo"
                                 style="@style/Style.edittext"
                                 android:inputType="number"
-                                android:maxLength="10"
+                                android:maxLength="15"
                                 android:maxLines="1" />
 
                         </android.support.design.widget.TextInputLayout>
