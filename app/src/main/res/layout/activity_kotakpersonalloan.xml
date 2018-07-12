@@ -673,7 +673,7 @@
                                     android:id="@+id/etResidencePhnNo"
                                     style="@style/Style.edittext"
                                     android:inputType="number"
-                                    android:maxLength="10"
+                                    android:maxLength="9"
                                     android:maxLines="1" />
                             </android.support.design.widget.TextInputLayout>
 
@@ -717,7 +717,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Per Address 1">
+                                android:hint="*Per Address 1">
 
                                 <EditText
                                     android:id="@+id/etPerAdd1"
@@ -731,7 +731,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Per Address 2">
+                                android:hint="*Per Address 2">
 
                                 <EditText
                                     android:id="@+id/etPerAdd2"
@@ -750,7 +750,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Per Address 3">
+                                android:hint="*Per Address 3">
 
                                 <EditText
                                     android:id="@+id/etPerAdd3"
@@ -780,7 +780,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Pincode">
+                                android:hint="*Pincode">
 
                                 <EditText
                                     android:id="@+id/etPerPincode"
@@ -794,13 +794,13 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Residence Phone No">
+                                android:hint="*Residence Phone No">
 
                                 <EditText
                                     android:id="@+id/etPerResidencePhnNo"
                                     style="@style/Style.edittext"
                                     android:inputType="number"
-                                    android:maxLength="10"
+                                    android:maxLength="9"
                                     android:maxLines="1" />
                             </android.support.design.widget.TextInputLayout>
 
