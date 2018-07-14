@@ -1910,7 +1910,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             motorRequestEntity.setLast_name(fullName[2]);
         }
         motorRequestEntity.setMobile(etMobile.getText().toString());
-        motorRequestEntity.setEmail("");
+        motorRequestEntity.setEmail("finmarttest@gmail.com");
     }
 
     //region api response

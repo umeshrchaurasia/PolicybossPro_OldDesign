@@ -197,7 +197,7 @@ public class MotorRequestEntity implements Parcelable {
         this.middle_name = " ";
         this.last_name = " ";
         this.mobile = "";
-        this.email = "";
+        this.email = "finmarttest@gmail.com";
         this.crn = "";
         this.app_version = Utility.getVersionName(context);
         this.device_id = Utility.getTokenId(context);

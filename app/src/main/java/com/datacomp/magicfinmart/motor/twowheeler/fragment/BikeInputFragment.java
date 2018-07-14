@@ -1608,7 +1608,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setMiddle_name(" ");
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
-        motorRequestEntity.setEmail("");
+        motorRequestEntity.setEmail("finmarttest@gmail.com");
         motorRequestEntity.setCrn("");
 
 
@@ -1695,7 +1695,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         motorRequestEntity.setMiddle_name(" ");
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
-        motorRequestEntity.setEmail("");
+        motorRequestEntity.setEmail("finmarttest@gmail.com");
         motorRequestEntity.setCrn("");
 
 
