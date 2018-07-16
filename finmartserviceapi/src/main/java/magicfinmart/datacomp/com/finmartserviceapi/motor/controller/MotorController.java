@@ -2,8 +2,11 @@ package magicfinmart.datacomp.com.finmartserviceapi.motor.controller;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
+
+import com.google.gson.Gson;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -13,7 +16,10 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder.MotorQuotesRequestBuilder;
@@ -33,6 +39,8 @@ import retrofit2.Response;
 
 public class MotorController implements IMotor {
 
+    public static String MOTOR_QUOTE_RESPONSE = "MOTOR QUOTE RESPONSE";
+    public static String MOTOR_ADDON_RESPONSE = "MOTOR ADDON RESPONSE";
     public static int SLEEP_DELAY = 3000; // 5 seconds delay.
     public static int NO_OF_SERVER_HITS = 8;
     public static int MIN_NO_OF_SERVER_HITS = 5;
@@ -156,6 +164,9 @@ public class MotorController implements IMotor {
             public void onResponse(Call<BikePremiumResponse> call, Response<BikePremiumResponse> response) {
                 if (response.body() != null && response.body().getResponse() != null) {
 
+                    if (constantEntity.getLogtracking().equals("0"))
+                        new PolicybossTrackingQuoteeResponse((BikePremiumResponse) response.body()).execute();
+
                     BikePremiumResponse bikePremiumResponse = new BikePremiumResponse();
                     if (response.body() != null) {
                         List<ResponseEntity> list = new ArrayList<ResponseEntity>();
@@ -235,6 +246,8 @@ public class MotorController implements IMotor {
             @Override
             public void onResponse(Call<SaveAddOnResponse> call, Response<SaveAddOnResponse> response) {
                 if (response.body() != null) {
+                    if (constantEntity.getLogtracking().equals("0"))
+                        new PolicybossTrackingAddonResponse((SaveAddOnResponse) response.body()).execute();
                     iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
 
                 } else {
@@ -257,5 +270,49 @@ public class MotorController implements IMotor {
                 }
             }
         });
+    }
+
+    class PolicybossTrackingQuoteeResponse extends AsyncTask<Void, Void, String> {
+        BikePremiumResponse bikePremiumResponse;
+        String response = "";
+
+        public PolicybossTrackingQuoteeResponse(BikePremiumResponse bikePremiumResponse) {
+            this.bikePremiumResponse = bikePremiumResponse;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            Gson gson = new Gson();
+            response = gson.toJson(bikePremiumResponse);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (constantEntity.getLogtracking().equals("0"))
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData(s), MOTOR_QUOTE_RESPONSE), null);
+        }
+    }
+
+    class PolicybossTrackingAddonResponse extends AsyncTask<Void, Void, String> {
+        SaveAddOnResponse saveAddOnResponse;
+        String response = "";
+
+        public PolicybossTrackingAddonResponse(SaveAddOnResponse saveAddOnResponse) {
+            this.saveAddOnResponse = saveAddOnResponse;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            Gson gson = new Gson();
+            response = gson.toJson(saveAddOnResponse);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (constantEntity.getLogtracking().equals("0"))
+                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData(s), MOTOR_ADDON_RESPONSE), null);
+        }
     }
 }
