@@ -208,7 +208,7 @@
                         android:layout_width="40dp"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
-                        android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
                         android:gravity="center"
                         android:maxLength="3" />
 
