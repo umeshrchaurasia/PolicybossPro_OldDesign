@@ -37,7 +37,7 @@ public class ERPRetroRequestBuilder {
                     .connectTimeout(1, TimeUnit.MINUTES)
                     .writeTimeout(1, TimeUnit.MINUTES)
                     .readTimeout(1, TimeUnit.MINUTES)
-                    //.addInterceptor(interceptor)
+                    .addInterceptor(interceptor)
                     .build();
 
             restAdapter = new Retrofit.Builder()

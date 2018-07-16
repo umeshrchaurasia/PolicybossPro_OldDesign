@@ -31,14 +31,14 @@ public class HealthCheckUPRetroRequestBuilder {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             Gson gson = new GsonBuilder()
                     .serializeNulls()
-                    // .setLenient()
+                     .setLenient()
                     .create();
 
             okhttp3.OkHttpClient okHttpClient = new okhttp3.OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.MINUTES)
                     .writeTimeout(10, TimeUnit.MINUTES)
                     .readTimeout(10, TimeUnit.MINUTES)
-                   // .addInterceptor(interceptor)
+                    .addInterceptor(interceptor)
                     .build();
 
             restAdapter = new Retrofit.Builder()
