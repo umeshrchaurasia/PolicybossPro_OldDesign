@@ -31,6 +31,7 @@ public class TermFinmartRequest implements Parcelable {
     }
 
     int fba_id;
+
     TermRequestEntity termRequestEntity;
 
     public int getTermRequestId() {

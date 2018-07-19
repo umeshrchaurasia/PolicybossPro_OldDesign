@@ -31,7 +31,7 @@ public class HealthCheckUPRetroRequestBuilder {
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
             Gson gson = new GsonBuilder()
                     .serializeNulls()
-                    // .setLenient()
+                     .setLenient()
                     .create();
 
             okhttp3.OkHttpClient okHttpClient = new okhttp3.OkHttpClient.Builder()

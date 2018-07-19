@@ -48,6 +48,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResp
 
 import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
 
+
 public class AddQuoteActivity extends BaseActivity implements View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     CardView cvNewRenew, cvRegNo, cvInput;
@@ -106,7 +107,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Constants.hideKeyBoard(acMakeModel, AddQuoteActivity.this);
-                modelId = databaseController.getModelID(getModel(acMakeModel.getText().toString()));
+                modelId = databaseController.getModelID(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()));
 
                 fuelList = databaseController.getFuelTypeByModelId(modelId);
                 variantList = databaseController.getVariantbyModelID(modelId);
@@ -580,7 +581,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setMiddle_name(" ");
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
-        motorRequestEntity.setEmail("");
+        motorRequestEntity.setEmail("finmarttest@gmail.com");
         motorRequestEntity.setCrn("0");
         setCustomerDetails();
     }
@@ -642,7 +643,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
         motorRequestEntity.setMiddle_name(" ");
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
-        motorRequestEntity.setEmail("");
+        motorRequestEntity.setEmail("finmarttest@gmail.com");
         motorRequestEntity.setCrn("0");
         setCustomerDetails();
 
@@ -664,7 +665,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
             motorRequestEntity.setLast_name(fullName[2]);
         }
         motorRequestEntity.setMobile(etMobile.getText().toString());
-        motorRequestEntity.setEmail("test@test.com");
+        motorRequestEntity.setEmail("finmarttest@gmail.com");
     }
 
     @Override

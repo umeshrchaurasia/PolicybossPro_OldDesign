@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -42,6 +43,7 @@ import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivi
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.utility.GenericTextWatcher;
+import com.google.gson.Gson;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
@@ -58,6 +60,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.F
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
@@ -76,7 +79,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  */
 
 public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
-
+    Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
     LinearLayout cvNcb;
@@ -92,6 +95,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     MotorRequestEntity motorRequestEntity;
     FastLaneDataEntity fastLaneResponseEntity;
+    ConstantEntity constantEntity;
 
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
@@ -103,7 +107,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     Spinner spNcbPercent;
     //endregion
     SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    //SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat policyBossDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    SimpleDateFormat fastLaneDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+
     DBPersistanceController dbController;
     Realm realm;
     List<String> makeModelList, fuelList, variantList, cityList, prevInsurerList;
@@ -144,6 +151,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity(getActivity());
+        constantEntity = dbController.getConstantsData();
         registerPopUp(this);
         init_view(view);
 
@@ -568,23 +576,28 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
         try {
 
-            Date RegDate = simpleDateFormat.parse(motorRequestEntity.getVehicle_registration_date());
-            String regDate = displayFormat.format(RegDate);
-
-            Date ManfDate = simpleDateFormat.parse(motorRequestEntity.getVehicle_manf_date());
-            String manfDate = displayFormat.format(ManfDate);
-
+            Date ManfDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_manf_date());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(ManfDate);
             setYearMonthAdapter(calendar);
 
-            etRegDate.setText(regDate);
+            etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
 
-            etMfgDate.setText(manfDate);
+            etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
+
+            if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
+                etExpDate.setEnabled(true);
+                etExpDate.setText(getDisplayDateFormat(motorRequestEntity.getPolicy_expiry_date()));
+                spPrevIns.setEnabled(true);
+            } else {
+                etExpDate.setEnabled(false);
+                //etExpDate.setText(getDisplayDateFormat(motorRequestEntity.getPolicy_expiry_date()));
+                spPrevIns.setEnabled(false);
+            }
 
 
-            etExpDate.setText(displayFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
-            spPrevIns.setEnabled(true);
+            //etExpDate.setText(displayFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));
+
 
             /*
             etRegDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getVehicle_registration_date())));
@@ -674,10 +687,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                 Calendar calendarReg = Calendar.getInstance();
                 if (masterData.getRegistration_Date() != null) {
-                    String reg = changeDateFormat(masterData.getRegistration_Date());
-                    String regDate = displayFormat.format(simpleDateFormat.parse(reg));
-                    etRegDate.setText(regDate);
-                    calendarReg.setTime(displayFormat.parse(regDate));
+                    calendarReg.setTime(fastLaneDateFormat.parse(masterData.getRegistration_Date()));
+                    etRegDate.setText(getDisplayDateFormatFastLane(masterData.getRegistration_Date()));
+                    //String reg = changeDateFormat(masterData.getRegistration_Date());
+                    //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
+                    //calendarReg.setTime(displayFormat.parse(regDate));
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
                 if (masterData.getManufacture_Year() != null) {
@@ -687,12 +701,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         mfDate = masterData.getManufacture_Year() + "-0" + month + "-01";
                     else
                         mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
-                    calendarReg.setTime(simpleDateFormat.parse(mfDate));
-                    setYearMonthAdapter(calendarReg);
+                    calendarReg.setTime(policyBossDateFormat.parse(mfDate));
+                    setYearMonthAdapterFastlane(calendarReg);
                 } else {
-                    setYearMonthAdapter(Calendar.getInstance());
+                    setYearMonthAdapterFastlane(Calendar.getInstance());
                 }
-                if (masterData.getPurchase_Date() != null) {
+                /*if (masterData.getPurchase_Date() != null) {
                     String mf = changeDateFormat(masterData.getPurchase_Date());
                     String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
                     etMfgDate.setText(mfDate);
@@ -702,7 +716,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
                     etMfgDate.setText(mfDate);
                     //etMfgDate.setText(getManufacturingDate(changeDateFormat(masterData.getRegistration_Date())));
-                }
+                }*/
                 // etCC.setText("" + masterData.getCubic_Capacity() + "CC");
                 etExpDate.setEnabled(true);
 
@@ -734,7 +748,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 Constants.hideKeyBoard(acMakeModel, getActivity());
                 makeModel = makeModelAdapter.getItem(position).toString();
 
-                modelId = dbController.getModelID(getModel(acMakeModel.getText().toString()));
+                modelId = dbController.getModelID(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()));
                 acMakeModel.setSelection(0);
 
                 if (modelId != "") {
@@ -850,10 +864,22 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 1) {
                     int selectedMonth = spMonth.getSelectedItemPosition();
-                    monthList.clear();
-                    monthList.addAll(getMonthList(Calendar.getInstance().get(Calendar.MONTH)));
-                    MonthAdapter.notifyDataSetChanged();
-                    spMonth.setSelection(selectedMonth);
+                    try {
+                        Date Reg = displayFormat.parse(etRegDate.getText().toString());
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(Reg);
+                        monthList.clear();
+                        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+                        MonthAdapter.notifyDataSetChanged();
+                        spMonth.setSelection(selectedMonth);
+                    } catch (ParseException e) {
+                        monthList.clear();
+                        monthList.addAll(getMonthList(Calendar.getInstance().get(Calendar.MONTH)));
+                        MonthAdapter.notifyDataSetChanged();
+                        spMonth.setSelection(selectedMonth);
+                        e.printStackTrace();
+                    }
+
                 } else {
                     int selectedMonth = spMonth.getSelectedItemPosition();
                     monthList.clear();
@@ -1011,6 +1037,27 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         switch (view.getId()) {
             case R.id.btnGo:
 
+                if (etreg1.getText().toString().equals("")) {
+                    etreg1.requestFocus();
+                    etreg1.setError("Invalid vehicle Number");
+                    return;
+                }
+                if (etreg2.getText().toString().equals("")) {
+                    etreg2.requestFocus();
+                    etreg2.setError("Invalid vehicle Number");
+                    return;
+                }
+                if (etreg3.getText().toString().equals("")) {
+                    etreg3.requestFocus();
+                    etreg3.setError("Invalid vehicle Number");
+                    return;
+                }
+                if (etreg4.getText().toString().equals("")) {
+                    etreg4.requestFocus();
+                    etreg4.setError("Invalid vehicle Number");
+                    return;
+                }
+
                 regNo = etreg1.getText().toString() + etreg2.getText().toString()
                         + etreg3.getText().toString() + etreg4.getText().toString();
                 if (!regNo.equals("")) {
@@ -1020,6 +1067,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     tvDontKnow.performClick();
                     btnGetQuote.setVisibility(View.VISIBLE);
                     showDialog("Fetching car details...");
+                    if (constantEntity.getLogtracking().equals("0"))
+                        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Fastlane :  " + regNo), Constants.FASTLANE), null);
+
                     new FastLaneController(getActivity()).getVechileDetails(regNo, this);
                 }
                 break;
@@ -1038,7 +1088,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 sbNoClaimBonus.setProgress(0);
                 break;
             case R.id.btnGetQuote:
-                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), Constants.PRIVATE_CAR), null);
+
                 //region validations
                 if (makeModel == null || makeModel.equals("")) {
                     acMakeModel.requestFocus();
@@ -1090,11 +1140,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 } else {
                     String[] fullName = etCustomerName.getText().toString().trim().split(" ");
                     if (fullName.length == 1) {
-                        if (fullName[0].length() < 2) {
+                        /*if (fullName[0].length() < 2) {
                             etCustomerName.requestFocus();
                             etCustomerName.setError("First Name should be greater than 1 character");
                             return;
-                        }
+                        }*/
+                        etCustomerName.requestFocus();
+                        etCustomerName.setError("Enter Last Name");
+                        return;
                     } else if (fullName.length == 2) {
                         if (fullName[0].length() < 2) {
                             etCustomerName.requestFocus();
@@ -1171,12 +1224,25 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                 //endregion
 
+                //region tracking
+                //new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), Constants.PRIVATE_CAR), null);
+
+
+                //endregion
+
+
                 //TODO uncomment this
                 if (switchNewRenew.isChecked()) {  //renew
                     setInputParametersReNewCar();
                 } else {
                     setInputParametersNewCAR();
                 }
+                if (constantEntity.getLogtracking().equals("0")) {
+
+                    //new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(motorRequestEntity.), Constants.PRIVATE_CAR), null);
+                }
+                if (constantEntity.getLogtracking().equals("0"))
+                    new PolicybossTrackingRequest(motorRequestEntity).execute();
                 showDialog("Please wait... fetching quotes");
                 new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
 
@@ -1520,19 +1586,26 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private String getRegistrationNo(String city) {
         CityMasterEntity cityMasterEntity = dbController.getVehicleCity_Id(city);
-        return formatRegistrationNo(cityMasterEntity.getVehicleCity_RTOCode() + "AA1234");
+        return formatRegistrationNo(cityMasterEntity.getVehicleCity_RTOCode() + "ZZ9999");
     }
 
     private String formatRegistrationNo(String regNo) {
-        if (!regNo.contains("AA1234")) {
-            return etreg1.getText().toString() + "-"
-                    + etreg2.getText().toString() + "-"
-                    + etreg3.getText().toString() + "-"
-                    + etreg4.getText().toString();
+        if (regNo.length() == 10) {
+            return "" + regNo.charAt(0) + regNo.charAt(1) + "-"
+                    + regNo.charAt(2) + regNo.charAt(3) + "-"
+                    + regNo.charAt(4) + regNo.charAt(5) + "-"
+                    + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
         } else {
-            return "" + regNo.charAt(0) + regNo.charAt(1) + "-" + regNo.charAt(2) + regNo.charAt(3) + "-" + regNo.charAt(4) + regNo.charAt(5) + "-" + regNo.charAt(6) + regNo.charAt(7) + regNo.charAt(8) + regNo.charAt(9);
+            return "MH-01-ZZ-9999";
         }
 
+    }
+
+    public String getFormattedRegNoFastlane() {
+        return etreg1.getText().toString() + "-"
+                + etreg2.getText().toString() + "-"
+                + etreg3.getText().toString() + "-"
+                + etreg4.getText().toString();
     }
 
     private String getManufacturingDate(String manufac) {
@@ -1738,9 +1811,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setVehicle_manf_date(getMfgDate());
         //motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
         try {
-            motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
+            //motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
+            motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
         motorRequestEntity.setPolicy_expiry_date("");
         motorRequestEntity.setPrev_insurer_id(0);
@@ -1750,15 +1824,15 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setMethod_type("Premium");
         motorRequestEntity.setElectrical_accessory("0");
         motorRequestEntity.setNon_electrical_accessory("0");
-        if (regNo.equals(""))
-            motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
-        else
-            motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
+
+        motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
+
         motorRequestEntity.setIs_llpd("no");
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
         motorRequestEntity.setIs_external_bifuel("no");
-        motorRequestEntity.setPa_owner_driver_si("100000");
+        motorRequestEntity.setPa_owner_driver_si("");
+        //motorRequestEntity.setPa_owner_driver_si("");
         motorRequestEntity.setPa_named_passenger_si("0");
         motorRequestEntity.setPa_unnamed_passenger_si("0");
         motorRequestEntity.setPa_paid_driver_si("0");
@@ -1767,7 +1841,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setMiddle_name(" ");
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
-        motorRequestEntity.setEmail("");
+        motorRequestEntity.setEmail("finmarttest@gmail.com");
         motorRequestEntity.setCrn("");
 
         if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
@@ -1793,11 +1867,18 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     private void setInputParametersReNewCar() {
         if (fastLaneResponseEntity != null) {
             try {
-                motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
-                motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));
-                //motorRequestEntity.setVehicle_manf_date(getMfgDate());
-                motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
-                motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
+                /*motorRequestEntity.setVehicle_id(Integer.parseInt(fastLaneResponseEntity.getVariant_Id()));
+                motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));*/
+                varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
+                motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+                motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
+
+                motorRequestEntity.setVehicle_manf_date(getMfgDate());
+                motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
+                motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
+                //motorRequestEntity.setVehicle_manf_date(changeDateFormat(fastLaneResponseEntity.getRegistration_Date()));
+                //motorRequestEntity.setRegistration_no(formatRegistrationNo(fastLaneResponseEntity.getRegistration_Number()));
+                motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -1809,16 +1890,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             try {
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
                 //motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
-                motorRequestEntity.setVehicle_registration_date(getYYYYMMDDPattern(etRegDate.getText().toString()));
-                motorRequestEntity.setPolicy_expiry_date(getYYYYMMDDPattern(etExpDate.getText().toString()));
+                motorRequestEntity.setVehicle_registration_date(getPolicyBossDateFormat(etRegDate.getText().toString()));
+                motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
             } catch (Exception e) {
-
+                e.printStackTrace();
             }
 
-            if (regNo.equals(""))
-                motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
-            else
-                motorRequestEntity.setRegistration_no(formatRegistrationNo(regNo));
+
+            motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
         }
 
         motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
@@ -1844,7 +1923,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setIs_antitheft_fit("no");
         motorRequestEntity.setVoluntary_deductible(0);
         motorRequestEntity.setIs_external_bifuel("no");
-        motorRequestEntity.setPa_owner_driver_si("100000");
+        motorRequestEntity.setPa_owner_driver_si("");
         motorRequestEntity.setPa_named_passenger_si("0");
         motorRequestEntity.setPa_unnamed_passenger_si("0");
         motorRequestEntity.setPa_paid_driver_si("0");
@@ -1853,7 +1932,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setMiddle_name(" ");
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
-        motorRequestEntity.setEmail("");
+        motorRequestEntity.setEmail("finmarttest@gmail.com");
         motorRequestEntity.setCrn("");
 
         if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
@@ -1898,7 +1977,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             motorRequestEntity.setLast_name(fullName[2]);
         }
         motorRequestEntity.setMobile(etMobile.getText().toString());
-        motorRequestEntity.setEmail("");
+        motorRequestEntity.setEmail("finmarttest@gmail.com");
     }
 
     //region api response
@@ -1907,6 +1986,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     public void OnSuccess(APIResponse response, String message) {
         cancelDialog();
         if (response instanceof BikeUniqueResponse) {
+            if (constantEntity.getLogtracking().equals("0"))
+                new PolicybossTrackingResponse((BikeUniqueResponse) response).execute();
             ((InputQuoteBottmActivity) getActivity()).getQuoteParameterBundle(motorRequestEntity);
         }
 
@@ -1918,7 +1999,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (response instanceof FastLaneDataResponse) {
 
             cancelDialog();
-
+            if (constantEntity.getLogtracking().equals("0"))
+                new PolicybossTrackingFastlnaeResponse((FastLaneDataResponse) response).execute();
             if (response.getStatusNo() == 0) {
                 if (!((FastLaneDataResponse) response).getMasterData().getVariant_Id().equals("0")) {
                     CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(((FastLaneDataResponse) response).getMasterData().getVariant_Id()));
@@ -1964,19 +2046,48 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     }
 
-    public String changeDateFormat(String date) {
-
-        SimpleDateFormat spf = new SimpleDateFormat("dd/MM/yyyy"); // 30/10/2010
+    public String getPolicyBossDateFormat(String date) { //dd-MM-YYYY
         Date newDate = null;
         try {
-            newDate = spf.parse(date);
+            newDate = displayFormat.parse(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        return simpleDateFormat.format(newDate);
+        return policyBossDateFormat.format(newDate);
     }
 
+    public String getDisplayDateFormat(String date) {
+        Date newDate = null;
+        try {
+            newDate = policyBossDateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return displayFormat.format(newDate);
+    }
+
+    public String getDisplayDateFormatFastLane(String date) {
+        Date newDate = null;
+        try {
+            newDate = fastLaneDateFormat.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return displayFormat.format(newDate);
+    }
+
+    //returns date in policyboss date format
+    public String getMfgDate() {
+        String mfgDAte = "";
+        if (spMonth.getSelectedItemPosition() < 10)
+            mfgDAte = spYear.getSelectedItem().toString() + "-0" + spMonth.getSelectedItemPosition() + "-01";
+        else
+            mfgDAte = spYear.getSelectedItem().toString() + "-" + spMonth.getSelectedItemPosition() + "-01";
+        return mfgDAte;
+    }
 
     private void setNcbAdapter(int yearDiff) {
         if (yearDiff >= 5) {
@@ -2063,21 +2174,35 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         location = null;
     }
 
-
-    public String getMfgDate() {
-        String mfgDAte = "";
-        if (spMonth.getSelectedItemPosition() < 10)
-            mfgDAte = spYear.getSelectedItem().toString() + "-0" + spMonth.getSelectedItemPosition() + "-01";
-        else
-            mfgDAte = spYear.getSelectedItem().toString() + "-" + spMonth.getSelectedItemPosition() + "-01";
-        return mfgDAte;
-    }
-
     public void setYearMonthAdapter(Calendar calendar) {
 
         yearList.clear();
         yearList.addAll(getYearList(calendar.get(Calendar.YEAR)));
         YearAdapter.notifyDataSetChanged();
+
+        int yearIndex = 0;
+        for (int i = 0; i < yearList.size(); i++) {
+            String year = "" + calendar.get(Calendar.YEAR);
+            String vari = yearList.get(i);
+            if (year.equalsIgnoreCase(vari)) {
+                yearIndex = i;
+                break;
+            }
+        }
+        spYear.setSelection(yearIndex);
+
+        monthList.clear();
+        monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
+        MonthAdapter.notifyDataSetChanged();
+
+        spMonth.setSelection(calendar.get(Calendar.MONTH) + 1);
+    }
+
+    public void setYearMonthAdapterFastlane(Calendar calendar) {
+
+        /*yearList.clear();
+        yearList.addAll(getYearList(calendar.get(Calendar.YEAR)));
+        YearAdapter.notifyDataSetChanged();*/
 
         int yearIndex = 0;
         for (int i = 0; i < yearList.size(); i++) {
@@ -2129,5 +2254,74 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {
+        MotorRequestEntity motorRequestEntity;
+        String requestJson = "";
+
+        public PolicybossTrackingRequest(MotorRequestEntity motorRequestEntity) {
+            this.motorRequestEntity = motorRequestEntity;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            requestJson = gson.toJson(motorRequestEntity);
+            return requestJson;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (constantEntity.getLogtracking().equals("0"))
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.PRIVATE_CAR_REQUEST), null);
+
+
+        }
+    }
+
+    class PolicybossTrackingResponse extends AsyncTask<Void, Void, String> {
+        BikeUniqueResponse bikeUniqueResponse;
+        String response = "";
+
+        public PolicybossTrackingResponse(BikeUniqueResponse bikeUniqueResponse) {
+            this.bikeUniqueResponse = bikeUniqueResponse;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            response = gson.toJson(bikeUniqueResponse);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (constantEntity.getLogtracking().equals("0"))
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.PRIVATE_CAR_RESPONSE), null);
+
+
+        }
+    }
+
+    class PolicybossTrackingFastlnaeResponse extends AsyncTask<Void, Void, String> {
+        FastLaneDataResponse fastLaneDataResponse;
+        String response = "";
+
+        public PolicybossTrackingFastlnaeResponse(FastLaneDataResponse fastLaneDataResponse) {
+            this.fastLaneDataResponse = fastLaneDataResponse;
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            response = gson.toJson(fastLaneDataResponse);
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            if (constantEntity.getLogtracking().equals("0"))
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(s), Constants.PRIVATE_CAR_FASTLANE_RESPONSE), null);
+        }
+    }
 
 }

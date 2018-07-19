@@ -19,8 +19,21 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--assumenosideeffects class android.util.Log {
-    public static *** d(...);
-    public static *** v(...);
-    public static *** i(...);
+#-assumenosideeffects class android.util.Log {
+#    public static *** d(...);
+#    public static *** v(...);
+ #   public static *** i(...);
+#}
+
+
+-ignorewarnings
+-keep class magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.** { *; }
+-keep class * {
+    public private *;
 }
+
+-optimizationpasses 5
+-dontskipnonpubliclibraryclasses
+-dontskipnonpubliclibraryclassmembers
+-dontpreverify
+-verbose

@@ -113,7 +113,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             healthList = dbPersistanceController.getHealthListNames();
             generalList = dbPersistanceController.getGeneralListNames();
             lifeList = dbPersistanceController.getLifeListNames();
-            initMultiSelect();
+
+
+            if (healthList.size() == 0 || generalList.size() == 0 || lifeList.size() == 0) {
+                new MasterController(this).getInsuranceMaster(this);
+            } else {
+                initMultiSelect();
+            }
         }
     }
 
@@ -127,11 +133,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 } else if (position == 1) {
                     isVAlidPromo = false;
                     tilReferer.setVisibility(View.VISIBLE);
-                    tilReferer.setHint("Referer Code");
+                    tilReferer.setHint("Referrer Code");
                 } else {
                     isVAlidPromo = false;
                     tilReferer.setVisibility(View.VISIBLE);
-                    tilReferer.setHint("Referer Code");
+                    tilReferer.setHint("Referrer Code");
                 }
             }
 
@@ -677,6 +683,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             case R.id.chbxLife:
                 if (b) {
                     spLifeIns.setEnabled(true);
+
                 } else {
                     spLifeIns.setEnabled(false);
                 }

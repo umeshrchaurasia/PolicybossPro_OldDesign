@@ -14,7 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public abstract class LoanRetroRequestBuilder {
 
 
-
     static Retrofit restAdapter = null;
     // production url
     //public static String URL = "http://www.rupeeboss.com";

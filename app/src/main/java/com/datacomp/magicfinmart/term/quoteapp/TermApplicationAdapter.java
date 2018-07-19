@@ -11,6 +11,7 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 
@@ -50,52 +51,40 @@ public class TermApplicationAdapter extends RecyclerView.Adapter<TermApplication
     public void onBindViewHolder(ApplicationItem holder, int position) {
         if (holder instanceof ApplicationItem) {
             TermFinmartRequest entity = mAppListFiltered.get(position);
-            holder.txtCRN.setText("" + entity.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id());
-            holder.txtCreatedDate.setText("" + changeDateFormat(entity.getTermRequestEntity().getCreated_date()));
-            holder.txtPersonName.setText("" + entity.getTermRequestEntity().getContactName());
+            if (entity != null) {
 
-            holder.txtTermPpt.setText(entity.getTermRequestEntity().getPolicyTerm() + "/" + entity.getTermRequestEntity().getPPT());
-            holder.txtSum.setText("" + entity.getTermRequestEntity().getSumAssured());
-            holder.txtStatusDate.setText("" + changeDateFormat(entity.getTermRequestEntity().getCreated_date()));
-            if (entity.getTermRequestEntity().getFrequency().toLowerCase().equals("annual"))
-                holder.txtMode.setText("YEARLY");
-            else
-                holder.txtMode.setText("" + entity.getTermRequestEntity().getFrequency());
-            if (entity.getStatusProgress() == 0)
-                holder.txtStatus.setText("LINK SENT");
-            else
-                holder.txtStatus.setText("---");
-            holder.txtPremium.setText("" + entity.getNetPremium());
+                holder.txtCRN.setText("" + entity.getTermRequestEntity().getExisting_ProductInsuranceMapping_Id());
 
+                holder.txtCreatedDate.setText("" + changeDateFormat(entity.getTermRequestEntity().getCreated_date()));
+                holder.txtPersonName.setText("" + entity.getTermRequestEntity().getContactName());
 
+                holder.txtTermPpt.setText(entity.getTermRequestEntity().getPolicyTerm() + "/" + entity.getTermRequestEntity().getPPT());
+                holder.txtSum.setText("" + entity.getTermRequestEntity().getSumAssured());
+                holder.txtStatusDate.setText("" + changeDateFormat(entity.getTermRequestEntity().getCreated_date()));
+                if (entity.getTermRequestEntity().getFrequency().toLowerCase().equals("annual"))
+                    holder.txtMode.setText("YEARLY");
+                else
+                    holder.txtMode.setText("" + entity.getTermRequestEntity().getFrequency());
+                if (entity.getStatusProgress() == 0)
+                    holder.txtStatus.setText("LINK SENT");
+                else
+                    holder.txtStatus.setText("---");
 
-            /*try {
-
-                Glide.with(fragment).load(entity.getInsImage()).into(holder.imgInsurerLogo);
-
-                if (entity.getStatus_progress() == 25 || entity.getStatus_progress() == 0) {
-                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_25));
-                } else if (entity.getStatus_progress() == 50) {
-                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_50));
-                } else {
-                    holder.imgProgressStatus.setImageDrawable(fragment.getResources().getDrawable(R.mipmap.status_100));
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
-            holder.txtCRN.setTag(R.id.txtCRN, entity);
-            holder.txtCreatedDate.setTag(R.id.txtCreatedDate, entity);
-            holder.txtPersonName.setTag(R.id.txtPersonName, entity);
-            holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
+                holder.txtPremium.setText("" + entity.getNetPremium());
 
 
-            holder.txtCRN.setOnClickListener(this);
-            holder.txtCreatedDate.setOnClickListener(this);
-            holder.txtPersonName.setOnClickListener(this);
-            holder.txtOverflowMenu.setOnClickListener(this);
+                holder.txtCRN.setTag(R.id.txtCRN, entity);
+                holder.txtCreatedDate.setTag(R.id.txtCreatedDate, entity);
+                holder.txtPersonName.setTag(R.id.txtPersonName, entity);
+                holder.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
 
 
+                holder.txtCRN.setOnClickListener(this);
+                holder.txtCreatedDate.setOnClickListener(this);
+                holder.txtPersonName.setOnClickListener(this);
+                holder.txtOverflowMenu.setOnClickListener(this);
+
+            }
         }
     }
 

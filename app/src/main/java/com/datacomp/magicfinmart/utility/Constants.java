@@ -60,7 +60,14 @@ public class Constants {
     //endregion
 
     public static String PRIVATE_CAR = "MOTOR INSURANCE";
+    public static String PRIVATE_CAR_REQUEST= "MOTOR  REQUEST";
+    public static String PRIVATE_CAR_RESPONSE = "MOTOR  RESPONSE";
+    public static String PRIVATE_CAR_FASTLANE_RESPONSE = "MOTOR  FASTLANE RESPONSE";
     public static String TWO_WHEELER = "TWO WHEELER INSURANCE";
+    public static String TWO_WHEELER_REQUEST = "TWO WHEELER  REQUEST";
+    public static String TWO_WHEELER_RESPONSE = "TWO WHEELER  RESPONSE";
+    public static String TWO_WHEELER_FASTLANE_RESPONSE = "TWO WHEELER FASTLANE RESPONSE";
+    public static String FASTLANE = "FASTLANE";
     public static String HEALTH_INS = "HEALTH INSURANCE";
     public static String LIFE_INS = "LIFE INSURANCE";
     public static String HOME_LOAN = "HOME LOAN";

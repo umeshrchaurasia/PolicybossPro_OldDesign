@@ -152,6 +152,17 @@ public class DateTimePicker {
         dialog.show();
     }
 
+    public static void showKotakAgeDatePicker(Context mContex, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+//        calendar.add(Calendar.MONTH, -9);
+//       dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+//        calendar.add(Calendar.MONTH, 9);
+        calendar.add(Calendar.YEAR, -21);
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        dialog.show();
+    }
+
     public static void showExpressAgeDatePicker_21(Context mContex, Calendar cal, DatePickerDialog.OnDateSetListener callBack) {
         final Calendar calendar = Calendar.getInstance();
         DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));

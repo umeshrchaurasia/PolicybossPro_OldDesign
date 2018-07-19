@@ -38,6 +38,11 @@ public class ConstantEntity extends RealmObject {
     private String MPSStatus;
 
     private String UpdateMaster;
+    /**
+     * logtracking : 0
+     */
+
+    private String logtracking;
 
     public String getUpdateMaster() {
         return UpdateMaster;
@@ -134,6 +139,14 @@ public class ConstantEntity extends RealmObject {
 
     public void setPOSPTraining(String POSPTraining) {
         this.POSPTraining = POSPTraining;
+    }
+
+    public String getLogtracking() {
+        return logtracking;
+    }
+
+    public void setLogtracking(String logtracking) {
+        this.logtracking = logtracking;
     }
 
     public String getHelpNumber() {

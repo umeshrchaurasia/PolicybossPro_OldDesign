@@ -291,17 +291,10 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         if (response instanceof BikePremiumResponse) {
 
             bikePremiumResponse = (BikePremiumResponse) response;
-
-            //save quote to our server.
-            if (getActivity() != null) {
-                if (Utility.getSharedPreference(getActivity()).getInt(Utility.QUOTE_COUNTER, 0) == 1) {
-                    saveQuoteToServer(bikePremiumResponse);
-
-                }
-            }
-
             rebindAdapter(bikePremiumResponse);
             updateCrn();
+
+            //save quote to our server.
 
             if (getActivity() != null) {
                /* if (bikePremiumResponse.getSummary().getStatusX().equals("complete")
@@ -312,14 +305,9 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                     Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
                     webViewLoader.setVisibility(View.GONE);
                     updateCrn();
-                    new BikeQuoteFragment.AsyncAddon().execute();
+                    saveQuoteToServer(bikePremiumResponse);
+                    new AsyncAddon().execute();
 
-//                if (((BikePremiumResponse) response).getResponse().size() != 0)
-//                    menuAddon.findItem(R.id.add_on).setVisible(true);
-//                else {
-//                    menuAddon.findItem(R.id.add_on).setVisible(false);
-//                    Toast.makeText(getActivity(), "No quotes found.., try later", Toast.LENGTH_SHORT).show();
-//                }
 
                 } else {
                     webViewLoader.setVisibility(View.VISIBLE);

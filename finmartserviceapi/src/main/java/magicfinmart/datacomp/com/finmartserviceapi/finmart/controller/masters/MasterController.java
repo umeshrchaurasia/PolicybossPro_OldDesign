@@ -181,6 +181,7 @@ public class MasterController implements IMasterFetch {
                                 && response.body().getMasterData().getGeneralinsurance().size() != 0
                                 && response.body().getMasterData().getHealthinsurance().size() != 0
                                 && response.body().getMasterData().getLifeinsurance().size() != 0)
+
                             new AsyncInsuranceMaster(mContext, response.body().getMasterData()).execute();
 
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
