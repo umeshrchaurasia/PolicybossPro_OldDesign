@@ -27,6 +27,7 @@ public class ConstantEntity extends RealmObject {
     private String ROILABL;
     private String POSPNo;
     private String POSPStat;
+    private String HelpNumber;
 
     /**
      * POSPTraining : 1
@@ -134,4 +135,13 @@ public class ConstantEntity extends RealmObject {
     public void setPOSPTraining(String POSPTraining) {
         this.POSPTraining = POSPTraining;
     }
+
+    public String getHelpNumber() {
+        return HelpNumber;
+    }
+
+    public void setHelpNumber(String helpNumber) {
+        HelpNumber = helpNumber;
+    }
+
 }

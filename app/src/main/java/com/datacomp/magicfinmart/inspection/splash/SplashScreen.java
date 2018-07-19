@@ -54,7 +54,10 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.READ_SMS",
-            "android.permission.RECEIVE_SMS"
+            "android.permission.RECEIVE_SMS",
+            "android.permission.CALL_PHONE",
+            "android.permission.READ_PHONE_STATE",
+
 
     };
     File file;
@@ -160,6 +163,9 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
         int READ_SMS = ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
         int RECEIVE_SMS = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
 
+        int CALL_PHONE = ContextCompat.checkSelfPermission(getApplicationContext(), perms[6]);
+        int READ_PHONE_STATE = ContextCompat.checkSelfPermission(getApplicationContext(), perms[7]);
+
 
         //int fineLocation = ContextCompat.checkSelfPermission(getApplicationContext(), perms[7]);
         return RECORD_AUDIO == PackageManager.PERMISSION_GRANTED
@@ -167,7 +173,9 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
                 && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
                 && FINE_LOCATION == PackageManager.PERMISSION_GRANTED
                 && READ_SMS == PackageManager.PERMISSION_GRANTED
-                && RECEIVE_SMS == PackageManager.PERMISSION_GRANTED;
+                && RECEIVE_SMS == PackageManager.PERMISSION_GRANTED
+                && CALL_PHONE == PackageManager.PERMISSION_GRANTED
+                && READ_PHONE_STATE == PackageManager.PERMISSION_GRANTED;
 
     }
 
@@ -185,12 +193,15 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
                     boolean recordAudio = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean camera = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean writeExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean fineLocation = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean readSms = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean writeSms = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+                    boolean fineLocation = grantResults[3] == PackageManager.PERMISSION_GRANTED;
+                    boolean readSms = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeSms = grantResults[5] == PackageManager.PERMISSION_GRANTED;
+
+                    boolean callPhone = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+                    boolean phoneState = grantResults[5] == PackageManager.PERMISSION_GRANTED;
 
 
-                    if (recordAudio && writeExternal && camera && fineLocation && readSms && writeSms) {
+                    if (recordAudio && writeExternal && camera && fineLocation && readSms && writeSms && callPhone && phoneState ) {
                         // you can do all necessary steps
                         // new Dialer().getObject().getLeadData(String.valueOf(Utility.EmpCode), this, this);
                         //MainActivity.performClick();
