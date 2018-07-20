@@ -55,4 +55,13 @@ public class RegisterFacade {
         body.put("vehicle_id", vehicleRegEntity.getVehicle_id());
         return body;
     }
+
+    public HashMap<String, String> getHashMap(String document_name,String VehicleNo,String VehicleID) {
+        VehicleRegResponse.VehicleRegEntity vehicleRegEntity = getUser();
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("document_name", document_name);
+        body.put("vehicle_no", VehicleNo);
+        body.put("vehicle_id",VehicleID);
+        return body;
+    }
 }

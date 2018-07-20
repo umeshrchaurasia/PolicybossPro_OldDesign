@@ -37,6 +37,8 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
+import com.datacomp.magicfinmart.inspection.home.PrevVideoActivity;
+import com.datacomp.magicfinmart.inspection.home.PreviewVideoActivity;
 import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
@@ -229,6 +231,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_selfinspection:
                         startActivity(new Intent(HomeActivity.this, SplashScreen.class));
+                       // startActivity(new Intent(HomeActivity.this, PreviewVideoActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.INSPECTION), null);
                         break;
 

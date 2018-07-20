@@ -425,17 +425,17 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
-        if (response instanceof DocumentResponse) {
-            Toast.makeText(this, "Video Uploaded Succesfully ", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, SelfDeclareActivity.class));
-        }
+//        cancelDialog();
+//        if (response instanceof DocumentResponse) {
+//            Toast.makeText(this, "Video Uploaded Succesfully ", Toast.LENGTH_SHORT).show();
+//            startActivity(new Intent(MainActivity.this, SelfDeclareActivity.class));
+//        }
     }
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
-        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//        cancelDialog();
+//        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -519,13 +519,14 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            File[] files = Utility.getListOfFiles(file.getAbsolutePath());
-                            part = Utility.getMultipartVideo(files[0]);
-                            body = registerFacade.getHashMap("policyboss");
-                            showDialog("Uploading Video...");
-                            new DocumentController(MainActivity.this).uploadVideo(part, body, MainActivity.this);
-                            //startActivity(new Intent(MainActivity.this, SelfDeclareActivity.class));
+//                            dialog.dismiss();
+//                            File[] files = Utility.getListOfFiles(file.getAbsolutePath());
+//                            part = Utility.getMultipartVideo(files[0]);
+//                            body = registerFacade.getHashMap("policyboss");
+//                            showDialog("Uploading Video...");
+//                            new DocumentController(MainActivity.this).uploadVideo(part, body, MainActivity.this);
+                            startActivity(new Intent(MainActivity.this, PreviewVideoActivity.class));
+                            finish();
                         }
                     });
             builder.setNegativeButton("Retake",
