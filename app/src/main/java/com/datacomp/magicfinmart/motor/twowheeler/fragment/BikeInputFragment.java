@@ -477,6 +477,13 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         if (vehicleID == 0) {
             vehicleID = motorRequestEntity.getVarid();
         }
+        if (motorRequestEntity != null && motorRequestEntity.getVehicle_insurance_type() != null) {
+            if (motorRequestEntity.getVehicle_insurance_type().equals("renew")) {
+                switchNewRenew.setChecked(true);
+            } else if (motorRequestEntity.getVehicle_insurance_type().matches("new")) {
+                switchNewRenew.setChecked(false);
+            }
+        }
         BikeMasterEntity carMasterEntity = dbController.getBikeVarientDetails(String.valueOf(vehicleID));
         if (carMasterEntity != null) {
 

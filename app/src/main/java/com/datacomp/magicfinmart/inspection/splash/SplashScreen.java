@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.AnimationDrawable;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.inspection.entity.GifImageView;
+import com.datacomp.magicfinmart.inspection.home.MainActivity;
 import com.datacomp.magicfinmart.inspection.home.RCPOLICYActivity;
 import com.datacomp.magicfinmart.inspection.utility.BaseActivity;
 import com.datacomp.magicfinmart.inspection.utility.ILocationStateListener;
@@ -77,7 +80,7 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_splash_screen_inspect);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        btnStart = (Button) findViewById(R.id.btnStart);
+        btnStart = (Button) findViewById(R.id.btnStartVideo);
         btnStart.setOnClickListener(this);
         setSupportActionBar(toolbar);
         locationTracker = new LocationTracker(this);
@@ -103,6 +106,13 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
 
 
         initSharedPreference();
+
+        GifImageView ivImage = (GifImageView) findViewById(R.id.car_gif);
+        ivImage.setGifImageResource(R.drawable.main);
+        ivImage.setBackgroundResource(R.drawable.splash_gif_animation);
+        Button play = findViewById(R.id.btnplay);
+        AnimationDrawable splashAnimation = (AnimationDrawable) ivImage.getBackground();
+        splashAnimation.start();
 
 //        file = new File(Environment.getExternalStorageDirectory(), "/POLICYBOSS");
 //        String baseDir = file.getAbsolutePath();
@@ -241,8 +251,8 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.btnStart) {
-            startActivity(new Intent(SplashScreen.this, RCPOLICYActivity.class));
-
+           // startActivity(new Intent(SplashScreen.this, RCPOLICYActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 
