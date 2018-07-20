@@ -25,6 +25,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.inspection.entity.GifImageView;
 import com.datacomp.magicfinmart.inspection.home.MainActivity;
 import com.datacomp.magicfinmart.inspection.home.RCPOLICYActivity;
+import com.datacomp.magicfinmart.inspection.selfdeclaration.DeclareSelfActivity2;
 import com.datacomp.magicfinmart.inspection.utility.BaseActivity;
 import com.datacomp.magicfinmart.inspection.utility.ILocationStateListener;
 import com.datacomp.magicfinmart.inspection.utility.LocationTracker;
@@ -51,7 +52,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.inspection.facade.FrontRearFa
 
 public class SplashScreen extends BaseActivity implements View.OnClickListener, IResponseSubcribe, ILocationStateListener {
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
-    Button btnStart;
+    Button btnStartVideo;
     String[] perms = {"android.permission.RECORD_AUDIO",
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -77,8 +78,8 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_splash_screen_inspect);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        btnStart = (Button) findViewById(R.id.btnStartVideo);
-        btnStart.setOnClickListener(this);
+        btnStartVideo = (Button) findViewById(R.id.btnStartVideo);
+        btnStartVideo.setOnClickListener(this);
         setSupportActionBar(toolbar);
         locationTracker = new LocationTracker(this);
 
@@ -239,9 +240,10 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.btnStart) {
+        if (i == R.id.btnStartVideo) {
            // startActivity(new Intent(SplashScreen.this, RCPOLICYActivity.class));
-            startActivity(new Intent(this, MainActivity.class));
+          //  startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this,DeclareSelfActivity2.class));
         }
     }
 

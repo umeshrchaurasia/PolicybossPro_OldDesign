@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.Spannable;
@@ -16,6 +17,7 @@ import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
@@ -308,4 +310,28 @@ public class Constants {
             Toast.makeText(context, "Whatsapp Not Installed", Toast.LENGTH_SHORT).show();
         }
     }
+    public static void changeFontMedium_TextView(TextView textView, Context c) {
+        Typeface tf = Typeface.createFromAsset(c.getAssets(), "fonts/Roboto-Medium.ttf");
+        textView.setTypeface(tf);
+    }
+    //inspection
+
+    public static final String FRONTREAR = "frontrear";
+    public static final String LEFT = "left";
+    public static final String RIGHT = "right";
+    public static final String GLASS = "glass";
+   // public static final String REGISTER = "register";
+
+    public static boolean FRONT_CLICK=false;
+    public static boolean REAR_CLICK=false;
+    public static boolean LEFT_CLICK=false;
+    public static boolean RIGHT_CLICK=false;
+    public static boolean GLASS_CLICK=false;
+
+
+    public static boolean CHECKED_FRONT_CLICK=false;
+    public static boolean CHECKED_REAR_CLICK=false;
+    public static boolean CHECKED_LEFT_CLICK=false;
+    public static boolean CHECKED_RIGHT_CLICK=false;
+    public static boolean CHECKED_GLASS_CLICK=false;
 }
