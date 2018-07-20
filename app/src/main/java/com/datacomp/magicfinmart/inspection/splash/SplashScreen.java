@@ -51,7 +51,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.inspection.facade.FrontRearFa
 
 public class SplashScreen extends BaseActivity implements View.OnClickListener, IResponseSubcribe, ILocationStateListener {
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
-    Button btnStart;
+    Button btnStartVideo;
     String[] perms = {"android.permission.RECORD_AUDIO",
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -77,8 +77,8 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_splash_screen_inspect);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        btnStart = (Button) findViewById(R.id.btnStartVideo);
-        btnStart.setOnClickListener(this);
+        btnStartVideo = (Button) findViewById(R.id.btnStartVideo);
+        btnStartVideo.setOnClickListener(this);
         setSupportActionBar(toolbar);
         locationTracker = new LocationTracker(this);
 
@@ -239,7 +239,7 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.btnStart) {
+        if (i == R.id.btnStartVideo) {
            // startActivity(new Intent(SplashScreen.this, RCPOLICYActivity.class));
             startActivity(new Intent(this, MainActivity.class));
         }
