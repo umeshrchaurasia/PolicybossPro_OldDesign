@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -560,17 +561,33 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        openPopUp(toolbar, "Message", "" + t.getMessage(), "OK", true);
+        //openPopUp(toolbar, "Message", "" + t.getMessage(), "OK", true);
     }
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
-        dialog.cancel();
+        //dialog.cancel();
+        openAppMarketPlace();
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-        dialog.cancel();
+
+        if (forceUpdate == 1) {
+
+        } else {
+            dialog.cancel();
+        }
+    }
+
+    private void openAppMarketPlace() {
+        final String appPackageName = this.getPackageName(); // getPackageName() from Context or Activity object
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+        }
+        new TrackingController(this).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
     }
 
     @Override

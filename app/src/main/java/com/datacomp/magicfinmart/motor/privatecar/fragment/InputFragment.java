@@ -490,6 +490,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (vehicleID == 0) {
             vehicleID = motorRequestEntity.getVarid();
         }
+        if (motorRequestEntity != null && motorRequestEntity.getVehicle_insurance_type() != null) {
+            if (motorRequestEntity.getVehicle_insurance_type().equals("renew")) {
+                switchNewRenew.setChecked(true);
+            } else if (motorRequestEntity.getVehicle_insurance_type().matches("new")) {
+                switchNewRenew.setChecked(false);
+            }
+        }
+
         CarMasterEntity carMasterEntity = dbController.getVarientDetails(String.valueOf(vehicleID));
         if (carMasterEntity != null) {
 
