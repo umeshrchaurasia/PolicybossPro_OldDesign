@@ -25,6 +25,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.inspection.entity.GifImageView;
 import com.datacomp.magicfinmart.inspection.home.MainActivity;
 import com.datacomp.magicfinmart.inspection.home.RCPOLICYActivity;
+import com.datacomp.magicfinmart.inspection.selfdeclaration.DeclareSelfActivity2;
 import com.datacomp.magicfinmart.inspection.utility.BaseActivity;
 import com.datacomp.magicfinmart.inspection.utility.ILocationStateListener;
 import com.datacomp.magicfinmart.inspection.utility.LocationTracker;
@@ -252,7 +253,8 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
         int i = view.getId();
         if (i == R.id.btnStartVideo) {
            // startActivity(new Intent(SplashScreen.this, RCPOLICYActivity.class));
-            startActivity(new Intent(this, MainActivity.class));
+          //  startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this,DeclareSelfActivity2.class));
         }
     }
 

@@ -1106,8 +1106,12 @@
             android:name=".loan_fm.popup.LeadInfoPopupActivity"
             android:label="@string/title_activity_lead_info_popup"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme" />
-
+            android:theme="@style/DialogTheme"></activity>
+        <activity
+            android:name=".inspection.selfdeclaration.DeclareSelfActivity2"
+            android:label="@string/title_activity_declare_self2"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
