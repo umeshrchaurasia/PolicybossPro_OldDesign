@@ -484,6 +484,7 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
         cancelDialog();
         if (response instanceof DocumentResponse) {
             Toast.makeText(this, "Video Uploaded Succesfully ", Toast.LENGTH_SHORT).show();
+            //startActivity(new Intent(MainActivity.this, DeclareSelfActivity2.class));
             startActivity(new Intent(MainActivity.this, DeclareSelfActivity2.class));
 			 // startActivity(new Intent(MainActivity.this, DeclareSelfActivity.class));
         }

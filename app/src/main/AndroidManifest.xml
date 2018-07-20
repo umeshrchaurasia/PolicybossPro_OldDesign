@@ -1095,6 +1095,7 @@
         <activity
             android:name=".inspection.selfdeclaration.DeclareSelfActivity2"
             android:label="@string/title_activity_declare_self2"
+            android:screenOrientation="landscape"
             android:theme="@style/AppTheme"></activity>
     </application>
 
