@@ -751,4 +751,5 @@
         </string>
     <string name="know_more_mps_desc_2"> to use Datacomp\'s following four premium applications FREE:</string>
     <string name="title_activity_lead_info_popup">Lead Details</string>
+    <string name="title_activity_declare_self2">DeclareSelfActivity2</string>
 </resources>
