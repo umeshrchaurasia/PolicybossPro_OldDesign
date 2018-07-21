@@ -29,6 +29,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -78,7 +79,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
@@ -125,6 +126,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     Spinner spMonth, spYear;
     ArrayAdapter<String> MonthAdapter, YearAdapter;
     ArrayList<String> yearList, monthList;
+
+    RadioGroup rgNewRenew, rgExpiry;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -2150,6 +2153,17 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        switch (radioGroup.getId()) {
+            case R.id.rgExpiry:
+                break;
+            case R.id.rgNewRenew:
+
+                break;
+        }
+    }
+
+    @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
         switch (view.getId()) {
             case R.id.swIndividual:
@@ -2261,6 +2275,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         inflater.inflate(R.menu.home_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {
         MotorRequestEntity motorRequestEntity;
