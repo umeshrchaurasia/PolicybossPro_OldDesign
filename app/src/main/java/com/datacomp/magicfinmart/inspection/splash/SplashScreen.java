@@ -25,6 +25,7 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.inspection.entity.GifImageView;
 import com.datacomp.magicfinmart.inspection.home.MainActivity;
 import com.datacomp.magicfinmart.inspection.home.RCPOLICYActivity;
+import com.datacomp.magicfinmart.inspection.selfdeclaration.DeclareSelfActivity2;
 import com.datacomp.magicfinmart.inspection.utility.BaseActivity;
 import com.datacomp.magicfinmart.inspection.utility.ILocationStateListener;
 import com.datacomp.magicfinmart.inspection.utility.LocationTracker;
@@ -51,13 +52,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.inspection.facade.FrontRearFa
 
 public class SplashScreen extends BaseActivity implements View.OnClickListener, IResponseSubcribe, ILocationStateListener {
     final private int REQUEST_CODE_ASK_PERMISSIONS = 1111;
-    Button btnStart;
+    Button btnStartVideo;
     String[] perms = {"android.permission.RECORD_AUDIO",
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
             "android.permission.ACCESS_FINE_LOCATION",
             "android.permission.READ_SMS",
-            "android.permission.RECEIVE_SMS"
+            "android.permission.RECEIVE_SMS",
+            "android.permission.CALL_PHONE",
+            "android.permission.READ_PHONE_STATE",
+
 
     };
     File file;
@@ -77,8 +81,8 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_splash_screen_inspect);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        btnStart = (Button) findViewById(R.id.btnStartVideo);
-        btnStart.setOnClickListener(this);
+        btnStartVideo = (Button) findViewById(R.id.btnStartVideo);
+        btnStartVideo.setOnClickListener(this);
         setSupportActionBar(toolbar);
         locationTracker = new LocationTracker(this);
 
@@ -170,6 +174,9 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
         int READ_SMS = ContextCompat.checkSelfPermission(getApplicationContext(), perms[4]);
         int RECEIVE_SMS = ContextCompat.checkSelfPermission(getApplicationContext(), perms[5]);
 
+        int CALL_PHONE = ContextCompat.checkSelfPermission(getApplicationContext(), perms[6]);
+        int READ_PHONE_STATE = ContextCompat.checkSelfPermission(getApplicationContext(), perms[7]);
+
 
         //int fineLocation = ContextCompat.checkSelfPermission(getApplicationContext(), perms[7]);
         return RECORD_AUDIO == PackageManager.PERMISSION_GRANTED
@@ -177,7 +184,9 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
                 && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
                 && FINE_LOCATION == PackageManager.PERMISSION_GRANTED
                 && READ_SMS == PackageManager.PERMISSION_GRANTED
-                && RECEIVE_SMS == PackageManager.PERMISSION_GRANTED;
+                && RECEIVE_SMS == PackageManager.PERMISSION_GRANTED
+                && CALL_PHONE == PackageManager.PERMISSION_GRANTED
+                && READ_PHONE_STATE == PackageManager.PERMISSION_GRANTED;
 
     }
 
@@ -195,12 +204,15 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
                     boolean recordAudio = grantResults[0] == PackageManager.PERMISSION_GRANTED;
                     boolean camera = grantResults[1] == PackageManager.PERMISSION_GRANTED;
                     boolean writeExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean fineLocation = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean readSms = grantResults[2] == PackageManager.PERMISSION_GRANTED;
-                    boolean writeSms = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+                    boolean fineLocation = grantResults[3] == PackageManager.PERMISSION_GRANTED;
+                    boolean readSms = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeSms = grantResults[5] == PackageManager.PERMISSION_GRANTED;
+
+                    boolean callPhone = grantResults[4] == PackageManager.PERMISSION_GRANTED;
+                    boolean phoneState = grantResults[5] == PackageManager.PERMISSION_GRANTED;
 
 
-                    if (recordAudio && writeExternal && camera && fineLocation && readSms && writeSms) {
+                    if (recordAudio && writeExternal && camera && fineLocation && readSms && writeSms && callPhone && phoneState ) {
                         // you can do all necessary steps
                         // new Dialer().getObject().getLeadData(String.valueOf(Utility.EmpCode), this, this);
                         //MainActivity.performClick();
@@ -239,9 +251,10 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
     @Override
     public void onClick(View view) {
         int i = view.getId();
-        if (i == R.id.btnStart) {
+        if (i == R.id.btnStartVideo) {
            // startActivity(new Intent(SplashScreen.this, RCPOLICYActivity.class));
-            startActivity(new Intent(this, MainActivity.class));
+          //  startActivity(new Intent(this, MainActivity.class));
+            startActivity(new Intent(this,MainActivity.class));
         }
     }
 

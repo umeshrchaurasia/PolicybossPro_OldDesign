@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.inspection.home;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -34,11 +35,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.inspection.selfdeclaration.SelfDeclareActivity;
-import com.datacomp.magicfinmart.inspection.utility.BaseActivity;
+import com.datacomp.magicfinmart.inspection.selfdeclaration.DeclareSelfActivity2;
+import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
 import com.datacomp.magicfinmart.inspection.utility.Utility;
 
+
+import org.apache.commons.io.FileUtils;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -70,6 +76,7 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
     SimpleDateFormat simpleDateFormat;
     String timeStamp;
     EditText etMbNo, etCarNo;
+    ProgressDialog uploadingDilog = null;
     String[] perms = {"android.permission.RECORD_AUDIO",
             "android.permission.CAMERA",
             "android.permission.WRITE_EXTERNAL_STORAGE",
@@ -135,6 +142,8 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
     }
 
     private void initWidgets() {
+        uploadingDilog = new ProgressDialog(this);
+        uploadingDilog.setMessage("Please Wait Video Uploading...");
         rlCamview = (RelativeLayout) findViewById(R.id.rlCamview);
         tvTimeStamp = (TextView) findViewById(R.id.tvTimeStamp);
         btnStop = (Button) findViewById(R.id.btnStop);
@@ -153,7 +162,8 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
     private void initComs() {
         simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
         timeStamp = simpleDateFormat.format(new Date());
-        camcorderProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
+        camcorderProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_480P);
+        //  camcorderProfile = CamcorderProfile.get(CamcorderProfile.QUALITY_LOW);
         surfaceView = (SurfaceView) findViewById(R.id.preview);
         surfaceHolder = surfaceView.getHolder();
         surfaceHolder.addCallback(this);
@@ -171,15 +181,24 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
             camera.unlock();
             recorder.setCamera(camera);
         }
-        recorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT);
-        recorder.setVideoSource(MediaRecorder.VideoSource.DEFAULT);
+        recorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER);
+        recorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
         recorder.setProfile(camcorderProfile);
 
         /*recorder.setOutputFile(file.getAbsolutePath()+ File.separator +
                 new SimpleDateFormat("ddMMyyyyHHmmss").format(new Date())+ ".mp4");*/
+        File dir = new File(file.getAbsolutePath());
+        if (dir.exists() && dir.isDirectory()) {
+            try {
+                FileUtils.cleanDirectory(dir);
+            } catch (Exception ex) {
+
+            }
+
+        }
         recorder.setOutputFile(file.getAbsolutePath() + File.separator +
-                "policyboss" + ".mp4");
+                "inspectvideo" + ".mp4");
         try {
             recorder.prepare();
         } catch (IllegalStateException e) {
@@ -320,26 +339,27 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
 
     @Override
     public void onClick(View view) {
-        if(view.getId()==R.id.btnStop){
-            if (step == 1) {
-                //takeScreenshot("RCCopy");
-                tvStart.setText("Start the Engine & record the Odometer");
-                step = 2;
-            } else if (step == 2) {
-                //takeScreenshot("Odometer");
+        switch (view.getId()) {
+            case R.id.btnStop:
+                if (step == 1) {
+                    //takeScreenshot("RCCopy");
+                    tvStart.setText("Start the Engine & record the Odometer");
+                    step = 2;
+                } else if (step == 2) {
+                    //takeScreenshot("Odometer");
 
-                tvStart.setText("Record the Engine & Chasssis number");
-                step = 3;
-            } else if (step == 3) {
-                //takeScreenshot("EngineChasssis");
-                showStartAlert("1", "Record 360 Degree view of your car", "OK");
-                tvStart.setText("Click Done after recording 360 degree view");
-                step = 4;
-            } else if (step == 4) {
-                stopRecording();
-                btnStop.setText("DONE");
-                stopAnimation();
-            }
+                    tvStart.setText("Record the Engine & Chasssis number");
+                    step = 3;
+                } else if (step == 3) {
+                    //takeScreenshot("EngineChasssis");
+                    showStartAlert("1", "Record 360 Degree view of your car", "OK");
+                    tvStart.setText("Click Done after recording 360 degree view");
+                    step = 4;
+                } else if (step == 4) {
+                    stopRecording();
+                    btnStop.setText("DONE");
+                    stopAnimation();
+                }
                 /*if (btnStop.getText().equals("START")) {
                     startRecording();
                     btnStop.setText("STOP");
@@ -350,9 +370,11 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
                 } else if (btnStop.getText().equals("DONE")) {
                     finish();
                 }*/
+                break;
         }
-
     }
+
+    int seconds1 = 0;
 
     public void startCountDownTimer(long time) {
         tvTimer.setVisibility(View.VISIBLE);
@@ -365,7 +387,13 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
 
                 incTime = (incTime + interval);
                 int seconds = (int) (incTime / 1000);
+                seconds1 = seconds;
+
                 int minutes = seconds / 60;
+                if (minutes == 00) {
+                    btnStop.setEnabled(true);
+                    // Toast.makeText(MainActivity.this, "One Minutes", Toast.LENGTH_SHORT).show();
+                }
                 seconds = seconds % 60;
                 tvTimer.setText("" + String.format("%02d", minutes)
                         + ":" + String.format("%02d", seconds));
@@ -380,11 +408,22 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
         countDownTimer.start();
     }
 
-    public void stopCountDownTimer() {
-        tvTimer.setVisibility(View.GONE);
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
+    public int stopCountDownTimer() {
+        int data = 0;
+        if (seconds1 >= 50 && seconds1 <= 70)
+        // if(seconds1>=10 && seconds1<=30 )
+        {
+            tvTimer.setVisibility(View.GONE);
+            if (countDownTimer != null) {
+                countDownTimer.cancel();
+            }
+            data = seconds1;
+        } else {
+            data = seconds1;
+
         }
+
+        return data;
     }
 
     public void startRecording() {
@@ -398,44 +437,59 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
     }
 
     private void stopRecording() {
-        stopCountDownTimer();
-        //showFinishAlert("1", "Success!", "Ok");
-        if (recording) {
-            try {
-                recorder.stop();
-                if (usecamera) {
-                    try {
-                        camera.reconnect();
-                    } catch (IOException e) {
-                        e.printStackTrace();
+        int data = stopCountDownTimer();
+        if (data >= 10 && data <= 70)      //05
+        //if (data>=10 && data<=30)
+        {
+            //showFinishAlert("1", "Success!", "Ok");
+            if (recording) {
+                try {
+                    recorder.stop();
+                    if (usecamera) {
+                        try {
+                            camera.reconnect();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
+                    // recorder.release();
+                    recording = false;
+                    // Let's prepareRecorder so we can record again
+                    //prepareRecorder();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                // recorder.release();
-                recording = false;
-                // Let's prepareRecorder so we can record again
-                //prepareRecorder();
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+            //new LongOperation().execute("");
+            showFinishAlert("1", "Video prepared successfully !", "Ok");
+
+        } else if (data < 10) {     // 05
+
+            ShowDialog("You can not upload this video due to short  video capture. Do you want to retake video?");
+
+        } else {
+
+            ShowDialog("You can not upload this video due to long  video capture. Do you want to retake video?");
+
         }
-        //new LongOperation().execute("");
-        showFinishAlert("1", "Video prepared successfully !", "Ok");
 
     }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
-        if (response instanceof DocumentResponse) {
-            Toast.makeText(this, "Video Uploaded Succesfully ", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(MainActivity.this, SelfDeclareActivity.class));
-        }
+//        cancelDialog();
+//        if (response instanceof DocumentResponse) {
+//            Toast.makeText(this, "Video Uploaded Succesfully ", Toast.LENGTH_SHORT).show();
+//            //startActivity(new Intent(MainActivity.this, DeclareSelfActivity2.class));
+//            startActivity(new Intent(MainActivity.this, DeclareSelfActivity2.class));
+//			 // startActivity(new Intent(MainActivity.this, DeclareSelfActivity.class));
+//        }
     }
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
-        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+//        cancelDialog();
+//        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -487,7 +541,8 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
 
                         }
                     });
-            final android.support.v7.app.AlertDialog dialog = builder.create();
+            //   final android.support.v7.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
@@ -500,7 +555,9 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
     private void showFinishAlert(final String typ, String title, String btnName) {
 
         try {
-            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            // android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(MainActivity.this);
             builder.setTitle(title);
             String strBody = "";
 
@@ -519,13 +576,14 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            File[] files = Utility.getListOfFiles(file.getAbsolutePath());
-                            part = Utility.getMultipartVideo(files[0]);
-                            body = registerFacade.getHashMap("policyboss");
-                            showDialog("Uploading Video...");
-                            new DocumentController(MainActivity.this).uploadVideo(part, body, MainActivity.this);
-                            //startActivity(new Intent(MainActivity.this, SelfDeclareActivity.class));
+//                            dialog.dismiss();
+//                            File[] files = Utility.getListOfFiles(file.getAbsolutePath());
+//                            part = Utility.getMultipartVideo(files[0]);
+//                            body = registerFacade.getHashMap("policyboss");
+//                            showDialog("Uploading Video...");
+//                            new DocumentController(MainActivity.this).uploadVideo(part, body, MainActivity.this);
+                            startActivity(new Intent(MainActivity.this, PreviewVideoActivity.class));
+                            finish();
                         }
                     });
             builder.setNegativeButton("Retake",
@@ -536,7 +594,8 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
                             startRecording();
                         }
                     });
-            final android.support.v7.app.AlertDialog dialog = builder.create();
+            final AlertDialog dialog = builder.create();
+            //  final android.support.v7.app.AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
@@ -546,12 +605,23 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
         }
     }
 
+//    public void uploadFile(File fileName){
+//
+//       // Toast.makeText(this, "TEst"+fileName, Toast.LENGTH_SHORT).show();
+//
+//        uploadingDilog.show();
+//        new LongOperation().execute();
+//
+//
+//    }
+
+
     private void showStartAlert(final String typ, String title, String btnName) {
 
         try {
             final Dialog dialog = new Dialog(MainActivity.this);
             dialog.setContentView(R.layout.layout_dialog);
-            TextView text = (TextView) dialog.findViewById(R.id.tvOk);
+            Button text = dialog.findViewById(R.id.tvOk);
             ImageView image = (ImageView) dialog.findViewById(R.id.ivGif);
             Glide.with(this)
                     .load(R.drawable.car_gif)
@@ -652,4 +722,107 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
     };
 
 
+    public void ShowDialog(String value) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Message");
+
+        builder.setMessage(value);
+        builder.setCancelable(false);
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+                // dialog.dismiss();
+                // startRecording();
+                // startRecording();
+                // dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                ShowDialogForConfirm("Are you sure to stop inspection?");
+                // startActivity(new Intent(MainActivity.this, CompanyProfofile.class));
+            }
+        });
+
+        android.app.AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    public void ShowDialogForConfirm(String value) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+        builder.setTitle("Message");
+
+        builder.setMessage(value);
+        builder.setCancelable(false);
+        builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                startActivity(new Intent(MainActivity.this, SplashScreen.class));//CompanyProfofile
+                // startActivity(new Intent(MainActivity.this,MainActivity.class));
+                // dialog.dismiss();
+                // startRecording();
+                // startRecording();
+                // dialog.dismiss();
+            }
+        });
+        builder.setNegativeButton("NO", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
+            }
+        });
+
+        android.app.AlertDialog dialog1 = builder.create();
+        dialog1.show();
+    }
+
+ /*
+    private class LongOperation extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected String doInBackground(String... params) {
+
+          FTPClient client=new FTPClient();
+
+
+
+            try {
+                File file =new File(MasterData.leftimage);
+
+
+                client.connect(FTP_HOST,21);
+                client.login(FTP_USER, FTP_PASS);
+                client.setType(FTPClient.TYPE_BINARY);
+              //  client.changeDirectory("/wwwhome/");
+               // client.changeDirectory("/");
+                client.upload(file);
+            } catch (Exception e) {
+                e.printStackTrace();
+                try {
+                    client.disconnect(true);
+                } catch (Exception e2) {
+                    e2.printStackTrace();
+                }
+            }
+            return "Executed";
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            uploadingDilog.hide();
+            startActivity(new Intent(MainActivity.this, DeclareSelfActivity2.class));
+        }
+
+        @Override
+        protected void onPreExecute() {}
+
+        @Override
+        protected void onProgressUpdate(Void... values) {}
+    }
+*/
 }
