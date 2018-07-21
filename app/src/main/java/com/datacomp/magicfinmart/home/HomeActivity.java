@@ -50,6 +50,7 @@ import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.vehicle_details.VehicleDetailFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
@@ -165,6 +166,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 //Check to see which item was being clicked and perform appropriate action
                 Fragment fragment = null;
                 switch (menuItem.getItemId()) {
+
+                    //added by Nilesh
+                    case R.id.nav_vehicleinfo:
+                        getSupportActionBar().setTitle("VEHICLE DETAIL");
+                        fragment = new VehicleDetailFragment();
+                        break;
+
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.nav_home:
                         fragment = new DashboardFragment();
@@ -308,10 +316,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         txtEntityName.setText("Magic Finmart  v" + versionNAme);
 
-        if(loginResponseEntity.getFullName().length() >12) {
+        if (loginResponseEntity.getFullName().length() > 12) {
             txtDetails.setText("" + loginResponseEntity.getFullName()
                     + " \n(FBA ID : " + loginResponseEntity.getFBAId() + ")");
-        }else{
+        } else {
             txtDetails.setText("" + loginResponseEntity.getFullName()
                     + " (FBA ID : " + loginResponseEntity.getFBAId() + ")");
         }
