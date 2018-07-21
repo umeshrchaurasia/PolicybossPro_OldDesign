@@ -30,6 +30,7 @@ import android.widget.VideoView;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.inspection.entity.GifImageView;
+import com.datacomp.magicfinmart.inspection.selfdeclaration.DeclareSelfActivity2;
 import com.datacomp.magicfinmart.inspection.selfdeclaration.SelfDeclareActivity;
 import com.datacomp.magicfinmart.inspection.utility.Utility;
 
@@ -189,15 +190,20 @@ public class PreviewVideoActivity extends BaseActivity implements View.OnClickLi
 
               //  uploadingDilog.show();
                 showDialog("Please Wait Video Uploading...");
-                //    new UploadFromFTP().start();
-
 
                 File[] files = Utility.getListOfFiles(file.getAbsolutePath());
-                part = Utility.getMultipartVideo(files[0]);
-                body = registerFacade.getHashMap("policyboss","mh04gj4131","MH00123");   // 05 temp
-                new DocumentController(PreviewVideoActivity.this).uploadVideo(part, body, PreviewVideoActivity.this);
+                File videoFile = new File(files[0].getAbsolutePath());
 
-                //   startActivity(new Intent(VideoPage.this, DeclareSelfActivity2.class));
+                if (!videoFile.exists()) {
+                    showAlert("Video file is not exist");
+                } else {
+                   // encodedString = files[0].getAbsolutePath();
+
+                    part = Utility.getMultipartVideo(files[0]);
+                    body = registerFacade.getHashMap("policyboss", "mh04gj4131", "MH00123");   // 05 temp
+                    new DocumentController(PreviewVideoActivity.this).uploadVideo(part, body, PreviewVideoActivity.this);
+                }
+                   startActivity(new Intent(PreviewVideoActivity.this, DeclareSelfActivity2.class));
 
 
                 break;
@@ -214,7 +220,7 @@ public class PreviewVideoActivity extends BaseActivity implements View.OnClickLi
         cancelDialog();
         if (response instanceof DocumentResponse) {
             Toast.makeText(this, "Video Uploaded Succesfully ", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(PreviewVideoActivity.this, SelfDeclareActivity.class));
+          //  startActivity(new Intent(PreviewVideoActivity.this, DeclareSelfActivity2.class));
         }
     }
 

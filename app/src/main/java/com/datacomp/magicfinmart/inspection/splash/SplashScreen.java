@@ -254,7 +254,7 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
         if (i == R.id.btnStartVideo) {
            // startActivity(new Intent(SplashScreen.this, RCPOLICYActivity.class));
           //  startActivity(new Intent(this, MainActivity.class));
-            startActivity(new Intent(this,DeclareSelfActivity2.class));
+            startActivity(new Intent(this,MainActivity.class));
         }
     }
 
