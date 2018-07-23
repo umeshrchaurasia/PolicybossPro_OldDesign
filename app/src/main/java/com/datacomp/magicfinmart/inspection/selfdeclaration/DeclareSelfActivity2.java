@@ -40,8 +40,10 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.IResponseSubcribe;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.controller.documents.DocumentController;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.FrontRearEntity;
 
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.VehSelfDeclarationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.facade.FrontRearFacade;
 
 import static com.datacomp.magicfinmart.utility.Constants.FRONT_CLICK;
@@ -571,112 +573,36 @@ public class DeclareSelfActivity2 extends BaseActivity implements View.OnClickLi
             case R.id.btnDone:
                 // progressDialog.show();
 
-
-
-                frontBumper=frontRearEntities.get(0).getValue();
-                frontPanel=frontRearEntities.get(1).getValue();
-                frontIndicatorLightRt=frontRearEntities.get(2).getValue();
-                frontHeadLempLeft=frontRearEntities.get(3).getValue();
-
-                frontFogLampLeft=frontRearEntities.get(4).getValue();
-                frontLftApron=frontRearEntities.get(5).getValue();
-                fronLeftInd=frontRearEntities.get(6).getValue();
-                frontGrill=frontRearEntities.get(7).getValue();
-
-                frontBonet=frontRearEntities.get(8).getValue();
-                frontHeadLempRight=frontRearEntities.get(9).getValue();
-                frontFogLampRight=frontRearEntities.get(10).getValue();
-                frontRightApron=frontRearEntities.get(11).getValue();
+                VehSelfDeclarationEntity vehSelfDeclarationEntity;
+                vehSelfDeclarationEntity = getAllDetails();
+                showDialog();
+                new DocumentController(this).selfDeclaration(vehSelfDeclarationEntity, this);
 
 
 
-                rearBumper=rearEntities.get(0).getValue();
-                rearDicky=rearEntities.get(1).getValue();
-                reartraillampright=rearEntities.get(2).getValue();
-                rearDickydoor=rearEntities.get(3).getValue();
-                reartaillemleft=rearEntities.get(4).getValue();
-
-
-                leftfrontdoor= leftEntities.get(0).getValue();
-                leftpannel= leftEntities.get(1).getValue();
-                leftreardoor= leftEntities.get(2).getValue();
-                leftrunninboard= leftEntities.get(3).getValue();
-                leftpilar1= leftEntities.get(4).getValue();
-                leftpilar2= leftEntities.get(5).getValue();
-                leftpiler3= leftEntities.get(6).getValue();
-
-
-
-
-
-                rightPannel= rightEntities.get(0).getValue();
-                rightfloorsilencer= rightEntities.get(1).getValue();
-                rightrearpilar2= rightEntities.get(2).getValue();
-                rightfrontdoor= rightEntities.get(3).getValue();
-
-                rightfrontfender= rightEntities.get(4).getValue();
-                rightrtcentpiller1= rightEntities.get(5).getValue();
-
-                rightreardoor= rightEntities.get(6).getValue();
-                rightrearviewmooror= rightEntities.get(7).getValue();
-                rightrunningboard= rightEntities.get(8).getValue();
-                rightfrontpilarA= rightEntities.get(9).getValue();
-
-
-
-
-
-                gbackglass=glassEntities.get(0).getValue();
-                grim=glassEntities.get(1).getValue();
-                gfrontwindshield=glassEntities.get(2).getValue();
-                gundercarrigae=glassEntities.get(3).getValue();
-                grfdoorglass=glassEntities.get(4).getValue();
-                gtoproof=glassEntities.get(5).getValue();
-
-                gdashboard=glassEntities.get(6).getValue();
-                gengine=glassEntities.get(7).getValue();
-                gsuspension=glassEntities.get(8).getValue();
-                gradiator=glassEntities.get(9).getValue();
-                gdrivesaft=glassEntities.get(10).getValue();
-                gbrakes=glassEntities.get(11).getValue();
-
-                grrdoorglass=glassEntities.get(12).getValue();
-                grooflining=glassEntities.get(13).getValue();
-                glfdoorglass=glassEntities.get(14).getValue();
-                gseatsfront=glassEntities.get(15).getValue();
-                glrdoorglass=glassEntities.get(16).getValue();
-                gseatsrear=glassEntities.get(17).getValue();
-
-                ginstrumentmeter=glassEntities.get(18).getValue();
-                ggearbox=glassEntities.get(19).getValue();
-                gsteeringsystem=glassEntities.get(20).getValue();
-                gairconditioner=glassEntities.get(21).getValue();
-                gwheels=glassEntities.get(22).getValue();
-                gmusicsystem=glassEntities.get(23).getValue();
-
-                if(isInternetOn())
-                {
-                  //  progressDialog.show();
-                 //   new UploadDataOnServer(URLAddress, encodedUrl, "POST").execute();
-
-
-
-                    /*if (MasterData.Stage=="1")
-                    {
-                        progressDialog.show();
-                        new UploadDataOnServer(URLAddress, encodedUrl, "POST").execute();
-                    }
-                    else
-                    {
-                        ShowDialog("Video Is Uploading please Wait...");
-                    }*/
-
-                }
-                else
-                {
-                    ShowDialog("No Internet Connectivity, Please Connect Internet");
-                }
-
+//                if(isInternetOn())
+//                {
+//                  //  progressDialog.show();
+//                 //   new UploadDataOnServer(URLAddress, encodedUrl, "POST").execute();
+//
+//
+//
+//                    /*if (MasterData.Stage=="1")
+//                    {
+//                        progressDialog.show();
+//                        new UploadDataOnServer(URLAddress, encodedUrl, "POST").execute();
+//                    }
+//                    else
+//                    {
+//                        ShowDialog("Video Is Uploading please Wait...");
+//                    }*/
+//
+//                }
+//                else
+//                {
+//                    ShowDialog("No Internet Connectivity, Please Connect Internet");
+//                }
+//
 
                 break;
         }
@@ -684,6 +610,165 @@ public class DeclareSelfActivity2 extends BaseActivity implements View.OnClickLi
 
     }
 
+    private VehSelfDeclarationEntity getAllDetails() {
+
+        frontBumper=frontRearEntities.get(0).getValue();
+        frontPanel=frontRearEntities.get(1).getValue();
+        frontIndicatorLightRt=frontRearEntities.get(2).getValue();
+        frontHeadLempLeft=frontRearEntities.get(3).getValue();
+
+        frontFogLampLeft=frontRearEntities.get(4).getValue();
+        frontLftApron=frontRearEntities.get(5).getValue();
+        fronLeftInd=frontRearEntities.get(6).getValue();
+        frontGrill=frontRearEntities.get(7).getValue();
+
+        frontBonet=frontRearEntities.get(8).getValue();
+        frontHeadLempRight=frontRearEntities.get(9).getValue();
+        frontFogLampRight=frontRearEntities.get(10).getValue();
+        frontRightApron=frontRearEntities.get(11).getValue();
+
+
+
+        rearBumper=rearEntities.get(0).getValue();
+        rearDicky=rearEntities.get(1).getValue();
+        reartraillampright=rearEntities.get(2).getValue();
+        rearDickydoor=rearEntities.get(3).getValue();
+        reartaillemleft=rearEntities.get(4).getValue();
+
+
+        leftfrontdoor= leftEntities.get(0).getValue();
+        leftpannel= leftEntities.get(1).getValue();
+        leftreardoor= leftEntities.get(2).getValue();
+        leftrunninboard= leftEntities.get(3).getValue();
+        leftpilar1= leftEntities.get(4).getValue();
+        leftpilar2= leftEntities.get(5).getValue();
+        leftpiler3= leftEntities.get(6).getValue();
+
+
+
+
+
+        rightPannel= rightEntities.get(0).getValue();
+        rightfloorsilencer= rightEntities.get(1).getValue();
+        rightrearpilar2= rightEntities.get(2).getValue();
+        rightfrontdoor= rightEntities.get(3).getValue();
+
+        rightfrontfender= rightEntities.get(4).getValue();
+        rightrtcentpiller1= rightEntities.get(5).getValue();
+
+        rightreardoor= rightEntities.get(6).getValue();
+        rightrearviewmooror= rightEntities.get(7).getValue();
+        rightrunningboard= rightEntities.get(8).getValue();
+        rightfrontpilarA= rightEntities.get(9).getValue();
+
+
+
+
+
+        gbackglass=glassEntities.get(0).getValue();
+        grim=glassEntities.get(1).getValue();
+        gfrontwindshield=glassEntities.get(2).getValue();
+        gundercarrigae=glassEntities.get(3).getValue();
+        grfdoorglass=glassEntities.get(4).getValue();
+        gtoproof=glassEntities.get(5).getValue();
+
+        gdashboard=glassEntities.get(6).getValue();
+        gengine=glassEntities.get(7).getValue();
+        gsuspension=glassEntities.get(8).getValue();
+        gradiator=glassEntities.get(9).getValue();
+        gdrivesaft=glassEntities.get(10).getValue();
+        gbrakes=glassEntities.get(11).getValue();
+
+        grrdoorglass=glassEntities.get(12).getValue();
+        grooflining=glassEntities.get(13).getValue();
+        glfdoorglass=glassEntities.get(14).getValue();
+        gseatsfront=glassEntities.get(15).getValue();
+        glrdoorglass=glassEntities.get(16).getValue();
+        gseatsrear=glassEntities.get(17).getValue();
+
+        ginstrumentmeter=glassEntities.get(18).getValue();
+        ggearbox=glassEntities.get(19).getValue();
+        gsteeringsystem=glassEntities.get(20).getValue();
+        gairconditioner=glassEntities.get(21).getValue();
+        gwheels=glassEntities.get(22).getValue();
+        gmusicsystem=glassEntities.get(23).getValue();
+
+        VehSelfDeclarationEntity vehSelfDeclarationEntity = new VehSelfDeclarationEntity();
+      //  vehSelfDeclarationEntity.setVehicle_id(registerFacade.getUser().getVehicle_id());
+       // vehSelfDeclarationEntity.setVehicle_no(registerFacade.getUser().getVehicle_no());
+
+       // List<FrontRearEntity> frontRearEntities = frontRearFacade.getFrontRearList();
+        /*
+        vehSelfDeclarationEntity.setFront_front_bumper(frontBumper);
+        vehSelfDeclarationEntity.setFront_front_panel(getId("Front Panel", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_indicator_light_RT(getId("Dicky", frontRearEntities));
+
+        vehSelfDeclarationEntity.setFront_head_lamp_LT(getId("Indicator Light(RT)", frontRearEntities));
+
+        vehSelfDeclarationEntity.setFront_fog_lamp_LT(getId("Rear Bumper", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_left_apron(getId("Head Lamp(LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_indicator_light_LT(getId("Fog Lamp(LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_grill(getId("Left Apron", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_bonnet(getId("Indicator Light(LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_head_lamp_RT(getId("Grill", frontRearEntities));
+
+        vehSelfDeclarationEntity.setFront_fog_lamp_RT(getId("Tail Lamp(LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_right_apron(getId("Head Lamp(RT)", frontRearEntities));
+
+      //rear
+        vehSelfDeclarationEntity.setRear_rear_bumper(getId("Fog Lamp(RT)", frontRearEntities));
+        vehSelfDeclarationEntity.setRear_dickey_door(getId("Right Apron", frontRearEntities));
+        vehSelfDeclarationEntity.setRear_tail_lamp_RT(getId("Tail Lamp(RT)", frontRearEntities));
+
+    //    frontRearEntities = frontRearFacade.getLeftList();
+        vehSelfDeclarationEntity.setRear_dicky(getId("Front Fender(LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setRear_tail_lamp_LT(getId("Front Door(LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setLt_front_door(getId("Rear Door(LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setLt_qtr_panel(getId("Running Board(LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setLt_raer_door(getId("LT Pillar Door(A)", frontRearEntities));
+        vehSelfDeclarationEntity.setLt_running_board(getId("LT Pillar Centre(B)", frontRearEntities));
+        vehSelfDeclarationEntity.setLt_pillar_board(getId("LT Pillar Rear(C)", frontRearEntities));
+        vehSelfDeclarationEntity.setLt_pillar_door_A(getId("Qtr Panel(LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setLt_pillar_center_B(getId("Bonnet", frontRearEntities));
+        vehSelfDeclarationEntity.setLt_pillar_rear_C(getId("Bonnet", frontRearEntities));
+
+
+
+
+        frontRearEntities = frontRearFacade.getRightList();
+        vehSelfDeclarationEntity.setRt_qtr_panel(getId("Qtr Panel(RT)", frontRearEntities));
+        vehSelfDeclarationEntity.setRt_rear_door(getId("Rear Door(RT)", frontRearEntities));
+        vehSelfDeclarationEntity.setRt_front_door(getId("Front Door(RT)", frontRearEntities));
+        vehSelfDeclarationEntity.setRt_front_pillar_A(getId("RT Front Pillar(A)", frontRearEntities));
+        vehSelfDeclarationEntity.setRt_center_pillar_B(getId("RT Centre Pillar(B)", frontRearEntities));
+        vehSelfDeclarationEntity.setRt_rear_pillar_C(getId("RT Rear Pillar(C)", frontRearEntities));
+        vehSelfDeclarationEntity.setRt_running_board(getId("Running Board(RT)", frontRearEntities));
+        vehSelfDeclarationEntity.setRt_front_fender(getId("Front Fender(RT)", frontRearEntities));
+        vehSelfDeclarationEntity.setFloor(getId("Floor/Silencer", frontRearEntities));
+        vehSelfDeclarationEntity.setRear_view_mirror_lt(getId("Rear View Mirror (LT)", frontRearEntities));
+        vehSelfDeclarationEntity.setRear_view_mirror_rt(getId("Rear View Mirror (RT)", frontRearEntities));
+        vehSelfDeclarationEntity.setTyres(getId("Tyres", frontRearEntities));
+
+        frontRearEntities = frontRearFacade.getGlassList();
+        vehSelfDeclarationEntity.setBack_glass(getId("Back Glass", frontRearEntities));
+        vehSelfDeclarationEntity.setGlass_laminated(getId("Front ws Glass Laminated", frontRearEntities));
+        vehSelfDeclarationEntity.setRf_door_glass(getId("RF Door Glass", frontRearEntities));
+        vehSelfDeclarationEntity.setRr_door_glass(getId("RR Door Glass", frontRearEntities));
+        vehSelfDeclarationEntity.setLf_door_glass(getId("LF Door Glass", frontRearEntities));
+        vehSelfDeclarationEntity.setLr_door_glass(getId("LR Door Glass", frontRearEntities));
+        vehSelfDeclarationEntity.setRim(getId("Rim", frontRearEntities));
+        vehSelfDeclarationEntity.setUnder_carriage(getId("Under Carriage", frontRearEntities));
+
+
+        // not defined
+        vehSelfDeclarationEntity.setLt_front_tyre(1);
+        vehSelfDeclarationEntity.setLt_rear_tyre(1);
+        vehSelfDeclarationEntity.setRt_rear_tyre(1);
+        vehSelfDeclarationEntity.setRt_front_tyre(1);
+        vehSelfDeclarationEntity.setVehicle_condition(1);
+*/
+        return vehSelfDeclarationEntity;
+    }
     private class FrontOperation extends AsyncTask<String, Void, String> {
         String Condition_Selected = "";
 
