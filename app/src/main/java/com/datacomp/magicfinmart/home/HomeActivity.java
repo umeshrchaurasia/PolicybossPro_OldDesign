@@ -37,8 +37,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
-import com.datacomp.magicfinmart.inspection.home.PrevVideoActivity;
-import com.datacomp.magicfinmart.inspection.home.PreviewVideoActivity;
 import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
