@@ -44,6 +44,5 @@ public class DocumentsRequestBuilder extends InspectionRetroRequestBuilder {
 
         @POST(SUB_URL + "/vehicle-details")
         Call<VehicleDetailResponse> vehicleDetails (@Body VehDetailRequestEntity vehDetailRequestEntity);
-
     }
 }
