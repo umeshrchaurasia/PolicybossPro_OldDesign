@@ -9,9 +9,11 @@ import java.util.HashMap;
 
 
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.IResponseSubcribe;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.VehDetailRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.VehSelfDeclarationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.requestbuilder.DocumentsRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.response.DocumentResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.response.VehicleDetailResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -128,6 +130,42 @@ public class DocumentController implements IDocuments {
 
             @Override
             public void onFailure(Call<DocumentResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                }else  {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void vehicleDetail(VehDetailRequestEntity vehDetailRequestEntity, final IResponseSubcribe iResponseSubcriber) {
+
+        documentsNetworkService.vehicleDetails(vehDetailRequestEntity).enqueue(new Callback<VehicleDetailResponse>() {
+            @Override
+            public void onResponse(Call<VehicleDetailResponse> call, Response<VehicleDetailResponse> response) {
+                if (response.isSuccessful()) {
+                    if (iResponseSubcriber != null) {
+                        if (response.body().getStatus() == 0) {
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        } else {
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                        }
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to connect to server,Try after sometime..."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<VehicleDetailResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

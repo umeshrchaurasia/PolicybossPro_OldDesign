@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.inspection.controller.docume
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.IResponseSubcribe;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.VehDetailRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.VehSelfDeclarationEntity;
 import okhttp3.MultipartBody;
 
@@ -17,4 +18,6 @@ public interface IDocuments {
     void uploadVideo(MultipartBody.Part video, HashMap<String, String> body, final IResponseSubcribe iResponseSubcriber);
 
     void selfDeclaration(VehSelfDeclarationEntity selfDeclarationEntity, IResponseSubcribe iResponseSubcriber);
+
+    void vehicleDetail (VehDetailRequestEntity vehDetailRequestEntity, IResponseSubcribe iResponseSubcriber);
 }

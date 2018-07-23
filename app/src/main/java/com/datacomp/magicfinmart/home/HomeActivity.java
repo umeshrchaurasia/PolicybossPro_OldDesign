@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.home;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,6 +12,8 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
@@ -27,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
@@ -44,6 +48,7 @@ import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.vehicle_details.VehicleDetailFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
@@ -159,6 +164,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 //Check to see which item was being clicked and perform appropriate action
                 Fragment fragment = null;
                 switch (menuItem.getItemId()) {
+
+                    //added by Nilesh
+                    case R.id.nav_vehicleinfo:
+                        getSupportActionBar().setTitle("VEHICLE DETAIL");
+                        fragment = new VehicleDetailFragment();
+                        break;
+
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.nav_home:
                         fragment = new DashboardFragment();
@@ -225,6 +237,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_selfinspection:
                         startActivity(new Intent(HomeActivity.this, SplashScreen.class));
+                       // startActivity(new Intent(HomeActivity.this, PreviewVideoActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.INSPECTION), null);
                         break;
 
@@ -301,10 +314,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         txtEntityName.setText("Magic Finmart  v" + versionNAme);
 
-        if(loginResponseEntity.getFullName().length() >12) {
+        if (loginResponseEntity.getFullName().length() > 12) {
             txtDetails.setText("" + loginResponseEntity.getFullName()
                     + " \n(FBA ID : " + loginResponseEntity.getFBAId() + ")");
-        }else{
+        } else {
             txtDetails.setText("" + loginResponseEntity.getFullName()
                     + " (FBA ID : " + loginResponseEntity.getFBAId() + ")");
         }
@@ -464,6 +477,27 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         Intent intent;
         switch (item.getItemId()) {
 
+            case R.id.action_call:
+//                intent = new Intent(MainActivity.this, BankDataActivity.class);
+//                startActivity(intent);
+
+                if (db.getConstantsData().getHelpNumber() != null) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return false;
+                    }
+                    Intent intentCalling = new Intent(Intent.ACTION_CALL);
+                    intentCalling.setData(Uri.parse("tel:" + db.getConstantsData().getHelpNumber()));
+                    startActivity(intentCalling);
+
+                }
+                break;
             case R.id.action_push_notification:
                 intent = new Intent(HomeActivity.this, NotificationActivity.class);
                 startActivityForResult(intent, Constants.REQUEST_CODE);

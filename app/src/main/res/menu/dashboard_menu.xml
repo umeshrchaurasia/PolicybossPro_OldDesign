@@ -4,12 +4,21 @@
 
 
     <item
-        android:id="@+id/action_push_notification"
+        android:id="@+id/action_call"
         android:orderInCategory="10"
+        android:title="Calll"
+        android:visible="true"
+        android:icon="@drawable/vector_call"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_push_notification"
+        android:orderInCategory="20"
         android:title="Notificaton"
         android:visible="true"
         app:actionLayout="@layout/notification_action_item_layout"
         app:showAsAction="always" />
+
+
 
 
 </menu>

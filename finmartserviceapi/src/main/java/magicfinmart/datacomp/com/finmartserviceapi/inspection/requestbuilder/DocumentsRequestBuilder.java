@@ -3,8 +3,10 @@ package magicfinmart.datacomp.com.finmartserviceapi.inspection.requestbuilder;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.InspectionRetroRequestBuilder;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.VehDetailRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.VehSelfDeclarationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.response.DocumentResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.response.VehicleDetailResponse;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -40,5 +42,7 @@ public class DocumentsRequestBuilder extends InspectionRetroRequestBuilder {
         @POST(SUB_URL + "/vehicle-inspection-details")
         Call<DocumentResponse> selfDeclaration(@Body VehSelfDeclarationEntity selfDeclarationEntity);
 
+        @POST(SUB_URL + "/vehicle-details")
+        Call<VehicleDetailResponse> vehicleDetails (@Body VehDetailRequestEntity vehDetailRequestEntity);
     }
 }

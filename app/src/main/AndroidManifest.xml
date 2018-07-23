@@ -783,6 +783,17 @@
                 android:value=".inspection.home.RCPOLICYActivity" />
         </activity>
         <activity
+            android:name=".inspection.home.PreviewVideoActivity"
+            android:label="@string/title_activity_preview_video"
+            android:screenOrientation="landscape"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".inspection.home.MainActivity" />
+        </activity>
+
+
+        <activity
             android:name=".inspection.selfdeclaration.PhotoCaptureActivity"
             android:label="@string/title_activity_photo_capture"
             android:parentActivityName=".inspection.selfdeclaration.SelfDeclareActivity"

@@ -179,6 +179,16 @@ public class BaseFragment extends Fragment {
         return !(phoneNumberEntered.isEmpty() || !phoneNumberEntered.matches(phoneNumberPattern));
     }
 
+    public static boolean isValidVehicle(EditText editText) {
+
+        String vehiclePattern = "^[A-Z]{2}[0-9]{1,2}(?: [A-Z])?(?: [A-Z]*)? [0-9]{4}$";
+
+        String strVehicle = editText.getText().toString().trim();
+
+        return !(strVehicle.isEmpty()) && !strVehicle.matches(vehiclePattern);
+
+    }
+
     public static boolean isValideEmailID(EditText editText) {
         String emailEntered = editText.getText().toString().trim();
         return !(emailEntered.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(emailEntered).matches());
