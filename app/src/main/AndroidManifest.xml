@@ -792,11 +792,7 @@
                 android:value=".inspection.home.MainActivity" />
         </activity>
 
-        <activity
-            android:name=".inspection.home.PrevVideoActivity"
-            android:label="@string/title_activity_prev_video"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme"></activity>
+
         <activity
             android:name=".inspection.selfdeclaration.PhotoCaptureActivity"
             android:label="@string/title_activity_photo_capture"

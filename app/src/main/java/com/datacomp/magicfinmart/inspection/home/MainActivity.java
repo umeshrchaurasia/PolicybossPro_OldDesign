@@ -438,7 +438,7 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
 
     private void stopRecording() {
         int data = stopCountDownTimer();
-        if (data >= 10 && data <= 70)      //05
+        if (data >= 50 && data <= 70)      //05
         //if (data>=10 && data<=30)
         {
             //showFinishAlert("1", "Success!", "Ok");
@@ -463,7 +463,7 @@ public class MainActivity extends BaseActivity implements SurfaceHolder.Callback
             //new LongOperation().execute("");
             showFinishAlert("1", "Video prepared successfully !", "Ok");
 
-        } else if (data < 10) {     // 05
+        } else if (data < 50) {     // 05
 
             ShowDialog("You can not upload this video due to short  video capture. Do you want to retake video?");
 
