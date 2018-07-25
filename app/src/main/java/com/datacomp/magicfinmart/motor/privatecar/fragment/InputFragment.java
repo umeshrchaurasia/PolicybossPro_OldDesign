@@ -29,6 +29,8 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -78,7 +80,7 @@ import static com.datacomp.magicfinmart.utility.DateTimePicker.getDiffYears;
  * Created by Rajeev Ranjan on 29/01/2018.
  */
 
-public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
+public class InputFragment extends BaseFragment implements BaseFragment.PopUpListener, ILocationStateListener, RadioGroup.OnCheckedChangeListener, CompoundButton.OnCheckedChangeListener, View.OnClickListener, GenericTextWatcher.iVehicle, IResponseSubcriber, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
     Gson gson = new Gson();
     private static final String TAG = "AddNewQuoteActivity";
     TextView tvNew, tvRenew, tvOr;
@@ -125,6 +127,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     Spinner spMonth, spYear;
     ArrayAdapter<String> MonthAdapter, YearAdapter;
     ArrayList<String> yearList, monthList;
+    View view;
+    RadioGroup rgNewRenew, rgExpiry;
+    RadioButton rbNew, rbReNew, rbExpired,
+            rbDontHAve, rbWithIn, rbBeyond;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -135,7 +141,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.content_add_new_quote, container, false);
+
+        view = inflater.inflate(R.layout.content_add_new_quote, container, false);
 
         //region init location
         locationTracker = new LocationTracker(getActivity());
@@ -935,6 +942,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     private void setListener() {
+        rgExpiry.setOnCheckedChangeListener(this);
+        rgNewRenew.setOnCheckedChangeListener(this);
         btnGo.setOnClickListener(this);
         switchNewRenew.setOnCheckedChangeListener(this);
         swIndividual.setOnCheckedChangeListener(this);
@@ -1040,6 +1049,16 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         spMonth = (Spinner) view.findViewById(R.id.spMonth);
         spYear = (Spinner) view.findViewById(R.id.spYear);
 
+
+        rgNewRenew = view.findViewById(R.id.rgNewRenew);
+        rgExpiry = view.findViewById(R.id.rgExpiry);
+
+        rbNew = view.findViewById(R.id.rbNew);
+        rbReNew = view.findViewById(R.id.rbReNew);
+        rbExpired = view.findViewById(R.id.rbExpired);
+        rbDontHAve = view.findViewById(R.id.rbDontHAve);
+        rbWithIn = view.findViewById(R.id.rbWithIn);
+        rbBeyond = view.findViewById(R.id.rbBeyond);
     }
 
     @Override
@@ -2151,6 +2170,58 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     }
 
+    void initializeViews(String policyType) {
+        if (policyType.equals("new")) {
+            etExpDate.setEnabled(false);
+            spPrevIns.setEnabled(false);
+            cvNcb.setVisibility(View.GONE);
+            llNoClaim.setVisibility(View.INVISIBLE);
+            tvDontKnow.performClick();
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.PRIVATE_CAR), null);
+        } else if (policyType.equals("renew")) {
+            etExpDate.setEnabled(true);
+            spPrevIns.setEnabled(true);
+            cvNcb.setVisibility(View.VISIBLE);
+            llNoClaim.setVisibility(View.VISIBLE);
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), Constants.PRIVATE_CAR), null);
+
+        } else if (policyType.equals("expired")) {
+            etExpDate.setEnabled(true);
+            spPrevIns.setEnabled(true);
+            cvNcb.setVisibility(View.VISIBLE);
+            llNoClaim.setVisibility(View.VISIBLE);
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Expired : click here button with renew "), Constants.PRIVATE_CAR), null);
+        }
+    }
+
+    @Override
+    public void onCheckedChanged(RadioGroup radioGroup, int i) {
+        int selectedId;
+        RadioButton radioButton;
+        switch (radioGroup.getId()) {
+            case R.id.rgExpiry:
+                selectedId = radioGroup.getCheckedRadioButtonId();
+                radioButton = view.findViewById(selectedId);
+                if (radioButton.getText().toString().contains("existing"))
+                    initializeViews("existing");
+                else if (radioButton.getText().toString().equals("within"))
+                    initializeViews("within");
+                else if (radioButton.getText().toString().equals("beyond"))
+                    initializeViews("beyond");
+                break;
+            case R.id.rgNewRenew:
+                selectedId = radioGroup.getCheckedRadioButtonId();
+                radioButton = view.findViewById(selectedId);
+                if (radioButton.getText().toString().equals("NEW"))
+                    initializeViews("new");
+                else if (radioButton.getText().toString().equals("RENEW"))
+                    initializeViews("renew");
+                else if (radioButton.getText().toString().equals("EXPIRED"))
+                    initializeViews("expired");
+                break;
+        }
+    }
+
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
         switch (view.getId()) {
@@ -2263,6 +2334,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         inflater.inflate(R.menu.home_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
 
     class PolicybossTrackingRequest extends AsyncTask<Void, Void, String> {
         MotorRequestEntity motorRequestEntity;
