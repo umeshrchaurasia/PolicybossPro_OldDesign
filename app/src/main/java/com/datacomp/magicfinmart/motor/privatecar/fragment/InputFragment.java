@@ -151,7 +151,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity(getActivity());
+
         constantEntity = dbController.getConstantsData();
+
         registerPopUp(this);
         init_view(view);
 

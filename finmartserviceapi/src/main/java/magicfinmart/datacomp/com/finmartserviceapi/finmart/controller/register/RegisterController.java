@@ -152,6 +152,7 @@ public class RegisterController implements IRegister {
 
     @Override
     public void registerFba(RegisterRequestEntity registerRequestEntity, final IResponseSubcriber iResponseSubcriber) {
+
         registerQuotesNetworkService.registerFba(registerRequestEntity).enqueue(new Callback<RegisterFbaResponse>() {
             @Override
             public void onResponse(Call<RegisterFbaResponse> call, Response<RegisterFbaResponse> response) {
