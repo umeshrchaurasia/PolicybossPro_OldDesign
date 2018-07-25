@@ -84,6 +84,7 @@
                         android:textStyle="bold" />
 
                     <RadioGroup
+                        android:visibility="gone"
                         android:id="@+id/rgNewRenew"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -93,6 +94,7 @@
                         android:orientation="horizontal">
 
                         <RadioButton
+                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbNew"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -100,6 +102,7 @@
                             android:text="NEW" />
 
                         <RadioButton
+                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbReNew"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -109,6 +112,7 @@
                             android:text="RENEW" />
 
                         <RadioButton
+                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbExpired"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -130,18 +134,21 @@
                         android:orientation="vertical">
 
                         <RadioButton
+                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbDontHAve"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="I don’t have existing policy " />
 
                         <RadioButton
+                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbWithIn"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Expired within 90 days " />
 
                         <RadioButton
+                            android:textColor="@drawable/radiogroup_selector"
                             android:id="@+id/rbBeyond"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"

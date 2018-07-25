@@ -35,6 +35,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.pospapp.models.LoginEntity;
 
 /**
  * Created by Rajeev Ranjan on 04/01/2018.
@@ -45,7 +46,8 @@ public class DBPersistanceController {
     public static final String EXTERNAL_LPG = "External LPG";
     public static final String EXTERNAL_CNG = "External CNG";
     Map<String, Integer> hashmapKotakPLCity;
-
+    final ArrayList<String> stringArrayList = new ArrayList<>();
+    final int a = 10;
     //HashMap<String, String> hashMapAddons;
     Map<String, Integer> hashMapInsurence, hashmapPremTerm;
     HashMap<String, String> hashMapAddons, hdfcpersonalloanbankbranch;
@@ -203,7 +205,7 @@ public class DBPersistanceController {
         return listCarModel;
     }
 
-    public String getModelID(String makeName,String modelName) {
+    public String getModelID(String makeName, String modelName) {
         CarMasterEntity entity = realm.where(CarMasterEntity.class)
                 .equalTo("Make_Name", makeName.trim())
                 .equalTo("Model_Name", modelName.trim())
@@ -405,7 +407,7 @@ public class DBPersistanceController {
             return null;
     }
 
-    public String getBikeModelID(String makeName,String modelName) {
+    public String getBikeModelID(String makeName, String modelName) {
         BikeMasterEntity entity = realm.where(BikeMasterEntity.class)
                 .equalTo("Make_Name", makeName.trim())
                 .equalTo("Model_Name", modelName.trim())
