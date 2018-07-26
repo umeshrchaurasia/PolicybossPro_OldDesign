@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
@@ -491,7 +492,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             //region make model
             acMakeModel.setText(makeModel);
-            acMakeModel.performCompletion();
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    acMakeModel.dismissDropDown();
+                }
+            });
 
             //endregion
 
@@ -625,8 +631,12 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 //region make model
 
                 acMakeModel.setText(makeModel);
-                acMakeModel.performCompletion();
-
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        acMakeModel.dismissDropDown();
+                    }
+                });
                 //endregion
 
                 //region varient list
@@ -1972,7 +1982,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             e.printStackTrace();
         }
 
-        return displayFormat.format(newDate);
+        if (newDate != null)
+            return displayFormat.format(newDate);
+        else
+            return "";
     }
 
     public String getDisplayDateFormatFastLane(String date) {
@@ -1982,8 +1995,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        return displayFormat.format(newDate);
+        if (newDate != null)
+            return displayFormat.format(newDate);
+        else
+            return "";
     }
 
     public String getMfgDate() {

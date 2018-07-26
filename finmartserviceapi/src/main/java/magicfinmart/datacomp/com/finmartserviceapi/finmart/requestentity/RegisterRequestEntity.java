@@ -5,6 +5,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
  */
 
 public class RegisterRequestEntity {
+
     public String getReferedby_code() {
         return referedby_code;
     }
@@ -103,7 +104,7 @@ public class RegisterRequestEntity {
      * StatActi :
      * FBAStat : R
      * SMID : 0
-
+     * <p>
      * SM_Name :
      * POSPID : 0
      * BrokID : 0
@@ -217,6 +218,9 @@ public class RegisterRequestEntity {
 
     private String Link;
 
+    //nilesh
+    private String VersionCode;
+
 
     public RegisterRequestEntity() {
         this.FBAID = 0;
@@ -314,10 +318,21 @@ public class RegisterRequestEntity {
         BrokID = 0;
         IsFOC = "";
         this.password = "";
-        DisplayEmail= "";
+        DisplayEmail = "";
         DisplayPhoneNo = "";
         DisplayDesignation = "";
+        VersionCode = "";
     }
+
+
+    public String getVersionCode() {
+        return VersionCode;
+    }
+
+    public void setVersionCode(String versionCode) {
+        VersionCode = versionCode;
+    }
+
 
     public int getFBAID() {
         return FBAID;
