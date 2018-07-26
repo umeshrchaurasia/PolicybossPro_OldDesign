@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
@@ -29,6 +30,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -49,6 +51,7 @@ import com.google.gson.Gson;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
+import java.security.spec.ECField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -162,13 +165,15 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         constantEntity = dbController.getConstantsData();
 
         registerPopUp(this);
+
         init_view(view);
 
         setListener();
 
+        bind_init_binders();
+
         initialize_views();
 
-        bind_init_binders();
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST) != null) {
@@ -360,12 +365,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         } else {
                             tv.setTextColor(Color.BLACK);
                         }
-                        tv.setTextColor(Color.BLACK);
+
                         tv.setTextSize(Constants.SPINNER_FONT_SIZE);
                         return convertView;
                     }
                 };
         spPrevIns.setAdapter(prevInsAdapter);
+
+        spPrevIns.setSelection(0);
 
         //endregion
 
@@ -423,7 +430,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 } else {
                     tv.setTextColor(Color.BLACK);
                 }
-                tv.setTextColor(Color.BLACK);
+
                 convertView.setPadding(8, convertView.getPaddingTop(), 0, convertView.getPaddingBottom());
                 tv.setTextSize(12f);
                 return convertView;
@@ -493,6 +500,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     }
 
+
     private void bindInputsQuotes() {
 
         int vehicleID = motorRequestEntity.getVehicle_id();
@@ -514,10 +522,19 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             makeModel = carMasterEntity.getMake_Name() + " , " + carMasterEntity.getModel_Name();
 
             //region make model
+
             acMakeModel.setText(makeModel);
-            acMakeModel.performCompletion();
-            acMakeModel.dismissDropDown();
-            acMakeModel.performClick();
+
+            //TODO: Dismiss the Drop down after auto complete settext
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    acMakeModel.dismissDropDown();
+                }
+            });
+//            acMakeModel.performCompletion();
+//            acMakeModel.dismissDropDown();
+//            acMakeModel.performClick();
             //endregion
 
             //region varient list
@@ -647,7 +664,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 //region make model
 
                 acMakeModel.setText(makeModel);
-                acMakeModel.performCompletion();
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        acMakeModel.dismissDropDown();
+                    }
+                });
+
 
                 //endregion
 
@@ -919,6 +942,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         switchNewRenew.setChecked(true);
         tvClaimNo.performClick();
         llVerifyCarDetails.setVisibility(View.GONE);
+
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
     }
@@ -2093,8 +2117,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        return displayFormat.format(newDate);
+        if (newDate != null)
+            return displayFormat.format(newDate);
+        else
+            return "";
     }
 
     public String getDisplayDateFormatFastLane(String date) {
@@ -2105,7 +2131,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             e.printStackTrace();
         }
 
-        return displayFormat.format(newDate);
+        if (newDate != null)
+            return displayFormat.format(newDate);
+        else
+            return "";
     }
 
     //returns date in policyboss date format
@@ -2153,7 +2182,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
                 etExpDate.setEnabled(false);
+//                spPrevIns.setSelection(0);
                 spPrevIns.setEnabled(false);
+
+                // spPrevIns.setAlpha(0.5f);
                 cvNcb.setVisibility(View.GONE);
                 llNoClaim.setVisibility(View.INVISIBLE);
                 tvDontKnow.performClick();
@@ -2173,6 +2205,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     void initializeViews(String policyType) {
         if (policyType.equals("new")) {
             etExpDate.setEnabled(false);
+
             spPrevIns.setEnabled(false);
             cvNcb.setVisibility(View.GONE);
             llNoClaim.setVisibility(View.INVISIBLE);
