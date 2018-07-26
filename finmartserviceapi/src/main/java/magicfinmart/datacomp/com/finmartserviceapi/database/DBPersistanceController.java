@@ -113,7 +113,17 @@ public class DBPersistanceController {
             return "";
 
     }
+    public String getCityID(String cityName, String VehicleCity_RTOCode) {
 
+        CityMasterEntity entity = realm.where(CityMasterEntity.class)
+                .equalTo("VehicleCity_RTOCode", VehicleCity_RTOCode)
+                .equalTo("RTO_City", cityName).findFirst();
+        if (entity != null)
+            return entity.getVehicleCity_Id();
+        else
+            return "";
+
+    }
     public String getRTOName(String VehicleCity_Id) {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)

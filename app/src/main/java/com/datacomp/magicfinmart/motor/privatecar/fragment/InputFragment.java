@@ -64,7 +64,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
@@ -134,6 +133,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     RadioGroup rgNewRenew, rgExpiry;
     RadioButton rbNew, rbReNew, rbExpired,
             rbDontHAve, rbWithIn, rbBeyond;
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -1120,8 +1120,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     tvDontKnow.performClick();
                     btnGetQuote.setVisibility(View.VISIBLE);
                     showDialog("Fetching car details...");
-                    if (constantEntity.getLogtracking().equals("0"))
-                        new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Fastlane :  " + regNo), Constants.FASTLANE), null);
+                    insertFastlaneLog();
+
+                    motorRequestEntity.setRegistration_no(getFormattedRegNoFastlane());
 
                     new FastLaneController(getActivity()).getVechileDetails(regNo, this);
                 }
@@ -1142,162 +1143,19 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 break;
             case R.id.btnGetQuote:
 
-                //region validations
-                if (makeModel == null || makeModel.equals("")) {
-                    acMakeModel.requestFocus();
-                    acMakeModel.setError("Enter Make,Model");
-                    return;
-                }
+                if (isValidInfo()) {
 
-                if (!isEmpty(etRegDate)) {
-                    etRegDate.requestFocus();
-                    etRegDate.setError("Enter Reg Date");
-                    return;
-                }
-                /*if (!isEmpty(etMfgDate)) {
-                    etMfgDate.requestFocus();
-                    etMfgDate.setError("Enter Mfg Date");
-                    return;
-                }*/
-                if (spYear.getSelectedItemPosition() == 0) {
-                    spYear.requestFocus();
-                    Toast.makeText(getActivity(), "Select Mfg Year", Toast.LENGTH_SHORT).show();
-                }
-
-                if (spMonth.getSelectedItemPosition() == 0) {
-                    spYear.requestFocus();
-                    Toast.makeText(getActivity(), "Select Mfg Month", Toast.LENGTH_SHORT).show();
-                }
-                if (regplace == null || regplace.equals("")) {
-                    acRto.requestFocus();
-                    acRto.setError("Enter Rto");
-                    return;
-                }
-                if (switchNewRenew.isChecked()) {
-                    if (!isEmpty(etExpDate)) {
-                        etExpDate.requestFocus();
-                        etExpDate.setError("Enter Expiry Date");
-                        return;
-                    }
-                    if (spPrevIns.getSelectedItemPosition() == 0) {
-                        spPrevIns.requestFocus();
-                        Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                }
-
-                if (etCustomerName.getText().toString().equals("")) {
-                    etCustomerName.requestFocus();
-                    etCustomerName.setError("Enter Name");
-                    return;
-                } else {
-                    String[] fullName = etCustomerName.getText().toString().trim().split(" ");
-                    if (fullName.length == 1) {
-                        /*if (fullName[0].length() < 2) {
-                            etCustomerName.requestFocus();
-                            etCustomerName.setError("First Name should be greater than 1 character");
-                            return;
-                        }*/
-                        etCustomerName.requestFocus();
-                        etCustomerName.setError("Enter Last Name");
-                        return;
-                    } else if (fullName.length == 2) {
-                        if (fullName[0].length() < 2) {
-                            etCustomerName.requestFocus();
-                            etCustomerName.setError("First Name should be greater than 1 character");
-                            return;
-                        }
-                        if (fullName[1].length() < 2) {
-                            etCustomerName.requestFocus();
-                            etCustomerName.setError("Last Name should be greater than 1 character");
-                            return;
-                        }
-                    } else if (fullName.length == 3) {
-                        if (fullName[0].length() < 2) {
-                            etCustomerName.requestFocus();
-                            etCustomerName.setError("First Name should be greater than 1 character");
-                            return;
-                        }
-                        if (fullName[2].length() < 2) {
-                            etCustomerName.requestFocus();
-                            etCustomerName.setError("Last Name should be greater than 1 character");
-                            return;
-                        }
-                    }
-
-                }
-                /*if (!isValidePhoneNumber(etMobile)) {
-                    etMobile.requestFocus();
-                    etMobile.setError("Enter Mobile");
-                    return;
-                }*/
-
-                if (spFuel.getSelectedItemPosition() == 0) {
-                    Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
-                    spFuel.requestFocus();
-                    return;
-                }
-
-                if (spVarient.getSelectedItemPosition() == 0) {
-                    Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
-                    spVarient.requestFocus();
-                    return;
-                }
-
-                if (dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()),
-                        getModel(acMakeModel.getText().toString()),
-                        getMake(acMakeModel.getText().toString())) == "") {
-                    acMakeModel.requestFocus();
-                    acMakeModel.setError("Enter Make,Model");
-                    return;
-                }
-
-                if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
-                    acRto.requestFocus();
-                    acRto.setError("Enter Rto");
-                    return;
-                }
-
-
-                if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)
-                        || spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
-                    if (etExtValue.getText().toString().equals("")) {
-                        etExtValue.requestFocus();
-                        etExtValue.setError("Enter Amount");
-                        return;
+                    if (switchNewRenew.isChecked()) {  //renew
+                        setInputParametersReNewCar();
                     } else {
-                        int extval = Integer.parseInt(etExtValue.getText().toString());
-                        if (extval < 10000 || extval > 60000) {
-                            etExtValue.requestFocus();
-                            etExtValue.setError("Enter Amount between 10000 & 60000");
-                            return;
-                        }
+                        setInputParametersNewCAR();
                     }
+                    if (constantEntity.getLogtracking().equals("0"))
+                        new PolicybossTrackingRequest(motorRequestEntity).execute();
+
+                    showDialog(getResources().getString(R.string.fetching_msg));
+                    new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
                 }
-
-                //endregion
-
-                //region tracking
-                //new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), Constants.PRIVATE_CAR), null);
-
-
-                //endregion
-
-
-                //TODO uncomment this
-                if (switchNewRenew.isChecked()) {  //renew
-                    setInputParametersReNewCar();
-                } else {
-                    setInputParametersNewCAR();
-                }
-                if (constantEntity.getLogtracking().equals("0")) {
-
-                    //new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData(motorRequestEntity.), Constants.PRIVATE_CAR), null);
-                }
-                if (constantEntity.getLogtracking().equals("0"))
-                    new PolicybossTrackingRequest(motorRequestEntity).execute();
-                showDialog("Please wait... fetching quotes");
-                new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
 
                 break;
             case R.id.tvDontKnow:
@@ -1312,149 +1170,164 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
     }
 
-    public void getQuote() {
-        if (cvInput.getVisibility() == View.VISIBLE) {
-            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), Constants.PRIVATE_CAR), null);
-            //region validations
-            if (makeModel == null || makeModel.equals("")) {
-                acMakeModel.requestFocus();
-                acMakeModel.setError("Enter Make,Model");
-                return;
-            }
+    private void insertFastlaneLog() {
+        try {
+            if (constantEntity.getLogtracking().equals("0"))
+                new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Fastlane :  " + regNo), Constants.FASTLANE), null);
 
-            if (!isEmpty(etRegDate)) {
-                etRegDate.requestFocus();
-                etRegDate.setError("Enter Reg Date");
-                return;
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isValidInfo() {
+
+        //region validations
+        if (makeModel == null || makeModel.equals("")) {
+            acMakeModel.requestFocus();
+            acMakeModel.setError("Enter Make,Model");
+            return false;
+        }
+
+        if (!isEmpty(etRegDate)) {
+            etRegDate.requestFocus();
+            etRegDate.setError("Enter Reg Date");
+            return false;
+        }
                 /*if (!isEmpty(etMfgDate)) {
                     etMfgDate.requestFocus();
                     etMfgDate.setError("Enter Mfg Date");
-                    return;
+                    return false;
                 }*/
-            if (spYear.getSelectedItemPosition() == 0) {
-                spYear.requestFocus();
-                Toast.makeText(getActivity(), "Select Mfg Year", Toast.LENGTH_SHORT).show();
-            }
+        if (spYear.getSelectedItemPosition() == 0) {
+            spYear.requestFocus();
+            Toast.makeText(getActivity(), "Select Mfg Year", Toast.LENGTH_SHORT).show();
+        }
 
-            if (spMonth.getSelectedItemPosition() == 0) {
-                spYear.requestFocus();
-                Toast.makeText(getActivity(), "Select Mfg Month", Toast.LENGTH_SHORT).show();
+        if (spMonth.getSelectedItemPosition() == 0) {
+            spYear.requestFocus();
+            Toast.makeText(getActivity(), "Select Mfg Month", Toast.LENGTH_SHORT).show();
+        }
+        if (regplace == null || regplace.equals("")) {
+            acRto.requestFocus();
+            acRto.setError("Enter Rto");
+            return false;
+        }
+        if (switchNewRenew.isChecked()) {
+            if (!isEmpty(etExpDate)) {
+                etExpDate.requestFocus();
+                etExpDate.setError("Enter Expiry Date");
+                return false;
             }
-            if (regplace == null || regplace.equals("")) {
-                acRto.requestFocus();
-                acRto.setError("Enter Rto");
-                return;
+            if (spPrevIns.getSelectedItemPosition() == 0) {
+                spPrevIns.requestFocus();
+                Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
+                return false;
             }
-            if (switchNewRenew.isChecked()) {
-                if (!isEmpty(etExpDate)) {
-                    etExpDate.requestFocus();
-                    etExpDate.setError("Enter Expiry Date");
-                    return;
-                }
-                if (spPrevIns.getSelectedItemPosition() == 0) {
-                    spPrevIns.requestFocus();
-                    Toast.makeText(getActivity(), "Select Present Insurer", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-            }
+        }
 
-            if (etCustomerName.getText().toString().equals("")) {
+        if (etCustomerName.getText().toString().equals("")) {
+            etCustomerName.requestFocus();
+            etCustomerName.setError("Enter Name");
+            return false;
+        } else {
+            String[] fullName = etCustomerName.getText().toString().trim().split(" ");
+            if (fullName.length == 1) {
+                        /*if (fullName[0].length() < 2) {
+                            etCustomerName.requestFocus();
+                            etCustomerName.setError("First Name should be greater than 1 character");
+                            return false;
+                        }*/
                 etCustomerName.requestFocus();
-                etCustomerName.setError("Enter Name");
-                return;
-            } else {
-                String[] fullName = etCustomerName.getText().toString().trim().split(" ");
-                if (fullName.length == 1) {
-                    if (fullName[0].length() < 2) {
-                        etCustomerName.requestFocus();
-                        etCustomerName.setError("First Name should be greater than 1 character");
-                        return;
-                    }
-                } else if (fullName.length == 2) {
-                    if (fullName[0].length() < 2) {
-                        etCustomerName.requestFocus();
-                        etCustomerName.setError("First Name should be greater than 1 character");
-                        return;
-                    }
-                    if (fullName[1].length() < 2) {
-                        etCustomerName.requestFocus();
-                        etCustomerName.setError("Last Name should be greater than 1 character");
-                        return;
-                    }
-                } else if (fullName.length == 3) {
-                    if (fullName[0].length() < 2) {
-                        etCustomerName.requestFocus();
-                        etCustomerName.setError("First Name should be greater than 1 character");
-                        return;
-                    }
-                    if (fullName[2].length() < 2) {
-                        etCustomerName.requestFocus();
-                        etCustomerName.setError("Last Name should be greater than 1 character");
-                        return;
-                    }
+                etCustomerName.setError("Enter Last Name");
+                return false;
+            } else if (fullName.length == 2) {
+                if (fullName[0].length() < 2) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("First Name should be greater than 1 character");
+                    return false;
                 }
-
+                if (fullName[1].length() < 2) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("Last Name should be greater than 1 character");
+                    return false;
+                }
+            } else if (fullName.length == 3) {
+                if (fullName[0].length() < 2) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("First Name should be greater than 1 character");
+                    return false;
+                }
+                if (fullName[2].length() < 2) {
+                    etCustomerName.requestFocus();
+                    etCustomerName.setError("Last Name should be greater than 1 character");
+                    return false;
+                }
             }
+
+        }
                 /*if (!isValidePhoneNumber(etMobile)) {
                     etMobile.requestFocus();
                     etMobile.setError("Enter Mobile");
-                    return;
+                    return false;
                 }*/
 
-            if (spFuel.getSelectedItemPosition() == 0) {
-                Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
-                spFuel.requestFocus();
-                return;
-            }
+        if (spFuel.getSelectedItemPosition() == 0) {
+            Toast.makeText(getActivity(), "Select Fuel Type", Toast.LENGTH_SHORT).show();
+            spFuel.requestFocus();
+            return false;
+        }
 
-            if (spVarient.getSelectedItemPosition() == 0) {
-                Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
-                spVarient.requestFocus();
-                return;
-            }
+        if (spVarient.getSelectedItemPosition() == 0) {
+            Toast.makeText(getActivity(), "Select Variant", Toast.LENGTH_SHORT).show();
+            spVarient.requestFocus();
+            return false;
+        }
 
-            if (dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()),
-                    getModel(acMakeModel.getText().toString()),
-                    getMake(acMakeModel.getText().toString())) == "") {
-                acMakeModel.requestFocus();
-                acMakeModel.setError("Enter Make,Model");
-                return;
-            }
+        if (dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()),
+                getModel(acMakeModel.getText().toString()),
+                getMake(acMakeModel.getText().toString())) == "") {
+            acMakeModel.requestFocus();
+            acMakeModel.setError("Enter Make,Model");
+            return false;
+        }
+                /* if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
+                    acRto.requestFocus();
+                    acRto.setError("Enter Rto");
+                    return false;
+                }*/
 
-            if (dbController.getCityID(getRtoCity(acRto.getText().toString())) == "") {
-                acRto.requestFocus();
-                acRto.setError("Enter Rto");
-                return;
-            }
+        if (getCityId(acRto.getText().toString()) == 0) {
+            acRto.requestFocus();
+            acRto.setError("Enter Rto");
+            return false;
+        }
 
 
-            if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)
-                    || spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
-                if (etExtValue.getText().toString().equals("")) {
+        if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)
+                || spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_CNG)) {
+            if (etExtValue.getText().toString().equals("")) {
+                etExtValue.requestFocus();
+                etExtValue.setError("Enter Amount");
+                return false;
+            } else {
+                int extval = Integer.parseInt(etExtValue.getText().toString());
+                if (extval < 10000 || extval > 60000) {
                     etExtValue.requestFocus();
-                    etExtValue.setError("Enter Amount");
-                    return;
-                } else {
-                    int extval = Integer.parseInt(etExtValue.getText().toString());
-                    if (extval < 10000 || extval > 60000) {
-                        etExtValue.requestFocus();
-                        etExtValue.setError("Enter Amount between 10000 & 60000");
-                        return;
-                    }
+                    etExtValue.setError("Enter Amount between 10000 & 60000");
+                    return false;
                 }
             }
+        }
 
-            //endregion
+        //endregion
+        return true;
+    }
 
-            //TODO uncomment this
-            if (switchNewRenew.isChecked()) {  //renew
-                setInputParametersReNewCar();
-            } else {
-                setInputParametersNewCAR();
-            }
-            showDialog("Please Wait. Fetching Quotes!!!");
-            new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
+    public void getQuote() {
+        if (cvInput.getVisibility() == View.VISIBLE) {
+            new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor Get quote : get quote button for motor "), Constants.PRIVATE_CAR), null);
+            btnGetQuote.performClick();
         }
 
     }
@@ -1637,9 +1510,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         return 0;
     }
 
-    private String getRegistrationNo(String city) {
-        CityMasterEntity cityMasterEntity = dbController.getVehicleCity_Id(city);
-        return formatRegistrationNo(cityMasterEntity.getVehicleCity_RTOCode() + "ZZ9999");
+    private String getRegistrationNo() {
+        //CityMasterEntity cityMasterEntity = dbController.getVehicleCity_Id(city);
+        return formatRegistrationNo(getRtoCode(acRto.getText().toString()) + "ZZ9999");
     }
 
     private String formatRegistrationNo(String regNo) {
@@ -1681,6 +1554,35 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         } else {
             return parts[1].trim();
         }
+    }
+
+    private String getRtoCode(String city) {
+        String[] parts = city.split("-");
+        return parts[0].trim();
+    }
+
+    private int getCityId(String city) {
+        int cityId = 0;
+        String cityCode = "";
+        String[] parts = city.split("-");
+        if (parts.length > 2) {
+            String s = parts[1].trim();
+            for (int i = 2; i < parts.length; i++) {
+                s = s + "-" + parts[i].trim();
+            }
+            cityCode = dbController.getCityID(s, parts[0].trim());
+            if (!cityCode.equals(""))
+                cityId = Integer.parseInt(cityCode);
+
+        } else {
+            cityCode = dbController.getCityID(parts[1].trim(), parts[0].trim());
+            if (!cityCode.equals(""))
+                cityId = Integer.parseInt(cityCode);
+            return cityId;
+
+        }
+        return cityId;
+
     }
     //endregion
 
@@ -1856,9 +1758,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setProduct_id(1);
         varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-        motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(regplace))));
-        //motorRequestEntity.setSecret_key(Constants.SECRET_KEY);
-        //motorRequestEntity.setClient_key(Constants.CLIENT_KEY);
+        //motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(regplace))));
+
+        motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
         motorRequestEntity.setExecution_async("yes");
         motorRequestEntity.setVehicle_insurance_type("new");
         motorRequestEntity.setVehicle_manf_date(getMfgDate());
@@ -1878,7 +1780,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setElectrical_accessory("0");
         motorRequestEntity.setNon_electrical_accessory("0");
 
-        motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
+        motorRequestEntity.setRegistration_no(getRegistrationNo());
 
         motorRequestEntity.setIs_llpd("no");
         motorRequestEntity.setIs_antitheft_fit("no");
@@ -1924,7 +1826,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 motorRequestEntity.setRto_id(Integer.parseInt(fastLaneResponseEntity.getVehicleCity_Id()));*/
                 varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
                 motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-                motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
+                motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
 
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
                 motorRequestEntity.setPolicy_expiry_date(getPolicyBossDateFormat(etExpDate.getText().toString()));
@@ -1939,7 +1841,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         } else {
             varientId = dbController.getVariantID(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
             motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
-            motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
+            motorRequestEntity.setRto_id(getCityId(acRto.getText().toString()));
+            //motorRequestEntity.setRto_id(Integer.parseInt(dbController.getCityID(getRtoCity(acRto.getText().toString()))));
             try {
                 motorRequestEntity.setVehicle_manf_date(getMfgDate());
                 //motorRequestEntity.setVehicle_manf_date(getYYYYMMDDPattern(getManufacturingDate(etMfgDate.getText().toString())));
@@ -1949,8 +1852,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 e.printStackTrace();
             }
 
-
-            motorRequestEntity.setRegistration_no(getRegistrationNo(getRtoCity(acRto.getText().toString())));
+            if (motorRequestEntity.getRegistration_no().equals(""))
+                motorRequestEntity.setRegistration_no(getRegistrationNo());
         }
 
         motorRequestEntity.setPrev_insurer_id(dbController.getInsurenceID(spPrevIns.getSelectedItem().toString()));
