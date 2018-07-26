@@ -525,16 +525,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
             acMakeModel.setText(makeModel);
 
-            //TODO: Dismiss the Drop down after auto complete settext
+            //TODO: Dismiss the Drop down after auto complete set text
             new Handler().post(new Runnable() {
                 @Override
                 public void run() {
                     acMakeModel.dismissDropDown();
                 }
             });
-//            acMakeModel.performCompletion();
-//            acMakeModel.dismissDropDown();
-//            acMakeModel.performClick();
+
             //endregion
 
             //region varient list
@@ -571,13 +569,31 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             spVarient.setSelection(varientIndex);
 
             int fuelIndex = 0;
-            for (int i = 0; i < fuelList.size(); i++) {
-                if (fuelList.get(i).equalsIgnoreCase(carMasterEntity.getFuel_Name())) {
-                    fuelIndex = i;
-                    break;
+            if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("")) {
+                for (int i = 0; i < fuelList.size(); i++) {
+                    if (fuelList.get(i).equalsIgnoreCase(carMasterEntity.getFuel_Name())) {
+                        fuelIndex = i;
+                        break;
+                    }
+                }
+            } else {
+                for (int i = 0; i < fuelList.size(); i++) {
+
+                    if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("lpg") &&
+                            fuelList.get(i).equalsIgnoreCase(DBPersistanceController.EXTERNAL_LPG)) {
+                        fuelIndex = i;
+                        break;
+                    } else if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("cng") &&
+                            fuelList.get(i).equalsIgnoreCase(DBPersistanceController.EXTERNAL_CNG)) {
+                        fuelIndex = i;
+                        break;
+                    }
                 }
             }
+
             spFuel.setSelection(fuelIndex);
+
+
             if (motorRequestEntity.getVehicle_insurance_type().matches("renew")) {
                 int prevInsurerIndex = 0;
                 String insName = dbController.getInsurername(motorRequestEntity.getPrev_insurer_id());
@@ -607,6 +623,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             etCustomerName.setText(motorRequestEntity.getFirst_name() + " " + motorRequestEntity.getLast_name());
 
             etMobile.setText(motorRequestEntity.getMobile());
+
+
         }
         try {
 
