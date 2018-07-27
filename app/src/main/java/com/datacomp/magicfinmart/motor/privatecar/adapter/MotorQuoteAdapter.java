@@ -208,44 +208,6 @@ public class MotorQuoteAdapter extends RecyclerView.Adapter<MotorQuoteAdapter.Qu
                 filterResults.values = mQuoteListFiltered;
                 return filterResults;
 
-//                List<QuoteListEntity> filteredList = new ArrayList<>();
-//                if (charString.isEmpty()) {
-//                    mQuoteListFiltered = mQuoteList;
-//                } else {
-//                    for (QuoteListEntity row : mQuoteList) {
-//                        CarMasterEntity carMasterEntity = new CarMasterEntity();
-//                        try {
-//
-//                            carMasterEntity = new DBPersistanceController(mFrament.getActivity())
-//                                    .getVarientDetails(
-//                                            "" + row.getMotorRequestEntity().getVehicle_id());
-//
-//                        } catch (Exception e) {
-//
-//                        }
-//                        if (row.getMotorRequestEntity().getFirst_name().toLowerCase().contains(charString.toLowerCase())
-//                                || row.getMotorRequestEntity().getLast_name().toLowerCase().contains(charString.toLowerCase())
-//                                || carMasterEntity.getMake_Name().toLowerCase().contains(charString.toLowerCase())
-//                                || carMasterEntity.getModel_Name().toLowerCase().contains(charString.toLowerCase())
-//                                || String.valueOf(row.getMotorRequestEntity().getCrn()).contains(charString.toLowerCase())) {
-//
-//                            filteredList.add(row);
-//                        }
-//                    }
-//
-//                    mQuoteListFiltered = filteredList;
-//                    FilterResults filterResults = new FilterResults();
-//                    filterResults.values = filteredList;
-//                    return filterResults;
-//                }
-//
-//                if (filteredList.size() > 0) {
-//                    mQuoteListFiltered = filteredList;
-//                }
-//
-//                FilterResults filterResults = new FilterResults();
-//                filterResults.values = mQuoteListFiltered;
-//                return filterResults;
             }
 
             @Override

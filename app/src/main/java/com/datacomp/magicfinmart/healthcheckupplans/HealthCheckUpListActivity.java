@@ -16,19 +16,31 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 
-public class HealthCheckUpListActivity extends BaseActivity implements View.OnClickListener {
+import java.util.List;
+
+import io.fabric.sdk.android.services.common.SafeToast;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.controller.healthcheckup.HealthCheckUPController;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model.HealthCEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthCheckUpResponse;
+
+public class HealthCheckUpListActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
     RecyclerView rvHealthCheckUpList;
     ImageView ivSearch;
     TextView tvAdd, tvSearch;
     EditText etSearch;
     FloatingActionButton fbAdd;
+    List<HealthCEntity> listHealthCheck;
+    HealthCheckUpPlansAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +55,29 @@ public class HealthCheckUpListActivity extends BaseActivity implements View.OnCl
         setListener();
         setTextWatcher();
 
+        showDialog();
+        new HealthCheckUPController(getApplicationContext()).getHealthCheckList(this);
+
+    }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+
+        cancelDialog();
+        if (response instanceof HealthCheckUpResponse) {
+
+            if (((HealthCheckUpResponse) response).getMasterData() != null
+                    && ((HealthCheckUpResponse) response).getMasterData().size() > 0)
+                listHealthCheck = ((HealthCheckUpResponse) response).getMasterData();
+            mAdapter = new HealthCheckUpPlansAdapter(this, listHealthCheck);
+            rvHealthCheckUpList.setAdapter(mAdapter);
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+        Toast.makeText(getApplicationContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
     private void initView() {
@@ -75,7 +110,7 @@ public class HealthCheckUpListActivity extends BaseActivity implements View.OnCl
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                //motorApplicationAdapter.getFilter().filter(s);
+                mAdapter.getFilter().filter(s);
             }
 
             @Override

@@ -42,6 +42,7 @@ import com.datacomp.magicfinmart.utility.DateTimePicker;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -85,7 +86,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     SimpleDateFormat passdateFormat = new SimpleDateFormat("ddMMyyyy");
     boolean isMale = false, isFemale = false;
-    String pass;
+    String pass = "";
     PrefManager prefManager;
     TrackingRequestEntity trackingRequestEntity;
     Spinner spReferal;
@@ -483,8 +484,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else {
             registerRequestEntity.setGender("F");
         }
-        registerRequestEntity.setPassword(pass);
 
+        //password setting null 
+        if (!pass.equalsIgnoreCase("")) {
+            registerRequestEntity.setPassword(pass);
+        } else {
+            Date date = (Date) etDob.getTag(R.id.etDob);
+            pass = passdateFormat.format(date.getTime());
+            registerRequestEntity.setPassword(pass);
+        }
     }
 
     private void hideAllLayouts(CardView linearLayout, ImageView imageView) {
@@ -783,6 +791,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = simpleDateFormat.format(calendar.getTime());
                             pass = passdateFormat.format(calendar.getTime());
+                            //store selected date in TAG
+                            etDob.setTag(R.id.etDob, calendar.getTime());
                             etDob.setText(currentDay);
                         }
                     }
