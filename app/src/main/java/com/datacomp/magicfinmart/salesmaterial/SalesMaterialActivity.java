@@ -57,6 +57,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     String fbaNAme, fbaDesg = "FBA SUPPORT ASSISTANT", fbaEmail, fbaMobNo;
     AccountDtlEntity accountDtlEntity;
     URL pospPhotoUrl = null, fbaPhotoUrl = null;
+    SharePospDetailsEntity sharePospDetailsEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -533,6 +534,13 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
             super.onPostExecute(aVoid);
             cancelDialog();
             Toast.makeText(SalesMaterialActivity.this, "Image Downloaded", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void setSharePospDetails() {
+        sharePospDetailsEntity = new SharePospDetailsEntity();
+        if (loginResponseEntity != null) {
+
         }
     }
 }

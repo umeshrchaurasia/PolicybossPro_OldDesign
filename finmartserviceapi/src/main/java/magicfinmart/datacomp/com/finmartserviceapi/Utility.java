@@ -59,6 +59,7 @@ public class Utility {
     public static final int LEAD_REQUEST_CODE = 22;
 
     public static final String VERSION_CODE = "2.0";
+    public static final String RELEASE_DATE = "15/07/2018";
     public static final String BIKEQUOTE_UNIQUEID = "bike_quote_uniqueid";
     public static final String CARQUOTE_UNIQUEID = "car_quote_uniqueid";
     public static final String QUOTE_COUNTER = "quote_counter";
