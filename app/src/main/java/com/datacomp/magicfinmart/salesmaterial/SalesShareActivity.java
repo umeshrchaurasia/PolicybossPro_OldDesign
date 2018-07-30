@@ -22,7 +22,6 @@ import com.datacomp.magicfinmart.utility.TouchImageView;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -432,8 +431,18 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
         }
 
         protected void onPostExecute(Bitmap result) {
-            ivProduct.setImageBitmap(result);
+
             cancelDialog();
+            if (result == null) {
+                Glide.with(SalesShareActivity.this)
+                        .load(docsEntity.getImage_path())
+                        .asBitmap()
+                        .placeholder(getResources().getDrawable(R.drawable.finmart_placeholder))
+                        .into(ivProduct);
+            } else {
+                ivProduct.setImageBitmap(result);
+            }
+
 
         }
     }
