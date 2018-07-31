@@ -42,11 +42,13 @@ import com.datacomp.magicfinmart.utility.DateTimePicker;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
@@ -84,7 +86,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
     SimpleDateFormat passdateFormat = new SimpleDateFormat("ddMMyyyy");
     boolean isMale = false, isFemale = false;
-    String pass;
+    String pass = "";
     PrefManager prefManager;
     TrackingRequestEntity trackingRequestEntity;
     Spinner spReferal;
@@ -150,22 +152,30 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private void initMultiSelect() {
 
+        try {
+            if (lifeList != null && lifeList.size() > 0) {
+                spLifeIns.setItems(lifeList);
+                //spLifeIns.setSelection(new int[]{2, 6});
+                spLifeIns.setListener(this);
+            }
 
-        spLifeIns.setItems(lifeList);
-        //spLifeIns.setSelection(new int[]{2, 6});
-        spLifeIns.setListener(this);
+            if (generalList != null && generalList.size() > 0) {
+                spGenIns.setItems(generalList);
+                //spLifeIns.setSelection(new int[]{2, 6});
+                spGenIns.setListener(this);
+            }
 
+            if (healthList != null && healthList.size() > 0) {
 
-        spGenIns.setItems(generalList);
-        //spLifeIns.setSelection(new int[]{2, 6});
-        spGenIns.setListener(this);
-
-
-        spHealthIns.setItems(healthList);
-        //spLifeIns.setSelection(new int[]{2, 6});
-        spHealthIns.setListener(this);
-
-
+                spHealthIns.setItems(healthList);
+                //spLifeIns.setSelection(new int[]{2, 6});
+                spHealthIns.setListener(this);
+            }
+        } catch (Exception e) {
+            new TrackingController(this)
+                    .sendData(new TrackingRequestEntity(new TrackingData(" Multi-select spinner" + e.getMessage()), Constants.REGISTER),
+                            null);
+        }
     }
 
 
@@ -458,6 +468,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             registerRequestEntity.setStock("0");
         }
         registerRequestEntity.setReferedby_code(etRefererCode.getText().toString().trim());
+        registerRequestEntity.setVersionCode(Utility.getVersionName(this));
     }
 
     private void setRegisterPersonalRequest() {
@@ -473,8 +484,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         } else {
             registerRequestEntity.setGender("F");
         }
-        registerRequestEntity.setPassword(pass);
 
+        //password setting null 
+        if (!pass.equalsIgnoreCase("")) {
+            registerRequestEntity.setPassword(pass);
+        } else {
+            Date date = (Date) etDob.getTag(R.id.etDob);
+            pass = passdateFormat.format(date.getTime());
+            registerRequestEntity.setPassword(pass);
+        }
     }
 
     private void hideAllLayouts(CardView linearLayout, ImageView imageView) {
@@ -773,6 +791,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = simpleDateFormat.format(calendar.getTime());
                             pass = passdateFormat.format(calendar.getTime());
+                            //store selected date in TAG
+                            etDob.setTag(R.id.etDob, calendar.getTime());
                             etDob.setText(currentDay);
                         }
                     }

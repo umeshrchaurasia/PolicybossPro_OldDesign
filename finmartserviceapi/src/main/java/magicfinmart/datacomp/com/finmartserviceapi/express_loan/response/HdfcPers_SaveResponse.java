@@ -28,13 +28,13 @@ public class HdfcPers_SaveResponse extends APIResponse {
      * MasterData : {"Lead_Id":"920256"}
      */
 
-  /*  private MasterDataBean MasterData;
+  /*  private HealthCEntity MasterData;
 
-    public MasterDataBean getMasterData() {
+    public HealthCEntity getMasterData() {
         return MasterData;
     }
 
-    public void setMasterData(MasterDataBean MasterData) {
+    public void setMasterData(HealthCEntity MasterData) {
         this.MasterData = MasterData;
     }*/
 

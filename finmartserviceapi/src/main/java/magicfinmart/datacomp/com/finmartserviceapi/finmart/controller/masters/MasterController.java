@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.MasterRequestBuilder;
@@ -288,6 +289,7 @@ public class MasterController implements IMasterFetch {
     public void getConstants(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
         body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        body.put("VersionCode", Utility.getVersionName(mContext));
         masterNetworkService.getConstantsData(body).enqueue(new Callback<ConstantsResponse>() {
             @Override
             public void onResponse(Call<ConstantsResponse> call, Response<ConstantsResponse> response) {
@@ -301,18 +303,18 @@ public class MasterController implements IMasterFetch {
                         int motorVersion = Integer.parseInt(new PrefManager(mContext).getMotorVersion());
 
                         //new version available hit to master
-//                        if (Integer.parseInt(response.body().getMasterData().getUpdateMaster())
-//                                > motorVersion) {
-//
-//                            //clear all master tags
-//                            new PrefManager(mContext).clearMotorMaster();
-//
-//                            new PrefManager(mContext).updateMotorVersion
-//                                    (response.body().getMasterData().getUpdateMaster());
-//
-//                            getCarMaster(null);
-//                            getBikeMaster(null);
-//                        }
+                        if (Integer.parseInt(response.body().getMasterData().getUpdateMaster())
+                                > motorVersion) {
+
+                            //clear all master tags
+                            new PrefManager(mContext).clearMotorMaster();
+
+                            new PrefManager(mContext).updateMotorVersion
+                                    (response.body().getMasterData().getUpdateMaster());
+
+                            getCarMaster(null);
+                            getBikeMaster(null);
+                        }
 
                         iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                     } else {

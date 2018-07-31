@@ -160,7 +160,9 @@ public class CommonWebViewActivity extends BaseActivity {
         Log.d("URL", url);
 
         if (url.endsWith(".pdf")) {
-            webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+
+            webView.loadUrl("https://docs.google.com/viewer?url=" + url);
+            //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
         } else {
             webView.loadUrl(url);
         }

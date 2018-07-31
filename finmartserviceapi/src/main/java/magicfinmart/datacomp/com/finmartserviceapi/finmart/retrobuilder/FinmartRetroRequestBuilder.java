@@ -17,7 +17,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class FinmartRetroRequestBuilder {
 
     //protected String url = "http://services.rupeeboss.com/LoginDtls.svc/";
-    static Retrofit restAdapter = null;
+    public static Retrofit restAdapter = null;
     // production url
     //public static String URL = "http://api.magicfinmart.com";
     // Test Environment url

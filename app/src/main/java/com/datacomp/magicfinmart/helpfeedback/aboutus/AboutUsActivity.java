@@ -35,7 +35,7 @@ public class AboutUsActivity extends BaseActivity implements IResponseSubcriber 
     }
 
     private void bindData() {
-        tvAppVersion.setText("v" + Utility.getVersionName(this) + " Release Date 01/01/2018");
+        tvAppVersion.setText("v" + Utility.getVersionName(this) + " Release Date " + Utility.RELEASE_DATE);
         tvNAme.setText(loginResponseEntity.getFullName());
         tvFbaCode.setText("" + loginResponseEntity.getFBAId());
         if (loginResponseEntity.getPOSPNo() != null) {

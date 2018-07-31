@@ -11,8 +11,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.requestmodels.H
 public interface IHealthCheckUp {
 
 
-
     void getHealthPacks(HealthPacksRequestEntity healthPacksRequestEntity, IResponseSubcriber iResponseSubcriber);
 
     void getHealthPacksDetails(HealthPacksDetailsRequestEntity healthPacksDetailsRequestEntity, IResponseSubcriber iResponseSubcriber);
+
+    void getHealthCheckList(IResponseSubcriber iResponseSubcriber);
 }

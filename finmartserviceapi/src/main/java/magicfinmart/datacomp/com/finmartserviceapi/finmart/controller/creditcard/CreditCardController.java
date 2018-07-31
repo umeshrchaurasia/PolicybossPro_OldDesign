@@ -49,10 +49,12 @@ public class CreditCardController implements ICreditCard {
                         if (iResponseSubcriber != null)
                             iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
                     }
+
                 } else {
                     if (iResponseSubcriber != null)
                         iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
                 }
+
             }
 
             @Override
