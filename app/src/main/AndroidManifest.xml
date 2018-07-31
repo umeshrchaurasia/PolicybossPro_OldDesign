@@ -727,6 +727,7 @@
             android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
             android:label="@string/title_activity_balance_transfer_personal_apply"
             android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
 
         <!-- region inspection app activities -->
@@ -938,6 +939,7 @@
             android:name=".pospapp.webviews.studymaterial.StudyMaterialActivity"
             android:label="@string/title_activity_study_material"
             android:parentActivityName=".pospapp.studymaterial.StudyMaterialAvailable"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

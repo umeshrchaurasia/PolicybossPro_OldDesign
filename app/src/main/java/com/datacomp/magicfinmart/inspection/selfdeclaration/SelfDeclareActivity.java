@@ -171,7 +171,7 @@ public class SelfDeclareActivity extends BaseActivity implements View.OnClickLis
 
     private VehSelfDeclarationEntity getAllDetails() {
         VehSelfDeclarationEntity vehSelfDeclarationEntity = new VehSelfDeclarationEntity();
-        vehSelfDeclarationEntity.setVehicle_id(registerFacade.getUser().getVehicle_id());
+      /*  vehSelfDeclarationEntity.setVehicle_id(registerFacade.getUser().getVehicle_id());
         vehSelfDeclarationEntity.setVehicle_no(registerFacade.getUser().getVehicle_no());
 
         List<FrontRearEntity> frontRearEntities = frontRearFacade.getFrontRearList();
@@ -233,7 +233,7 @@ public class SelfDeclareActivity extends BaseActivity implements View.OnClickLis
         vehSelfDeclarationEntity.setRt_rear_tyre(1);
         vehSelfDeclarationEntity.setRt_front_tyre(1);
         vehSelfDeclarationEntity.setVehicle_condition(1);
-
+*/
         return vehSelfDeclarationEntity;
     }
 

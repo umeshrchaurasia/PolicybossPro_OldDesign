@@ -19,13 +19,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.inspection.entity.GifImageView;
-import com.datacomp.magicfinmart.inspection.home.MainActivity;
+
+
 import com.datacomp.magicfinmart.inspection.home.RCPOLICYActivity;
-import com.datacomp.magicfinmart.inspection.selfdeclaration.DeclareSelfActivity2;
+
 import com.datacomp.magicfinmart.inspection.utility.BaseActivity;
 import com.datacomp.magicfinmart.inspection.utility.ILocationStateListener;
 import com.datacomp.magicfinmart.inspection.utility.LocationTracker;
@@ -71,6 +73,7 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
     FrontRearFacade frontRearFacade;
+    ImageView car_img_gif;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,10 +84,17 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_splash_screen_inspect);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        car_img_gif = (ImageView)findViewById(R.id.car_gif_img);
+        Glide.with(this).load(R.drawable.main).into(car_img_gif);
+
         btnStartVideo = (Button) findViewById(R.id.btnStartVideo);
         btnStartVideo.setOnClickListener(this);
         setSupportActionBar(toolbar);
         locationTracker = new LocationTracker(this);
+
+
+      //
 
         if (!checkPermission()) {
             requestPermission();
@@ -108,12 +118,17 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
 
         initSharedPreference();
 
-        GifImageView ivImage = (GifImageView) findViewById(R.id.car_gif);
-        ivImage.setGifImageResource(R.drawable.main);
-        ivImage.setBackgroundResource(R.drawable.splash_gif_animation);
-        Button play = findViewById(R.id.btnplay);
-        AnimationDrawable splashAnimation = (AnimationDrawable) ivImage.getBackground();
-        splashAnimation.start();
+
+        //Umesh  26-07
+//        GifImageView ivImage = (GifImageView) findViewById(R.id.car_gif);
+//        ivImage.setGifImageResource(R.drawable.main);
+//        ivImage.setBackgroundResource(R.drawable.splash_gif_animation);
+//        Button play = findViewById(R.id.btnplay);
+//        AnimationDrawable splashAnimation = (AnimationDrawable) ivImage.getBackground();
+//        splashAnimation.start();
+
+        ////////////////
+
 
 //        file = new File(Environment.getExternalStorageDirectory(), "/POLICYBOSS");
 //        String baseDir = file.getAbsolutePath();
@@ -252,9 +267,9 @@ public class SplashScreen extends BaseActivity implements View.OnClickListener, 
     public void onClick(View view) {
         int i = view.getId();
         if (i == R.id.btnStartVideo) {
-           // startActivity(new Intent(SplashScreen.this, RCPOLICYActivity.class));
-          //  startActivity(new Intent(this, MainActivity.class));
-            startActivity(new Intent(this,MainActivity.class));
+            startActivity(new Intent(SplashScreen.this, RCPOLICYActivity.class));
+          //  startActivity(new Intent(this, PhotoCaptureActivity.class));
+           // startActivity(new Intent(this,MainActivity.class));
         }
     }
 
