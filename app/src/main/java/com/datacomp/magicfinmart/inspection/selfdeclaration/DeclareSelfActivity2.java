@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -23,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 
@@ -43,8 +45,11 @@ import magicfinmart.datacomp.com.finmartserviceapi.inspection.IResponseSubcribe;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.controller.documents.DocumentController;
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.FrontRearEntity;
 
-import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.VehSelfDeclarationEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.entity.VehDetailRequestEntity;
+
 import magicfinmart.datacomp.com.finmartserviceapi.inspection.facade.FrontRearFacade;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.response.DocumentResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.response.VehicleDetailResponse;
 
 import static com.datacomp.magicfinmart.utility.Constants.FRONT_CLICK;
 import static com.datacomp.magicfinmart.utility.Constants.GLASS_CLICK;
@@ -573,10 +578,10 @@ public class DeclareSelfActivity2 extends BaseActivity implements View.OnClickLi
             case R.id.btnDone:
                 // progressDialog.show();
 
-                VehSelfDeclarationEntity vehSelfDeclarationEntity;
+                VehDetailRequestEntity vehSelfDeclarationEntity;
                 vehSelfDeclarationEntity = getAllDetails();
                 showDialog();
-                new DocumentController(this).selfDeclaration(vehSelfDeclarationEntity, this);
+                new DocumentController(this).vehicleDetail(vehSelfDeclarationEntity, this);
 
 
 
@@ -610,7 +615,7 @@ public class DeclareSelfActivity2 extends BaseActivity implements View.OnClickLi
 
     }
 
-    private VehSelfDeclarationEntity getAllDetails() {
+    private VehDetailRequestEntity getAllDetails() {
 
         frontBumper=frontRearEntities.get(0).getValue();
         frontPanel=frontRearEntities.get(1).getValue();
@@ -693,80 +698,101 @@ public class DeclareSelfActivity2 extends BaseActivity implements View.OnClickLi
         gwheels=glassEntities.get(22).getValue();
         gmusicsystem=glassEntities.get(23).getValue();
 
-        VehSelfDeclarationEntity vehSelfDeclarationEntity = new VehSelfDeclarationEntity();
-      //  vehSelfDeclarationEntity.setVehicle_id(registerFacade.getUser().getVehicle_id());
-       // vehSelfDeclarationEntity.setVehicle_no(registerFacade.getUser().getVehicle_no());
-
+        VehDetailRequestEntity vehSelfDeclarationEntity = new VehDetailRequestEntity();
+     //   vehSelfDeclarationEntity.setVehicle_id(registerFacade.getUser().getVehicle_id());
+      //  vehSelfDeclarationEntity.setVehicle_no(registerFacade.getUser().getVehicle_no());
+        vehSelfDeclarationEntity.setVehicle_id("123");
+          vehSelfDeclarationEntity.setVehicle_no("test");
        // List<FrontRearEntity> frontRearEntities = frontRearFacade.getFrontRearList();
-        /*
+
         vehSelfDeclarationEntity.setFront_front_bumper(frontBumper);
-        vehSelfDeclarationEntity.setFront_front_panel(getId("Front Panel", frontRearEntities));
-        vehSelfDeclarationEntity.setFront_indicator_light_RT(getId("Dicky", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_front_panel(frontPanel);
+        vehSelfDeclarationEntity.setFront_indicator_light_RT(frontIndicatorLightRt);
 
-        vehSelfDeclarationEntity.setFront_head_lamp_LT(getId("Indicator Light(RT)", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_head_lamp_LT(frontHeadLempLeft);
 
-        vehSelfDeclarationEntity.setFront_fog_lamp_LT(getId("Rear Bumper", frontRearEntities));
-        vehSelfDeclarationEntity.setFront_left_apron(getId("Head Lamp(LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setFront_indicator_light_LT(getId("Fog Lamp(LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setFront_grill(getId("Left Apron", frontRearEntities));
-        vehSelfDeclarationEntity.setFront_bonnet(getId("Indicator Light(LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setFront_head_lamp_RT(getId("Grill", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_fog_lamp_LT(frontFogLampLeft);
+        vehSelfDeclarationEntity.setFront_left_apron(frontLftApron);
+        vehSelfDeclarationEntity.setFront_indicator_light_LT(fronLeftInd);
+        vehSelfDeclarationEntity.setFront_grill(frontGrill);
+        vehSelfDeclarationEntity.setFront_bonnet(frontBonet);
+        vehSelfDeclarationEntity.setFront_head_lamp_RT(frontHeadLempRight);
 
-        vehSelfDeclarationEntity.setFront_fog_lamp_RT(getId("Tail Lamp(LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setFront_right_apron(getId("Head Lamp(RT)", frontRearEntities));
+        vehSelfDeclarationEntity.setFront_fog_lamp_RT(frontFogLampRight);
+        vehSelfDeclarationEntity.setFront_right_apron(frontRightApron);
 
       //rear
-        vehSelfDeclarationEntity.setRear_rear_bumper(getId("Fog Lamp(RT)", frontRearEntities));
-        vehSelfDeclarationEntity.setRear_dickey_door(getId("Right Apron", frontRearEntities));
-        vehSelfDeclarationEntity.setRear_tail_lamp_RT(getId("Tail Lamp(RT)", frontRearEntities));
-
+        vehSelfDeclarationEntity.setRear_rear_bumper(rearBumper);
+        vehSelfDeclarationEntity.setRear_dickey_door(rearDicky);
+        vehSelfDeclarationEntity.setRear_tail_lamp_RT(reartraillampright);
+        vehSelfDeclarationEntity.setRear_dicky(rearDickydoor);
+        vehSelfDeclarationEntity.setRear_tail_lamp_LT(reartaillemleft);
     //    frontRearEntities = frontRearFacade.getLeftList();
-        vehSelfDeclarationEntity.setRear_dicky(getId("Front Fender(LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setRear_tail_lamp_LT(getId("Front Door(LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setLt_front_door(getId("Rear Door(LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setLt_qtr_panel(getId("Running Board(LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setLt_raer_door(getId("LT Pillar Door(A)", frontRearEntities));
-        vehSelfDeclarationEntity.setLt_running_board(getId("LT Pillar Centre(B)", frontRearEntities));
-        vehSelfDeclarationEntity.setLt_pillar_board(getId("LT Pillar Rear(C)", frontRearEntities));
-        vehSelfDeclarationEntity.setLt_pillar_door_A(getId("Qtr Panel(LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setLt_pillar_center_B(getId("Bonnet", frontRearEntities));
-        vehSelfDeclarationEntity.setLt_pillar_rear_C(getId("Bonnet", frontRearEntities));
+
+        vehSelfDeclarationEntity.setLt_front_door(leftfrontdoor);
+        vehSelfDeclarationEntity.setLt_qtr_panel(leftpannel);
+        vehSelfDeclarationEntity.setLt_rear_door(leftreardoor);
+        vehSelfDeclarationEntity.setLt_running_board(leftrunninboard);
+        vehSelfDeclarationEntity.setLt_pillar_board("");//Not found
+        vehSelfDeclarationEntity.setLt_pillar_door_A(leftpilar1);
+        vehSelfDeclarationEntity.setLt_pillar_center_B(leftpilar2);
+        vehSelfDeclarationEntity.setLt_pillar_rear_C(leftpiler3);
 
 
 
 
-        frontRearEntities = frontRearFacade.getRightList();
-        vehSelfDeclarationEntity.setRt_qtr_panel(getId("Qtr Panel(RT)", frontRearEntities));
-        vehSelfDeclarationEntity.setRt_rear_door(getId("Rear Door(RT)", frontRearEntities));
-        vehSelfDeclarationEntity.setRt_front_door(getId("Front Door(RT)", frontRearEntities));
-        vehSelfDeclarationEntity.setRt_front_pillar_A(getId("RT Front Pillar(A)", frontRearEntities));
-        vehSelfDeclarationEntity.setRt_center_pillar_B(getId("RT Centre Pillar(B)", frontRearEntities));
-        vehSelfDeclarationEntity.setRt_rear_pillar_C(getId("RT Rear Pillar(C)", frontRearEntities));
-        vehSelfDeclarationEntity.setRt_running_board(getId("Running Board(RT)", frontRearEntities));
-        vehSelfDeclarationEntity.setRt_front_fender(getId("Front Fender(RT)", frontRearEntities));
-        vehSelfDeclarationEntity.setFloor(getId("Floor/Silencer", frontRearEntities));
-        vehSelfDeclarationEntity.setRear_view_mirror_lt(getId("Rear View Mirror (LT)", frontRearEntities));
-        vehSelfDeclarationEntity.setRear_view_mirror_rt(getId("Rear View Mirror (RT)", frontRearEntities));
-        vehSelfDeclarationEntity.setTyres(getId("Tyres", frontRearEntities));
+       // frontRearEntities = frontRearFacade.getRightList();
+        vehSelfDeclarationEntity.setRt_qtr_panel(rightPannel);
+        vehSelfDeclarationEntity.setRt_floor_silencer(rightfloorsilencer);
+        vehSelfDeclarationEntity.setRt_rear_pillar_C(rightrearpilar2);
+        vehSelfDeclarationEntity.setRt_front_door(rightfrontdoor);
+        vehSelfDeclarationEntity.setRt_front_fender(rightfrontfender);
+        vehSelfDeclarationEntity.setRt_centre_pillar_B(rightrtcentpiller1);
+        vehSelfDeclarationEntity.setRt_rear_door(rightreardoor);
+        vehSelfDeclarationEntity.setRt_rear_view_mirror_LT(rightrearviewmooror);
+        vehSelfDeclarationEntity.setRt_running_board(rightrunningboard);
+        vehSelfDeclarationEntity.setRt_front_pillar_A(rightfrontpilarA);
 
-        frontRearEntities = frontRearFacade.getGlassList();
-        vehSelfDeclarationEntity.setBack_glass(getId("Back Glass", frontRearEntities));
-        vehSelfDeclarationEntity.setGlass_laminated(getId("Front ws Glass Laminated", frontRearEntities));
-        vehSelfDeclarationEntity.setRf_door_glass(getId("RF Door Glass", frontRearEntities));
-        vehSelfDeclarationEntity.setRr_door_glass(getId("RR Door Glass", frontRearEntities));
-        vehSelfDeclarationEntity.setLf_door_glass(getId("LF Door Glass", frontRearEntities));
-        vehSelfDeclarationEntity.setLr_door_glass(getId("LR Door Glass", frontRearEntities));
-        vehSelfDeclarationEntity.setRim(getId("Rim", frontRearEntities));
-        vehSelfDeclarationEntity.setUnder_carriage(getId("Under Carriage", frontRearEntities));
+      //  vehSelfDeclarationEntity.setRear_view_mirror_rt(getId("Rear View Mirror (RT)", frontRearEntities));
+       // vehSelfDeclarationEntity.setTyres(getId("Tyres", frontRearEntities));
 
+        //frontRearEntities = frontRearFacade.getGlassList();
+        vehSelfDeclarationEntity.setGlass_back_glass(gbackglass);
+        vehSelfDeclarationEntity.setGlass_rim(grim);
+        vehSelfDeclarationEntity.setGlass_front_windshield(gfrontwindshield);
+        vehSelfDeclarationEntity.setGlass_under_carriage(gundercarrigae);
+        vehSelfDeclarationEntity.setGlass_rf_door_glass(grfdoorglass);
+        vehSelfDeclarationEntity.setGlass_top_roof(gtoproof);
+        vehSelfDeclarationEntity.setGlass_dashboard(gdashboard);
+        vehSelfDeclarationEntity.setGlass_engine(gengine);
+        vehSelfDeclarationEntity.setGlass_suspension(gsuspension);
+        vehSelfDeclarationEntity.setGlass_radiator(gradiator);
+        vehSelfDeclarationEntity.setGlass_drive_shaft(gdrivesaft);
+        vehSelfDeclarationEntity.setGlass_brakes(gbrakes);
+        vehSelfDeclarationEntity.setGlass_rr_door_glass(grrdoorglass);
+        vehSelfDeclarationEntity.setGlass_roof_lining(grooflining);
+
+
+        vehSelfDeclarationEntity.setGlass_lt_door_glass(glfdoorglass);
+        vehSelfDeclarationEntity.setGlass_seats_front(gseatsfront);
+        vehSelfDeclarationEntity.setGlass_lr_door_glass(glrdoorglass);
+        vehSelfDeclarationEntity.setGlass_seats_rear(gseatsrear);
+
+        vehSelfDeclarationEntity.setGlass_instrument_meters(ginstrumentmeter);
+        vehSelfDeclarationEntity.setGlass_gear_box(ggearbox);
+        vehSelfDeclarationEntity.setGlass_steering_system(gsteeringsystem);
+        vehSelfDeclarationEntity.setGlass_air_conditioner(gairconditioner);
+
+        vehSelfDeclarationEntity.setGlass_wheels(gwheels);
+        vehSelfDeclarationEntity.setGlass_music_system(gmusicsystem);
 
         // not defined
-        vehSelfDeclarationEntity.setLt_front_tyre(1);
-        vehSelfDeclarationEntity.setLt_rear_tyre(1);
-        vehSelfDeclarationEntity.setRt_rear_tyre(1);
-        vehSelfDeclarationEntity.setRt_front_tyre(1);
-        vehSelfDeclarationEntity.setVehicle_condition(1);
-*/
+//        vehSelfDeclarationEntity.setLt_front_tyre(1);
+//        vehSelfDeclarationEntity.setLt_rear_tyre(1);
+//        vehSelfDeclarationEntity.setRt_rear_tyre(1);
+//        vehSelfDeclarationEntity.setRt_front_tyre(1);
+//        vehSelfDeclarationEntity.setVehicle_condition(1);
+
         return vehSelfDeclarationEntity;
     }
     private class FrontOperation extends AsyncTask<String, Void, String> {
@@ -1613,11 +1639,17 @@ public class DeclareSelfActivity2 extends BaseActivity implements View.OnClickLi
     */
     @Override
     public void OnSuccess(APIResponse response, String message) {
-
+        if (response instanceof VehicleDetailResponse) {
+            cancelDialog();
+            if (response.getStatus() == 0)
+                startActivity(new Intent(this, PhotoCaptureActivity.class));
+        }
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void OnFailure(Throwable t) {
-
+        cancelDialog();
+        Toast.makeText(this, t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }

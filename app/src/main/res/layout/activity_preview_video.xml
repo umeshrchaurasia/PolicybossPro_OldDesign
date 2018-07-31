@@ -116,13 +116,15 @@
                 android:layout_weight="45"
                 android:orientation="vertical"
                 android:padding="8dp">
-                <com.datacomp.magicfinmart.inspection.entity.GifImageView
-                    android:id="@+id/car_gif"
+
+
+                <ImageView
+                    android:id="@+id/car_gif_img"
                     android:layout_width="match_parent"
                     android:layout_gravity="center"
                     android:layout_height="match_parent"
-                    android:scaleType="centerInside" />
-
+                    android:scaleType="centerInside"
+                    />
 
             </LinearLayout>
 

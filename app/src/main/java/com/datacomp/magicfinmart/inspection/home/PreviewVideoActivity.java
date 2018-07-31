@@ -22,11 +22,13 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.MediaController;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.inspection.entity.GifImageView;
@@ -56,7 +58,7 @@ public class PreviewVideoActivity extends BaseActivity implements View.OnClickLi
     MultipartBody.Part part;
     RegisterFacade registerFacade;
     File file;
-
+ImageView car_gif_img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,12 +68,15 @@ public class PreviewVideoActivity extends BaseActivity implements View.OnClickLi
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         setContentView(R.layout.activity_preview_video);
 
-        GifImageView ivImage = (GifImageView) findViewById(R.id.car_gif);
-        ivImage.setGifImageResource(R.drawable.main);
-        ivImage.setBackgroundResource(R.drawable.splash_gif_animation);
+        car_gif_img = (ImageView)findViewById(R.id.car_gif_img);
+        Glide.with(this).load(R.drawable.main).into(car_gif_img);
+        //GifImageView ivImage = (GifImageView) findViewById(R.id.car_gif);
+       // ivImage.setGifImageResource(R.drawable.main);
+       // ivImage.setBackgroundResource(R.drawable.splash_gif_animation);
+
+     //   AnimationDrawable splashAnimation = (AnimationDrawable) ivImage.getBackground();
+       // splashAnimation.start();
         Button play = findViewById(R.id.btnplay);
-        AnimationDrawable splashAnimation = (AnimationDrawable) ivImage.getBackground();
-        splashAnimation.start();
         registerFacade = new RegisterFacade(this);
         file = Utility.createVideoDirIfNotExists();
         Init();
