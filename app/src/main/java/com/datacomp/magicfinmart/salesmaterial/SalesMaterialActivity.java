@@ -1,9 +1,10 @@
 package com.datacomp.magicfinmart.salesmaterial;
 
 import android.content.Intent;
-import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -26,7 +27,6 @@ import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,11 +36,13 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CompanyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
 
@@ -57,6 +59,7 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     String fbaNAme, fbaDesg = "FBA SUPPORT ASSISTANT", fbaEmail, fbaMobNo;
     AccountDtlEntity accountDtlEntity;
     URL pospPhotoUrl = null, fbaPhotoUrl = null;
+    SharePospDetailsEntity sharePospDetailsEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,10 +73,17 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         accountDtlEntity = dbPersistanceController.getAccountData();
         init();
         fetchProducts();
-        setOtherDetails();
-        setPospDetails();
-        new createBitmapFromURLPosp(pospPhotoUrl).execute();
-        new createBitmapFromURFba(fbaPhotoUrl).execute();
+
+
+        if (accountDtlEntity == null) {
+            new RegisterController(SalesMaterialActivity.this).getMyAcctDtl("" + dbPersistanceController.getUserData().getFBAId(), SalesMaterialActivity.this);
+
+        } else {
+            setOtherDetails();
+            setPospDetails();
+            new createBitmapFromURLPosp(pospPhotoUrl).execute();
+            new createBitmapFromURFba(fbaPhotoUrl).execute();
+        }
 
     }
 
@@ -153,6 +163,16 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         } else if (response instanceof SalesPromotionResponse) {
             companyLst = ((SalesPromotionResponse) response).getMasterData().getCompany();
 
+        } else if (response instanceof MyAcctDtlResponse) {
+            if (response.getStatusNo() == 0) {
+                accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);  // 05
+                if (accountDtlEntity != null) {
+                    setOtherDetails();
+                    setPospDetails();
+                    new createBitmapFromURLPosp(pospPhotoUrl).execute();
+                    new createBitmapFromURFba(fbaPhotoUrl).execute();
+                }
+            }
         }
     }
 
@@ -291,16 +311,9 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         protected Bitmap doInBackground(Void... voids) {
             Bitmap networkBitmap = null;
             try {
-
                 if (url == null) {
-                    AssetManager assetManager = getAssets();
-                    InputStream istr;
-                    try {
-                        istr = assetManager.open("file:///android_asset/profile_pic.png");
-                        networkBitmap = BitmapFactory.decodeStream(istr);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Drawable d = getResources().getDrawable(R.drawable.profile_pic);
+                    networkBitmap = ((BitmapDrawable) d).getBitmap();
                 } else {
                     networkBitmap = BitmapFactory.decodeStream(
                             url.openConnection().getInputStream());
@@ -310,6 +323,11 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e("TAG", "Could not load Bitmap from: " + url);
+            } finally {
+                if (networkBitmap == null) {
+                    Drawable d = getResources().getDrawable(R.drawable.profile_pic);
+                    networkBitmap = ((BitmapDrawable) d).getBitmap();
+                }
             }
 
             return networkBitmap;
@@ -344,23 +362,21 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
             try {
 
                 if (url == null) {
-                    AssetManager assetManager = getAssets();
-                    InputStream istr;
-                    try {
-                        istr = assetManager.open("file:///android_asset/profile_pic.png");
-                        networkBitmap = BitmapFactory.decodeStream(istr);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    Drawable d = getResources().getDrawable(R.drawable.profile_pic);
+                    networkBitmap = ((BitmapDrawable) d).getBitmap();
                 } else {
                     networkBitmap = BitmapFactory.decodeStream(
                             url.openConnection().getInputStream());
                 }
 
-
             } catch (IOException e) {
                 e.printStackTrace();
                 Log.e("TAG", "Could not load Bitmap from: " + url);
+            } finally {
+                if (networkBitmap == null) {
+                    Drawable d = getResources().getDrawable(R.drawable.profile_pic);
+                    networkBitmap = ((BitmapDrawable) d).getBitmap();
+                }
             }
 
             return networkBitmap;
@@ -371,8 +387,6 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
                 Bitmap fbaDetails = createBitmap(result, fbaNAme, fbaDesg, fbaMobNo, fbaEmail);
                 saveImageToStorage(fbaDetails, "fbaSalesMaterialDetails");
             }
-
-            // bitmap_image = result;
         }
     }
 
@@ -533,6 +547,13 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
             super.onPostExecute(aVoid);
             cancelDialog();
             Toast.makeText(SalesMaterialActivity.this, "Image Downloaded", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void setSharePospDetails() {
+        sharePospDetailsEntity = new SharePospDetailsEntity();
+        if (loginResponseEntity != null) {
+
         }
     }
 }
