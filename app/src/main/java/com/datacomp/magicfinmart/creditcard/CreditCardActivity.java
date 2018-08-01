@@ -102,9 +102,9 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 //1. income selection filer credit cards
-                int amountID = getIncomeAmountID(spIncome.getSelectedItem().toString());
+                int priority = getIncomeAmountID(spIncome.getSelectedItem().toString());
                 //2. display credit cards
-                mAdapter.refreshCreditCards(filterCreditCardsbtIncome(amountID));
+                mAdapter.refreshCreditCards(filterCreditCardsbtIncome(priority));
 
             }
 
@@ -120,7 +120,8 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
     private int getIncomeAmountID(String amountValue) {
         for (int i = 0; i < listFilterEntity.size(); i++) {
             if (amountValue.equals(listFilterEntity.get(i).getAmount())) {
-                return listFilterEntity.get(i).getCreditCardAmountFilterId();
+                //return listFilterEntity.get(i).getCreditCardAmountFilterId();
+                return listFilterEntity.get(i).getPriority();
             }
         }
         return 0;
@@ -148,7 +149,8 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
             return listCreditCardEntity;
         }
         for (int i = 0; i < listCreditCardEntity.size(); i++) {
-            if (incomeType == listCreditCardEntity.get(i).getCreditCardAmountFilterId()) {
+
+            if (listCreditCardEntity.get(i).getiPriority() <= incomeType) {
                 list.add(listCreditCardEntity.get(i));
             }
         }
