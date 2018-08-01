@@ -37,7 +37,16 @@ public class CreditCardEntity implements Parcelable {
     private String ProcessingFees;
     private int CreditCardApplied;
     private String CreditCardName;
+    private int Priority;
 
+
+    public int getiPriority() {
+        return Priority;
+    }
+
+    public void setiPriority(int iPriority) {
+        this.Priority = iPriority;
+    }
 
     public String getDisplaycardname() {
         return CreditCardName;
@@ -164,6 +173,7 @@ public class CreditCardEntity implements Parcelable {
         dest.writeString(this.ProcessingFees);
         dest.writeInt(this.CreditCardApplied);
         dest.writeString(this.CreditCardName);
+        dest.writeInt(this.Priority);
     }
 
     public CreditCardEntity() {
@@ -183,6 +193,7 @@ public class CreditCardEntity implements Parcelable {
         this.ProcessingFees = in.readString();
         this.CreditCardApplied = in.readInt();
         this.CreditCardName = in.readString();
+        this.Priority = in.readInt();
     }
 
     public static final Parcelable.Creator<CreditCardEntity> CREATOR = new Parcelable.Creator<CreditCardEntity>() {
