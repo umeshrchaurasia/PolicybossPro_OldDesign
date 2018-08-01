@@ -43,6 +43,11 @@ public class ConstantEntity extends RealmObject {
      */
 
     private String logtracking;
+    /**
+     * HorizonVersion : 2.0
+     */
+
+    private String HorizonVersion;
 
     public String getUpdateMaster() {
         return UpdateMaster;
@@ -157,4 +162,11 @@ public class ConstantEntity extends RealmObject {
         HelpNumber = helpNumber;
     }
 
+    public String getHorizonVersion() {
+        return HorizonVersion;
+    }
+
+    public void setHorizonVersion(String HorizonVersion) {
+        this.HorizonVersion = HorizonVersion;
+    }
 }

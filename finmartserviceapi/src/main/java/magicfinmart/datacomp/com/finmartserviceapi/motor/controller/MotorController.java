@@ -142,7 +142,10 @@ public class MotorController implements IMotor {
         BikePremiumRequestEntity entity = new BikePremiumRequestEntity();
         entity.setSecret_key(Utility.SECRET_KEY);
         entity.setClient_key(Utility.CLIENT_KEY);
-        entity.setResponse_version(Utility.getVersionName(mContext));
+        if (constantEntity != null && !constantEntity.getHorizonVersion().equals(""))
+            entity.setResponse_version("" + constantEntity.getHorizonVersion());
+        else
+            entity.setResponse_version("2.0");
         //entity.setExecution_async("no");
         if (productID == 10) {
             entity.setSearch_reference_number(Utility.getSharedPreference(mContext).getString(Utility.BIKEQUOTE_UNIQUEID, ""));

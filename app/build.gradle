@@ -40,9 +40,10 @@ android {
     }
     buildTypes {
         release {
-             debuggable true
+            debuggable true
             minifyEnabled true
             shrinkResources true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "FINMART_URL", '"http://api.magicfinmart.com"'
             buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
@@ -56,6 +57,7 @@ android {
         }
         debug {
             debuggable true
+            useProguard false
             buildConfigField "String", "FINMART_URL", '"http://qa.mgfm.in"'
             buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
             buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
@@ -68,6 +70,8 @@ android {
         }
         uat {
             debuggable true
+            useProguard false
+
             buildConfigField "String", "FINMART_URL", '"http://api.magicfinmart.com"'
             buildConfigField "String", "HEALTH_CHECKUP_URL", '"http://www.healthassure.in"'
             buildConfigField "String", "INSPECTION_URL", '"http://inspection.policyboss.com"'
@@ -79,7 +83,9 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-
+    ext {
+        enableCrashlytics = true
+    }
 
 }
 
