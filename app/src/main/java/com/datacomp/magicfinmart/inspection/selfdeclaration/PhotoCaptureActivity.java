@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -52,6 +53,7 @@ public class PhotoCaptureActivity extends BaseActivity implements View.OnClickLi
     private static final int SELECT_PICTURE = 1800;
 
     ImageView ivFront, ivRear, ivLeft, ivRight, ivCorner1, ivCorner2, ivCorner3, ivCorner4, ivTop, ivBottom;
+    Button btnCont;
     private String userChoosenTask;
     HashMap<String, String> body;
     MultipartBody.Part part;
@@ -85,6 +87,7 @@ public class PhotoCaptureActivity extends BaseActivity implements View.OnClickLi
         ivCorner4.setOnClickListener(this);
         ivTop.setOnClickListener(this);
         ivBottom.setOnClickListener(this);
+        btnCont.setOnClickListener(this);
     }
 
     private void init_widgets() {
@@ -98,6 +101,7 @@ public class PhotoCaptureActivity extends BaseActivity implements View.OnClickLi
         ivCorner4 = (ImageView) findViewById(R.id.ivCorner4);
         ivTop = (ImageView) findViewById(R.id.ivTop);
         ivBottom = (ImageView) findViewById(R.id.ivBottom);
+        btnCont= (Button) findViewById(R.id.btnCont);
     }
 
     private void selectImage(final int CAMERA_REQUEST) {
@@ -267,6 +271,10 @@ public class PhotoCaptureActivity extends BaseActivity implements View.OnClickLi
 
         } else if (i == R.id.ivTop) {
             launchCamera(CAMERA_REQUEST_ROOF);
+
+        }
+        else if (i == R.id.btnCont) {
+            startActivity(new Intent(PhotoCaptureActivity.this, ThankYouActivity.class));
 
         }
     }

@@ -216,7 +216,7 @@ public class RCPOLICYActivity extends BaseActivity implements IResponseSubcribe,
                 @Override
                 public void onClick(View v) {
                     // Close dialog
-                    if (etOtp.getText().toString().equals("0000")) {
+                    if (etOtp.getText().toString().equals("00000")) {
                         VehRegRequestEntity vehRegRequestEntity = new VehRegRequestEntity();
                         vehRegRequestEntity.setMobile_number(etMbNo.getText().toString());
                         vehRegRequestEntity.setVehicle_no(etCarNo.getText().toString());
