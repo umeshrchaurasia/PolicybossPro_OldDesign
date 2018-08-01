@@ -79,7 +79,9 @@ android {
             signingConfig signingConfigs.debug
         }
     }
-
+    ext {
+        enableCrashlytics = true
+    }
 
 }
 

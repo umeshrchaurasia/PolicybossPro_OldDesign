@@ -30,6 +30,10 @@
     public private *;
 }
 -keep class magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.** { *; }
+-keep class magicfinmart.datacomp.com.finmartserviceapi.motor.model.** { *; }
+-keepclassmembers class magicfinmart.datacomp.com.finmartserviceapi.motor.model.** { *; }
+
+#-keep class magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity.** { *; }
 
 -optimizationpasses 5
 -dontskipnonpubliclibraryclasses

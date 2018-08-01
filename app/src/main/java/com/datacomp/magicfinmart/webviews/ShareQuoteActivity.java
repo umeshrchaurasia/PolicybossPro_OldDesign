@@ -622,7 +622,10 @@ public class ShareQuoteActivity extends BaseActivity {
                 // TODO hide your progress image
                 cancelDialog();
                 super.onPageFinished(view, url);
-               webView.loadUrl("javascript:init('" + respone + "','" + userReponse + "','" + otherData + "')");
+                Log.d("sharelog",respone);
+                Log.d("sharelog",userReponse);
+                Log.d("sharelog",otherData);
+                webView.loadUrl("javascript:init('" + respone + "','" + userReponse + "','" + otherData + "')");
                 //webView.loadUrl("javascript:window.HTMLOUT.processHTML('<head>umesh</head><body><h1>Rajeev</h1></body>');");
             }
 

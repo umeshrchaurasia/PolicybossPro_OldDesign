@@ -505,7 +505,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             variantList.clear();
 
-            variantList.addAll(dbController.getBikeVariantbyModelID(carMasterEntity.getModel_ID()));
+            variantList.addAll(dbController.getBikeVariantbyModelID(carMasterEntity.getModel_ID(), carMasterEntity.getMake_Name()));
             varientAdapter.notifyDataSetChanged();
 
 
@@ -642,7 +642,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 //region varient list
 
                 variantList.clear();
-                variantList.addAll(dbController.getBikeVariantbyModelID(carMasterEntity.getModel_ID()));
+                variantList.addAll(dbController.getBikeVariantbyModelID(carMasterEntity.getModel_ID(), carMasterEntity.getMake_Name()));
                 varientAdapter.notifyDataSetChanged();
                 //endregion
 
@@ -740,7 +740,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     fuelAdapter.notifyDataSetChanged();*/
 
                     variantList.clear();
-                    variantList.addAll(dbController.getBikeVariantbyModelID(modelId));
+                    variantList.addAll(dbController.getBikeVariantbyModelID(modelId, getMake(acMakeModel.getText().toString())));
                     varientAdapter.notifyDataSetChanged();
                     spVarient.setSelection(0);
                     etCC.setText("");
@@ -780,7 +780,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 if (fastLaneResponseEntity == null && spVarient.getSelectedItemPosition() != 0) {
                     etCC.setText("" + dbController.getBikeVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), getVarient(spVarient.getSelectedItem().toString())));
                     varientId = dbController.getBikeVarient(getVarient(spVarient.getSelectedItem().toString()), getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-                    motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+                    if (!varientId.equals(""))
+                        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
                 }
 
             }

@@ -428,12 +428,13 @@ public class DBPersistanceController {
             return "";
     }
 
-    public List<String> getBikeVariantbyModelID(String modelID) {
+    public List<String> getBikeVariantbyModelID(String modelID,String Make_Name) {
 
         List<String> listCarVariant = new ArrayList<>();
         listCarVariant.add("Variant");
         List<BikeMasterEntity> list = realm.where(BikeMasterEntity.class)
                 .equalTo("Model_ID", modelID)
+                .equalTo("Make_Name", Make_Name.trim())
                 .distinct("Variant_ID");
 
         for (int i = 0; i < list.size(); i++) {
