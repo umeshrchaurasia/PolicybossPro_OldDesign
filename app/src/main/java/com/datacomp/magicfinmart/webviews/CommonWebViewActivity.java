@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.webviews;
 
 import android.app.DownloadManager;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -54,6 +53,11 @@ public class CommonWebViewActivity extends BaseActivity {
         getSupportActionBar().setTitle(title);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        if (name.equals("ICICI PRUDENTIAL")) {
+            fab.setVisibility(View.VISIBLE);
+        } else {
+            fab.setVisibility(View.GONE);
+        }
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

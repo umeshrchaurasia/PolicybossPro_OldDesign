@@ -105,7 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:text="PA Cover To Pax"
+                        android:text="Un-Named Passenger"
                         android:textAppearance="@style/TextStyle.TextMedium" />
 
 
@@ -158,7 +158,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:gravity="left"
-                        android:text="LL To Driver"
+                        android:text="LL To Paid Driver"
                         android:textAppearance="@style/TextViewStyle.Small"
                         android:textColor="@color/black" />
 
