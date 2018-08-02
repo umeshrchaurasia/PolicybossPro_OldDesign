@@ -5,7 +5,6 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 
 import java.text.SimpleDateFormat;
-import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -431,6 +430,38 @@ public class DateTimePicker {
         dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
         calendar.add(Calendar.MONTH, 2);
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        dialog.show();
+    }
+
+    public static void policyExpValidationWithIn(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog;
+        if (date.getMonth() <= calendar.get(Calendar.MONTH))
+            dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate());
+        else
+            dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+
+        dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+
+        calendar.add(Calendar.MONTH, -3);
+
+        dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
+
+        dialog.show();
+    }
+
+    public static void policyExpValidationBeyond(Context context, Date date, DatePickerDialog.OnDateSetListener callBack) {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog dialog;
+        if (date.getMonth() <= calendar.get(Calendar.MONTH))
+            dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), date.getMonth(), date.getDate());
+        else
+            dialog = new DatePickerDialog(context, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+        calendar.add(Calendar.MONTH, -3);
         dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
 
         dialog.show();

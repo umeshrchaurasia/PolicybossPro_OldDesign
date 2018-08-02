@@ -13,6 +13,15 @@ public class SaveMotorRequestEntity {
     String VehicleRequestID;
     String fba_id;
     int isActive;
+    private String vehicle_insurance_type;
+
+    public String getVehicle_insurance_type() {
+        return vehicle_insurance_type;
+    }
+
+    public void setVehicle_insurance_type(String vehicle_insurance_type) {
+        this.vehicle_insurance_type = vehicle_insurance_type;
+    }
 
     public MotorRequestEntity getMotorRequestEntity() {
         return motorRequestEntity;
