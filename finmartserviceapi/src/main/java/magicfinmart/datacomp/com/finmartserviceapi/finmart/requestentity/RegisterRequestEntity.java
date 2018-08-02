@@ -220,7 +220,15 @@ public class RegisterRequestEntity {
 
     //nilesh
     private String VersionCode;
+    private String AppSource;
 
+    public String getAppSource() {
+        return AppSource;
+    }
+
+    public void setAppSource(String appSource) {
+        AppSource = appSource;
+    }
 
     public RegisterRequestEntity() {
         this.FBAID = 0;
