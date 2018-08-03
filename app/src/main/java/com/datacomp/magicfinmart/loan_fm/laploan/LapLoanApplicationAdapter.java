@@ -82,13 +82,23 @@ public class LapLoanApplicationAdapter extends RecyclerView.Adapter<LapLoanAppli
                         || entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getHomeLoanRequest().getRBStatus().toUpperCase().equals("BD"))
                 {
                     holder.txtApplicationNumber.setVisibility(View.VISIBLE);
+                    if(entity.getHomeLoanRequest().getApplNumb().isEmpty())
+                    {
+                        holder.ivLeadInfo.setVisibility(View.GONE);
+
+                    }else
+                    {
+                        holder.ivLeadInfo.setVisibility(View.VISIBLE);
+                    }
 
                 } else {
                     holder.txtApplicationNumber.setVisibility(View.GONE);
+                    holder.ivLeadInfo.setVisibility(View.GONE);
 
                 }
             } else {
                 holder.txtApplicationNumber.setVisibility(View.GONE);
+                holder.ivLeadInfo.setVisibility(View.GONE);
             }
 
             holder.lyParent.setOnClickListener(new View.OnClickListener() {

@@ -16,11 +16,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <View
+            android:id="@+id/view1"
+            android:layout_width="match_parent"
+            android:layout_height="1.4dp"
+            android:background="@color/seperator" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
+            android:orientation="horizontal"
             android:weightSum="100">
 
 
@@ -40,30 +46,25 @@
 
             <ImageView
                 android:id="@+id/ivLeadInfo"
-                android:scaleType="centerInside"
-                android:layout_weight="0"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/info_ic"/>
+                android:layout_weight="0"
+                android:scaleType="centerInside"
+                android:layout_marginRight="25dp"
+                android:src="@drawable/history_icon" />
 
             <TextView
                 android:id="@+id/txtOverflowMenu"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:layout_weight="5"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_weight="5"
                 android:gravity="center"
                 android:text="@string/threedots"
                 android:textAppearance="@style/TextStyle.Title"
                 android:textStyle="bold" />
 
         </LinearLayout>
-
-        <View
-            android:id="@+id/view1"
-            android:layout_width="match_parent"
-            android:layout_height="1.4dp"
-            android:background="@color/seperator" />
 
         <LinearLayout
             android:layout_width="match_parent"
