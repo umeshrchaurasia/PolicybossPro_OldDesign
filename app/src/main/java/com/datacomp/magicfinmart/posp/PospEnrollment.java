@@ -1504,7 +1504,8 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                loginResponseEntity.setPOSPProfileUrl("http://qa.mgfm.in/" + pospPhotoUrl);
+                //loginResponseEntity.setPOSPProfileUrl("http://qa.mgfm.in/" + pospPhotoUrl);
+                loginResponseEntity.setPOSPProfileUrl(pospPhotoUrl);
             }
         });
     }
@@ -2326,7 +2327,6 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         return true;
         //endregion
     }
-
 
 
 }
