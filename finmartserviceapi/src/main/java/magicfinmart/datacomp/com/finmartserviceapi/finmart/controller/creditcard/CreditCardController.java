@@ -17,6 +17,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.AppliedCredi
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCICICIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreditCardMasterResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ICICICompanyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RblCityMasterResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,6 +35,38 @@ public class CreditCardController implements ICreditCard {
     public CreditCardController(Context context) {
         creditCardNetworkService = new CreditCardRequestBuilder().getService();
         mContext = context;
+    }
+
+    @Override
+    public void getICICICompany(String companyName, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = "http://www.rupeeboss.com/api/icici-company-master?search_company=" + companyName;
+        creditCardNetworkService.getICICICompany(url).enqueue(new Callback<ICICICompanyResponse>() {
+            @Override
+            public void onResponse(Call<ICICICompanyResponse> call, Response<ICICICompanyResponse> response) {
+                if (response.isSuccessful()) {
+                    iResponseSubcriber.OnSuccess(response.body(), "");
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(""));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ICICICompanyResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
     }
 
     @Override

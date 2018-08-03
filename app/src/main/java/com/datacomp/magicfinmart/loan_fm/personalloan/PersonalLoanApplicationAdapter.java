@@ -84,12 +84,23 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
 
                     holder.txtApplicationNumber.setVisibility(View.VISIBLE);
 
+                    if(entity.getPersonalLoanRequest().getApplNumb().isEmpty())
+                    {
+                        holder.ivLeadInfo.setVisibility(View.GONE);
+
+                    }else
+                    {
+                        holder.ivLeadInfo.setVisibility(View.VISIBLE);
+                    }
+
                 } else {
                     holder.txtApplicationNumber.setVisibility(View.GONE);
+                    holder.ivLeadInfo.setVisibility(View.GONE);
 
                 }
             } else {
                 holder.txtApplicationNumber.setVisibility(View.GONE);
+                holder.ivLeadInfo.setVisibility(View.GONE);
             }
 
             holder.lyParent.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +144,8 @@ public class PersonalLoanApplicationAdapter  extends RecyclerView.Adapter<Person
                     openPopUp(view, entity);
                 }
             });
+
+
 
             holder.ivLeadInfo.setOnClickListener(new View.OnClickListener() {
                 @Override

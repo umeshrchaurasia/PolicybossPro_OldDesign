@@ -36,8 +36,12 @@
 
         <item
             android:id="@+id/nav_vehicleinfo"
+            android:icon="@drawable/vehicledetail"
             android:title="VEHICLE DETAIL" />
-
+        <item
+            android:id="@+id/nav_yesbankbot"
+            android:icon="@drawable/yesbank"
+            android:title="YES BANK BOT" />
         <item
             android:id="@+id/nav_sharedata"
             android:icon="@drawable/share_data"
@@ -67,7 +71,7 @@
             android:visible="true" />
         <item
             android:id="@+id/nav_franchise"
-            android:icon="@drawable/inspection"
+            android:icon="@drawable/agreemnet"
             android:title="FRANCHISE AGREEMENT"
             android:visible="true" />
         <item

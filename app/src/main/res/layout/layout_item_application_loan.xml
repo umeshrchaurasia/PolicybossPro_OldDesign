@@ -46,7 +46,8 @@
                 android:layout_weight="0"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/info_ic"/>
+                android:layout_marginRight="25dp"
+                android:src="@drawable/history_icon"/>
             <TextView
                 android:id="@+id/txtOverflowMenu"
                 android:layout_width="0dp"
