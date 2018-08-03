@@ -113,6 +113,7 @@ public class DBPersistanceController {
             return "";
 
     }
+
     public String getCityID(String cityName, String VehicleCity_RTOCode) {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
@@ -124,6 +125,7 @@ public class DBPersistanceController {
             return "";
 
     }
+
     public String getRTOName(String VehicleCity_Id) {
 
         CityMasterEntity entity = realm.where(CityMasterEntity.class)
@@ -428,7 +430,7 @@ public class DBPersistanceController {
             return "";
     }
 
-    public List<String> getBikeVariantbyModelID(String modelID,String Make_Name) {
+    public List<String> getBikeVariantbyModelID(String modelID, String Make_Name) {
 
         List<String> listCarVariant = new ArrayList<>();
         listCarVariant.add("Variant");
@@ -613,12 +615,12 @@ public class DBPersistanceController {
         hashMapInsurence.put("Shriram ", 18);
         hashMapInsurence.put("Tata AIG", 11);
         hashMapInsurence.put("United", 14);
-
+        hashMapInsurence.put("Future Gen", 4);
+        hashMapInsurence.put("Universal Sompo", 19);
+        hashMapInsurence.put("Cholamandalam", 3);
         /*
             Following not shown in FINMART
-        hashMapInsurence.put("Future Gen", 4);
-        hashMapInsurence.put("Universal", 19);
-        hashMapInsurence.put("Cholamandalam", 3);
+
         hashMapInsurence.put("Star Health Insurance", 26);
         hashMapInsurence.put("Religare Health Insurance", 34);
   */
