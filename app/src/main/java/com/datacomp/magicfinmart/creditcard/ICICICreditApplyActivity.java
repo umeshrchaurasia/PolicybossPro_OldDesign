@@ -10,9 +10,12 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.Html;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +50,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CreditCardEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCICICIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ICICICompanyResponse;
 
 public class ICICICreditApplyActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber {
 
@@ -62,7 +66,8 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
     RadioButton rbmale, rbSingle, rbIndian, rbSalaried;
 
     //Company detail
-    EditText etCompany, etDesignation, etWorkEmail, etIncome, etAreaCode, etPhoneNumber, etTotalExp;
+    AutoCompleteTextView etCompany;
+    EditText etDesignation, etWorkEmail, etIncome, etAreaCode, etPhoneNumber, etTotalExp;
     Spinner spQualification, spICICIRelationShip, spTypeCompany;
     RadioButton rbSavingAccYes;
     EditText etICICINumber;
@@ -93,6 +98,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
     ArrayAdapter<String> qualificationAdapter, iciciRelationshipAdapter, typeCompanyAdapter;
     ArrayAdapter<String> residenceTypeAdapter, perResidenceTypeAdapter, salaryAccountTypeAdapter;
 
+    ArrayAdapter<String> companyAdapter;
 
     String[] stateList = {"ANDAMAN-NICOBAR", "ANDHRA PRADESH", "ARUNACHAL PRADESH", "ASSAM", "BIHAR", "CHANDIGARH", "CHHATTISGARH", "DADRA & NAGAR HAVELI", "DAMAN & DIU", "DELHI", "GOA", "GUJARAT", "HARYANA",
             "HIMACHAL PRADESH", "JAMMU KASHMIR", "JHARKHAND", "KARNATAKA", "KERALA", "LAKSHADWEEP", "MADHYA PRADESH", "MAHARASHTRA", "MANIPUR", "MEGHALAYA", "MIZORAM", "NAGALAND", "ORISSA",
@@ -104,6 +110,8 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
 
     CCICICIRequestEntity requestEntity;
     CreditCardEntity creditCardEntity;
+
+    ArrayList<String> companyList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,7 +129,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
             creditCardEntity = getIntent().getParcelableExtra(CreditCardActivity.SELECTED_CREDIT_CARD);
         }
 
-
+        companyList = new ArrayList<>();
         cityList = new ArrayList<>();
         cityList = new DBPersistanceController(this).getHealthCity();
         init();
@@ -138,7 +146,29 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
 
         cityBinding();
         stateBinding();
+
+        etCompany.addTextChangedListener(companyTextWatcher);
     }
+
+    TextWatcher companyTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (s.length() > 3) {
+                new CreditCardController(ICICICreditApplyActivity.this).getICICICompany(s.toString(), ICICICreditApplyActivity.this);
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
 
     private void cityBinding() {
         cityAdapter = new
@@ -815,7 +845,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         //endregion
 
         //region company detail
-        etCompany = (EditText) findViewById(R.id.etCompany);
+
         etDesignation = (EditText) findViewById(R.id.etDesignation);
         etWorkEmail = (EditText) findViewById(R.id.etWorkEmail);
         etIncome = (EditText) findViewById(R.id.etIncome);
@@ -837,6 +867,10 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         etBuildingName = (EditText) findViewById(R.id.etBuildingName);
         etArea = (EditText) findViewById(R.id.etArea);
         etPincode = (EditText) findViewById(R.id.etPincode);
+
+
+        etCompany = (AutoCompleteTextView) findViewById(R.id.etCompany);
+        etCompany.setThreshold(3);//will start working from first character
 
         acCity = (AutoCompleteTextView) findViewById(R.id.acCity);
         acState = (AutoCompleteTextView) findViewById(R.id.acState);
@@ -865,7 +899,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         etMemberSince = (EditText) findViewById(R.id.etMemberSince);
         etCreditLimit = (EditText) findViewById(R.id.etCreditLimit);
         etPancard = (EditText) findViewById(R.id.etPancard);
-        etPancard.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etPancard.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
 
         etBankName.setVisibility(View.GONE);
         etMemberSince.setVisibility(View.GONE);
@@ -1408,9 +1442,52 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                 if (((CCICICIResponse) response).getMasterData().getApplicationId().length() > 1) {
                     dialogMessage(true, ((CCICICIResponse) response).getMasterData().getApplicationId(), response.getMessage(), ((CCICICIResponse) response).getMasterData().getDecision());
                 } else {
-                    dialogMessage(false, "", ((CCRblResponse) response).getMessage(),((CCICICIResponse) response).getMasterData().getDecision());
+                    dialogMessage(false, "", ((CCRblResponse) response).getMessage(), ((CCICICIResponse) response).getMasterData().getDecision());
                 }
             }
+        } else if (response instanceof ICICICompanyResponse) {
+
+            if (((ICICICompanyResponse) response).getResult() != null)
+                companyList.clear();
+            for (int i = 0; i < ((ICICICompanyResponse) response).getResult().size(); i++) {
+                companyList.add(((ICICICompanyResponse) response).getResult().get(i).getCompany_name());
+
+            }
+            companyAdapter = new ArrayAdapter<String>
+                    (this, android.R.layout.select_dialog_item, companyList) {
+
+                @NonNull
+                @Override
+                public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                    if (convertView == null) {
+                        LayoutInflater inflater = LayoutInflater.from(getContext());
+                        convertView = inflater.inflate(
+                                android.R.layout.simple_spinner_item, parent, false);
+                    }
+
+
+                    TextView tv = (TextView) convertView
+                            .findViewById(android.R.id.text1);
+                    tv.setText(companyList.get(position));
+                    tv.setPadding(8, 4, 8, 4);
+                    tv.setTextColor(Color.BLACK);
+                    tv.setTextSize(13.5f);
+                    return convertView;
+                }
+
+                @Override
+                public View getDropDownView(int position, View convertView,
+                                            ViewGroup parent) {
+                    View view = super.getDropDownView(position, convertView, parent);
+                    TextView tv = (TextView) view;
+
+                    tv.setTextColor(Color.BLACK);
+
+                    return view;
+                }
+            };
+            etCompany.setAdapter(companyAdapter);
+            //companyAdapter.notifyDataSetChanged();
         }
     }
 
@@ -1428,7 +1505,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         StringBuilder Message = new StringBuilder();
         if (isSuccess) {
             builder.setTitle("Applied Successfully..!");
-            String strMessage = "Application No: " + AppNo + "\n\n" ;
+            String strMessage = "Application No: " + AppNo + "\n\n";
             String DescText = "<b>" + Decision + "</b> ";
             String Desc = "Decision: " + Html.fromHtml(DescText) + "\n\n";
             String success = displayMessage;

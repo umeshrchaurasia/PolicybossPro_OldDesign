@@ -222,6 +222,3 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
     }
 }
 
-interface ICarDetail {
-    void getCarDetails(String strCarDetails);
-}

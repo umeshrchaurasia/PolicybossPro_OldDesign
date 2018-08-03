@@ -400,6 +400,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     jsonObject.put("CLAIM", summaryEntity.getRequest_Core().getIs_claim_exists());
                     jsonObject.put("VECHILE_CC", carMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("vehicle_insurance_type", summaryEntity.getRequest_Core().getVehicle_insurance_type());
+                    jsonObject.put("vehicle_registration_date", summaryEntity.getRequest_Core().getVehicle_registration_date());
 
                     return jsonObject.toString();
                 } catch (Exception e) {
@@ -429,6 +430,7 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                     jsonObject.put("CLAIM", summaryEntity.getRequest_Core().getIs_claim_exists());
                     jsonObject.put("VECHILE_CC", bikeMasterEntity.getCubic_Capacity() + "CC");
                     jsonObject.put("vehicle_insurance_type", summaryEntity.getRequest_Core().getVehicle_insurance_type());
+                    jsonObject.put("vehicle_registration_date", summaryEntity.getRequest_Core().getVehicle_registration_date());
                     return jsonObject.toString();
                 } catch (Exception e) {
                     e.printStackTrace();

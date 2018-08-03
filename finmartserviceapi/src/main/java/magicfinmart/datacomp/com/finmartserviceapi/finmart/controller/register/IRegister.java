@@ -6,6 +6,7 @@ import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.inspection.IResponseSubcribe;
 import okhttp3.MultipartBody;
 
 /**
@@ -37,5 +38,7 @@ public interface IRegister {
     void getMyAcctDtl(String FBAID, IResponseSubcriber iResponseSubcriber);
 
     void getNotificationData(String FBAID, IResponseSubcriber iResponseSubcriber);
+
+    void getRegSource(IResponseSubcriber iResponseSubcriber);
 
 }

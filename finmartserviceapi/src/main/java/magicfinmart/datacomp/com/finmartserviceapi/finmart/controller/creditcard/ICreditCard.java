@@ -21,4 +21,6 @@ public interface ICreditCard {
 
     void applyICICI(CCICICIRequestEntity cciciciRequestEntity, IResponseSubcriber iResponseSubcriber);
 
+    void getICICICompany(String companyName, IResponseSubcriber iResponseSubcriber);
+
 }

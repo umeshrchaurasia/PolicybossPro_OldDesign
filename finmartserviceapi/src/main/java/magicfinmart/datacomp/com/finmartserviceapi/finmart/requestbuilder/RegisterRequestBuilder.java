@@ -15,6 +15,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.Notification
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import okhttp3.MultipartBody;
@@ -78,6 +79,11 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
 
 
         @Headers("token:" + token)
+        @POST("/api/get-registration-source")
+        Call<RegisterSourceResponse> getRegSource();
+
+
+        @Headers("token:" + token)
         @Multipart
         @POST("/api/upload-doc")
         Call<DocumentResponse> uploadDocument(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
@@ -85,7 +91,7 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @Multipart
         @POST("/api/upload-doc")
-        Call<DocumentResponse> uploadDocumentNew(@Part() MultipartBody.Part doc,  @PartMap() Map<String, String> partMapString,@PartMap() Map<String, Integer> partMapInt);
+        Call<DocumentResponse> uploadDocumentNew(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMapString, @PartMap() Map<String, Integer> partMapInt);
 
 
 ////////////////////// Notification ////////////////////////////////

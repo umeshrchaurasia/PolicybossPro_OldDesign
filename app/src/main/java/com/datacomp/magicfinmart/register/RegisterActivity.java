@@ -6,8 +6,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
@@ -18,10 +21,13 @@ import android.text.Editable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
 import android.text.style.StyleSpan;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -64,6 +70,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMas
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber, MultiSelectionSpinner.OnMultipleItemsSelectedListener, CompoundButton.OnCheckedChangeListener {
@@ -89,10 +96,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     String pass = "";
     PrefManager prefManager;
     TrackingRequestEntity trackingRequestEntity;
-    Spinner spReferal;
+    Spinner spReferal, spSource;
     EditText etRefererCode;
     TextInputLayout tilReferer;
     boolean isVAlidPromo = false;
+
+    List<String> sourceList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,11 +114,16 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         trackingRequestEntity = new TrackingRequestEntity();
         dbPersistanceController = new DBPersistanceController(this);
         registerRequestEntity = new RegisterRequestEntity();
+        sourceList = new ArrayList<>();
+
         initWidgets();
         setListener();
         initLayouts();
         setSpinnerListener();
         prefManager = new PrefManager(this);
+
+        new RegisterController(this).getRegSource(this);
+
         if (prefManager.IsInsuranceMasterUpdate()) {
             new MasterController(this).getInsuranceMaster(this);
         } else {
@@ -285,6 +300,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         etRefererCode = (EditText) findViewById(R.id.etRefererCode);
         spReferal = (Spinner) findViewById(R.id.spReferal);
+        spSource = (Spinner) findViewById(R.id.spSource);
         tilReferer = (TextInputLayout) findViewById(R.id.tilReferer);
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
     }
@@ -493,6 +509,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             pass = passdateFormat.format(date.getTime());
             registerRequestEntity.setPassword(pass);
         }
+
+        registerRequestEntity.setAppSource(String.valueOf(spSource.getSelectedItemPosition() + 1));
     }
 
     private void hideAllLayouts(CardView linearLayout, ImageView imageView) {
@@ -519,11 +537,29 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        if (response instanceof GenerateOtpResponse) {
+
+        if (response instanceof RegisterSourceResponse) {
+
+            if (response != null) {
+                List<RegisterSourceResponse.SourceEntity> list = ((RegisterSourceResponse) response).getMasterData();
+
+                sourceList.clear();
+                if (list.size() > 0) {
+                    for (int i = 0; i < list.size(); i++) {
+                        sourceList.add(list.get(i).getSource_name());
+                    }
+                } else {
+                    sourceList.add("Fin-Mart");
+                    sourceList.add("Campaign sm");
+                }
+
+                bindSource();
+            }
+
+        } else if (response instanceof GenerateOtpResponse) {
             cancelDialog();
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-        if (response instanceof PincodeResponse) {
+        } else if (response instanceof PincodeResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 Constants.hideKeyBoard(etPincode, this);
@@ -535,8 +571,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
 
             }
-        }
-        if (response instanceof VerifyOtpResponse) {
+        } else if (response instanceof VerifyOtpResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 if (dialog != null)
@@ -546,8 +581,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 isMobileValid = true;
             }
             Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-        if (response instanceof RegisterFbaResponse) {
+        } else if (response instanceof RegisterFbaResponse) {
             cancelDialog();
             trackingRequestEntity.setType("Register");
             trackingRequestEntity.setData(new TrackingData("Submit button for registration Success"));
@@ -562,14 +596,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 llProfessionalInfo.setVisibility(View.GONE);
             }
 
-        }
-        if (response instanceof InsuranceMasterResponse) {
+        } else if (response instanceof InsuranceMasterResponse) {
             healthList = dbPersistanceController.getHealthListNames();
             generalList = dbPersistanceController.getGeneralListNames();
             lifeList = dbPersistanceController.getLifeListNames();
             initMultiSelect();
-        }
-        if (response instanceof ReferFriendResponse) {
+        } else if (response instanceof ReferFriendResponse) {
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 isVAlidPromo = true;
@@ -582,10 +614,66 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
+    private void bindSource() {
+
+        // region prev insurer adapter
+        ArrayAdapter prevInsAdapter = new
+                ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sourceList) {
+                    @Override
+                    public boolean isEnabled(int position) {
+                       /* if (position == 0) {
+                            // Disable the first item from Spinner
+                            // First item will be use for hint
+                            return false;
+                        } else {
+                            return true;
+                        }*/
+                        return true;
+                    }
+
+                    @NonNull
+                    @Override
+                    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                        if (convertView == null) {
+                            LayoutInflater inflater = LayoutInflater.from(getContext());
+                            convertView = inflater.inflate(
+                                    android.R.layout.simple_spinner_item, parent, false);
+                        }
+
+
+                        TextView tv = (TextView) convertView
+                                .findViewById(android.R.id.text1);
+
+                        tv.setText(sourceList.get(position));
+
+                        tv.setTextColor(Color.BLACK);
+
+                        tv.setTextSize(Constants.SPINNER_FONT_SIZE);
+                        return convertView;
+                    }
+
+                    @Override
+                    public View getDropDownView(int position, View convertView,
+                                                ViewGroup parent) {
+                        View view = super.getDropDownView(position, convertView, parent);
+                        TextView tv = (TextView) view;
+                        tv.setTextColor(Color.BLACK);
+
+                        return view;
+                    }
+                };
+        spSource.setAdapter(prevInsAdapter);
+    }
+
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (sourceList == null || sourceList.size() == 0) {
+            sourceList.clear();
+            sourceList.add("Fin-Mart");
+            sourceList.add("Campaign sm");
+        }
         trackingRequestEntity.setType("Register");
         trackingRequestEntity.setData(new TrackingData(t.getMessage()));
         new TrackingController(this).sendData(trackingRequestEntity, null);
