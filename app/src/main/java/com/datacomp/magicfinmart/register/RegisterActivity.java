@@ -669,6 +669,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (sourceList == null || sourceList.size() == 0) {
+            sourceList.clear();
+            sourceList.add("Fin-Mart");
+            sourceList.add("Campaign sm");
+        }
         trackingRequestEntity.setType("Register");
         trackingRequestEntity.setData(new TrackingData(t.getMessage()));
         new TrackingController(this).sendData(trackingRequestEntity, null);
