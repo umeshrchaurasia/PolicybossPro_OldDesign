@@ -4,9 +4,10 @@ package com.datacomp.magicfinmart.vehicle_details;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputFilter;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +20,15 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.inspection.utility.Utility;
 import com.datacomp.magicfinmart.utility.Constants;
-import com.google.gson.Gson;
 
-import org.json.JSONObject;
-
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
+
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.*;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,6 +45,10 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
 
     TextView txtMobileData;
 
+    RecyclerView rvMobile;
+    VehicleDetailsAdapter mAdapter;
+    List<VehicleMobileResponse.CustomerDetailsEntity> listCustDetails;
+
     public VehicleDetailFragment() {
         // Required empty public constructor
     }
@@ -54,13 +60,23 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_vehicle_detail, container, false);
         Constants.hideKeyBoard(rbCarNumber, getActivity());
+        listCustDetails = new ArrayList<>();
         init(view);
+
         cvVehicleDetail.setVisibility(View.GONE);
         txtMobileData.setVisibility(View.GONE);
         return view;
     }
 
     private void init(View view) {
+
+        rvMobile = view.findViewById(R.id.rvMobile);
+        rvMobile.setHasFixedSize(true);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rvMobile.setLayoutManager(layoutManager);
+        mAdapter = new VehicleDetailsAdapter(getActivity(), listCustDetails);
+        rvMobile.setAdapter(mAdapter);
+
         txtMobileData = view.findViewById(R.id.txtMobileData);
         rbCarNumber = view.findViewById(R.id.rbCarNumber);
         rbMobileNumber = view.findViewById(R.id.rbMobileNumber);
@@ -103,14 +119,17 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                 if (isChecked) {
                     Constants.hideKeyBoard(buttonView, getActivity());
                     etVehicleDetail.setInputType(InputType.TYPE_CLASS_TEXT);
-                    //etVehicleDetail.setFilters(new InputFilter[]{new InputFilter.AllCaps()});
                     etVehicleDetail.setText("");
+                    rvMobile.setVisibility(View.GONE);
+                    cvVehicleDetail.setVisibility(View.VISIBLE);
                 }
             } else if (buttonView.getId() == R.id.rbMobileNumber) {
                 if (isChecked) {
                     Constants.hideKeyBoard(buttonView, getActivity());
                     etVehicleDetail.setInputType(InputType.TYPE_CLASS_NUMBER);
                     etVehicleDetail.setText("");
+                    rvMobile.setVisibility(View.VISIBLE);
+                    cvVehicleDetail.setVisibility(View.GONE);
                 }
             }
         }
@@ -146,24 +165,47 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
 
             if (rbCarNumber.isChecked()) {
                 //1.vehicle
-                new AsyncVehicle(getActivity(), true, etVehicleDetail.getText().toString(), new ICarDetail() {
-                    @Override
-                    public void getCarDetails(String strCarDetails) {
-                        cancelDialog();
-                        Gson gson = new Gson();
-                        try {
-                            VehicleInfoEntity entity = gson.fromJson(strCarDetails, VehicleInfoEntity.class);
-                            bindVehicle(entity);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                showDialog();
+                new DynamicController(getActivity()).getVehicleByVehicleNo(etVehicleDetail.getText().toString(),
+                        new IResponseSubcriber() {
+                            @Override
+                            public void OnSuccess(APIResponse response, String message) {
+                                cancelDialog();
+                                if (response instanceof magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity) {
+                                    //bind vehicle
+                                    bindVehicle(((magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity) response).getGetRegNoDataResult());
+                                }
+                            }
 
-                    }
-                }).execute();
+                            @Override
+                            public void OnFailure(Throwable t) {
+                                cancelDialog();
+                                Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
             } else {
                 //2.mobile
-                new AsyncVehicle(getActivity(), false, etVehicleDetail.getText().toString(), new ICarDetail() {
+
+                new DynamicController(getActivity()).getVehicleByMobileNo(etVehicleDetail.getText().toString(), new IResponseSubcriber() {
+                    @Override
+                    public void OnSuccess(APIResponse response, String message) {
+                        cancelDialog();
+                        if ((VehicleMobileResponse) response != null) {
+                            if (((VehicleMobileResponse) response).getCustomerDetails().size() > 0) {
+                                //bind recycler
+                                mAdapter.refreshAdapter(((VehicleMobileResponse) response).getCustomerDetails());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void OnFailure(Throwable t) {
+                        cancelDialog();
+                        Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+          /*      new AsyncVehicle(getActivity(), false, etVehicleDetail.getText().toString(), new ICarDetail() {
                     @Override
                     public void getCarDetails(String strCarDetails) {
                         cancelDialog();
@@ -179,23 +221,23 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                         }
 
                     }
-                }).execute();
+                }).execute();*/
             }
         }
     }
 
-    private void bindVehicle(VehicleInfoEntity entity) {
+    private void bindVehicle(List<magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity.VehicleInfo> entity) {
         if (entity == null) {
             Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
             return;
-        } else if (entity.getGetRegNoDataResult().size() == 0) {
+        } else if (entity.size() == 0) {
             Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
             return;
         }
 
         cvVehicleDetail.setVisibility(View.VISIBLE);
 
-        VehicleInfoEntity.GetRegNoDataResultBean v = entity.getGetRegNoDataResult().get(0);
+        VehicleInfoEntity.VehicleInfo v = entity.get(0);
         try {
             txtClientName.setText(v.getClientName());
             txtDOB.setText(v.getDOB());

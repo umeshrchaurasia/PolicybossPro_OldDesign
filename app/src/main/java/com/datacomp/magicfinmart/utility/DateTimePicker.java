@@ -30,7 +30,7 @@ public class DateTimePicker {
         DatePickerDialog dialog = new DatePickerDialog(mContex, callBack, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
 
         int yearDiff = calendar.get(Calendar.YEAR) - cal.get(Calendar.YEAR);
-        if (yearDiff > 18) {
+        if (yearDiff >= 18) {
             calendar.add(Calendar.YEAR, -18);
             dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
         } else {
