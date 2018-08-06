@@ -101,7 +101,7 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
                     }
                 }
             }
-            //mAdapter = new PendingCasesAdapter(this, mPendingList);
+            //mAdapter = new VehicleDetailsAdapter(this, mPendingList);
             //rvPendingCasesList.setAdapter(mAdapter);
         } else if (response instanceof PendingCaseDeleteResponse) {
             mPendingList.remove(removePendingCasesEntity);

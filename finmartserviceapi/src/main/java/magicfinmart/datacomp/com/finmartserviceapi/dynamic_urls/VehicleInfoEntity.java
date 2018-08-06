@@ -1,20 +1,22 @@
-package magicfinmart.datacomp.com.finmartserviceapi.model;
+package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls;
 
 import java.util.List;
 
-public class VehicleInfoEntity {
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 
-    private List<GetRegNoDataResultBean> GetRegNoDataResult;
+public class VehicleInfoEntity extends APIResponse{
 
-    public List<GetRegNoDataResultBean> getGetRegNoDataResult() {
+    private List<VehicleInfo> GetRegNoDataResult;
+
+    public List<VehicleInfo> getGetRegNoDataResult() {
         return GetRegNoDataResult;
     }
 
-    public void setGetRegNoDataResult(List<GetRegNoDataResultBean> GetRegNoDataResult) {
+    public void setGetRegNoDataResult(List<VehicleInfo> GetRegNoDataResult) {
         this.GetRegNoDataResult = GetRegNoDataResult;
     }
 
-    public static class GetRegNoDataResultBean {
+    public static class VehicleInfo {
         /**
          * ChasisNo : 370045
          * City : NAVI MUMBAI

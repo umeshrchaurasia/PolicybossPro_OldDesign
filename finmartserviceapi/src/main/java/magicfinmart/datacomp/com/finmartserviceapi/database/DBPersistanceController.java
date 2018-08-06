@@ -692,7 +692,7 @@ public class DBPersistanceController {
     }
     //endregion
 
-    //region Proprtyinfo Loan
+    //region Property info Loan
 
     public List<PropertyInfoEntity> getLoanPropertyInfoList() {
         List<PropertyInfoEntity> propertyInfoEntity = new ArrayList<PropertyInfoEntity>();
