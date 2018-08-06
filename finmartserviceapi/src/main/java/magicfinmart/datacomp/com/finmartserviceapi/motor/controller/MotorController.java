@@ -142,7 +142,7 @@ public class MotorController implements IMotor {
         BikePremiumRequestEntity entity = new BikePremiumRequestEntity();
         entity.setSecret_key(Utility.SECRET_KEY);
         entity.setClient_key(Utility.CLIENT_KEY);
-        if (constantEntity != null && !constantEntity.getHorizonVersion().equals(""))
+        if (constantEntity != null && constantEntity.getHorizonVersion()!= null && !constantEntity.getHorizonVersion().equals(""))
             entity.setResponse_version("" + constantEntity.getHorizonVersion());
         else
             entity.setResponse_version("2.0");

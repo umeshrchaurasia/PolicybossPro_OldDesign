@@ -792,7 +792,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                 // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
                 setDocumentUpload();
-                if (type == 1) {
+                if (type == 1 || type == 2 ) {
                     try {
                         updateLoginResponse(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
                     } catch (Exception e) {
