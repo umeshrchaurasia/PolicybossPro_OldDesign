@@ -1,10 +1,6 @@
-package com.datacomp.magicfinmart.vehicle_details;
+package magicfinmart.datacomp.com.finmartserviceapi.model;
 
 import java.util.List;
-
-/**
- * Created by Nilesh Birhade on 20-07-2018.
- */
 
 public class VehicleInfoEntity {
 
