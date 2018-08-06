@@ -37,8 +37,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
-import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruWebviewActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcIProtectAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -385,8 +383,16 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
 
                 String[] splitStr = termRequestEntity.getContactName().split("\\s+");
-                etFirstName.setText("" + splitStr[0]);
-                etLastName.setText("" + splitStr[1]);
+                String firstName = "", lastName = "";
+                for (int i = 0; i < splitStr.length; i++) {
+                    if (i == ((splitStr.length) - 1)) {
+                        lastName = lastName + splitStr[i];
+                    } else {
+                        firstName = firstName + " " + splitStr[i];
+                    }
+                }
+                etFirstName.setText("" + firstName);
+                etLastName.setText("" + lastName);
                 etMobile.setText("" + termRequestEntity.getContactMobile());
                 etDOB.setText("" + termRequestEntity.getInsuredDOB());
                 etPincode.setText("" + termRequestEntity.getPincode());
@@ -986,7 +992,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
                 } else {
                     startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                            .putExtra("URL",  termCompareResponseEntity.getPdfUrl())
+                            .putExtra("URL", termCompareResponseEntity.getPdfUrl())
                             .putExtra("NAME", "ICICI PRUDENTIAL")
                             .putExtra("TITLE", "ICICI PRUDENTIAL"));
 

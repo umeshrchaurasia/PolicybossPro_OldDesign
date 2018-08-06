@@ -98,7 +98,7 @@ public class CommonWebViewActivity extends BaseActivity {
     }
 
     private void downloadPdf(String url, String name) {
-        Toast.makeText(this, "Downlaod started..", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Download started..", Toast.LENGTH_LONG).show();
         DownloadManager.Request r = new DownloadManager.Request(Uri.parse(url));
         r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name + ".pdf");
         r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);

@@ -212,8 +212,16 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
 
                 String[] splitStr = termRequestEntity.getContactName().split("\\s+");
-                etFirstName.setText("" + splitStr[0]);
-                etLastName.setText("" + splitStr[1]);
+                String firstName = "", lastName = "";
+                for (int i = 0; i < splitStr.length; i++) {
+                    if (i == ((splitStr.length) - 1)) {
+                        lastName = lastName + splitStr[i];
+                    } else {
+                        firstName = firstName + " " + splitStr[i];
+                    }
+                }
+                etFirstName.setText("" + firstName);
+                etLastName.setText("" + lastName);
                 etMobile.setText("" + termRequestEntity.getContactMobile());
                 etDOB.setText("" + termRequestEntity.getInsuredDOB());
                 etPincode.setText("" + termRequestEntity.getPincode());

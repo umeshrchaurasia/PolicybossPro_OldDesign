@@ -1030,7 +1030,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         if (webViewLoader.getVisibility() != View.VISIBLE) {
-            if (!isShowing) {
+            //if (!isShowing) {
                 Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
                 intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
                 intent.putExtra("RESPONSE_CAR", entity);
@@ -1038,7 +1038,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                 intent.putExtra("SUMMARY", summaryEntity);
                 startActivityForResult(intent, 00000);
                 isShowing = true;
-            }
+            //}
         } else {
             Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
         }
