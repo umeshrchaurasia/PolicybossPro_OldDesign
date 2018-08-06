@@ -63,11 +63,9 @@ public class DynamicController implements IDynamic {
     @Override
     public void getVehicleByMobileNo(String mobileNo, final IResponseSubcriber iResponseSubcriber) {
 
-        String url = "inspection.policyboss.com/api/generic-info";
-        HashMap<String, String> body = new HashMap<>();
-        body.put("mobile", mobileNo);
+        String url = "http://inspection.policyboss.com/api/generic-info?m=" + mobileNo;
 
-        genericUrlNetworkService.getVehicleByMobNo(url, body).enqueue(new Callback<VehicleMobileResponse>() {
+        genericUrlNetworkService.getVehicleByMobNo(url).enqueue(new Callback<VehicleMobileResponse>() {
             @Override
             public void onResponse(Call<VehicleMobileResponse> call, Response<VehicleMobileResponse> response) {
 

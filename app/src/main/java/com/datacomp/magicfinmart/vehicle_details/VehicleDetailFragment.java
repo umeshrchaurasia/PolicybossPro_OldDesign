@@ -129,6 +129,8 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                     etVehicleDetail.setInputType(InputType.TYPE_CLASS_NUMBER);
                     etVehicleDetail.setText("");
                     rvMobile.setVisibility(View.VISIBLE);
+                    listCustDetails.clear();
+                    mAdapter.refreshAdapter(listCustDetails);
                     cvVehicleDetail.setVisibility(View.GONE);
                 }
             }
@@ -205,23 +207,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-          /*      new AsyncVehicle(getActivity(), false, etVehicleDetail.getText().toString(), new ICarDetail() {
-                    @Override
-                    public void getCarDetails(String strCarDetails) {
-                        cancelDialog();
-                        try {
-                            if (!strCarDetails.equalsIgnoreCase("")) {
-                                List<String> elephantList = Arrays.asList(strCarDetails.split(","));
-                                txtMobileData.setText(elephantList.toString());
-                            } else {
-                                Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
 
-                    }
-                }).execute();*/
             }
         }
     }
