@@ -80,14 +80,25 @@ public class BalanceTransferApplicationAdapter  extends RecyclerView.Adapter<Bal
                         || entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BR")|| entity.getBLLoanRequest().getRBStatus().toUpperCase().equals("BD"))
                 {
                     holder.txtApplicationNumber.setVisibility(View.VISIBLE);
+                    if(entity.getBLLoanRequest().getApplNumb().isEmpty())
+                    {
+                        holder.ivLeadInfo.setVisibility(View.GONE);
+
+                    }else
+                    {
+                        holder.ivLeadInfo.setVisibility(View.VISIBLE);
+                    }
 
                 } else {
                     holder.txtApplicationNumber.setVisibility(View.GONE);
+                    holder.ivLeadInfo.setVisibility(View.GONE);
 
                 }
             } else {
                 holder.txtApplicationNumber.setVisibility(View.GONE);
+                holder.ivLeadInfo.setVisibility(View.GONE);
             }
+
 
             holder.lyParent.setOnClickListener(new View.OnClickListener() {
                 @Override
