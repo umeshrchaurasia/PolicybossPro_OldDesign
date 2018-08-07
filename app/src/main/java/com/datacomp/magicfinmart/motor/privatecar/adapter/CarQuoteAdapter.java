@@ -4,20 +4,17 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
-import com.datacomp.magicfinmart.utility.ClickListener;
-import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
-import com.datacomp.magicfinmart.utility.RecyclerTouchListener;
 
 import java.util.List;
 
@@ -30,7 +27,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
 
     Fragment mContext;
     BikePremiumResponse response;
-
+    boolean isRecyclerListnerSet = false;
     List<ResponseEntity> listQuotes;
     DBPersistanceController dbPersistanceController;
 
@@ -52,10 +49,11 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
     }
 
     @Override
-    public void onBindViewHolder(BikeQuoteItem holder, int position) {
+    public void onBindViewHolder(BikeQuoteItem holder, final int position) {
 
         final ResponseEntity responseEntity = listQuotes.get(position);
         holder.rvAddOn.setTag(R.id.rvAddOn, responseEntity);
+        holder.viewDisableLayout.setTag(R.id.viewDisableLayout, responseEntity);
         holder.txtInsurerName.setText(responseEntity.getInsurer().getInsurer_Name());
         // holder.txtIDV.setText(responseEntity);
         try {
@@ -101,18 +99,16 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             }
         });
 
-
-        holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
-                holder.rvAddOn, new ClickListener() {
+        holder.viewDisableLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ResponseEntity responseEntity = (ResponseEntity) view.getTag(R.id.llAddonName);
+                ResponseEntity responseEntity = (ResponseEntity) view.getTag(R.id.viewDisableLayout);
                 ((QuoteFragment) mContext).
                         redirectToPopUpPremium(responseEntity, response.getSummary(),
                                 responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+                //Toast.makeText(mContext.getActivity(), "" + position, Toast.LENGTH_SHORT).show();
             }
-
-        }));
+        });
 
 
         holder.txtPremiumBreakUp.setOnClickListener(new View.OnClickListener() {
@@ -180,12 +176,16 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
         public TextView txtInsurerName, txtIDV, txtFinalPremium, txtPremiumBreakUp;
         LinearLayout txtBuy;
         ImageView imgInsurerLogo;
-        LinearLayout llIdv;
+        LinearLayout llIdv ;
+        RelativeLayout llAddonList;
+        View viewDisableLayout;
         RecyclerView rvAddOn;
 
         public BikeQuoteItem(View itemView) {
             super(itemView);
             llIdv = (LinearLayout) itemView.findViewById(R.id.llIdv);
+            llAddonList = (RelativeLayout) itemView.findViewById(R.id.llAddonList);
+            viewDisableLayout = (View) itemView.findViewById(R.id.viewDisableLayout);
             // llAddon = (LinearLayout) itemView.findViewById(R.id.llAddon);
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtInsurerName = (TextView) itemView.findViewById(R.id.txtInsuranceCompName);

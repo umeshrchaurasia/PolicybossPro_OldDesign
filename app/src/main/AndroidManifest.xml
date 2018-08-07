@@ -199,7 +199,7 @@
                 android:value="com.datacomp.magicfinmart.motor.privatecar.activity.QuoteActivity" />
         </activity>
         <activity
-            android:launchMode="singleInstance"
+            android:launchMode="singleTop"
             android:name=".motor.privatecar.activity.PremiumBreakUpActivity"
             android:label="@string/title_activity_premium_break_up"
             android:noHistory="true"

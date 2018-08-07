@@ -74,8 +74,8 @@ public class PremiumBreakUpAdapter extends RecyclerView.Adapter<PremiumBreakUpAd
 
     private double getRound(String strText) {
         try {
-            strText = strText.replace("-", "");
-            strText = strText.replace("-", "");
+            //strText = strText.replace("-", "");
+            //strText = strText.replace("-", "");
             double value = Double.parseDouble(strText);
             return Double.parseDouble(new DecimalFormat("##.##").format(value));
         } catch (NumberFormatException e) {
