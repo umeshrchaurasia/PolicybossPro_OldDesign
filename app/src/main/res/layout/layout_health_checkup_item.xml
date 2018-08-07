@@ -20,14 +20,14 @@
         android:layout_height="match_parent"
         android:layout_weight="45"
         android:background="@drawable/borderthealthcheckup"
+        android:gravity="center"
         android:orientation="vertical"
         android:padding="8dp">
 
         <TextView
             android:id="@+id/txtName"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="left"
             android:text="XXX"
             android:textAppearance="@style/TextViewStyle.Medium"
@@ -36,8 +36,7 @@
         <TextView
             android:id="@+id/txtMobileNo"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="left"
             android:text="XXX"
             android:textAppearance="@style/TextViewStyle.Medium"
@@ -46,8 +45,7 @@
         <TextView
             android:id="@+id/txtPackageName"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:gravity="left"
             android:text="XXX"
             android:textAppearance="@style/TextViewStyle.Medium"

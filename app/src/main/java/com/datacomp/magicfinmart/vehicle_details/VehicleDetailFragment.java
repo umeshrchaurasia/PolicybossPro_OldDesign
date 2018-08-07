@@ -121,7 +121,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                     etVehicleDetail.setInputType(InputType.TYPE_CLASS_TEXT);
                     etVehicleDetail.setText("");
                     rvMobile.setVisibility(View.GONE);
-                    cvVehicleDetail.setVisibility(View.VISIBLE);
+                    cvVehicleDetail.setVisibility(View.GONE);
                 }
             } else if (buttonView.getId() == R.id.rbMobileNumber) {
                 if (isChecked) {
@@ -196,6 +196,9 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                         if ((VehicleMobileResponse) response != null) {
                             if (((VehicleMobileResponse) response).getCustomerDetails().size() > 0) {
                                 //bind recycler
+
+                                rvMobile.setVisibility(View.VISIBLE);
+                                cvVehicleDetail.setVisibility(View.GONE);
                                 mAdapter.refreshAdapter(((VehicleMobileResponse) response).getCustomerDetails());
                             }
                         }
