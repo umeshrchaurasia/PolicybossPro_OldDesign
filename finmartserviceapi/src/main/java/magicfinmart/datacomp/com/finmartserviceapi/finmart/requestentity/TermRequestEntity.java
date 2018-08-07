@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 
 /**
  * Created by Nilesh Birhade on 05-04-2018.
@@ -126,6 +127,15 @@ public class TermRequestEntity implements Parcelable {
     private String created_date;
     private String crn;
 
+
+    public TermRequestEntity(Context context) {
+        LoginResponseEntity loginResponseEntity = new DBPersistanceController(context).getUserData();
+        this.FBAID = String.valueOf(loginResponseEntity.getFBAId());
+        if (loginResponseEntity.getPOSPNo() != null && !loginResponseEntity.getPOSPNo().equals(""))
+            this.SupportsAgentID = loginResponseEntity.getPOSPNo();
+        else
+            this.SupportsAgentID = "5";
+    }
 
     public String getCrn() {
         return crn;
@@ -461,10 +471,6 @@ public class TermRequestEntity implements Parcelable {
 
     public void setLumpsumPercentage(String LumpsumPercentage) {
         this.LumpsumPercentage = LumpsumPercentage;
-    }
-
-    public TermRequestEntity(Context context) {
-        this.FBAID = String.valueOf(new DBPersistanceController(context).getUserData().getFBAId());
     }
 
 
