@@ -33,6 +33,7 @@ import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
@@ -71,8 +72,8 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
         // Inflate the layout for this fragment
 
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
         initialise(view);
+        Constants.hideKeyBoard(tvKnowledge,getActivity());
         setListener();
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());

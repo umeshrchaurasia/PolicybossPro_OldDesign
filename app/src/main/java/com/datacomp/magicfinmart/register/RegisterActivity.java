@@ -673,6 +673,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             sourceList.clear();
             sourceList.add("Fin-Mart");
             sourceList.add("Campaign sm");
+            sourceList.add("Campaign-Nochiket");
+            sourceList.add("Campaign-Sagar");
+            sourceList.add("Posp-I");
+            sourceList.add("MISP-Dealership");
+
+            bindSource();
         }
         trackingRequestEntity.setType("Register");
         trackingRequestEntity.setData(new TrackingData(t.getMessage()));

@@ -52,7 +52,7 @@ android {
             buildConfigField "String", "ERP_URL", '"http://services.rupeeboss.com/LoginDtls.svc/"'
             buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
             buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
-            buildConfigField "String", "PROPOSAL_BASE_URL", '"http://www.policyboss.com/"'
+            buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
             signingConfig signingConfigs.release
         }
@@ -66,7 +66,7 @@ android {
             buildConfigField "String", "ERP_URL", '"http://erp.rupeeboss.com:8063/LoginDtls.svc/"'
             buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
             buildConfigField "String", "NODE_URL", '"http://qa-horizon.policyboss.com:3000"'
-            buildConfigField "String", "PROPOSAL_BASE_URL", '"http://qa.policyboss.com/"'
+            buildConfigField "String", "PROPOSAL_BASE_URL", '"https://qa.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
 
         }
@@ -80,7 +80,7 @@ android {
             buildConfigField "String", "ERP_URL", '"http://services.rupeeboss.com/LoginDtls.svc/"'
             buildConfigField "String", "LOAN_URL", '"http://www.rupeeboss.com"'
             buildConfigField "String", "NODE_URL", '"http://horizon.policyboss.com:5000"'
-            buildConfigField "String", "PROPOSAL_BASE_URL", '"http://www.policyboss.com/"'
+            buildConfigField "String", "PROPOSAL_BASE_URL", '"https://www.policyboss.com/"'
             buildConfigField "String", "POSP_URL", '"http://edu.policyboss.com"'
             signingConfig signingConfigs.debug
         }
