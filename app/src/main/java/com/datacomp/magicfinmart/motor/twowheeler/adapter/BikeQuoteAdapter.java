@@ -54,7 +54,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     public void onBindViewHolder(BikeQuoteItem holder, final int position) {
 
         final ResponseEntity responseEntity = listQuotes.get(position);
-
+        holder.viewDisableLayout.setTag(R.id.viewDisableLayout, responseEntity);
         holder.txtInsurerName.setText(responseEntity.getInsurer().getInsurer_Name());
         // holder.txtIDV.setText(responseEntity);
         try {
@@ -111,7 +111,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         });
 
 
-        holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
+      /*  holder.rvAddOn.addOnItemTouchListener(new RecyclerTouchListener(mContext.getActivity(),
                 holder.rvAddOn, new ClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,7 +121,19 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
                         responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
             }
 
-        }));
+        }));*/
+
+        holder.viewDisableLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                ResponseEntity responseEntity = (ResponseEntity) view.getTag(R.id.viewDisableLayout);
+                ((BikeQuoteFragment) mContext).redirectToPopUpPremium(responseEntity,
+                        response.getSummary(),
+                        responseEntity.getLM_Custom_Request().getVehicle_expected_idv());
+            }
+        });
         holder.txtBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -168,11 +180,11 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         ImageView imgInsurerLogo;
         LinearLayout llIdv;
         RecyclerView rvAddOn;
-
+        View viewDisableLayout;
         public BikeQuoteItem(View itemView) {
             super(itemView);
             llIdv = (LinearLayout) itemView.findViewById(R.id.llIdv);
-
+            viewDisableLayout = (View) itemView.findViewById(R.id.viewDisableLayout);
             rvAddOn = (RecyclerView) itemView.findViewById(R.id.rvAddOn);
             txtInsurerName = (TextView) itemView.findViewById(R.id.txtInsuranceCompName);
             txtIDV = (TextView) itemView.findViewById(R.id.txtIDV);

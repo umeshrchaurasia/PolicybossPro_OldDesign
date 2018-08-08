@@ -453,7 +453,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
         termRequestEntity.setContactName(etFirstName.getText().toString() + " " + etLastName.getText().toString());
         termRequestEntity.setContactEmail("finmarttest@gmail.com");
         termRequestEntity.setContactMobile(etMobile.getText().toString());
-        termRequestEntity.setSupportsAgentID("1682");
+        //termRequestEntity.setSupportsAgentID("1682");
         termRequestEntity.setPincode(etPincode.getText().toString());
 
         termFinmartRequest.setFba_id(new DBPersistanceController(getActivity()).getUserData().getFBAId());
