@@ -73,7 +73,7 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
 
         view = inflater.inflate(R.layout.fragment_dashboard, container, false);
         initialise(view);
-        Constants.hideKeyBoard(tvKnowledge,getActivity());
+
         setListener();
         registerPopUp(this);
         prefManager = new PrefManager(getActivity());
