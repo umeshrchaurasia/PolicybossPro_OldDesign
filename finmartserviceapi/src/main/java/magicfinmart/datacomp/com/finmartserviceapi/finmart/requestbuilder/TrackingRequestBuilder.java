@@ -1,5 +1,7 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
+import java.util.HashMap;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TrackingResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
@@ -23,5 +25,9 @@ public class TrackingRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/insert-tracking")
         Call<TrackingResponse> sendTracking(@Body TrackingRequestEntity body);
+
+        @Headers("token:" + token)
+        @POST("/api/save-vehicle-info-details-log")
+        Call<TrackingResponse> saveVehicleInfo(@Body HashMap<String, String> body);
     }
 }

@@ -2,6 +2,8 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking;
 
 import android.content.Context;
 
+import java.util.HashMap;
+
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -27,6 +29,28 @@ public class TrackingController implements ITracking {
         mContext = context;
         dbPersistanceController = new DBPersistanceController(context);
         loginResponseEntity = dbPersistanceController.getUserData();
+    }
+
+    @Override
+    public void saveVehicleInfo(int Type, String vehNoMobNo, String responseJson) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("fbaid", String.valueOf(new DBPersistanceController(mContext).getUserData().getFBAId()));
+        body.put("type", String.valueOf(Type));
+        body.put("detail", String.valueOf(vehNoMobNo));
+        body.put("data", responseJson);
+
+        trackingNetworkService.saveVehicleInfo(body).enqueue(new Callback<TrackingResponse>() {
+            @Override
+            public void onResponse(Call<TrackingResponse> call, Response<TrackingResponse> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<TrackingResponse> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

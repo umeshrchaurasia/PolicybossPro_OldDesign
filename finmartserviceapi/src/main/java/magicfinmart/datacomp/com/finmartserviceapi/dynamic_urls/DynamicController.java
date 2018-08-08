@@ -2,12 +2,15 @@ package magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls;
 
 import android.content.Context;
 
+import com.google.gson.Gson;
+
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -27,7 +30,7 @@ public class DynamicController implements IDynamic {
     }
 
     @Override
-    public void getVehicleByVehicleNo(String vehicleNo, final IResponseSubcriber iResponseSubcriber) {
+    public void getVehicleByVehicleNo(final String vehicleNo, final IResponseSubcriber iResponseSubcriber) {
 
         String url = "http://202.131.96.98:8041/PolicyBossRegNoService.svc/GetRegNoData?v=" + vehicleNo;
 
@@ -36,6 +39,8 @@ public class DynamicController implements IDynamic {
             public void onResponse(Call<VehicleInfoEntity> call, Response<VehicleInfoEntity> response) {
                 if (response.body() != null) {
                     iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    new TrackingController(mContext).saveVehicleInfo(1, vehicleNo,
+                            new Gson().toJson(response));
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Vehicle detail not found."));
                 }
@@ -61,7 +66,7 @@ public class DynamicController implements IDynamic {
     }
 
     @Override
-    public void getVehicleByMobileNo(String mobileNo, final IResponseSubcriber iResponseSubcriber) {
+    public void getVehicleByMobileNo(final String mobileNo, final IResponseSubcriber iResponseSubcriber) {
 
         String url = "http://inspection.policyboss.com/api/generic-info?m=" + mobileNo;
 
@@ -71,6 +76,8 @@ public class DynamicController implements IDynamic {
 
                 if (response.body() != null) {
                     iResponseSubcriber.OnSuccess(response.body(), "Success");
+                    new TrackingController(mContext).saveVehicleInfo(2, mobileNo,
+                            new Gson().toJson(response));
                 } else {
                     iResponseSubcriber.OnFailure(new RuntimeException("Detail not found"));
                 }

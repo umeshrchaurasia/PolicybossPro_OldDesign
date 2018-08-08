@@ -9,4 +9,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.Trackin
 
 public interface ITracking {
     void sendData(TrackingRequestEntity trackingRequestEntity, IResponseSubcriber iResponseSubcriber);
+
+    void saveVehicleInfo(int Type, String vehNoMobNo, String responseJson);
 }
