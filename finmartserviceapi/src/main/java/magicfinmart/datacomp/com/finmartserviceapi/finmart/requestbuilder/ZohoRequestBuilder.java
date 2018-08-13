@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CreateTicketrequest;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateTicketResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TicketCategoryResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TicketListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;

@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.mps;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

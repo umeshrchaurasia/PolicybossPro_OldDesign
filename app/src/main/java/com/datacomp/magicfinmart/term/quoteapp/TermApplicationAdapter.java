@@ -11,7 +11,6 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
 

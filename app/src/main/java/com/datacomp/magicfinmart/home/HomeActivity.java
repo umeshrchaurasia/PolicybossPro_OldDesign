@@ -35,7 +35,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
-import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
 import com.datacomp.magicfinmart.mps.MPSFragment;
@@ -141,7 +140,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (loginResponseEntity != null) {
             init_headers();
         }
-
+        if (db.getAccountData() == null) {
+            new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
+        }
 //        List<String> rtoDesc = db.getRTOListNames();
 
 
@@ -236,7 +237,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
                         break;
-                    case R.id.nav_posptraining:
+                    /*case R.id.nav_posptraining:
                         startActivity(new Intent(HomeActivity.this, com.datacomp.magicfinmart.pospapp.login.LoginActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("POPS TRAINING : POPS TRAINING button in menu "), Constants.POSP_TRAINING), null);
                         break;
@@ -244,7 +245,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, SplashScreen.class));
                        // startActivity(new Intent(HomeActivity.this, PreviewVideoActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.INSPECTION), null);
-                        break;
+                        break;*/
 
                     case R.id.nav_whatsnew:
                         startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
@@ -330,9 +331,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtFbaCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
         //txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
-        if (db.getAccountData() == null) {
-            new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
-        }
+
     }
 
     @Override

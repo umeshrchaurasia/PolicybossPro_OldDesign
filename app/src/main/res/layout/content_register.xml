@@ -126,7 +126,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView3"
                             style="@style/TextStyle.TextMedium"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"

@@ -18,10 +18,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteapplication.QuoteApplicationController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
 
 public class HealthQuoteAppActivity extends BaseActivity implements IResponseSubcriber {
     Toolbar toolbar;

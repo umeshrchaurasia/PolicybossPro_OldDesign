@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart.dashboard;
 
-import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -9,30 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
-import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
-import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
-import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
-import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
-import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
-import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
-import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
-import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
-import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
-import com.datacomp.magicfinmart.utility.Constants;
-import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 
 public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {

@@ -15,14 +15,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.HealthActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
-import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
-import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +30,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 

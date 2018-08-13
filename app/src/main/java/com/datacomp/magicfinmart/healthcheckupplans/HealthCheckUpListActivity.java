@@ -3,8 +3,6 @@ package com.datacomp.magicfinmart.healthcheckupplans;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,11 +19,9 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 
 import java.util.List;
 
-import io.fabric.sdk.android.services.common.SafeToast;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.controller.healthcheckup.HealthCheckUPController;

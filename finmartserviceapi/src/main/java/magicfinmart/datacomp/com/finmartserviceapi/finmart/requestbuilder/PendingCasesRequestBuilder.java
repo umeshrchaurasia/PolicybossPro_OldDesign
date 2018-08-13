@@ -2,7 +2,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import java.util.HashMap;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCasesResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;

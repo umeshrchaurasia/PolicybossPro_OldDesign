@@ -4,7 +4,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BLLoanR
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
-
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.retrobuilder.LoanRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;

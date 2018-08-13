@@ -9,13 +9,9 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.ILogin;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.HealthRequestBuilder;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.LoginRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BenefitsListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
@@ -23,7 +19,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteC
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthShortLinkResponse;
 import retrofit2.Call;
 import retrofit2.Callback;

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -22,11 +21,9 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.ActivityTabsPagerAdapter_BL;
-import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransfer_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,11 +36,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.Trackin
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BLNodeMainEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmBalanceLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmBalanceLoanResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteBLResponse;
 
 

@@ -1,7 +1,6 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;

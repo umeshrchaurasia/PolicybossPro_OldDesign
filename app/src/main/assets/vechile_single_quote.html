@@ -666,12 +666,7 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
                     OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_elect_access + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.own_damage.od_elect_access * 100) / 100 + '</td>';
                     OwnDamage = OwnDamage + '</tr>';
                 }
-                if (response.Premium_Breakup.own_damage.hasOwnProperty('od_final_premium') && response.Premium_Breakup.own_damage.od_final_premium != 0) {
 
-                    OwnDamage = OwnDamage + '<tr>';
-                    OwnDamage = OwnDamage + ' <td style="width:70%"><b>' + owndamage_list.od_final_premium + '<b></td> <td style="width:30%"> <b>' + Math.round(response.Premium_Breakup.own_damage.od_final_premium * 100) / 100 + '<b></td>';
-                    OwnDamage = OwnDamage + '</tr>';
-                }
                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_loading') && response.Premium_Breakup.own_damage.od_loading != 0) {
 
                     OwnDamage = OwnDamage + '<tr>';
@@ -682,6 +677,12 @@ TotalAddOn = TotalAddOn + response.Addon_List.addon_ncb_protection_cover;
 
                     OwnDamage = OwnDamage + '<tr>';
                     OwnDamage = OwnDamage + ' <td style="width:70%">' + owndamage_list.od_non_elect_access + '</td> <td style="width:30%"> ' + Math.round(response.Premium_Breakup.own_damage.od_non_elect_access * 100) / 100 + '</td>';
+                    OwnDamage = OwnDamage + '</tr>';
+                }
+                 if (response.Premium_Breakup.own_damage.hasOwnProperty('od_final_premium') && response.Premium_Breakup.own_damage.od_final_premium != 0) {
+
+                    OwnDamage = OwnDamage + '<tr>';
+                    OwnDamage = OwnDamage + ' <td style="width:70%"><b>' + owndamage_list.od_final_premium + '<b></td> <td style="width:30%"> <b>' + Math.round(response.Premium_Breakup.own_damage.od_final_premium * 100) / 100 + '<b></td>';
                     OwnDamage = OwnDamage + '</tr>';
                 }
             }

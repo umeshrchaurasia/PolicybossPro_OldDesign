@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.health.compare;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 

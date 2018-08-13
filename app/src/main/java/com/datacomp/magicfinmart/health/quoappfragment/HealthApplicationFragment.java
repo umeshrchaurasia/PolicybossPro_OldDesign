@@ -2,7 +2,6 @@ package com.datacomp.magicfinmart.health.quoappfragment;
 
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,14 +14,10 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.HealthActivityTabsPagerAdapter;
-import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
-import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
-import com.datacomp.magicfinmart.motor.privatecar.adapter.ActivityTabsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +26,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ApplicationListEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthApplication;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 
 /**

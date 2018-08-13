@@ -9,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 
 import java.util.List;
 

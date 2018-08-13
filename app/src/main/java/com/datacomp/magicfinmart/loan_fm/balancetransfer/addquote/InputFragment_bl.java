@@ -234,8 +234,8 @@ public class InputFragment_bl extends BaseFragment implements View.OnClickListen
 
             if (TextUtils.isEmpty(CurrInc)) {
 
-                etOutstanding.setError("Please Enter Curr Int Rate.");
-                etOutstanding.requestFocus();
+                etCurrInc.setError("Please Enter Curr Int Rate.");
+                etCurrInc.requestFocus();
                 return;
 
             }

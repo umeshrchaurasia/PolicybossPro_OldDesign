@@ -18,17 +18,10 @@
         android:src="@drawable/finmart_logo" />
 
     <TextView
-        android:id="@+id/textView2"
         style="@style/TextViewStyle.Large"
         android:layout_below="@+id/imageView3"
         android:gravity="center"
         android:text="ONE STOP FINANCIAL SOLUTION"
         android:textColor="@color/header_dark_text" />
 
-    <!--<com.datacomp.magicfinmart.design.CustomTextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_below="@+id/textView2"-->
-    <!--android:layout_centerHorizontal="true"-->
-    <!--android:text="SpLASH SCREEN" />-->
 </RelativeLayout>

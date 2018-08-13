@@ -13,7 +13,6 @@ import com.datacomp.magicfinmart.introslider.WelcomeActivity;
 import com.datacomp.magicfinmart.login.LoginActivity;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;

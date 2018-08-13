@@ -7,7 +7,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
 
 /**

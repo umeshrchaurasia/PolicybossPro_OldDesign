@@ -1,13 +1,9 @@
 package com.datacomp.magicfinmart.loan_fm.popup;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,7 +16,6 @@ import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;

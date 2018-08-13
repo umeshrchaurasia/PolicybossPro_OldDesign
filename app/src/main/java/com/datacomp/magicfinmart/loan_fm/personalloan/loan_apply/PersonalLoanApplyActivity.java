@@ -6,11 +6,8 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -33,7 +30,6 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
-
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -60,13 +56,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystring;
-
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalLoanApplyAppliEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.RBCustomerEntity;
-
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpPersonLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveResponse;
-
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.RBCustomerResponse;
 

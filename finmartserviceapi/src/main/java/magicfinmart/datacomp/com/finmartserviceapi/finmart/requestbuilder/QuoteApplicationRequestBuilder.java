@@ -3,7 +3,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import java.util.HashMap;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteApplicationResponse;
@@ -12,7 +11,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartR
 import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.QuoteApplicationRequestEntity;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.HEAD;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 

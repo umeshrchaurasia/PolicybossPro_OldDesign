@@ -15,7 +15,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
@@ -24,7 +23,6 @@ import com.datacomp.magicfinmart.loan_fm.laploan.ActivityTabsPagerAdapter_LAP;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
