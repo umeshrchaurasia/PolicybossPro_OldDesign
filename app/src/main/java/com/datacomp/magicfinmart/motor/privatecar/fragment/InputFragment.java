@@ -656,11 +656,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
             etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));*/
             if (motorRequestEntity.getIs_claim_exists().equals("no")) {
-                int ncbPercent  =0;
-                if(motorRequestEntity.getVehicle_ncb_current()!=null && !motorRequestEntity.getVehicle_ncb_current().equals("")){
+                int ncbPercent = 0;
+                if (motorRequestEntity.getVehicle_ncb_current() != null && !motorRequestEntity.getVehicle_ncb_current().equals("")) {
                     ncbPercent = Integer.parseInt(motorRequestEntity.getVehicle_ncb_current());
                     setSeekbarProgress(ncbPercent);
-                }else{
+                } else {
                     setSeekbarProgress(ncbPercent);
                 }
                 //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
@@ -1523,7 +1523,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             else
                 i = k;
         }
-        return str.substring(0, i);
+        return str.substring(0, i).trim();
     }
 
     private int getMonth(String date) {
@@ -1745,10 +1745,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = displayFormat.format(calendar.getTime());
                             etExpDate.setText(currentDay);
-                            /*if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
+                            if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
                                 int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
                                 setSeekbarProgress(yearDiff);
-                            }*/
+                            }
                         }
                     }
                 });

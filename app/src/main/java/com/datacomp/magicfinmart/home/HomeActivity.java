@@ -118,6 +118,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
+
+
         try {
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionNAme = pinfo.versionName;
@@ -128,6 +130,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         try {
             Utility.getMacAddress(this);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -161,6 +165,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 //Closing drawer on item click
                 drawerLayout.closeDrawers();
                 //Check to see which item was being clicked and perform appropriate action
+
+                Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
                 Fragment fragment = null;
                 switch (menuItem.getItemId()) {
 
@@ -173,7 +179,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.nav_yesbankbot:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid="+String.valueOf(loginResponseEntity.getFBAId())+"&usertype=FBA&vkey=b34f02e9-8f1c")
+                                .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
                                 .putExtra("NAME", "" + "YES BANK BOT")
                                 .putExtra("TITLE", "" + "YES BANK BOT"));
 

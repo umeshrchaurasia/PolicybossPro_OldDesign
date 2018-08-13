@@ -217,7 +217,7 @@ public class DBPersistanceController {
         return listCarModel;
     }
 
-        public String getModelID(String makeName, String modelName) {
+    public String getModelID(String makeName, String modelName) {
         CarMasterEntity entity = realm.where(CarMasterEntity.class)
                 .equalTo("Make_Name", makeName.trim())
                 .equalTo("Model_Name", modelName.trim())

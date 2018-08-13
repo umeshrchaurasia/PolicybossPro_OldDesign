@@ -298,6 +298,9 @@ public class MasterController implements IMasterFetch {
 
                         new AsyncConstants(mContext, response.body().getMasterData()).execute();
 
+                        // new PrefManager(mContext).updateMotorVersion("1");
+
+
                         //existing master version
                         int motorVersion = Integer.parseInt(new PrefManager(mContext).getMotorVersion());
 
