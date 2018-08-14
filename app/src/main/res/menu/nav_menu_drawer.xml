@@ -63,11 +63,11 @@
             android:id="@+id/nav_posptraining"
             android:icon="@drawable/posp_training"
             android:title="POSP TRAINING"
-            android:visible="true" />
+            android:visible="false" />
         <item
             android:icon="@drawable/inspection"
             android:title="INSPECTION"
-            android:visible="true" />
+            android:visible="false" />
         <item
             android:id="@+id/nav_franchise"
             android:icon="@drawable/agreemnet"

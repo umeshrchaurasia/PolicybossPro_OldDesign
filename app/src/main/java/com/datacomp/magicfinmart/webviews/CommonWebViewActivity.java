@@ -53,7 +53,9 @@ public class CommonWebViewActivity extends BaseActivity {
         getSupportActionBar().setTitle(title);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        if (name.equals("ICICI PRUDENTIAL")) {
+        if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
+                || name.equals("FRANCHISE_AGREEMENT")) {
+            // fab.setVisibility(View.VISIBLE);
             fab.setVisibility(View.VISIBLE);
         } else {
             fab.setVisibility(View.GONE);

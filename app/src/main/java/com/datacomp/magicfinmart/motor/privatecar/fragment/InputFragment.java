@@ -1745,10 +1745,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = displayFormat.format(calendar.getTime());
                             etExpDate.setText(currentDay);
-                            if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
-                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
-                                setSeekbarProgress(yearDiff);
-                            }
+//                            if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
+//                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
+//                                setSeekbarProgress(yearDiff);
+//                            }
                         }
                     }
                 });
