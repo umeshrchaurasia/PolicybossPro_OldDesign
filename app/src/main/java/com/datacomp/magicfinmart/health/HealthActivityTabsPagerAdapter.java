@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.datacomp.magicfinmart.health.quoappfragment.HealthApplicationFragment;
@@ -12,7 +11,6 @@ import com.datacomp.magicfinmart.health.quoappfragment.HealthQuoteListFragment;
 
 import java.util.ArrayList;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteApplicationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
 
 

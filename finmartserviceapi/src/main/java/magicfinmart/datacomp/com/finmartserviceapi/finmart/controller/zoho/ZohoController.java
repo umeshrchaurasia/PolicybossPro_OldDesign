@@ -13,7 +13,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CreateT
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateTicketResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TicketCategoryResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TicketListResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

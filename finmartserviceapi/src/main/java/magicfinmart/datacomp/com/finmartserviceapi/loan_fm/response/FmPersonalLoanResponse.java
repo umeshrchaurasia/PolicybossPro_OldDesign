@@ -1,8 +1,6 @@
 package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response;
 
 
-import java.util.List;
-
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalMainEntity;
 

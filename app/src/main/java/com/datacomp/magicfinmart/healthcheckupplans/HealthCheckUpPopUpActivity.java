@@ -10,9 +10,7 @@ import android.widget.Button;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class HealthCheckUpPopUpActivity extends BaseActivity implements View.OnClickListener {
     RecyclerView rvHealthCheckTestDetails;

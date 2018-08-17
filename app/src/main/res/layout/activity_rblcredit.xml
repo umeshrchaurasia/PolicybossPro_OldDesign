@@ -28,7 +28,6 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/scrollMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/btnSubmit"
@@ -210,7 +209,6 @@
                         android:layout_weight="1">
 
                         <RadioGroup
-                            android:id="@+id/rgHadLoan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal">
@@ -223,7 +221,6 @@
                                 android:text="Yes" />
 
                             <RadioButton
-                                android:id="@+id/radioNo"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="No" />
@@ -441,7 +438,6 @@
                             android:orientation="horizontal">
 
                             <RadioGroup
-                                android:id="@+id/rgEmpType"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal">

@@ -9,8 +9,6 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 
-import java.util.List;
-
 /**
  * Created by IN-RB on 21-05-2018.
  */

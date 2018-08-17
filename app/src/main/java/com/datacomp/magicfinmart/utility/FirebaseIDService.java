@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart.utility;
 
-import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;

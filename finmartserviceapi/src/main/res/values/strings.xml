@@ -3,9 +3,4 @@
 
     <string name="net_connection">Check your internet connection</string>
 
-    <string name="Eng_bold"><b>ENGLISH</b></string>
-    <string name="Eng">ENGLISH </string>
-
-    <string name="Hindi_bold"><b>HINDI</b></string>
-    <string name="Hindi">HINDI </string>
 </resources>

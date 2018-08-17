@@ -53,8 +53,10 @@ public class HealthCheckUpPlansActivity extends BaseActivity implements IRespons
         dbPersistanceController = new DBPersistanceController(this);
         healthPackDEntity = dbPersistanceController.getHealthCheckUPPlans();
         init_widgets();
-
+        txtMobile.setText("" + new DBPersistanceController(this).getUserData().getMobiNumb1());
+        ((TextView) findViewById(R.id.txtFBAName)).setText(new DBPersistanceController(this).getUserData().getFullName());
         //region fetch  data of health checkup plans
+
         HealthPacksRequestEntity healthPacksRequestEntity = new HealthPacksRequestEntity();
         PackDetailsEntity packDetailsEntity = new PackDetailsEntity();
         healthPacksRequestEntity.setPack_details(packDetailsEntity);
@@ -62,13 +64,12 @@ public class HealthCheckUpPlansActivity extends BaseActivity implements IRespons
         new HealthCheckUPController(this).getHealthPacks(healthPacksRequestEntity, this);
         //endregion
 
-        txtMobile.setText("" + new DBPersistanceController(this).getUserData().getMobiNumb1());
-        ((TextView) findViewById(R.id.txtFBAName)).setText(new DBPersistanceController(this).getUserData().getFullName());
 
     }
 
     private void init_widgets() {
         txtMobile = (TextView) findViewById(R.id.txtMobile);
+
         imgShare = (ImageView) findViewById(R.id.imgShare);
         imgShare.setOnClickListener(this);
         rvHealthCheck = (RecyclerView) findViewById(R.id.rvHealthCheck);

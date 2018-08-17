@@ -25,10 +25,8 @@ import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppAct
 import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
-import com.datacomp.magicfinmart.utility.ClickListener;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.RecyclerItemClickListener;
-import com.datacomp.magicfinmart.utility.RecyclerTouchListener;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;

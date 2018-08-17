@@ -2,9 +2,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane;
 
 import android.content.Context;
 
-import java.net.ConnectException;
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;

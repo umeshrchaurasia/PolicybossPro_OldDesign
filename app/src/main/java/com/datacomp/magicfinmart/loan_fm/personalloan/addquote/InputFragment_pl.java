@@ -4,9 +4,7 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.InputFilter;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,11 +13,8 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
@@ -27,14 +22,12 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
@@ -298,6 +291,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             String MonthlyInc = etMonthlyInc.getText().toString();
             String Pan_no = etPAN.getText().toString();
             String CostOfProp = etCostOfProp.getText().toString();
+            String Contact = etcontact.getText().toString();
 
             if (TextUtils.isEmpty(NameOfApplicant)) {
 
@@ -339,6 +333,20 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
             }
 
+            if (TextUtils.isEmpty(Contact)) {
+
+
+            }
+            else {
+                if (Contact.length()<10) {
+
+                    etcontact.setError("Please Enter 10 digit Mobile Number.");
+                    etcontact.requestFocus();
+                    return;
+
+                }
+
+            }
             // endregion
             setApplicantDetails();
 

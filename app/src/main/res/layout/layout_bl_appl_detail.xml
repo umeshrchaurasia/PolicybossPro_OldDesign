@@ -92,7 +92,6 @@
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textView2s"
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginRight="1dp"
@@ -111,7 +110,6 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textView1014"
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
@@ -137,7 +135,6 @@
         android:orientation="horizontal">
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textView10"
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginRight="1dp"
@@ -157,7 +154,6 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textView104"
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"
@@ -184,7 +180,6 @@
 
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/textView2"
             style="@style/TextAppearence.App.TextInputLayout"
             android:layout_width="0dp"
             android:layout_marginLeft="1dp"

@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart.loan_fm.laploan.addquote;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
-
-import java.math.BigDecimal;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;

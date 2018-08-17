@@ -9,13 +9,11 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
 
 public class HealthNineBenefitsViewAdapter extends RecyclerView.Adapter<HealthNineBenefitsViewAdapter.ViewHolder> {
 

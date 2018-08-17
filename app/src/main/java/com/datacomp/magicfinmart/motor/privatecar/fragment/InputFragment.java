@@ -30,7 +30,6 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -51,7 +50,6 @@ import com.google.gson.Gson;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
-import java.security.spec.ECField;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -658,7 +656,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
             etExpDate.setText(simpleDateFormat.format(simpleDateFormat.parse(motorRequestEntity.getPolicy_expiry_date())));*/
             if (motorRequestEntity.getIs_claim_exists().equals("no")) {
-                setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+                int ncbPercent = 0;
+                if (motorRequestEntity.getVehicle_ncb_current() != null && !motorRequestEntity.getVehicle_ncb_current().equals("")) {
+                    ncbPercent = Integer.parseInt(motorRequestEntity.getVehicle_ncb_current());
+                    setSeekbarProgress(ncbPercent);
+                } else {
+                    setSeekbarProgress(ncbPercent);
+                }
+                //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
             } else {
                 tvClaimYes.performClick();
             }
@@ -979,6 +984,24 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 return 45;
             case 5:
                 return 50;
+        }
+        return 0;
+    }
+
+    public int getProgressFromPercent(int value) {
+        switch (value) {
+            case 0:
+                return 0;
+            case 20:
+                return 1;
+            case 25:
+                return 2;
+            case 35:
+                return 3;
+            case 45:
+                return 4;
+            case 50:
+                return 5;
         }
         return 0;
     }
@@ -1500,7 +1523,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             else
                 i = k;
         }
-        return str.substring(0, i);
+        return str.substring(0, i).trim();
     }
 
     private int getMonth(String date) {
@@ -1722,10 +1745,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String currentDay = displayFormat.format(calendar.getTime());
                             etExpDate.setText(currentDay);
-                            if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
-                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
-                                setSeekbarProgress(yearDiff);
-                            }
+//                            if (etRegDate.getText().toString() != null && !etRegDate.getText().toString().equals("")) {
+//                                int yearDiff = getYearDiffForNCB(currentDay, etRegDate.getText().toString());
+//                                setSeekbarProgress(yearDiff);
+//                            }
                         }
                     }
                 });
@@ -2076,8 +2099,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
     }
 
-    private void setSeekbarProgress(int yearDiff) {
-        if (yearDiff >= 5) {
+    private void setSeekbarProgress(int percent) {
+        int progress = getProgressFromPercent(percent);
+
+        tvClaimNo.performClick();
+        sbNoClaimBonus.setProgress(progress);
+        tvProgress.setText("Existing NCB (" + percent + "%)");
+
+         /*if (yearDiff >= 5) {
             tvClaimNo.performClick();
             sbNoClaimBonus.setProgress(5);
             tvProgress.setText("Existing NCB (" + getPercentFromProgress(5) + "%)");
@@ -2085,7 +2114,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             tvClaimNo.performClick();
             sbNoClaimBonus.setProgress(yearDiff);
             tvProgress.setText("Existing NCB (" + getPercentFromProgress(yearDiff) + "%)");
-        }
+        }*/
     }
 
     @Override

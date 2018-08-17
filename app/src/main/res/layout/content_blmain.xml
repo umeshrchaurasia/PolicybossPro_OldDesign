@@ -99,7 +99,6 @@ tools:showIn="@layout/activity_blmain">
 
             <ImageView
 
-                android:id="@+id/ivHdrParent3"
                 android:layout_width="0dp"
                 android:layout_height="3dp"
                 android:layout_marginBottom="0dp"

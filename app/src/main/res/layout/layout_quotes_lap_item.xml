@@ -25,7 +25,6 @@
 
             <TableLayout
 
-                android:id="@+id/tableLayout1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:shrinkColumns="*"
@@ -33,7 +32,6 @@
                 android:stretchColumns="*">
 
                 <TableRow
-                    android:id="@+id/tableRow11"
                     android:background="@drawable/bordertbl"
                     android:layout_height="wrap_content"
 
@@ -163,7 +161,6 @@
                 </TableRow>
 
                 <TableRow
-                    android:id="@+id/tableRow112"
                     android:background="@drawable/bordertbl"
                     android:layout_height="wrap_content"
                     android:minHeight="60dp"
@@ -242,7 +239,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView8"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:paddingLeft="5dp"
@@ -346,7 +342,6 @@
                     >
 
                     <TextView
-                        android:id="@+id/tvDetails1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
@@ -374,7 +369,6 @@
                     android:orientation="horizontal"
                     >
                     <TextView
-                        android:id="@+id/tvDetails2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
@@ -402,7 +396,6 @@
                     android:background="@color/lightGrey"
                     >
                     <TextView
-                        android:id="@+id/tvDetails3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
@@ -430,7 +423,6 @@
                     android:background="@color/white"
                     >
                     <TextView
-                        android:id="@+id/tvDetails4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
@@ -458,7 +450,6 @@
                     android:background="@color/lightGrey"
                     >
                     <TextView
-                        android:id="@+id/tvDetails5"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
@@ -486,7 +477,6 @@
                     android:background="@color/white"
                     >
                     <TextView
-                        android:id="@+id/tvDetails6"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"

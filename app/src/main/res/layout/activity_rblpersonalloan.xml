@@ -64,7 +64,6 @@
                         android:layout_marginTop="8dp">
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/tlFirstName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -83,7 +82,6 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/tlMiddleName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -106,7 +104,6 @@
                         android:layout_marginTop="0dp">
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/tlLastName"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -298,7 +295,6 @@
                                 android:maxLines="1" />
                         </android.support.design.widget.TextInputLayout>
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/textView14"
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_marginLeft="1dp"
@@ -362,7 +358,6 @@
 
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/textView19"
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_marginLeft="1dp"
@@ -398,7 +393,6 @@
                         android:layout_marginTop="0dp">
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/textView104"
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_marginLeft="1dp"
@@ -623,7 +617,6 @@
                             android:layout_marginTop="8dp">
 
                             <android.support.design.widget.TextInputLayout
-                                android:id="@+id/textView134"
                                 style="@style/TextAppearence.App.TextInputLayout"
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="1dp"
@@ -755,7 +748,6 @@
                             </android.support.design.widget.TextInputLayout>
 
                             <android.support.design.widget.TextInputLayout
-                                android:id="@+id/textView18"
                                 style="@style/TextAppearence.App.TextInputLayout"
                                 android:layout_width="0dp"
                                 android:layout_marginLeft="1dp"

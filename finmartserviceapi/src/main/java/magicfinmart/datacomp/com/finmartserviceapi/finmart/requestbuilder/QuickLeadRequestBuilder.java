@@ -1,7 +1,6 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.QuickLeadRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreditCardMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuickLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;

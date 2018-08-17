@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart.health.fragment;
 
-import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -10,12 +9,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
-import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
 public class HealthSumAssuredViewAdapter extends RecyclerView.Adapter<HealthSumAssuredViewAdapter.ViewHolder> {

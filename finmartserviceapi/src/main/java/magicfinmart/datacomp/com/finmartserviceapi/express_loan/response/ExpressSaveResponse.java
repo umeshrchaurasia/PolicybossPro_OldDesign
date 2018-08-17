@@ -1,7 +1,5 @@
 package magicfinmart.datacomp.com.finmartserviceapi.express_loan.response;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ExpressSaveResponseEntity;

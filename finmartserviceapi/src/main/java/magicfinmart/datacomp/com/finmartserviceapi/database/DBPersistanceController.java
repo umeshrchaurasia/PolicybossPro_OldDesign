@@ -35,7 +35,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.pospapp.models.LoginEntity;
+
 
 /**
  * Created by Rajeev Ranjan on 04/01/2018.
@@ -310,7 +310,8 @@ public class DBPersistanceController {
     }
 
     public String getVariantID(String variantName, String modelName, String makeName) {
-        CarMasterEntity entity = realm.where(CarMasterEntity.class).equalTo("Model_Name", modelName.trim())
+        CarMasterEntity entity = realm.where(CarMasterEntity.class)
+                .equalTo("Model_Name", modelName.trim())
                 .equalTo("Variant_Name", variantName.trim())
                 .equalTo("Make_Name", makeName.trim()).findFirst();
 

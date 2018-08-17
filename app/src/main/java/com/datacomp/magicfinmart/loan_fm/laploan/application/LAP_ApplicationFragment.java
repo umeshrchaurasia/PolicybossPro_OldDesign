@@ -24,10 +24,6 @@ import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanApplicationAdapter;
 import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.popup.LeadInfoPopupActivity;
 
-/**
- * Created by IN-RB on 22-01-2018.
- */
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,6 +34,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmHomelLoanResponse;
+
+/**
+ * Created by IN-RB on 22-01-2018.
+ */
 
 public class LAP_ApplicationFragment extends BaseFragment implements View.OnClickListener, IResponseSubcriberFM {
     RecyclerView rvApplicationList;

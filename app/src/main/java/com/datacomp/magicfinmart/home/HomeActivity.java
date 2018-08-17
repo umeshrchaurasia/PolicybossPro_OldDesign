@@ -35,7 +35,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
-import com.datacomp.magicfinmart.inspection.splash.SplashScreen;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
 import com.datacomp.magicfinmart.mps.MPSFragment;
@@ -119,6 +118,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         setSupportActionBar(toolbar);
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
+
+
         try {
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionNAme = pinfo.versionName;
@@ -129,6 +130,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         try {
             Utility.getMacAddress(this);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -141,7 +144,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (loginResponseEntity != null) {
             init_headers();
         }
-
+        if (db.getAccountData() == null) {
+            new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
+        }
 //        List<String> rtoDesc = db.getRTOListNames();
 
 
@@ -160,6 +165,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 //Closing drawer on item click
                 drawerLayout.closeDrawers();
                 //Check to see which item was being clicked and perform appropriate action
+
+                Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
                 Fragment fragment = null;
 
                 //hide keyboard
@@ -240,7 +247,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, HelpFeedBackActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
                         break;
-                    case R.id.nav_posptraining:
+                    /*case R.id.nav_posptraining:
                         startActivity(new Intent(HomeActivity.this, com.datacomp.magicfinmart.pospapp.login.LoginActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("POPS TRAINING : POPS TRAINING button in menu "), Constants.POSP_TRAINING), null);
                         break;
@@ -248,7 +255,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, SplashScreen.class));
                         // startActivity(new Intent(HomeActivity.this, PreviewVideoActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.INSPECTION), null);
-                        break;
+                        break;*/
 
                     case R.id.nav_whatsnew:
                         startActivity(new Intent(HomeActivity.this, WhatsNewActivity.class));
@@ -256,7 +263,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_franchise:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "http://49.50.95.141:97/hTMLPAGES/Finmart_Agreement.pdf")
+                                .putExtra("URL", "http://erp.rupeeboss.com/FM/Franchise_Agreement.pdf")
                                 .putExtra("NAME", "FRANCHISE_AGREEMENT")
                                 .putExtra("TITLE", "FRANCHISE AGREEMENT"));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
@@ -334,9 +341,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtFbaCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
         //txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
-        if (db.getAccountData() == null) {
-            new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
-        }
+
     }
 
     @Override
@@ -675,7 +680,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     public void hideNavigationItem() {
         Menu nav_Menu = navigationView.getMenu();
         if (Utility.checkPospTrainingStatus(this) == 1)
-            nav_Menu.findItem(R.id.nav_posptraining).setVisible(true);
+            nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
         else
             nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
     }

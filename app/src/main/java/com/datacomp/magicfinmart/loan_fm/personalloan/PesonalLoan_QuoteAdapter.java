@@ -1,27 +1,23 @@
 package com.datacomp.magicfinmart.loan_fm.personalloan;
 
-import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.quote.PL_QuoteFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-import android.support.v4.app.Fragment;
-import android.widget.TextView;
-import android.widget.Toast;
-
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 
