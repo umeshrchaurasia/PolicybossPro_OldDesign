@@ -41,6 +41,7 @@ public class HealthCheckUpPlansActivity extends BaseActivity implements IRespons
     ImageView imgShare;
     String strName = "";
     HealthShortLinkResponse linkResponse;
+    TextView txtMobile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +62,13 @@ public class HealthCheckUpPlansActivity extends BaseActivity implements IRespons
         new HealthCheckUPController(this).getHealthPacks(healthPacksRequestEntity, this);
         //endregion
 
+        txtMobile.setText("" + new DBPersistanceController(this).getUserData().getMobiNumb1());
+        ((TextView) findViewById(R.id.txtFBAName)).setText(new DBPersistanceController(this).getUserData().getFullName());
 
     }
 
     private void init_widgets() {
+        txtMobile = (TextView) findViewById(R.id.txtMobile);
         imgShare = (ImageView) findViewById(R.id.imgShare);
         imgShare.setOnClickListener(this);
         rvHealthCheck = (RecyclerView) findViewById(R.id.rvHealthCheck);

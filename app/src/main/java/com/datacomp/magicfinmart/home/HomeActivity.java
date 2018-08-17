@@ -161,6 +161,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 drawerLayout.closeDrawers();
                 //Check to see which item was being clicked and perform appropriate action
                 Fragment fragment = null;
+
+                //hide keyboard
+                Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
+
                 switch (menuItem.getItemId()) {
 
                     //added by Nilesh
@@ -172,7 +176,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.nav_yesbankbot:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
-                                .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid="+String.valueOf(loginResponseEntity.getFBAId())+"&usertype=FBA&vkey=b34f02e9-8f1c")
+                                .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(loginResponseEntity.getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
                                 .putExtra("NAME", "" + "YES BANK BOT")
                                 .putExtra("TITLE", "" + "YES BANK BOT"));
 
@@ -242,7 +246,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
                     case R.id.nav_selfinspection:
                         startActivity(new Intent(HomeActivity.this, SplashScreen.class));
-                       // startActivity(new Intent(HomeActivity.this, PreviewVideoActivity.class));
+                        // startActivity(new Intent(HomeActivity.this, PreviewVideoActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("INSPECTION : INSPECTION button in menu "), Constants.INSPECTION), null);
                         break;
 
