@@ -407,6 +407,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             etPincode.setError("Enter Pincode");
             return false;
         }
+        if(!etPincode.getText().toString().equals("")){
+            if(etPincode.getText().toString().length() !=6){
+                etPincode.requestFocus();
+                etPincode.setError("Enter Valid Pincode");
+                return false;
+            }
+        }
         if (!isEmpty(etCity)) {
             etCity.requestFocus();
             etCity.setError("Enter City");

@@ -213,63 +213,63 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 //car
                 mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
-                MyApplication.getInstance().trackEvent( Constants.PRIVATE_CAR,"Clicked","Motor insurance tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
             case 10:
                 //bike
                 //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
                 mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
-                MyApplication.getInstance().trackEvent( Constants.TWO_WHEELER,"Clicked","Two Wheeler tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
                 break;
             case 3:
                 //health
                 mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
-                MyApplication.getInstance().trackEvent( Constants.HEALTH_INS,"Clicked","Health insurance tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.HEALTH_INS, "Clicked", "Health insurance tab on home page");
                 break;
             case 4:
                 //home loan
                 mContext.startActivity(new Intent(mContext, HomeLoanDetailActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Home Loan tab on home page"), Constants.HOME_LOAN), null);
-                MyApplication.getInstance().trackEvent( Constants.HOME_LOAN,"Clicked","Home Loan tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Home Loan tab on home page");
                 break;
             case 5:
                 //personal loan
                 mContext.startActivity(new Intent(mContext, PersonalLoanDetailActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
-                MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","Personal loan tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
                 break;
             case 6:
                 //lap
                 mContext.startActivity(new Intent(mContext, LapLoanDetailActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
-                MyApplication.getInstance().trackEvent( Constants.LAP,"Clicked","LAP tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
                 break;
             case 7:
                 //cc
                 // mContext.startActivity(new Intent(mContext, CreditCardMainActivity.class));
                 mContext.startActivity(new Intent(mContext, AppliedCreditListActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Credit Card tab on home page"), Constants.CREDIT_CARD), null);
-                MyApplication.getInstance().trackEvent( Constants.CREDIT_CARD,"Clicked","Credit Card tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.CREDIT_CARD, "Clicked", "Credit Card tab on home page");
                 break;
             case 8:
                 //BT
                 mContext.startActivity(new Intent(mContext, BalanceTransferDetailActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Balance Transfer tab on home page"), Constants.BALANCE_TRANSFER), null);
-                MyApplication.getInstance().trackEvent( Constants.BALANCE_TRANSFER,"Clicked","Balance Transfer tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.BALANCE_TRANSFER, "Clicked", "Balance Transfer tab on home page");
                 break;
             case 9:
 
                 mContext.startActivity(new Intent(mContext, QuickLeadActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
-                MyApplication.getInstance().trackEvent( Constants.QUICK_LEAD,"Clicked","Quick Lead tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 break;
             case 13:
 
                 mContext.startActivity(new Intent(mContext, AppliedOnlineLoanListActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
-                MyApplication.getInstance().trackEvent( Constants.QUICK_LEAD,"Clicked","Express Loan tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Express Loan tab on home page");
                 break;
 
 
@@ -281,20 +281,26 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .putExtra("NAME", "FIN-PEACE")
                         .putExtra("TITLE", "FIN-PEACE"));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
-                MyApplication.getInstance().trackEvent( Constants.FIN_PEACE,"Clicked","Fin Peace tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
                 break;
             case 11:
                 //health check up
                 mContext.startActivity(new Intent(mContext, HealthCheckUpListActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
-                MyApplication.getInstance().trackEvent( Constants.HEALTH_CHECKUP,"Clicked","Health CheckUp tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
                 break;
 
             case 12:
                 //Life Insurance
                 mContext.startActivity(new Intent(mContext, TermSelectionActivity.class));
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
-                MyApplication.getInstance().trackEvent( Constants.LIFE_INS,"Clicked","Life insurance tab on home page");
+                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
+                break;
+            case 14:
+                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                        .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
+                        .putExtra("NAME", "" + "YES BANK BOT")
+                        .putExtra("TITLE", "" + "YES BANK BOT"));
                 break;
             default:
                 Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();

@@ -14,8 +14,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
 
     <application
 
@@ -200,9 +200,9 @@
                 android:value="com.datacomp.magicfinmart.motor.privatecar.activity.QuoteActivity" />
         </activity>
         <activity
-            android:launchMode="singleTop"
             android:name=".motor.privatecar.activity.PremiumBreakUpActivity"
             android:label="@string/title_activity_premium_break_up"
+            android:launchMode="singleTop"
             android:noHistory="true"
             android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
             android:screenOrientation="portrait"
@@ -728,8 +728,8 @@
         <activity
             android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
             android:label="@string/title_activity_balance_transfer_personal_apply"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
 
 
@@ -740,10 +740,6 @@
             </intent-filter>
         </receiver>
         -->
-
-
-
-
 
 
         <activity

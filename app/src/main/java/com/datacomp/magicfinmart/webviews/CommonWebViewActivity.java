@@ -38,6 +38,8 @@ public class CommonWebViewActivity extends BaseActivity {
     String url;
     String name;
     String title;
+    CountDownTimer countDownTimer;
+    public static boolean isActive = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +78,7 @@ public class CommonWebViewActivity extends BaseActivity {
     }
 
     private void startCountDownTimer() {
-        new CountDownTimer(30000, 1000) {
+        countDownTimer = new CountDownTimer(30000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
@@ -91,7 +93,8 @@ public class CommonWebViewActivity extends BaseActivity {
                 }
             }
 
-        }.start();
+        };
+        countDownTimer.start();
     }
 
     private boolean isNetworkConnected() {
@@ -133,7 +136,8 @@ public class CommonWebViewActivity extends BaseActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 // TODO show you progress image
-                showDialog();
+                if (isActive)
+                    showDialog(CommonWebViewActivity.this);
                 // new ProgressAsync().execute();
                 super.onPageStarted(view, url, favicon);
             }
@@ -277,5 +281,19 @@ public class CommonWebViewActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.home_menu, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isActive = true;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        isActive = false;
+        if (countDownTimer != null)
+            countDownTimer.cancel();
     }
 }

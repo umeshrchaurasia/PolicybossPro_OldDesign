@@ -205,17 +205,38 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    protected void cancelDialog(Context context) {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+    }
+
     protected void showDialog() {
 //        dialog = ProgressDialog.show(BaseActivity.this, "", "Loading...", true);
         showDialog("Loading...");
     }
 
-    protected void showDialog(String msg) {
+    protected void showDialog(Context context) {
+        // dialog = ProgressDialog.show(context, "", "Loading...", true);
+        if (context != null)
+            showDialog("Loading...", context);
+    }
+
+    protected void showDialog(String msg, Context context) {
         if (dialog == null)
-            dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+            dialog = ProgressDialog.show(context, "", msg, true);
         else {
             if (!dialog.isShowing())
-                dialog = ProgressDialog.show(BaseActivity.this, "", msg, true);
+                dialog = ProgressDialog.show(context, "", msg, true);
+        }
+    }
+
+    protected void showDialog(String msg) {
+        if (dialog == null)
+            dialog = ProgressDialog.show(this, "", msg, true);
+        else {
+            if (!dialog.isShowing())
+                dialog = ProgressDialog.show(this, "", msg, true);
         }
     }
 

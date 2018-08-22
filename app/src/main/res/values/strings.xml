@@ -269,7 +269,7 @@
         <item>Working Capital</item>
         <item>Home Loan</item>
         <item>Business Loan</item>
-        <item>Term Loan</item>
+        <!--<item>Term Loan</item>-->
 
     </string-array>
 
