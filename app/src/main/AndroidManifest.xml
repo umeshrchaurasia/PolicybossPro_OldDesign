@@ -46,6 +46,13 @@
             </intent-filter>
         </receiver>
 
+
+        <receiver android:name=".broadcast.UpdateAppBroadCastReceiver">
+            <intent-filter android:priority="5823">
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".utility.MyFirebaseMessagingService"
             android:exported="true"
