@@ -32,6 +32,9 @@ public class DynamicController implements IDynamic {
     @Override
     public void getVehicleByVehicleNo(final String vehicleNo, final IResponseSubcriber iResponseSubcriber) {
 
+        // String url = "http://202.131.96.98:8041/PolicyBossRegNoService.svc/GetRegNoData?v=" + vehicleNo;
+
+        //Rupeeboss
         String url = "http://202.131.96.98:8041/PolicyBossRegNoService.svc/GetRegNoData?v=" + vehicleNo;
 
         genericUrlNetworkService.getVehicleByVehicleNo(url).enqueue(new Callback<VehicleInfoEntity>() {
