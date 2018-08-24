@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,11 +20,9 @@ import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.ActivityTabsPagerAdapter_PL;
-import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PesonalLoan_QuoteAdapter;
 import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
 import com.datacomp.magicfinmart.utility.Constants;
-
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

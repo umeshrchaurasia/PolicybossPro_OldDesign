@@ -207,7 +207,6 @@
                         android:trackTint="@color/colorPrimaryDark" />
 
                     <TextView
-                        android:id="@+id/tvIndiVidual"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignBaseline="@+id/swIndividual"

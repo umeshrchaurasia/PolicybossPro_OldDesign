@@ -3,39 +3,27 @@ package com.datacomp.magicfinmart.onlineexpressloan;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.text.InputFilter;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ListAdapter;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
@@ -283,13 +271,6 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                     etLoanAmount.setError(null);
                 }
 
-
-                if((Double.valueOf(etNetIncome.getText().toString()) < 20000))
-                {
-                    showAlert("Net Income should be equal or greater than 20 thousands");
-                    return;
-                }
-
                 double loanAmnt = Double.valueOf(etLoanAmount.getText().toString());
                 if (loanAmnt < 75000 || loanAmnt > 8000000) {
                     showAlert("Loan amount should be between 75 Thousands to 80 Lacs");
@@ -342,7 +323,7 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
 
 
                 if (!isValidePhoneNumber(etMobileNo)) {
-                    etMobileNo.setError("Enter Designation");
+                    etMobileNo.setError("Enter Mobile No)");
                     etMobileNo.setFocusable(true);
                     return;
                 } else {
@@ -400,6 +381,7 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                 }
 
 
+
                 if (!isEmpty(etyrs_of_emp)) {
                     etyrs_of_emp.setError("Enter No of Years in Employment");
                     etyrs_of_emp.setFocusable(true);
@@ -439,6 +421,9 @@ public class HdfcpersonalloanActivity extends BaseActivity implements View.OnCli
                 } else {
                     etcurrentaddress.setError(null);
                 }
+
+
+
                 //endregion
 
                 //region creating request

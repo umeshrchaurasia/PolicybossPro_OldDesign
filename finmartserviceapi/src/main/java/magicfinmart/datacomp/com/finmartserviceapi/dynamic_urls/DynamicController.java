@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
-import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
@@ -31,11 +30,9 @@ public class DynamicController implements IDynamic {
 
     @Override
     public void getVehicleByVehicleNo(final String vehicleNo, final IResponseSubcriber iResponseSubcriber) {
-
-        // String url = "http://202.131.96.98:8041/PolicyBossRegNoService.svc/GetRegNoData?v=" + vehicleNo;
-
-        //Rupeeboss
-        String url = "http://202.131.96.98:8041/PolicyBossRegNoService.svc/GetRegNoData?v=" + vehicleNo;
+        String url = "http://inspection.policyboss.com/api/vehicle-info?v=" + vehicleNo;
+        //MH43BE6262
+        //String url = "http://202.131.96.98:8041/PolicyBossRegNoService.svc/GetRegNoData?v=" + vehicleNo;
 
         genericUrlNetworkService.getVehicleByVehicleNo(url).enqueue(new Callback<VehicleInfoEntity>() {
             @Override

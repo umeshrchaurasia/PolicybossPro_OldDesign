@@ -7,12 +7,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 
 import java.io.File;
-
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 
 /**
  * Created by IN-RB on 02-03-2017.

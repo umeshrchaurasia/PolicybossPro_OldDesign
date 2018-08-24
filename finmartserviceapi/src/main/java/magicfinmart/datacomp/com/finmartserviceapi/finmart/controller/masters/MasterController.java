@@ -1,7 +1,6 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
@@ -298,6 +297,9 @@ public class MasterController implements IMasterFetch {
                     if (response.body().getStatusNo() == 0) {
 
                         new AsyncConstants(mContext, response.body().getMasterData()).execute();
+
+                        // new PrefManager(mContext).updateMotorVersion("1");
+
 
                         //existing master version
                         int motorVersion = Integer.parseInt(new PrefManager(mContext).getMotorVersion());

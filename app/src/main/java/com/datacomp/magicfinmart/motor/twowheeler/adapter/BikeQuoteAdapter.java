@@ -13,10 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.GridAddonAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteFragment;
-import com.datacomp.magicfinmart.utility.ClickListener;
-import com.datacomp.magicfinmart.utility.RecyclerTouchListener;
 
 import java.util.List;
 

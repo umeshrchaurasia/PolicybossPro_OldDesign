@@ -39,6 +39,7 @@
             android:icon="@drawable/vehicledetail"
             android:title="VEHICLE DETAIL" />
         <item
+            android:visible="false"
             android:id="@+id/nav_yesbankbot"
             android:icon="@drawable/yesbank"
             android:title="YES BANK BOT" />
@@ -63,12 +64,11 @@
             android:id="@+id/nav_posptraining"
             android:icon="@drawable/posp_training"
             android:title="POSP TRAINING"
-            android:visible="true" />
+            android:visible="false" />
         <item
-            android:id="@+id/nav_selfinspection"
             android:icon="@drawable/inspection"
             android:title="INSPECTION"
-            android:visible="true" />
+            android:visible="false" />
         <item
             android:id="@+id/nav_franchise"
             android:icon="@drawable/agreemnet"

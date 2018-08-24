@@ -7,9 +7,7 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.AsyncCarMaster;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.QuoteApplicationRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.QuoteAppUpdateDeleteResponse;

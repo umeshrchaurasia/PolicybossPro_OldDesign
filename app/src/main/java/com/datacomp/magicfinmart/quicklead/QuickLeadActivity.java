@@ -1,20 +1,27 @@
 package com.datacomp.magicfinmart.quicklead;
 
 import android.app.DatePickerDialog;
+import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -46,6 +53,8 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
     Button btnSubmit;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MM-dd-yyyy");
     ArrayAdapter<String> productTypeAdapter;
+    WebView webView;
+    String url = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +81,9 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
         btnSubmit = (Button) findViewById(R.id.btnSubmit);
         btnSubmit.setOnClickListener(this);
         etFollowupDate.setOnClickListener(datePicker);
+        webView = findViewById(R.id.webView);
+        url = "http://erp.rupeeboss.com/loansrepository/Loans-repository.html";
+        settingWebview();
     }
 
     private void spinnerProductBinding() {
@@ -286,6 +298,62 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private void settingWebview() {
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+
+        settings.setBuiltInZoomControls(false);
+        settings.setUseWideViewPort(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportMultipleWindows(false);
+
+        settings.setLoadsImagesAutomatically(true);
+        settings.setLightTouchEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptEnabled(true);
+
+
+        /*MyWebViewClient webViewClient = new MyWebViewClient(this);
+        webView.setWebViewClient(webViewClient);*/
+        webView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                // TODO show you progress image
+                showDialog();
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // TODO hide your progress image
+                cancelDialog();
+                super.onPageFinished(view, url);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if (url.endsWith(".pdf")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(url), "application/pdf");
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        //user does not have a pdf viewer installed
+                        String googleDocs = "https://docs.google.com/viewer?url=";
+                        webView.loadUrl(googleDocs + url);
+                    }
+                }
+                return false;
+            }
+        });
+        webView.getSettings().setBuiltInZoomControls(true);
+        Log.d("URL", url);
+        //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+        webView.loadUrl(url);
     }
 
 }

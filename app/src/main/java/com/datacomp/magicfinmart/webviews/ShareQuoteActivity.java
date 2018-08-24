@@ -4,7 +4,9 @@ import android.app.DownloadManager;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.pdf.PdfDocument;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -31,21 +33,20 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.google.gson.Gson;
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Image;
-import com.itextpdf.text.Rectangle;
-import com.itextpdf.text.pdf.PdfWriter;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
@@ -53,6 +54,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
@@ -60,7 +62,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumRes
 
 import static magicfinmart.datacomp.com.finmartserviceapi.Utility.createShareDirIfNotExists;
 
-public class ShareQuoteActivity extends BaseActivity {
+public class ShareQuoteActivity extends BaseActivity implements IResponseSubcriber {
     WebView webView;
     String url;
     String name;
@@ -100,6 +102,11 @@ public class ShareQuoteActivity extends BaseActivity {
         loginResponseEntity = dbPersistanceController.getUserData();
         accountDtlEntity = dbPersistanceController.getAccountData();
 
+        if (accountDtlEntity == null) {
+            showDialog("Fetching Detail...");
+            new RegisterController(ShareQuoteActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), ShareQuoteActivity.this);
+
+        }
         //region from which class
         if (getIntent().hasExtra(Constants.SHARE_ACTIVITY_NAME)) {
             from = getIntent().getExtras().getString(Constants.SHARE_ACTIVITY_NAME);
@@ -185,7 +192,10 @@ public class ShareQuoteActivity extends BaseActivity {
                         .setAction("Action", null).show();*/
                 //downloadPdf(url, name);
                 bmp = getBitmapFromWebView(webView);
-                new shareQuote(webView).execute();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT)
+                    new shareQuote(webView).execute();
+                else
+                    Toast.makeText(ShareQuoteActivity.this, "Update Android Os for this feature ", Toast.LENGTH_SHORT).show();
 
 
             }
@@ -622,9 +632,9 @@ public class ShareQuoteActivity extends BaseActivity {
                 // TODO hide your progress image
                 cancelDialog();
                 super.onPageFinished(view, url);
-                Log.d("sharelog",respone);
-                Log.d("sharelog",userReponse);
-                Log.d("sharelog",otherData);
+                Log.d("sharelog", respone);
+                Log.d("sharelog", userReponse);
+                Log.d("sharelog", otherData);
                 webView.loadUrl("javascript:init('" + respone + "','" + userReponse + "','" + otherData + "')");
                 //webView.loadUrl("javascript:window.HTMLOUT.processHTML('<head>umesh</head><body><h1>Rajeev</h1></body>');");
             }
@@ -693,17 +703,17 @@ public class ShareQuoteActivity extends BaseActivity {
     }
 
     public void SimplePDFTable(Bitmap bmp) throws Exception {
-        String fileName;
+       /* String fileName;
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         fileName = df.format(c.getTime());
 
         //File direct = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
         File direct = createShareDirIfNotExists();
-        /*if (!direct.exists()) {
+        *//*if (!direct.exists()) {
             if (direct.mkdir()) {
             }
-        }*/
+        }*//*
         String test = direct.getAbsolutePath();
 
         Rectangle pagesize = new Rectangle(bmp.getWidth() + 36, bmp.getHeight() + 36);
@@ -726,8 +736,76 @@ public class ShareQuoteActivity extends BaseActivity {
         document.add(image);
 
         document.close();
+        sharePdfTowhatsApp(fileName);*/
+    }
+
+    private void createPdf(Bitmap bitmap) {
+
+
+        PdfDocument document = new PdfDocument();
+        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(),
+                bitmap.getHeight(), 1).create();
+        PdfDocument.Page page = document.startPage(pageInfo);
+
+        Canvas canvas = page.getCanvas();
+
+
+        Paint paint = new Paint();
+        paint.setColor(Color.parseColor("#ffffff"));
+        canvas.drawPaint(paint);
+
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), true);
+
+        paint.setColor(Color.BLUE);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+        document.finishPage(page);
+
+
+        String fileName;
+        Calendar c = Calendar.getInstance();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+        fileName = df.format(c.getTime());
+
+        //File direct = new File(Environment.getExternalStorageDirectory(), "/FINMART/QUOTES");
+        File direct = createShareDirIfNotExists();
+        String test = direct.getAbsolutePath();
+
+
+        // write the document content
+
+        try {
+            document.writeTo(new FileOutputStream(test
+                    + "/" + fileName + ".pdf"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Something wrong: " + e.toString(), Toast.LENGTH_LONG).show();
+        }
+
+        // close the document.
+        document.close();
         sharePdfTowhatsApp(fileName);
     }
+
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        if (response instanceof MyAcctDtlResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                if (((MyAcctDtlResponse) response).getMasterData().get(0) != null) {
+                    accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);
+                    dbPersistanceController.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
+                }
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+        cancelDialog();
+    }
+
 
     public class MyJavaScriptInterface {
         Context mContext;
@@ -766,7 +844,8 @@ public class ShareQuoteActivity extends BaseActivity {
             try {
                 //bmp = getBitmapFromWebView(webView);
                 // SimplePDFTable(bmp, bikePremiumResponse.getSummary().getRequest_Core().getFirst_name().toUpperCase() + " - " + bikePremiumResponse.getSummary().getRequest_Core().getRegistration_no());
-                SimplePDFTable(bmp);
+                //SimplePDFTable(bmp);
+                createPdf(bmp);
             } catch (Exception e) {
                 e.printStackTrace();
             }

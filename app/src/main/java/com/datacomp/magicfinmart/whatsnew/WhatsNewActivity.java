@@ -15,7 +15,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.WhatsNewEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactUsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.WhatsNewResponse;
 
 public class WhatsNewActivity extends BaseActivity implements IResponseSubcriber {

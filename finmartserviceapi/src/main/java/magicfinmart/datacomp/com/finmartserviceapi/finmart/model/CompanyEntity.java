@@ -1,7 +1,5 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
-import io.realm.RealmObject;
-
 public class CompanyEntity  {
     /**
      * company_id : 1

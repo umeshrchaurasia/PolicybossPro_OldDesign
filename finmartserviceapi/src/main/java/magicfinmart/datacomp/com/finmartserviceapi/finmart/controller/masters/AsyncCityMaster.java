@@ -2,7 +2,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import java.util.List;
 

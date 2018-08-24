@@ -1,7 +1,5 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 
-import io.realm.RealmObject;
-
 /**
  * Created by Rajeev Ranjan on 25/01/2018.
  */

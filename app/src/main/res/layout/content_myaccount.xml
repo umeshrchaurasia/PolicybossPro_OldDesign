@@ -11,7 +11,6 @@
     tools:showIn="@layout/activity_myaccount">
 
     <ScrollView
-        android:id="@+id/scrollMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btnSave"
@@ -406,7 +405,6 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView39"
                                 style="@style/TextStyle.TextSmall"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

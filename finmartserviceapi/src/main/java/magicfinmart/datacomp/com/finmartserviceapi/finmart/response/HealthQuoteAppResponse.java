@@ -3,8 +3,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.response;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthMasterData;
 

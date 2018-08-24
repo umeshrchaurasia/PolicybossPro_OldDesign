@@ -2,7 +2,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
-import io.realm.annotations.PrimaryKey;
 
 public class ZohoTicketCategoryEntity extends RealmObject {
 

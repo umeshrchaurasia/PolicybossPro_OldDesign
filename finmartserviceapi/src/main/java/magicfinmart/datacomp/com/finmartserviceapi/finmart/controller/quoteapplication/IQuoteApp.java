@@ -2,8 +2,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quoteappl
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.SaveMotorRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SaveQuoteResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
 
 /**
  * Created by Nilesh Birhade on 25-01-2018.

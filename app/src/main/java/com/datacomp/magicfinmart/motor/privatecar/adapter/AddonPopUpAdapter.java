@@ -9,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
-
 import com.datacomp.magicfinmart.R;
 
 import java.util.List;

@@ -21,7 +21,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.ActivityTabsPagerAdapter_HL;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanApplicationAdapter;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.loan_fm.popup.LeadInfoPopupActivity;
 
@@ -30,7 +29,6 @@ import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.health.HealthController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;

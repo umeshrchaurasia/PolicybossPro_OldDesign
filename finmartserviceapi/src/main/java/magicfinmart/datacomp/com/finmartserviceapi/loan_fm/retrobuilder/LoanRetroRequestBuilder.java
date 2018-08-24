@@ -2,7 +2,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.retrobuilder;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.TimeUnit;
 

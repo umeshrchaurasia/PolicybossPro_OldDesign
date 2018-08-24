@@ -25,8 +25,9 @@ import com.datacomp.magicfinmart.utility.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.*;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleMobileResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 

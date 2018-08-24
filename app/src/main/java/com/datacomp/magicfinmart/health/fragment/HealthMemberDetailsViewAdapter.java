@@ -19,7 +19,6 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.fragment.InputFragment;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.ParseException;

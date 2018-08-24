@@ -23,14 +23,12 @@
         android:padding="12dp">
 
         <ImageView
-            android:id="@+id/imageView"
             android:layout_width="300dp"
             android:layout_height="130dp"
             android:layout_marginTop="16dp"
             android:src="@drawable/finmart_logo" />
 
         <TextView
-            android:id="@+id/tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -39,7 +37,6 @@
             android:textAppearance="@style/TextStyle.Title" />
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/til"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
@@ -57,7 +54,6 @@
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
-            android:id="@+id/tiee"
             android:textColorHint="@color/white"
             app:hintTextAppearance="@style/TextLabel"
             android:layout_width="match_parent"
@@ -117,7 +113,6 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvdsfs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"

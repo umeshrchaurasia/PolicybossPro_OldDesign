@@ -37,7 +37,6 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
-import com.google.gson.Gson;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;

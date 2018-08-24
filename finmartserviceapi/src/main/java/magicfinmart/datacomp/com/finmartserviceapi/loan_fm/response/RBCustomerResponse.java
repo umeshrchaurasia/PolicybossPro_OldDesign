@@ -1,7 +1,5 @@
 package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response;
 
-import com.google.gson.annotations.SerializedName;
-
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.RBCustomerEntity;
 

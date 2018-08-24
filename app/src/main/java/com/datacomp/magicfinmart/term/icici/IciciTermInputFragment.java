@@ -993,7 +993,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 } else {
                     startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                             .putExtra("URL", termCompareResponseEntity.getPdfUrl())
-                            .putExtra("NAME", "ICICI PRUDENTIAL")
+                            .putExtra("NAME", "ICICI PRUDENTIAL DOWNLOAD")
                             .putExtra("TITLE", "ICICI PRUDENTIAL"));
 
                 }

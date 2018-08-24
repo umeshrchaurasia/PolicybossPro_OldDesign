@@ -13,7 +13,6 @@
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/scrollMain"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btnSubmit">
@@ -221,7 +220,6 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView3"
                                 style="@style/TextViewStyle.Medium"
                                 android:text="Marital Status" />
 
@@ -354,7 +352,6 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView31"
                                 style="@style/TextViewStyle.Medium"
                                 android:text="Status" />
 
@@ -446,7 +443,6 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView32"
                                 style="@style/TextViewStyle.Medium"
                                 android:text="Category" />
 
@@ -547,7 +543,6 @@
                                 android:orientation="vertical">
 
                                 <TextView
-                                    android:id="@+id/textIdType"
                                     style="@style/TextViewStyle.Medium"
                                     android:text="*Id Type" />
 
@@ -649,7 +644,6 @@
                             android:orientation="vertical">
 
                             <TextView
-                                android:id="@+id/textView23"
                                 style="@style/TextViewStyle.Medium"
                                 android:text="Education" />
 
@@ -1474,7 +1468,6 @@
                                 android:paddingTop="2dp">
 
                                 <TextView
-                                    android:id="@+id/txtEmpNature"
                                     style="@style/TextViewStyle.Medium"
                                     android:text="Employment Nature" />
 
@@ -1520,7 +1513,6 @@
                                 android:paddingTop="2dp">
 
                                 <TextView
-                                    android:id="@+id/txtNatureOfOrg"
                                     style="@style/TextViewStyle.Medium"
                                     android:text="Nature Of Organisation" />
 
@@ -1573,7 +1565,6 @@
                                 android:paddingTop="2dp">
 
                                 <TextView
-                                    android:id="@+id/txtNatureOfBus"
                                     style="@style/TextViewStyle.Medium"
                                     android:text="Nature Of Business" />
 

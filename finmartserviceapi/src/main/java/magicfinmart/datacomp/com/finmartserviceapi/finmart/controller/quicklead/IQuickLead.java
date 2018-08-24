@@ -1,8 +1,6 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.quicklead;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCICICIRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.CCRblRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.QuickLeadRequestEntity;
 
 /**
