@@ -102,7 +102,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -128,7 +129,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -155,7 +157,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -210,7 +213,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="visible">
 
                         <TextView
                             android:layout_width="0dp"
@@ -234,7 +238,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -258,7 +263,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -282,7 +288,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -306,7 +313,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -332,7 +340,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -358,7 +367,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -384,7 +394,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"
@@ -410,7 +421,8 @@
                     <TableRow
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
-                        android:padding="8dp">
+                        android:padding="8dp"
+                        android:visibility="gone">
 
                         <TextView
                             android:layout_width="0dp"

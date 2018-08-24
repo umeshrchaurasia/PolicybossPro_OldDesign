@@ -39,6 +39,7 @@
             android:icon="@drawable/vehicledetail"
             android:title="VEHICLE DETAIL" />
         <item
+            android:visible="false"
             android:id="@+id/nav_yesbankbot"
             android:icon="@drawable/yesbank"
             android:title="YES BANK BOT" />
