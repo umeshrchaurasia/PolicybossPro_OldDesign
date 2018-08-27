@@ -31,6 +31,9 @@ public class PrefManager {
     private static final String IS_ZOHO_MASTER = "iszohomaster";
     private static final String POSP_INFO = "pospinfo";
     private static final String IS_UPDATE_SHOWN = "updateshown";
+    private static final String CAR_VEHICLE_NUMBER_LOG = "vehicle_number_log";
+    private static final String CAR_VEHICLE_MOBILE_LOG = "vehicle_mobile_log";
+
 
     public static String PUSH_VERIFY_LOGIN = "push_verify_login";
     public static String NOTIFICATION_COUNTER = "Notification_Counter";
@@ -46,6 +49,27 @@ public class PrefManager {
         pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
         editor = pref.edit();
     }
+
+    //region vehicle detail
+
+    public boolean setVehicleCarVehicleLog() {
+        editor.putInt(CAR_VEHICLE_NUMBER_LOG, pref.getInt(CAR_VEHICLE_NUMBER_LOG, 0) + 1);
+        return editor.commit();
+    }
+
+    public int getVehicleCarVehicleLog() {
+        return pref.getInt(CAR_VEHICLE_NUMBER_LOG, 0);
+    }
+
+    public boolean setVehicleCarMobileLog() {
+        editor.putInt(CAR_VEHICLE_MOBILE_LOG, pref.getInt(CAR_VEHICLE_MOBILE_LOG, 0) + 1);
+        return editor.commit();
+    }
+
+    public int getVehicleCarMobileLog() {
+        return pref.getInt(CAR_VEHICLE_MOBILE_LOG, 0);
+    }
+    //endregion
 
     //region MPS
 
@@ -235,6 +259,7 @@ public class PrefManager {
         else
             return null;
     }
+
 
     public void deletePospInfo() {
         pref.edit().remove(POSP_INFO).commit();
