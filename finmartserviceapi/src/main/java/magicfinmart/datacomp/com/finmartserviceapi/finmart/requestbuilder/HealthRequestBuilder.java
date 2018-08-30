@@ -17,6 +17,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 
 /**
  * Created by Rajeev Ranjan on 25/01/2018.
@@ -63,5 +64,9 @@ public class HealthRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/short-url")
         Call<HealthShortLinkResponse> getShortLink(@Body HashMap<String, String> bo);
+
+        @POST
+        Call<HealthQuoteCompareResponse> comparePHPQuotes(@Url String url, @Body HealthCompareRequestEntity entity);
+
     }
 }

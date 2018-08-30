@@ -40,6 +40,7 @@ import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
 import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
+import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
@@ -219,7 +220,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, PospEnrollment.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Posp Enrollment : posp enrollment button in menu "), Constants.POSP), null);
                         break;
-
+                    case R.id.nav_addposp:
+                        fragment = new POSPListFragment();
+                        getSupportActionBar().setTitle("POSP List");
+                        break;
                     case R.id.nav_homeloanApplication:
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
