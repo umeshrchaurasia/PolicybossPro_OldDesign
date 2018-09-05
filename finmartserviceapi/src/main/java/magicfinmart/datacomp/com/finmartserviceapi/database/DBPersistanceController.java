@@ -604,7 +604,7 @@ public class DBPersistanceController {
         hashMapInsurence.put("ICICI", 6);
         hashMapInsurence.put("IFFCO", 7);
         hashMapInsurence.put("Kotak", 30);
-        hashMapInsurence.put("L & T Ins. ", 15);
+        //hashMapInsurence.put("L & T Ins. ", 15);
         hashMapInsurence.put("Liberty Videocon", 33);
         hashMapInsurence.put("Magma", 35);
         hashMapInsurence.put("National ", 8);
