@@ -9,7 +9,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Environment;
 import android.text.Spannable;
@@ -311,8 +310,8 @@ public class Constants {
         }
     }
     public static void changeFontMedium_TextView(TextView textView, Context c) {
-        Typeface tf = Typeface.createFromAsset(c.getAssets(), "fonts/Roboto-Medium.ttf");
-        textView.setTypeface(tf);
+        /*Typeface tf = Typeface.createFromAsset(c.getAssets(), "fonts/Roboto-Medium.ttf");
+        textView.setTypeface(tf);*/
     }
     //inspection
 

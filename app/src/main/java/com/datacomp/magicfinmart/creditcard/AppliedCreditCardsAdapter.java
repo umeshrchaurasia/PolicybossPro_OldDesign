@@ -14,10 +14,7 @@ import com.datacomp.magicfinmart.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AppliedCreditCardEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.QuoteListEntity;
 
 public class AppliedCreditCardsAdapter extends RecyclerView.Adapter<AppliedCreditCardsAdapter.ViewHolder> implements Filterable {
 

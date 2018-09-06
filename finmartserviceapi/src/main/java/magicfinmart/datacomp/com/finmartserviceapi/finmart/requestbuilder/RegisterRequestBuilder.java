@@ -3,7 +3,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 import java.util.HashMap;
 import java.util.Map;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.DocumentUploadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
@@ -55,6 +54,10 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/insert-fba-registration")
         Call<RegisterFbaResponse> registerFba(@Body RegisterRequestEntity body);
+
+        @Headers("token:" + token)
+        @POST("/api/AddChildPosp")
+        Call<RegisterFbaResponse> addChildPosp(@Body RegisterRequestEntity body);
 
         @Headers("token:" + token)
         @POST("/api/posp-registration")

@@ -244,7 +244,6 @@
                                 android:layout_weight="1">
 
                                 <RadioGroup
-                                    android:id="@+id/rgHadLoan"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:orientation="horizontal">
@@ -257,7 +256,6 @@
                                         android:text="Single" />
 
                                     <RadioButton
-                                        android:id="@+id/rbMarried"
                                         android:layout_width="wrap_content"
                                         android:layout_height="match_parent"
                                         android:text="Married" />
@@ -271,7 +269,6 @@
                             android:layout_marginTop="8dp">
 
                             <RadioGroup
-                                android:id="@+id/rgNationality"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -285,7 +282,6 @@
                                     android:text="Indian   " />
 
                                 <RadioButton
-                                    android:id="@+id/rbNri"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="NRI/Foreign National" />
@@ -299,7 +295,6 @@
                             android:layout_marginTop="8dp">
 
                             <RadioGroup
-                                android:id="@+id/rgEmpType"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -450,7 +445,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:hint="Work Area Code">
+                                android:hint="Work STD Code">
 
                                 <EditText
                                     android:id="@+id/etAreaCode"
@@ -524,7 +519,6 @@
 
 
                             <RadioGroup
-                                android:id="@+id/rgAccount"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -1017,7 +1011,6 @@
                             android:layout_height="fill_parent">
 
                             <RadioGroup
-                                android:id="@+id/rgHaveCC"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
@@ -1031,7 +1024,6 @@
                                     android:text="Yes" />
 
                                 <RadioButton
-                                    android:id="@+id/rbNoCC"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:checked="true"

@@ -154,21 +154,18 @@
                 android:weightSum="100">
 
                 <RadioGroup
-                    android:id="@+id/rgSmoker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="50"
                     android:orientation="horizontal">
 
                     <RadioButton
-                        android:id="@+id/rbYesSmoker"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="50"
                         android:text="YES" />
 
                     <RadioButton
-                        android:id="@+id/rbNoSmoker"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="50"

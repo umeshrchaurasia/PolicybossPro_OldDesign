@@ -14,9 +14,11 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <!--
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-
+    -->
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -42,6 +44,11 @@
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="5822">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".broadcast.UpdateAppBroadCastReceiver">
+            <intent-filter android:priority="5823">
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
 
@@ -199,9 +206,9 @@
                 android:value="com.datacomp.magicfinmart.motor.privatecar.activity.QuoteActivity" />
         </activity>
         <activity
-            android:launchMode="singleTop"
             android:name=".motor.privatecar.activity.PremiumBreakUpActivity"
             android:label="@string/title_activity_premium_break_up"
+            android:launchMode="singleTop"
             android:noHistory="true"
             android:parentActivityName=".motor.privatecar.activity.QuoteActivity"
             android:screenOrientation="portrait"
@@ -727,34 +734,9 @@
         <activity
             android:name=".loan_fm.balancetransfer.loan_apply.BalanceTransferPersonalApplyActivity"
             android:label="@string/title_activity_balance_transfer_personal_apply"
-            android:theme="@style/AppTheme"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
-
-        <!-- region inspection app activities -->
-
-        <activity
-            android:name=".inspection.home.MainActivity"
-            android:label="@string/app_name"
-            android:noHistory="true"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".inspection.splash.SplashScreen"
-            android:label="@string/title_activity_splash_screen"
-            android:noHistory="false"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".inspection.selfdeclaration.SelfDeclareActivity"
-            android:label="@string/title_activity_self_declare"
-            android:parentActivityName=".inspection.home.MainActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".inspection.home.MainActivity" />
-        </activity>
 
         <!--
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
@@ -764,57 +746,6 @@
         </receiver>
         -->
 
-        <activity
-            android:name=".inspection.home.RCPOLICYActivity"
-            android:label="@string/title_activity_rcpolicy"
-            android:parentActivityName=".inspection.splash.SplashScreen"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".inspection.splash.SplashScreen" />
-        </activity>
-        <activity
-            android:name=".inspection.home.UploadDocumentActivity"
-            android:label="@string/title_activity_upload_document"
-            android:parentActivityName=".inspection.home.RCPOLICYActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".inspection.home.RCPOLICYActivity" />
-        </activity>
-        <activity
-            android:name=".inspection.home.PreviewVideoActivity"
-            android:label="@string/title_activity_preview_video"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".inspection.home.MainActivity" />
-        </activity>
-
-
-        <activity
-            android:name=".inspection.selfdeclaration.PhotoCaptureActivity"
-            android:label="@string/title_activity_photo_capture"
-            android:parentActivityName=".inspection.selfdeclaration.SelfDeclareActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".inspection.selfdeclaration.SelfDeclareActivity" />
-        </activity>
-        <activity
-            android:name=".inspection.activities.ThankYouActivity"
-            android:label="@string/title_activity_thank_you"
-            android:parentActivityName=".inspection.selfdeclaration.PhotoCaptureActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".inspection.selfdeclaration.PhotoCaptureActivity" />
-        </activity>
         <activity
             android:name=".term.quoteapp.TermQuoteApplicationActivity"
             android:label="@string/title_activity_term_quote_application"
@@ -877,178 +808,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
-
-        <!-- posp app -->
-
-        <activity
-            android:name=".pospapp.splashscreen.SplashScreenActivity"
-            android:label="@string/app_name"
-            android:noHistory="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".pospapp.login.LoginActivity"
-            android:label="@string/title_activity_login"
-            android:parentActivityName=".home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.HomeActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.register.RegisterActivity"
-            android:label="@string/title_activity_register"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".pospapp.forgotpassword.ForgotPasswordActivity"
-            android:label="@string/title_activity_forgot_password"
-            android:parentActivityName=".pospapp.login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.login.LoginActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.home.MainActivity"
-            android:label="@string/title_activity_main"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".pospapp.exam.StartExamActivity"
-            android:label="@string/title_activity_start_exam"
-            android:parentActivityName=".pospapp.home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.home.HomeActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.exam.QuestionsActivity"
-            android:label="@string/title_activity_questions"
-            android:noHistory="true"
-            android:parentActivityName=".pospapp.exam.QuestionsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.exam.QuestionsActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.webviews.studymaterial.StudyMaterialActivity"
-            android:label="@string/title_activity_study_material"
-            android:parentActivityName=".pospapp.studymaterial.StudyMaterialAvailable"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.studymaterial.StudyMaterialAvailable" />
-        </activity>
-        <activity
-            android:name=".pospapp.exam.ExamResultActivity"
-            android:label="@string/title_activity_exam_result"
-            android:parentActivityName=".pospapp.home.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.home.MainActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.aboutus.AboutUsActivity"
-            android:label="@string/title_activity_about_us"
-            android:parentActivityName=".pospapp.home.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.home.MainActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.certificates.CertificateActivity"
-            android:label="@string/title_activity_certificate"
-            android:parentActivityName=".pospapp.home.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.home.MainActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.home.HomeActivity"
-            android:label="@string/title_activity_home"
-            android:parentActivityName=".pospapp.home.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.home.MainActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.studymaterial.StudyMaterialAvailable"
-            android:label="@string/title_activity_study_material_available"
-            android:parentActivityName=".pospapp.home.HomeActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.home.HomeActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.studymaterial.ModulePracticeActivity"
-            android:label="@string/title_activity_module_practice"
-            android:parentActivityName=".pospapp.studymaterial.StudyMaterialAvailable"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.studymaterial.StudyMaterialAvailable" />
-        </activity>
-        <activity
-            android:name=".pospapp.studymaterial.ModuleResultActivity"
-            android:label="@string/title_activity_module_result"
-            android:parentActivityName=".pospapp.studymaterial.StudyMaterialAvailable"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.studymaterial.StudyMaterialAvailable" />
-        </activity>
-
-        <receiver
-            android:name=".pospapp.utility.MyAdminReceiver"
-            android:permission="android.permission.BIND_DEVICE_ADMIN">
-            <meta-data
-                android:name="android.app.device_admin"
-                android:resource="@xml/admin" />
-
-            <intent-filter>
-                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
-            </intent-filter>
-        </receiver>
-
-        <activity
-            android:name=".pospapp.requestadmin.RequestAdminActivity"
-            android:label="@string/title_activity_request_admin"
-            android:parentActivityName=".pospapp.login.LoginActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.login.LoginActivity" />
-        </activity>
-        <activity
-            android:name=".pospapp.studymaterial.ViewAnswerActivity"
-            android:label="@string/title_activity_view_answer"
-            android:parentActivityName=".pospapp.studymaterial.StudyMaterialAvailable"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".pospapp.studymaterial.StudyMaterialAvailable" />
-        </activity>
         <activity
             android:name=".term.compareterm.CompareTermActivity"
             android:label="@string/title_activity_compare_ti_activity"
@@ -1106,12 +865,16 @@
             android:name=".loan_fm.popup.LeadInfoPopupActivity"
             android:label="@string/title_activity_lead_info_popup"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme"></activity>
+            android:theme="@style/DialogTheme" />
         <activity
-            android:name=".inspection.selfdeclaration.DeclareSelfActivity2"
-            android:label="@string/title_activity_declare_self2"
-            android:screenOrientation="landscape"
-            android:theme="@style/AppTheme"></activity>
+            android:name=".posp.AddPOSPUserActivity"
+            android:label="@string/title_activity_add_pospuser"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

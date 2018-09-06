@@ -35,6 +35,8 @@ public class AsyncCarMaster extends AsyncTask<Void, Void, Void> {
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
+                    realm.delete(CarMasterEntity.class);
+                    //realm.copyToRealm(listCarMaster);
                     realm.copyToRealmOrUpdate(listCarMaster);
                     prefManager.setIsCarMasterUpdate(false);
                 }

@@ -16,12 +16,9 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.loan_fm.homeloan.application.HomeLoanApplyWebView;
 import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
 
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
 
 public class HLMainActivity extends BaseActivity {
 

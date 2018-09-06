@@ -1,7 +1,5 @@
 package magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.model;
 
-import java.util.List;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

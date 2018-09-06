@@ -26,7 +26,6 @@
 
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textView2s"
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_gravity="bottom"
@@ -55,7 +54,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView3"
 
                         android:gravity="center"
                         style="@style/TextViewStyle.Medium"
@@ -104,7 +102,6 @@
 
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/textView411"
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
                     android:layout_gravity="bottom"
@@ -128,7 +125,6 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView39"
 
                         android:gravity="center"
                         style="@style/TextViewStyle.Medium"
@@ -199,7 +195,6 @@
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/textView10"
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_marginRight="1dp"
@@ -217,7 +212,6 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/textView124"
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_marginLeft="1dp"
@@ -241,7 +235,6 @@
                         android:orientation="horizontal">
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/textView70"
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_marginRight="1dp"
@@ -259,7 +252,6 @@
                         </android.support.design.widget.TextInputLayout>
 
                         <android.support.design.widget.TextInputLayout
-                            android:id="@+id/textView134"
                             style="@style/TextAppearence.App.TextInputLayout"
                             android:layout_width="0dp"
                             android:layout_marginLeft="1dp"
@@ -294,8 +286,7 @@
                         android:id="@+id/coApp_llView1MothlyIncome"
                         >
                         <android.support.design.widget.TextInputLayout
-                        android:id="@+id/textView1MothlyIncome"
-                        style="@style/TextAppearence.App.TextInputLayout"
+                            style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_marginRight="1dp"
                         android:layout_weight="1"
@@ -318,7 +309,6 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/textView43"
                             style="@style/TextViewStyle.Medium"
                             android:textColor="@color/colorPrimary"
                             android:text="Relation With Applicant" />
@@ -342,7 +332,6 @@
                     android:orientation="horizontal">
 
                     <android.support.design.widget.TextInputLayout
-                        android:id="@+id/textView104"
                         style="@style/TextAppearence.App.TextInputLayout"
                         android:layout_width="0dp"
                         android:layout_marginLeft="1dp"

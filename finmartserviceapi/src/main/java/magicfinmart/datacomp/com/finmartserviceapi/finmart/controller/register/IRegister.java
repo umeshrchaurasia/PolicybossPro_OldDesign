@@ -2,11 +2,9 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register;
 
 
 import java.util.HashMap;
-import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.inspection.IResponseSubcribe;
 import okhttp3.MultipartBody;
 
 /**
@@ -40,5 +38,7 @@ public interface IRegister {
     void getNotificationData(String FBAID, IResponseSubcriber iResponseSubcriber);
 
     void getRegSource(IResponseSubcriber iResponseSubcriber);
+
+    void addChildPosp(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);
 
 }

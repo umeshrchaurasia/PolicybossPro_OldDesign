@@ -2,9 +2,6 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 import java.util.List;
 
-import io.realm.RealmList;
-import io.realm.RealmObject;
-
 public class MasterSalesMaterialPromotionEntity  {
 
     private List<CompanyEntity> company;

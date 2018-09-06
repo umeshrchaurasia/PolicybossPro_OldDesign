@@ -10,7 +10,6 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.helpfeedback.raiseticket.adapter.RaiseTicketAdapter;
-import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.List;

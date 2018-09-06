@@ -15,12 +15,9 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-
 import com.datacomp.magicfinmart.home.HomeActivity;
-import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyWebView;
 import com.datacomp.magicfinmart.loan_fm.personalloan.quote.PL_QuoteFragment;
 
-import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 
 public class PLMainActivity extends BaseActivity  {

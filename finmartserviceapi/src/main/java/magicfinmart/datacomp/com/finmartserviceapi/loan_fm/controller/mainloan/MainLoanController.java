@@ -7,7 +7,6 @@ import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 
-
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestbuilder.LoanMainRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
@@ -21,7 +20,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmPersonalLo
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteBLResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

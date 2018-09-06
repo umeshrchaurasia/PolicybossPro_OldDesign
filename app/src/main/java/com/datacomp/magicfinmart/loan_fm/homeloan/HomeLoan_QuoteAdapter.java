@@ -12,20 +12,13 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.datacomp.magicfinmart.BaseActivity;
-import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.homeloan.quote.HL_QuoteFragment;
-import com.datacomp.magicfinmart.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
 
 /**

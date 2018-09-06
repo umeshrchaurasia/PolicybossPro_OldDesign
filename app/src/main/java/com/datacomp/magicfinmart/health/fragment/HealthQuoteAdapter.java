@@ -1,7 +1,6 @@
 package com.datacomp.magicfinmart.health.fragment;
 
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
@@ -21,10 +19,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BenefitsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuoteEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 
 public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.ViewHolder> implements View.OnClickListener {
 

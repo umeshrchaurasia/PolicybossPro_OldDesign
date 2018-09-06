@@ -1,7 +1,5 @@
 package magicfinmart.datacomp.com.finmartserviceapi.express_loan.response;
 
-import java.util.List;
-
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.ExpressLoanEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 

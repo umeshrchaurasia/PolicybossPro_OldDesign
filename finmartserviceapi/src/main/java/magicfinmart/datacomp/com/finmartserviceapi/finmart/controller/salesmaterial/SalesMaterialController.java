@@ -9,10 +9,7 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.pendingcases.IPendingCases;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.PendingCasesRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.SalesMaterialRequestBuilder;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCasesResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
 import retrofit2.Call;

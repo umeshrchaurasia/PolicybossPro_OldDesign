@@ -18,10 +18,10 @@ import android.widget.TextView;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.term.termselection.TermActivityTabsPagerAdapter;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcTermActivity;
 import com.datacomp.magicfinmart.term.icici.IciciTermActivity;
+import com.datacomp.magicfinmart.term.termselection.TermActivityTabsPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

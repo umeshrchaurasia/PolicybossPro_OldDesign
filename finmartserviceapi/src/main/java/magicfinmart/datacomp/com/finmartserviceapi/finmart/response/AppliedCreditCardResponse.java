@@ -1,7 +1,5 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.response;
 
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;

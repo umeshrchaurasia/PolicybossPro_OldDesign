@@ -35,7 +35,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.HealthSumAssured;
 import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.TermSelectionEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.pospapp.models.LoginEntity;
+
 
 /**
  * Created by Rajeev Ranjan on 04/01/2018.
@@ -310,7 +310,8 @@ public class DBPersistanceController {
     }
 
     public String getVariantID(String variantName, String modelName, String makeName) {
-        CarMasterEntity entity = realm.where(CarMasterEntity.class).equalTo("Model_Name", modelName.trim())
+        CarMasterEntity entity = realm.where(CarMasterEntity.class)
+                .equalTo("Model_Name", modelName.trim())
                 .equalTo("Variant_Name", variantName.trim())
                 .equalTo("Make_Name", makeName.trim()).findFirst();
 
@@ -565,6 +566,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get lowest rate loan on your Credit Card from wide range of banks.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Save huge money for your customers on their existing loans.", R.drawable.balance_transfer));
         dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.express_loan));
+        dashboardEntities.add(new DashboardEntity("LOANS", 14, "YES BANK BOT", "Chat with your BOT Friend & get your loan approved", R.drawable.yesbank_chat_ic));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "QUICK LEAD SUBMISSION", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
 
 

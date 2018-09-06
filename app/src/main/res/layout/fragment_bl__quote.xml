@@ -19,7 +19,6 @@ tools:context=".loan_fm.balancetransfer.quote.BL_QuoteFragment">
         android:orientation="horizontal">
 
         <LinearLayout
-            android:id="@+id/lltvAdd"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="30"

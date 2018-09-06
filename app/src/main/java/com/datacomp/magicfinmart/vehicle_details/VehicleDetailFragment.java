@@ -25,8 +25,10 @@ import com.datacomp.magicfinmart.utility.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
-import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.*;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleMobileResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 
@@ -166,15 +168,22 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
             showDialog();
 
             if (rbCarNumber.isChecked()) {
+
                 //1.vehicle
+//                if (new PrefManager(getActivity()).getVehicleCarVehicleLog() <= 20) {
+//                    Toast.makeText(getActivity(), "CAR NO : "
+//                                    + new PrefManager(getActivity()).getVehicleCarVehicleLog(),
+//                            Toast.LENGTH_SHORT).show();
                 showDialog();
                 new DynamicController(getActivity()).getVehicleByVehicleNo(etVehicleDetail.getText().toString(),
                         new IResponseSubcriber() {
+
                             @Override
                             public void OnSuccess(APIResponse response, String message) {
                                 cancelDialog();
                                 if (response instanceof magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity) {
                                     //bind vehicle
+                                    new PrefManager(getActivity()).setVehicleCarVehicleLog();
                                     bindVehicle(((magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity) response).getGetRegNoDataResult());
                                 }
                             }
@@ -186,9 +195,14 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                             }
                         });
 
+//                }
+//                else {
+//                    Toast.makeText(getActivity(), "Your monthly data limit is over, please try next month", Toast.LENGTH_SHORT).show();
+//                }
+
             } else {
                 //2.mobile
-
+                //if (new PrefManager(getActivity()).getVehicleCarMobileLog() <= 20) {
                 new DynamicController(getActivity()).getVehicleByMobileNo(etVehicleDetail.getText().toString(), new IResponseSubcriber() {
                     @Override
                     public void OnSuccess(APIResponse response, String message) {
@@ -196,7 +210,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                         if ((VehicleMobileResponse) response != null) {
                             if (((VehicleMobileResponse) response).getCustomerDetails().size() > 0) {
                                 //bind recycler
-
+                                new PrefManager(getActivity()).setVehicleCarMobileLog();
                                 rvMobile.setVisibility(View.VISIBLE);
                                 cvVehicleDetail.setVisibility(View.GONE);
                                 mAdapter.refreshAdapter(((VehicleMobileResponse) response).getCustomerDetails());
@@ -209,8 +223,11 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                         cancelDialog();
                         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                });
 
+                });
+                // } else {
+                //     Toast.makeText(getActivity(), "Your monthly data limit is over, please try next month", Toast.LENGTH_SHORT).show();
+                // }
             }
         }
     }

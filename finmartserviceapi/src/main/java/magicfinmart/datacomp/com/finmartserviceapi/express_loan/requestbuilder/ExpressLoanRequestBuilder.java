@@ -1,7 +1,5 @@
 package magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestbuilder;
 
-import com.google.android.gms.common.api.CommonStatusCodes;
-
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.requestentity.EarlySalaryRequestEntity;
@@ -19,13 +17,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.KotakPL
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.KotakROICalResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.response.kotakPers_SaveResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestbuilder.MotorQuotesRequestBuilder;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.BikePremiumRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.MotorRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.requestentity.SaveAddOnRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikeUniqueResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnResponse;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;

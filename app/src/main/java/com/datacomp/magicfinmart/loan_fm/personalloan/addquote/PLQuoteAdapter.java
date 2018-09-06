@@ -4,8 +4,6 @@ package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
  * Created by IN-RB on 18-01-2018.
  */
 
-import android.app.Activity;
-import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,11 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.R;
-
 
 import java.util.List;
 

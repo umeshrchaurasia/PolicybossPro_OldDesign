@@ -3,7 +3,6 @@ package com.datacomp.magicfinmart.onlineexpressloan.QuoteList;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -21,7 +20,6 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity;
-
 
 import java.util.ArrayList;
 import java.util.List;

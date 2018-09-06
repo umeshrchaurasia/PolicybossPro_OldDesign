@@ -9,13 +9,9 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.ILogin;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthQuote;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.HealthRequestBuilder;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.LoginRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.HealthCompareRequestEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BenefitsListResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteAppResponse;
@@ -23,7 +19,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteC
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteExpResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.HealthQuotetoAppResponse;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.response.HealthShortLinkResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -158,12 +153,12 @@ public class HealthController implements IHealth {
     }
 
     @Override
-    public void getHealthQuoteApplicationList(int count,int type,String fbaID, final IResponseSubcriber iResponseSubcriber) {
+    public void getHealthQuoteApplicationList(int count, int type, String fbaID, final IResponseSubcriber iResponseSubcriber) {
 
         HashMap<String, String> body = new HashMap<String, String>();
         body.put("fba_id", fbaID);
-        body.put("count",""+count);
-        body.put("type",""+type);
+        body.put("count", "" + count);
+        body.put("type", "" + type);
 
         healthNetworkService.getHealthQuoteAppList(body).enqueue(new Callback<HealthQuoteAppResponse>() {
             @Override
@@ -276,7 +271,38 @@ public class HealthController implements IHealth {
     @Override
     public void compareQuote(HealthCompareRequestEntity compareRequestEntity, final IResponseSubcriber iResponseSubcriber) {
 
-        healthNetworkService.compareQuotes(compareRequestEntity).enqueue(new Callback<HealthQuoteCompareResponse>() {
+        healthNetworkService.comparePHPQuotes("http://bo.mgfm.in/api/compare-premium",
+                compareRequestEntity)
+                .enqueue(new Callback<HealthQuoteCompareResponse>() {
+                    @Override
+                    public void onResponse(Call<HealthQuoteCompareResponse> call, Response<HealthQuoteCompareResponse> response) {
+                        if (response.body() != null) {
+                            if (response.body().getStatusNo() == 0) {
+                                iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                            } else {
+                                iResponseSubcriber.OnFailure(new RuntimeException("FAILURE"));
+                            }
+                        } else {
+                            iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<HealthQuoteCompareResponse> call, Throwable t) {
+                        if (t instanceof ConnectException) {
+                            iResponseSubcriber.OnFailure(t);
+                        } else if (t instanceof SocketTimeoutException) {
+                            iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                        } else if (t instanceof UnknownHostException) {
+                            iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                        } else if (t instanceof NumberFormatException) {
+                            iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                        } else {
+                            iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                        }
+                    }
+                });
+        /*healthNetworkService.compareQuotes(compareRequestEntity).enqueue(new Callback<HealthQuoteCompareResponse>() {
             @Override
             public void onResponse(Call<HealthQuoteCompareResponse> call, Response<HealthQuoteCompareResponse> response) {
 
@@ -306,7 +332,7 @@ public class HealthController implements IHealth {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                 }
             }
-        });
+        });*/
     }
 
     @Override

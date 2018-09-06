@@ -14,8 +14,6 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
-import com.datacomp.magicfinmart.onlineexpressloan.EarlySalaryActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.HdfcpersonalloanActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.KotakpersonalloanActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.RblpersonalloanActivity;
