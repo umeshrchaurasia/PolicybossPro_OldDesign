@@ -49,9 +49,10 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
 
     ArrayAdapter<String> cityAdapter;
     List<String> cityList;
-
+    TextView txtEmploymentType;
     Spinner spTitle;
 
+    int EmploymentType = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
 
         if (getIntent().getParcelableExtra(CreditCardActivity.SELECTED_CREDIT_CARD) != null) {
             mCreditCardEntity = getIntent().getParcelableExtra(CreditCardActivity.SELECTED_CREDIT_CARD);
+            EmploymentType = getIntent().getIntExtra("EmploymentType", 0);
             bindData();
         }
     }
@@ -83,6 +85,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
     }
 
     private void init() {
+        txtEmploymentType = findViewById(R.id.txtEmploymentType);
         etFirstName = (EditText) findViewById(R.id.etFirstName);
         etLastName = (EditText) findViewById(R.id.etLastName);
         etFatherName = (EditText) findViewById(R.id.etFatherName);
@@ -93,7 +96,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         etProcessingFees = (EditText) findViewById(R.id.etProcessingFees);
         etMobile = (EditText) findViewById(R.id.etMobile);
         etpancard = (EditText) findViewById(R.id.etpancard);
-        etpancard.setFilters(new InputFilter[] {new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
+        etpancard.setFilters(new InputFilter[]{new InputFilter.AllCaps(), new InputFilter.LengthFilter(10)});
         etAddress1 = (EditText) findViewById(R.id.etAddress1);
         etAddress2 = (EditText) findViewById(R.id.etAddress2);
         etLandMark = (EditText) findViewById(R.id.etLandMark);
@@ -116,6 +119,10 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
     private void bindData() {
         etCCApplied.setText(mCreditCardEntity.getCreditCardType());
         etProcessingFees.setText(mCreditCardEntity.getProcessingFees());
+        if (EmploymentType == 0)
+            txtEmploymentType.setText("Salaried");
+        else
+            txtEmploymentType.setText("Self");
     }
 
     View.OnFocusChangeListener acCityFocusChange = new View.OnFocusChangeListener() {
@@ -338,7 +345,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
         if (response instanceof CCRblResponse) {
             if (response.getStatusNo() == 0) {
                 if (((CCRblResponse) response).getMasterData().getReferenceCode().length() > 1) {
-                    dialogMessage(true, ((CCRblResponse) response).getMasterData().getReferenceCode(), response.getMessage(),((CCRblResponse) response).getMasterData().getStatusX());
+                    dialogMessage(true, ((CCRblResponse) response).getMasterData().getReferenceCode(), response.getMessage(), ((CCRblResponse) response).getMasterData().getStatusX());
                 } else {
                     dialogMessage(false, "", ((CCRblResponse) response).getMessage(), ((CCRblResponse) response).getMasterData().getStatusX());
                 }
