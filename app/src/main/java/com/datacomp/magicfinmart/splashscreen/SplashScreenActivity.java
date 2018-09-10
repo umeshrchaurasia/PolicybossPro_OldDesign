@@ -30,7 +30,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber {
 
     private static final String TAG = "Splashscreen";
-    private final int SPLASH_DISPLAY_LENGTH = 3000;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
     PrefManager prefManager;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginResponseEntity;
