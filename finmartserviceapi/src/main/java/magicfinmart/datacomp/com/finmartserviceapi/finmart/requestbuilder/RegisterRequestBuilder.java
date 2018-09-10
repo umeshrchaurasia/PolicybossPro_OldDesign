@@ -56,6 +56,10 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         Call<RegisterFbaResponse> registerFba(@Body RegisterRequestEntity body);
 
         @Headers("token:" + token)
+        @POST("/api/AddChildPosp")
+        Call<RegisterFbaResponse> addChildPosp(@Body RegisterRequestEntity body);
+
+        @Headers("token:" + token)
         @POST("/api/posp-registration")
         Call<EnrollPospResponse> enrollPosp(@Body RegisterRequestEntity body);
 

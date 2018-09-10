@@ -39,4 +39,6 @@ public interface IRegister {
 
     void getRegSource(IResponseSubcriber iResponseSubcriber);
 
+    void addChildPosp(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);
+
 }

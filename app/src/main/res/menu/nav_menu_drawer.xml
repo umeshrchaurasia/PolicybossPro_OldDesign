@@ -35,14 +35,19 @@
             android:title="POSP ENROLLMENT" />
 
         <item
+            android:id="@+id/nav_addposp"
+            android:icon="@drawable/posp_enrollment"
+            android:title="ADD POSP" />
+
+        <item
             android:id="@+id/nav_vehicleinfo"
             android:icon="@drawable/vehicledetail"
             android:title="VEHICLE DETAIL" />
         <item
-            android:visible="false"
             android:id="@+id/nav_yesbankbot"
             android:icon="@drawable/yesbank"
-            android:title="YES BANK BOT" />
+            android:title="YES BANK BOT"
+            android:visible="false" />
         <item
             android:id="@+id/nav_sharedata"
             android:icon="@drawable/share_data"

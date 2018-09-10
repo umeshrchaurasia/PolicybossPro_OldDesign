@@ -14,11 +14,12 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!--<uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
 
+    <!--
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    -->
     <application
-
         android:name=".MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -43,6 +44,11 @@
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="5822">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name=".broadcast.UpdateAppBroadCastReceiver">
+            <intent-filter android:priority="5823">
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
 
@@ -732,7 +738,6 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="stateAlwaysHidden|stateHidden" />
 
-
         <!--
         <receiver android:name=".broadcast.SMSBroadCastReceiver">
             <intent-filter android:priority="999">
@@ -740,7 +745,6 @@
             </intent-filter>
         </receiver>
         -->
-
 
         <activity
             android:name=".term.quoteapp.TermQuoteApplicationActivity"
@@ -804,8 +808,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.onlineexpressloan.BankLoanList.BankLoanListActivity.BankLoanListActivity" />
         </activity>
-
-
         <activity
             android:name=".term.compareterm.CompareTermActivity"
             android:label="@string/title_activity_compare_ti_activity"
@@ -863,8 +865,16 @@
             android:name=".loan_fm.popup.LeadInfoPopupActivity"
             android:label="@string/title_activity_lead_info_popup"
             android:screenOrientation="portrait"
-            android:theme="@style/DialogTheme"></activity>
-
+            android:theme="@style/DialogTheme" />
+        <activity
+            android:name=".posp.AddPOSPUserActivity"
+            android:label="@string/title_activity_add_pospuser"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>
