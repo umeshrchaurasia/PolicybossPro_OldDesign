@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart.utility;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -109,6 +110,13 @@ public class Constants {
     public static String PRODUCT_ID = "salesProductID";
     public static String DOC_DATA = "docData";
     public static String SHARE_ACTIVITY_NAME = "shareactivityname";
+    public static final int PERMISSION_CALLBACK_CONSTANT = 100;
+    public static final int REQUEST_PERMISSION_SETTING = 101;
+    public static final int PERMISSION_CAMERA_STORACGE_CONSTANT = 103;
+    public static final int PERMISSION_CALLBACK_SUPPORT = 104;
+
+
+    public static String[] permissionsRequired ={Manifest.permission.CALL_PHONE};
 
     public static void hideKeyBoard(View view, Context context) {
         if (view != null) {
