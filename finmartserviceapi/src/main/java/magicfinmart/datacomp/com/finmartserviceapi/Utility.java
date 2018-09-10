@@ -367,4 +367,11 @@ public class Utility {
         url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
     }
+
+    public static String getInsurerImage(String insId) {
+        int ID = 0;
+        if (insId != null && !insId.equals(""))
+            ID = Integer.parseInt(insId);
+        return "http://api.magicfinmart.com/InsurerImages/car_" + ID + ".png";
+    }
 }

@@ -18,6 +18,7 @@ import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
@@ -76,10 +77,13 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
 
         try {
 
-            int logo = new DBPersistanceController(mContext.getActivity())
+            /*int logo = new DBPersistanceController(mContext.getActivity())
                     .getInsurerLogo(Integer.parseInt(responseEntity.getInsurer_Id()));
 
             Glide.with(mContext).load(logo)
+                    .into(holder.imgInsurerLogo);*/
+
+            Glide.with(mContext).load(Utility.getInsurerImage(responseEntity.getInsurer_Id()))
                     .into(holder.imgInsurerLogo);
         } catch (Exception e) {
             e.printStackTrace();
