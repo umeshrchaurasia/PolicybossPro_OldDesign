@@ -27,4 +27,6 @@ public interface IMasterFetch {
 
     public void applyMPSPromoCode(String promoCode, IResponseSubcriber iResponseSubcriber);
 
+    public void geUserConstant( IResponseSubcriber iResponseSubcriber);
+
 }

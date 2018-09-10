@@ -2,14 +2,12 @@ package com.datacomp.magicfinmart.posp;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,24 +15,33 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.register.RegisterActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 
 public class AddPOSPUserActivity extends BaseActivity implements IResponseSubcriber, View.OnClickListener {
 
     EditText etFirstName, etLastName, etDob, etMobile1, etMobile2, etEmail, etPincode, etCity, etState;
     TextView txtMale, txtFemale;
+    Button btnAddUser;
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MMM-yyyy");
+    SimpleDateFormat passdateFormat = new SimpleDateFormat("ddMMyyyy");
     boolean isMale = false, isFemale = false;
+    Boolean isValidPersonalInfo = false, isMobileValid = false;
+    RegisterRequestEntity registerRequestEntity;
+    String pass = "";
+    DBPersistanceController dbPersistanceController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,8 @@ public class AddPOSPUserActivity extends BaseActivity implements IResponseSubcri
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        registerRequestEntity = new RegisterRequestEntity();
+        dbPersistanceController = new DBPersistanceController(this);
         init_widget();
     }
 
@@ -62,6 +71,8 @@ public class AddPOSPUserActivity extends BaseActivity implements IResponseSubcri
 
         txtMale.setOnClickListener(this);
         txtFemale.setOnClickListener(this);
+        btnAddUser = findViewById(R.id.btnAddUser);
+        btnAddUser.setOnClickListener(this);
         etDob.setOnClickListener(datePickerDialog);
     }
 
@@ -78,8 +89,102 @@ public class AddPOSPUserActivity extends BaseActivity implements IResponseSubcri
                 isMale = false;
                 setGender(txtFemale, txtMale);
                 break;
+            case R.id.btnAddUser:
+                isValidPersonalInfo = validateRegister();
+                if (isValidPersonalInfo) {
+                    setRegisterPersonalRequest();
+                    showDialog();
+                    new RegisterController(this).addChildPosp(registerRequestEntity, this);
+                }
+                break;
         }
     }
+
+    private void setRegisterPersonalRequest() {
+        registerRequestEntity.setFirstName("" + etFirstName.getText().toString());
+        registerRequestEntity.setLastName("" + etLastName.getText().toString());
+        registerRequestEntity.setDOB("" + etDob.getText().toString());
+        registerRequestEntity.setMobile_1("" + etMobile1.getText().toString());
+        registerRequestEntity.setMobile_2("" + etMobile2.getText().toString());
+        registerRequestEntity.setEmailId("" + etEmail.getText().toString());
+        registerRequestEntity.setPinCode("" + etPincode.getText().toString());
+        if (isMale) {
+            registerRequestEntity.setGender("M");
+        } else {
+            registerRequestEntity.setGender("F");
+        }
+
+        //password setting null
+        if (!pass.equalsIgnoreCase("")) {
+            registerRequestEntity.setPassword(pass);
+        } else {
+            Date date = (Date) etDob.getTag(R.id.etDob);
+            pass = passdateFormat.format(date.getTime());
+            registerRequestEntity.setPassword(pass);
+        }
+        registerRequestEntity.setParentId("" + dbPersistanceController.getUserData().getFBAId());
+        //registerRequestEntity.setAppSource(String.valueOf(spSource.getSelectedItemPosition() + 1));
+    }
+
+    private Boolean validateRegister() {
+        if (!isEmpty(etFirstName)) {
+            etFirstName.requestFocus();
+            etFirstName.setError("Enter First Name");
+            return false;
+        }
+
+        if (!isEmpty(etLastName)) {
+            etLastName.requestFocus();
+            etLastName.setError("Enter Last Name");
+            return false;
+        }
+        if (!isEmpty(etDob)) {
+            etDob.requestFocus();
+            etDob.setError("Enter Dob");
+            return false;
+        }
+        if (!isValidePhoneNumber(etMobile1)) {
+            etMobile1.requestFocus();
+            etMobile1.setError("Enter Mobile ");
+            return false;
+        }
+        if (!isValideEmailID(etEmail)) {
+            etEmail.requestFocus();
+            etEmail.setError("Enter Email");
+            return false;
+        }
+
+        if (!isEmpty(etPincode)) {
+            etPincode.requestFocus();
+            etPincode.setError("Enter Pincode");
+            return false;
+        }
+        if (!etPincode.getText().toString().equals("")) {
+            if (etPincode.getText().toString().length() != 6) {
+                etPincode.requestFocus();
+                etPincode.setError("Enter Valid Pincode");
+                return false;
+            }
+        }
+        if (!isEmpty(etCity)) {
+            etCity.requestFocus();
+            etCity.setError("Enter City");
+            return false;
+        }
+        if (!isEmpty(etState)) {
+            etState.requestFocus();
+            etState.setError("Enter State");
+            return false;
+        }
+
+      /*  if (!isVAlidPromo) {
+            etRefererCode.requestFocus();
+            etRefererCode.setError("Enter Valid Promo Code");
+            return false;
+        }*/
+        return true;
+    }
+
 
     private void setGender(TextView clickedText, TextView textView1) {
         clickedText.setBackgroundResource(R.drawable.customeborder_blue);
@@ -148,7 +253,21 @@ public class AddPOSPUserActivity extends BaseActivity implements IResponseSubcri
                 Constants.hideKeyBoard(etPincode, this);
                 etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
                 etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
+
+                registerRequestEntity.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
+                registerRequestEntity.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
+                registerRequestEntity.setStateID("" + ((PincodeResponse) response).getMasterData().getStateid());
+
             }
+        } else if (response instanceof RegisterFbaResponse) {
+            cancelDialog();
+            if (response.getStatusNo() == 0) {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                finish();
+            } else {
+                Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 

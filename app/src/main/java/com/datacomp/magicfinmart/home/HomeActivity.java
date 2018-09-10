@@ -4,13 +4,17 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -28,8 +32,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
@@ -45,6 +54,7 @@ import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
+import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.vehicle_details.VehicleDetailFragment;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -68,14 +78,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.Trackin
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 
-public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener {
+public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener, BaseActivity.PermissionListener {
 
     final String TAG = "HOME";
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtFbaCode;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo;
+    ImageView ivProfile;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
     String versionNAme;
@@ -84,20 +96,35 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     int forceUpdate;
     ConstantEntity constantEntity;
     AlertDialog mpsDialog;
+    String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
 
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (intent.getAction() != null && intent.getAction().equalsIgnoreCase(Utility.PUSH_BROADCAST_ACTION)) {
-                int notifyCount = prefManager.getNotificationCounter();
+            if (intent.getAction() != null) {
+                if (intent.getAction().equalsIgnoreCase(Utility.PUSH_BROADCAST_ACTION)) {
+                    int notifyCount = prefManager.getNotificationCounter();
 
-                if (notifyCount == 0) {
-                    textNotifyItemCount.setVisibility(View.GONE);
-                } else {
-                    textNotifyItemCount.setVisibility(View.VISIBLE);
-                    textNotifyItemCount.setText("" + String.valueOf(notifyCount));
+                    if (notifyCount == 0) {
+                        textNotifyItemCount.setVisibility(View.GONE);
+                    } else {
+                        textNotifyItemCount.setVisibility(View.VISIBLE);
+                        textNotifyItemCount.setText("" + String.valueOf(notifyCount));
+                    }
+                } else if (intent.getAction().equalsIgnoreCase(Utility.USER_PROFILE_ACTION)) {
+                    String PROFILE_PATH = intent.getStringExtra("PROFILE_PATH");
+
+                    Glide.with(HomeActivity.this)
+                            .load(Uri.parse(PROFILE_PATH))
+                            .placeholder(R.drawable.finmart_user_icon)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .override(64, 64)
+                            .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                            .into(ivProfile);
+
                 }
             }
 
@@ -109,6 +136,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         registerPopUp(this);
+        registerPermission(this);
         // Initializing Toolbar and setting it as the actionbar
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         //Initializing NavigationView
@@ -143,7 +171,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         getNotificationAction();
 
         if (loginResponseEntity != null) {
-            init_headers();
+
+            if (db.getUserConstantsData() != null) {
+                init_headers();
+            } else {
+                new MasterController(this).geUserConstant(this);
+            }
         }
         if (db.getAccountData() == null) {
             new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
@@ -330,20 +363,49 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
-        txtFbaCode = (TextView) headerView.findViewById(R.id.txtFbaCode);
+        txtReferalCode = (TextView) headerView.findViewById(R.id.txtReferalCode);
+        txtFbaID = (TextView) headerView.findViewById(R.id.txtFbaID);
+        txtPospNo = (TextView) headerView.findViewById(R.id.txtPospNo);
+        ivProfile = (ImageView) headerView.findViewById(R.id.ivProfile);
 
-        txtEntityName.setText("Magic Finmart  v" + versionNAme);
+        ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        if (loginResponseEntity.getFullName().length() > 12) {
-            txtDetails.setText("" + loginResponseEntity.getFullName()
-                    + " \n(FBA ID : " + loginResponseEntity.getFBAId() + ")");
+                startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+
+            }
+        });
+
+        txtEntityName.setText("v" + versionNAme);
+
+        txtDetails.setText("" + loginResponseEntity.getFullName());
+
+        txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
+        txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
+
+        if (db.getUserConstantsData() != null) {
+            txtPospNo.setText("Posp No - " + db.getUserConstantsData().getPOSPNo());
+
+            Glide.with(HomeActivity.this)
+                    .load(Uri.parse(db.getUserConstantsData().getLoansendphoto()))
+                    .placeholder(R.drawable.circle_placeholder)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .override(64, 64)
+                    .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                    .into(ivProfile);
         } else {
-            txtDetails.setText("" + loginResponseEntity.getFullName()
-                    + " (FBA ID : " + loginResponseEntity.getFBAId() + ")");
+            txtPospNo.setText("");
+            Glide.with(HomeActivity.this)
+                    .load(R.drawable.finmart_user_icon)
+                    .placeholder(R.drawable.circle_placeholder)
+                    .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .skipMemoryCache(true)
+                    .override(64, 64)
+                    .into(ivProfile);
         }
-
-        txtFbaCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
-        //txtFbaCode.setText("FBA ID - " + loginResponseEntity.getFBAId());
 
 
     }
@@ -460,6 +522,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         final MenuItem menuItem = menu.findItem(R.id.action_push_notification);
 
+        //  SearchView actionView = (SearchView) menuItem.getActionView();
+
         View actionView = MenuItemCompat.getActionView(menuItem);
         textNotifyItemCount = (TextView) actionView.findViewById(R.id.notify_badge);
         textNotifyItemCount.setVisibility(View.GONE);
@@ -496,25 +560,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         switch (item.getItemId()) {
 
             case R.id.action_call:
-//                intent = new Intent(MainActivity.this, BankDataActivity.class);
-//                startActivity(intent);
-
                 if (db.getConstantsData().getHelpNumber() != null) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
-                        return false;
-                    }
-                    Intent intentCalling = new Intent(Intent.ACTION_CALL);
-                    intentCalling.setData(Uri.parse("tel:" + db.getConstantsData().getHelpNumber()));
-                    startActivity(intentCalling);
 
+                    if (ActivityCompat.checkSelfPermission(HomeActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(HomeActivity.this, permissionsRequired[0])) {
+                            //Show Information about why you need the permission
+                            ActivityCompat.requestPermissions(HomeActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
+
+                        } else {
+                            //Previously Permission Request was cancelled with 'Dont Ask Again',
+                            // Redirect to Settings after showing Information about why you need the permission
+
+                            permissionAlert(navigationView, "Need Call Permission", "This app needs Call permission.");
+
+
+                        }
+                    } else {
+
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) +" "+db.getUserConstantsData().getManagName());
+
+                    }
                 }
+
+
                 break;
             case R.id.action_push_notification:
                 intent = new Intent(HomeActivity.this, NotificationActivity.class);
@@ -525,6 +594,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         return super.onOptionsItemSelected(item);
     }
+
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -546,6 +616,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (response.getStatusNo() == 0) {
                 if (((MyAcctDtlResponse) response).getMasterData().get(0) != null) {
                     db.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
+                }
+            }
+        } else if (response instanceof UserConstatntResponse) {
+            if (response.getStatusNo() == 0) {
+                if (((UserConstatntResponse) response).getMasterData() != null) {
+                    db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
+                    init_headers();
                 }
             }
         }
@@ -658,7 +735,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
+        LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
+
     }
+
 
     @Override
     protected void onDestroy() {
@@ -681,6 +761,38 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case Constants.PERMISSION_CALLBACK_CONSTANT:
+                if (grantResults.length > 0) {
+
+                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean call_phone = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if (call_phone) {
+
+
+//                        Intent intentCalling = new Intent(Intent.ACTION_CALL);
+//                        intentCalling.setData(Uri.parse("tel:" + db.getConstantsData().getHelpNumber()));
+//                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+//                            // TODO: Consider calling
+//
+//                            return;
+//                        }
+//                        startActivity(intentCalling);
+
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) +" "+db.getUserConstantsData().getManagName());
+
+
+                    }
+
+                }
+                break;
+        }
+    }
+
     public void hideNavigationItem() {
         Menu nav_Menu = navigationView.getMenu();
         if (Utility.checkPospTrainingStatus(this) == 1)
@@ -689,6 +801,51 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
     }
 
+    public void ConfirmAlert(String Title, String strBody) {
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+            builder.setTitle(Title);
+
+            builder.setMessage(strBody);
+            String positiveText = "Call";
+            String NegativeText = "Cancel";
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+
+                            if (ActivityCompat.checkSelfPermission(HomeActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            Intent intentCalling = new Intent(Intent.ACTION_CALL);
+                            intentCalling.setData(Uri.parse("tel:" + db.getConstantsData().getHelpNumber()));
+                            startActivity(intentCalling);
+                        }
+                    });
+
+            builder.setNegativeButton(NegativeText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            final android.support.v7.app.AlertDialog dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        } catch (Exception ex) {
+            Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+        }
+    }
     //region mps dialog
 
     public void DialogMPS() {
@@ -765,6 +922,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.frame, new MPSFragment());
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void onGrantButtonClick( View view) {
+
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+
     }
     //endregion
 }

@@ -6,6 +6,13 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity;
 
 public class RegisterRequestEntity {
 
+    /**
+     * Link : null
+     * ParentId : 3
+     */
+
+    private String ParentId;
+
     public String getReferedby_code() {
         return referedby_code;
     }
@@ -330,6 +337,7 @@ public class RegisterRequestEntity {
         DisplayPhoneNo = "";
         DisplayDesignation = "";
         VersionCode = "";
+        ParentId="0";
     }
 
 
@@ -1132,5 +1140,13 @@ public class RegisterRequestEntity {
 
     public void setLink(String Link) {
         this.Link = Link;
+    }
+
+    public String getParentId() {
+        return ParentId;
+    }
+
+    public void setParentId(String ParentId) {
+        this.ParentId = ParentId;
     }
 }

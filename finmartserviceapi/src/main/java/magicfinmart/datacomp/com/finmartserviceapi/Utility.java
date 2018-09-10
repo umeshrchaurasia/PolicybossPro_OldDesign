@@ -71,6 +71,8 @@ public class Utility {
     public static String PUSH_NOTIFY = "notifyFlag";
     public static String PUSH_LOGIN_PAGE = "pushloginPage";
 
+    public static String USER_PROFILE_ACTION = "Finmart_User_Profile_Action";
+
 
     public static SharedPreferences getSharedPreference(Context context) {
         return context.getSharedPreferences(SHARED_PREFERENCE_POLICYBOSS, MODE_PRIVATE);

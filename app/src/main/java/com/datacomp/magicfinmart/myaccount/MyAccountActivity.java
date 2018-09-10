@@ -1,7 +1,11 @@
 package com.datacomp.magicfinmart.myaccount;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -11,9 +15,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -34,8 +41,11 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,17 +57,20 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocAvailableEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IfscEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 import okhttp3.MultipartBody;
 
 
@@ -65,21 +78,23 @@ import okhttp3.MultipartBody;
  * Created by daniyalshaikh on 10/01/18.
  */
 
-public class MyAccountActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber {
+public class MyAccountActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber, BaseActivity.PopUpListener {
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
     int type;
-    LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp;
-    ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile,
+    LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout;
+    ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile, ivAbout,
             ivPhotoCam, ivPhotoGallery, ivPanCam, ivPanGallery, ivCancelCam, ivCancelGallery, ivAadharCam, ivAadharGallery,
             ivAadhar, ivCancel, ivPan, ivPhoto, ivUser;
-    RelativeLayout rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload, rlPOSP;
+    RelativeLayout rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload, rlPOSP, rlAbout;
 
     EditText etSubHeading, etMobileNo, etEmailId, etAddress1, etAddress2, etAddress3, etPincode,
             etCity, etState, etAccountHolderName, etAadhaar, etPAN, etBankAcNo, etIfscCode,
             etMicrCode, etBankName, etBankBranch, etBankCity, etSubHeading_posp, etMobileNo_posp, etEmailId_posp;
-    TextView txtSaving, txtCurrent;
+    TextView txtSaving, txtCurrent, tvName, txtManagerName, tvFbaCode, tvPospNo, tvLoginId, tvPospStatus, txtManagerMobile, txtManagerEmail, txtSupportMobile, txtSupportEmail;
+
+    ImageView ivManagerMobile, ivManagerEmail, ivSupportMobile, ivSupportEmail;
 
     Button btnSave;
     RegisterRequestEntity registerRequestEntity;
@@ -106,6 +121,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     Boolean isDataUploaded = true;
     Bitmap bitmapPhoto = null;
     LoginResponseEntity loginResponseEntity;
+    String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
+
+    String[] perms = {
+            "android.permission.CAMERA",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.READ_EXTERNAL_STORAGE"
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +141,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         loginResponseEntity = dbPersistanceController.getUserData();
         loginEntity = dbPersistanceController.getUserData();
 
-
+        registerPopUp(this);
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginEntity.getFBAId());
 
@@ -126,12 +149,21 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         setListener();
         initLayouts();
 
+        if (dbPersistanceController.getUserConstantsData() != null) {
+            bindAboutMe();
+
+        } else {
+
+            new MasterController(this).geUserConstant(this);
+        }
+
 
         showDialog("Fetching Detail...");
         new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
 
 
     }
+
 
     private void initLayouts() {
         llMyProfile.setVisibility(View.GONE);
@@ -155,8 +187,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         rlPOSP.setOnClickListener(this);
         ivPOSP.setOnClickListener(this);
-        ivProfile.setOnClickListener(this);
 
+        rlAbout.setOnClickListener(this);
+        ivAbout.setOnClickListener(this);
+
+        ivProfile.setOnClickListener(this);
         ivPhotoCam.setOnClickListener(this);
         ivPhotoGallery.setOnClickListener(this);
         ivPanCam.setOnClickListener(this);
@@ -166,6 +201,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         ivCancelGallery.setOnClickListener(this);
         ivAadharCam.setOnClickListener(this);
         ivAadharGallery.setOnClickListener(this);
+
+        ivManagerMobile.setOnClickListener(this);
+        ivManagerEmail.setOnClickListener(this);
+        ivSupportMobile.setOnClickListener(this);
+        ivSupportEmail.setOnClickListener(this);
 
 
         btnSave.setOnClickListener(this);
@@ -189,6 +229,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         llDocumentUpload = (LinearLayout) findViewById(R.id.llDocumentUpload);
         llBankDetail = (LinearLayout) findViewById(R.id.llBankDetail);
         llPosp = (LinearLayout) findViewById(R.id.llPosp);
+        llAbout = (LinearLayout) findViewById(R.id.llAbout);
 
         rlMyProfile = (RelativeLayout) findViewById(R.id.rlMyProfile);
         rlAddress = (RelativeLayout) findViewById(R.id.rlAddress);
@@ -196,10 +237,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         ivBankDetail = (ImageView) findViewById(R.id.ivBankDetail);
         rlDocumentUpload = (RelativeLayout) findViewById(R.id.rlDocumentUpload);
         rlPOSP = (RelativeLayout) findViewById(R.id.rlPOSP);
+        rlAbout = (RelativeLayout) findViewById(R.id.rlAbout);
 
 
         ivDocumentUpload = (ImageView) findViewById(R.id.ivDocumentUpload);
         ivPOSP = (ImageView) findViewById(R.id.ivPOSP);
+        ivAbout = (ImageView) findViewById(R.id.ivAbout);
 
         etSubHeading = (EditText) findViewById(R.id.etSubHeading);
         etMobileNo = (EditText) findViewById(R.id.etMobileNo);
@@ -248,44 +291,92 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         ivPhoto = (ImageView) findViewById(R.id.ivPhoto);
 
 
+        // region About Me
+        ivManagerMobile = (ImageView) findViewById(R.id.ivManagerMobile);
+        ivManagerEmail = (ImageView) findViewById(R.id.ivManagerEmail);
+        ivSupportMobile = (ImageView) findViewById(R.id.ivSupportMobile);
+        ivSupportEmail = (ImageView) findViewById(R.id.ivSupportEmail);
+
+        tvName = (TextView) findViewById(R.id.tvName);
+        txtManagerName = (TextView) findViewById(R.id.txtManagerName);
+        tvFbaCode = (TextView) findViewById(R.id.tvFbaCode);
+        tvPospNo = (TextView) findViewById(R.id.tvPospNo);
+        tvLoginId = (TextView) findViewById(R.id.tvLoginId);
+
+        tvPospStatus = (TextView) findViewById(R.id.tvPospStatus);
+        txtManagerMobile = (TextView) findViewById(R.id.txtManagerMobile);
+        txtManagerEmail = (TextView) findViewById(R.id.txtManagerEmail);
+        txtSupportMobile = (TextView) findViewById(R.id.txtSupportMobile);
+        txtSupportEmail = (TextView) findViewById(R.id.txtSupportEmail);
+        //endregion
+
+
         btnSave = (Button) findViewById(R.id.btnSave);
 
 
+    }
+
+    private void bindAboutMe() {
+        UserConstantEntity userConstantEntity = dbPersistanceController.getUserConstantsData();
+
+        tvName.setText(loginResponseEntity.getFullName());
+        tvFbaCode.setText("" + userConstantEntity.getFBAId());
+        if (userConstantEntity.getPOSPNo() != null) {
+            tvPospNo.setText("" + userConstantEntity.getPOSPNo());
+        }
+        tvLoginId.setText("" + userConstantEntity.getLoginID());
+        tvPospStatus.setText(userConstantEntity.getPOSP_STATUS());
+
+        txtManagerName.setText(userConstantEntity.getManagName());
+        txtManagerMobile.setText(userConstantEntity.getMangMobile());
+        txtManagerEmail.setText(userConstantEntity.getMangEmail());
+
+        txtSupportMobile.setText(userConstantEntity.getSuppMobile());
+        txtSupportEmail.setText(userConstantEntity.getSuppEmail());
     }
 
     @Override
     public void onClick(View view) {
         Constants.hideKeyBoard(view, this);
         switch (view.getId()) {
+
+
             case R.id.ivMyProfile:
             case R.id.rlMyProfile:
-                manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp);
-                manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP);
+                manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout);
+                manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout);
                 break;
             case R.id.ivAddress:
             case R.id.rlAddress:
-                manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload, llPosp);
-                manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload, ivPOSP);
+                manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload, llPosp, llAbout);
+                manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout);
                 saveProfile();
                 break;
             case R.id.ivBankDetail:
             case R.id.rlBankDetail:
-                manageMainLayouts(llBankDetail, llMyProfile, llAddress, llDocumentUpload, llPosp);
-                manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP);
+                manageMainLayouts(llBankDetail, llMyProfile, llAddress, llDocumentUpload, llPosp, llAbout);
+                manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP, ivAbout);
                 saveAddress();
                 break;
             case R.id.ivDocumentUpload:
             case R.id.rlDocumentUpload:
-                manageMainLayouts(llDocumentUpload, llBankDetail, llMyProfile, llAddress, llPosp);
-                manageImages(llDocumentUpload, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivPOSP);
+                manageMainLayouts(llDocumentUpload, llBankDetail, llMyProfile, llAddress, llPosp, llAbout);
+                manageImages(llDocumentUpload, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivPOSP, ivAbout);
                 saveBankDtl();
                 break;
 
             case R.id.ivPOSP:
             case R.id.rlPOSP:
-                manageMainLayouts(llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress);
-                manageImages(llPosp, ivPOSP, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile);
+                manageMainLayouts(llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress, llAbout);
+                manageImages(llPosp, ivPOSP, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivAbout);
                 savePOSP();
+                break;
+
+            case R.id.ivAbout:
+            case R.id.rlAbout:
+                manageMainLayouts(llAbout, llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress);
+                manageImages(llAbout, ivAbout, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP);
+
                 break;
 
             case R.id.txtSaving:
@@ -302,52 +393,118 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.ivPhotoCam:
                 type = 2;
-                launchCamera();
+                // launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivPhotoGallery:
                 type = 2;
-                openGallery();
+                openGallery();  // Not in Used
+
                 break;
 
             case R.id.ivPanCam:
                 type = 3;
-                launchCamera();
+                // launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivPanGallery:
                 type = 3;
-                openGallery();
+                openGallery();  // Not in Used
                 break;
 
             case R.id.ivCancelCam:
                 type = 4;
-                launchCamera();
+                //launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivCancelGallery:
                 type = 4;
-                openGallery();
+                openGallery();   // Not in Used
                 break;
 
             case R.id.ivAadharCam:
                 type = 5;
-                launchCamera();
+//                launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivAadharGallery:
                 type = 5;
-                openGallery();
+                openGallery();        // Not in Used
                 break;
 
+
+            case R.id.ivManagerMobile:
+
+                if(dbPersistanceController.getUserConstantsData().getManagName() != null) {
+
+                    if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, permissionsRequired[0])) {
+                            //Show Information about why you need the permission
+                            ActivityCompat.requestPermissions(MyAccountActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
+
+                        } else {
+
+                            openPopUp(ivManagerMobile, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+
+
+                        }
+                    } else {
+
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + dbPersistanceController.getUserConstantsData().getManagName(), dbPersistanceController.getConstantsData().getHelpNumber());
+                    }
+
+                }
+
+                break;
+
+            case R.id.ivManagerEmail:
+                if(dbPersistanceController.getUserConstantsData().getMangEmail() != null) {
+                    composeEmail(dbPersistanceController.getUserConstantsData().getMangEmail(), "");
+                }
+                break;
+
+            case R.id.ivSupportMobile:
+                if(dbPersistanceController.getUserConstantsData().getManagName() != null) {
+
+                    if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+
+                        if (ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, permissionsRequired[0])) {
+                            //Show Information about why you need the permission
+                            ActivityCompat.requestPermissions(MyAccountActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_SUPPORT);
+
+                        } else {
+
+                            openPopUp(ivManagerMobile, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+
+                        }
+                    } else {
+                        ConfirmAlert("Calling", getResources().getString(R.string.Support_Calling), dbPersistanceController.getUserConstantsData().getSuppMobile());
+
+                    }
+
+                }
+
+                break;
+
+            case R.id.ivSupportEmail:
+                if(dbPersistanceController.getUserConstantsData().getSuppEmail() != null) {
+                    composeEmail(dbPersistanceController.getUserConstantsData().getSuppEmail(), "");
+                }
+
+                break;
 
             case R.id.btnSave:
 
                 if (validateProfile() == false) {
                     // llMyProfile.setVisibility(View.GONE);
                     if (llMyProfile.getVisibility() == View.GONE) {
-                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp);
-                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP);
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout);
                     }
 
                 } else {
@@ -530,7 +687,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private void manageMainLayouts(LinearLayout visibleLayout, LinearLayout hideLayout1, LinearLayout hideLayout2, LinearLayout hideLayout3, LinearLayout hideLayout4) {
+    private void manageMainLayouts(LinearLayout visibleLayout, LinearLayout hideLayout1, LinearLayout hideLayout2, LinearLayout hideLayout3, LinearLayout hideLayout4, LinearLayout hideLayout5) {
 
         if (visibleLayout.getVisibility() == View.GONE) {
             visibleLayout.setVisibility(View.VISIBLE);
@@ -538,12 +695,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             hideLayout2.setVisibility(View.GONE);
             hideLayout3.setVisibility(View.GONE);
             hideLayout4.setVisibility(View.GONE);
+            hideLayout5.setVisibility(View.GONE);
         } else {
             visibleLayout.setVisibility(View.GONE);
         }
     }
 
-    private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3, ImageView upImage4) {
+    private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3, ImageView upImage4, ImageView upImage5) {
 
         if (clickedLayout.getVisibility() == View.GONE) {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
@@ -551,12 +709,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage4.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage5.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
         } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
             upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage4.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage5.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
         }
 
     }
@@ -574,6 +734,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             ivPOSP.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             llPosp.setVisibility(View.GONE);
+
+            ivAbout.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            llAbout.setVisibility(View.GONE);
             //endregion
 
             linearLayout.setVisibility(View.GONE);
@@ -792,9 +955,18 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
                 // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
                 setDocumentUpload();
-                if (type == 1 || type == 2 ) {
+                if (type == 1 || type == 2) {
                     try {
                         updateLoginResponse(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+
+                       dbPersistanceController.updateUserConstatntProfile(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+
+                        // Todo : Firing Local BroadCase
+                        Intent profileIntent = new Intent(Utility.USER_PROFILE_ACTION);
+                        profileIntent.putExtra("PROFILE_PATH", ((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+
+                        LocalBroadcastManager.getInstance(MyAccountActivity.this).sendBroadcast(profileIntent);
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -816,6 +988,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 }
 
 
+            }
+        } else if (response instanceof UserConstatntResponse) {
+            if (response.getStatusNo() == 0) {
+                if (((UserConstatntResponse) response).getMasterData() != null) {
+                    dbPersistanceController.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
+                    bindAboutMe();
+                }
             }
         }
 
@@ -913,8 +1092,15 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     };
 
-    private void setDocumentUpload(int fileType, String FileNmae) {
-        if (fileType == 1) {
+
+    private byte[] bitmapToByte(Bitmap bitmap){
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        return byteArray;
+    }
+    private void setDocumentUpload(int fileType, String FileName) {
+        if (fileType == 1 || fileType == 2) {
             //ProfiePics
             /*Glide.with(MyAccountActivity.this)
                     .load(FileNmae)
@@ -922,13 +1108,30 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 //                    .diskCacheStrategy(DiskCacheStrategy.NONE)
 //                    .skipMemoryCache(true)
                     .into(target);*/
-            if (FileNmae != null && !FileNmae.equals(""))
+
+
+            if (FileName != null && !FileName.equals("")) {
                 Glide.with(MyAccountActivity.this)
-                        .load(FileNmae)
+                        .load(FileName)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .placeholder(R.drawable.circle_placeholder)
                         .skipMemoryCache(true)
-                        .override(200, 200)
-                        .centerCrop().into(ivUser);
+                        .override(120, 120)
+                        .transform(new CircleTransform(MyAccountActivity.this)) // applying the image transformer
+                        .into(ivUser);
+
+
+
+            }else{
+                Glide.with(MyAccountActivity.this)
+                        .load(R.drawable.finmart_user_icon)
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .placeholder(R.drawable.finmart_user_icon)
+                        .skipMemoryCache(true)
+                        .override(120, 120)
+                        .transform(new CircleTransform(MyAccountActivity.this)) // applying the image transformer
+                        .into(ivUser);
+            }
         }
 
         if (fileType == 2) {
@@ -944,9 +1147,27 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private void setDocumentUpload() {
         if (type == 1) {
-            ivUser.setImageBitmap(bitmapPhoto);
+            Glide.with(MyAccountActivity.this)
+                    .load(bitmapToByte(bitmapPhoto))
+                    .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .placeholder(R.drawable.circle_placeholder)
+                    .skipMemoryCache(true)
+                    .override(120, 120)
+                    .transform(new CircleTransform(MyAccountActivity.this)) // applying the image transformer
+                    .into(ivUser);
         } else if (type == 2) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
+            Glide.with(MyAccountActivity.this)
+                    .load(bitmapPhoto)
+                    .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    .placeholder(R.drawable.circle_placeholder)
+                    .skipMemoryCache(true)
+                    .override(120, 120)
+                    .transform(new CircleTransform(MyAccountActivity.this)) // applying the image transformer
+                    .into(ivUser);
+
         } else if (type == 3) {
             ivPan.setImageResource(R.drawable.doc_uploaded);
         } else if (type == 4) {
@@ -977,12 +1198,36 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void galleryCamPopUp() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        if (!checkPermission()) {
+
+            if (checkRationalePermission()) {
+                //Show Information about why you need the permission
+                requestPermission();
+
+            } else {
+                //Previously Permission Request was cancelled with 'Dont Ask Again',
+                // Redirect to Settings after showing Information about why you need the permission
+
+                //  permissionAlert(navigationView,"Need Call Permission","This app needs Call permission.");
+                openPopUp(btnSave, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+
+
+            }
+        } else {
+
+            showCamerGalleryPopUp();
+        }
+    }
+
+
+    private void showCamerGalleryPopUp() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
 
         LinearLayout lyCamera, lyGallery;
         LayoutInflater inflater = this.getLayoutInflater();
 
-        final View dialogView = inflater.inflate(R.layout.layout_gallery, null);
+        final View dialogView = inflater.inflate(R.layout.layout_cam_gallery, null);
 
         builder.setView(dialogView);
         final AlertDialog alertDialog = builder.create();
@@ -1015,11 +1260,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void launchCamera() {
-        //Intent cameraIntent = new Intent(MediaStore.EXTRA_OUTPUT);
-        //startActivityForResult(cameraIntent, CAMERA_REQUEST);
 
-        // start default camera
-        //  Uri imageUri = Uri.fromFile(saveImageToStorage(null,PHOTO_File));
 
         String FileName = "";
 
@@ -1148,6 +1389,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 case 2:
                     showDialog();
                     file = saveImageToStorage(mphoto, PHOTO_File);
+                    setProfilePhoto(mphoto);
                     part = Utility.getMultipartImage(file);
                     body = Utility.getBody(this, loginEntity.getFBAId(), PHOTO, PHOTO_File);
                     new RegisterController(this).uploadDocuments(part, body, this);
@@ -1246,5 +1488,155 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             width = (int) (height * bitmapRatio);
         }
         return Bitmap.createScaledBitmap(image, width, height, true);
+    }
+
+    private boolean checkPermission() {
+
+        int camera = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[0]);
+
+        int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
+        int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+
+        return camera == PackageManager.PERMISSION_GRANTED
+                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean checkRationalePermission() {
+
+        boolean camera = ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, perms[0]);
+
+        boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, perms[1]);
+        boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(MyAccountActivity.this, perms[2]);
+
+        return camera || write_external || read_external;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, perms, Constants.PERMISSION_CAMERA_STORACGE_CONSTANT);
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
+                if (grantResults.length > 0) {
+
+                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+
+                    if (camera && writeExternal && readExternal) {
+
+                        showCamerGalleryPopUp();
+
+                    }
+
+                }
+                break;
+
+            case Constants.PERMISSION_CALLBACK_CONSTANT:
+                if (grantResults.length > 0) {
+
+                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean call_phone = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if (call_phone) {
+
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + dbPersistanceController.getUserConstantsData().getManagName(), dbPersistanceController.getConstantsData().getHelpNumber());
+
+
+                    }
+
+                }
+
+                break;
+
+
+            case Constants.PERMISSION_CALLBACK_SUPPORT:
+                if (grantResults.length > 0) {
+
+                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean call_phone = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    if (call_phone) {
+
+                        ConfirmAlert("Calling", getResources().getString(R.string.Support_Calling), dbPersistanceController.getUserConstantsData().getSuppMobile());
+
+                    }
+
+                }
+
+                break;
+        }
+    }
+
+
+    @Override
+    public void onPositiveButtonClick(Dialog dialog, View view) {
+
+        dialog.cancel();
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+
+    }
+
+    @Override
+    public void onCancelButtonClick(Dialog dialog, View view) {
+
+        dialog.cancel();
+    }
+
+
+    public void ConfirmAlert(String Title, String strBody, final String strMobile) {
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(MyAccountActivity.this);
+            builder.setTitle(Title);
+
+            builder.setMessage(strBody);
+            String positiveText = "Call";
+            String NegativeText = "Cancel";
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+
+                            if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                                // TODO: Consider calling
+                                //    ActivityCompat#requestPermissions
+                                // here to request the missing permissions, and then overriding
+                                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                //                                          int[] grantResults)
+                                // to handle the case where the user grants the permission. See the documentation
+                                // for ActivityCompat#requestPermissions for more details.
+                                return;
+                            }
+                            Intent intentCalling = new Intent(Intent.ACTION_CALL);
+                            intentCalling.setData(Uri.parse("tel:" + strMobile ));
+                            startActivity(intentCalling);
+                        }
+                    });
+
+            builder.setNegativeButton(NegativeText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            final android.support.v7.app.AlertDialog dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        } catch (Exception ex) {
+            Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+        }
     }
 }

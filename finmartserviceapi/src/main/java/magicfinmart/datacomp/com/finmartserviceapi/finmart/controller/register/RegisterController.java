@@ -513,5 +513,37 @@ public class RegisterController implements IRegister {
 
     }
 
+    @Override
+    public void addChildPosp(RegisterRequestEntity registerRequestEntity, final IResponseSubcriber iResponseSubcriber) {
 
+        registerQuotesNetworkService.addChildPosp(registerRequestEntity).enqueue(new Callback<RegisterFbaResponse>() {
+            @Override
+            public void onResponse(Call<RegisterFbaResponse> call, Response<RegisterFbaResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), "");
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterFbaResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
 }
