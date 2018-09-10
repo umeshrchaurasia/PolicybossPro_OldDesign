@@ -360,6 +360,7 @@ public class AddQuoteActivity extends BaseActivity implements View.OnClickListen
                     setInputParametersNewCAR();
                 }
                 showDialog();
+                motorRequestEntity.setFba_id(0);
                 new MotorController(this).getMotorPremiumInitiate(motorRequestEntity, this);
 
                 //TODO remove this line
