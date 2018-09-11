@@ -1195,6 +1195,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         new PolicybossTrackingRequest(motorRequestEntity).execute();
 
                     showDialog(getResources().getString(R.string.fetching_msg));
+                    motorRequestEntity.setFba_id(0);
                     new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
                 }
 

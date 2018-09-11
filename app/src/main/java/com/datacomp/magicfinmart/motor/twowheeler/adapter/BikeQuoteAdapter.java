@@ -74,10 +74,12 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
 
         try {
 
-            int logo = new DBPersistanceController(mContext.getActivity())
+           /* int logo = new DBPersistanceController(mContext.getActivity())
                     .getInsurerLogo(Integer.parseInt(responseEntity.getInsurer_Id()));
 
             Glide.with(mContext).load(logo)
+                    .into(holder.imgInsurerLogo);*/
+            Glide.with(mContext).load(responseEntity.getInsurer_Id())
                     .into(holder.imgInsurerLogo);
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,6 +180,7 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         LinearLayout llIdv;
         RecyclerView rvAddOn;
         View viewDisableLayout;
+
         public BikeQuoteItem(View itemView) {
             super(itemView);
             llIdv = (LinearLayout) itemView.findViewById(R.id.llIdv);
