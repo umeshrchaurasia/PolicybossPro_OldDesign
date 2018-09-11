@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.home;
 
 import android.Manifest;
+import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -372,7 +374,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Intent shareIntent = new Intent(HomeActivity.this, MyAccountActivity.class);
+                    Pair[] pairs = new Pair[1];
+                    pairs[0] = new Pair<View, String>(ivProfile, "profileTransition");
+                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomeActivity.this, pairs);
+                    startActivity(shareIntent,options.toBundle());
+                }else{
+                    startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
+                }
+
 
             }
         });

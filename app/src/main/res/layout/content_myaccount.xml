@@ -11,9 +11,11 @@
     tools:showIn="@layout/activity_myaccount">
 
     <ScrollView
+        android:id="@+id/mainScrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/btnSave"
+        android:layout_marginBottom="8dp"
         android:scrollbars="none">
 
         <LinearLayout
@@ -23,12 +25,12 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="8dp"
             android:animateLayoutChanges="true"
+
             android:orientation="vertical">
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
                 app:cardCornerRadius="2dp"
@@ -60,8 +62,9 @@
                             android:layout_width="120dp"
                             android:layout_height="120dp"
                             android:layout_centerInParent="true"
-                            android:background="@drawable/circle_white"
-                            android:src="@drawable/finmart_user_icon" />
+                            android:transitionName="profileTransition"
+                            android:background="@drawable/circle_placeholder"
+                            />
 
 
                         <ImageView
@@ -76,6 +79,7 @@
                             android:visibility="visible" />
 
                     </RelativeLayout>
+
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
@@ -982,6 +986,7 @@
                     android:id="@+id/llAbout"
                     style="@style/LinearLayoutStyle"
                     android:animateLayoutChanges="true"
+
                     android:visibility="visible">
 
                     <android.support.v7.widget.CardView
@@ -1261,14 +1266,14 @@
                                     </LinearLayout>
 
 
-                                    <ImageView
+                                    <android.support.v7.widget.AppCompatImageView
                                         android:id="@+id/ivManagerMobile"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
-
+                                        android:tint="@color/uvv_green"
                                         android:layout_alignParentRight="true"
                                         android:layout_marginRight="5dp"
-                                        android:src="@drawable/ic_gallery" />
+                                        android:src="@drawable/vector_call" />
 
 
                                 </RelativeLayout>
@@ -1321,14 +1326,14 @@
                                     </LinearLayout>
 
 
-                                    <ImageView
+                                    <android.support.v7.widget.AppCompatImageView
                                         android:id="@+id/ivManagerEmail"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
-
+                                        android:tint="@color/holo_red_dark"
                                         android:layout_alignParentRight="true"
                                         android:layout_marginRight="5dp"
-                                        android:src="@drawable/ic_gallery" />
+                                        android:src="@drawable/vector_email_white" />
 
 
                                 </RelativeLayout>
@@ -1411,14 +1416,14 @@
                                     </LinearLayout>
 
 
-                                    <ImageView
+                                    <android.support.v7.widget.AppCompatImageView
                                         android:id="@+id/ivSupportMobile"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
-
+                                        android:tint="@color/uvv_green"
                                         android:layout_alignParentRight="true"
                                         android:layout_marginRight="5dp"
-                                        android:src="@drawable/ic_gallery" />
+                                        android:src="@drawable/vector_call" />
 
 
                                 </RelativeLayout>
@@ -1471,14 +1476,14 @@
                                     </LinearLayout>
 
 
-                                    <ImageView
+                                    <android.support.v7.widget.AppCompatImageView
                                         android:id="@+id/ivSupportEmail"
                                         android:layout_width="24dp"
                                         android:layout_height="24dp"
-
+                                        android:tint="@color/holo_red_dark"
                                         android:layout_alignParentRight="true"
                                         android:layout_marginRight="5dp"
-                                        android:src="@drawable/ic_gallery" />
+                                        android:src="@drawable/vector_email_white" />
 
 
                                 </RelativeLayout>
@@ -1494,6 +1499,8 @@
 
 
                 </LinearLayout>
+
+
             </LinearLayout>
 
 

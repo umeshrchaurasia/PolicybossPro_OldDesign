@@ -22,10 +22,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -34,6 +36,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -96,7 +99,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             etMicrCode, etBankName, etBankBranch, etBankCity, etSubHeading_posp, etMobileNo_posp, etEmailId_posp;
     TextView txtSaving, txtCurrent, tvName, txtManagerName, tvFbaCode, tvPospNo, tvLoginId, tvPospStatus, txtManagerMobile, txtManagerEmail, txtSupportMobile, txtSupportEmail;
 
-    ImageView ivManagerMobile, ivManagerEmail, ivSupportMobile, ivSupportEmail;
+    AppCompatImageView ivManagerMobile, ivManagerEmail, ivSupportMobile, ivSupportEmail;
+    ScrollView mainScrollView;
 
     Button btnSave;
     RegisterRequestEntity registerRequestEntity;
@@ -224,6 +228,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initWidgets() {
+        mainScrollView =  (ScrollView) findViewById(R.id.mainScrollView);
         ivAddress = (ImageView) findViewById(R.id.ivAddress);
         ivMyProfile = (ImageView) findViewById(R.id.ivMyProfile);
         ivProfile = (ImageView) findViewById(R.id.ivProfile);
@@ -295,10 +300,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
         // region About Me
-        ivManagerMobile = (ImageView) findViewById(R.id.ivManagerMobile);
-        ivManagerEmail = (ImageView) findViewById(R.id.ivManagerEmail);
-        ivSupportMobile = (ImageView) findViewById(R.id.ivSupportMobile);
-        ivSupportEmail = (ImageView) findViewById(R.id.ivSupportEmail);
+        ivManagerMobile = (AppCompatImageView) findViewById(R.id.ivManagerMobile);
+        ivManagerEmail = (AppCompatImageView) findViewById(R.id.ivManagerEmail);
+        ivSupportMobile = (AppCompatImageView) findViewById(R.id.ivSupportMobile);
+        ivSupportEmail = (AppCompatImageView) findViewById(R.id.ivSupportEmail);
 
         tvName = (TextView) findViewById(R.id.tvName);
         txtManagerName = (TextView) findViewById(R.id.txtManagerName);
@@ -341,8 +346,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         Constants.hideKeyBoard(view, this);
-        switch (view.getId()) {
 
+        mainScrollView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mainScrollView.fullScroll(ScrollView.FOCUS_DOWN);
+            }
+        }, 600);
+        switch (view.getId()) {
 
             case R.id.ivMyProfile:
             case R.id.rlMyProfile:
@@ -515,8 +526,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     saveMain();
                 }
 
+
                 break;
         }
+
+
     }
 
     View.OnFocusChangeListener acAdhaarFocusChange = new View.OnFocusChangeListener() {
@@ -1112,10 +1126,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 //                    .skipMemoryCache(true)
                     .into(target);*/
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                final Animation zoomAnim = AnimationUtils.loadAnimation(MyAccountActivity.this, R.anim.zoom_out);
-                ivUser.startAnimation(zoomAnim);
-            }
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                final Animation zoomAnim = AnimationUtils.loadAnimation(MyAccountActivity.this, R.anim.zoom_out);
+//                ivUser.startAnimation(zoomAnim);
+//            }
 
 
             if (FileName != null && !FileName.equals("")) {
@@ -1652,4 +1666,25 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
         }
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        supportFinishAfterTransition();
+        super.onBackPressed();
+    }
+
+
 }
