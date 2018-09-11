@@ -1809,8 +1809,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         }
         Docfile = createFile(FileName);
-        imageUri = FileProvider.getUriForFile(PospEnrollment.this,
-                getString(R.string.file_provider_authority), Docfile);
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
+            imageUri = Uri.fromFile(Docfile);
+        } else {
+            imageUri = FileProvider.getUriForFile(PospEnrollment.this,
+                    getString(R.string.file_provider_authority), Docfile);
+
+        }
 
 
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);

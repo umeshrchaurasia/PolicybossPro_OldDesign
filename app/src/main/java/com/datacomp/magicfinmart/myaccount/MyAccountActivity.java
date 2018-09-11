@@ -27,6 +27,8 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -148,6 +150,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         initWidgets();
         setListener();
         initLayouts();
+
 
         if (dbPersistanceController.getUserConstantsData() != null) {
             bindAboutMe();
@@ -1109,6 +1112,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 //                    .skipMemoryCache(true)
                     .into(target);*/
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                final Animation zoomAnim = AnimationUtils.loadAnimation(MyAccountActivity.this, R.anim.zoom_out);
+                ivUser.startAnimation(zoomAnim);
+            }
+
 
             if (FileName != null && !FileName.equals("")) {
                 Glide.with(MyAccountActivity.this)
@@ -1283,8 +1291,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         }
         Docfile = createFile(FileName);
-        imageUri = FileProvider.getUriForFile(MyAccountActivity.this,
-                getString(R.string.file_provider_authority), Docfile);
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
+            imageUri = Uri.fromFile(Docfile);
+        } else {
+            imageUri = FileProvider.getUriForFile(MyAccountActivity.this,
+                    getString(R.string.file_provider_authority), Docfile);
+        }
 
 
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
