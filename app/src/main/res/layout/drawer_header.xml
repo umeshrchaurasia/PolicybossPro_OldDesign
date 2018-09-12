@@ -32,8 +32,9 @@
                 android:layout_height="62dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/circle_white"
-                android:src="@drawable/finmart_user_icon" />
+                android:transitionName="profileTransition"
+                android:background="@drawable/circle_placeholder"
+                />
 
 
             <LinearLayout
@@ -60,7 +61,6 @@
                     android:layout_marginTop="2dp"
                     android:text="TEST USER "
                     android:textAllCaps="true"
-
                     android:textColor="@android:color/white" />
 
                 <TextView
