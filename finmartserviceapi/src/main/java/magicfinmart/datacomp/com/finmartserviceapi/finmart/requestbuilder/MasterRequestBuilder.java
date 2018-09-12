@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
@@ -72,6 +73,10 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/user-constant")
         Call<UserConstatntResponse> getUserConstatnt(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/get-dynamic-app")
+        Call<MenuMasterResponse> getMenuMaster(@Body HashMap<String, String> body);
 
     }
 }

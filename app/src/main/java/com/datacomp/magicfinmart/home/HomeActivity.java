@@ -11,10 +11,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -33,12 +31,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
@@ -61,6 +61,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.io.IOException;
+import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -68,12 +69,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuItemEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
@@ -97,7 +100,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     ConstantEntity constantEntity;
     AlertDialog mpsDialog;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
+    UserConstantEntity userConstantEntity;
+    MenuMasterResponse menuMasterResponse;
 
+    //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
         @Override
@@ -131,6 +137,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
     };
 
+    //endregion
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -148,6 +156,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
 
+        new MasterController(this).getMenuMaster(this);
 
         try {
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -166,6 +175,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
+        userConstantEntity = db.getUserConstantsData();
         prefManager = new PrefManager(this);
 
         getNotificationAction();
@@ -178,9 +188,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 new MasterController(this).geUserConstant(this);
             }
         }
-        if (db.getAccountData() == null) {
+        /*if (db.getAccountData() == null) {
             new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
-        }
+        }*/
 //        List<String> rtoDesc = db.getRTOListNames();
 
 
@@ -189,6 +199,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
 
 
+        //region navigation click
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
             @Override
@@ -205,6 +216,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 //hide keyboard
                 Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
+                if (menuMasterResponse != null) {
+                    for (MenuItemEntity menuItemEntity : menuMasterResponse.getMasterData().getMenu()) {
+                        if (menuItem.getItemId() == menuItemEntity.getMenuid()) {
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                    .putExtra("URL", menuItemEntity.getLink())
+                                    .putExtra("NAME", menuItemEntity.getMenuname())
+                                    .putExtra("TITLE", menuItemEntity.getMenuname()));
+                            return true;
+                        }
+                    }
+                }
+
 
                 switch (menuItem.getItemId()) {
 
@@ -310,6 +333,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         dialogLogout(HomeActivity.this);
                         break;
 
+
                     default:
                         break;
                 }
@@ -324,6 +348,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 return false;
             }
         });
+        //regionend
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
@@ -348,6 +373,35 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
+
+    private void addDynamicMenu(List<MenuItemEntity> list) {
+        Menu menu = navigationView.getMenu();
+
+        for (int i = 1; i <= list.size() && (list.get(i - 1).getIsActive() == 1); i++) {
+
+            final MenuItem menuItem = menu.add(R.id.dashboard_menu_group, i, (list.get(i - 1).getMenuid() + i), list.get(i - 1).getMenuname());
+            Glide.with(this)
+                    .load(list.get(i - 1).getIconimage())
+                    .into(new SimpleTarget<GlideDrawable>() {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                            menuItem.setIcon(resource);
+                        }
+                    });
+
+
+        }
+
+        /*final MenuItem menuItem = menu.add(R.id.dashboard_menu_group, R.id.nav_myaccount, 0, "itemid");
+        Glide.with(this)
+                .load("https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678110-sign-info-128.png")
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        menuItem.setIcon(resource);
+                    }
+                });*/
     }
 
     public void selectHome() {
@@ -385,10 +439,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
 
         if (db.getUserConstantsData() != null) {
-            txtPospNo.setText("Posp No - " + db.getUserConstantsData().getPOSPNo());
+            txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
 
             Glide.with(HomeActivity.this)
-                    .load(Uri.parse(db.getUserConstantsData().getLoansendphoto()))
+                    .load(Uri.parse(userConstantEntity.getLoansendphoto()))
                     .placeholder(R.drawable.circle_placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -560,7 +614,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         switch (item.getItemId()) {
 
             case R.id.action_call:
-                if (db.getConstantsData().getHelpNumber() != null) {
+                if (constantEntity.getHelpNumber() != null) {
 
                     if (ActivityCompat.checkSelfPermission(HomeActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
 
@@ -578,7 +632,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         }
                     } else {
 
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) +" "+db.getUserConstantsData().getManagName());
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + db.getUserConstantsData().getManagName());
 
                     }
                 }
@@ -625,8 +679,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     init_headers();
                 }
             }
-        }
-        if (response instanceof ConstantsResponse) {
+        } else if (response instanceof ConstantsResponse) {
             constantEntity = ((ConstantsResponse) response).getMasterData();
             if (response.getStatusNo() == 0) {
 
@@ -681,6 +734,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 //endregion
 
                 hideNavigationItem();
+            }
+        } else if (response instanceof MenuMasterResponse) {
+            if (response.getStatusNo() == 0) {
+                menuMasterResponse = (MenuMasterResponse) response;
+                addDynamicMenu(menuMasterResponse.getMasterData().getMenu());
             }
         }
 
@@ -783,7 +841,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        }
 //                        startActivity(intentCalling);
 
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) +" "+db.getUserConstantsData().getManagName());
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + db.getUserConstantsData().getManagName());
 
 
                     }
@@ -826,7 +884,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 return;
                             }
                             Intent intentCalling = new Intent(Intent.ACTION_CALL);
-                            intentCalling.setData(Uri.parse("tel:" + db.getConstantsData().getHelpNumber()));
+                            intentCalling.setData(Uri.parse("tel:" + constantEntity.getHelpNumber()));
                             startActivity(intentCalling);
                         }
                     });
@@ -846,6 +904,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
         }
     }
+
     //region mps dialog
 
     public void DialogMPS() {
@@ -925,7 +984,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
     @Override
-    public void onGrantButtonClick( View view) {
+    public void onGrantButtonClick(View view) {
 
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getPackageName(), null);
