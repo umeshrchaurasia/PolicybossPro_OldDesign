@@ -161,7 +161,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         } else {
 
-            new MasterController(this).geUserConstant(this);
+            new MasterController(this).geUserConstant(1,this);
         }
 
 
@@ -1517,6 +1517,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         return Bitmap.createScaledBitmap(image, width, height, true);
     }
 
+    // region permission
     private boolean checkPermission() {
 
         int camera = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[0]);
@@ -1602,7 +1603,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-
+    //endregion
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
 
