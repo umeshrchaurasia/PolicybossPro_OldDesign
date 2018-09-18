@@ -2,15 +2,18 @@ package com.datacomp.magicfinmart.dashboard;
 
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,10 +27,6 @@ import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
-import com.datacomp.magicfinmart.location.ILocationStateListener;
-import com.datacomp.magicfinmart.location.LocationTracker;
-import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
-import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -36,9 +35,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
@@ -237,4 +236,40 @@ public class DashboardFragment extends BaseFragment implements View.OnClickListe
                 break;
         }
     }
+
+    public void refreshAdapter() {
+        mAdapter = new DashboardRowAdapter(this);
+        rvHome.setAdapter(mAdapter);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        LocalBroadcastManager.getInstance(getActivity())
+                .registerReceiver(mHandleMessageReceiver,
+                        new IntentFilter(Utility.USER_DASHBOARD));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(mHandleMessageReceiver);
+    }
+
+    //region broadcast receiver
+    public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction() != null) {
+                if (intent.getAction().equalsIgnoreCase(Utility.USER_DASHBOARD)) {
+                    //MenuMasterEntity menuMasterEntity = intent.getParcelableExtra("USER_DASHBOARD");
+                    refreshAdapter();
+                }
+            }
+        }
+    };
+
+    //endregion
 }

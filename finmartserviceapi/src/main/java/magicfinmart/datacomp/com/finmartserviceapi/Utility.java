@@ -74,6 +74,8 @@ public class Utility {
 
     public static String USER_PROFILE_ACTION = "Finmart_User_Profile_Action";
 
+    public static String USER_DASHBOARD = "user_dashboard";
+
 
     public static SharedPreferences getSharedPreference(Context context) {
         return context.getSharedPreferences(SHARED_PREFERENCE_POLICYBOSS, MODE_PRIVATE);

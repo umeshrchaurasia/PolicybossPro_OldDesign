@@ -12,6 +12,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
@@ -133,6 +134,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
                             .into(ivProfile);
 
+                } else if (intent.getAction().equalsIgnoreCase(Utility.USER_DASHBOARD)) {
+
                 }
             }
 
@@ -184,7 +187,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (loginResponseEntity != null) {
 
-            if (db.getUserConstantsData() != null) {
+            if (userConstantEntity != null) {
                 init_headers();
             } else {
                 new MasterController(this).geUserConstant(this);
@@ -434,8 +437,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     Pair[] pairs = new Pair[1];
                     pairs[0] = new Pair<View, String>(ivProfile, "profileTransition");
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomeActivity.this, pairs);
-                    startActivity(shareIntent,options.toBundle());
-                }else{
+                    startActivity(shareIntent, options.toBundle());
+                } else {
                     startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                 }
 
@@ -450,7 +453,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
         txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
 
-        if (db.getUserConstantsData() != null) {
+        if (userConstantEntity != null) {
             txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
 
             Glide.with(HomeActivity.this)
@@ -644,7 +647,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         }
                     } else {
 
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + db.getUserConstantsData().getManagName());
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
 
                     }
                 }
@@ -750,10 +753,25 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } else if (response instanceof MenuMasterResponse) {
             if (response.getStatusNo() == 0) {
                 menuMasterResponse = (MenuMasterResponse) response;
+                prefManager.storeMenuDashboard(menuMasterResponse);
                 addDynamicMenu(menuMasterResponse.getMasterData().getMenu());
+                //refreshDashboard();
+
+
+                Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
+                //dashboardIntent.putExtra("USER_DASHBOARD", ((MenuMasterResponse) response).getMasterData());
+                LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
             }
         }
 
+
+    }
+
+    private void refreshDashboard() {
+        /*Intent profileIntent = new Intent(Utility.USER_DASHBOARD);
+        profileIntent.putExtra("USER_DASHBOARD", ((MenuMasterResponse) response).getMasterData().get(0).getPrv_file());
+
+        LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(profileIntent);*/
 
     }
 
@@ -805,7 +823,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
-        LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
+        LocalBroadcastManager.getInstance(HomeActivity.this)
+                .registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
+
+        LocalBroadcastManager.getInstance(HomeActivity.this)
+                .registerReceiver(mHandleMessageReceiver,
+                        new IntentFilter(Utility.USER_DASHBOARD));
 
     }
 
@@ -853,7 +876,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        }
 //                        startActivity(intentCalling);
 
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + db.getUserConstantsData().getManagName());
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
 
 
                     }

@@ -142,7 +142,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    switchMenus(listIns.get(position).getProductId());
+                                    switchMenus(listIns.get(position));
                                 }
                             }));
 
@@ -167,7 +167,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    switchMenus(listLoan.get(position).getProductId());
+                                    switchMenus(listLoan.get(position));
                                 }
                             }));
 
@@ -191,7 +191,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    switchMenus(listMore.get(position).getProductId());
+                                    switchMenus(listMore.get(position));
                                 }
                             }));
           /*
@@ -207,7 +207,9 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    private void switchMenus(int productID) {
+    private void switchMenus(DashboardEntity dashboardEntity) {
+        int productID = dashboardEntity.getProductId();
+
         switch (productID) {
             case 1:
                 //car
@@ -306,6 +308,12 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
                 break;
 
+        }
+        if (productID >= 20) {
+            mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                    .putExtra("URL", ""+dashboardEntity.getLink())
+                    .putExtra("NAME", "" + dashboardEntity.getProductName())
+                    .putExtra("TITLE", "" + dashboardEntity.getProductName()));
         }
     }
 
