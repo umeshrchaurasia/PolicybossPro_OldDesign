@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -78,7 +81,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     RecyclerView rvHealthQuote;
     HealthQuoteAdapter adapter;
     ImageView ivEdit;
-    TextView tvCount, txtCompareCount;
+    TextView tvCount;// txtCompareCount;
 
     List<HealthQuoteEntity> listCompare;
     List<HealthQuoteEntity> listDataHeader;
@@ -90,7 +93,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     List<HealthQuoteEntity> listChild;
 
     HealthQuoteEntity buyHealthQuoteEntity;
-    ImageView ivHealthCompare;
+    //ImageView ivHealthCompare;
+
+
+    private ActionModeCallback actionModeCallback;
+    private ActionMode actionMode;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -106,13 +113,21 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         initView(view);
         setListener();
 
+        //set actionmode call back
+        actionModeCallback = new ActionModeCallback();
+
+      /*  if (actionMode == null) {
+            actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+        }*/
+
+
         Constants.hideKeyBoard(ivEdit, getActivity());
 
         listCompare = new ArrayList<>();
         listDataHeader = new ArrayList<>();
         listDataChild = new HashMap<Integer, List<HealthQuoteEntity>>();
-        txtCompareCount.setVisibility(View.INVISIBLE);
-        ivHealthCompare.setVisibility(View.INVISIBLE);
+       // txtCompareCount.setVisibility(View.INVISIBLE);
+       // ivHealthCompare.setVisibility(View.INVISIBLE);
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA) != null) {
@@ -128,34 +143,44 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     private void setListener() {
         ivEdit.setOnClickListener(this);
-        ivHealthCompare.setOnClickListener(this);
-        txtCompareCount.setOnClickListener(this);
+        //ivHealthCompare.setOnClickListener(this);
+        //txtCompareCount.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.ivEdit) {
             ((HealthQuoteBottomTabsActivity) getActivity()).redirectToInput();
-        } else if (view.getId() == R.id.ivHealthCompare) {
+        }
+
+        /*else if (view.getId() == R.id.ivHealthCompare) {
 
             if (listCompare.size() == 1) {
                 showAlert("Please select at least 2 plans for comparison");
             } else {
-                Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
-                intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
-                startActivity(intent);
+                redirectToHealthCompare();
             }
         } else if (view.getId() == R.id.txtCompareCount) {
 
             if (listCompare.size() == 1) {
                 showAlert("Please select at least 2 plans for comparison");
             } else {
-                Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
-                intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
-                startActivity(intent);
+                redirectToHealthCompare();
             }
 
+        }*/
+    }
+
+    public void redirectToHealthCompare() {
+
+        if (listCompare.size() == 1) {
+            showAlert("Please select at least 2 plans for comparison");
+        } else {
+            Intent intent = new Intent(getActivity(), HealthCompareActivity.class);
+            intent.putParcelableArrayListExtra(HEALTH_COMPARE, (ArrayList<? extends Parcelable>) listCompare);
+            startActivity(intent);
         }
+
     }
 
     private void bindHeaders() {
@@ -204,14 +229,14 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         tvCount = (TextView) view.findViewById(R.id.tvCount);
         ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
 
-        txtCompareCount = (TextView) view.findViewById(R.id.txtCompareCount);
+       // txtCompareCount = (TextView) view.findViewById(R.id.txtCompareCount);
         rvHealthQuote = (RecyclerView) view.findViewById(R.id.rvHealthQuote);
         rvHealthQuote.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvHealthQuote.setLayoutManager(layoutManager);
 
-        ivHealthCompare = (ImageView) view.findViewById(R.id.ivHealthCompare);
+       // ivHealthCompare = (ImageView) view.findViewById(R.id.ivHealthCompare);
     }
 
     public void redirectToDetail(HealthQuoteEntity entity) {
@@ -269,16 +294,14 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             showDialog();
             new HealthController(getActivity()).compareQuote(compareRequestEntity, this);
         } else {
-            openPopUp(ivHealthCompare, "Message", "Your POSP status is INACTIVE", "OK", true);
+            openPopUp(ivEdit, "Message", "Your POSP status is INACTIVE", "OK", true);
 
         }
-
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy health : buy button for health"), Constants.HEALTH_INS), null);
     }
 
     public void popUpHealthMemberDetails(HealthQuoteEntity entity) {
         buyHealthQuoteEntity = entity;
-
         Intent intent = new Intent(getActivity(), HealthMemberDetailsDialogActivity.class);
         intent.putExtra(MEMBER_LIST, healthQuote);
         startActivityForResult(intent, REQUEST_MEMBER);
@@ -326,7 +349,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 prepareChild();
 
                 //share data
-                new AsyncShareJson().execute();
+                // new AsyncShareJson().execute();
 
             }
         } else if (response instanceof HealthQuoteCompareResponse) {
@@ -507,10 +530,69 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         shareTextCount((preparedchildList.size()), true);
     }
 
+
+    //region Action Mode CallBack Interface
+    private class ActionModeCallback implements ActionMode.Callback {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.health_menu_actionmode, menu);
+
+            // disable Parent layout if action mode is enabled
+            //lvParent.setEnabled(false);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.health_share:
+                    // delete all the selected messages
+                    //Toast.makeText(getActivity(), "Share", Toast.LENGTH_SHORT).show();
+                    new AsyncShareJson().execute();
+                    // mode.finish();
+                    return true;
+                case R.id.health_compare:
+                    redirectToHealthCompare();
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+            actionMode = null;
+            for (int i = 0; i < listDataHeader.size(); i++) {
+                //reset all selected quotes
+                listDataHeader.get(i).setCompare(false);
+            }
+            refreshAdapter(listDataHeader);
+            //clear selected compare list to reset
+            listCompare.clear();
+        }
+    }
+    //endregion
+
+
     public void addRemoveCompare(HealthQuoteEntity entity, boolean isAdd) {
         if (isAdd) {
             if (listCompare.size() < 4) {
+
                 listCompare.add(entity);
+
+                if (actionMode == null) {
+                    actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+                }
+
+                actionModeRefresh();
 
             } else {
                 showAlert("Cannot select more than 4 quotes");
@@ -524,9 +606,13 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                     iter.remove();
                 }
             }
+
+            actionModeRefresh();
+
         }
 
-        if (listCompare.size() == 0) {
+
+      /*  if (listCompare.size() == 0) {
             txtCompareCount.setVisibility(View.INVISIBLE);
             ivHealthCompare.setVisibility(View.INVISIBLE);
         } else {
@@ -538,21 +624,34 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             txtCompareCount.setVisibility(View.VISIBLE);
             ivHealthCompare.setVisibility(View.VISIBLE);
             txtCompareCount.setText("" + listCompare.size());
+        }*/
+    }
+
+    public void actionModeRefresh() {
+        if (listCompare.size() == 0) {
+
+            actionMode.finish();
+            //after share comes back action mode set to null
+            //to initialise again and assign existing selection references
+            //actionMode = null;
+        } else {
+            actionMode.setTitle("" + listCompare.size());
+            actionMode.invalidate();
         }
     }
 
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
-        if (view.getId() == R.id.ivHealthCompare) {
-            dialog.cancel();
-        }
+//        if (view.getId() == R.id.ivHealthCompare) {
+//            dialog.cancel();
+//        }
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
-        if (view.getId() == R.id.ivHealthCompare) {
-            dialog.cancel();
-        }
+//        if (view.getId() == R.id.ivHealthCompare) {
+//            dialog.cancel();
+//        }
     }
 
     class AsyncShareJson extends AsyncTask<Void, Void, String> {
@@ -563,8 +662,10 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         @Override
         protected String doInBackground(Void... voids) {
-            shareList.addAll(listHeader);
-            shareList.addAll(listChild);
+            //shareList.addAll(listHeader);
+            //shareList.addAll(listChild);
+
+            shareList.addAll(listCompare);
             Collections.sort(shareList, new SortbyInsurer());
 
             JSONArray jsonArrayNew = new JSONArray();
@@ -589,6 +690,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         protected void onPostExecute(String s) {
             jsonShareString = "";
             jsonShareString = s;
+            shareAllPdf();
         }
     }
 
@@ -644,7 +746,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 startActivity(intent);
             }
         } else {
-            openPopUp(ivHealthCompare, "Message", "Your POSP status is INACTIVE", "OK", true);
+            openPopUp(ivEdit, "Message", "Your POSP status is INACTIVE", "OK", true);
 
         }
     }

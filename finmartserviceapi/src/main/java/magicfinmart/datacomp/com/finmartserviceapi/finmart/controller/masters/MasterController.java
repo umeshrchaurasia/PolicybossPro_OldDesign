@@ -424,7 +424,7 @@ public class MasterController implements IMasterFetch {
 
 
     @Override
-    public void geUserConstant(final IResponseSubcriber iResponseSubcriber) {
+    public void geUserConstant(final int type, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
         body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
         masterNetworkService.getUserConstatnt(body).enqueue(new Callback<UserConstatntResponse>() {
@@ -432,8 +432,11 @@ public class MasterController implements IMasterFetch {
             public void onResponse(Call<UserConstatntResponse> call, Response<UserConstatntResponse> response) {
                 if (response.body() != null) {
                     if (response.body().getStatusNo() == 0) {
-
-                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        if (type == 0) {
+                            new AsyncUserConstatnt(mContext, response.body().getMasterData()).execute();
+                        } else {
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        }
 
                     } else {
                         iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));

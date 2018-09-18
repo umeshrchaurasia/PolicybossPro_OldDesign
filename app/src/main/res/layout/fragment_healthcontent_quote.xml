@@ -118,20 +118,21 @@
             style="@style/TextStyle.Title"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="75"
-            android:paddingTop="0dp"
-            android:gravity="left"
             android:layout_marginLeft="5dp"
+            android:layout_weight="75"
+            android:gravity="left"
+            android:paddingTop="0dp"
             android:text="xxwwwx"
             android:textColor="@color/lightBlue" />
 
         <!--lightBlue  android:textColor="?attr/colorPrimaryDark" -->
 
-        <ImageView
+     <!--   <ImageView
             android:id="@+id/ivHealthCompare"
             android:layout_width="0dp"
             android:layout_height="24dp"
             android:layout_weight="10"
+            android:visibility="gone"
             app:srcCompat="@drawable/compare" />
 
         <TextView
@@ -143,7 +144,8 @@
             android:gravity="center"
             android:textColor="@color/white"
             android:textSize="11sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:visibility="gone" />-->
 
 
     </LinearLayout>

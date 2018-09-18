@@ -190,7 +190,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (userConstantEntity != null) {
                 init_headers();
             } else {
-                new MasterController(this).geUserConstant(this);
+                new MasterController(this).geUserConstant(1,this);
             }
         }
         /*if (db.getAccountData() == null) {

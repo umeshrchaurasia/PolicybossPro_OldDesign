@@ -47,6 +47,10 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         // By default set to 1.
         prefManager.updateMotorVersion("1");
 
+       // for user constant
+        if(loginResponseEntity != null) {
+            new MasterController(this).geUserConstant(0,this);
+        }
 
         prefManager.setIsUpdateShown(true);
         if (prefManager.IsBikeMasterUpdate())

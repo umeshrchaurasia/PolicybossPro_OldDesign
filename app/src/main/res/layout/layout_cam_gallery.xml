@@ -19,18 +19,22 @@
         android:orientation="vertical">
 
         <LinearLayout
-            style="@style/HeaderLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
                 style="@style/TextViewStyle.Large"
-                android:gravity="center"
+                android:gravity="left"
                 android:padding="15dp"
                 android:text="SELECT PHOTO"
-                android:textColor="@color/white" />
+                android:textColor="@color/text_edit_color" />
 
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.8dp"
+            android:background="@color/lightGrey" />
 
         <LinearLayout
             android:id="@+id/lyCamera"
@@ -51,7 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="CAMERA"
+                android:textColor="@color/header_light_text"
+                android:text="Camera"
                 android:textStyle="bold" />
 
             <TextView
@@ -66,7 +71,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.8dp"
             android:background="@color/lightGrey" />
 
         <LinearLayout
@@ -88,7 +93,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="GALLERY"
+                android:text="Gallery"
+                android:textColor="@color/header_light_text"
                 android:textStyle="bold" />
 
             <TextView
