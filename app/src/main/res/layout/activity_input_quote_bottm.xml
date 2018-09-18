@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/seperator"
         android:fitsSystemWindows="true"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/AppBarOverlay">
 
 
         <android.support.design.widget.CollapsingToolbarLayout
@@ -58,8 +58,8 @@
         android:background="@color/colorPrimaryDark"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
-        android:weightSum="100">
-    </View>
+        android:weightSum="100"></View>
+
     <RelativeLayout
         android:id="@+id/bottmc"
         android:layout_width="match_parent"
@@ -100,8 +100,8 @@
                     android:layout_height="2dp"
                     android:layout_marginBottom="0dp"
                     android:layout_weight="70"
-                    android:visibility="visible"
-                    android:src="@drawable/rect_shape" />
+                    android:src="@drawable/rect_shape"
+                    android:visibility="visible" />
 
             </LinearLayout>
 
@@ -120,8 +120,8 @@
                     android:layout_marginBottom="5dp"
                     android:layout_marginLeft="4dp"
                     android:layout_weight="70"
-                    android:visibility="visible"
-                    android:src="@drawable/rect_shape" />
+                    android:src="@drawable/rect_shape"
+                    android:visibility="visible" />
 
             </LinearLayout>
 
