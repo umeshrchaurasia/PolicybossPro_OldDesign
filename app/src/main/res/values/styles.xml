@@ -11,6 +11,7 @@
         <!--<item name="android:windowBackground">@color/window_background</item>-->
         <!-- <item name="android:windowBackground">@color/background</item>-->
         <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowActivityTransitions">true</item>
         <!--<item name="android:textColorPrimary">@color/header_text_color</item>-->
         <!--<item name="android:textColorHint">@color/secondary_text_color</item>-->
 
@@ -194,6 +195,11 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <!--   <item name="windowBackground">@android:color/transparent</item>-->
+    </style>
+
+    <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <!--Spinner theme no use-->

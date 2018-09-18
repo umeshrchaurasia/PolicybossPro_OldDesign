@@ -25,6 +25,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEn
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
@@ -604,7 +605,7 @@ public class DBPersistanceController {
         hashMapInsurence.put("ICICI", 6);
         hashMapInsurence.put("IFFCO", 7);
         hashMapInsurence.put("Kotak", 30);
-        hashMapInsurence.put("L & T Ins. ", 15);
+        //hashMapInsurence.put("L & T Ins. ", 15);
         hashMapInsurence.put("Liberty Videocon", 33);
         hashMapInsurence.put("Magma", 35);
         hashMapInsurence.put("National ", 8);
@@ -1726,6 +1727,39 @@ public class DBPersistanceController {
     //endregion
 
 
+    //region User constants data
+    public UserConstantEntity getUserConstantsData() {
+        UserConstantEntity entity = realm.where(UserConstantEntity.class).findFirst();
+        if (entity != null)
+            return entity;
+        else
+            return null;
+    }
+
+    public void updateUserConstatntData(UserConstantEntity userConstantEntity) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(userConstantEntity);
+        realm.commitTransaction();
+    }
+
+    public void updateUserConstatntProfile( final String fbaProfileUrl) {
+
+        try {
+            final UserConstantEntity entity = realm.where(UserConstantEntity.class).findFirst();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    //loginResponseEntity.setFBAProfileUrl("http://qa.mgfm.in/" + fbaProfileUrl);
+                    entity.setLoansendphoto(fbaProfileUrl);
+                }
+            });
+        }catch (Exception ex)
+        {
+
+        }
+    }
+
+    //endregion
     //region term
 
     public List<String> getPremYearList() {

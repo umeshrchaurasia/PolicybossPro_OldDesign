@@ -1,12 +1,12 @@
 package com.datacomp.magicfinmart.pendingcases;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
@@ -23,19 +23,21 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PendingCasesEnt
 
 public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapter.ApplicationItem> implements View.OnClickListener {
 
-    Context mContex;
+    PendingCaseFragment mContex;
     List<PendingCasesEntity> mAppList;
+    int type;
 
-    public PendingCasesAdapter(Context context, List<PendingCasesEntity> list) {
+    public PendingCasesAdapter(PendingCaseFragment context, List<PendingCasesEntity> list, int type) {
         this.mContex = context;
-        mAppList = list;
+        this.mAppList = list;
+        this.type = type;
 
     }
 
     @Override
     public ApplicationItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layout_pending_item, parent, false);
+                .inflate(R.layout.item_pendingcase, parent, false);
         return new ApplicationItem(itemView);
     }
 
@@ -57,6 +59,27 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             item.txtOverflowMenu.setTag(R.id.txtOverflowMenu, entity);
             item.txtOverflowMenu.setOnClickListener(this);
 
+            item.ivCall.setTag(R.id.ivCall, entity);
+            item.ivCall.setOnClickListener(this);
+
+            item.ivDelete.setTag(R.id.ivDelete, entity);
+            item.ivDelete.setOnClickListener(this);
+
+            item.ivMsg.setTag(R.id.ivMsg, entity);
+            item.ivMsg.setOnClickListener(this);
+
+
+            item.llHistory.setTag(R.id.llHistory, entity);
+            item.llHistory.setOnClickListener(this);
+
+            item.llInfo.setTag(R.id.llInfo, entity);
+            item.llInfo.setOnClickListener(this);
+
+            if (type == 2) {
+                holder.llHistory.setVisibility(View.VISIBLE);
+            } else {
+                holder.llHistory.setVisibility(View.INVISIBLE);
+            }
 
             try {
                 /*if (Integer.parseInt(entity.getApplnStatus()) == 0) {
@@ -125,7 +148,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
 
     private void openPopUp(View v, final PendingCasesEntity entity) {
         //creating a popup menu
-        PopupMenu popup = new PopupMenu(mContex, v);
+        PopupMenu popup = new PopupMenu(mContex.getActivity(), v);
         //inflating menu from xml resource
         popup.inflate(R.menu.recycler_menu_quote);
         //adding click listener
@@ -134,15 +157,15 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             public boolean onMenuItemClick(MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.menuCall:
-                        ((PendingCasesActivity) mContex).dialNumber(entity.getMobile());
+                        ((PendingCaseFragment) mContex).dialNumber(entity.getMobile());
                         //Toast.makeText(mContex, "WIP ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuSms:
-                        ((PendingCasesActivity) mContex).sendSms(entity.getMobile());
+                        ((PendingCaseFragment) mContex).sendSms(entity.getMobile());
                         //Toast.makeText(mContex, "WIP SMS ", Toast.LENGTH_SHORT).show();
                         break;
                     case R.id.menuDelete:
-                        ((PendingCasesActivity) mContex).deletePendingcases(entity);
+                        ((PendingCaseFragment) mContex).deletePendingcases(entity);
                         break;
 
                 }
@@ -155,11 +178,32 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
 
     @Override
     public void onClick(View view) {
-
+        PendingCasesEntity entity;
         switch (view.getId()) {
             case R.id.txtOverflowMenu:
                 openPopUp(view, (PendingCasesEntity) view.getTag(R.id.txtOverflowMenu));
                 break;
+            case R.id.ivCall:
+                entity = (PendingCasesEntity) view.getTag(R.id.ivCall);
+                ((PendingCaseFragment) mContex).dialNumber(entity.getMobile());
+                break;
+            case R.id.ivDelete:
+                entity = (PendingCasesEntity) view.getTag(R.id.ivDelete);
+                ((PendingCaseFragment) mContex).deletePendingcases(entity);
+                break;
+            case R.id.ivMsg:
+                entity = (PendingCasesEntity) view.getTag(R.id.ivMsg);
+                ((PendingCaseFragment) mContex).sendSms(entity.getMobile());
+                break;
+            case R.id.llHistory:
+                entity = (PendingCasesEntity) view.getTag(R.id.llHistory);
+                ((PendingCaseFragment) mContex).openLeadDetailPopUp("" + entity.getId());
+                break;
+
+            case R.id.llInfo:
+                entity = (PendingCasesEntity) view.getTag(R.id.llInfo);
+                break;
+
 
         }
     }
@@ -172,7 +216,8 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
         TextView txtOverflowMenu, txtCustName, txtType, txtCategory, txtPendingDays;
-        ImageView imgStatus, imgInsurerLogo;
+        ImageView imgStatus, imgInsurerLogo, ivMsg, ivCall, ivDelete;
+        LinearLayout llHistory, llType, llDays, llInfo;
 
         public ApplicationItem(View itemView) {
             super(itemView);
@@ -183,6 +228,16 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             txtPendingDays = (TextView) itemView.findViewById(R.id.txtPendingDays);
             imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
             imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
+
+            ivMsg = (ImageView) itemView.findViewById(R.id.ivMsg);
+            ivCall = (ImageView) itemView.findViewById(R.id.ivCall);
+            ivDelete = (ImageView) itemView.findViewById(R.id.ivDelete);
+            llHistory = (LinearLayout) itemView.findViewById(R.id.llHistory);
+            llType = (LinearLayout) itemView.findViewById(R.id.llType);
+            llDays = (LinearLayout) itemView.findViewById(R.id.llDays);
+            llInfo = (LinearLayout) itemView.findViewById(R.id.llInfo);
+
+
         }
     }
 

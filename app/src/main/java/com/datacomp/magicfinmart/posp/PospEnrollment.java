@@ -4,6 +4,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -13,13 +14,17 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -39,6 +44,7 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
@@ -134,6 +140,13 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private String PHOTO_File = "POSPPhotograph", PAN_File = "POSPPanCard", CANCEL_CHQ_File = "POSPCancelledChq", AADHAR_FRONT_File = "POSPAadharCard", AADHAR_BACK_File = "POSPAadharCardBack", EDU_FILE = "POSPHighestEducationProof";
     LinearLayout llMain;
     boolean IsAllImageUploaded = false, isPospNoAvailable = false, isPaymentLinkAvailable = false, isPaymentDone = false;
+
+    String[] perms = {
+            "android.permission.CAMERA",
+            "android.permission.WRITE_EXTERNAL_STORAGE",
+            "android.permission.READ_EXTERNAL_STORAGE"
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1100,61 +1113,62 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
             case R.id.ivPhotoCam:
                 type = 6;
-                launchCamera();
+                // launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivPhotoGallery:
                 type = 6;
-                openGallery();
+                openGallery();   // Not in Used
                 break;
 
             case R.id.ivPanCam:
                 type = 7;
-                launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivPanGallery:
                 type = 7;
-                openGallery();
+                openGallery();  // Not in Used
                 break;
 
             case R.id.ivAadharCam:
                 type = 8;
-                launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivAadharGallery:
                 type = 8;
-                openGallery();
+                openGallery();   // Not in Used
                 break;
 
             case R.id.ivAadharCamBack:
                 type = 9;
-                launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivAadharGalleryBack:
                 type = 9;
-                openGallery();
+                openGallery();      // Not in Used
                 break;
             case R.id.ivCancelCam:
                 type = 10;
-                launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivCancelGallery:
                 type = 10;
-                openGallery();
+                openGallery();  // Not in Used
                 break;
 
             case R.id.ivEduCam:
                 type = 11;
-                launchCamera();
+                galleryCamPopUp();
                 break;
 
             case R.id.ivEduGallery:
                 type = 11;
-                openGallery();
+                openGallery();  // Not in Used
                 break;
         }
     }
@@ -1649,6 +1663,13 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
             case R.id.btnSave:
                 finish();
                 break;
+
+            case R.id.llBankDetail:
+                dialog.cancel();
+                openSetting();
+                break;
+
+
         }
     }
 
@@ -1668,6 +1689,10 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.btnSave:
                 finish();
+                break;
+
+            case R.id.llBankDetail:
+                dialog.cancel();
                 break;
         }
     }
@@ -1809,8 +1834,14 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
 
         }
         Docfile = createFile(FileName);
-        imageUri = FileProvider.getUriForFile(PospEnrollment.this,
-                getString(R.string.file_provider_authority), Docfile);
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            imageUri = Uri.fromFile(Docfile);
+        } else {
+            imageUri = FileProvider.getUriForFile(PospEnrollment.this,
+                    getString(R.string.file_provider_authority), Docfile);
+
+        }
 
 
         Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
@@ -2326,6 +2357,129 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         }
         return true;
         //endregion
+    }
+
+    // region permission
+
+    private boolean checkPermission() {
+
+        int camera = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[0]);
+
+        int WRITE_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[1]);
+        int READ_EXTERNAL = ActivityCompat.checkSelfPermission(getApplicationContext(), perms[2]);
+
+        return camera == PackageManager.PERMISSION_GRANTED
+                && WRITE_EXTERNAL == PackageManager.PERMISSION_GRANTED
+                && READ_EXTERNAL == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private boolean checkRationalePermission() {
+
+        boolean camera = ActivityCompat.shouldShowRequestPermissionRationale(PospEnrollment.this, perms[0]);
+
+        boolean write_external = ActivityCompat.shouldShowRequestPermissionRationale(PospEnrollment.this, perms[1]);
+        boolean read_external = ActivityCompat.shouldShowRequestPermissionRationale(PospEnrollment.this, perms[2]);
+
+        return camera || write_external || read_external;
+    }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this, perms, Constants.PERMISSION_CAMERA_STORACGE_CONSTANT);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+        switch (requestCode) {
+            case Constants.PERMISSION_CAMERA_STORACGE_CONSTANT:
+                if (grantResults.length > 0) {
+
+                    //boolean writeExternal = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+
+                    boolean camera = grantResults[0] == PackageManager.PERMISSION_GRANTED;
+                    boolean writeExternal = grantResults[1] == PackageManager.PERMISSION_GRANTED;
+                    boolean readExternal = grantResults[2] == PackageManager.PERMISSION_GRANTED;
+
+                    if (camera && writeExternal && readExternal) {
+
+                        showCamerGalleryPopUp();
+
+                    }
+
+                }
+                break;
+
+
+        }
+    }
+
+
+    //endregion
+
+
+    private void galleryCamPopUp() {
+
+        if (!checkPermission()) {
+
+            if (checkRationalePermission()) {
+                //Show Information about why you need the permission
+                requestPermission();
+
+            } else {
+
+                openPopUp(llBankDetail, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+            }
+        } else {
+
+            showCamerGalleryPopUp();
+        }
+    }
+
+
+    private void showCamerGalleryPopUp() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+
+        LinearLayout lyCamera, lyGallery;
+        LayoutInflater inflater = this.getLayoutInflater();
+
+        final View dialogView = inflater.inflate(R.layout.layout_cam_gallery, null);
+
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        // set the custom dialog components - text, image and button
+        lyCamera = (LinearLayout) dialogView.findViewById(R.id.lyCamera);
+        lyGallery = (LinearLayout) dialogView.findViewById(R.id.lyGallery);
+
+        lyCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchCamera();
+                alertDialog.dismiss();
+
+            }
+        });
+
+        lyGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openGallery();
+                alertDialog.dismiss();
+
+            }
+        });
+        alertDialog.setCancelable(true);
+        alertDialog.show();
+        //  alertDialog.getWindow().setLayout(900, 600);
+
+        // for user define height and width..
+    }
+
+    private void openSetting() {
+
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
     }
 
 

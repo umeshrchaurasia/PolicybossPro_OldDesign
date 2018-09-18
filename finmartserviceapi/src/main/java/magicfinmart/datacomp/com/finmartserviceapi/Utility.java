@@ -71,6 +71,8 @@ public class Utility {
     public static String PUSH_NOTIFY = "notifyFlag";
     public static String PUSH_LOGIN_PAGE = "pushloginPage";
 
+    public static String USER_PROFILE_ACTION = "Finmart_User_Profile_Action";
+
 
     public static SharedPreferences getSharedPreference(Context context) {
         return context.getSharedPreferences(SHARED_PREFERENCE_POLICYBOSS, MODE_PRIVATE);
@@ -366,5 +368,12 @@ public class Utility {
         String url = BuildConfig.PROPOSAL_BASE_URL;
         url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
+    }
+
+    public static String getInsurerImage(String insId) {
+        int ID = 0;
+        if (insId != null && !insId.equals(""))
+            ID = Integer.parseInt(insId);
+        return "http://api.magicfinmart.com/InsurerImages/car_" + ID + ".png";
     }
 }

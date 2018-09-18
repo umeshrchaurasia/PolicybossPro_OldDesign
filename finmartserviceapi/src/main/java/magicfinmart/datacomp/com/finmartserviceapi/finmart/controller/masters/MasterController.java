@@ -19,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactUsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.WhatsNewResponse;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -382,6 +383,7 @@ public class MasterController implements IMasterFetch {
         });
     }
 
+
     @Override
     public void getMpsData(final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<>();
@@ -417,5 +419,47 @@ public class MasterController implements IMasterFetch {
                 }
             }
         });
+    }
+
+
+    @Override
+    public void geUserConstant(final int type, final IResponseSubcriber iResponseSubcriber) {
+        HashMap<String, String> body = new HashMap<>();
+        body.put("fbaid", "" + dbPersistanceController.getUserData().getFBAId());
+        masterNetworkService.getUserConstatnt(body).enqueue(new Callback<UserConstatntResponse>() {
+            @Override
+            public void onResponse(Call<UserConstatntResponse> call, Response<UserConstatntResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+                        if (type == 0) {
+                            new AsyncUserConstatnt(mContext, response.body().getMasterData()).execute();
+                        } else {
+                            iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                        }
+
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<UserConstatntResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
     }
 }

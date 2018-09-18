@@ -47,6 +47,7 @@ import com.google.gson.Gson;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,13 +56,16 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.APIResponse;
@@ -111,6 +115,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     SimpleDateFormat fastLaneDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     DBPersistanceController dbController;
+    LoginResponseEntity loginResponseEntity;
+    UserConstantEntity userConstantEntity;
     Realm realm;
     List<String> makeModelList, fuelList, variantList, cityList, prevInsurerList;
     ArrayAdapter<String> makeModelAdapter, varientAdapter, fuelAdapter, cityAdapter, prevInsAdapter, ncbPerctAdapter;
@@ -152,6 +158,8 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         dbController = new DBPersistanceController(getActivity());
         motorRequestEntity = new MotorRequestEntity(getActivity());
         constantEntity = dbController.getConstantsData();
+        loginResponseEntity = dbController.getUserData();
+        userConstantEntity = dbController.getUserConstantsData();
         registerPopUp(this);
         init_view(view);
 
@@ -1062,12 +1070,14 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder_blue);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder);
                 sbNoClaimBonus.setEnabled(true);
+                cvNcb.setVisibility(View.VISIBLE);
                 break;
             case R.id.tvClaimYes:
                 isClaimExist = true;
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder_blue);
                 sbNoClaimBonus.setEnabled(false);
+                cvNcb.setVisibility(View.GONE);
                 tvProgress.setText("Existing NCB");
                 sbNoClaimBonus.setProgress(0);
 
@@ -1076,7 +1086,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 //new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("TW Get quote : get quote button for TW "), Constants.TWO_WHEELER), null);
 
                 if (isValidInput()) {
-
+                    setCommonParameters();
                     if (switchNewRenew.isChecked()) {  //renew
                         setInputParametersReNewCar();
                     } else {
@@ -1567,6 +1577,29 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     //endregion
 
     //region set parameter
+
+    private void setCommonParameters() {
+
+        motorRequestEntity.setSecret_key(Utility.SECRET_KEY);
+        motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
+        motorRequestEntity.setApp_version(Utility.getVersionName(getActivity()));
+        motorRequestEntity.setDevice_id(Utility.getTokenId(getActivity()));
+        motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+        try {
+            motorRequestEntity.setMac_address(Utility.getMacAddress(getActivity()));
+        } catch (IOException e) {
+            motorRequestEntity.setMac_address("0");
+        }
+
+        if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
+            int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
+            motorRequestEntity.setSs_id(ssid);
+        } else {
+            motorRequestEntity.setSs_id(5);
+        }
+        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
+
+    }
 
     private void setInputParametersNewCAR() {
         // motorRequestEntity.setBirth_date("1992-01-01");
