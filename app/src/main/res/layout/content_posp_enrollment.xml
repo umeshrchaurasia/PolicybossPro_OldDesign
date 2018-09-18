@@ -488,7 +488,7 @@
             android:id="@+id/llBankDetail"
             style="@style/LinearLayoutStyle"
             android:animateLayoutChanges="true"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -602,18 +602,19 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
-                    android:visibility="gone"
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:hint="IFSC CODE">
+                    android:hint="IFSC CODE"
+                    android:visibility="gone">
 
                     <EditText
                         style="@style/Style.edittext"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
+
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
@@ -624,6 +625,7 @@
                         android:id="@+id/etIfscCode"
                         style="@style/Style.edittext" />
                 </android.support.design.widget.TextInputLayout>
+
                 <android.support.design.widget.TextInputLayout
                     style="@style/TextAppearence.App.TextInputLayout"
                     android:layout_width="0dp"
@@ -731,225 +733,286 @@
             android:animateLayoutChanges="true"
             android:visibility="visible">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/ivPhoto"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/doc_notuploaded" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                <TextView
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center"
-                    android:text="POSP PHOTOGRAPH" />
+                    <ImageView
+                        android:id="@+id/ivPhoto"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/doc_notuploaded" />
+
+                    <TextView
+                        style="@style/TextStyle.TextMedium"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:text="POSP PHOTOGRAPH" />
+
+
+                    <ImageView
+                        android:id="@+id/ivPhotoGallery"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/folder_icon"
+                        android:visibility="gone" />
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/ivPhotoCam"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="5dp"
                     android:padding="2dp"
-                    android:src="@drawable/camera_icon" />
-
-                <ImageView
-                    android:id="@+id/ivPhotoGallery"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/folder_icon" />
-            </LinearLayout>
+                    android:src="@drawable/ic_camera_alt" />
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorPrimary" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/ivPan"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/doc_notuploaded" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                <TextView
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center"
-                    android:text="POSP PAN CARD" />
+                    <ImageView
+                        android:id="@+id/ivPan"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/doc_notuploaded" />
+
+                    <TextView
+                        style="@style/TextStyle.TextMedium"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:text="POSP PAN CARD" />
+
+
+                    <ImageView
+                        android:id="@+id/ivPanGallery"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/folder_icon"
+                        android:visibility="gone" />
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/ivPanCam"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="5dp"
                     android:padding="2dp"
-                    android:src="@drawable/camera_icon" />
+                    android:src="@drawable/ic_camera_alt" />
 
-                <ImageView
-                    android:id="@+id/ivPanGallery"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/folder_icon" />
-            </LinearLayout>
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorPrimary" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/ivAadhar"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/doc_notuploaded" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                <TextView
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center"
-                    android:text="POSP AADHAR CARD FRONT" />
+                    <ImageView
+                        android:id="@+id/ivAadhar"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/doc_notuploaded" />
+
+                    <TextView
+                        style="@style/TextStyle.TextMedium"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:text="POSP AADHAR CARD FRONT" />
+
+
+                    <ImageView
+                        android:id="@+id/ivAadharGallery"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginLeft="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/folder_icon"
+                        android:visibility="gone" />
+                </LinearLayout>
+
 
                 <ImageView
                     android:id="@+id/ivAadharCam"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="5dp"
                     android:padding="2dp"
-                    android:src="@drawable/camera_icon" />
+                    android:src="@drawable/ic_camera_alt" />
 
-                <ImageView
-                    android:id="@+id/ivAadharGallery"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/folder_icon" />
-            </LinearLayout>
+
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorPrimary" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/ivAadharBack"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/doc_notuploaded" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                <TextView
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center"
-                    android:text="POSP AADHAR CARD BACK" />
+                    <ImageView
+                        android:id="@+id/ivAadharBack"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/doc_notuploaded" />
+
+                    <TextView
+                        style="@style/TextStyle.TextMedium"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:text="POSP AADHAR CARD BACK" />
+
+                    <ImageView
+                        android:id="@+id/ivAadharGalleryBack"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:padding="2dp"
+                        android:src="@drawable/camera_icon"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/ivAadharCamBack"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="5dp"
                     android:padding="2dp"
-                    android:src="@drawable/camera_icon" />
+                    android:src="@drawable/ic_camera_alt" />
 
-                <ImageView
-                    android:id="@+id/ivAadharGalleryBack"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/folder_icon" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorPrimary" />
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="8dp">
+                android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/ivCancel"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/doc_notuploaded" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="8dp">
 
-                <TextView
-                    style="@style/TextStyle.TextMedium"
-                    android:layout_width="200dp"
-                    android:layout_height="match_parent"
-                    android:gravity="left|center"
-                    android:text="POSP CANCELLED CHQ" />
+                    <ImageView
+                        android:id="@+id/ivCancel"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:padding="2dp"
+                        android:src="@drawable/doc_notuploaded" />
+
+                    <TextView
+                        style="@style/TextStyle.TextMedium"
+                        android:layout_width="200dp"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:text="POSP CANCELLED CHQ" />
+
+                    <ImageView
+                        android:id="@+id/ivCancelGallery"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:padding="2dp"
+                        android:src="@drawable/camera_icon"
+                        android:visibility="gone" />
+
+
+                </LinearLayout>
 
                 <ImageView
                     android:id="@+id/ivCancelCam"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginRight="5dp"
                     android:padding="2dp"
-                    android:src="@drawable/camera_icon" />
+                    android:src="@drawable/ic_camera_alt" />
 
-                <ImageView
-                    android:id="@+id/ivCancelGallery"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
-                    android:padding="2dp"
-                    android:src="@drawable/folder_icon" />
-            </LinearLayout>
+            </RelativeLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@color/colorPrimary" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -975,20 +1038,27 @@
                     android:text="POSP HIGHEST EDU. PROOF" />
 
                 <ImageView
-                    android:id="@+id/ivEduCam"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:padding="2dp"
-                    android:src="@drawable/camera_icon" />
-
-                <ImageView
                     android:id="@+id/ivEduGallery"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginLeft="10dp"
                     android:padding="2dp"
-                    android:src="@drawable/folder_icon" />
+                    android:src="@drawable/camera_icon"
+                    android:visibility="gone"/>
+
+
             </LinearLayout>
+
+            <ImageView
+                android:id="@+id/ivEduCam"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="5dp"
+                android:padding="2dp"
+                android:src="@drawable/ic_camera_alt" />
+            </RelativeLayout>
+
         </LinearLayout>
         <!--END START-->
         <Button

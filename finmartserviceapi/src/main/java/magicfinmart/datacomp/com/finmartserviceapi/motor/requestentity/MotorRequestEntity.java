@@ -156,10 +156,10 @@ public class MotorRequestEntity implements Parcelable {
     }
 
     public MotorRequestEntity(Context context) {
-        DBPersistanceController dbPersistanceController;
+        /*DBPersistanceController dbPersistanceController;
         LoginResponseEntity loginResponseEntity;
         dbPersistanceController = new DBPersistanceController(context);
-        loginResponseEntity = dbPersistanceController.getUserData();
+        loginResponseEntity = dbPersistanceController.getUserData();*/
         // this.birth_date = "1992-01-01";
         this.agent_source = "";
         this.is_aai_member = "no";
@@ -168,8 +168,8 @@ public class MotorRequestEntity implements Parcelable {
         this.product_id = 0;
         this.vehicle_id = 0;
         this.rto_id = 0;
-        this.secret_key = Utility.SECRET_KEY;
-        this.client_key = Utility.CLIENT_KEY;
+       /* this.secret_key = Utility.SECRET_KEY;
+        this.client_key = Utility.CLIENT_KEY;*/
         this.execution_async = "yes";
         this.vehicle_insurance_type = "";
         this.vehicle_manf_date = "";
@@ -199,7 +199,7 @@ public class MotorRequestEntity implements Parcelable {
         this.mobile = "";
         this.email = "finmarttest@gmail.com";
         this.crn = "";
-        this.app_version = Utility.getVersionName(context);
+        /*this.app_version = Utility.getVersionName(context);
         this.device_id = Utility.getTokenId(context);
         this.fba_id = loginResponseEntity.getFBAId();
         try {
@@ -212,7 +212,7 @@ public class MotorRequestEntity implements Parcelable {
             this.ss_id = Integer.parseInt(loginResponseEntity.getPOSPNo());
         else
             this.ss_id = 5;
-        this.ip_address = Utility.getLocalIpAddress(context);
+        this.ip_address = Utility.getLocalIpAddress(context);*/
     }
 
 
