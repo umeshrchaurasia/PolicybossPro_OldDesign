@@ -54,7 +54,7 @@
                 android:id="@+id/imgInsurerLogo"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
-                android:layout_weight="30"
+                android:layout_weight="25"
                 android:gravity="center"
                 android:padding="6dp"
                 android:scaleType="fitCenter" />
@@ -73,7 +73,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    style="@style/TextStyle.TextLarge"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -84,7 +84,7 @@
 
                 <TextView
                     android:id="@+id/txtIDV"
-                    style="@style/TextStyle.TextLarge"
+                    style="@style/TextStyle.TextMedium"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
@@ -132,7 +132,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="2dp"
-                android:layout_weight="25"
+                android:layout_weight="20"
                 android:gravity="bottom|center_horizontal"
                 android:orientation="vertical"
                 android:paddingBottom="5dp">
@@ -162,6 +162,12 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/chkSelected"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="10" />
         </LinearLayout>
 
         <View
