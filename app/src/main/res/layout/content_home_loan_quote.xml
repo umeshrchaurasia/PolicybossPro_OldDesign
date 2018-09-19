@@ -192,12 +192,13 @@
             <LinearLayout
                 android:id="@+id/ivllEdit"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:layout_weight="10"
                 android:orientation="vertical">
 
                 <ImageView
+                    android:padding="2dp"
                     android:id="@+id/ivEdit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
