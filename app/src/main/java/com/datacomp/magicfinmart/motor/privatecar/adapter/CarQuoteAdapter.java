@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.health.fragment.HealthQuoteFragment;
 import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 
 import java.util.List;
@@ -53,6 +56,17 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
     public void onBindViewHolder(BikeQuoteItem holder, final int position) {
 
         final ResponseEntity responseEntity = listQuotes.get(position);
+
+        holder.chkSelected.setTag(R.id.chkSelected, responseEntity);
+
+        if (responseEntity.isSelected()) {
+            holder.chkSelected.setChecked(true);
+        } else {
+            holder.chkSelected.setChecked(false);
+        }
+
+        holder.chkSelected.setOnCheckedChangeListener(checkedChangeListener);
+
         holder.rvAddOn.setTag(R.id.rvAddOn, responseEntity);
         holder.viewDisableLayout.setTag(R.id.viewDisableLayout, responseEntity);
         holder.txtInsurerName.setText(responseEntity.getInsurer().getInsurer_Name());
@@ -180,10 +194,11 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
         public TextView txtInsurerName, txtIDV, txtFinalPremium, txtPremiumBreakUp;
         LinearLayout txtBuy;
         ImageView imgInsurerLogo;
-        LinearLayout llIdv ;
+        LinearLayout llIdv;
         RelativeLayout llAddonList;
         View viewDisableLayout;
         RecyclerView rvAddOn;
+        CheckBox chkSelected;
 
         public BikeQuoteItem(View itemView) {
             super(itemView);
@@ -198,8 +213,48 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             txtFinalPremium = (TextView) itemView.findViewById(R.id.txtFinalPremium);
             imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
             txtPremiumBreakUp = (TextView) itemView.findViewById(R.id.txtPremiumBreakUp);
+            chkSelected = (CheckBox) itemView.findViewById(R.id.chkSelected);
         }
     }
 
+
+    CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+            ResponseEntity entity = (ResponseEntity) compoundButton.getTag(R.id.chkSelected);
+
+            if (b) {
+                entity.setSelected(true);
+            } else {
+                entity.setSelected(false);
+            }
+            ((QuoteFragment) mContext).addRemoveShare(entity, b);
+
+            /*if (checkCount <= 4) {
+                if (b) {
+                    checkCount = checkCount + 1;
+                    entity.setCompare(b);
+                    ((HealthQuoteFragment) mContext).addRemoveShare(entity, b);
+                } else {
+                    checkCount = checkCount - 1;
+                    entity.setCompare(b);
+                    ((HealthQuoteFragment) mContext).addRemoveShare(entity, b);
+                }
+            } else {
+                if (b) {
+                    ((HealthQuoteFragment) mContext).showAlert("You can select only four plans to compare.");
+                } else {
+                    checkCount = checkCount - 1;
+                    entity.setCompare(b);
+                    ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+                }
+                entity.setCompare(false);
+            }
+
+            updateCheckBox(entity);*/
+
+        }
+    };
 
 }

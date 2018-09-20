@@ -157,15 +157,15 @@ public class Utility {
 
     public static int checkShareStatus(Context context) {
         int pospStatus;
-        DBPersistanceController dbPersistanceController = new DBPersistanceController(context);
+        /*DBPersistanceController dbPersistanceController = new DBPersistanceController(context);
         UserConstantEntity userConstantEntity = dbPersistanceController.getUserConstantsData();
 
         if (userConstantEntity != null) {
             pospStatus = Integer.parseInt(userConstantEntity.getPOSP_STATUS());
             if (pospStatus == 6)
                 return 1;
-        }
-        return 0;
+        }*/
+        return 1;
     }
 
     public static int checkPospTrainingStatus(Context context) {
