@@ -514,6 +514,10 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         adapter.refreshNewQuote(list);
     }
 
+    private void updateMainQuoteAdapter(List<HealthQuoteEntity> list) {
+        adapter.updateMainQuote(list);
+    }
+
     public void addMoreQuote(HealthQuoteEntity entity) {
 
         List<HealthQuoteEntity> childList = listDataChild.get(entity.getInsurerId());
@@ -574,7 +578,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 //reset all selected quotes
                 listDataHeader.get(i).setCompare(false);
             }
-            refreshAdapter(listDataHeader);
+            updateMainQuoteAdapter(listDataHeader);
             //clear selected compare list to reset
             listCompare.clear();
         }
