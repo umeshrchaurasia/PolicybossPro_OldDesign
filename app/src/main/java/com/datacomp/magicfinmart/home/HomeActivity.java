@@ -691,6 +691,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (response.getStatusNo() == 0) {
                 if (((UserConstatntResponse) response).getMasterData() != null) {
                     db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
+                    userConstantEntity = db.getUserConstantsData();
                     init_headers();
                 }
             }
