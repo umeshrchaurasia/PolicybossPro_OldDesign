@@ -8,9 +8,9 @@
 
     <string name="Emp_detail">Employment &amp; Income Details</string>
 
-    <string name="RM_Calling">You are connecting to your\nRM Manage: </string>
+    <string name="RM_Calling">Do you want to call your\nManager: </string>
 
-    <string name="Support_Calling">You are connecting to Support Team... </string>
+    <string name="Support_Calling">Do you want to call Support Team. </string>
 
     <string name="materail_count">new Images are available for downloading.\nContinue???</string>
     <string name="fetching_msg">Please Wait... fetching quotes</string>
