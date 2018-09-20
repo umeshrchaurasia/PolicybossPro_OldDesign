@@ -1721,16 +1721,19 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     }
 
     public void actionModeRefresh() {
-        if (shareResponseEntityList.size() == 0) {
+        if (actionMode != null) {
+            if (shareResponseEntityList.size() == 0) {
 
-            actionMode.finish();
-            //after share comes back action mode set to null
-            //to initialise again and assign existing selection references
-            //actionMode = null;
-        } else {
-            actionMode.setTitle("" + shareResponseEntityList.size());
-            actionMode.invalidate();
+                actionMode.finish();
+                //after share comes back action mode set to null
+                //to initialise again and assign existing selection references
+                //actionMode = null;
+            } else {
+                actionMode.setTitle("" + shareResponseEntityList.size());
+                actionMode.invalidate();
+            }
         }
+
     }
 
     //region Action Mode CallBack Interface
@@ -1738,6 +1741,9 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.health_menu_actionmode, menu);
+
+            MenuItem compare = menu.findItem(R.id.health_compare);
+            compare.setVisible(false);
 
             // disable Parent layout if action mode is enabled
             //lvParent.setEnabled(false);
@@ -1753,9 +1759,15 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.health_share:
+
+                    if (webViewLoader.getVisibility() != View.VISIBLE) {
+                        new AsyncCustomShare().execute();
+                    } else {
+                        Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                    }
                     // delete all the selected messages
                     //Toast.makeText(getActivity(), "Share", Toast.LENGTH_SHORT).show();
-                   // new AsyncShareJson().execute();
+                    // new AsyncShareJson().execute();
                     // mode.finish();
                     return true;
                 case R.id.health_compare:
@@ -1772,6 +1784,13 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         public void onDestroyActionMode(ActionMode mode) {
 
             actionMode = null;
+
+            for (Iterator<ResponseEntity> iter = bikePremiumResponse.getResponse().listIterator(); iter.hasNext(); ) {
+                ResponseEntity a = iter.next();
+                a.setSelected(false);
+            }
+            mAdapter.notifyDataSetChanged();
+
             /*for (int i = 0; i < listDataHeader.size(); i++) {
                 //reset all selected quotes
                 listDataHeader.get(i).setCompare(false);
@@ -1782,5 +1801,36 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         }
     }
     //endregion
+
+    class AsyncCustomShare extends AsyncTask<Void, Void, BikePremiumResponse> {
+
+        @Override
+        protected BikePremiumResponse doInBackground(Void... voids) {
+            if (bikePremiumResponse != null) {
+                sharePremiumResponse = new BikePremiumResponse();
+                sharePremiumResponse.setSummary(bikePremiumResponse.getSummary());
+                sharePremiumResponse.setResponse(shareResponseEntityList);
+                sharePremiumResponse = applyAddonsForShare(sharePremiumResponse);
+            }
+            return sharePremiumResponse;
+        }
+
+        @Override
+        protected void onPostExecute(BikePremiumResponse premiumResponse) {
+            if (Utility.checkShareStatus(getActivity()) == 1) {
+                if (webViewLoader.getVisibility() != View.VISIBLE && premiumResponse != null) {
+                    Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
+                    intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_ALL_QUOTE");
+                    intent.putExtra("RESPONSE", premiumResponse);
+                    intent.putExtra("CARNAME", carMasterEntity);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                openPopUp(ivEdit, "Message", "Your POSP status is INACTIVE", "OK", true);
+            }
+        }
+    }
 
 }
