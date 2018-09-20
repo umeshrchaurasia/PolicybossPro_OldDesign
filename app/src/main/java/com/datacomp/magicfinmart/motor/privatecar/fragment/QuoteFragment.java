@@ -7,6 +7,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.view.ActionMode;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -38,6 +40,7 @@ import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import io.realm.Realm;
@@ -68,6 +71,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.motor.response.SaveAddOnRespo
 public class QuoteFragment extends BaseFragment implements IResponseSubcriber, BaseFragment.PopUpListener, View.OnClickListener, magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber {
 
     BikePremiumResponse bikePremiumResponse, sharePremiumResponse;
+    List<ResponseEntity> shareResponseEntityList;
+    private ActionModeCallback actionModeCallback;
+    private ActionMode actionMode;
+
     RecyclerView bikeQuoteRecycler;
     CarQuoteAdapter mAdapter;
     MotorRequestEntity motorRequestEntity;
@@ -98,10 +105,11 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         View view = inflater.inflate(R.layout.content_quote, container, false);
         registerPopUp(this);
         initView(view);
+        actionModeCallback = new ActionModeCallback();
         realm = Realm.getDefaultInstance();
         databaseController = new DBPersistanceController(getActivity());
         saveQuoteEntity = new SaveQuoteResponse.SaveQuoteEntity();
-
+        shareResponseEntityList = new ArrayList<>();
         if (getArguments() != null) {
             if (getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST) != null) {
                 motorRequestEntity = getArguments().getParcelable(InputQuoteBottmActivity.MOTOR_QUOTE_REQUEST);
@@ -1031,13 +1039,13 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
         if (webViewLoader.getVisibility() != View.VISIBLE) {
             //if (!isShowing) {
-                Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
-                intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
-                intent.putExtra("RESPONSE_CAR", entity);
-                intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
-                intent.putExtra("SUMMARY", summaryEntity);
-                startActivityForResult(intent, 00000);
-                isShowing = true;
+            Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
+            intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
+            intent.putExtra("RESPONSE_CAR", entity);
+            intent.putParcelableArrayListExtra("MOBILE_ADDON", (ArrayList<? extends Parcelable>) listMobileAddOn);
+            intent.putExtra("SUMMARY", summaryEntity);
+            startActivityForResult(intent, 00000);
+            isShowing = true;
             //}
         } else {
             Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
@@ -1690,5 +1698,89 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             dialog.cancel();
         }
     }
+
+
+    public void addRemoveShare(ResponseEntity responseEntity, boolean isSelected) {
+        if (isSelected) {
+
+            shareResponseEntityList.add(responseEntity);
+
+            if (actionMode == null) {
+                actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
+            }
+        } else {
+            //remove item from list
+            for (Iterator<ResponseEntity> iter = shareResponseEntityList.listIterator(); iter.hasNext(); ) {
+                ResponseEntity a = iter.next();
+                if (a.getInsurer().getInsurer_ID() == responseEntity.getInsurer().getInsurer_ID()) {
+                    iter.remove();
+                }
+            }
+        }
+        actionModeRefresh();
+    }
+
+    public void actionModeRefresh() {
+        if (shareResponseEntityList.size() == 0) {
+
+            actionMode.finish();
+            //after share comes back action mode set to null
+            //to initialise again and assign existing selection references
+            //actionMode = null;
+        } else {
+            actionMode.setTitle("" + shareResponseEntityList.size());
+            actionMode.invalidate();
+        }
+    }
+
+    //region Action Mode CallBack Interface
+    private class ActionModeCallback implements ActionMode.Callback {
+        @Override
+        public boolean onCreateActionMode(ActionMode mode, Menu menu) {
+            mode.getMenuInflater().inflate(R.menu.health_menu_actionmode, menu);
+
+            // disable Parent layout if action mode is enabled
+            //lvParent.setEnabled(false);
+            return true;
+        }
+
+        @Override
+        public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
+            return false;
+        }
+
+        @Override
+        public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.health_share:
+                    // delete all the selected messages
+                    //Toast.makeText(getActivity(), "Share", Toast.LENGTH_SHORT).show();
+                   // new AsyncShareJson().execute();
+                    // mode.finish();
+                    return true;
+                case R.id.health_compare:
+                    //redirectToHealthCompare();
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
+
+        @Override
+        public void onDestroyActionMode(ActionMode mode) {
+
+            actionMode = null;
+            /*for (int i = 0; i < listDataHeader.size(); i++) {
+                //reset all selected quotes
+                listDataHeader.get(i).setCompare(false);
+            }
+            updateMainQuoteAdapter(listDataHeader);*/
+            //clear selected compare list to reset
+            shareResponseEntityList.clear();
+        }
+    }
+    //endregion
 
 }
