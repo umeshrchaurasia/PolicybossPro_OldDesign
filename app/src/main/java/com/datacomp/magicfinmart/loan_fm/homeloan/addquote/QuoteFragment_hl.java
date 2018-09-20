@@ -321,7 +321,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     }
 
     private void setGenerateLeadResponse() {
-
+        //TODO set request
         homeLoanApplyRequestEntity.setLoanTenure(Integer.parseInt(homeLoanRequest.getLoanTenure()));
         //homeLoanApplyRequestEntity.setApplnId();
     }
@@ -376,9 +376,7 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     public void OnSuccessERP(APIResponseERP response, String message) {
         if (response instanceof GenerateHLLeadResponse) {
             cancelDialog();
-            if (response.getStatusId() == 0) {
-                Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 

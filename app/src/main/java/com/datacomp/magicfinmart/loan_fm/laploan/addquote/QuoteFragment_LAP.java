@@ -29,8 +29,10 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
@@ -38,19 +40,22 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystr
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.QuoteEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmHomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanApplyRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BankForNodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuoteHomeLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GenerateHLLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 
 /**
  * Created by IN-RB on 30-01-2018.
  */
 
-public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM, BaseFragment.PopUpListener {
+public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM,IResponseSubcriberERP, BaseFragment.PopUpListener {
 
     private static String INPUT_FRAGMENT = "input";
 
+    HomeLoanApplyRequestEntity homeLoanApplyRequestEntity;
 
     GetQuoteResponse getQuoteResponse;
 
@@ -82,6 +87,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.content_home_loan_quote, container, false);
+        homeLoanApplyRequestEntity = new HomeLoanApplyRequestEntity();
         registerPopUp(this);
         initialise_widget(view);
 
@@ -309,11 +315,28 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
             buyLoanQuerystring.setMobileNo(fmHomeLoanRequest.getHomeLoanRequest().getContact());
             buyLoanQuerystring.setCity(fmHomeLoanRequest.getHomeLoanRequest().getCity());
 
-            new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
+            //TODO change this to new service
+            setGenerateLeadResponse();
+            new HomeLoanController(getActivity()).generateLead(homeLoanApplyRequestEntity, this);
+
+            //new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
+    }
+
+    private void setGenerateLeadResponse() {
+        //TODO set request
+        homeLoanApplyRequestEntity.setLoanTenure(Integer.parseInt(homeLoanRequest.getLoanTenure()));
+        //homeLoanApplyRequestEntity.setApplnId();
+    }
+    @Override
+    public void OnSuccessERP(APIResponseERP response, String message) {
+        if (response instanceof GenerateHLLeadResponse) {
+            cancelDialog();
+            Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
