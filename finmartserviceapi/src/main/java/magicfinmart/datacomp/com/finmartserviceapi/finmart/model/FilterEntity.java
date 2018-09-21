@@ -9,6 +9,16 @@ public class FilterEntity {
     private int CreditCardAmountFilterId;
     private String Amount;
     private int Priority;
+    private boolean isSelected;
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
 
     public int getPriority() {
         return Priority;

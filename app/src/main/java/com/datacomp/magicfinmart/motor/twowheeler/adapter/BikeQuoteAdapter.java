@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,10 +15,12 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.motor.privatecar.adapter.GridAddonAdapter;
+import com.datacomp.magicfinmart.motor.privatecar.fragment.QuoteFragment;
 import com.datacomp.magicfinmart.motor.twowheeler.fragment.BikeQuoteFragment;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.model.ResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.motor.response.BikePremiumResponse;
@@ -51,6 +55,18 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
     public void onBindViewHolder(BikeQuoteItem holder, final int position) {
 
         final ResponseEntity responseEntity = listQuotes.get(position);
+
+        holder.chkSelected.setTag(R.id.chkSelected, responseEntity);
+
+        if (responseEntity.isSelected()) {
+            holder.chkSelected.setChecked(true);
+        } else {
+            holder.chkSelected.setChecked(false);
+        }
+
+        holder.chkSelected.setOnCheckedChangeListener(checkedChangeListener);
+
+
         holder.viewDisableLayout.setTag(R.id.viewDisableLayout, responseEntity);
         holder.txtInsurerName.setText(responseEntity.getInsurer().getInsurer_Name());
         // holder.txtIDV.setText(responseEntity);
@@ -74,10 +90,12 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
 
         try {
 
-            int logo = new DBPersistanceController(mContext.getActivity())
+           /* int logo = new DBPersistanceController(mContext.getActivity())
                     .getInsurerLogo(Integer.parseInt(responseEntity.getInsurer_Id()));
 
             Glide.with(mContext).load(logo)
+                    .into(holder.imgInsurerLogo);*/
+            Glide.with(mContext).load(Utility.getInsurerImage(responseEntity.getInsurer_Id()))
                     .into(holder.imgInsurerLogo);
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,6 +196,8 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
         LinearLayout llIdv;
         RecyclerView rvAddOn;
         View viewDisableLayout;
+        CheckBox chkSelected;
+
         public BikeQuoteItem(View itemView) {
             super(itemView);
             llIdv = (LinearLayout) itemView.findViewById(R.id.llIdv);
@@ -189,8 +209,46 @@ public class BikeQuoteAdapter extends RecyclerView.Adapter<BikeQuoteAdapter.Bike
             txtFinalPremium = (TextView) itemView.findViewById(R.id.txtFinalPremium);
             imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);
             txtPremiumBreakUp = (TextView) itemView.findViewById(R.id.txtPremiumBreakUp);
+            chkSelected = (CheckBox) itemView.findViewById(R.id.chkSelected);
         }
     }
+    CompoundButton.OnCheckedChangeListener checkedChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
 
+            ResponseEntity entity = (ResponseEntity) compoundButton.getTag(R.id.chkSelected);
+
+            if (b) {
+                entity.setSelected(true);
+            } else {
+                entity.setSelected(false);
+            }
+            ((BikeQuoteFragment) mContext).addRemoveShare(entity, b);
+
+            /*if (checkCount <= 4) {
+                if (b) {
+                    checkCount = checkCount + 1;
+                    entity.setCompare(b);
+                    ((HealthQuoteFragment) mContext).addRemoveShare(entity, b);
+                } else {
+                    checkCount = checkCount - 1;
+                    entity.setCompare(b);
+                    ((HealthQuoteFragment) mContext).addRemoveShare(entity, b);
+                }
+            } else {
+                if (b) {
+                    ((HealthQuoteFragment) mContext).showAlert("You can select only four plans to compare.");
+                } else {
+                    checkCount = checkCount - 1;
+                    entity.setCompare(b);
+                    ((HealthQuoteFragment) mContext).addRemoveCompare(entity, b);
+                }
+                entity.setCompare(false);
+            }
+
+            updateCheckBox(entity);*/
+
+        }
+    };
 
 }

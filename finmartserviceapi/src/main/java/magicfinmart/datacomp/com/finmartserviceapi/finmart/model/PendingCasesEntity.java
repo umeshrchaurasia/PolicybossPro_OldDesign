@@ -1,6 +1,9 @@
 package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
-public class PendingCasesEntity {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class PendingCasesEntity implements Parcelable {
     /**
      * Id : 296
      * CustomerName : danial
@@ -23,6 +26,12 @@ public class PendingCasesEntity {
     private String created_date;
     private int pendingdays;
     private String BankImage;
+    /**
+     * BankImage : null
+     * cdate : 2018-08-18 01:17:13
+     */
+
+    private String cdate;
 
 
     public int getId() {
@@ -105,4 +114,60 @@ public class PendingCasesEntity {
         BankImage = bankImage;
     }
 
+    public String getCdate() {
+        return cdate;
+    }
+
+    public void setCdate(String cdate) {
+        this.cdate = cdate;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.Id);
+        dest.writeString(this.CustomerName);
+        dest.writeString(this.Category);
+        dest.writeString(this.qatype);
+        dest.writeString(this.ApplnStatus);
+        dest.writeString(this.mobile);
+        dest.writeString(this.quotetype);
+        dest.writeString(this.created_date);
+        dest.writeInt(this.pendingdays);
+        dest.writeString(this.BankImage);
+        dest.writeString(this.cdate);
+    }
+
+    public PendingCasesEntity() {
+    }
+
+    protected PendingCasesEntity(Parcel in) {
+        this.Id = in.readInt();
+        this.CustomerName = in.readString();
+        this.Category = in.readString();
+        this.qatype = in.readString();
+        this.ApplnStatus = in.readString();
+        this.mobile = in.readString();
+        this.quotetype = in.readString();
+        this.created_date = in.readString();
+        this.pendingdays = in.readInt();
+        this.BankImage = in.readString();
+        this.cdate = in.readString();
+    }
+
+    public static final Parcelable.Creator<PendingCasesEntity> CREATOR = new Parcelable.Creator<PendingCasesEntity>() {
+        @Override
+        public PendingCasesEntity createFromParcel(Parcel source) {
+            return new PendingCasesEntity(source);
+        }
+
+        @Override
+        public PendingCasesEntity[] newArray(int size) {
+            return new PendingCasesEntity[size];
+        }
+    };
 }

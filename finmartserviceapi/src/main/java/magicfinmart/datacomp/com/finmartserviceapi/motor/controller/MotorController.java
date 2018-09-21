@@ -88,7 +88,17 @@ public class MotorController implements IMotor {
                 if (response.body() != null) {
 
                     if (response.body().getSummary() == null) {
-                        iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+
+                        //RuntimeException exception = new RuntimeException(response.body().getDetails()[0]);
+                        if (response.body().getDetails() != null) {
+                            if (response.body().getDetails().length > 0)
+                                iResponseSubcriber.OnFailure(new RuntimeException(response.body().getDetails()[0]));
+                            else
+                                iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMsg()));
+                        }else{
+                            iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMsg()));
+                        }
+                        //iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
                         return;
                     }
                     //for every new premium initiate counter should be 0
@@ -142,7 +152,7 @@ public class MotorController implements IMotor {
         BikePremiumRequestEntity entity = new BikePremiumRequestEntity();
         entity.setSecret_key(Utility.SECRET_KEY);
         entity.setClient_key(Utility.CLIENT_KEY);
-        if (constantEntity != null && constantEntity.getHorizonVersion()!= null && !constantEntity.getHorizonVersion().equals(""))
+        if (constantEntity != null && constantEntity.getHorizonVersion() != null && !constantEntity.getHorizonVersion().equals(""))
             entity.setResponse_version("" + constantEntity.getHorizonVersion());
         else
             entity.setResponse_version("2.0");
@@ -166,6 +176,7 @@ public class MotorController implements IMotor {
             @Override
             public void onResponse(Call<BikePremiumResponse> call, Response<BikePremiumResponse> response) {
                 if (response.body() != null && response.body().getResponse() != null) {
+
 
                     if (constantEntity.getLogtracking().equals("0"))
                         new PolicybossTrackingQuoteeResponse((BikePremiumResponse) response.body()).execute();

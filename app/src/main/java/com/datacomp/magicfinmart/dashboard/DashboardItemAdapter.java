@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.R;
 
 import java.util.List;
@@ -59,7 +60,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
 
         if (holder instanceof DashboardItemHolder) {
-            ((DashboardItemHolder) holder).imgIcon.setImageResource(listInsur.get(position).getIcon());
+            if (listInsur.get(position).getIcon() == -1) {
+                Glide.with(mContext).load(listInsur.get(position).getServerIcon())
+                        .into(((DashboardItemHolder) holder).imgIcon);
+            } else {
+                ((DashboardItemHolder) holder).imgIcon.setImageResource(listInsur.get(position).getIcon());
+            }
+
             ((DashboardItemHolder) holder).txtProductName.setText(listInsur.get(position).getProductName());
             ((DashboardItemHolder) holder).txtProductDesc.setText(listInsur.get(position).getProductDetails());
             /*((DashboardItemHolder) holder).card_view.setOnClickListener(new View.OnClickListener() {

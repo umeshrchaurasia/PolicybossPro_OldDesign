@@ -3,6 +3,8 @@ package magicfinmart.datacomp.com.finmartserviceapi.express_loan.controller;
 
 import android.content.Context;
 
+import org.json.JSONException;
+
 import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -66,6 +68,7 @@ public class ExpressLoanController implements IExpressLoan {
 
             @Override
             public void onFailure(Call<ExpressQuoteListResponse> call, Throwable t) {
+
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

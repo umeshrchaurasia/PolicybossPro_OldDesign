@@ -46,13 +46,11 @@ import java.util.Calendar;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetBLDispalyResponse;
@@ -72,8 +70,9 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
     BikePremiumResponse bikePremiumResponse;
     BikeMasterEntity bikeMasterEntity;
     CarMasterEntity carMasterEntity;
-    LoginResponseEntity loginResponseEntity;
-    AccountDtlEntity accountDtlEntity;
+    //LoginResponseEntity loginResponseEntity;
+    //AccountDtlEntity accountDtlEntity;
+    UserConstantEntity userConstantEntity;
     String respone;
     String userReponse;
     String otherData = "";
@@ -99,14 +98,15 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
         webView = (WebView) findViewById(R.id.webView);
 
         dbPersistanceController = new DBPersistanceController(this);
-        loginResponseEntity = dbPersistanceController.getUserData();
-        accountDtlEntity = dbPersistanceController.getAccountData();
+       /// loginResponseEntity = dbPersistanceController.getUserData();
+        //accountDtlEntity = dbPersistanceController.getAccountData();
+        userConstantEntity = dbPersistanceController.getUserConstantsData();
 
-        if (accountDtlEntity == null) {
+        /*if (accountDtlEntity == null) {
             showDialog("Fetching Detail...");
             new RegisterController(ShareQuoteActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), ShareQuoteActivity.this);
 
-        }
+        }*/
         //region from which class
         if (getIntent().hasExtra(Constants.SHARE_ACTIVITY_NAME)) {
             from = getIntent().getExtras().getString(Constants.SHARE_ACTIVITY_NAME);
@@ -206,43 +206,28 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
     }
 
     private void setPospDetails() {
-        if (accountDtlEntity != null) {
 
-            if (loginResponseEntity != null) {
-                if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
-                    pospNAme = loginResponseEntity.getPOSPName();
-                } else {
-                    pospNAme = "POSP Name";
-                }
-                if (loginResponseEntity.getPOSPProfileUrl() != null && !loginResponseEntity.getPOSPProfileUrl().equals("")) {
-                    pospPhotoUrl = loginResponseEntity.getPOSPProfileUrl();
-                }
-            } else {
-                pospNAme = "POSP Name";
-            }
+        pospNAme = "POSP Name";
+        pospEmail = "XXXXXX@finmart.com";
+        pospDesg = "LandMark POSP";
+        PospMobNo = "98XXXXXXXX";
 
-            if (accountDtlEntity.getDisplayEmail() != null && !accountDtlEntity.getDisplayEmail().equals("")) {
-                pospEmail = accountDtlEntity.getDisplayEmail();
-            } else {
-                pospEmail = "XXXXXX@finmart.com";
+        if (userConstantEntity != null) {
+            if (userConstantEntity.getPospsendname() != null && !userConstantEntity.getPospsendname().equals("")) {
+                pospNAme = userConstantEntity.getPospsendname();
             }
-
-            if (accountDtlEntity.getDisplayDesignation() != null && !accountDtlEntity.getDisplayDesignation().equals("")) {
-                pospDesg = accountDtlEntity.getDisplayDesignation();
-            } else {
-                pospDesg = "LandMark POSP";
+            if (userConstantEntity.getPospsendemail() != null && !userConstantEntity.getPospsendemail().equals("")) {
+                pospEmail = userConstantEntity.getPospsendemail();
             }
-
-            if (accountDtlEntity.getDisplayPhoneNo() != null && !accountDtlEntity.getDisplayPhoneNo().equals("")) {
-                PospMobNo = accountDtlEntity.getDisplayPhoneNo();
-            } else {
-                PospMobNo = "98XXXXXXXX";
+            if (userConstantEntity.getPospsendmobile() != null && !userConstantEntity.getPospsendmobile().equals("")) {
+                PospMobNo = userConstantEntity.getPospsendmobile();
             }
-        } else {
-            pospNAme = "POSP Name";
-            pospEmail = "XXXXXX@finmart.com";
-            pospDesg = "LandMark POSP";
-            PospMobNo = "98XXXXXXXX";
+            if (userConstantEntity.getPospsenddesignation() != null && !userConstantEntity.getPospsenddesignation().equals("")) {
+                pospDesg = userConstantEntity.getPospsenddesignation();
+            }
+            if (userConstantEntity.getPospsendphoto() != null && !userConstantEntity.getPospsendphoto().equals("")) {
+                pospPhotoUrl = userConstantEntity.getPospsendphoto();
+            }
         }
 
         try {
@@ -258,46 +243,28 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
 
     private void setOtherDetails() {
 
-        if (accountDtlEntity != null) {
+        pospNAme = "FBA Name";
+        pospEmail = "XXXXXX@finmart.com";
+        pospDesg = "FBA SUPPORT ASSISTANT";
+        PospMobNo = "98XXXXXXXX";
 
-            if (loginResponseEntity != null) {
-                if (loginResponseEntity.getFullName() != null && !loginResponseEntity.getFullName().equals("")) {
-                    pospNAme = loginResponseEntity.getFullName();
-                } else {
-                    pospNAme = "FBA Name";
-                }
-                if (loginResponseEntity.getFBAProfileUrl() != null && !loginResponseEntity.getFBAProfileUrl().equals("")) {
-                    pospPhotoUrl = loginResponseEntity.getFBAProfileUrl();
-                }
-
-            } else {
-                pospNAme = "FBA Name";
+        if (userConstantEntity != null) {
+            if (userConstantEntity.getLoansendname() != null && !userConstantEntity.getLoansendname().equals("")) {
+                pospNAme = userConstantEntity.getLoansendname();
             }
-
-            if (accountDtlEntity.getEditEmailId() != null && !accountDtlEntity.getEditEmailId().equals("")) {
-                pospEmail = accountDtlEntity.getEditEmailId();
-            } else {
-                pospEmail = "XXXXXX@finmart.com";
+            if (userConstantEntity.getLoansendemail() != null && !userConstantEntity.getLoansendemail().equals("")) {
+                pospEmail = userConstantEntity.getLoansendemail();
             }
-
-            if (accountDtlEntity.getDesignation() != null && !accountDtlEntity.getDesignation().equals("")) {
-                pospDesg = accountDtlEntity.getDesignation();
-            } else {
-                pospDesg = "FBA SUPPORT ASSISTANT";
+            if (userConstantEntity.getLoansendmobile() != null && !userConstantEntity.getLoansendmobile().equals("")) {
+                PospMobNo = userConstantEntity.getLoansendmobile();
             }
-
-            if (accountDtlEntity.getEditMobiNumb() != null && !accountDtlEntity.getEditMobiNumb().equals("")) {
-                PospMobNo = accountDtlEntity.getEditMobiNumb();
-            } else {
-                PospMobNo = "98XXXXXXXX";
+            if (userConstantEntity.getLoansenddesignation() != null && !userConstantEntity.getLoansenddesignation().equals("")) {
+                pospDesg = userConstantEntity.getLoansenddesignation();
             }
-        } else {
-            pospNAme = "FBA Name";
-            pospEmail = "XXXXXX@finmart.com";
-            pospDesg = "FBA SUPPORT ASSISTANT";
-            PospMobNo = "98XXXXXXXX";
+            if (userConstantEntity.getLoansendphoto() != null && !userConstantEntity.getLoansendphoto().equals("")) {
+                pospPhotoUrl = userConstantEntity.getLoansendphoto();
+            }
         }
-
 
         try {
             userJson.put("pospPhotoUrl", pospPhotoUrl);
@@ -794,7 +761,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 if (((MyAcctDtlResponse) response).getMasterData().get(0) != null) {
-                    accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);
+                    //accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);
                     dbPersistanceController.updateMyAccountData(((MyAcctDtlResponse) response).getMasterData().get(0));
                 }
             }

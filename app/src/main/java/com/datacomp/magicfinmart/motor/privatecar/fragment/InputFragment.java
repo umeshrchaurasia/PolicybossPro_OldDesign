@@ -50,6 +50,7 @@ import com.google.gson.Gson;
 
 import org.adw.library.widgets.discreteseekbar.DiscreteSeekBar;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,13 +59,16 @@ import java.util.Date;
 import java.util.List;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.fastlane.FastLaneController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.FastLaneDataResponse;
@@ -98,6 +102,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     MotorRequestEntity motorRequestEntity;
     FastLaneDataEntity fastLaneResponseEntity;
     ConstantEntity constantEntity;
+    UserConstantEntity userConstantEntity;
+    LoginResponseEntity loginResponseEntity;
 
     //region inputs
     Spinner spFuel, spVarient, spPrevIns;
@@ -161,6 +167,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity = new MotorRequestEntity(getActivity());
 
         constantEntity = dbController.getConstantsData();
+        userConstantEntity = dbController.getUserConstantsData();
+        loginResponseEntity = dbController.getUserData();
 
         registerPopUp(this);
 
@@ -1172,12 +1180,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 isClaimExist = false;
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder_blue);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder);
+                cvNcb.setVisibility(View.VISIBLE);
                 sbNoClaimBonus.setEnabled(true);
                 break;
             case R.id.tvClaimYes:
                 isClaimExist = true;
                 tvClaimNo.setBackgroundResource(R.drawable.customeborder);
                 tvClaimYes.setBackgroundResource(R.drawable.customeborder_blue);
+                cvNcb.setVisibility(View.GONE);
                 sbNoClaimBonus.setEnabled(false);
                 tvProgress.setText("Existing NCB");
                 sbNoClaimBonus.setProgress(0);
@@ -1185,7 +1195,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             case R.id.btnGetQuote:
 
                 if (isValidInfo()) {
-
+                    setCommonParameters();
                     if (switchNewRenew.isChecked()) {  //renew
                         setInputParametersReNewCar();
                     } else {
@@ -1209,6 +1219,30 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 btnGetQuote.setVisibility(View.VISIBLE);
                 break;
         }
+    }
+
+    private void setCommonParameters() {
+
+        motorRequestEntity.setSecret_key(Utility.SECRET_KEY);
+        motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
+        ;
+        motorRequestEntity.setApp_version(Utility.getVersionName(getActivity()));
+        motorRequestEntity.setDevice_id(Utility.getTokenId(getActivity()));
+        motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
+        try {
+            motorRequestEntity.setMac_address(Utility.getMacAddress(getActivity()));
+        } catch (IOException e) {
+            motorRequestEntity.setMac_address("0");
+        }
+
+        if (userConstantEntity.getPospsendid() != null && !userConstantEntity.getPospsendid().equals("")) {
+            int ssid = Integer.parseInt(userConstantEntity.getPospsendid());
+            motorRequestEntity.setSs_id(ssid);
+        } else {
+            motorRequestEntity.setSs_id(5);
+        }
+        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
+
     }
 
     private void insertFastlaneLog() {

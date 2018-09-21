@@ -2,6 +2,8 @@ package com.datacomp.magicfinmart.pendingcases;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +24,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.pendingcases.PendingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.PendingCasesEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseDeleteResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseInsLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCasesResponse;
 
 public class PendingCasesActivity extends BaseActivity implements IResponseSubcriber {
@@ -32,6 +35,9 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
     List<PendingCasesEntity> mPendingList;
     boolean isHit = false;
 
+    ViewPager viewPager;
+    PendingPagerAdapter pendingPagerAdapter;
+    TabLayout tabLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +47,7 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mPendingList = new ArrayList<PendingCasesEntity>();
+
 
         init();
 
@@ -69,20 +76,29 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
 
     private void fetchPendingCases(int count) {
         if (count == 0)
-        showDialog("Please wait.. loading cases");
+            showDialog("Please wait.. loading cases");
 
 
-        new PendingController(this).getPendingCases(count,0,
+        new PendingController(this).getPendingCasesWithType(count, 0,
                 String.valueOf(new DBPersistanceController(this).getUserData().getFBAId()), this);
     }
 
     private void init() {
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        //pendingPagerAdapter = new PendingPagerAdapter(getSupportFragmentManager());
+        //viewPager.setAdapter(pendingPagerAdapter);
+
+
+        tabLayout = (TabLayout) findViewById(R.id.tab_layout);
+        tabLayout.setupWithViewPager(viewPager, true);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+
         rvPendingCasesList = (RecyclerView) findViewById(R.id.rvPendingCasesList);
         rvPendingCasesList.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         rvPendingCasesList.setLayoutManager(layoutManager);
-        mAdapter = new PendingCasesAdapter(this, mPendingList);
-        rvPendingCasesList.setAdapter(mAdapter);
+       // mAdapter = new PendingCasesAdapter(this, mPendingList);
+        //rvPendingCasesList.setAdapter(mAdapter);
     }
 
     @Override
@@ -93,7 +109,7 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
             list = ((PendingCasesResponse) response).getMasterData();
             if (list.size() > 0) {
                 isHit = false;
-               // Toast.makeText(this, "fetching more...", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(this, "fetching more...", Toast.LENGTH_SHORT).show();
 
                 for (PendingCasesEntity entity : list) {
                     if (!mPendingList.contains(entity)) {
@@ -103,16 +119,21 @@ public class PendingCasesActivity extends BaseActivity implements IResponseSubcr
             }
             //mAdapter = new VehicleDetailsAdapter(this, mPendingList);
             //rvPendingCasesList.setAdapter(mAdapter);
+        } else if (response instanceof PendingCaseInsLoanResponse) {
+            pendingPagerAdapter = new PendingPagerAdapter(getSupportFragmentManager(),
+                    ((PendingCaseInsLoanResponse) response).getMasterData());
+            viewPager.setAdapter(pendingPagerAdapter);
+            //mAdapter.notifyDataSetChanged();
         } else if (response instanceof PendingCaseDeleteResponse) {
             mPendingList.remove(removePendingCasesEntity);
             //list=mPendingList;
-           // mAdapter.refreshAdapter(mPendingList);
-           // mAdapter.notifyDataSetChanged();
+            // mAdapter.refreshAdapter(mPendingList);
+            // mAdapter.notifyDataSetChanged();
         }
 
         //mPendingList =list;
-        mAdapter.refreshAdapter(mPendingList);
-        mAdapter.notifyDataSetChanged();
+       // mAdapter.refreshAdapter(mPendingList);
+        //mAdapter.notifyDataSetChanged();
     }
 
     @Override

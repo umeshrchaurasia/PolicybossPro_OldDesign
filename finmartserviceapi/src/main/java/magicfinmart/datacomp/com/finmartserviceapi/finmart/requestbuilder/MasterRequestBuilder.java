@@ -3,6 +3,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
@@ -10,6 +11,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsRes
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactUsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.InsuranceMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.WhatsNewResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
@@ -67,5 +69,14 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:1234567890")
         @POST("/api/validated-cupon-code")
         Call<MpsResponse> applyPromoCode(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/user-constant")
+        Call<UserConstatntResponse> getUserConstatnt(@Body HashMap<String, String> body);
+
+        @Headers("token:" + token)
+        @POST("/api/get-dynamic-app")
+        Call<MenuMasterResponse> getMenuMaster(@Body HashMap<String, String> body);
+
     }
 }

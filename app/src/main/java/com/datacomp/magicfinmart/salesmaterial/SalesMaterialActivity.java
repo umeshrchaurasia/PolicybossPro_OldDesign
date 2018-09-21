@@ -36,12 +36,10 @@ import java.util.List;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.salesmaterial.SalesMaterialController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CompanyEntity;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesMaterialProductResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SalesPromotionResponse;
@@ -54,10 +52,11 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
     DBPersistanceController dbPersistanceController;
     List<CompanyEntity> companyLst;
 
-    LoginResponseEntity loginResponseEntity;
+    //LoginResponseEntity loginResponseEntity;
     String pospNAme, pospDesg = "LandMark POSP", pospEmail, PospMobNo;
     String fbaNAme, fbaDesg = "FBA SUPPORT ASSISTANT", fbaEmail, fbaMobNo;
-    AccountDtlEntity accountDtlEntity;
+    //AccountDtlEntity accountDtlEntity;
+    UserConstantEntity userConstantEntity;
     URL pospPhotoUrl = null, fbaPhotoUrl = null;
     SharePospDetailsEntity sharePospDetailsEntity;
 
@@ -69,22 +68,25 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         dbPersistanceController = new DBPersistanceController(SalesMaterialActivity.this);
-        loginResponseEntity = dbPersistanceController.getUserData();
-        accountDtlEntity = dbPersistanceController.getAccountData();
+        //loginResponseEntity = dbPersistanceController.getUserData();
+        //accountDtlEntity = dbPersistanceController.getAccountData();
+        userConstantEntity = dbPersistanceController.getUserConstantsData();
         init();
         fetchProducts();
 
+        if (userConstantEntity != null) {
+            try {
+                setOtherDetails();
+                setPospDetails();
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
 
-        if (accountDtlEntity == null) {
-            new RegisterController(SalesMaterialActivity.this).getMyAcctDtl("" + dbPersistanceController.getUserData().getFBAId(), SalesMaterialActivity.this);
-
-        } else {
-            setOtherDetails();
-            setPospDetails();
             new createBitmapFromURLPosp(pospPhotoUrl).execute();
             new createBitmapFromURFba(fbaPhotoUrl).execute();
-        }
+        } else {
 
+        }
     }
 
     private void fetchProducts() {
@@ -165,13 +167,13 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
         } else if (response instanceof MyAcctDtlResponse) {
             if (response.getStatusNo() == 0) {
-                accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);  // 05
-                if (accountDtlEntity != null) {
+                //accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);  // 05
+                /*if (accountDtlEntity != null) {
                     setOtherDetails();
                     setPospDetails();
                     new createBitmapFromURLPosp(pospPhotoUrl).execute();
                     new createBitmapFromURFba(fbaPhotoUrl).execute();
-                }
+                }*/
             }
         }
     }
@@ -390,122 +392,56 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         }
     }
 
-    private void setPospDetails() {
-        if (accountDtlEntity != null) {
+    private void setPospDetails() throws MalformedURLException {
 
-            if (loginResponseEntity != null) {
-                if (loginResponseEntity.getPOSPName() != null && !loginResponseEntity.getPOSPName().equals("")) {
-                    pospNAme = loginResponseEntity.getPOSPName();
-                } else {
-                    pospNAme = "POSP Name";
-                }
-            } else {
-                pospNAme = "POSP Name";
-            }
 
-            if (accountDtlEntity.getDisplayEmail() != null && !accountDtlEntity.getDisplayEmail().equals("")) {
-                pospEmail = accountDtlEntity.getDisplayEmail();
-            } else {
-                if (loginResponseEntity.getPOSEmail() != null && !loginResponseEntity.getPOSEmail().equals("")) {
-                    pospEmail = loginResponseEntity.getPOSEmail();
-                } else {
-                    pospEmail = "XXXXXX@finmart.com";
-                }
+        pospNAme = "POSP Name";
+        pospEmail = "XXXXXX@finmart.com";
+        pospDesg = "LandMark POSP";
+        PospMobNo = "98XXXXXXXX";
+        pospPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
+        if (userConstantEntity != null) {
+            if (userConstantEntity.getPospsendname() != null && !userConstantEntity.getPospsendname().equals("")) {
+                pospNAme = userConstantEntity.getPospsendname();
             }
-
-            if (accountDtlEntity.getDisplayDesignation() != null && !accountDtlEntity.getDisplayDesignation().equals("")) {
-                pospDesg = accountDtlEntity.getDisplayDesignation();
-            } else {
-                pospDesg = "LandMark POSP";
+            if (userConstantEntity.getPospsendemail() != null && !userConstantEntity.getPospsendemail().equals("")) {
+                pospEmail = userConstantEntity.getPospsendemail();
             }
-
-            if (accountDtlEntity.getDisplayPhoneNo() != null && !accountDtlEntity.getDisplayPhoneNo().equals("")) {
-                PospMobNo = accountDtlEntity.getDisplayPhoneNo();
-            } else {
-                if (loginResponseEntity.getPOSPMobile() != null && !loginResponseEntity.getPOSPMobile().equals("")) {
-                    PospMobNo = loginResponseEntity.getPOSPMobile();
-                } else {
-                    PospMobNo = "98XXXXXXXX";
-                }
-
+            if (userConstantEntity.getPospsendmobile() != null && !userConstantEntity.getPospsendmobile().equals("")) {
+                PospMobNo = userConstantEntity.getPospsendmobile();
             }
-        } else {
-            pospNAme = "POSP Name";
-            pospEmail = "XXXXXX@finmart.com";
-            pospDesg = "LandMark POSP";
-            PospMobNo = "98XXXXXXXX";
-        }
-        //setting photo url
-        if (loginResponseEntity != null) {
-            if (loginResponseEntity.getPOSPProfileUrl() != null && !loginResponseEntity.getPOSPProfileUrl().equals("")) {
-                try {
-                    pospPhotoUrl = new URL(loginResponseEntity.getPOSPProfileUrl());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
+            if (userConstantEntity.getPospsenddesignation() != null && !userConstantEntity.getPospsenddesignation().equals("")) {
+                pospDesg = userConstantEntity.getPospsenddesignation();
             }
-        }
-        if (pospPhotoUrl == null) {
-            try {
-                pospPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+            if (userConstantEntity.getPospsendphoto() != null && !userConstantEntity.getPospsendphoto().equals("")) {
+                pospPhotoUrl = new URL(userConstantEntity.getPospsendphoto());
             }
         }
     }
 
-    private void setOtherDetails() {
+    private void setOtherDetails() throws MalformedURLException {
 
-        if (accountDtlEntity != null) {
 
-            if (loginResponseEntity != null) {
-                if (loginResponseEntity.getFullName() != null && !loginResponseEntity.getFullName().equals("")) {
-                    fbaNAme = loginResponseEntity.getFullName();
-                } else {
-                    fbaNAme = "FBA Name";
-                }
-            } else {
-                fbaNAme = "FBA Name";
+        fbaNAme = "FBA Name";
+        fbaEmail = "XXXXXX@finmart.com";
+        fbaDesg = "FBA SUPPORT ASSISTANT";
+        fbaMobNo = "98XXXXXXXX";
+        fbaPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
+        if (userConstantEntity != null) {
+            if (userConstantEntity.getLoansendname() != null && !userConstantEntity.getLoansendname().equals("")) {
+                fbaNAme = userConstantEntity.getLoansendname();
             }
-
-            if (accountDtlEntity.getEditEmailId() != null && !accountDtlEntity.getEditEmailId().equals("")) {
-                fbaEmail = accountDtlEntity.getEditEmailId();
-            } else {
-                fbaEmail = "XXXXXX@finmart.com";
+            if (userConstantEntity.getLoansendemail() != null && !userConstantEntity.getLoansendemail().equals("")) {
+                fbaEmail = userConstantEntity.getLoansendemail();
             }
-
-            if (accountDtlEntity.getDesignation() != null && !accountDtlEntity.getDesignation().equals("")) {
-                fbaDesg = accountDtlEntity.getDesignation();
-            } else {
-                fbaDesg = "FBA SUPPORT ASSISTANT";
+            if (userConstantEntity.getLoansendmobile() != null && !userConstantEntity.getLoansendmobile().equals("")) {
+                fbaMobNo = userConstantEntity.getLoansendmobile();
             }
-
-            if (accountDtlEntity.getEditMobiNumb() != null && !accountDtlEntity.getEditMobiNumb().equals("")) {
-                fbaMobNo = accountDtlEntity.getEditMobiNumb();
-            } else {
-                fbaMobNo = "98XXXXXXXX";
+            if (userConstantEntity.getLoansenddesignation() != null && !userConstantEntity.getLoansenddesignation().equals("")) {
+                fbaDesg = userConstantEntity.getLoansenddesignation();
             }
-        } else {
-            fbaNAme = "FBA Name";
-            fbaEmail = "XXXXXX@finmart.com";
-            fbaDesg = "FBA SUPPORT ASSISTANT";
-            fbaMobNo = "98XXXXXXXX";
-        }
-        //setting photo url
-        if (loginResponseEntity != null) {
-            if (loginResponseEntity.getFBAProfileUrl() != null && !loginResponseEntity.getFBAProfileUrl().equals("")) {
-                try {
-                    fbaPhotoUrl = new URL(loginResponseEntity.getFBAProfileUrl());
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        if (fbaPhotoUrl == null) {
-            try {
-                fbaPhotoUrl = new URL("http://qa.mgfm.in/images/profile_pic.png");
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
+            if (userConstantEntity.getLoansendphoto() != null && !userConstantEntity.getLoansendphoto().equals("")) {
+                fbaPhotoUrl = new URL(userConstantEntity.getLoansendphoto());
             }
         }
     }
@@ -552,8 +488,8 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
 
     public void setSharePospDetails() {
         sharePospDetailsEntity = new SharePospDetailsEntity();
-        if (loginResponseEntity != null) {
+        /*if (loginResponseEntity != null) {
 
-        }
+        }*/
     }
 }

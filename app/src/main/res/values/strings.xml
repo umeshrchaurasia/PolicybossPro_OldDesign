@@ -8,6 +8,10 @@
 
     <string name="Emp_detail">Employment &amp; Income Details</string>
 
+    <string name="RM_Calling">Do you want to call your\nManager: </string>
+
+    <string name="Support_Calling">Do you want to call Support Team. </string>
+
     <string name="materail_count">new Images are available for downloading.\nContinue???</string>
     <string name="fetching_msg">Please Wait... fetching quotes</string>
     <string-array name="ncb_percent">

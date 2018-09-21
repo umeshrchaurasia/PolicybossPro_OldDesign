@@ -29,6 +29,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -70,6 +71,10 @@ public class Utility {
     public static String PUSH_BROADCAST_ACTION = "Finmart_Push_BroadCast_Action";
     public static String PUSH_NOTIFY = "notifyFlag";
     public static String PUSH_LOGIN_PAGE = "pushloginPage";
+
+    public static String USER_PROFILE_ACTION = "Finmart_User_Profile_Action";
+
+    public static String USER_DASHBOARD = "user_dashboard";
 
 
     public static SharedPreferences getSharedPreference(Context context) {
@@ -152,15 +157,15 @@ public class Utility {
 
     public static int checkShareStatus(Context context) {
         int pospStatus;
-        DBPersistanceController dbPersistanceController = new DBPersistanceController(context);
-        ConstantEntity constantEntity = dbPersistanceController.getConstantsData();
+        /*DBPersistanceController dbPersistanceController = new DBPersistanceController(context);
+        UserConstantEntity userConstantEntity = dbPersistanceController.getUserConstantsData();
 
-        if (constantEntity != null) {
-            pospStatus = Integer.parseInt(constantEntity.getPOSPStat());
+        if (userConstantEntity != null) {
+            pospStatus = Integer.parseInt(userConstantEntity.getPOSP_STATUS());
             if (pospStatus == 6)
                 return 1;
-        }
-        return 0;
+        }*/
+        return 1;
     }
 
     public static int checkPospTrainingStatus(Context context) {
@@ -366,5 +371,12 @@ public class Utility {
         String url = BuildConfig.PROPOSAL_BASE_URL;
         url = url + "buynowTwoWheeler/" + Utility.CLIENT_ID + "/" + Service_Log_Unique_Id + "/posp/" + ssid;
         return url;
+    }
+
+    public static String getInsurerImage(String insId) {
+        int ID = 0;
+        if (insId != null && !insId.equals(""))
+            ID = Integer.parseInt(insId);
+        return "http://api.magicfinmart.com/InsurerImages/car_" + ID + ".png";
     }
 }
