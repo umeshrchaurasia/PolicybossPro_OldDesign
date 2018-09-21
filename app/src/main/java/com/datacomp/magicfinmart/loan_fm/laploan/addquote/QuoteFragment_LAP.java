@@ -25,7 +25,9 @@ import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import java.math.BigDecimal;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
@@ -75,6 +77,8 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
     BuyLoanQuerystring buyLoanQuerystring;
     int QuoteID = 0;
     ImageView ivShare;
+    DBPersistanceController databaseController;   //DB declare
+    LoginResponseEntity loginEntity;
 
     public QuoteFragment_LAP() {
         // Required empty public constructor
@@ -88,6 +92,8 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
 
         View view = inflater.inflate(R.layout.content_home_loan_quote, container, false);
         homeLoanApplyRequestEntity = new HomeLoanApplyRequestEntity();
+        databaseController = new DBPersistanceController(getActivity());
+        loginEntity = databaseController.getUserData();
         registerPopUp(this);
         initialise_widget(view);
 
@@ -328,8 +334,36 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
 
     private void setGenerateLeadResponse() {
         //TODO set request
-        homeLoanApplyRequestEntity.setLoanTenure(Integer.parseInt(homeLoanRequest.getLoanTenure()));
-        //homeLoanApplyRequestEntity.setApplnId();
+        homeLoanApplyRequestEntity.setName(homeLoanRequest.getApplicantNme());
+        homeLoanApplyRequestEntity.setGender(homeLoanRequest.getApplicantGender());
+        homeLoanApplyRequestEntity.setOccupation(homeLoanRequest.getApplicantSource());
+        homeLoanApplyRequestEntity.setDob(homeLoanRequest.getApplicantDOB());
+
+        homeLoanApplyRequestEntity.setLoanEMI(homeLoanRequest.getApplicantObligations());
+        homeLoanApplyRequestEntity.setPan(homeLoanRequest.getApplicantGender());
+        homeLoanApplyRequestEntity.setMobileNo(homeLoanRequest.getContact());
+        homeLoanApplyRequestEntity.setLoanAmnt(homeLoanRequest.getLoanRequired());
+
+        homeLoanApplyRequestEntity.setEmailId(homeLoanRequest.getEmail());
+        homeLoanApplyRequestEntity.setLoanTenure(Integer.valueOf(homeLoanRequest.getLoanTenure()));
+        homeLoanApplyRequestEntity.setEmpCode("");
+        homeLoanApplyRequestEntity.setApplnSource("Finmart");
+
+        homeLoanApplyRequestEntity.setRbaSource(homeLoanRequest.getApplicantObligations());
+        homeLoanApplyRequestEntity.setBankId(Integer.valueOf(homeLoanRequest.getBank_id()));
+        homeLoanApplyRequestEntity.setBrokerId(Integer.valueOf(loginEntity.getLoanId()));
+        homeLoanApplyRequestEntity.setQuoteId(homeLoanRequest.getQuote_id());
+
+        homeLoanApplyRequestEntity.setProductId(Integer.valueOf(homeLoanRequest.getProductId()));
+        homeLoanApplyRequestEntity.setPinCode(homeLoanRequest.getApplicantGender());
+        homeLoanApplyRequestEntity.setApplnId(Integer.valueOf(homeLoanRequest.getApplNumb()));
+        homeLoanApplyRequestEntity.setDc_fba_reg(homeLoanRequest.getLoanRequired());
+
+        homeLoanApplyRequestEntity.setIsApplnComplete(0);
+        homeLoanApplyRequestEntity.setIsApplnConfirm(1);
+        homeLoanApplyRequestEntity.setFbA_Reg_Id(homeLoanRequest.getContact());
+        homeLoanApplyRequestEntity.setQuote_id(""+ homeLoanRequest.getQuote_id());
+
     }
     @Override
     public void OnSuccessERP(APIResponseERP response, String message) {
