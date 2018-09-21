@@ -30,7 +30,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         magicfinmart.datacomp.com.finmartserviceapi.healthcheckup.IResponseSubcriber {
 
     private static final String TAG = "Splashscreen";
-    private final int SPLASH_DISPLAY_LENGTH = 3000;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
     PrefManager prefManager;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginResponseEntity;
@@ -47,6 +47,10 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         // By default set to 1.
         prefManager.updateMotorVersion("1");
 
+       // for user constant
+        if(loginResponseEntity != null) {
+            new MasterController(this).geUserConstant(0,this);
+        }
 
         prefManager.setIsUpdateShown(true);
         if (prefManager.IsBikeMasterUpdate())

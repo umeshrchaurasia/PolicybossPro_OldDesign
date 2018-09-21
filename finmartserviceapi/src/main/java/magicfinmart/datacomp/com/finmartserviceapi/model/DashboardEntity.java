@@ -11,6 +11,25 @@ public class DashboardEntity extends RealmObject {
     private int productId;
     private String productName;
     private String productDetails;
+    private String link;
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
+
+    public String getServerIcon() {
+        return serverIcon;
+    }
+
+    public void setServerIcon(String serverIcon) {
+        this.serverIcon = serverIcon;
+    }
+
+    private String serverIcon;
 
     public DashboardEntity() {
     }

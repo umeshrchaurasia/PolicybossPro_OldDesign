@@ -11,10 +11,23 @@
         <!--<item name="android:windowBackground">@color/window_background</item>-->
         <!-- <item name="android:windowBackground">@color/background</item>-->
         <item name="android:windowBackground">@color/white</item>
+        <item name="android:windowActivityTransitions">true</item>
         <!--<item name="android:textColorPrimary">@color/header_text_color</item>-->
         <!--<item name="android:textColorHint">@color/secondary_text_color</item>-->
 
+        <!--  It should be true otherwise action mode will not overlay toolbar -->
+        <item name="windowActionModeOverlay">true</item>
+        <!--  For Custom Action Mode Background Color/Drawable -->
+        <item name="actionModeBackground">@color/colorAccent</item>
+
     </style>
+
+    <style name="AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <!--<style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
+    <style name="PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
 
     <style name="AlertDialog_Theme" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!--actionbar color-->
@@ -182,6 +195,11 @@
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <!--   <item name="windowBackground">@android:color/transparent</item>-->
+    </style>
+
+    <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
     <!--Spinner theme no use-->

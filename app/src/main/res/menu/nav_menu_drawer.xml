@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/dashboard_menu_group"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/home"
+            android:orderInCategory="100"
             android:title="HOME" />
         <item
+
             android:id="@+id/nav_offlineQuotes"
             android:icon="@drawable/offiline_quote_ic"
             android:title="OFFLINE QUOTES"
@@ -24,24 +28,29 @@
         <item
             android:id="@+id/nav_myaccount"
             android:icon="@drawable/my_account"
+            android:orderInCategory="200"
             android:title="MY ACCOUNT" />
         <item
             android:id="@+id/nav_mps"
             android:icon="@drawable/mps"
+            android:orderInCategory="300"
             android:title="MPS" />
         <item
             android:id="@+id/nav_pospenrollment"
             android:icon="@drawable/posp_enrollment"
+            android:orderInCategory="400"
             android:title="POSP ENROLLMENT" />
 
         <item
             android:id="@+id/nav_addposp"
             android:icon="@drawable/posp_enrollment"
+            android:orderInCategory="500"
             android:title="ADD POSP" />
 
         <item
             android:id="@+id/nav_vehicleinfo"
             android:icon="@drawable/vehicledetail"
+            android:orderInCategory="600"
             android:title="VEHICLE DETAIL" />
         <item
             android:id="@+id/nav_yesbankbot"
@@ -51,19 +60,23 @@
         <item
             android:id="@+id/nav_sharedata"
             android:icon="@drawable/share_data"
+            android:orderInCategory="700"
             android:title="SHARE DATA" />
 
         <item
             android:id="@+id/nav_changepassword"
             android:icon="@drawable/change_password"
+            android:orderInCategory="800"
             android:title="CHANGE PASSWORD" />
         <item
             android:id="@+id/nav_whatsnew"
             android:icon="@drawable/whats_new"
+            android:orderInCategory="900"
             android:title="WHATS NEW" />
         <item
             android:id="@+id/nav_helpfeedback"
             android:icon="@drawable/help"
+            android:orderInCategory="1000"
             android:title="HELP &amp; FEEDBACK" />
         <item
             android:id="@+id/nav_posptraining"
@@ -77,11 +90,13 @@
         <item
             android:id="@+id/nav_franchise"
             android:icon="@drawable/agreemnet"
+            android:orderInCategory="1100"
             android:title="FRANCHISE AGREEMENT"
             android:visible="true" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"
+            android:orderInCategory="10000"
             android:title="LOG-OUT" />
         <item
             android:id="@+id/nav_homeloanApplication"

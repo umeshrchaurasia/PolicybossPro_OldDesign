@@ -240,6 +240,13 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
         notifyDataSetChanged();
     }
 
+    public void updateMainQuote(List<HealthQuoteEntity> list) {
+
+        listHealthQuotes = list;
+        checkCount = 1;
+        notifyDataSetChanged();
+    }
+
 
     public void removeRefresh(List<HealthQuoteEntity> list) {
 

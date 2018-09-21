@@ -19,6 +19,26 @@ public class BikeUniqueResponse extends APIResponse {
     private Object Request;
     private Object Master;
 
+    private String[] Details;
+    private String Msg;
+
+    public String getMsg() {
+        return Msg;
+    }
+
+    public void setMsg(String msg) {
+        Msg = msg;
+    }
+
+    public String[] getDetails() {
+        return Details;
+
+    }
+
+    public void setDetails(String[] details) {
+        Details = details;
+    }
+
     public SummaryEntity getSummary() {
         return Summary;
     }

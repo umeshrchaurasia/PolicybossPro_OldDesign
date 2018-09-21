@@ -11,6 +11,7 @@ import java.util.TreeMap;
 
 import io.realm.Case;
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.R;
 import magicfinmart.datacomp.com.finmartserviceapi.express_loan.model.KotakPLEmployerNameEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntity;
@@ -18,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CityMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DashBoardItemEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
@@ -25,6 +27,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEn
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.SalesProductEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoCategoryEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoClassificationEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ZohoSubcategoryEntity;
@@ -55,10 +58,13 @@ public class DBPersistanceController {
     HashMap<String, Integer> hashmapCity;
     Context mContext;
     Realm realm;
+    PrefManager prefManager;
+    List<DashBoardItemEntity> dashBoardItemEntities;
 
     public DBPersistanceController(Context mContext) {
         this.mContext = mContext;
         realm = Realm.getDefaultInstance();
+        prefManager = new PrefManager(mContext);
     }
 
 
@@ -550,10 +556,26 @@ public class DBPersistanceController {
 
     public List<DashboardEntity> getInsurProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
+
+
         dashboardEntities.add(new DashboardEntity("INSURANCE", 1, "PRIVATE CAR", "Best quotes for Private Car Insurance of your customers with instant policy.", R.drawable.private_car));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 10, "TWO WHEELER", "Best quotes for Two Wheeler Insurance of your customers with instant policy.", R.drawable.two_wheeler));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
+
+        if(prefManager.getMenuDashBoard()!=null){
+            dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
+            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+                for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
+                    if (dashBoardItemEntity.getDashboard_type() == 1 && dashBoardItemEntity.getIsActive() == 1) {
+                        DashboardEntity dashboardEntity = new DashboardEntity("INSURANCE", dashBoardItemEntity.getMenuid(), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
+                        dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
+                        dashboardEntity.setLink(dashBoardItemEntity.getLink());
+                        dashboardEntities.add(dashboardEntity);
+                    }
+                }
+            }
+        }
 
         return dashboardEntities;
     }
@@ -569,16 +591,42 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("LOANS", 14, "YES BANK BOT", "Chat with your BOT Friend & get your loan approved", R.drawable.yesbank_chat_ic));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "QUICK LEAD SUBMISSION", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
 
+        if(prefManager.getMenuDashBoard()!=null){
+            dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
+            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+                for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
+                    if (dashBoardItemEntity.getDashboard_type() == 2 && dashBoardItemEntity.getIsActive() == 1) {
+                        DashboardEntity dashboardEntity = new DashboardEntity("LOANS", dashBoardItemEntity.getMenuid(), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
+                        dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
+                        dashboardEntity.setLink(dashBoardItemEntity.getLink());
+                        dashboardEntities.add(dashboardEntity);
+                    }
+                }
+            }
+        }
 
         return dashboardEntities;
     }
-
 
     public List<DashboardEntity> getMoreProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
 
         dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
         dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
+
+        if(prefManager.getMenuDashBoard()!=null){
+            dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
+            if (dashboardEntities != null && dashboardEntities.size() > 0) {
+                for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
+                    if (dashBoardItemEntity.getDashboard_type() == 3 && dashBoardItemEntity.getIsActive() == 1) {
+                        DashboardEntity dashboardEntity = new DashboardEntity("MORE SERVICES", dashBoardItemEntity.getMenuid(), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
+                        dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
+                        dashboardEntity.setLink(dashBoardItemEntity.getLink());
+                        dashboardEntities.add(dashboardEntity);
+                    }
+                }
+            }
+        }
 
         return dashboardEntities;
     }
@@ -604,7 +652,7 @@ public class DBPersistanceController {
         hashMapInsurence.put("ICICI", 6);
         hashMapInsurence.put("IFFCO", 7);
         hashMapInsurence.put("Kotak", 30);
-        hashMapInsurence.put("L & T Ins. ", 15);
+        //hashMapInsurence.put("L & T Ins. ", 15);
         hashMapInsurence.put("Liberty Videocon", 33);
         hashMapInsurence.put("Magma", 35);
         hashMapInsurence.put("National ", 8);
@@ -730,6 +778,7 @@ public class DBPersistanceController {
         realm.delete(LoginResponseEntity.class);
         realm.delete(AccountDtlEntity.class);
         realm.delete(DocsEntity.class);
+        realm.delete(UserConstantEntity.class);
         realm.commitTransaction();
     }
 
@@ -1725,6 +1774,39 @@ public class DBPersistanceController {
     }
     //endregion
 
+
+    //region User constants data
+    public UserConstantEntity getUserConstantsData() {
+        UserConstantEntity entity = realm.where(UserConstantEntity.class).findFirst();
+        if (entity != null)
+            return entity;
+        else
+            return null;
+    }
+
+    public void updateUserConstatntData(UserConstantEntity userConstantEntity) {
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(userConstantEntity);
+        realm.commitTransaction();
+    }
+
+    public void updateUserConstatntProfile(final String fbaProfileUrl) {
+
+        try {
+            final UserConstantEntity entity = realm.where(UserConstantEntity.class).findFirst();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    //loginResponseEntity.setFBAProfileUrl("http://qa.mgfm.in/" + fbaProfileUrl);
+                    entity.setLoansendphoto(fbaProfileUrl);
+                }
+            });
+        } catch (Exception ex) {
+
+        }
+    }
+
+    //endregion
 
     //region term
 

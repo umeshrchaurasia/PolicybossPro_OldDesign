@@ -80,6 +80,7 @@
 
 
                     <ImageView
+                        android:padding="3dp"
                         android:id="@+id/ivEdit"
                         android:layout_width="0dp"
                         android:layout_height="48dp"

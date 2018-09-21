@@ -85,7 +85,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
     EditText etStdCode, etTelephoneNo, etMobileNo, etBankName;
     EditText etMemberSince, etCreditLimit, etPancard;
     Spinner spSalaryAccountType;
-    RadioButton rbHaveCC;
+    RadioButton rbHaveCC, rbHaveNoCC;
 
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -111,6 +111,8 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
     CreditCardEntity creditCardEntity;
 
     ArrayList<String> companyList;
+    int EmploymentType = 0;
+    TextView txtEmploymentType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +128,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
 
         if (getIntent().getParcelableExtra(CreditCardActivity.SELECTED_CREDIT_CARD) != null) {
             creditCardEntity = getIntent().getParcelableExtra(CreditCardActivity.SELECTED_CREDIT_CARD);
+            EmploymentType = getIntent().getIntExtra("EmploymentType", 0);
         }
 
         companyList = new ArrayList<>();
@@ -147,6 +150,11 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         stateBinding();
 
         etCompany.addTextChangedListener(companyTextWatcher);
+        if (EmploymentType == 0)
+            txtEmploymentType.setText("Salaried");
+        else
+            txtEmploymentType.setText("Self");
+
     }
 
     TextWatcher companyTextWatcher = new TextWatcher() {
@@ -762,6 +770,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                 etBankName.setVisibility(View.VISIBLE);
                 etMemberSince.setVisibility(View.VISIBLE);
                 etCreditLimit.setVisibility(View.VISIBLE);
+                rbHaveNoCC.setChecked(false);
             } else {
                 tlCreditLimit.setVisibility(View.GONE);
                 tlMemberSince.setVisibility(View.GONE);
@@ -769,7 +778,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
                 etBankName.setVisibility(View.GONE);
                 etMemberSince.setVisibility(View.GONE);
                 etCreditLimit.setVisibility(View.GONE);
-
+                rbHaveNoCC.setChecked(true);
             }
         }
     };
@@ -811,7 +820,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
 
 
     private void init() {
-
+        txtEmploymentType = findViewById(R.id.txtEmploymentType);
         tlCreditLimit = (TextInputLayout) findViewById(R.id.tlCreditLimit);
         tlMemberSince = (TextInputLayout) findViewById(R.id.tlMemberSince);
         tlBank = (TextInputLayout) findViewById(R.id.tlBank);
@@ -907,6 +916,8 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         spSalaryAccountType = (Spinner) findViewById(R.id.spSalaryAccountType);
 
         rbHaveCC = (RadioButton) findViewById(R.id.rbHaveCC);
+        rbHaveNoCC = (RadioButton) findViewById(R.id.rbHaveNoCC);
+        rbHaveNoCC.setChecked(true);
         //endregion
     }
 

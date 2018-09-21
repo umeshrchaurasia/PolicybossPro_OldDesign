@@ -221,11 +221,15 @@ public class PremiumBreakUpActivity extends BaseActivity implements View.OnClick
                 .into(ivCross);*/
         try {
 
-            int logo = new DBPersistanceController(this)
+            /*int logo = new DBPersistanceController(this)
                     .getInsurerLogo(Integer.parseInt(responseEntity.getInsurer_Id()));
 
             Glide.with(this).load(logo)
+                    .into(ivCross);*/
+
+            Glide.with(this).load(Utility.getInsurerImage(responseEntity.getInsurer_Id()))
                     .into(ivCross);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

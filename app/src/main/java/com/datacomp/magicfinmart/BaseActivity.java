@@ -1,5 +1,6 @@
 package com.datacomp.magicfinmart;
 
+import android.*;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -17,6 +18,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
@@ -63,6 +65,9 @@ public class BaseActivity extends AppCompatActivity {
     int textMargin = 10;
     int startHeight = (height - (4 * textSize) - (3 * textMargin)) / 2;
     PopUpListener popUpListener;
+    PermissionListener permissionListener;
+    String[] permissionsRequired = new String[]{android.Manifest.permission.CALL_PHONE};
+
 
     public int getAgeFromDate(String birthdate) {
 
@@ -255,27 +260,81 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void dialNumber(String mobNumber) {
-        try {
-            mobNumber = mobNumber.replaceAll("\\s", "");
-            mobNumber = mobNumber.replaceAll("\\+", "");
-            mobNumber = mobNumber.replaceAll("-", "");
-            mobNumber = mobNumber.replaceAll(",", "");
-            Intent callIntent = new Intent(Intent.ACTION_CALL);
-            callIntent.setData(Uri.parse("tel:" + mobNumber));
-            if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
+
+        if (ActivityCompat.checkSelfPermission(BaseActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(BaseActivity.this, permissionsRequired[0])) {
+                //Show Information about why you need the permission
+                ActivityCompat.requestPermissions(BaseActivity.this, permissionsRequired, Constants.PERMISSION_CALLBACK_CONSTANT);
+
+            } else {
+                //Previously Permission Request was cancelled with 'Dont Ask Again',
+                // Redirect to Settings after showing Information about why you need the permission
+                try {
+                    android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
+                    builder.setTitle("Need Call Permission");
+
+                    builder.setMessage("This app needs Call permission.");
+                    String positiveText = "GRANT";
+                    String NegativeText = "CANCEL";
+                    builder.setPositiveButton(positiveText,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    if (permissionListener != null)
+                                        dialog.dismiss();
+
+                                    /////
+
+                                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                    Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                    intent.setData(uri);
+                                    startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
+
+
+                                }
+                            });
+
+                    builder.setNegativeButton(NegativeText,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    final android.support.v7.app.AlertDialog dialog = builder.create();
+                    dialog.setCancelable(false);
+                    dialog.setCanceledOnTouchOutside(false);
+                    dialog.show();
+                } catch (Exception ex) {
+                    Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+                }
             }
-            startActivity(callIntent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
+        } else {
+
+            try {
+                mobNumber = mobNumber.replaceAll("\\s", "");
+                mobNumber = mobNumber.replaceAll("\\+", "");
+                mobNumber = mobNumber.replaceAll("-", "");
+                mobNumber = mobNumber.replaceAll(",", "");
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + mobNumber));
+                if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    //    ActivityCompat#requestPermissions
+                    // here to request the missing permissions, and then overriding
+                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                    //                                          int[] grantResults)
+                    // to handle the case where the user grants the permission. See the documentation
+                    // for ActivityCompat#requestPermissions for more details.
+                    return;
+                }
+                startActivity(callIntent);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Invalid Number", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -603,6 +662,16 @@ public class BaseActivity extends AppCompatActivity {
         void onCancelButtonClick(Dialog dialog, View view);
     }
 
+    public interface PermissionListener {
+
+        void onGrantButtonClick( View view);
+
+    }
+
+    public void registerPermission(PermissionListener permissionListener) {
+        if (permissionListener != null)
+            this.permissionListener = permissionListener;
+    }
     public void openPopUp(final View view, String title, String desc, String positiveButtonName, boolean isCancelable) {
         try {
             final Dialog dialog;
@@ -664,6 +733,44 @@ public class BaseActivity extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
 
+                        }
+                    });
+            final android.support.v7.app.AlertDialog dialog = builder.create();
+            dialog.setCancelable(false);
+            dialog.setCanceledOnTouchOutside(false);
+            dialog.show();
+        } catch (Exception ex) {
+            Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void permissionAlert(final View view, String Title, String strBody) {
+        try {
+            android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(BaseActivity.this);
+            builder.setTitle(Title);
+
+            builder.setMessage(strBody);
+            String positiveText = "GRANT";
+            String NegativeText = "CANCEL";
+            builder.setPositiveButton(positiveText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            if (permissionListener != null)
+                                dialog.dismiss();
+                            if(view != null) {
+                                permissionListener.onGrantButtonClick(view);
+                            }
+
+                        }
+                    });
+
+            builder.setNegativeButton(NegativeText,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                         }
                     });
             final android.support.v7.app.AlertDialog dialog = builder.create();

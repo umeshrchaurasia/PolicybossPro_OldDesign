@@ -49,6 +49,17 @@ public class ResponseEntity implements Cloneable, Parcelable {
     private boolean isAddonApplied;
     private String final_premium_with_addon;
 
+    private boolean isSelected;
+
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public List<PremiumBreakUpAddonEntity> getPremiumBreakUpAddonEntities() {
         return premiumBreakUpAddonEntities;
     }
@@ -252,6 +263,7 @@ public class ResponseEntity implements Cloneable, Parcelable {
         return super.clone();
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -278,6 +290,7 @@ public class ResponseEntity implements Cloneable, Parcelable {
         dest.writeParcelable(this.Addon_List, flags);
         dest.writeByte(this.isAddonApplied ? (byte) 1 : (byte) 0);
         dest.writeString(this.final_premium_with_addon);
+        dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
         dest.writeString(this.totalAddonAplied);
         dest.writeString(this.totalGST);
         dest.writeString(this.final_premium_without_addon);
@@ -303,6 +316,7 @@ public class ResponseEntity implements Cloneable, Parcelable {
         this.Addon_List = in.readParcelable(AddonEntity.class.getClassLoader());
         this.isAddonApplied = in.readByte() != 0;
         this.final_premium_with_addon = in.readString();
+        this.isSelected = in.readByte() != 0;
         this.totalAddonAplied = in.readString();
         this.totalGST = in.readString();
         this.final_premium_without_addon = in.readString();
