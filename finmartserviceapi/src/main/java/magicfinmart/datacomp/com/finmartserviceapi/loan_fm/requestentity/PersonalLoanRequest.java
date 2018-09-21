@@ -63,36 +63,12 @@ public class PersonalLoanRequest implements Parcelable{
     private  String progress_image;
     private  String panno;
 
-
-    public PersonalLoanRequest() {
-        this.quote_id=0;
-        this.ApplicantDOB = "";
-        this.ApplicantGender = "";
-        this.ApplicantIncome = "";
-        this.ApplicantNme="";
-        this.ApplicantObligations = "0";
-        this.ApplicantSource = "";
-        this.BrokerId = "";
-        this.LoanRequired = "";
-        this.LoanTenure = "";
-        this.api_source="";
-        this.empcode="";
-        this.row_created_date="";
-        this.row_updated_date = "";
-        this.quote_application_type = "";
-        this.conversiondate = "";
-        this.Type="";
-        this.RBStatus = "";
-        this.RBStatusDate = "";
-        this.ApplNumb = "";
-        this.ApplDate="";
-        this.StatusPercent="";
-        this.bank_image="";
-        this.Contact="";
-        this.progress_image="";
-        this.panno="";
-
-    }
+    private String city;
+    private String state;
+    private String status;
+    private String addressType;
+    private String pincode;
+    private String address;
 
     protected PersonalLoanRequest(Parcel in) {
         quote_id = in.readInt();
@@ -118,9 +94,15 @@ public class PersonalLoanRequest implements Parcelable{
         ApplDate = in.readString();
         StatusPercent = in.readString();
         bank_image = in.readString();
-        Contact= in.readString();
-        progress_image=  in.readString();
+        Contact = in.readString();
+        progress_image = in.readString();
         panno = in.readString();
+        city = in.readString();
+        state = in.readString();
+        status = in.readString();
+        addressType = in.readString();
+        pincode = in.readString();
+        address = in.readString();
     }
 
     public static final Creator<PersonalLoanRequest> CREATOR = new Creator<PersonalLoanRequest>() {
@@ -316,7 +298,7 @@ public class PersonalLoanRequest implements Parcelable{
     }
 
     public void setbank_image(String bank_image) {
-        bank_image = bank_image;
+        this.bank_image = bank_image;
     }
 
     public String getContact() {
@@ -341,6 +323,91 @@ public class PersonalLoanRequest implements Parcelable{
 
     public void setpanno(String panno) {
         this.panno = panno;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getstatus() {
+        return status;
+    }
+
+    public void setstatus(String status) {
+        this.status = status;
+    }
+
+    public String getaddressType() {
+        return addressType;
+    }
+
+    public void setaddressType(String addressType) {
+        this.addressType = addressType;
+    }
+
+
+    public String getpincode() {
+        return pincode;
+    }
+
+    public void setpincode(String pincode) {
+        this.pincode = pincode;
+    }
+
+    public String getaddress() {
+        return address;
+    }
+
+    public void setaddress(String address) {
+        this.address = address;
+    }
+
+
+    //Extra
+    public PersonalLoanRequest() {
+        this.quote_id=0;
+        this.ApplicantDOB = "";
+        this.ApplicantGender = "";
+        this.ApplicantIncome = "";
+        this.ApplicantNme="";
+        this.ApplicantObligations = "0";
+        this.ApplicantSource = "";
+        this.BrokerId = "";
+        this.LoanRequired = "";
+        this.LoanTenure = "";
+        this.api_source="";
+        this.empcode="";
+        this.row_created_date="";
+        this.row_updated_date = "";
+        this.quote_application_type = "";
+        this.conversiondate = "";
+        this.Type="";
+        this.RBStatus = "";
+        this.RBStatusDate = "";
+        this.ApplNumb = "";
+        this.ApplDate="";
+        this.StatusPercent="";
+        this.bank_image="";
+        this.Contact="";
+        this.progress_image="";
+        this.panno="";
+        this.city="";
+        this.state="";
+        this.status="";
+        this.addressType="";
+        this.pincode="";
     }
 
 
@@ -377,5 +444,10 @@ public class PersonalLoanRequest implements Parcelable{
         dest.writeString(Contact);
         dest.writeString(progress_image);
         dest.writeString(panno);
+        dest.writeString(city);
+        dest.writeString(state);
+        dest.writeString(status);
+        dest.writeString(addressType);
+        dest.writeString(pincode);
     }
 }

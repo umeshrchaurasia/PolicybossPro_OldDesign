@@ -1,13 +1,17 @@
 package com.datacomp.magicfinmart.loan_fm.personalloan.addquote;
 
+import android.app.DownloadManager;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -36,9 +40,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.PersonalQuoteEn
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.BankSaveRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.equifax_personalloan_request;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.BankForNodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.FmSaveQuotePersonalLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.equifax_personalloan_response;
+
+import static android.content.Context.DOWNLOAD_SERVICE;
 
 /**
  * Created by Rahul on 24/01/2018.
@@ -47,7 +55,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
 public class QuoteFragment_pl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM {
     private static String INPUT_FRAGMENT = "input";
 
-    TextView txtAppName, txtCostOfProp, txtLoanTenure, txtOccupation, txtMonthlyIncome, txtExistEmi, txtCount, txtInputSummary;
+    TextView txtAppName, txtCostOfProp, txtLoanTenure, txtOccupation, txtMonthlyIncome, txtExistEmi, txtCount, txtInputSummary,txtCreditscore;
     CardView cvInputSummary;
 
     RecyclerView rvPLQuotes;
@@ -56,12 +64,14 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     int LoanRequireID = 0;
     BankSaveRequest bankSaveRequest;
     GetPersonalLoanResponse getPersonalLoanResponse;
+    equifax_personalloan_response equifax_personalloan_response_res;
     FmPersonalLoanRequest fmPersonalLoanRequest;
     PersonalLoanRequest personalLoanRequest;
     BuyLoanQuerystring buyLoanQuerystring;
     LinearLayout ivllEdit;
     int QuoteID = 0;
-    ImageView ivShare;
+    ImageView ivShare,ivdownload;
+    String url_score="",score="";
 
     public QuoteFragment_pl() {
         // Required empty public constructor
@@ -107,6 +117,12 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         rvPLQuotes = (RecyclerView) view.findViewById(R.id.rvQuotes);
         rvPLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        txtCreditscore = (TextView) view.findViewById(R.id.txtCreditscore);
+        ivdownload = (ImageView) view.findViewById(R.id.ivdownload);
+        ivdownload.setOnClickListener(this);
+
+        txtCreditscore.setVisibility(View.GONE);
+        ivdownload.setVisibility(View.GONE);
 // bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
 
     }
@@ -125,10 +141,14 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
 
     public void redirectToApplyLoan() {
-        startActivity(new Intent(getContext(), PersonalLoanApplyActivity.class)
-                .putExtra("BuyLoanQuery", buyLoanQuerystring));
+
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy PL : Buy button for PL"), Constants.PERSONA_LOAN), null);
         MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","Buy PL : Buy button for PL");
+
+        startActivity(new Intent(getContext(), PersonalLoanApplyActivity.class)
+                .putExtra("BuyLoanQuery", buyLoanQuerystring));
+
+        //bank_web_url
     }
 
 
@@ -149,6 +169,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
                 txtCount.setText("");
                 txtCount.setVisibility(View.GONE);
             }
+
 
             if (personalLoanRequest != null) {
                 try {
@@ -276,14 +297,150 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
                 bindQuotes();
                 setFmPeronalLoanRequest(getPersonalLoanResponse.getQuote_id());
+                if(personalLoanRequest.getpincode().length() > 1) {
+                    getequifax();
+                }else
+                {
+                    txtCreditscore.setVisibility(View.GONE);
+                    ivdownload.setVisibility(View.GONE);
+                }
 
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
             }
+        }else if(response instanceof equifax_personalloan_response)
+        {
+            equifax_personalloan_response_res = ((equifax_personalloan_response) response);
+             score = equifax_personalloan_response_res.getResult().getScore();
+             url_score = equifax_personalloan_response_res.getResult().getName();
+
+            txtCreditscore.setVisibility(View.VISIBLE);
+            ivdownload.setVisibility(View.VISIBLE);
+
+
+            if (score.isEmpty()) {
+                txtCreditscore.setText("");
+                txtCreditscore.setVisibility(View.GONE);
+
+                ivdownload.setVisibility(View.GONE);
+            } else {
+
+
+                txtCreditscore.setText("Credit Score  " + equifax_personalloan_response_res.getResult().getScore());
+
+                txtCreditscore.setVisibility(View.VISIBLE);
+                ivdownload.setVisibility(View.VISIBLE);
+
+                ivdownload.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+               /* Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();*/
+                        downloadPdf(url_score, "Credit Score");
+                    }
+                });
+            }
+
         }
 
     }
 
+    private void downloadPdf(String url, String name) {
+        Toast.makeText(getActivity(), "Download started..", Toast.LENGTH_LONG).show();
+        DownloadManager.Request r = new DownloadManager.Request(Uri.parse(url));
+        r.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, name + ".pdf");
+        r.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        r.setMimeType(MimeTypeMap.getFileExtensionFromUrl(url));
+        DownloadManager dm = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
+        dm.enqueue(r);
+    }
+    private void getequifax() {
+
+        equifax_personalloan_request equifaxrequest = new equifax_personalloan_request();
+
+        equifaxrequest.setFirstName("");
+        equifaxrequest.setMiddleName("");
+        equifaxrequest.setLastName("");
+        String[] name = personalLoanRequest.getApplicantNme().toUpperCase().split(" ");
+
+        if(name.length >2)
+        {
+            for (int i = 0; i < name.length; i++) {
+                if (i == 0) {
+                    equifaxrequest.setFirstName(name[i]);
+                }
+                if (i == 1)
+                {
+                    equifaxrequest.setMiddleName(name[i]);
+                }
+                if (i == name.length-1) {
+                    equifaxrequest.setLastName(name[i]);
+                }
+            }
+        }else {
+            for (int i = 0; i < name.length; i++) {
+                if (i == 0) {
+                    equifaxrequest.setFirstName(name[i]);
+                }
+                if (i == 1) {
+                    equifaxrequest.setLastName(name[i]);
+                }
+            }
+        }
+
+
+        equifaxrequest.setMobilePhone(personalLoanRequest.getContact());//
+
+        if (personalLoanRequest.getApplicantDOB() != null) {
+
+             equifaxrequest.setDOB(getYYYYMMDDPattern(personalLoanRequest.getApplicantDOB()));
+        }
+        equifaxrequest.setDOB(personalLoanRequest.getApplicantDOB());
+        equifaxrequest.setPANId(personalLoanRequest.getpanno());
+        equifaxrequest.setMaritalStatus(personalLoanRequest.getstatus());//
+
+        if (personalLoanRequest.getApplicantGender() != null) {
+
+            if(personalLoanRequest.getApplicantGender().toUpperCase().equals("F"))
+            {
+                equifaxrequest.setGender("2");
+            }else{
+                equifaxrequest.setGender("1");
+            }
+
+        }
+
+
+        equifaxrequest.setAddressLine(personalLoanRequest.getaddress());
+
+        equifaxrequest.setAddressType(personalLoanRequest.getaddressType());
+        equifaxrequest.setState(personalLoanRequest.getState());
+        equifaxrequest.setCity(personalLoanRequest.getCity());
+        equifaxrequest.setLocality1(personalLoanRequest.getaddress());
+        equifaxrequest.setPostal(personalLoanRequest.getpincode());
+        equifaxrequest.setPhoneType("M");
+        equifaxrequest.setAccountNumber("");
+
+        new PersonalLoanController(this.getActivity()).getPLequifax(equifaxrequest,this);
+    }
+/*
+    private void setRBCustomerData() {
+
+
+
+
+        if (rbCustomerEntity.getApplicantGender().equals("M")) {
+            setMale_gender();
+        } else if (rbCustomerEntity.getApplicantGender().equals("F")) {
+            setFeMale_gender();
+        }
+        if (rbCustomerEntity.getApplicantSource().equals("1")) {
+            setEmpSalaried("Salaried", false, txtEmpNatureSalaried, txtEmpNatureSelfEmp);
+        } else if (rbCustomerEntity.getApplicantSource().equals("2")) {
+            setEmpSalaried("Self-Emp", true, txtEmpNatureSelfEmp, txtEmpNatureSalaried);
+        }
+
+    }*/
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();

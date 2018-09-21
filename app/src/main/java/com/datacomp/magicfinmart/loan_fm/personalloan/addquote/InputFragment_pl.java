@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +17,12 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
 
@@ -26,10 +30,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
+
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.FmPersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.PersonalLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalLoanResponse;
@@ -39,7 +49,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetPersonalL
  * Created by Rahul on 24/01/2018.
  */
 
-public class InputFragment_pl extends BaseFragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener {
+public class InputFragment_pl extends BaseFragment implements View.OnClickListener, SeekBar.OnSeekBarChangeListener ,IResponseSubcriber {
 
     DBPersistanceController databaseController;
 
@@ -54,15 +64,19 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
     SimpleDateFormat formatServer = new SimpleDateFormat("yyyy-MM-dd");
 
     Button btnGetQuote;
-    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp, etcontact;
+    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp, etcontact,etPincode,etState,etCity,etaddress;
 
     LinearLayout llSalaried, llSelfEmployeed;
 
-    TextView etTenureInYear, txtrbimgMale, txtrbimgFemale;
+    TextView etTenureInYear, txtrbimgMale, txtrbimgFemale,txtrbimgsingle,txtrbimgmarried,txtrbimgother;
+    TextView txtrbimgPersent,txtrbimgPermanent,txtrbimgOfficer,txtrbimgOther_addr;
     TextView txtDispalayMinTenureYear, txtDispalayMaxTenureYear;
     SeekBar sbTenure;
     Context mContext;
     String GenderApplicantSource = "M";
+
+    String StatusApplicantSource = "single";
+    String AddressTypeSource = "C";
 
 
     public InputFragment_pl() {
@@ -79,6 +93,8 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         loginEntity = databaseController.getUserData();
         setListener();
         setApp_Male_gender();
+        setApp_single_Status();
+        setApp_Persent_type();
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(PLMainActivity.PL_INPUT_REQUEST) != null) {
@@ -115,6 +131,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         sbTenure.setProgress(4);
         etTenureInYear.setText("5");
 
+
         //endregion
 
         //region Applicant Initialize
@@ -128,12 +145,57 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         txtrbimgMale = (TextView) view.findViewById(R.id.txtrbimgMale);
         txtrbimgFemale = (TextView) view.findViewById(R.id.txtrbimgFemale);
 
+
+        txtrbimgsingle = (TextView) view.findViewById(R.id.txtrbimgsingle);
+        txtrbimgmarried = (TextView) view.findViewById(R.id.txtrbimgmarried);
+        txtrbimgother = (TextView) view.findViewById(R.id.txtrbimgother);
+
+        txtrbimgPersent = (TextView) view.findViewById(R.id.txtrbimgPersent);
+        txtrbimgPermanent = (TextView) view.findViewById(R.id.txtrbimgPermanent);
+        txtrbimgOfficer = (TextView) view.findViewById(R.id.txtrbimgOfficer);
+        txtrbimgOther_addr = (TextView) view.findViewById(R.id.txtrbimgOther_addr);
+
         //TODO:set tag to DOB -- nilesh
         et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(simpleDateFormat, "01-01-1980")));
         et_DOB.setText("01-01-1980");
+        etCity  = (EditText) view.findViewById(R.id.etCity);
+        etState  = (EditText) view.findViewById(R.id.etState);
         //endregion
 
+        etaddress= (EditText)view.findViewById(R.id.etaddress);
+        etPincode = (EditText)view.findViewById(R.id.etPincode);
+        etPincode.addTextChangedListener(pincodeTextWatcher);
     }
+
+    //region textwatcher
+    TextWatcher pincodeTextWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            if (start == 5) {
+                etCity.setText("");
+                etState.setText("");
+            }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if ((s.length() == 6) ) {
+                showDialog("Fetching City...");
+                Toast.makeText(getActivity(), "Fetching City...Data", Toast.LENGTH_LONG).show();
+                new RegisterController(getActivity()).getCityState(etPincode.getText().toString(),InputFragment_pl.this);
+
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+
+    //endregion
+
 
     //region datePickerDialog Applicant
     protected View.OnClickListener datePickerDialogApplicant = new View.OnClickListener() {
@@ -205,6 +267,35 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         personalLoanRequest.setType("PSL");
         personalLoanRequest.setApi_source("Finmart");
 
+        personalLoanRequest.setstatus(StatusApplicantSource);
+//        if (personalLoanRequest.getstatus().equals("single")) {
+//            personalLoanRequest.setstatus("single");
+//        }
+//        else if (personalLoanRequest.getstatus().equals("married")) {
+//            personalLoanRequest.setstatus("married");
+//        }
+//        else if (personalLoanRequest.getstatus().equals("divorced")) {
+//            personalLoanRequest.setstatus("divorced");
+//        }
+
+        personalLoanRequest.setaddressType(AddressTypeSource);
+//        if (personalLoanRequest.getaddressType().equals("PERSENT")) {
+//            personalLoanRequest.setaddressType("C");
+//        }
+//        else if (personalLoanRequest.getaddressType().equals("PERMANENT")) {
+//            personalLoanRequest.setaddressType("P");
+//        }
+//        else if (personalLoanRequest.getaddressType().equals("OFFICE")) {
+//            personalLoanRequest.setaddressType("O");
+//        }
+//        else if (personalLoanRequest.getaddressType().equals("OTHER")) {
+//            personalLoanRequest.setaddressType("X");
+//        }
+
+        personalLoanRequest.setpincode(etPincode.getText().toString());
+        personalLoanRequest.setaddress(etaddress.getText().toString());
+
+
         personalLoanRequest.setQuote_id(fmPersonalLoanRequest.getPersonalLoanRequest().getQuote_id());
 
     }
@@ -237,6 +328,31 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
                 setApp_FeMale_gender();
             }
 
+          try {
+              if (personalLoanRequest.getstatus() == "single") {
+                  setApp_single_Status();
+              } else if (personalLoanRequest.getstatus() == "married") {
+                  setApp_married_Status();
+              } else if (personalLoanRequest.getstatus() == "divorced") {
+                  setApp_other_Status();
+              }
+
+              if (personalLoanRequest.getaddressType() == "C") {
+                  setApp_Persent_type();
+              } else if (personalLoanRequest.getaddressType() == "P") {
+                  setApp_Permanent_type();
+              } else if (personalLoanRequest.getaddressType() == "O") {
+                  setApp_Office_type();
+              }
+              else if (personalLoanRequest.getaddressType() == "X") {
+                  setApp_other_type();
+              }
+          }catch (Exception ref){
+                setApp_single_Status();
+              setApp_Persent_type();
+            }
+
+
             if (personalLoanRequest.getApplicantDOB() != null) {
                 //setting tag
                 et_DOB.setTag(R.id.et_DOB, dateToCalendar(stringToDate(formatServer, personalLoanRequest.getApplicantDOB())));
@@ -254,6 +370,19 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             if (personalLoanRequest.getpanno() != null)
                 etPAN.setText("" + personalLoanRequest.getpanno());
 
+            if (personalLoanRequest.getpincode() != null)
+                etPincode.setText("" + personalLoanRequest.getpincode());
+
+
+            if (personalLoanRequest.getaddress() != null)
+                etaddress.setText("" + personalLoanRequest.getaddress());
+
+
+            if (personalLoanRequest.getCity() != null)
+                etCity.setText("" + personalLoanRequest.getCity());
+
+            if (personalLoanRequest.getCity() != null)
+                etState.setText("" + personalLoanRequest.getState());
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -268,6 +397,15 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         txtrbimgMale.setOnClickListener(this);
         txtrbimgFemale.setOnClickListener(this);
         // etPAN.setFilters(new InputFilter[] {new InputFilter.AllCaps()});
+
+        txtrbimgsingle.setOnClickListener(this);
+        txtrbimgmarried.setOnClickListener(this);
+        txtrbimgother.setOnClickListener(this);
+
+        txtrbimgPersent.setOnClickListener(this);
+        txtrbimgPermanent.setOnClickListener(this);
+        txtrbimgOfficer.setOnClickListener(this);
+        txtrbimgOther_addr.setOnClickListener(this);
     }
 
 
@@ -279,7 +417,37 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         } else if (v.getId() == R.id.txtrbimgFemale) {
 
             setApp_FeMale_gender();
-        } else if (v.getId() == R.id.btnGetQuote) {
+        }
+        else if (v.getId() == R.id.txtrbimgsingle) {
+
+            setApp_single_Status();
+        }
+        else if (v.getId() == R.id.txtrbimgmarried) {
+
+            setApp_married_Status();
+        }
+        else if (v.getId() == R.id.txtrbimgother) {
+
+            setApp_other_Status();
+        }
+        else if (v.getId() == R.id.txtrbimgPersent) {
+
+            setApp_Persent_type();
+        }
+        else if (v.getId() == R.id.txtrbimgPermanent) {
+
+            setApp_Permanent_type();
+        }
+        else if (v.getId() == R.id.txtrbimgOfficer) {
+
+            setApp_Office_type();
+        }
+        else if (v.getId() == R.id.txtrbimgOther_addr) {
+
+            setApp_other_type();
+        }
+
+        else if (v.getId() == R.id.btnGetQuote) {
             new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote PL : Get quote button for PL"), Constants.PERSONA_LOAN), null);
 
             MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","Get quote PL : Get quote button for PL");
@@ -292,6 +460,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             String Pan_no = etPAN.getText().toString();
             String CostOfProp = etCostOfProp.getText().toString();
             String Contact = etcontact.getText().toString();
+            String pincode = etPincode.getText().toString();
 
             if (TextUtils.isEmpty(NameOfApplicant)) {
 
@@ -347,6 +516,21 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
                 }
 
             }
+
+            if (TextUtils.isEmpty(pincode)) {
+
+                etPincode.setError("Please Enter Pincode.");
+                etPincode.requestFocus();
+                return;
+
+            }
+            if (pincode.length()<6) {
+
+                etPincode.setError("Please Enter 6 digit Pincode.");
+                etPincode.requestFocus();
+                return;
+
+            }
             // endregion
             setApplicantDetails();
 
@@ -392,7 +576,6 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
     }
 
-
     private void setApp_Male_gender() {
         GenderApplicantSource = "M";
         txtrbimgMale.setBackgroundResource(R.drawable.customeborder_blue);
@@ -415,6 +598,117 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
     }
 
+    private void  setApp_single_Status(){
+        StatusApplicantSource = "single";
+        txtrbimgsingle.setBackgroundResource(R.drawable.customeborder_blue);
+        txtrbimgsingle.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+
+        txtrbimgmarried.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgmarried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgother.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgother.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+    }
+
+    private void  setApp_married_Status(){
+        StatusApplicantSource = "married";
+        txtrbimgmarried.setBackgroundResource(R.drawable.customeborder_blue);
+        txtrbimgmarried.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+
+        txtrbimgsingle.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgsingle.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgother.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgother.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+    }
+
+    private void  setApp_other_Status(){
+        StatusApplicantSource = "divorced";
+        txtrbimgother.setBackgroundResource(R.drawable.customeborder_blue);
+        txtrbimgother.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+
+        txtrbimgsingle.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgsingle.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgmarried.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgmarried.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+    }
+
+
+    private void  setApp_Persent_type(){
+        AddressTypeSource = "C";
+        txtrbimgPersent.setBackgroundResource(R.drawable.customeborder_blue);
+        txtrbimgPersent.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+
+        txtrbimgPermanent.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgPermanent.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgOfficer.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgOfficer.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgOther_addr.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgOther_addr.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+    }
+
+    private void  setApp_Permanent_type(){
+        AddressTypeSource = "P";
+
+
+        txtrbimgPermanent.setBackgroundResource(R.drawable.customeborder_blue);
+        txtrbimgPermanent.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+
+        txtrbimgPersent.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgPersent.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgOfficer.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgOfficer.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgOther_addr.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgOther_addr.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+    }
+    private void  setApp_Office_type(){
+        AddressTypeSource = "O";
+
+        txtrbimgOfficer.setBackgroundResource(R.drawable.customeborder_blue);
+        txtrbimgOfficer.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+        txtrbimgPersent.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgPersent.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgPermanent.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgPermanent.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+
+        txtrbimgOther_addr.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgOther_addr.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+    }
+
+    private void  setApp_other_type(){
+        AddressTypeSource = "X";
+        txtrbimgOther_addr.setBackgroundResource(R.drawable.customeborder_blue);
+        txtrbimgOther_addr.setTextColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary));
+
+        txtrbimgPersent.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgPersent.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgPermanent.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgPermanent.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+        txtrbimgOfficer.setBackgroundResource(R.drawable.customeborder);
+        txtrbimgOfficer.setTextColor(ContextCompat.getColor(getActivity(), R.color.description_text));
+
+    }
     //endegion
 
 
@@ -425,4 +719,34 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
     }
 
 
+    @Override
+    public void OnSuccess(APIResponse response, String message) {
+        cancelDialog();
+        if (response instanceof PincodeResponse) {
+            if (response.getStatusNo() == 0) {
+                etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
+                etCity.setText("" + ((PincodeResponse) response).getMasterData().getCityname());
+
+                personalLoanRequest.setCity("" + ((PincodeResponse) response).getMasterData().getCityname());
+                personalLoanRequest.setState("" + ((PincodeResponse) response).getMasterData().getState_name());
+
+            } else {
+
+                etState.setText("");
+                etCity.setText("");
+
+                personalLoanRequest.setCity("");
+                personalLoanRequest.setState("");
+
+
+            }
+        }
+    }
+
+    @Override
+    public void OnFailure(Throwable t) {
+
+        cancelDialog();
+        Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
 }

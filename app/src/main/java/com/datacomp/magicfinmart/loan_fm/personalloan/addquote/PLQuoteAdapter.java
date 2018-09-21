@@ -26,7 +26,7 @@ public class PLQuoteAdapter extends RecyclerView.Adapter<PLQuoteAdapter.PLQuotes
     Fragment mContext;
     List<PersonalQuoteEntity> quoteEntities;
     GetPersonalLoanResponse getPersonalLoanResponse;
-
+    String bank_web_url="";
 
     public PLQuoteAdapter(Fragment context, List<PersonalQuoteEntity> quoteEntities , GetPersonalLoanResponse tmpgetPersonalLoanResponse) {
         mContext = context;

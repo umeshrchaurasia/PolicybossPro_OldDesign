@@ -24,6 +24,7 @@ public class GetPersonalLoanResponse extends APIResponse implements Parcelable {
 
     private int quote_id;
     private String url;
+    private  String bank_web_url;
     private List<PersonalQuoteEntity> data;
 
     public int getQuote_id() {
@@ -40,6 +41,14 @@ public class GetPersonalLoanResponse extends APIResponse implements Parcelable {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getBank_web_url() {
+        return bank_web_url;
+    }
+
+    public void setBank_web_url(String bank_web_url) {
+        this.bank_web_url = bank_web_url;
     }
 
     public List<PersonalQuoteEntity> getData() {
@@ -60,6 +69,7 @@ public class GetPersonalLoanResponse extends APIResponse implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.quote_id);
         dest.writeString(this.url);
+        dest.writeString(this.bank_web_url);
         dest.writeList(this.data);
     }
 
@@ -69,6 +79,7 @@ public class GetPersonalLoanResponse extends APIResponse implements Parcelable {
     protected GetPersonalLoanResponse(Parcel in) {
         this.quote_id = in.readInt();
         this.url = in.readString();
+        this.bank_web_url = in.readString();
         this.data = new ArrayList<PersonalQuoteEntity>();
         in.readList(this.data, PersonalQuoteEntity.class.getClassLoader());
     }

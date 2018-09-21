@@ -19,8 +19,8 @@ public class BuyLoanQuerystring implements Parcelable  {
     private String MobileNo;
     private String City;
     private String type;
-
     private String pan;
+    private  String bank_web_url;
 
     public BuyLoanQuerystring()
     {
@@ -38,6 +38,7 @@ public class BuyLoanQuerystring implements Parcelable  {
         City = in.readString();
         type = in.readString();
         pan = in.readString();
+        bank_web_url = in.readString();
     }
 
     public static final Creator<BuyLoanQuerystring> CREATOR = new Creator<BuyLoanQuerystring>() {
@@ -123,7 +124,12 @@ public class BuyLoanQuerystring implements Parcelable  {
     public void setPan(String pan) {
         this.pan = pan;
     }
-
+    public String getBank_web_url() {
+        return bank_web_url;
+    }
+    public void setBank_web_url(String bank_web_url) {
+        this.bank_web_url = bank_web_url;
+    }
 
     @Override
     public int describeContents() {
@@ -141,5 +147,6 @@ public class BuyLoanQuerystring implements Parcelable  {
         dest.writeString(City);
         dest.writeString(type);
         dest.writeString(pan);
+        dest.writeString(bank_web_url);
     }
 }
