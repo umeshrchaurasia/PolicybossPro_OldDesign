@@ -37,6 +37,10 @@ public interface IRegister {
 
     void getNotificationData(String FBAID, IResponseSubcriber iResponseSubcriber);
 
+    void getReceiveNotificationData(String NotifyReqID, IResponseSubcriber iResponseSubcriber);
+
+    void getUserClickActionOnNotification(String NotifyReqID, IResponseSubcriber iResponseSubcriber);
+
     void getRegSource(IResponseSubcriber iResponseSubcriber);
 
     void addChildPosp(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);

@@ -19,17 +19,40 @@ public class NotifyEntity implements Parcelable {
      * web_title : Demo
      * message_id : 1
      */
-
+    private String title;
+    private String body;
     private String notifyFlag;
     private String web_url;
     private String web_title;
     private String message_id;
 
+
+
+    public NotifyEntity() {
+
+    }
     protected NotifyEntity(Parcel in) {
+        title = in.readString();
+        body = in.readString();
         notifyFlag = in.readString();
         web_url = in.readString();
         web_title = in.readString();
         message_id = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(body);
+        dest.writeString(notifyFlag);
+        dest.writeString(web_url);
+        dest.writeString(web_title);
+        dest.writeString(message_id);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<NotifyEntity> CREATOR = new Creator<NotifyEntity>() {
@@ -44,17 +67,21 @@ public class NotifyEntity implements Parcelable {
         }
     };
 
-    public NotifyEntity() {
+    public String getTitle() {
+        return title;
     }
 
-    public String getMessage_id() {
-        return message_id;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public void setMessage_id(String message_id) {
-        this.message_id = message_id;
+    public String getBody() {
+        return body;
     }
 
+    public void setBody(String body) {
+        this.body = body;
+    }
 
     public String getNotifyFlag() {
         return notifyFlag;
@@ -80,17 +107,14 @@ public class NotifyEntity implements Parcelable {
         this.web_title = web_title;
     }
 
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public String getMessage_id() {
+        return message_id;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(notifyFlag);
-        dest.writeString(web_url);
-        dest.writeString(web_title);
-        dest.writeString(message_id);
+    public void setMessage_id(String message_id) {
+        this.message_id = message_id;
     }
+
+
+
 }

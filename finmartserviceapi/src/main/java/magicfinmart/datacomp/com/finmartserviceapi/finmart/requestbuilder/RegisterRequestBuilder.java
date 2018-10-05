@@ -11,6 +11,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationUpdateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
@@ -103,6 +104,12 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/api/get-notification-data")
         Call<NotificationResponse> getNotificationData(@Body HashMap<String, String> body);
 
+        @Headers("token:" + token)
+        @POST("/api/receive-update-notification")
+        Call<NotificationUpdateResponse> recieveNotificationData(@Body HashMap<String, String> body);
 
+        @Headers("token:" + token)
+        @POST("/api/update-notification")
+        Call<NotificationUpdateResponse> userClickActionOnNotification(@Body HashMap<String, String> body);
     }
 }

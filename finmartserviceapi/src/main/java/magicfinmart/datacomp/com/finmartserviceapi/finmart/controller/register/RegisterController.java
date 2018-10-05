@@ -19,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.IfscCodeResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAccountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationUpdateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PospDetailsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
@@ -511,6 +512,78 @@ public class RegisterController implements IRegister {
             }
         });
 
+    }
+
+    @Override
+    public void getReceiveNotificationData(String NotifyReqID, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("UserNotificationRequestId", NotifyReqID);
+        registerQuotesNetworkService.recieveNotificationData(body).enqueue(new Callback<NotificationUpdateResponse>() {
+            @Override
+            public void onResponse(Call<NotificationUpdateResponse> call, Response<NotificationUpdateResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                  //  iResponseSubcriber.OnSuccess(response.body(), "");
+
+                } else {
+                    //failure
+                   // iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationUpdateResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getUserClickActionOnNotification(String NotifyReqID, final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("UserNotificationRequestId", NotifyReqID);
+        registerQuotesNetworkService.userClickActionOnNotification(body).enqueue(new Callback<NotificationUpdateResponse>() {
+            @Override
+            public void onResponse(Call<NotificationUpdateResponse> call, Response<NotificationUpdateResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                   // iResponseSubcriber.OnSuccess(response.body(), "");
+
+                } else {
+                    //failure
+                    //iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationUpdateResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
     }
 
     @Override
