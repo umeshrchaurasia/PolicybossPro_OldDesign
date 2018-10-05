@@ -190,7 +190,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (userConstantEntity != null) {
                 init_headers();
             } else {
-                new MasterController(this).geUserConstant(1,this);
+                new MasterController(this).geUserConstant(1, this);
             }
         }
         /*if (db.getAccountData() == null) {
@@ -821,6 +821,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
         new MasterController(this).getConstants(this);
+
+        new MasterController(this).getInsuranceSubType(this);
 
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 

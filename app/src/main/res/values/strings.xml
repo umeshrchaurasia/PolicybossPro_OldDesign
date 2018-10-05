@@ -527,4 +527,24 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_pospuser">Add POSP</string>
+    <string-array name="motor_subtype_new">
+        <item>T.P. Only (3 Yrs)</item>
+        <item>Comprehensive (1 Yr) + T.P. (2 Yrs)</item>
+        <item>Comprehensive Plan (3 Yrs)</item>
+    </string-array>
+    <string-array name="motor_subtype_renew">
+        <item>T.P. Only (1 Yr)</item>
+        <item>Comprehensive Plan (1 Yr)</item>
+    </string-array>
+
+    <string-array name="bike_subtype_renew">
+        <item>T.P. Only (1 Yr)</item>
+        <item>Comprehensive Plan (1 Yr)</item>
+    </string-array>
+    <string-array name="bike_subtype_new">
+        <item>T.P. Only (5 Yrs)</item>
+        <item>Comprehensive (1 Yr) + T.P. (4 Yrs)</item>
+        <item>Comprehensive Plan (5 Yrs)</item>
+    </string-array>
+
 </resources>
