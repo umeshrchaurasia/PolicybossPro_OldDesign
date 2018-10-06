@@ -14,11 +14,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
@@ -64,7 +66,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
     SimpleDateFormat formatServer = new SimpleDateFormat("yyyy-MM-dd");
 
     Button btnGetQuote;
-    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp, etcontact,etPincode,etState,etCity,etaddress;
+    EditText etNameOfApplicant, et_DOB, etMonthlyInc, etEMI, etPAN, etCostOfProp, etcontact,etPincode,etState,etCity,etaddress,etEmail;
 
     LinearLayout llSalaried, llSelfEmployeed;
 
@@ -78,6 +80,9 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
     String StatusApplicantSource = "single";
     String AddressTypeSource = "C";
 
+    String plbannerurl="";
+    String plbannnerActive="1";
+    ImageView plbannerimg;
 
     public InputFragment_pl() {
         // Required empty public constructor
@@ -91,6 +96,24 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         init_widgets(view);
         databaseController = new DBPersistanceController(getActivity());
         loginEntity = databaseController.getUserData();
+        plbannerurl=databaseController.getUserConstantsData().getPlbanner();
+        plbannnerActive=databaseController.getUserConstantsData().getPlactive();
+
+        plbannerimg.setVisibility(View.GONE);
+        if(plbannerurl !=null)
+        {
+            if(plbannnerActive.equals("1"))
+            {
+                plbannerimg.setVisibility(View.VISIBLE);
+                Glide.with(mContext)
+                        .load(plbannerurl)
+                        .into(plbannerimg);
+
+            }else
+            {
+                plbannerimg.setVisibility(View.GONE);
+            }
+        }
         setListener();
         setApp_Male_gender();
         setApp_single_Status();
@@ -165,6 +188,9 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         etaddress= (EditText)view.findViewById(R.id.etaddress);
         etPincode = (EditText)view.findViewById(R.id.etPincode);
         etPincode.addTextChangedListener(pincodeTextWatcher);
+        etEmail = (EditText)view.findViewById(R.id.etEmail);
+
+        plbannerimg = (ImageView) view.findViewById(R.id.plbannerimg);
     }
 
     //region textwatcher
@@ -181,7 +207,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if ((s.length() == 6) ) {
                 showDialog("Fetching City...");
-                Toast.makeText(getActivity(), "Fetching City...Data", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), "Fetching City...Data", Toast.LENGTH_SHORT).show();
                 new RegisterController(getActivity()).getCityState(etPincode.getText().toString(),InputFragment_pl.this);
 
             }
@@ -265,36 +291,22 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
         personalLoanRequest.setEmpcode("");
         personalLoanRequest.setType("PSL");
+        personalLoanRequest.setEmail(etEmail.getText().toString());
+        personalLoanRequest.setProduct_name("9");
+        personalLoanRequest.setForm("personal_loan");
         personalLoanRequest.setApi_source("Finmart");
 
-        personalLoanRequest.setstatus(StatusApplicantSource);
-//        if (personalLoanRequest.getstatus().equals("single")) {
-//            personalLoanRequest.setstatus("single");
-//        }
-//        else if (personalLoanRequest.getstatus().equals("married")) {
-//            personalLoanRequest.setstatus("married");
-//        }
-//        else if (personalLoanRequest.getstatus().equals("divorced")) {
-//            personalLoanRequest.setstatus("divorced");
-//        }
+        personalLoanRequest.setMaritalStatus(StatusApplicantSource);
 
-        personalLoanRequest.setaddressType(AddressTypeSource);
-//        if (personalLoanRequest.getaddressType().equals("PERSENT")) {
-//            personalLoanRequest.setaddressType("C");
-//        }
-//        else if (personalLoanRequest.getaddressType().equals("PERMANENT")) {
-//            personalLoanRequest.setaddressType("P");
-//        }
-//        else if (personalLoanRequest.getaddressType().equals("OFFICE")) {
-//            personalLoanRequest.setaddressType("O");
-//        }
-//        else if (personalLoanRequest.getaddressType().equals("OTHER")) {
-//            personalLoanRequest.setaddressType("X");
-//        }
 
-        personalLoanRequest.setpincode(etPincode.getText().toString());
-        personalLoanRequest.setaddress(etaddress.getText().toString());
+        personalLoanRequest.setAddressType(AddressTypeSource);
 
+
+        personalLoanRequest.setPostal(etPincode.getText().toString());
+        personalLoanRequest.setAddress(etaddress.getText().toString());
+        personalLoanRequest.setAddressLine(etaddress.getText().toString());
+        personalLoanRequest.setLocality1(etaddress.getText().toString());
+        personalLoanRequest.setPhoneType("M");
 
         personalLoanRequest.setQuote_id(fmPersonalLoanRequest.getPersonalLoanRequest().getQuote_id());
 
@@ -329,22 +341,23 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             }
 
           try {
-              if (personalLoanRequest.getstatus() == "single") {
+
+              if (personalLoanRequest.getMaritalStatus().equals("single")) {
                   setApp_single_Status();
-              } else if (personalLoanRequest.getstatus() == "married") {
+              } else if (personalLoanRequest.getMaritalStatus().equals("married")) {
                   setApp_married_Status();
-              } else if (personalLoanRequest.getstatus() == "divorced") {
+              } else if (personalLoanRequest.getMaritalStatus().equals("divorced")) {
                   setApp_other_Status();
               }
 
-              if (personalLoanRequest.getaddressType() == "C") {
+              if (personalLoanRequest.getAddressType().equals("C")) {
                   setApp_Persent_type();
-              } else if (personalLoanRequest.getaddressType() == "P") {
+              } else if (personalLoanRequest.getAddressType().equals("P")) {
                   setApp_Permanent_type();
-              } else if (personalLoanRequest.getaddressType() == "O") {
+              } else if (personalLoanRequest.getAddressType().equals("O")) {
                   setApp_Office_type();
               }
-              else if (personalLoanRequest.getaddressType() == "X") {
+              else if (personalLoanRequest.getAddressType().equals("X")) {
                   setApp_other_type();
               }
           }catch (Exception ref){
@@ -370,12 +383,15 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             if (personalLoanRequest.getpanno() != null)
                 etPAN.setText("" + personalLoanRequest.getpanno());
 
-            if (personalLoanRequest.getpincode() != null)
-                etPincode.setText("" + personalLoanRequest.getpincode());
+            if (personalLoanRequest.getPostal() != null)
+                etPincode.setText("" + personalLoanRequest.getPostal());
+
+            if (personalLoanRequest.getEmail() != null)
+                etEmail.setText("" + personalLoanRequest.getEmail());
 
 
-            if (personalLoanRequest.getaddress() != null)
-                etaddress.setText("" + personalLoanRequest.getaddress());
+            if (personalLoanRequest.getAddress() != null)
+                etaddress.setText("" + personalLoanRequest.getAddressLine());
 
 
             if (personalLoanRequest.getCity() != null)
@@ -461,6 +477,7 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
             String CostOfProp = etCostOfProp.getText().toString();
             String Contact = etcontact.getText().toString();
             String pincode = etPincode.getText().toString();
+            String email = etEmail.getText().toString();
 
             if (TextUtils.isEmpty(NameOfApplicant)) {
 
@@ -504,7 +521,9 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
             if (TextUtils.isEmpty(Contact)) {
 
-
+                etcontact.setError("Please Enter Mobile Number.");
+                etcontact.requestFocus();
+                return;
             }
             else {
                 if (Contact.length()<10) {
@@ -529,6 +548,22 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
                 etPincode.setError("Please Enter 6 digit Pincode.");
                 etPincode.requestFocus();
                 return;
+
+            }
+
+            if (TextUtils.isEmpty(email)) {
+
+                etEmail.setError("Please Enter Email Address.");
+                etEmail.requestFocus();
+                return;
+
+            }
+
+             if (!isValideEmailID(etEmail)) {
+
+                 etEmail.setError("Please Enter Proper Email Address.");
+                 etEmail.requestFocus();
+                 return;
 
             }
             // endregion

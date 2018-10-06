@@ -24,9 +24,26 @@
             android:animateLayoutChanges="true"
             app:cardElevation="2dp">
 
-            <include
-                android:id="@+id/llApplicantDetail"
-                layout="@layout/layout_personal_appl_detail" />
+            <LinearLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/plbannerimg"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@drawable/bordertbl"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"/>
+
+                <include
+                    android:id="@+id/llApplicantDetail"
+                    layout="@layout/layout_personal_appl_detail" />
+            </LinearLayout>
+
         </android.support.v7.widget.CardView>
 
 

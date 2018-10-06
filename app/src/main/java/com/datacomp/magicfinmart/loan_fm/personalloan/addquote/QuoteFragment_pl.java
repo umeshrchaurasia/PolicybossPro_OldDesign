@@ -22,10 +22,12 @@ import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import java.math.BigDecimal;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
@@ -70,6 +72,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     BuyLoanQuerystring buyLoanQuerystring;
     LinearLayout ivllEdit;
     int QuoteID = 0;
+    String Leadid="";
     ImageView ivShare,ivdownload;
     String url_score="",score="";
 
@@ -145,10 +148,15 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy PL : Buy button for PL"), Constants.PERSONA_LOAN), null);
         MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","Buy PL : Buy button for PL");
 
-        startActivity(new Intent(getContext(), PersonalLoanApplyActivity.class)
-                .putExtra("BuyLoanQuery", buyLoanQuerystring));
+//              startActivity(new Intent(getContext(), PersonalLoanApplyActivity.class)
+//                .putExtra("BuyLoanQuery", buyLoanQuerystring));
 
         //bank_web_url
+        String urltobank = ""+buyLoanQuerystring.getBank_web_url()+"?quoteid="+buyLoanQuerystring.getQuote_id()+"&leadid="+buyLoanQuerystring.getLead_id()+"&fbaid="+fmPersonalLoanRequest.getFBA_id();
+        startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
+                .putExtra("URL",urltobank)
+                .putExtra("NAME", buyLoanQuerystring.getBank_name())
+                .putExtra("TITLE",  buyLoanQuerystring.getBank_name()));
     }
 
 
@@ -228,8 +236,9 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void setFmPeronalLoanRequest(int tempQuoteID) {
+    private void setFmPeronalLoanRequest(int tempQuoteID,String tempLeadid) {
         QuoteID = tempQuoteID;
+        Leadid=tempLeadid;
         showDialog();
 
 
@@ -255,11 +264,13 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             buyLoanQuerystring.setProp_Processing_Fee(BigDecimal.valueOf(entity.getProcessingfee()).toPlainString());
            // buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
             buyLoanQuerystring.setQuote_id(QuoteID);
+            buyLoanQuerystring.setLead_id(Leadid);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());
             buyLoanQuerystring.setMobileNo(fmPersonalLoanRequest.getPersonalLoanRequest().getContact());
             buyLoanQuerystring.setPan(fmPersonalLoanRequest.getPersonalLoanRequest().getpanno());
             buyLoanQuerystring.setCity("");
-
+            buyLoanQuerystring.setBank_web_url(entity.getBank_web_url());
+            buyLoanQuerystring.setBank_name(entity.getBank_Name());
 
             new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         } catch (Exception ex) {
@@ -296,8 +307,8 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
                 getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
 
                 bindQuotes();
-                setFmPeronalLoanRequest(getPersonalLoanResponse.getQuote_id());
-                if(personalLoanRequest.getpincode().length() > 1) {
+                setFmPeronalLoanRequest(getPersonalLoanResponse.getQuote_id(),getPersonalLoanResponse.getLead_Id());
+                  if(personalLoanRequest.getPostal().length() > 1) {
                     getequifax();
                 }else
                 {
@@ -397,7 +408,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         }
         equifaxrequest.setDOB(personalLoanRequest.getApplicantDOB());
         equifaxrequest.setPANId(personalLoanRequest.getpanno());
-        equifaxrequest.setMaritalStatus(personalLoanRequest.getstatus());//
+        equifaxrequest.setMaritalStatus(personalLoanRequest.getMaritalStatus());//
 
         if (personalLoanRequest.getApplicantGender() != null) {
 
@@ -411,13 +422,13 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         }
 
 
-        equifaxrequest.setAddressLine(personalLoanRequest.getaddress());
+        equifaxrequest.setAddressLine(personalLoanRequest.getAddressLine());
 
-        equifaxrequest.setAddressType(personalLoanRequest.getaddressType());
+        equifaxrequest.setAddressType(personalLoanRequest.getAddressType());
         equifaxrequest.setState(personalLoanRequest.getState());
         equifaxrequest.setCity(personalLoanRequest.getCity());
-        equifaxrequest.setLocality1(personalLoanRequest.getaddress());
-        equifaxrequest.setPostal(personalLoanRequest.getpincode());
+        equifaxrequest.setLocality1(personalLoanRequest.getLocality1());
+        equifaxrequest.setPostal(personalLoanRequest.getPostal());
         equifaxrequest.setPhoneType("M");
         equifaxrequest.setAccountNumber("");
 
@@ -444,8 +455,13 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
-        if (getActivity() != null)
-            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+        if (getActivity() != null) {
+            if(t.getMessage() ==null || t.getMessage().isEmpty())
+            {}
+            else {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        }
 
         bindQuotes_NoData();
     }

@@ -44,7 +44,7 @@ public class PersonalLoanController  implements IPersonalLoan {
                 if (response.body().getStatus_Id() == 0) {
                     iResponseSubcriber.OnSuccess(response.body(), response.body().getMsg());
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMsg()));
+                    iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                 }
 
             }

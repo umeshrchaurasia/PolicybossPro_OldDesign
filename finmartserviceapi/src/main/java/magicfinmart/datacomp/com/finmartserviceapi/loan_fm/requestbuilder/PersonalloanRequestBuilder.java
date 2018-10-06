@@ -21,8 +21,8 @@ public class PersonalloanRequestBuilder extends LoanRetroRequestBuilder {
         return super.build().create(PersonalloanNetworkService.class);
     }
     public interface PersonalloanNetworkService{
-
-        @POST("/api/personal-loan-mobile")
+        //  personal-loan-mobile//
+        @POST("/api/customer-loan-request")
         Call<GetPersonalLoanResponse> getPersonalQuotes(@Body PersonalLoanRequest personalLoanRequest);
 
 

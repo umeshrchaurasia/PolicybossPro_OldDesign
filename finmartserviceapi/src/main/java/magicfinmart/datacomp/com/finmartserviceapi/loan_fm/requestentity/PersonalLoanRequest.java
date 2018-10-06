@@ -63,12 +63,22 @@ public class PersonalLoanRequest implements Parcelable{
     private  String progress_image;
     private  String panno;
 
-    private String city;
-    private String state;
-    private String status;
-    private String addressType;
-    private String pincode;
+    private String City;
+    private String State;
+    private String MaritalStatus;
+    private String AddressType;
+    private String Postal;
     private String address;
+    private String PhoneType;
+    private String AccountNumber;
+    private String AddressLine;
+    private String Locality1;
+
+    private String email;
+    private String form;
+    private String product_name;
+
+
 
     protected PersonalLoanRequest(Parcel in) {
         quote_id = in.readInt();
@@ -97,12 +107,21 @@ public class PersonalLoanRequest implements Parcelable{
         Contact = in.readString();
         progress_image = in.readString();
         panno = in.readString();
-        city = in.readString();
-        state = in.readString();
-        status = in.readString();
-        addressType = in.readString();
-        pincode = in.readString();
+
+        City = in.readString();
+        State = in.readString();
+        MaritalStatus = in.readString();
+        AddressType = in.readString();
+        Postal = in.readString();
         address = in.readString();
+        PhoneType = in.readString();
+        AccountNumber = in.readString();
+        AddressLine = in.readString();
+        Locality1 = in.readString();
+        email=in.readString();
+        form=in.readString();
+        product_name=in.readString();
+
     }
 
     public static final Creator<PersonalLoanRequest> CREATOR = new Creator<PersonalLoanRequest>() {
@@ -326,55 +345,108 @@ public class PersonalLoanRequest implements Parcelable{
     }
 
     public String getCity() {
-        return city;
+        return City;
     }
 
     public void setCity(String city) {
-        this.city = city;
+        City = city;
     }
 
     public String getState() {
-        return state;
+        return State;
     }
 
     public void setState(String state) {
-        this.state = state;
+        State = state;
     }
 
-    public String getstatus() {
-        return status;
+    public String getMaritalStatus() {
+        return MaritalStatus;
     }
 
-    public void setstatus(String status) {
-        this.status = status;
+    public void setMaritalStatus(String maritalStatus) {
+        MaritalStatus = maritalStatus;
     }
 
-    public String getaddressType() {
-        return addressType;
+    public String getAddressType() {
+        return AddressType;
     }
 
-    public void setaddressType(String addressType) {
-        this.addressType = addressType;
+    public void setAddressType(String addressType) {
+        AddressType = addressType;
     }
 
-
-    public String getpincode() {
-        return pincode;
+    public String getPostal() {
+        return Postal;
     }
 
-    public void setpincode(String pincode) {
-        this.pincode = pincode;
+    public void setPostal(String postal) {
+        Postal = postal;
     }
 
-    public String getaddress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setaddress(String address) {
+    public void setAddress(String address) {
         this.address = address;
     }
 
+    public String getPhoneType() {
+        return PhoneType;
+    }
 
+    public void setPhoneType(String phoneType) {
+        PhoneType = phoneType;
+    }
+
+    public String getAccountNumber() {
+        return AccountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        AccountNumber = accountNumber;
+    }
+
+    public String getAddressLine() {
+        return AddressLine;
+    }
+
+    public void setAddressLine(String addressLine) {
+        AddressLine = addressLine;
+    }
+
+    public String getLocality1() {
+        return Locality1;
+    }
+
+    public void setLocality1(String locality1) {
+        Locality1 = locality1;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getForm() {
+        return form;
+    }
+
+    public void setForm(String form) {
+        this.form = form;
+    }
+
+    public String getProduct_name() {
+        return product_name;
+    }
+
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
+    }
     //Extra
     public PersonalLoanRequest() {
         this.quote_id=0;
@@ -403,11 +475,21 @@ public class PersonalLoanRequest implements Parcelable{
         this.Contact="";
         this.progress_image="";
         this.panno="";
-        this.city="";
-        this.state="";
-        this.status="";
-        this.addressType="";
-        this.pincode="";
+        this.City="";
+        this.State="";
+        this.MaritalStatus="";
+        this.AddressType="";
+        this.Postal="";
+
+        this.address="";
+        this.PhoneType="";
+        this.AccountNumber="";
+        this.AddressLine="";
+        this.Locality1="";
+        this.email="";
+        this.form="";
+        this.product_name="";
+
     }
 
 
@@ -444,10 +526,18 @@ public class PersonalLoanRequest implements Parcelable{
         dest.writeString(Contact);
         dest.writeString(progress_image);
         dest.writeString(panno);
-        dest.writeString(city);
-        dest.writeString(state);
-        dest.writeString(status);
-        dest.writeString(addressType);
-        dest.writeString(pincode);
+        dest.writeString(City);
+        dest.writeString(State);
+        dest.writeString(MaritalStatus);
+        dest.writeString(AddressType);
+        dest.writeString(Postal);
+        dest.writeString(address);
+        dest.writeString(PhoneType);
+        dest.writeString(AccountNumber);
+        dest.writeString(AddressLine);
+        dest.writeString(Locality1);
+        dest.writeString(email);
+        dest.writeString(form);
+        dest.writeString(product_name);
     }
 }

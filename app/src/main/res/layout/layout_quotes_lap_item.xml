@@ -266,7 +266,7 @@
                         android:background="@drawable/bordertbl"
                         android:gravity="center_vertical|center_horizontal"
                         android:orientation="vertical"
-                        android:padding="5dp">
+                        android:padding="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -280,6 +280,7 @@
                             <ImageView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:gravity="left"
                                 android:src="@mipmap/buy" />
 
                             <TextView
@@ -290,7 +291,7 @@
                                 android:layout_marginLeft="5dp"
                                 android:gravity="left|center_vertical"
                                 android:minHeight="30dp"
-                                android:text="BUY"
+                                android:text="Apply"
                                 android:textColor="@android:color/white" />
                         </LinearLayout>
 
