@@ -74,7 +74,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -228,7 +227,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
                 if (menuMasterResponse != null) {
                     for (MenuItemEntity menuItemEntity : menuMasterResponse.getMasterData().getMenu()) {
-                        if (menuItem.getItemId() == menuItemEntity.getMenuid()) {
+                        if (menuItem.getItemId() == Integer.parseInt(menuItemEntity.getSequence())) {
                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                     .putExtra("URL", menuItemEntity.getLink())
                                     .putExtra("NAME", menuItemEntity.getMenuname())
@@ -392,8 +391,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         Menu menu = navigationView.getMenu();
 
         for (int i = 1; i <= list.size() && (list.get(i - 1).getIsActive() == 1); i++) {
-
-            final MenuItem menuItem = menu.add(R.id.dashboard_menu_group, i, (list.get(i - 1).getMenuid() + i), list.get(i - 1).getMenuname());
+            int sequence = Integer.parseInt(list.get(i - 1).getSequence());
+            sequence = (sequence * 100) + 1;
+            final MenuItem menuItem = menu.add(R.id.dashboard_menu_group, sequence, sequence, list.get(i - 1).getMenuname());
             Glide.with(this)
                     .load(list.get(i - 1).getIconimage())
                     .into(new SimpleTarget<GlideDrawable>() {

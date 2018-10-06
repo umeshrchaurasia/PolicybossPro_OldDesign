@@ -26,6 +26,15 @@ public class DashBoardItemEntity implements Parcelable {
      */
 
     private int dashboard_type;
+    private String sequence;
+
+    public String getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(String sequence) {
+        this.sequence = sequence;
+    }
 
     public int getMenuid() {
         return menuid;
@@ -106,6 +115,7 @@ public class DashBoardItemEntity implements Parcelable {
         dest.writeString(this.description);
         dest.writeInt(this.type);
         dest.writeInt(this.dashboard_type);
+        dest.writeString(this.sequence);
     }
 
     public DashBoardItemEntity() {
@@ -120,6 +130,7 @@ public class DashBoardItemEntity implements Parcelable {
         this.description = in.readString();
         this.type = in.readInt();
         this.dashboard_type = in.readInt();
+        this.sequence = in.readString();
     }
 
     public static final Parcelable.Creator<DashBoardItemEntity> CREATOR = new Parcelable.Creator<DashBoardItemEntity>() {
