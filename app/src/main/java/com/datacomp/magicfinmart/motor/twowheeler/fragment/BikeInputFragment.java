@@ -903,14 +903,14 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         spInsSubTYpe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextSize(10);
+                //((TextView) parent.getChildAt(0)).setTextSize(13);
                 if (switchNewRenew.isChecked()) {
                     if (position == 0) {
                         cvNcb.setVisibility(View.GONE);
-                        llNoClaim.setVisibility(View.INVISIBLE);
+                        llNCB.setVisibility(View.INVISIBLE);
                     } else {
                         cvNcb.setVisibility(View.VISIBLE);
-                        llNoClaim.setVisibility(View.VISIBLE);
+                        llNCB.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -1601,6 +1601,16 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                             } else {
                                 cvNcb.setVisibility(View.GONE);
                                 llNCB.setVisibility(View.INVISIBLE);
+                            }
+
+                            if (switchNewRenew.isChecked()) {
+                                if (spInsSubTYpe.getSelectedItemPosition() == 0) {
+                                    cvNcb.setVisibility(View.GONE);
+                                    llNCB.setVisibility(View.INVISIBLE);
+                                } else {
+                                    cvNcb.setVisibility(View.VISIBLE);
+                                    llNCB.setVisibility(View.VISIBLE);
+                                }
                             }
                         }
                     }
