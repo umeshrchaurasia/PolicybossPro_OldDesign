@@ -94,11 +94,9 @@
                     android:id="@+id/txtStatus"
                     android:layout_width="wrap_content"
                     style="@style/TextViewStyle.Medium"
+                    android:visibility="gone"
                     android:layout_marginRight="5dp"
-
-
                     android:text="NEW"
-
                    android:layout_toLeftOf="@+id/txtbar"
                     android:textColor="@color/red_descent" />
 
@@ -106,10 +104,9 @@
                 <TextView
                     android:id="@+id/txtbar"
                     android:layout_width="wrap_content"
+                    android:visibility="gone"
                     style="@style/TextViewStyle.Large"
                     android:layout_marginRight="5dp"
-
-
                     android:text="|"
 
                     android:layout_toLeftOf="@+id/txtDate"

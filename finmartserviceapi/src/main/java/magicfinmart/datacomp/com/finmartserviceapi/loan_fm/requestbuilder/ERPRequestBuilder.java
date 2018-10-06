@@ -4,7 +4,9 @@ import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpHomeLoanRequest;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.ErpPersonLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanApplyRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.ERPSaveResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GenerateHLLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.HomeLoanApplicationResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.LeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.PersonalLoanApplicationResponse;
@@ -47,6 +49,10 @@ public class ERPRequestBuilder extends ERPRetroRequestBuilder {
 
         @POST("/LoginDtls.svc/XMLService/getleadHistory")
         Call<LeadResponse> getLeadDetail(@Body HashMap<String, String> body);
+
+
+        @POST("/LoginDtls.svc/XMLService/genrateLeadFrmHLAppln")
+        Call<GenerateHLLeadResponse> generateLead(@Body HomeLoanApplyRequestEntity body);
 
     }
 }

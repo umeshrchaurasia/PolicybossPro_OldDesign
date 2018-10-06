@@ -547,4 +547,5 @@
         <item>Comprehensive Plan (5 Yrs)</item>
     </string-array>
 
+    <string name="title_activity_notification_sms">Notification Sms</string>
 </resources>

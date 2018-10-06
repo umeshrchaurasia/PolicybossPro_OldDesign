@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by Rajeev Ranjan on 19/09/2018.
  */
 
-public class HomeLoanApplyRequestEntity implements Parcelable {
+public class HomeLoanApplyRequestEntity implements Parcelable  {
 
     /**
      * name :
@@ -48,7 +48,7 @@ public class HomeLoanApplyRequestEntity implements Parcelable {
     private int loanTenure;
     private String empCode;
     private String applnSource;
-    private String rbaSource;
+
     private int bankId;
     private int brokerId;
     private int quoteId;
@@ -58,8 +58,46 @@ public class HomeLoanApplyRequestEntity implements Parcelable {
     private String dc_fba_reg;
     private int isApplnComplete;
     private int isApplnConfirm;
-    private String fbA_Reg_Id;
-    private String quote_id;
+    private String FBA_Reg_Id;
+
+    protected HomeLoanApplyRequestEntity(Parcel in) {
+        name = in.readString();
+        gender = in.readString();
+        occupation = in.readString();
+        dob = in.readString();
+        loanEMI = in.readString();
+        pan = in.readString();
+        mobileNo = in.readString();
+        loanAmnt = in.readString();
+        emailId = in.readString();
+        loanTenure = in.readInt();
+        empCode = in.readString();
+        applnSource = in.readString();
+        bankId = in.readInt();
+        brokerId = in.readInt();
+        quoteId = in.readInt();
+        productId = in.readInt();
+        pinCode = in.readString();
+        applnId = in.readInt();
+        dc_fba_reg = in.readString();
+        isApplnComplete = in.readInt();
+        isApplnConfirm = in.readInt();
+        FBA_Reg_Id = in.readString();
+        Quote_id = in.readString();
+        RBASource = in.readString();
+    }
+
+    public static final Creator<HomeLoanApplyRequestEntity> CREATOR = new Creator<HomeLoanApplyRequestEntity>() {
+        @Override
+        public HomeLoanApplyRequestEntity createFromParcel(Parcel in) {
+            return new HomeLoanApplyRequestEntity(in);
+        }
+
+        @Override
+        public HomeLoanApplyRequestEntity[] newArray(int size) {
+            return new HomeLoanApplyRequestEntity[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -157,14 +195,6 @@ public class HomeLoanApplyRequestEntity implements Parcelable {
         this.applnSource = applnSource;
     }
 
-    public String getRbaSource() {
-        return rbaSource;
-    }
-
-    public void setRbaSource(String rbaSource) {
-        this.rbaSource = rbaSource;
-    }
-
     public int getBankId() {
         return bankId;
     }
@@ -237,21 +267,38 @@ public class HomeLoanApplyRequestEntity implements Parcelable {
         this.isApplnConfirm = isApplnConfirm;
     }
 
-    public String getFbA_Reg_Id() {
-        return fbA_Reg_Id;
+    public String getFBA_Reg_Id() {
+        return FBA_Reg_Id;
     }
 
-    public void setFbA_Reg_Id(String fbA_Reg_Id) {
-        this.fbA_Reg_Id = fbA_Reg_Id;
+    public void setFBA_Reg_Id(String FBA_Reg_Id) {
+        this.FBA_Reg_Id = FBA_Reg_Id;
     }
 
     public String getQuote_id() {
-        return quote_id;
+        return Quote_id;
     }
 
     public void setQuote_id(String quote_id) {
-        this.quote_id = quote_id;
+        Quote_id = quote_id;
     }
+
+    public String getRBASource() {
+        return RBASource;
+    }
+
+    public void setRBASource(String RBASource) {
+        this.RBASource = RBASource;
+    }
+
+    private String Quote_id;
+    private String RBASource;
+
+
+
+    public HomeLoanApplyRequestEntity() {
+    }
+
 
     @Override
     public int describeContents() {
@@ -260,71 +307,29 @@ public class HomeLoanApplyRequestEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.name);
-        dest.writeString(this.gender);
-        dest.writeString(this.occupation);
-        dest.writeString(this.dob);
-        dest.writeString(this.loanEMI);
-        dest.writeString(this.pan);
-        dest.writeString(this.mobileNo);
-        dest.writeString(this.loanAmnt);
-        dest.writeString(this.emailId);
-        dest.writeInt(this.loanTenure);
-        dest.writeString(this.empCode);
-        dest.writeString(this.applnSource);
-        dest.writeString(this.rbaSource);
-        dest.writeInt(this.bankId);
-        dest.writeInt(this.brokerId);
-        dest.writeInt(this.quoteId);
-        dest.writeInt(this.productId);
-        dest.writeString(this.pinCode);
-        dest.writeInt(this.applnId);
-        dest.writeString(this.dc_fba_reg);
-        dest.writeInt(this.isApplnComplete);
-        dest.writeInt(this.isApplnConfirm);
-        dest.writeString(this.fbA_Reg_Id);
-        dest.writeString(this.quote_id);
+        dest.writeString(name);
+        dest.writeString(gender);
+        dest.writeString(occupation);
+        dest.writeString(dob);
+        dest.writeString(loanEMI);
+        dest.writeString(pan);
+        dest.writeString(mobileNo);
+        dest.writeString(loanAmnt);
+        dest.writeString(emailId);
+        dest.writeInt(loanTenure);
+        dest.writeString(empCode);
+        dest.writeString(applnSource);
+        dest.writeInt(bankId);
+        dest.writeInt(brokerId);
+        dest.writeInt(quoteId);
+        dest.writeInt(productId);
+        dest.writeString(pinCode);
+        dest.writeInt(applnId);
+        dest.writeString(dc_fba_reg);
+        dest.writeInt(isApplnComplete);
+        dest.writeInt(isApplnConfirm);
+        dest.writeString(FBA_Reg_Id);
+        dest.writeString(Quote_id);
+        dest.writeString(RBASource);
     }
-
-    public HomeLoanApplyRequestEntity() {
-    }
-
-    protected HomeLoanApplyRequestEntity(Parcel in) {
-        this.name = in.readString();
-        this.gender = in.readString();
-        this.occupation = in.readString();
-        this.dob = in.readString();
-        this.loanEMI = in.readString();
-        this.pan = in.readString();
-        this.mobileNo = in.readString();
-        this.loanAmnt = in.readString();
-        this.emailId = in.readString();
-        this.loanTenure = in.readInt();
-        this.empCode = in.readString();
-        this.applnSource = in.readString();
-        this.rbaSource = in.readString();
-        this.bankId = in.readInt();
-        this.brokerId = in.readInt();
-        this.quoteId = in.readInt();
-        this.productId = in.readInt();
-        this.pinCode = in.readString();
-        this.applnId = in.readInt();
-        this.dc_fba_reg = in.readString();
-        this.isApplnComplete = in.readInt();
-        this.isApplnConfirm = in.readInt();
-        this.fbA_Reg_Id = in.readString();
-        this.quote_id = in.readString();
-    }
-
-    public static final Parcelable.Creator<HomeLoanApplyRequestEntity> CREATOR = new Parcelable.Creator<HomeLoanApplyRequestEntity>() {
-        @Override
-        public HomeLoanApplyRequestEntity createFromParcel(Parcel source) {
-            return new HomeLoanApplyRequestEntity(source);
-        }
-
-        @Override
-        public HomeLoanApplyRequestEntity[] newArray(int size) {
-            return new HomeLoanApplyRequestEntity[size];
-        }
-    };
 }

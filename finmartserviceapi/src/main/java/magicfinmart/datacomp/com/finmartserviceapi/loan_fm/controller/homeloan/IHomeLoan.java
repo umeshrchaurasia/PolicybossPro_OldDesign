@@ -15,5 +15,5 @@ public interface IHomeLoan {
 
     void getRBCustomerData(String QuoteID, IResponseSubcriber iResponseSubcriber);
 
-    void generateLead(HomeLoanApplyRequestEntity homeLoanApplyRequestEntity, IResponseSubcriberERP iResponseSubcriberERP);
+
 }
