@@ -583,12 +583,12 @@ public class DBPersistanceController {
 
     public List<DashboardEntity> getLoanProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
-        dashboardEntities.add(new DashboardEntity("LOANS", 4, "HOME LOAN", "Home loan at best interest rates from over 30+ banks & NBFCs.", R.drawable.home_loan));
+        dashboardEntities.add(new DashboardEntity("LOANS", 4, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan));
         dashboardEntities.add(new DashboardEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan));
         dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
         dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card));
         dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Transfer existing loans at lower interest rate . And help customers to save more on existing loans.", R.drawable.balance_transfer));
-        dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.express_loan));
+        dashboardEntities.add(new DashboardEntity("LOANS", 13, "PAYSENSE", "Cash loans. Loans disbursed in just few hours.", R.drawable.paysense_ic));
         dashboardEntities.add(new DashboardEntity("LOANS", 14, "LOAN ON MESSENGER", "Enjoy chatting with your BOT friend & provide Instant loan sanction to your customer for Personal loan, Home Loan, Business Loan, Car loan, LAP, Gold loan,etc.", R.drawable.yesbank_chat_ic));
         dashboardEntities.add(new DashboardEntity("LOANS", 9, "LEAD SUBMISSION - OTHER LOANS", "Submit leads for products like Car loan, Business loan, Working Capital, Term Loan, LRD,etc.", R.drawable.quick_lead));
 

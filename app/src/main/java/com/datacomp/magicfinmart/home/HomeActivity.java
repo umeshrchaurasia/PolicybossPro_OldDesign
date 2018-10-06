@@ -53,6 +53,7 @@ import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
+import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
@@ -164,7 +165,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         toolbar.setTitle("MAGIC FIN-MART");
 
 
-
         try {
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
             versionNAme = pinfo.versionName;
@@ -247,6 +247,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         fragment = new VehicleDetailFragment();
                         break;
 
+                    case R.id.nav_expressLoan:
+                        startActivity(new Intent(HomeActivity.this, AppliedOnlineLoanListActivity.class));
+                        break;
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.nav_yesbankbot:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
@@ -540,7 +543,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 if (pushLogin.equals("555")) {
 
                     NotifyEntity notifyEntity;
-                    String type = "", title ="", body = "", web_url = "", web_title="",web_name = "";
+                    String type = "", title = "", body = "", web_url = "", web_title = "", web_name = "";
                     if (prefManager.getPushNotifyPreference() != null) {
                         notifyEntity = prefManager.getPushNotifyPreference();
 

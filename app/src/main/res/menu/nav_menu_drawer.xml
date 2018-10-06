@@ -45,13 +45,19 @@
             android:id="@+id/nav_addposp"
             android:icon="@drawable/posp_enrollment"
             android:orderInCategory="500"
-            android:title="ADD POSP" />
+            android:title="ADD POSP"
+            android:visible="false" />
 
         <item
             android:id="@+id/nav_vehicleinfo"
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="600"
             android:title="VEHICLE DETAIL" />
+        <item
+            android:id="@+id/nav_expressLoan"
+            android:icon="@drawable/express_loan"
+            android:orderInCategory="650"
+            android:title="EXPRESS LOAN" />
         <item
             android:id="@+id/nav_yesbankbot"
             android:icon="@drawable/yesbank"
