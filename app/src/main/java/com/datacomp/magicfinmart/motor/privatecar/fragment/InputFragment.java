@@ -994,6 +994,28 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         });
 
         //endregion
+
+        //region subtype adapter listener
+        spInsSubTYpe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextSize(10);
+                if (switchNewRenew.isChecked()) {
+                    if (position == 0) {
+                        cvNcb.setVisibility(View.GONE);
+                        llNoClaim.setVisibility(View.INVISIBLE);
+                    } else {
+                        cvNcb.setVisibility(View.VISIBLE);
+                        llNoClaim.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        //endregion
     }
 
     private void initialize_views() {

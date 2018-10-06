@@ -569,7 +569,7 @@ public class DBPersistanceController {
             if (dashboardEntities != null && dashboardEntities.size() > 0) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
                     if (dashBoardItemEntity.getDashboard_type() == 1 && dashBoardItemEntity.getIsActive() == 1) {
-                        DashboardEntity dashboardEntity = new DashboardEntity("INSURANCE", dashBoardItemEntity.getMenuid(), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
+                        DashboardEntity dashboardEntity = new DashboardEntity("INSURANCE", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
                         dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
                         dashboardEntity.setLink(dashBoardItemEntity.getLink());
                         dashboardEntities.add(dashboardEntity);
@@ -597,7 +597,7 @@ public class DBPersistanceController {
             if (dashboardEntities != null && dashboardEntities.size() > 0) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
                     if (dashBoardItemEntity.getDashboard_type() == 2 && dashBoardItemEntity.getIsActive() == 1) {
-                        DashboardEntity dashboardEntity = new DashboardEntity("LOANS", dashBoardItemEntity.getMenuid(), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
+                        DashboardEntity dashboardEntity = new DashboardEntity("LOANS", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
                         dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
                         dashboardEntity.setLink(dashBoardItemEntity.getLink());
                         dashboardEntities.add(dashboardEntity);
@@ -620,7 +620,7 @@ public class DBPersistanceController {
             if (dashboardEntities != null && dashboardEntities.size() > 0) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
                     if (dashBoardItemEntity.getDashboard_type() == 3 && dashBoardItemEntity.getIsActive() == 1) {
-                        DashboardEntity dashboardEntity = new DashboardEntity("MORE SERVICES", dashBoardItemEntity.getMenuid(), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
+                        DashboardEntity dashboardEntity = new DashboardEntity("MORE SERVICES", Integer.parseInt(dashBoardItemEntity.getSequence()), "" + dashBoardItemEntity.getMenuname(), "" + dashBoardItemEntity.getDescription(), -1);
                         dashboardEntity.setServerIcon(dashBoardItemEntity.getIconimage());
                         dashboardEntity.setLink(dashBoardItemEntity.getLink());
                         dashboardEntities.add(dashboardEntity);

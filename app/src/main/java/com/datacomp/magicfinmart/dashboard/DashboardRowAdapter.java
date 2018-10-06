@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
@@ -305,9 +304,6 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                         .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
                         .putExtra("NAME", "" + "YES BANK BOT")
                         .putExtra("TITLE", "" + "YES BANK BOT"));
-                break;
-            default:
-                Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
                 break;
 
         }

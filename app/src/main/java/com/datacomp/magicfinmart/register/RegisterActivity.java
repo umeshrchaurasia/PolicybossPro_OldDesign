@@ -71,6 +71,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PincodeRespo
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ReferFriendResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SourceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.VerifyOtpResponse;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener, IResponseSubcriber, MultiSelectionSpinner.OnMultipleItemsSelectedListener, CompoundButton.OnCheckedChangeListener {
@@ -101,7 +102,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     TextInputLayout tilReferer;
     boolean isVAlidPromo = false;
 
-    List<String> sourceList;
+    List<SourceEntity> sourceList;
 
 
     @Override
@@ -115,6 +116,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         dbPersistanceController = new DBPersistanceController(this);
         registerRequestEntity = new RegisterRequestEntity();
         sourceList = new ArrayList<>();
+
+        bindSource();
 
         initWidgets();
         setListener();
@@ -407,8 +410,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             etPincode.setError("Enter Pincode");
             return false;
         }
-        if(!etPincode.getText().toString().equals("")){
-            if(etPincode.getText().toString().length() !=6){
+        if (!etPincode.getText().toString().equals("")) {
+            if (etPincode.getText().toString().length() != 6) {
                 etPincode.requestFocus();
                 etPincode.setError("Enter Valid Pincode");
                 return false;
@@ -517,7 +520,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             registerRequestEntity.setPassword(pass);
         }
 
-        registerRequestEntity.setAppSource(String.valueOf(spSource.getSelectedItemPosition() + 1));
+        SourceEntity sourceEntity = (SourceEntity) spSource.getSelectedItem();
+        registerRequestEntity.setAppSource("" + sourceEntity.getId());
     }
 
     private void hideAllLayouts(CardView linearLayout, ImageView imageView) {
@@ -548,18 +552,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         if (response instanceof RegisterSourceResponse) {
 
             if (response != null) {
-                List<RegisterSourceResponse.SourceEntity> list = ((RegisterSourceResponse) response).getMasterData();
-
-                sourceList.clear();
-                if (list.size() > 0) {
-                    for (int i = 0; i < list.size(); i++) {
-                        sourceList.add(list.get(i).getSource_name());
-                    }
-                } else {
-                    sourceList.add("Fin-Mart");
-                    sourceList.add("Campaign sm");
-                }
-
+                sourceList = ((RegisterSourceResponse) response).getMasterData();
                 bindSource();
             }
 
@@ -623,9 +616,14 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private void bindSource() {
 
+        if (sourceList.size() == 0) {
+            sourceList.add(new SourceEntity("Fin-Mart", 1));
+            sourceList.add(new SourceEntity("Campaign sm", 2));
+        }
+
         // region prev insurer adapter
         ArrayAdapter prevInsAdapter = new
-                ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, sourceList) {
+                ArrayAdapter<SourceEntity>(this, android.R.layout.simple_list_item_1, sourceList) {
                     @Override
                     public boolean isEnabled(int position) {
                        /* if (position == 0) {
@@ -651,7 +649,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                         TextView tv = (TextView) convertView
                                 .findViewById(android.R.id.text1);
 
-                        tv.setText(sourceList.get(position));
+                        tv.setText(sourceList.get(position).getSource_name());
 
                         tv.setTextColor(Color.BLACK);
 
@@ -676,17 +674,6 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
-        if (sourceList == null || sourceList.size() == 0) {
-            sourceList.clear();
-            sourceList.add("Fin-Mart");
-            sourceList.add("Campaign sm");
-            sourceList.add("Campaign-Nochiket");
-            sourceList.add("Campaign-Sagar");
-            sourceList.add("Posp-I");
-            sourceList.add("MISP-Dealership");
-
-            bindSource();
-        }
         trackingRequestEntity.setType("Register");
         trackingRequestEntity.setData(new TrackingData(t.getMessage()));
         new TrackingController(this).sendData(trackingRequestEntity, null);

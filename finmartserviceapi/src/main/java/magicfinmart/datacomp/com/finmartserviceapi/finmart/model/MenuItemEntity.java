@@ -21,6 +21,15 @@ public class MenuItemEntity implements Parcelable {
     private int isActive;
     private String description;
     private int type;
+    private String sequence;
+
+    public String getSequence() {
+        return sequence;
+    }
+
+    public void setSequence(String sequence) {
+        this.sequence = sequence;
+    }
 
     public int getMenuid() {
         return menuid;
@@ -92,6 +101,7 @@ public class MenuItemEntity implements Parcelable {
         dest.writeInt(this.isActive);
         dest.writeString(this.description);
         dest.writeInt(this.type);
+        dest.writeString(this.sequence);
     }
 
     public MenuItemEntity() {
@@ -105,9 +115,10 @@ public class MenuItemEntity implements Parcelable {
         this.isActive = in.readInt();
         this.description = in.readString();
         this.type = in.readInt();
+        this.sequence = in.readString();
     }
 
-    public static final Parcelable.Creator<MenuItemEntity> CREATOR = new Parcelable.Creator<MenuItemEntity>() {
+    public static final Creator<MenuItemEntity> CREATOR = new Creator<MenuItemEntity>() {
         @Override
         public MenuItemEntity createFromParcel(Parcel source) {
             return new MenuItemEntity(source);
