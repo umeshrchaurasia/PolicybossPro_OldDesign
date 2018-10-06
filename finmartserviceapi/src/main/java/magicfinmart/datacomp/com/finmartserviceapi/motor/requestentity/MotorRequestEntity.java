@@ -4,12 +4,6 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.IOException;
-
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
-import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
-
 
 /**
  * Created by Nilesh Birhade on 03-07-2017.
@@ -71,6 +65,27 @@ public class MotorRequestEntity implements Parcelable {
     private String PBStatus;
     private int StatusPercent;
     private int varid;
+    private String vehicle_insurance_subtype;
+
+
+    //mysql extra parameter
+    private int isTwentyfour;
+    private int isActive;
+    private String created_date;
+    private String type;
+    private String conversiondate;
+    private int VehicleRequestID;
+    private int fba_id;
+    private String srn;
+    private int selectedPrevInsID;
+
+    public String getVehicle_insurance_subtype() {
+        return vehicle_insurance_subtype;
+    }
+
+    public void setVehicle_insurance_subtype(String vehicle_insurance_subtype) {
+        this.vehicle_insurance_subtype = vehicle_insurance_subtype;
+    }
 
     public String getPBStatus() {
         return PBStatus;
@@ -136,16 +151,7 @@ public class MotorRequestEntity implements Parcelable {
         this.conversiondate = conversiondate;
     }
 
-    //mysql extra parameter
-    private int isTwentyfour;
-    private int isActive;
-    private String created_date;
-    private String type;
-    private String conversiondate;
-    private int VehicleRequestID;
-    private int fba_id;
-    private String srn;
-    private int selectedPrevInsID;
+
 
     public int getVehicleRequestID() {
         return VehicleRequestID;
@@ -199,6 +205,7 @@ public class MotorRequestEntity implements Parcelable {
         this.mobile = "";
         this.email = "finmarttest@gmail.com";
         this.crn = "";
+        this.vehicle_insurance_subtype = "";
         /*this.app_version = Utility.getVersionName(context);
         this.device_id = Utility.getTokenId(context);
         this.fba_id = loginResponseEntity.getFBAId();
@@ -666,6 +673,7 @@ public class MotorRequestEntity implements Parcelable {
         dest.writeString(this.PBStatus);
         dest.writeInt(this.StatusPercent);
         dest.writeInt(this.varid);
+        dest.writeString(this.vehicle_insurance_subtype);
         dest.writeInt(this.isTwentyfour);
         dest.writeInt(this.isActive);
         dest.writeString(this.created_date);
@@ -727,6 +735,7 @@ public class MotorRequestEntity implements Parcelable {
         this.PBStatus = in.readString();
         this.StatusPercent = in.readInt();
         this.varid = in.readInt();
+        this.vehicle_insurance_subtype = in.readString();
         this.isTwentyfour = in.readInt();
         this.isActive = in.readInt();
         this.created_date = in.readString();
