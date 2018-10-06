@@ -873,7 +873,9 @@ public class InputFragment_hl extends BaseFragment implements View.OnClickListen
 
             if (TextUtils.isEmpty(Contact)) {
 
-
+                etContact.setError("Please Enter  Mobile Number.");
+                etContact.requestFocus();
+                return;
             }
             else {
                 if (Contact.length()<10) {

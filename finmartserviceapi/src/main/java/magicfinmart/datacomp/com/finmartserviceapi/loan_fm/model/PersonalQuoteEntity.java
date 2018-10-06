@@ -43,6 +43,8 @@ public class PersonalQuoteEntity implements Parcelable {
     private String Bank_Logo;
     private String guarantor_required;
     private String Women_roi;
+
+
     private String Lock_In_Period;
     private String Balance_Transfer;
     private String Top_up;
@@ -52,42 +54,79 @@ public class PersonalQuoteEntity implements Parcelable {
     private int Profession;
     private String roi_type;
     private boolean iskeyvisible;
+    private int Is_Online;
+    private String bank_web_url;
 
-    public PersonalQuoteEntity() {
-        iskeyvisible=false;
+
+    protected PersonalQuoteEntity(Parcel in) {
+        Bank_Id = in.readInt();
+        Bank_Code = in.readString();
+        Bank_Name = in.readString();
+        Product_Id = in.readString();
+        roi = in.readString();
+        loan_eligible = in.readDouble();
+        processingfee = in.readDouble();
+        emi = in.readDouble();
+        LoanTenure = in.readInt();
+        LoanRequired = in.readString();
+        Bank_Logo = in.readString();
+        guarantor_required = in.readString();
+        Women_roi = in.readString();
+        Lock_In_Period = in.readString();
+        Balance_Transfer = in.readString();
+        Top_up = in.readString();
+        eApproval = in.readString();
+        Pre_Closer_Fixed = in.readString();
+        Part_Pmt_Fixed = in.readString();
+        Profession = in.readInt();
+        roi_type = in.readString();
+        iskeyvisible = in.readByte() != 0;
+        Is_Online = in.readInt();
+        bank_web_url = in.readString();
     }
 
+    public static final Creator<PersonalQuoteEntity> CREATOR = new Creator<PersonalQuoteEntity>() {
+        @Override
+        public PersonalQuoteEntity createFromParcel(Parcel in) {
+            return new PersonalQuoteEntity(in);
+        }
+
+        @Override
+        public PersonalQuoteEntity[] newArray(int size) {
+            return new PersonalQuoteEntity[size];
+        }
+    };
 
     public int getBank_Id() {
         return Bank_Id;
     }
 
-    public void setBank_Id(int Bank_Id) {
-        this.Bank_Id = Bank_Id;
+    public void setBank_Id(int bank_Id) {
+        Bank_Id = bank_Id;
     }
 
     public String getBank_Code() {
         return Bank_Code;
     }
 
-    public void setBank_Code(String Bank_Code) {
-        this.Bank_Code = Bank_Code;
+    public void setBank_Code(String bank_Code) {
+        Bank_Code = bank_Code;
     }
 
     public String getBank_Name() {
         return Bank_Name;
     }
 
-    public void setBank_Name(String Bank_Name) {
-        this.Bank_Name = Bank_Name;
+    public void setBank_Name(String bank_Name) {
+        Bank_Name = bank_Name;
     }
 
     public String getProduct_Id() {
         return Product_Id;
     }
 
-    public void setProduct_Id(String Product_Id) {
-        this.Product_Id = Product_Id;
+    public void setProduct_Id(String product_Id) {
+        Product_Id = product_Id;
     }
 
     public String getRoi() {
@@ -109,11 +148,10 @@ public class PersonalQuoteEntity implements Parcelable {
     public double getProcessingfee() {
         return processingfee;
     }
+
     public void setProcessingfee(double processingfee) {
         this.processingfee = processingfee;
     }
-
-
 
     public double getEmi() {
         return emi;
@@ -127,24 +165,24 @@ public class PersonalQuoteEntity implements Parcelable {
         return LoanTenure;
     }
 
-    public void setLoanTenure(int LoanTenure) {
-        this.LoanTenure = LoanTenure;
+    public void setLoanTenure(int loanTenure) {
+        LoanTenure = loanTenure;
     }
 
     public String getLoanRequired() {
         return LoanRequired;
     }
 
-    public void setLoanRequired(String LoanRequired) {
-        this.LoanRequired = LoanRequired;
+    public void setLoanRequired(String loanRequired) {
+        LoanRequired = loanRequired;
     }
 
     public String getBank_Logo() {
         return Bank_Logo;
     }
 
-    public void setBank_Logo(String Bank_Logo) {
-        this.Bank_Logo = Bank_Logo;
+    public void setBank_Logo(String bank_Logo) {
+        Bank_Logo = bank_Logo;
     }
 
     public String getGuarantor_required() {
@@ -159,39 +197,39 @@ public class PersonalQuoteEntity implements Parcelable {
         return Women_roi;
     }
 
-    public void setWomen_roi(String Women_roi) {
-        this.Women_roi = Women_roi;
+    public void setWomen_roi(String women_roi) {
+        Women_roi = women_roi;
     }
 
     public String getLock_In_Period() {
         return Lock_In_Period;
     }
 
-    public void setLock_In_Period(String Lock_In_Period) {
-        this.Lock_In_Period = Lock_In_Period;
+    public void setLock_In_Period(String lock_In_Period) {
+        Lock_In_Period = lock_In_Period;
     }
 
     public String getBalance_Transfer() {
         return Balance_Transfer;
     }
 
-    public void setBalance_Transfer(String Balance_Transfer) {
-        this.Balance_Transfer = Balance_Transfer;
+    public void setBalance_Transfer(String balance_Transfer) {
+        Balance_Transfer = balance_Transfer;
     }
 
     public String getTop_up() {
         return Top_up;
     }
 
-    public void setTop_up(String Top_up) {
-        this.Top_up = Top_up;
+    public void setTop_up(String top_up) {
+        Top_up = top_up;
     }
 
-    public String getEApproval() {
+    public String geteApproval() {
         return eApproval;
     }
 
-    public void setEApproval(String eApproval) {
+    public void seteApproval(String eApproval) {
         this.eApproval = eApproval;
     }
 
@@ -199,24 +237,24 @@ public class PersonalQuoteEntity implements Parcelable {
         return Pre_Closer_Fixed;
     }
 
-    public void setPre_Closer_Fixed(String Pre_Closer_Fixed) {
-        this.Pre_Closer_Fixed = Pre_Closer_Fixed;
+    public void setPre_Closer_Fixed(String pre_Closer_Fixed) {
+        Pre_Closer_Fixed = pre_Closer_Fixed;
     }
 
     public String getPart_Pmt_Fixed() {
         return Part_Pmt_Fixed;
     }
 
-    public void setPart_Pmt_Fixed(String Part_Pmt_Fixed) {
-        this.Part_Pmt_Fixed = Part_Pmt_Fixed;
+    public void setPart_Pmt_Fixed(String part_Pmt_Fixed) {
+        Part_Pmt_Fixed = part_Pmt_Fixed;
     }
 
     public int getProfession() {
         return Profession;
     }
 
-    public void setProfession(int Profession) {
-        this.Profession = Profession;
+    public void setProfession(int profession) {
+        Profession = profession;
     }
 
     public String getRoi_type() {
@@ -226,12 +264,29 @@ public class PersonalQuoteEntity implements Parcelable {
     public void setRoi_type(String roi_type) {
         this.roi_type = roi_type;
     }
+
     public boolean isIskeyvisible() {
         return iskeyvisible;
     }
 
     public void setIskeyvisible(boolean iskeyvisible) {
         this.iskeyvisible = iskeyvisible;
+    }
+
+    public int getIs_Online() {
+        return Is_Online;
+    }
+
+    public void setIs_Online(int is_Online) {
+        Is_Online = is_Online;
+    }
+
+    public String getBank_web_url() {
+        return bank_web_url;
+    }
+
+    public void setBank_web_url(String bank_web_url) {
+        this.bank_web_url = bank_web_url;
     }
 
 
@@ -242,66 +297,29 @@ public class PersonalQuoteEntity implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.Bank_Id);
-        dest.writeString(this.Bank_Code);
-        dest.writeString(this.Bank_Name);
-        dest.writeString(this.Product_Id);
-        dest.writeString(this.roi);
-        dest.writeDouble(this.loan_eligible);
-        dest.writeDouble(this.processingfee);
-        dest.writeDouble(this.emi);
-        dest.writeInt(this.LoanTenure);
-        dest.writeString(this.LoanRequired);
-        dest.writeString(this.Bank_Logo);
-        dest.writeString(this.guarantor_required);
-        dest.writeString(this.Women_roi);
-        dest.writeString(this.Lock_In_Period);
-        dest.writeString(this.Balance_Transfer);
-        dest.writeString(this.Top_up);
-        dest.writeString(this.eApproval);
-        dest.writeString(this.Pre_Closer_Fixed);
-        dest.writeString(this.Part_Pmt_Fixed);
-        dest.writeInt(this.Profession);
-        dest.writeString(this.roi_type);
-        dest.writeByte(this.iskeyvisible ? (byte) 1 : (byte) 0);
+        dest.writeInt(Bank_Id);
+        dest.writeString(Bank_Code);
+        dest.writeString(Bank_Name);
+        dest.writeString(Product_Id);
+        dest.writeString(roi);
+        dest.writeDouble(loan_eligible);
+        dest.writeDouble(processingfee);
+        dest.writeDouble(emi);
+        dest.writeInt(LoanTenure);
+        dest.writeString(LoanRequired);
+        dest.writeString(Bank_Logo);
+        dest.writeString(guarantor_required);
+        dest.writeString(Women_roi);
+        dest.writeString(Lock_In_Period);
+        dest.writeString(Balance_Transfer);
+        dest.writeString(Top_up);
+        dest.writeString(eApproval);
+        dest.writeString(Pre_Closer_Fixed);
+        dest.writeString(Part_Pmt_Fixed);
+        dest.writeInt(Profession);
+        dest.writeString(roi_type);
+        dest.writeByte((byte) (iskeyvisible ? 1 : 0));
+        dest.writeInt(Is_Online);
+        dest.writeString(bank_web_url);
     }
-
-
-
-    protected PersonalQuoteEntity(Parcel in) {
-        this.Bank_Id = in.readInt();
-        this.Bank_Code = in.readString();
-        this.Bank_Name = in.readString();
-        this.Product_Id = in.readString();
-        this.roi = in.readString();
-        this.loan_eligible = in.readDouble();
-        this.processingfee = in.readDouble();
-        this.emi = in.readDouble();
-        this.LoanTenure = in.readInt();
-        this.LoanRequired = in.readString();
-        this.Bank_Logo = in.readString();
-        this.guarantor_required = in.readString();
-        this.Women_roi = in.readString();
-        this.Lock_In_Period = in.readString();
-        this.Balance_Transfer = in.readString();
-        this.Top_up = in.readString();
-        this.eApproval = in.readString();
-        this.Pre_Closer_Fixed = in.readString();
-        this.Part_Pmt_Fixed = in.readString();
-        this.Profession = in.readInt();
-        this.roi_type = in.readString();
-        this.iskeyvisible = in.readByte() != 0;
-    }
-
-    public static final Parcelable.Creator<PersonalQuoteEntity> CREATOR = new Parcelable.Creator<PersonalQuoteEntity>() {
-        @Override
-        public PersonalQuoteEntity createFromParcel(Parcel source) {
-            return new PersonalQuoteEntity(source);
-        }
-
-        @Override
-        public PersonalQuoteEntity[] newArray(int size) {
-            return new PersonalQuoteEntity[size];
-        }
-    };
 }

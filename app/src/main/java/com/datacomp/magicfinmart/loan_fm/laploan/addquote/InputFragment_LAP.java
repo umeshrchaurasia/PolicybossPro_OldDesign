@@ -862,7 +862,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.model.PropertyInfoEntity;
 
             if (TextUtils.isEmpty(Contact)) {
 
-
+                etContact.setError("Please Enter Mobile Number.");
+                etContact.requestFocus();
+                return;
             }
             else {
                 if (Contact.length()<10) {

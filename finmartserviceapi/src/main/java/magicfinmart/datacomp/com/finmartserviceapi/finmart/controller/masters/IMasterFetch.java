@@ -31,4 +31,6 @@ public interface IMasterFetch {
 
     public void getMenuMaster(IResponseSubcriber iResponseSubcriber);
 
+    public void getInsuranceSubType(IResponseSubcriber iResponseSubcriber);
+
 }

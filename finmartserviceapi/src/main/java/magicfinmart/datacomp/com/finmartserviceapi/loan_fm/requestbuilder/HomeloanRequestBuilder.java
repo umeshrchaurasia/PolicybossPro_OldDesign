@@ -28,8 +28,6 @@ public class HomeloanRequestBuilder extends LoanRetroRequestBuilder {
         @POST("/api/getcustomer")
         Call<RBCustomerResponse> getRupeeBossCustomer(@Body HashMap<String, String> body);
 
-        @POST("/api/getcustomer")
-        Call<GenerateHLLeadResponse> generateLead(@Body HomeLoanApplyRequestEntity body);
 
 
     }

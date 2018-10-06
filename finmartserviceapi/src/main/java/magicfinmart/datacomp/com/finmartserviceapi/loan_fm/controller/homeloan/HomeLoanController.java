@@ -112,41 +112,5 @@ public class HomeLoanController implements IHomeLoan {
         });
     }
 
-    @Override
-    public void generateLead(HomeLoanApplyRequestEntity homeLoanApplyRequestEntity, final IResponseSubcriberERP iResponseSubcriber) {
-
-
-        homeloanNetworkService.generateLead(homeLoanApplyRequestEntity).enqueue(new Callback<GenerateHLLeadResponse>() {
-            @Override
-            public void onResponse(Call<GenerateHLLeadResponse> call, Response<GenerateHLLeadResponse> response) {
-                try {
-                    if (response.body().getStatusId() == 0) {
-                        iResponseSubcriber.OnSuccessERP(response.body(), response.body().getMessage());
-                    } else {
-                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
-                    }
-
-                } catch (Exception e) {
-                    iResponseSubcriber.OnFailure(new RuntimeException(e.getMessage()));
-                }
-            }
-
-            @Override
-            public void onFailure(Call<GenerateHLLeadResponse> call, Throwable t) {
-                if (t instanceof ConnectException) {
-                    iResponseSubcriber.OnFailure(t);
-                } else if (t instanceof SocketTimeoutException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
-                } else if (t instanceof UnknownHostException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException(mContext.getResources().getString(R.string.net_connection)));
-                } else if (t instanceof JsonParseException) {
-                    iResponseSubcriber.OnFailure(new RuntimeException("Invalid Json"));
-                }else{
-                    iResponseSubcriber.OnFailure(new RuntimeException("Please Try after sometime.."));
-                }
-            }
-        });
-    }
-
 
 }

@@ -875,6 +875,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".notification.NotificationSmsActivity"
+            android:label="@string/title_activity_notification_sms"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

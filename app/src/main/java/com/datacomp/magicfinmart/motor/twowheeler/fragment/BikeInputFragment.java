@@ -63,6 +63,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.BikeMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
@@ -130,6 +131,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     Spinner spMonth, spYear;
     ArrayAdapter<String> MonthAdapter, YearAdapter;
     ArrayList<String> yearList, monthList;
+
+    Spinner spInsSubTYpe;
+    //ArrayAdapter<String> subTypeAdapter;
+    List<InsuranceSubtypeEntity> insuranceSubtypeEntities;
+    ArrayAdapter<InsuranceSubtypeEntity> subTypeAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -556,6 +562,22 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
 
             //endregion
 
+            //region subtype binding
+            if (motorRequestEntity.getVehicle_insurance_subtype() != null && insuranceSubtypeEntities != null) {
+                int subtypeId = 0;
+                for (int i = 0; i < insuranceSubtypeEntities.size(); i++) {
+
+                    String code = motorRequestEntity.getVehicle_insurance_subtype();
+                    String vari = insuranceSubtypeEntities.get(i).getCode();
+                    if (code.equalsIgnoreCase(vari)) {
+                        subtypeId = i;
+                        break;
+                    }
+                }
+                spInsSubTYpe.setSelection(subtypeId);
+            }
+            //endregion
+
             if (motorRequestEntity.getExternal_bifuel_value() != 0)
                 etExtValue.setText(motorRequestEntity.getExternal_bifuel_value());
 
@@ -629,6 +651,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
     private void bindFastLaneData(FastLaneDataEntity masterData) {
+
+        insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(10, "renew");
+        subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                insuranceSubtypeEntities);
+        spInsSubTYpe.setAdapter(subTypeAdapter);
 
         String vehicleID = masterData.getVariant_Id();
         BikeMasterEntity carMasterEntity = dbController.getBikeVarientDetails(vehicleID);
@@ -879,7 +906,24 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         tvClaimNo.performClick();
         spPrevIns.setEnabled(false);
         llVerifyCarDetails.setVisibility(View.GONE);
+
+        setSubTypeAdapter();
     }
+
+    private void setSubTypeAdapter() {
+        if (switchNewRenew.isChecked()) {
+            insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(10, "renew");
+            subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                    insuranceSubtypeEntities);
+            spInsSubTYpe.setAdapter(subTypeAdapter);
+        } else {
+            insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(10, "new");
+            subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                    insuranceSubtypeEntities);
+            spInsSubTYpe.setAdapter(subTypeAdapter);
+        }
+    }
+
 
     public int getPercentFromProgress(int value) {
         switch (value) {
@@ -969,6 +1013,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     }
 
     private void init_view(View view) {
+        spInsSubTYpe = view.findViewById(R.id.spInsSubTYpe);
         btnGo = (Button) view.findViewById(R.id.btnGo);
         tvNew = (TextView) view.findViewById(R.id.tvNew);
         tvRenew = (TextView) view.findViewById(R.id.tvRenew);
@@ -1598,7 +1643,10 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             motorRequestEntity.setSs_id(5);
         }
         motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
-
+        motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
+        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+        if (insuranceSubtypeEntity != null)
+            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
     }
 
     private void setInputParametersNewCAR() {
@@ -1937,6 +1985,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (R.id.switchNewRenew == compoundButton.getId()) {
             if (b) {
+                insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(10, "renew");
+                subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                        insuranceSubtypeEntities);
+                spInsSubTYpe.setAdapter(subTypeAdapter);
+
                 tvRenew.setTextColor(getResources().getColor(R.color.colorAccent));
                 tvNew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 etExpDate.setEnabled(true);
@@ -1945,6 +1998,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 llNCB.setVisibility(View.VISIBLE);
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.TWO_WHEELER), null);
             } else {
+                insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(10, "new");
+                subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                        insuranceSubtypeEntities);
+                spInsSubTYpe.setAdapter(subTypeAdapter);
+
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
                 etExpDate.setEnabled(false);

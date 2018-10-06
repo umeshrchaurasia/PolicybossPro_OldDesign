@@ -23,6 +23,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DashBoardItemEn
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocsEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.GeneralinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.HealthinsuranceEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LifeinsuranceEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.RblCityEntity;
@@ -563,7 +564,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("INSURANCE", 3, "HEALTH INSURANCE", "Get quotes and compare benefits of health insurance from top insurance companies.", R.drawable.health_insurance));
         dashboardEntities.add(new DashboardEntity("INSURANCE", 12, "LIFE INSURANCE", "Get quotes and compare benefits of life insurance from top insurance companies.", R.drawable.life_insurance));
 
-        if(prefManager.getMenuDashBoard()!=null){
+        if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
             if (dashboardEntities != null && dashboardEntities.size() > 0) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
@@ -582,16 +583,16 @@ public class DBPersistanceController {
 
     public List<DashboardEntity> getLoanProductList() {
         List<DashboardEntity> dashboardEntities = new ArrayList<DashboardEntity>();
-        dashboardEntities.add(new DashboardEntity("LOANS", 4, "HOME LOAN", "Get best deals for Home Loan for your customers from over 20 providers.", R.drawable.home_loan));
-        dashboardEntities.add(new DashboardEntity("LOANS", 5, "PERSONAL LOAN", "Get best deals for Personal Loan for your customers from over 20 providers.", R.drawable.personal_loan));
-        dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Offer loans against property at attractive rates to your customers", R.drawable.loan_against_property));
-        dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get lowest rate loan on your Credit Card from wide range of banks.", R.drawable.credit_card));
-        dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Save huge money for your customers on their existing loans.", R.drawable.balance_transfer));
-        dashboardEntities.add(new DashboardEntity("LOANS", 13, "EXPRESS LOAN", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.express_loan));
-        dashboardEntities.add(new DashboardEntity("LOANS", 14, "YES BANK BOT", "Chat with your BOT Friend & get your loan approved", R.drawable.yesbank_chat_ic));
-        dashboardEntities.add(new DashboardEntity("LOANS", 9, "QUICK LEAD SUBMISSION", "Get best deals for other Loans for your customers from over 20 providers.", R.drawable.quick_lead));
+        dashboardEntities.add(new DashboardEntity("LOANS", 4, "HOME LOAN", "Home loan at best interest rates from over 20+ banks & NBFCs.", R.drawable.home_loan));
+        dashboardEntities.add(new DashboardEntity("LOANS", 5, "PERSONAL LOAN", "Provide Instant approval for your customers at attractive interest rates.", R.drawable.personal_loan));
+        dashboardEntities.add(new DashboardEntity("LOANS", 6, "LOAN AGAINST PROPERTY", "Maximum loan amount at competitive interest rate against the property.", R.drawable.loan_against_property));
+        dashboardEntities.add(new DashboardEntity("LOANS", 7, "CREDIT CARD", "Get instant Credit card approvals with amazing offers & deals.", R.drawable.credit_card));
+        dashboardEntities.add(new DashboardEntity("LOANS", 8, "BALANCE TRANSFER", "Transfer existing loans at lower interest rate . And help customers to save more on existing loans.", R.drawable.balance_transfer));
+        dashboardEntities.add(new DashboardEntity("LOANS", 13, "PAYSENSE", "Cash loans. Loans disbursed in just few hours.", R.drawable.paysense_ic));
+        dashboardEntities.add(new DashboardEntity("LOANS", 14, "LOAN ON MESSENGER", "Enjoy chatting with your BOT friend & provide Instant loan sanction to your customer for Personal loan, Home Loan, Business Loan, Car loan, LAP, Gold loan,etc.", R.drawable.yesbank_chat_ic));
+        dashboardEntities.add(new DashboardEntity("LOANS", 9, "LEAD SUBMISSION - OTHER LOANS", "Submit leads for products like Car loan, Business loan, Working Capital, Term Loan, LRD,etc.", R.drawable.quick_lead));
 
-        if(prefManager.getMenuDashBoard()!=null){
+        if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
             if (dashboardEntities != null && dashboardEntities.size() > 0) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
@@ -614,7 +615,7 @@ public class DBPersistanceController {
         dashboardEntities.add(new DashboardEntity("MORE SERVICES", 2, "FIN-PEACE", "A must for all your customers. A unique BEYOND LIFE services for your customer's peace of mind", R.drawable.fin_peace));
         dashboardEntities.add(new DashboardEntity("MORE SERVICES", 11, "HEALTH CHECK UP PLANS", "Offer a wide array of health check up plans from reputed diagnostics labs at discounted prices and free home collection", R.drawable.health_checkup_plan));
 
-        if(prefManager.getMenuDashBoard()!=null){
+        if (prefManager.getMenuDashBoard() != null) {
             dashBoardItemEntities = prefManager.getMenuDashBoard().getMasterData().getDashboard();
             if (dashboardEntities != null && dashboardEntities.size() > 0) {
                 for (DashBoardItemEntity dashBoardItemEntity : dashBoardItemEntities) {
@@ -2030,4 +2031,20 @@ public class DBPersistanceController {
 
     //endregion
 
+
+    //region Insurance subtype
+
+    public List<InsuranceSubtypeEntity> getInsuranceSubTypeList(int vehicle_id, String neworrenew) {
+
+        List<InsuranceSubtypeEntity> list = new ArrayList<>();
+        list = realm.where(InsuranceSubtypeEntity.class)
+                .equalTo("vehicle_id", vehicle_id)
+                .equalTo("neworrenew", neworrenew)
+                .distinct("vehicleinsubtypeid");
+
+        return list;
+    }
+
+
+    //endregion
 }

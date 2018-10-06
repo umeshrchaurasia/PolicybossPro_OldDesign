@@ -312,7 +312,255 @@
                 android:minHeight="8dp"
                 android:thumb="@drawable/custom_thumb" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="68"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextViewStyle.Medium"
+                        android:gravity="center"
+                        android:text="Status" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:id="@+id/txtrbimgsingle"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="31"
+                            android:background="@drawable/customeborder_blue"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="SINGLE"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+
+                            android:id="@+id/txtrbimgmarried"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="40"
+                            android:background="@drawable/customeborder"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="MARRIED"
+                            android:textColor="@color/description_text" />
+
+                        <TextView
+
+                            android:id="@+id/txtrbimgother"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="29"
+                            android:background="@drawable/customeborder"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="OTHER"
+
+                            android:textColor="@color/description_text" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:padding="5dp"  android:gravity="center_horizontal"
+                    android:layout_weight="32"
+                    android:hint="Pincode">
+
+                    <EditText
+                        android:id="@+id/etPincode"
+                        style="@style/Style.edittext"
+                        android:digits="0123456789"
+                        android:ems="6"
+                        android:gravity="center_horizontal"
+                        android:inputType="number"
+                        android:maxLength="6" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/llcity"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:hint="City">
+
+                    <EditText
+                        android:id="@+id/etCity"
+                        style="@style/Style.edittext"
+                    android:text=""
+                        android:enabled="false"
+                       />
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:hint="State">
+                    <EditText
+                        android:enabled="false"
+                        android:id="@+id/etState"
+                        style="@style/Style.edittext"
+                        android:text=""
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:id="@+id/llemail"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="1dp"
+                    android:layout_weight="1"
+                    android:hint="Email Address">
+
+                    <EditText
+                        android:id="@+id/etEmail"
+                        style="@style/Style.edittext"
+                        android:text=""
+
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <android.support.design.widget.TextInputLayout
+                    style="@style/TextAppearence.App.TextInputLayout"
+                    android:layout_width="0dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:hint="Address">
+
+                    <EditText
+                        android:id="@+id/etaddress"
+                        style="@style/Style.edittext"
+
+
+                        android:layout_height="32dp"
+                        android:text="" />
+                </android.support.design.widget.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/TextViewStyle.Medium"
+                        android:gravity="center"
+                        android:text="Address Type" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="100">
+
+                        <TextView
+                            android:id="@+id/txtrbimgPersent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="2dp"
+                            android:layout_weight="25"
+                            android:background="@drawable/customeborder_blue"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="PERSENT"
+                            android:textColor="@color/colorPrimary" />
+
+                        <TextView
+
+                            android:id="@+id/txtrbimgPermanent"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="2dp"
+                            android:layout_weight="29"
+                            android:background="@drawable/customeborder"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="PERMANENT"
+                            android:textColor="@color/description_text" />
+
+                        <TextView
+
+                            android:id="@+id/txtrbimgOfficer"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="23"
+                            android:background="@drawable/customeborder"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="OFFICE"
+
+                            android:textColor="@color/description_text" />
+                        <TextView
+                            android:id="@+id/txtrbimgOther_addr"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_weight="23"
+                            android:background="@drawable/customeborder"
+                            android:gravity="center"
+                            android:padding="5dp"
+                            android:text="OTHER"
+                            android:textColor="@color/description_text" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

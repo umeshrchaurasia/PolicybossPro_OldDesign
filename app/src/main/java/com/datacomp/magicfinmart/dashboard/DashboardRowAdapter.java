@@ -22,7 +22,6 @@ import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
-import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -268,10 +267,13 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 break;
             case 13:
-
-                mContext.startActivity(new Intent(mContext, AppliedOnlineLoanListActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
-                MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Express Loan tab on home page");
+                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                        .putExtra("URL", "http://www.rupeeboss.com/gopaysense")
+                        .putExtra("NAME", "PAYSENSE")
+                        .putExtra("TITLE", "PAYSENSE"));
+                //mContext.startActivity(new Intent(mContext, AppliedOnlineLoanListActivity.class));
+                //new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
+                //MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Express Loan tab on home page");
                 break;
 
 
@@ -311,7 +313,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
         if (productID >= 20) {
             mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                    .putExtra("URL", ""+dashboardEntity.getLink())
+                    .putExtra("URL", "" + dashboardEntity.getLink())
                     .putExtra("NAME", "" + dashboardEntity.getProductName())
                     .putExtra("TITLE", "" + dashboardEntity.getProductName()));
         }

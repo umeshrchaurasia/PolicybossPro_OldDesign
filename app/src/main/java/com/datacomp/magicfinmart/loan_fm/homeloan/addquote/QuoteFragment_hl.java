@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
@@ -37,6 +39,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponseFM;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberFM;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.erploan.ErpLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.homeloan.HomeLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.controller.mainloan.MainLoanController;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.model.BuyLoanQuerystring;
@@ -317,8 +320,9 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
             buyLoanQuerystring.setCity(fmHomeLoanRequest.getHomeLoanRequest().getCity());
             //TODO change this to new service
             setGenerateLeadResponse();
-            new HomeLoanController(getActivity()).generateLead(homeLoanApplyRequestEntity, this);
-            // new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
+            showDialog();
+         //
+            new MainLoanController(getActivity()).savebankFbABuyData(bankSaveRequest, this);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -334,29 +338,29 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         homeLoanApplyRequestEntity.setDob(homeLoanRequest.getApplicantDOB());
 
         homeLoanApplyRequestEntity.setLoanEMI(homeLoanRequest.getApplicantObligations());
-        homeLoanApplyRequestEntity.setPan(homeLoanRequest.getApplicantGender());
+        homeLoanApplyRequestEntity.setPan(buyLoanQuerystring.getPan());
         homeLoanApplyRequestEntity.setMobileNo(homeLoanRequest.getContact());
         homeLoanApplyRequestEntity.setLoanAmnt(homeLoanRequest.getLoanRequired());
 
         homeLoanApplyRequestEntity.setEmailId(homeLoanRequest.getEmail());
         homeLoanApplyRequestEntity.setLoanTenure(Integer.valueOf(homeLoanRequest.getLoanTenure()));
         homeLoanApplyRequestEntity.setEmpCode("");
-        homeLoanApplyRequestEntity.setApplnSource("Finmart");
+        homeLoanApplyRequestEntity.setApplnSource("HL");
 
-        homeLoanApplyRequestEntity.setRbaSource(homeLoanRequest.getApplicantObligations());
-        homeLoanApplyRequestEntity.setBankId(Integer.valueOf(homeLoanRequest.getBank_id()));
+        homeLoanApplyRequestEntity.setRBASource("Finmart");
+        homeLoanApplyRequestEntity.setBankId(buyLoanQuerystring.getBankId());
         homeLoanApplyRequestEntity.setBrokerId(Integer.valueOf(loginEntity.getLoanId()));
-        homeLoanApplyRequestEntity.setQuoteId(homeLoanRequest.getQuote_id());
+        homeLoanApplyRequestEntity.setQuoteId(buyLoanQuerystring.getQuote_id());
 
         homeLoanApplyRequestEntity.setProductId(Integer.valueOf(homeLoanRequest.getProductId()));
-        homeLoanApplyRequestEntity.setPinCode(homeLoanRequest.getApplicantGender());
-        homeLoanApplyRequestEntity.setApplnId(Integer.valueOf(homeLoanRequest.getApplNumb()));
-        homeLoanApplyRequestEntity.setDc_fba_reg(homeLoanRequest.getLoanRequired());
+        homeLoanApplyRequestEntity.setPinCode("");
+        homeLoanApplyRequestEntity.setApplnId(0);
+        homeLoanApplyRequestEntity.setDc_fba_reg("Finmart");
 
         homeLoanApplyRequestEntity.setIsApplnComplete(0);
-        homeLoanApplyRequestEntity.setIsApplnConfirm(1);
-        homeLoanApplyRequestEntity.setFbA_Reg_Id(homeLoanRequest.getContact());
-        homeLoanApplyRequestEntity.setQuote_id(""+ homeLoanRequest.getQuote_id());
+        homeLoanApplyRequestEntity.setIsApplnConfirm(0);
+        homeLoanApplyRequestEntity.setFBA_Reg_Id(""+ new DBPersistanceController(getContext()).getUserData().getFBAId());
+        homeLoanApplyRequestEntity.setQuote_id(""+ buyLoanQuerystring.getQuote_id());
 
         //homeLoanApplyRequestEntity.setApplnId();
     }
@@ -385,9 +389,9 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy HL : Buy button for hl"), Constants.HOME_LOAN), null);
         MyApplication.getInstance().trackEvent(Constants.HOME_LOAN, "Clicked", "Buy HL : Buy button for hl");
 
-
-        startActivity(new Intent(getContext(), HomeLoanApplyActivity.class)
-                .putExtra("BuyLoanQuery", buyLoanQuerystring));
+        showDialog();
+        new ErpLoanController(getActivity()).generateLead(homeLoanApplyRequestEntity, this);
+    //    startActivity(new Intent(getContext(), HomeLoanApplyActivity.class).putExtra("BuyLoanQuery", buyLoanQuerystring));
 
     }
 
@@ -409,9 +413,12 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
 
     @Override
     public void OnSuccessERP(APIResponseERP response, String message) {
+        cancelDialog();
         if (response instanceof GenerateHLLeadResponse) {
-            cancelDialog();
-            Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+            openPopUp(ivllEdit, "Message",  response.getMessage(), "OK", true);
+          //  Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -428,6 +435,14 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     public void onPositiveButtonClick(Dialog dialog, View view) {
         if (view.getId() == R.id.ivShare) {
             dialog.cancel();
+        }else if(view.getId() == R.id.ivllEdit){
+            dialog.cancel();
+            Intent intent = new Intent( getActivity(), HomeLoanDetailActivity.class);
+            startActivity(intent);
+
+            getActivity().finish();
+
+
         }
     }
 
@@ -435,6 +450,12 @@ public class QuoteFragment_hl extends BaseFragment implements View.OnClickListen
     public void onCancelButtonClick(Dialog dialog, View view) {
         if (view.getId() == R.id.ivShare) {
             dialog.cancel();
+        }else if(view.getId() == R.id.ivllEdit){
+            dialog.cancel();
+            Intent intent = new Intent( getActivity(), HomeLoanDetailActivity.class);
+            startActivity(intent);
+
+            getActivity().finish();
         }
     }
 }
