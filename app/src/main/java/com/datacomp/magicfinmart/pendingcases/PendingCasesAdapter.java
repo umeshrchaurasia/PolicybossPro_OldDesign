@@ -51,7 +51,16 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             item.txtCustName.setText(entity.getCustomerName());
             item.txtCategory.setText(entity.getCategory());
             item.txtPendingDays.setText(String.valueOf(entity.getPendingdays()));
-            item.txtType.setText(entity.getQatype());
+            if(entity.getCategory().equals("Quick Lead"))
+            {
+                item.txtquickType.setText(entity.getQatype());
+                item.txtType.setVisibility(View.GONE);
+                item.txtquickType.setVisibility(View.VISIBLE);
+            }else {
+                item.txtType.setText(entity.getQatype());
+                item.txtType.setVisibility(View.VISIBLE);
+                item.txtquickType.setVisibility(View.GONE);
+            }
 
             Glide.with(mContex).load(entity.getBankImage())
                     .into(item.imgInsurerLogo);
@@ -215,7 +224,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
 
     public class ApplicationItem extends RecyclerView.ViewHolder {
 
-        TextView txtOverflowMenu, txtCustName, txtType, txtCategory, txtPendingDays;
+        TextView txtOverflowMenu, txtCustName, txtType,txtquickType, txtCategory, txtPendingDays;
         ImageView imgStatus, imgInsurerLogo, ivMsg, ivCall, ivDelete;
         LinearLayout llHistory, llType, llDays, llInfo;
 
@@ -225,6 +234,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             txtCustName = (TextView) itemView.findViewById(R.id.txtCustName);
             txtCategory = (TextView) itemView.findViewById(R.id.txtCategory);
             txtType = (TextView) itemView.findViewById(R.id.txtType);
+            txtquickType = (TextView) itemView.findViewById(R.id.txtquickType);
             txtPendingDays = (TextView) itemView.findViewById(R.id.txtPendingDays);
             imgStatus = (ImageView) itemView.findViewById(R.id.imgStatus);
             imgInsurerLogo = (ImageView) itemView.findViewById(R.id.imgInsurerLogo);

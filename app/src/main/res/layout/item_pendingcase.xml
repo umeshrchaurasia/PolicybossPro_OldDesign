@@ -222,7 +222,19 @@
                     android:gravity="center"
                     android:text="Q"
                     android:textAllCaps="true"
+                    android:visibility="gone"
                     android:textColor="@color/black" />
+                <TextView
+                    android:id="@+id/txtquickType"
+                    style="@style/TextStyle.TextMedium"
+                    android:layout_width="60dp"
+                    android:layout_height="30dp"
+                    android:background="@drawable/rectshape_pending"
+                    android:gravity="center"
+                    android:text=""
+                    android:textAllCaps="true"
+                    android:textColor="@color/black"
+                    android:visibility="visible"/>
             </LinearLayout>
 
             <LinearLayout
@@ -261,6 +273,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:visibility="gone"
                 android:orientation="vertical"
                 android:padding="4dp">
 
@@ -280,7 +293,8 @@
                 <ImageView
                     android:layout_width="35dp"
                     android:layout_height="35dp"
-                    android:src="@drawable/info_ic" />
+                    android:src="@drawable/info_ic"
+                   />
 
             </LinearLayout>
 
