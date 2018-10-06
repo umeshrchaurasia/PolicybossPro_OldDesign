@@ -38,7 +38,15 @@ public class CreditCardEntity implements Parcelable {
     private int CreditCardApplied;
     private String CreditCardName;
     private int Priority;
+    private String salarytype;
 
+    public String getSalarytype() {
+        return salarytype;
+    }
+
+    public void setSalarytype(String salarytype) {
+        this.salarytype = salarytype;
+    }
 
     public int getiPriority() {
         return Priority;

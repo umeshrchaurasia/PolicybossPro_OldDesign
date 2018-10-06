@@ -67,7 +67,7 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
     }
 
     public void selectedIncome(FilterEntity entity) {
-        mAdapter.refreshCreditCards(filterCreditCardsbtIncome(entity.getPriority()));
+        mAdapter.refreshCreditCards(filterCreditCardsbtIncome(entity));
     }
 
 
@@ -80,7 +80,7 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
         final RadioButton rbSalaried = alertLayout.findViewById(R.id.rbSalaried);
         final RadioButton rbSelf = alertLayout.findViewById(R.id.rbSelf);
 
-        int numberOfColumns = 3;
+        int numberOfColumns = 2;
         rvIncomeSlabs.setLayoutManager(new GridLayoutManager(this, numberOfColumns));
 
         rvIncomeSlabs.setAdapter(new CreditCardIncomeAdapter(this, listFilterEntity));
@@ -171,7 +171,7 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
                 //1. income selection filer credit cards
                 int priority = getIncomeAmountID(spIncome.getSelectedItem().toString());
                 //2. display credit cards
-                mAdapter.refreshCreditCards(filterCreditCardsbtIncome(priority));
+                // mAdapter.refreshCreditCards(filterCreditCardsbtIncome(priority));
 
             }
 
@@ -215,15 +215,24 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
         alertIncome();
     }
 
-    private List<CreditCardEntity> filterCreditCardsbtIncome(int incomeType) {
+    private List<CreditCardEntity> filterCreditCardsbtIncome(FilterEntity incomeType) {
         List<CreditCardEntity> list = new ArrayList<>();
 
-        if (incomeType == 0) {
+        if (incomeType.getPriority() == 0) {
             return listCreditCardEntity;
         }
+
+
         for (int i = 0; i < listCreditCardEntity.size(); i++) {
 
-            if (listCreditCardEntity.get(i).getiPriority() <= incomeType) {
+
+
+
+            if ((listCreditCardEntity.get(i).getiPriority() <= incomeType.getPriority()
+                    || listCreditCardEntity.get(i).getSalarytype().equalsIgnoreCase(String.valueOf("3"))
+
+                    && listCreditCardEntity.get(i).getSalarytype().equalsIgnoreCase(String.valueOf(EmploymentType)))
+                    || listCreditCardEntity.get(i).getSalarytype().equalsIgnoreCase(String.valueOf("4"))) {
                 list.add(listCreditCardEntity.get(i));
             }
         }
