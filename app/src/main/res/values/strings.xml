@@ -260,19 +260,20 @@
 
     <string-array name="quicklead_product">
         <item>Product</item>
-        <item>Used Car Loan</item>
+        <item>Business Loan</item>
+        <item>Car Loan</item>
+        <item>Car Refinance</item>
+        <item>Home Loan BT</item>
         <item>Lap BT</item>
         <item>LRD</item>
-        <item>Car Loan</item>
-        <item>Home Loan BT</item>
-        <item>MERCHANT BUSINESS</item>
-        <item>LAP</item>
-        <item>Car Refinance</item>
-        <item>Personal Loan</item>
-        <item>Credit Card</item>
+        <item>Merchant Business</item>
+        <!--<item>LAP</item>-->
+        <!--<item>Personal Loan</item>-->
+        <!--<item>Credit Card</item>-->
+        <item>Used Car Loan</item>
         <item>Working Capital</item>
-        <item>Home Loan</item>
-        <item>Business Loan</item>
+
+        <!--<item>Home Loan</item>-->
         <!--<item>Term Loan</item>-->
 
     </string-array>

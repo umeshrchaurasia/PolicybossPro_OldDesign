@@ -269,8 +269,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 13:
                 mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra("URL", "http://www.rupeeboss.com/gopaysense")
-                        .putExtra("NAME", "PAYSENSE")
-                        .putExtra("TITLE", "PAYSENSE"));
+                        .putExtra("NAME", "Cash Loan")
+                        .putExtra("TITLE", "Cash Loan"));
                 //mContext.startActivity(new Intent(mContext, AppliedOnlineLoanListActivity.class));
                 //new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
                 //MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Express Loan tab on home page");
@@ -303,8 +303,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 14:
                 mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
-                        .putExtra("NAME", "" + "YES BANK BOT")
-                        .putExtra("TITLE", "" + "YES BANK BOT"));
+                        .putExtra("NAME", "" + "Loan On Messenger")
+                        .putExtra("TITLE", "" + "Loan On Messenger"));
                 break;
             default:
                 Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
