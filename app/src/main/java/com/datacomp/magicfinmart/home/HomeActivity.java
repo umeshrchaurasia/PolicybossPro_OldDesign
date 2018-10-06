@@ -227,7 +227,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
                 if (menuMasterResponse != null) {
                     for (MenuItemEntity menuItemEntity : menuMasterResponse.getMasterData().getMenu()) {
-                        if (menuItem.getItemId() == Integer.parseInt(menuItemEntity.getSequence())) {
+                        int sequence =Integer.parseInt(menuItemEntity.getSequence());
+                        sequence = (sequence * 100) + 1;
+                        if (menuItem.getItemId() == sequence) {
                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                     .putExtra("URL", menuItemEntity.getLink())
                                     .putExtra("NAME", menuItemEntity.getMenuname())

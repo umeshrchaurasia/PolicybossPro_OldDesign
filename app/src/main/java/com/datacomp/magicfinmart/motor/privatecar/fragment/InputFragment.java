@@ -1052,7 +1052,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                view.setPadding(2, view.getPaddingTop(), view.getPaddingRight(), 0);
+                view.setPadding(2, view.getPaddingTop(), 0, view.getPaddingBottom());
                 return view;
             }
         };
@@ -2288,9 +2288,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (R.id.switchNewRenew == compoundButton.getId()) {
             if (b) {
                 insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
-                subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                         insuranceSubtypeEntities);
-                spInsSubTYpe.setAdapter(subTypeAdapter);
+                spInsSubTYpe.setAdapter(subTypeAdapter);*/
+                setSubTypeAdapterView(insuranceSubtypeEntities);
 
                 tvRenew.setTextColor(getResources().getColor(R.color.colorAccent));
                 tvNew.setTextColor(getResources().getColor(R.color.header_dark_text));
@@ -2301,10 +2302,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), Constants.PRIVATE_CAR), null);
             } else {
                 insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "new");
-                subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                         insuranceSubtypeEntities);
-                spInsSubTYpe.setAdapter(subTypeAdapter);
-
+                spInsSubTYpe.setAdapter(subTypeAdapter);*/
+                setSubTypeAdapterView(insuranceSubtypeEntities);
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
                 etExpDate.setEnabled(false);

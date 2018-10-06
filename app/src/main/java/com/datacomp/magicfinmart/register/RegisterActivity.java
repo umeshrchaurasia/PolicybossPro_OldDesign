@@ -117,9 +117,10 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         registerRequestEntity = new RegisterRequestEntity();
         sourceList = new ArrayList<>();
 
-        bindSource();
+
 
         initWidgets();
+        bindSource();
         setListener();
         initLayouts();
         setSpinnerListener();
