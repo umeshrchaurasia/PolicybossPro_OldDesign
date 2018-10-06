@@ -28,6 +28,9 @@ public class ConstantEntity extends RealmObject {
     private String POSPNo;
     private String POSPStat;
     private String HelpNumber;
+    private String healthappenable;
+
+
 
     /**
      * POSPTraining : 1
@@ -48,6 +51,14 @@ public class ConstantEntity extends RealmObject {
      */
 
     private String HorizonVersion;
+
+    public String getHealthappenable() {
+        return healthappenable;
+    }
+
+    public void setHealthappenable(String healthappenable) {
+        this.healthappenable = healthappenable;
+    }
 
     public String getUpdateMaster() {
         return UpdateMaster;
