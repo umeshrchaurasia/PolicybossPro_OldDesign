@@ -52,6 +52,7 @@ import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
 import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
+import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
@@ -72,6 +73,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -161,7 +163,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         getSupportActionBar().setElevation(0);
         toolbar.setTitle("MAGIC FIN-MART");
 
-        new MasterController(this).getMenuMaster(this);
+
 
         try {
             pinfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -189,9 +191,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             if (userConstantEntity != null) {
                 init_headers();
+
             } else {
-                new MasterController(this).geUserConstant(1,this);
+                new MasterController(this).geUserConstant(1, this);
             }
+
+            new MasterController(this).getMenuMaster(this);
         }
         /*if (db.getAccountData() == null) {
             new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
@@ -505,7 +510,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (getIntent().getExtras() != null) {
 
+            NotifyEntity notifyEntity1 = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+            String MESSAGEID = notifyEntity1.getMessage_id();
 
+            new RegisterController(getApplicationContext()).getUserClickActionOnNotification(MESSAGEID, null);
             // step1: boolean verifyLogin = prefManager.getIsUserLogin();
             // region verifyUser : when user logout and when Apps in background
             if (loginResponseEntity == null) {
@@ -515,12 +523,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     return;
                 }
 
-                if (notifyEntity.getNotifyFlag().matches("WB")) {
-
-                    prefManager.setSharePushWebURL(notifyEntity.getWeb_url());
-                    prefManager.setSharePushWebTitle(notifyEntity.getWeb_title());
-
-                }
+                prefManager.setPushNotifyPreference(notifyEntity);
                 prefManager.setSharePushType(notifyEntity.getNotifyFlag());
 
                 Intent intent = new Intent(this, SplashScreenActivity.class);
@@ -536,15 +539,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 String pushLogin = getIntent().getStringExtra(Utility.PUSH_LOGIN_PAGE);
                 if (pushLogin.equals("555")) {
 
-                    String type = prefManager.getSharePushType();
-                    String web_url = prefManager.getSharePushWebURL();
-                    String web_title = prefManager.getSharePushWebTitle();
-                    String web_name = "";
+                    NotifyEntity notifyEntity;
+                    String type = "", title ="", body = "", web_url = "", web_title="",web_name = "";
+                    if (prefManager.getPushNotifyPreference() != null) {
+                        notifyEntity = prefManager.getPushNotifyPreference();
+
+                        type = notifyEntity.getNotifyFlag();
+                        title = notifyEntity.getTitle();
+                        body = notifyEntity.getBody();
+                        web_url = notifyEntity.getWeb_url();
+                        web_title = notifyEntity.getWeb_title();
+
+                    }
+
                     prefManager.clearNotification();
 
                     if (type.matches("NL")) {
                         Intent intent = new Intent(this, NotificationActivity.class);
                         startActivity(intent);
+
+                    } else if (type.matches("MSG")) {
+
+                        startActivity(new Intent(HomeActivity.this, NotificationSmsActivity.class)
+                                .putExtra("NOTIFY_TITLE", title)
+                                .putExtra("NOTIFY_BODY", body));
 
                     } else if (type.matches("WB")) {
 
@@ -565,6 +583,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 if (notificationEntity.getNotifyFlag().matches("NL")) {
                     Intent intent = new Intent(this, NotificationActivity.class);
                     startActivity(intent);
+                } else if (notificationEntity.getNotifyFlag().matches("MSG")) {
+
+                    String title = notificationEntity.getTitle();
+                    String body = notificationEntity.getBody();
+
+                    startActivity(new Intent(HomeActivity.this, NotificationSmsActivity.class)
+                            .putExtra("NOTIFY_TITLE", title)
+                            .putExtra("NOTIFY_BODY", body));
+
                 } else if (notificationEntity.getNotifyFlag().matches("WB")) {
                     String web_url = notificationEntity.getWeb_url();
                     String web_title = notificationEntity.getWeb_title();

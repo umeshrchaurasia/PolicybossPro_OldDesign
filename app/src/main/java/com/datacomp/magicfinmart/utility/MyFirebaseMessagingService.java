@@ -20,6 +20,7 @@ import android.util.Log;
 
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
+import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
@@ -31,6 +32,7 @@ import java.util.Map;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 
 /**
@@ -39,6 +41,13 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
+    /****************************************************
+     (Key)           (Action)
+     NL >>>>>>>>>  Notification List
+     WB >>>>>>>   WebView
+     MSG >>>>>>>  Notification MESSAGE
+     Default >>>  Home Page
+     **************************************************/
     private NotificationManager mManager;
     private static final String TAG = "MyFirebaseMsgService";
     public static final String CHANNEL_ID = "com.datacomp.magicfinmart.NotifyID";
@@ -74,30 +83,42 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         } else {
             type = NotifyData.get("notifyFlag");
 
+            // region validate WEBURL
             if (NotifyData.get("web_url") == null) {
                 WebURL = "";
-                WebTitle = "";
+            } else {
+                WebURL = NotifyData.get("web_url");
             }
+            //endregion
 
+            // region validate WEB Title
+            if (NotifyData.get("web_title") == null) {
+                WebTitle = "";
+            } else {
+                WebTitle = NotifyData.get("web_title");
+            }
+            //endregion
+
+            // region validate MESSAGE_ID
             if (NotifyData.get("message_id") == null) {
                 messageId = "0";
-            }
-            if (NotifyData.get("message_id").toString().isEmpty()) {
+            } else if (NotifyData.get("message_id").toString().isEmpty()) {
                 messageId = "0";
+            } else {
+                messageId = NotifyData.get("message_id");
             }
-
-            messageId = NotifyData.get("message_id");
-            WebURL = NotifyData.get("web_url");
-            WebTitle = NotifyData.get("web_title");
+            // endregion
 
             notifyEntity.setNotifyFlag(type);
+            notifyEntity.setTitle(NotifyData.get("title"));
+            notifyEntity.setBody(NotifyData.get("body"));
             notifyEntity.setMessage_id(messageId);
             notifyEntity.setWeb_url(WebURL);
             notifyEntity.setWeb_title(WebTitle);
 
             String img_url = NotifyData.get("img_url");
             bitmap_image = getBitmapfromUrl(img_url);
-          //  new createBitmapFromURL(NotifyData.get("img_url")).execute();
+            //  new createBitmapFromURL(NotifyData.get("img_url")).execute();
 
             intent = new Intent(this, HomeActivity.class);
             intent.putExtra(Utility.PUSH_NOTIFY, notifyEntity);
@@ -129,10 +150,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         notificationBuilder = new NotificationCompat.Builder(this, CHANNEL_ID);
 
-        if(bitmap_image != null) {
+        if (bitmap_image != null) {
             notificationBuilder.setStyle(BigPicstyle);
             notificationBuilder.setLargeIcon(bitmap_image);
-        }else{
+        } else {
             notificationBuilder.setStyle(BigTextstyle);
             notificationBuilder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher));
         }
@@ -156,9 +177,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         getManager().notify(NOTIFICATION_ID, notificationBuilder.build());
 
         setNotifyCounter();
+
+        try {
+            new RegisterController(getApplicationContext()).getReceiveNotificationData(messageId, null);
+        } catch (Exception ex) {
+
+        }
+
     }
 
-        //   .setStyle(new NotificationCompat.BigTextStyle().bigText(NotifyData.get("body")))
+    //   .setStyle(new NotificationCompat.BigTextStyle().bigText(NotifyData.get("body")))
     //      builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.finmart_logo));
 
 
@@ -172,8 +200,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     }
 
-    public void createChannels()  {
-        if (Build.VERSION.SDK_INT >=  26) {
+    public void createChannels() {
+        if (Build.VERSION.SDK_INT >= 26) {
 
 
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID,
@@ -190,7 +218,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     }
 
 
-
     private NotificationManager getManager() {
         if (mManager == null) {
             mManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
@@ -201,8 +228,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public Bitmap getBitmapfromUrl(String imageUrl) {
         try {
 
-            if(imageUrl.trim().equals(""))
-            {
+            if (imageUrl.trim().equals("")) {
                 return null;
             }
             URL url = new URL(imageUrl);
