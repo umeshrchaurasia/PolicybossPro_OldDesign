@@ -198,9 +198,9 @@
     </style>
 
     <style name="CustomDialog" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+</style>
 
     <!--Spinner theme no use-->
 

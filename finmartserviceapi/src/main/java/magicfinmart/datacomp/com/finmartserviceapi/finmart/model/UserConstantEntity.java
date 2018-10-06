@@ -110,6 +110,17 @@ public class UserConstantEntity extends RealmObject {
     private String addposplimit;
     private String serviceurl;
 
+    private String healthurl;
+
+
+    public String getHealthurl() {
+        return healthurl;
+    }
+
+    public void setHealthurl(String healthurl) {
+        this.healthurl = healthurl;
+    }
+
     public String getLoginID() {
         return LoginID;
     }

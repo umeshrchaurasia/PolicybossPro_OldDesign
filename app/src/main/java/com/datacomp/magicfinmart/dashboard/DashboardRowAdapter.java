@@ -29,11 +29,13 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
+import okhttp3.internal.Util;
 
 
 public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -224,7 +226,29 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 3:
                 //health
-                mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
+                if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
+                    mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
+                } else {
+
+                    String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
+
+                    String ipaddress = "0.0.0.0";
+                    try {
+                        ipaddress = Utility.getMacAddress(mContext);
+                    } catch (Exception io) {
+                        ipaddress = "0.0.0.0";
+                    }
+
+                    String append = "&ip_address=" + ipaddress + "&app_version=" + Utility.getVersionName(mContext);
+                    healthUrl = healthUrl + append;
+
+                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                            .putExtra("URL", healthUrl)
+                            .putExtra("NAME", "Health Insurance")
+                            .putExtra("TITLE", "Health Insurance"));
+                }
+
+
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
                 MyApplication.getInstance().trackEvent(Constants.HEALTH_INS, "Clicked", "Health insurance tab on home page");
                 break;
