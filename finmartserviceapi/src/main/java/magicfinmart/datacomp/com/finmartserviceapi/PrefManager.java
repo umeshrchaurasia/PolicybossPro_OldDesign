@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MpsDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 
 public class PrefManager {
@@ -41,7 +43,14 @@ public class PrefManager {
     public static String SHARED_KEY_PUSH_WEB_URL = "shared_notify_webUrl";
     public static String SHARED_KEY_PUSH_WEB_TITLE = "shared_notify_webTitle";
 
+    public static String SHARED_KEY_PUSH_Body = "shared_notify_Title";
+    public static String SHARED_KEY_PUSH__TITLE = "shared_notify_Body";
+    public static String PUSH_NOTIFICATION = "push_notifyication_data";
+
+
     public static String MPS_DATA = "mps_data";
+
+    private static final String MENU_DASHBOARD = "menu_dashboard";
 
 
     public PrefManager(Context context) {
@@ -239,6 +248,39 @@ public class PrefManager {
     }
 
 
+
+    public String getSharePushTitle() {
+        return pref.getString(SHARED_KEY_PUSH__TITLE, "");
+    }
+
+    public void setSharePushTitle(String title) {
+
+        editor.putString(SHARED_KEY_PUSH__TITLE, title);
+        editor.commit();
+    }
+
+    public boolean setPushNotifyPreference(NotifyEntity notifyEntity) {
+        try {
+            Gson gson = new Gson();
+            editor.putString(PUSH_NOTIFICATION, gson.toJson(notifyEntity));
+            return editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public NotifyEntity getPushNotifyPreference() {
+        String push_KEY = pref.getString(PUSH_NOTIFICATION, "");
+        Gson gson = new Gson();
+        NotifyEntity notifyEntity = gson.fromJson(push_KEY, NotifyEntity.class);
+        if (notifyEntity != null)
+            return notifyEntity;
+        else
+            return null;
+    }
+
+
     public boolean setPospInformation(RegisterRequestEntity registerRequestEntity) {
         try {
             Gson gson = new Gson();
@@ -267,8 +309,7 @@ public class PrefManager {
 
     public void clearNotification() {
         pref.edit().remove(SHARED_KEY_PUSH_NOTIFY)
-                .remove(SHARED_KEY_PUSH_WEB_URL)
-                .remove(SHARED_KEY_PUSH_WEB_TITLE).commit();
+                .remove(PUSH_NOTIFICATION).commit();
 
     }
 
@@ -278,6 +319,7 @@ public class PrefManager {
         pref.edit().remove(POSP_INFO)
                 .remove(SHARED_KEY_PUSH_NOTIFY)
                 .remove(SHARED_KEY_PUSH_WEB_URL)
+                .remove(MENU_DASHBOARD)
                 .remove(SHARED_KEY_PUSH_WEB_TITLE).commit();
 
     }
@@ -304,4 +346,33 @@ public class PrefManager {
     }
     //endregion
 
+
+    //region menu master
+
+    public boolean storeMenuDashboard(MenuMasterResponse menuMasterResponse) {
+        try {
+            Gson gson = new Gson();
+            editor.putString(MENU_DASHBOARD, gson.toJson(menuMasterResponse));
+            return editor.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+
+    }
+
+    public MenuMasterResponse getMenuDashBoard() {
+        String user = pref.getString(MENU_DASHBOARD, "");
+        Gson gson = new Gson();
+        MenuMasterResponse menuMasterResponse = gson.fromJson(user, MenuMasterResponse.class);
+        if (menuMasterResponse != null)
+            return menuMasterResponse;
+        else
+            return null;
+    }
+
+    public void clearMenuDashBoard() {
+        pref.edit().remove(MENU_DASHBOARD).commit();
+    }
+    //endregion
 }

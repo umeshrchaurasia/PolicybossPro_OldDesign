@@ -83,6 +83,7 @@
                         android:layout_width="0dp"
                         android:layout_height="48dp"
                         android:layout_weight="20"
+                        android:padding="3dp"
                         android:scaleType="centerInside"
                         android:src="@drawable/edit_icon" />
                 </LinearLayout>

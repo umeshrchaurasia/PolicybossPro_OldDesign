@@ -29,4 +29,8 @@ public interface IMasterFetch {
 
     public void geUserConstant( int type, IResponseSubcriber iResponseSubcriber);
 
+    public void getMenuMaster(IResponseSubcriber iResponseSubcriber);
+
+    public void getInsuranceSubType(IResponseSubcriber iResponseSubcriber);
+
 }

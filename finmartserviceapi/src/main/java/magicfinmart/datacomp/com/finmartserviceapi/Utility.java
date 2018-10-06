@@ -29,6 +29,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -72,6 +73,8 @@ public class Utility {
     public static String PUSH_LOGIN_PAGE = "pushloginPage";
 
     public static String USER_PROFILE_ACTION = "Finmart_User_Profile_Action";
+
+    public static String USER_DASHBOARD = "user_dashboard";
 
 
     public static SharedPreferences getSharedPreference(Context context) {
@@ -154,15 +157,15 @@ public class Utility {
 
     public static int checkShareStatus(Context context) {
         int pospStatus;
-        DBPersistanceController dbPersistanceController = new DBPersistanceController(context);
-        ConstantEntity constantEntity = dbPersistanceController.getConstantsData();
+        /*DBPersistanceController dbPersistanceController = new DBPersistanceController(context);
+        UserConstantEntity userConstantEntity = dbPersistanceController.getUserConstantsData();
 
-        if (constantEntity != null) {
-            pospStatus = Integer.parseInt(constantEntity.getPOSPStat());
+        if (userConstantEntity != null) {
+            pospStatus = Integer.parseInt(userConstantEntity.getPOSP_STATUS());
             if (pospStatus == 6)
                 return 1;
-        }
-        return 0;
+        }*/
+        return 1;
     }
 
     public static int checkPospTrainingStatus(Context context) {

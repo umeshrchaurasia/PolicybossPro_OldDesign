@@ -15,12 +15,14 @@ public class BuyLoanQuerystring implements Parcelable  {
     private String Prop_Processing_Fee;
 
     private String Prop_type;
-
     private String MobileNo;
     private String City;
     private String type;
-
     private String pan;
+    private  String bank_web_url;
+    private  String bank_name;
+
+    private  String Lead_id;
 
     public BuyLoanQuerystring()
     {
@@ -38,6 +40,9 @@ public class BuyLoanQuerystring implements Parcelable  {
         City = in.readString();
         type = in.readString();
         pan = in.readString();
+        bank_web_url = in.readString();
+        bank_name= in.readString();
+        Lead_id = in.readString();
     }
 
     public static final Creator<BuyLoanQuerystring> CREATOR = new Creator<BuyLoanQuerystring>() {
@@ -124,6 +129,29 @@ public class BuyLoanQuerystring implements Parcelable  {
         this.pan = pan;
     }
 
+    public String getBank_web_url() {
+        return bank_web_url;
+    }
+    public void setBank_web_url(String bank_web_url) {
+        this.bank_web_url = bank_web_url;
+    }
+
+
+    public String getBank_name() {
+        return bank_name;
+    }
+
+    public void setBank_name(String bank_name) {
+        this.bank_name = bank_name;
+    }
+
+    public String getLead_id() {
+        return Lead_id;
+    }
+
+    public void setLead_id(String lead_id) {
+        Lead_id = lead_id;
+    }
 
     @Override
     public int describeContents() {
@@ -141,5 +169,8 @@ public class BuyLoanQuerystring implements Parcelable  {
         dest.writeString(City);
         dest.writeString(type);
         dest.writeString(pan);
+        dest.writeString(bank_web_url);
+        dest.writeString(bank_name);
+        dest.writeString(Lead_id);
     }
 }

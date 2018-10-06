@@ -15,7 +15,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -35,12 +34,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
@@ -51,6 +52,8 @@ import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
 import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
+import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
+import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
@@ -63,6 +66,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.io.IOException;
+import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -70,12 +74,14 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuItemEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ConstantsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
@@ -99,7 +105,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     ConstantEntity constantEntity;
     AlertDialog mpsDialog;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
+    UserConstantEntity userConstantEntity;
+    MenuMasterResponse menuMasterResponse;
 
+    //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
 
         @Override
@@ -127,11 +136,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             .transform(new CircleTransform(HomeActivity.this)) // applying the image transformer
                             .into(ivProfile);
 
+                } else if (intent.getAction().equalsIgnoreCase(Utility.USER_DASHBOARD)) {
+
                 }
             }
 
         }
     };
+
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -168,21 +181,25 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
+        userConstantEntity = db.getUserConstantsData();
         prefManager = new PrefManager(this);
 
         getNotificationAction();
 
         if (loginResponseEntity != null) {
 
-            if (db.getUserConstantsData() != null) {
+            if (userConstantEntity != null) {
                 init_headers();
+
             } else {
-                new MasterController(this).geUserConstant(1,this);
+                new MasterController(this).geUserConstant(1, this);
             }
+
+            new MasterController(this).getMenuMaster(this);
         }
-        if (db.getAccountData() == null) {
+        /*if (db.getAccountData() == null) {
             new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
-        }
+        }*/
 //        List<String> rtoDesc = db.getRTOListNames();
 
 
@@ -191,6 +208,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
 
 
+        //region navigation click
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
             @Override
@@ -207,6 +225,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 //hide keyboard
                 Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
+                if (menuMasterResponse != null) {
+                    for (MenuItemEntity menuItemEntity : menuMasterResponse.getMasterData().getMenu()) {
+                        if (menuItem.getItemId() == Integer.parseInt(menuItemEntity.getSequence())) {
+                            startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
+                                    .putExtra("URL", menuItemEntity.getLink())
+                                    .putExtra("NAME", menuItemEntity.getMenuname())
+                                    .putExtra("TITLE", menuItemEntity.getMenuname()));
+                            return true;
+                        }
+                    }
+                }
+
 
                 switch (menuItem.getItemId()) {
 
@@ -216,6 +246,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         fragment = new VehicleDetailFragment();
                         break;
 
+                    case R.id.nav_expressLoan:
+                        startActivity(new Intent(HomeActivity.this, AppliedOnlineLoanListActivity.class));
+                        break;
                     //Replacing the main content with ContentFragment Which is our Inbox View;
                     case R.id.nav_yesbankbot:
                         startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
@@ -312,6 +345,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         dialogLogout(HomeActivity.this);
                         break;
 
+
                     default:
                         break;
                 }
@@ -326,6 +360,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 return false;
             }
         });
+        //regionend
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
@@ -350,6 +385,36 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
+
+    private void addDynamicMenu(List<MenuItemEntity> list) {
+        Menu menu = navigationView.getMenu();
+
+        for (int i = 1; i <= list.size() && (list.get(i - 1).getIsActive() == 1); i++) {
+            int sequence = Integer.parseInt(list.get(i - 1).getSequence());
+            sequence = (sequence * 100) + 1;
+            final MenuItem menuItem = menu.add(R.id.dashboard_menu_group, sequence, sequence, list.get(i - 1).getMenuname());
+            Glide.with(this)
+                    .load(list.get(i - 1).getIconimage())
+                    .into(new SimpleTarget<GlideDrawable>() {
+                        @Override
+                        public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                            menuItem.setIcon(resource);
+                        }
+                    });
+
+
+        }
+
+        /*final MenuItem menuItem = menu.add(R.id.dashboard_menu_group, R.id.nav_myaccount, 0, "itemid");
+        Glide.with(this)
+                .load("https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678110-sign-info-128.png")
+                .into(new SimpleTarget<GlideDrawable>() {
+                    @Override
+                    public void onResourceReady(GlideDrawable resource, GlideAnimation<? super GlideDrawable> glideAnimation) {
+                        menuItem.setIcon(resource);
+                    }
+                });*/
     }
 
     public void selectHome() {
@@ -380,8 +445,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     Pair[] pairs = new Pair[1];
                     pairs[0] = new Pair<View, String>(ivProfile, "profileTransition");
                     ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(HomeActivity.this, pairs);
-                    startActivity(shareIntent,options.toBundle());
-                }else{
+                    startActivity(shareIntent, options.toBundle());
+                } else {
                     startActivity(new Intent(HomeActivity.this, MyAccountActivity.class));
                 }
 
@@ -396,11 +461,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
         txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
 
-        if (db.getUserConstantsData() != null) {
-            txtPospNo.setText("Posp No - " + db.getUserConstantsData().getPOSPNo());
+        if (userConstantEntity != null) {
+            txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
 
             Glide.with(HomeActivity.this)
-                    .load(Uri.parse(db.getUserConstantsData().getLoansendphoto()))
+                    .load(Uri.parse(userConstantEntity.getLoansendphoto()))
                     .placeholder(R.drawable.circle_placeholder)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .skipMemoryCache(true)
@@ -448,7 +513,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (getIntent().getExtras() != null) {
 
+            //NotifyEntity notifyEntity1 = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+            //String MESSAGEID = notifyEntity1.getMessage_id();
 
+            //new RegisterController(getApplicationContext()).getUserClickActionOnNotification(MESSAGEID, null);
             // step1: boolean verifyLogin = prefManager.getIsUserLogin();
             // region verifyUser : when user logout and when Apps in background
             if (loginResponseEntity == null) {
@@ -458,12 +526,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     return;
                 }
 
-                if (notifyEntity.getNotifyFlag().matches("WB")) {
-
-                    prefManager.setSharePushWebURL(notifyEntity.getWeb_url());
-                    prefManager.setSharePushWebTitle(notifyEntity.getWeb_title());
-
-                }
+                prefManager.setPushNotifyPreference(notifyEntity);
                 prefManager.setSharePushType(notifyEntity.getNotifyFlag());
 
                 Intent intent = new Intent(this, SplashScreenActivity.class);
@@ -479,15 +542,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 String pushLogin = getIntent().getStringExtra(Utility.PUSH_LOGIN_PAGE);
                 if (pushLogin.equals("555")) {
 
-                    String type = prefManager.getSharePushType();
-                    String web_url = prefManager.getSharePushWebURL();
-                    String web_title = prefManager.getSharePushWebTitle();
-                    String web_name = "";
+                    NotifyEntity notifyEntity;
+                    String type = "", title = "", body = "", web_url = "", web_title = "", web_name = "";
+                    if (prefManager.getPushNotifyPreference() != null) {
+                        notifyEntity = prefManager.getPushNotifyPreference();
+
+                        type = notifyEntity.getNotifyFlag();
+                        title = notifyEntity.getTitle();
+                        body = notifyEntity.getBody();
+                        web_url = notifyEntity.getWeb_url();
+                        web_title = notifyEntity.getWeb_title();
+
+                    }
+
                     prefManager.clearNotification();
 
                     if (type.matches("NL")) {
                         Intent intent = new Intent(this, NotificationActivity.class);
                         startActivity(intent);
+
+                    } else if (type.matches("MSG")) {
+
+                        startActivity(new Intent(HomeActivity.this, NotificationSmsActivity.class)
+                                .putExtra("NOTIFY_TITLE", title)
+                                .putExtra("NOTIFY_BODY", body));
 
                     } else if (type.matches("WB")) {
 
@@ -508,6 +586,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 if (notificationEntity.getNotifyFlag().matches("NL")) {
                     Intent intent = new Intent(this, NotificationActivity.class);
                     startActivity(intent);
+                } else if (notificationEntity.getNotifyFlag().matches("MSG")) {
+
+                    String title = notificationEntity.getTitle();
+                    String body = notificationEntity.getBody();
+
+                    startActivity(new Intent(HomeActivity.this, NotificationSmsActivity.class)
+                            .putExtra("NOTIFY_TITLE", title)
+                            .putExtra("NOTIFY_BODY", body));
+
                 } else if (notificationEntity.getNotifyFlag().matches("WB")) {
                     String web_url = notificationEntity.getWeb_url();
                     String web_title = notificationEntity.getWeb_title();
@@ -572,7 +659,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         switch (item.getItemId()) {
 
             case R.id.action_call:
-                if (db.getConstantsData().getHelpNumber() != null) {
+                if (constantEntity.getHelpNumber() != null) {
 
                     if (ActivityCompat.checkSelfPermission(HomeActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
 
@@ -590,7 +677,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         }
                     } else {
 
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) +" "+db.getUserConstantsData().getManagName());
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
 
                     }
                 }
@@ -634,11 +721,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             if (response.getStatusNo() == 0) {
                 if (((UserConstatntResponse) response).getMasterData() != null) {
                     db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
+                    userConstantEntity = db.getUserConstantsData();
                     init_headers();
                 }
             }
-        }
-        if (response instanceof ConstantsResponse) {
+        } else if (response instanceof ConstantsResponse) {
             constantEntity = ((ConstantsResponse) response).getMasterData();
             if (response.getStatusNo() == 0) {
 
@@ -694,8 +781,28 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                 hideNavigationItem();
             }
+        } else if (response instanceof MenuMasterResponse) {
+            if (response.getStatusNo() == 0) {
+                menuMasterResponse = (MenuMasterResponse) response;
+                prefManager.storeMenuDashboard(menuMasterResponse);
+                addDynamicMenu(menuMasterResponse.getMasterData().getMenu());
+                //refreshDashboard();
+
+
+                Intent dashboardIntent = new Intent(Utility.USER_DASHBOARD);
+                //dashboardIntent.putExtra("USER_DASHBOARD", ((MenuMasterResponse) response).getMasterData());
+                LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(dashboardIntent);
+            }
         }
 
+
+    }
+
+    private void refreshDashboard() {
+        /*Intent profileIntent = new Intent(Utility.USER_DASHBOARD);
+        profileIntent.putExtra("USER_DASHBOARD", ((MenuMasterResponse) response).getMasterData().get(0).getPrv_file());
+
+        LocalBroadcastManager.getInstance(HomeActivity.this).sendBroadcast(profileIntent);*/
 
     }
 
@@ -745,9 +852,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         new MasterController(this).getConstants(this);
 
+        new MasterController(this).getInsuranceSubType(this);
+
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
-        LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
+        LocalBroadcastManager.getInstance(HomeActivity.this)
+                .registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.USER_PROFILE_ACTION));
+
+        LocalBroadcastManager.getInstance(HomeActivity.this)
+                .registerReceiver(mHandleMessageReceiver,
+                        new IntentFilter(Utility.USER_DASHBOARD));
 
     }
 
@@ -795,7 +909,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 //                        }
 //                        startActivity(intentCalling);
 
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) +" "+db.getUserConstantsData().getManagName());
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
 
 
                     }
@@ -838,7 +952,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 return;
                             }
                             Intent intentCalling = new Intent(Intent.ACTION_CALL);
-                            intentCalling.setData(Uri.parse("tel:" + db.getConstantsData().getHelpNumber()));
+                            intentCalling.setData(Uri.parse("tel:" + constantEntity.getHelpNumber()));
                             startActivity(intentCalling);
                         }
                     });
@@ -858,6 +972,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
         }
     }
+
     //region mps dialog
 
     public void DialogMPS() {
@@ -937,7 +1052,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     }
 
     @Override
-    public void onGrantButtonClick( View view) {
+    public void onGrantButtonClick(View view) {
 
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         Uri uri = Uri.fromParts("package", getPackageName(), null);

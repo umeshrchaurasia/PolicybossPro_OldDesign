@@ -3,7 +3,9 @@ package magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestbuilder;
 
 import java.util.HashMap;
 
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanApplyRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.requestentity.HomeLoanRequest;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GenerateHLLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.GetQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.response.RBCustomerResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.retrobuilder.LoanRetroRequestBuilder;
@@ -25,6 +27,7 @@ public class HomeloanRequestBuilder extends LoanRetroRequestBuilder {
 
         @POST("/api/getcustomer")
         Call<RBCustomerResponse> getRupeeBossCustomer(@Body HashMap<String, String> body);
+
 
 
     }

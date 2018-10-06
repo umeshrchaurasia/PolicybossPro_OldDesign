@@ -8,9 +8,9 @@
 
     <string name="Emp_detail">Employment &amp; Income Details</string>
 
-    <string name="RM_Calling">You are connecting to your\nRM Manage: </string>
+    <string name="RM_Calling">Do you want to call your\nManager: </string>
 
-    <string name="Support_Calling">You are connecting to Support Team... </string>
+    <string name="Support_Calling">Do you want to call Support Team. </string>
 
     <string name="materail_count">new Images are available for downloading.\nContinue???</string>
     <string name="fetching_msg">Please Wait... fetching quotes</string>
@@ -260,19 +260,20 @@
 
     <string-array name="quicklead_product">
         <item>Product</item>
-        <item>Used Car Loan</item>
+        <item>Business Loan</item>
+        <item>Car Loan</item>
+        <item>Car Refinance</item>
+        <item>Home Loan BT</item>
         <item>Lap BT</item>
         <item>LRD</item>
-        <item>Car Loan</item>
-        <item>Home Loan BT</item>
-        <item>MERCHANT BUSINESS</item>
-        <item>LAP</item>
-        <item>Car Refinance</item>
-        <item>Personal Loan</item>
-        <item>Credit Card</item>
+        <item>Merchant Business</item>
+        <!--<item>LAP</item>-->
+        <!--<item>Personal Loan</item>-->
+        <!--<item>Credit Card</item>-->
+        <item>Used Car Loan</item>
         <item>Working Capital</item>
-        <item>Home Loan</item>
-        <item>Business Loan</item>
+
+        <!--<item>Home Loan</item>-->
         <!--<item>Term Loan</item>-->
 
     </string-array>
@@ -527,4 +528,25 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_add_pospuser">Add POSP</string>
+    <string-array name="motor_subtype_new">
+        <item>T.P. Only (3 Yrs)</item>
+        <item>Comprehensive (1 Yr) + T.P. (2 Yrs)</item>
+        <item>Comprehensive Plan (3 Yrs)</item>
+    </string-array>
+    <string-array name="motor_subtype_renew">
+        <item>T.P. Only (1 Yr)</item>
+        <item>Comprehensive Plan (1 Yr)</item>
+    </string-array>
+
+    <string-array name="bike_subtype_renew">
+        <item>T.P. Only (1 Yr)</item>
+        <item>Comprehensive Plan (1 Yr)</item>
+    </string-array>
+    <string-array name="bike_subtype_new">
+        <item>T.P. Only (5 Yrs)</item>
+        <item>Comprehensive (1 Yr) + T.P. (4 Yrs)</item>
+        <item>Comprehensive Plan (5 Yrs)</item>
+    </string-array>
+
+    <string name="title_activity_notification_sms">Notification Sms</string>
 </resources>

@@ -66,6 +66,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.CarMasterEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.FastLaneDataEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.InsuranceSubtypeEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
@@ -138,6 +139,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     RadioButton rbNew, rbReNew, rbExpired,
             rbDontHAve, rbWithIn, rbBeyond;
 
+    Spinner spInsSubTYpe;
+    //ArrayAdapter<String> subTypeAdapter;
+    List<InsuranceSubtypeEntity> insuranceSubtypeEntities;
+    ArrayAdapter<InsuranceSubtypeEntity> subTypeAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -509,6 +514,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     private void bindInputsQuotes() {
 
+
         int vehicleID = motorRequestEntity.getVehicle_id();
         if (vehicleID == 0) {
             vehicleID = motorRequestEntity.getVarid();
@@ -575,7 +581,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             spVarient.setSelection(varientIndex);
 
             int fuelIndex = 0;
-            if (motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("")) {
+            if (motorRequestEntity.getExternal_bifuel_type() != null &&
+                    motorRequestEntity.getExternal_bifuel_type().equalsIgnoreCase("")) {
                 for (int i = 0; i < fuelList.size(); i++) {
                     if (fuelList.get(i).equalsIgnoreCase(carMasterEntity.getFuel_Name())) {
                         fuelIndex = i;
@@ -621,6 +628,22 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             acRto.performCompletion();
             regplace = acRto.getText().toString();
 
+            //endregion
+
+            //region subtype binding
+            if (motorRequestEntity.getVehicle_insurance_subtype() != null && insuranceSubtypeEntities != null) {
+                int subtypeId = 0;
+                for (int i = 0; i < insuranceSubtypeEntities.size(); i++) {
+
+                    String code = motorRequestEntity.getVehicle_insurance_subtype();
+                    String vari = insuranceSubtypeEntities.get(i).getCode();
+                    if (code.equalsIgnoreCase(vari)) {
+                        subtypeId = i;
+                        break;
+                    }
+                }
+                spInsSubTYpe.setSelection(subtypeId);
+            }
             //endregion
 
             if (motorRequestEntity.getExternal_bifuel_value() != 0)
@@ -684,6 +707,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     private void bindFastLaneData(FastLaneDataEntity masterData) {
+
+        insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
+        subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                insuranceSubtypeEntities);
+        spInsSubTYpe.setAdapter(subTypeAdapter);
 
         String vehicleID = masterData.getVariant_Id();
         CarMasterEntity carMasterEntity = dbController.getVarientDetails(vehicleID);
@@ -966,6 +994,28 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         });
 
         //endregion
+
+        //region subtype adapter listener
+        spInsSubTYpe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextSize(10);
+                if (switchNewRenew.isChecked()) {
+                    if (position == 0) {
+                        cvNcb.setVisibility(View.GONE);
+                        llNoClaim.setVisibility(View.INVISIBLE);
+                    } else {
+                        cvNcb.setVisibility(View.VISIBLE);
+                        llNoClaim.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        //endregion
     }
 
     private void initialize_views() {
@@ -976,6 +1026,22 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
+
+        setSubTypeAdapter();
+    }
+
+    private void setSubTypeAdapter() {
+        if (switchNewRenew.isChecked()) {
+            insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
+            subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                    insuranceSubtypeEntities);
+            spInsSubTYpe.setAdapter(subTypeAdapter);
+        } else {
+            insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "new");
+            subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                    insuranceSubtypeEntities);
+            spInsSubTYpe.setAdapter(subTypeAdapter);
+        }
     }
 
     public int getPercentFromProgress(int value) {
@@ -1066,6 +1132,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
     private void init_view(View view) {
+        spInsSubTYpe = view.findViewById(R.id.spInsSubTYpe);
         tilExt = (TextInputLayout) view.findViewById(R.id.tilExt);
         btnGo = (Button) view.findViewById(R.id.btnGo);
         tvNew = (TextView) view.findViewById(R.id.tvNew);
@@ -1225,7 +1292,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
         motorRequestEntity.setSecret_key(Utility.SECRET_KEY);
         motorRequestEntity.setClient_key(Utility.CLIENT_KEY);
-        ;
         motorRequestEntity.setApp_version(Utility.getVersionName(getActivity()));
         motorRequestEntity.setDevice_id(Utility.getTokenId(getActivity()));
         motorRequestEntity.setFba_id(loginResponseEntity.getFBAId());
@@ -1242,7 +1308,58 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             motorRequestEntity.setSs_id(5);
         }
         motorRequestEntity.setIp_address(Utility.getLocalIpAddress(getActivity()));
+        InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
+        if (insuranceSubtypeEntity != null)
+            motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
+    }
 
+    private String getSubTYpe() {
+        String subtype = "";
+        if (switchNewRenew.isChecked()) {
+            switch (spInsSubTYpe.getSelectedItemPosition()) {
+                case 0:
+                    subtype = "OCH_1TP ";
+                    break;
+                case 1:
+                    subtype = "1CH_0TP";
+                    break;
+            }
+        } else {
+            switch (spInsSubTYpe.getSelectedItemPosition()) {
+                case 0:
+                    subtype = "0CH_3TP ";
+                    break;
+                case 1:
+                    subtype = "1CH_2TP";
+                    break;
+                case 2:
+                    subtype = "3CH_0TP";
+                    break;
+            }
+        }
+        return subtype;
+    }
+
+    private int getSubtypeValue(String subTYpe) {
+        int id = 0;
+        switch (subTYpe) {
+            case "OCH_1TP":
+                id = 0;
+                break;
+            case "1CH_0TP":
+                id = 1;
+                break;
+            case "0CH_3TP":
+                id = 0;
+                break;
+            case "1CH_2TP":
+                id = 1;
+                break;
+            case "3CH_0TP":
+                id = 2;
+                break;
+        }
+        return id;
     }
 
     private void insertFastlaneLog() {
@@ -2155,6 +2272,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (R.id.switchNewRenew == compoundButton.getId()) {
             if (b) {
+                insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
+                subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                        insuranceSubtypeEntities);
+                spInsSubTYpe.setAdapter(subTypeAdapter);
+
                 tvRenew.setTextColor(getResources().getColor(R.color.colorAccent));
                 tvNew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 etExpDate.setEnabled(true);
@@ -2163,6 +2285,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 llNoClaim.setVisibility(View.VISIBLE);
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), Constants.PRIVATE_CAR), null);
             } else {
+                insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "new");
+                subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                        insuranceSubtypeEntities);
+                spInsSubTYpe.setAdapter(subTypeAdapter);
+
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
                 etExpDate.setEnabled(false);

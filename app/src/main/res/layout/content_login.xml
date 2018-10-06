@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:hint="Email"
+            android:hint="Email/User Id"
             android:textColorHint="@color/white"
             app:hintTextAppearance="@style/TextLabel">
 

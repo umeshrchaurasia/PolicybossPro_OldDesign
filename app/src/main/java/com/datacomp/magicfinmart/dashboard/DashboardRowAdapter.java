@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
@@ -22,7 +21,6 @@ import com.datacomp.magicfinmart.loan_fm.laploan.LapLoanDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.personalloan.PersonalLoanDetailActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.PrivateCarDetailActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
-import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.quicklead.QuickLeadActivity;
 import com.datacomp.magicfinmart.term.termselection.TermSelectionActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -144,7 +142,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    switchMenus(listIns.get(position).getProductId());
+                                    switchMenus(listIns.get(position));
                                 }
                             }));
 
@@ -169,7 +167,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    switchMenus(listLoan.get(position).getProductId());
+                                    switchMenus(listLoan.get(position));
                                 }
                             }));
 
@@ -193,7 +191,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                             new RecyclerItemClickListener.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View view, int position) {
-                                    switchMenus(listMore.get(position).getProductId());
+                                    switchMenus(listMore.get(position));
                                 }
                             }));
           /*
@@ -209,7 +207,9 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     }
 
-    private void switchMenus(int productID) {
+    private void switchMenus(DashboardEntity dashboardEntity) {
+        int productID = dashboardEntity.getProductId();
+
         switch (productID) {
             case 1:
                 //car
@@ -290,10 +290,13 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 break;
             case 13:
-
-                mContext.startActivity(new Intent(mContext, AppliedOnlineLoanListActivity.class));
-                new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
-                MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Express Loan tab on home page");
+                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                        .putExtra("URL", "http://www.rupeeboss.com/gopaysense")
+                        .putExtra("NAME", "Cash Loan")
+                        .putExtra("TITLE", "Cash Loan"));
+                //mContext.startActivity(new Intent(mContext, AppliedOnlineLoanListActivity.class));
+                //new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Express Loan tab on home page"), Constants.QUICK_LEAD), null);
+                //MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Express Loan tab on home page");
                 break;
 
 
@@ -323,13 +326,16 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             case 14:
                 mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
-                        .putExtra("NAME", "" + "YES BANK BOT")
-                        .putExtra("TITLE", "" + "YES BANK BOT"));
-                break;
-            default:
-                Toast.makeText(mContext, "Work in progress", Toast.LENGTH_SHORT).show();
+                        .putExtra("NAME", "" + "Loan On Messenger")
+                        .putExtra("TITLE", "" + "Loan On Messenger"));
                 break;
 
+        }
+        if (productID >= 20) {
+            mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                    .putExtra("URL", "" + dashboardEntity.getLink())
+                    .putExtra("NAME", "" + dashboardEntity.getProductName())
+                    .putExtra("TITLE", "" + dashboardEntity.getProductName()));
         }
     }
 

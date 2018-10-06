@@ -98,6 +98,17 @@ public class UserConstantEntity extends RealmObject {
     private String SuppEmail;
     private String LoginID;
     private String ManagName;
+    /**
+     * plbanner : http://api.magicfinmart.com/images/plbanner.gif
+     * plactive : 1
+     * addposplimit : 10
+     * serviceurl : http://bo.mgfm.in/get_service/1976
+     */
+
+    private String plbanner;
+    private String plactive;
+    private String addposplimit;
+    private String serviceurl;
 
     private String healthurl;
 
@@ -477,5 +488,37 @@ public class UserConstantEntity extends RealmObject {
 
     public void setSuppEmail(String SuppEmail) {
         this.SuppEmail = SuppEmail;
+    }
+
+    public String getPlbanner() {
+        return plbanner;
+    }
+
+    public void setPlbanner(String plbanner) {
+        this.plbanner = plbanner;
+    }
+
+    public String getPlactive() {
+        return plactive;
+    }
+
+    public void setPlactive(String plactive) {
+        this.plactive = plactive;
+    }
+
+    public String getAddposplimit() {
+        return addposplimit;
+    }
+
+    public void setAddposplimit(String addposplimit) {
+        this.addposplimit = addposplimit;
+    }
+
+    public String getServiceurl() {
+        return serviceurl;
+    }
+
+    public void setServiceurl(String serviceurl) {
+        this.serviceurl = serviceurl;
     }
 }

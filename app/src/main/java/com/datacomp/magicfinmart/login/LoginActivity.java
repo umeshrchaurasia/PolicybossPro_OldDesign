@@ -195,9 +195,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
             case R.id.btnSignIn:
-                if (!isValideEmailID(etEmail)) {
+                if (!isEmpty(etEmail)) {
                     etEmail.requestFocus();
-                    Toast.makeText(this, "Enter Valid Email", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Enter Valid Email/User Id", Toast.LENGTH_SHORT).show();
                     //etEmail.setError("Enter Valid Email");
                     return;
                 }
