@@ -103,9 +103,9 @@ public class PersonalLoanController  implements IPersonalLoan {
             @Override
             public void onResponse(Call<equifax_personalloan_response> call, Response<equifax_personalloan_response> response) {
                 if (response.body().getStatus_Id() == 0) {
-                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMsg());
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
                 } else {
-                    iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMsg()));
+                    iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
                 }
 
             }

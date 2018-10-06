@@ -215,10 +215,12 @@
     </android.support.v7.widget.CardView>
 
     <LinearLayout
+        android:id="@+id/llcreditscore"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="horizontal"
+
         >
         <TextView
             android:id="@+id/txtCreditscore"
@@ -245,6 +247,13 @@
             android:layout_weight="3"
             android:visibility="visible"
             android:src="@drawable/ic_action_download" />
+        <View
+
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/search_gray" />
 
     </LinearLayout>
     <LinearLayout

@@ -70,7 +70,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     FmPersonalLoanRequest fmPersonalLoanRequest;
     PersonalLoanRequest personalLoanRequest;
     BuyLoanQuerystring buyLoanQuerystring;
-    LinearLayout ivllEdit;
+    LinearLayout ivllEdit,llcreditscore;
     int QuoteID = 0;
     String Leadid="";
     ImageView ivShare,ivdownload;
@@ -120,12 +120,14 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         rvPLQuotes = (RecyclerView) view.findViewById(R.id.rvQuotes);
         rvPLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
 
+        llcreditscore= (LinearLayout) view.findViewById(R.id.llcreditscore);
         txtCreditscore = (TextView) view.findViewById(R.id.txtCreditscore);
         ivdownload = (ImageView) view.findViewById(R.id.ivdownload);
         ivdownload.setOnClickListener(this);
 
         txtCreditscore.setVisibility(View.GONE);
         ivdownload.setVisibility(View.GONE);
+        llcreditscore.setVisibility(View.GONE);
 // bundle.putParcelable(Constants.PL_REQUEST, personalLoanRequest);
 
     }
@@ -314,6 +316,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
                 {
                     txtCreditscore.setVisibility(View.GONE);
                     ivdownload.setVisibility(View.GONE);
+                    llcreditscore.setVisibility(View.GONE);
                 }
 
             } else {
@@ -327,6 +330,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
             txtCreditscore.setVisibility(View.VISIBLE);
             ivdownload.setVisibility(View.VISIBLE);
+            llcreditscore.setVisibility(View.VISIBLE);
 
 
             if (score.isEmpty()) {
@@ -334,13 +338,15 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
                 txtCreditscore.setVisibility(View.GONE);
 
                 ivdownload.setVisibility(View.GONE);
+                llcreditscore.setVisibility(View.GONE);
             } else {
 
 
-                txtCreditscore.setText("Credit Score  " + equifax_personalloan_response_res.getResult().getScore());
+                txtCreditscore.setText("Your Credit Score  " + equifax_personalloan_response_res.getResult().getScore());
 
                 txtCreditscore.setVisibility(View.VISIBLE);
                 ivdownload.setVisibility(View.VISIBLE);
+                llcreditscore.setVisibility(View.VISIBLE);
 
                 ivdownload.setOnClickListener(new View.OnClickListener() {
                     @Override
