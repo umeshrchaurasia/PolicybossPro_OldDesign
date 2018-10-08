@@ -709,10 +709,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     private void bindFastLaneData(FastLaneDataEntity masterData) {
 
         insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
-        subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+        /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                 insuranceSubtypeEntities);
-        spInsSubTYpe.setAdapter(subTypeAdapter);
-
+        spInsSubTYpe.setAdapter(subTypeAdapter);*/
+        setSubTypeAdapterView(insuranceSubtypeEntities);
         String vehicleID = masterData.getVariant_Id();
         CarMasterEntity carMasterEntity = dbController.getVarientDetails(vehicleID);
         if (carMasterEntity != null) {
@@ -999,7 +999,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         spInsSubTYpe.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextSize(10);
+                //((TextView) parent.getChildAt(0)).setTextSize(10);
                 if (switchNewRenew.isChecked()) {
                     if (position == 0) {
                         cvNcb.setVisibility(View.GONE);
@@ -1033,15 +1033,30 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     private void setSubTypeAdapter() {
         if (switchNewRenew.isChecked()) {
             insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
-            subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+            /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                     insuranceSubtypeEntities);
-            spInsSubTYpe.setAdapter(subTypeAdapter);
+            spInsSubTYpe.setAdapter(subTypeAdapter);*/
+            setSubTypeAdapterView(insuranceSubtypeEntities);
         } else {
             insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "new");
-            subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+            /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                     insuranceSubtypeEntities);
-            spInsSubTYpe.setAdapter(subTypeAdapter);
+            spInsSubTYpe.setAdapter(subTypeAdapter);*/
+            setSubTypeAdapterView(insuranceSubtypeEntities);
         }
+    }
+
+    private void setSubTypeAdapterView(List<InsuranceSubtypeEntity> insuranceSubtypeEntities) {
+        subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                insuranceSubtypeEntities) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                view.setPadding(2, view.getPaddingTop(), 0, view.getPaddingBottom());
+                return view;
+            }
+        };
+        spInsSubTYpe.setAdapter(subTypeAdapter);
     }
 
     public int getPercentFromProgress(int value) {
@@ -2273,9 +2288,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         if (R.id.switchNewRenew == compoundButton.getId()) {
             if (b) {
                 insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
-                subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                         insuranceSubtypeEntities);
-                spInsSubTYpe.setAdapter(subTypeAdapter);
+                spInsSubTYpe.setAdapter(subTypeAdapter);*/
+                setSubTypeAdapterView(insuranceSubtypeEntities);
 
                 tvRenew.setTextColor(getResources().getColor(R.color.colorAccent));
                 tvNew.setTextColor(getResources().getColor(R.color.header_dark_text));
@@ -2286,10 +2302,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), Constants.PRIVATE_CAR), null);
             } else {
                 insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "new");
-                subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
+                /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                         insuranceSubtypeEntities);
-                spInsSubTYpe.setAdapter(subTypeAdapter);
-
+                spInsSubTYpe.setAdapter(subTypeAdapter);*/
+                setSubTypeAdapterView(insuranceSubtypeEntities);
                 tvRenew.setTextColor(getResources().getColor(R.color.header_dark_text));
                 tvNew.setTextColor(getResources().getColor(R.color.colorAccent));
                 etExpDate.setEnabled(false);

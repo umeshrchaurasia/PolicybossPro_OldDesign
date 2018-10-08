@@ -186,17 +186,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         getNotificationAction();
 
-        if (loginResponseEntity != null) {
 
-            if (userConstantEntity != null) {
-                init_headers();
+        if (userConstantEntity != null) {
+            init_headers();
 
-            } else {
-                new MasterController(this).geUserConstant(1, this);
-            }
-
-            new MasterController(this).getMenuMaster(this);
+        } else {
+            new MasterController(this).geUserConstant(1, this);
         }
+
+        new MasterController(this).getMenuMaster(this);
+
         /*if (db.getAccountData() == null) {
             new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
         }*/
@@ -227,7 +226,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 Constants.hideKeyBoard(drawerLayout, HomeActivity.this);
                 if (menuMasterResponse != null) {
                     for (MenuItemEntity menuItemEntity : menuMasterResponse.getMasterData().getMenu()) {
-                        if (menuItem.getItemId() == Integer.parseInt(menuItemEntity.getSequence())) {
+                        int sequence = Integer.parseInt(menuItemEntity.getSequence());
+                        sequence = (sequence * 100) + 1;
+                        if (menuItem.getItemId() == sequence) {
                             startActivity(new Intent(HomeActivity.this, CommonWebViewActivity.class)
                                     .putExtra("URL", menuItemEntity.getLink())
                                     .putExtra("NAME", menuItemEntity.getMenuname())
@@ -427,6 +428,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
     private void init_headers() {
+
         View headerView = navigationView.getHeaderView(0);
         txtEntityName = (TextView) headerView.findViewById(R.id.txtEntityName);
         txtDetails = (TextView) headerView.findViewById(R.id.txtDetails);
@@ -456,11 +458,16 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         txtEntityName.setText("v" + versionNAme);
 
-        txtDetails.setText("" + loginResponseEntity.getFullName());
+        if (loginResponseEntity != null) {
 
-        txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
-        txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
-
+            txtDetails.setText("" + loginResponseEntity.getFullName());
+            txtFbaID.setText("Fba Id - " + loginResponseEntity.getFBAId());
+            txtReferalCode.setText("Referral Code - " + loginResponseEntity.getReferer_code());
+        } else {
+            txtDetails.setText("");
+            txtFbaID.setText("Fba Id - ");
+            txtReferalCode.setText("Referral Code - ");
+        }
         if (userConstantEntity != null) {
             txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
 
@@ -720,8 +727,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         } else if (response instanceof UserConstatntResponse) {
             if (response.getStatusNo() == 0) {
                 if (((UserConstatntResponse) response).getMasterData() != null) {
-                    db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
-                    userConstantEntity = db.getUserConstantsData();
+                    //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
+                    userConstantEntity = ((UserConstatntResponse) response).getMasterData();
                     init_headers();
                 }
             }
@@ -925,7 +932,18 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
         else
             nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
+
+        //todo : check key from userconstant to hide add posp
+        if (userConstantEntity.getAddPospVisible() != null && !userConstantEntity.getAddPospVisible().equals("")) {
+            int visibility = Integer.parseInt(userConstantEntity.getAddPospVisible());
+            if (visibility == 1)
+                nav_Menu.findItem(R.id.nav_addposp).setVisible(true);
+            else
+                nav_Menu.findItem(R.id.nav_addposp).setVisible(false);
+        }
+
     }
+
 
     public void ConfirmAlert(String Title, String strBody) {
         try {

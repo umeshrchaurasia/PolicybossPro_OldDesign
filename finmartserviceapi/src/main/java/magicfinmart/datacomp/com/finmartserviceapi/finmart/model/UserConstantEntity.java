@@ -112,6 +112,15 @@ public class UserConstantEntity extends RealmObject {
 
     private String healthurl;
 
+    private String AddPospVisible;
+
+    public String getAddPospVisible() {
+        return AddPospVisible;
+    }
+
+    public void setAddPospVisible(String addPospVisible) {
+        AddPospVisible = addPospVisible;
+    }
 
     public String getHealthurl() {
         return healthurl;

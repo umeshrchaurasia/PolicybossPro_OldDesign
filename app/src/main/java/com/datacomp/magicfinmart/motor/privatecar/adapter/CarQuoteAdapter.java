@@ -45,6 +45,9 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             this.listQuotes = null;
     }
 
+
+
+
     @Override
     public BikeQuoteItem onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())

@@ -1015,6 +1015,7 @@
                                 android:visibility="visible">
 
                                 <LinearLayout
+                                    android:gravity="center"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:background="@color/hdr_white"
@@ -1040,7 +1041,6 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="4dp"
                                         android:layout_marginRight="4dp"
-                                        android:layout_weight="1"
                                         android:text="Rajeev Ranjan"
                                         android:textAllCaps="true"
                                         android:textAppearance="@style/TextViewStyle.Large"
@@ -1182,6 +1182,7 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:gravity="center"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"
@@ -1209,9 +1210,6 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginLeft="4dp"
                                         android:layout_marginRight="4dp"
-                                        android:layout_weight="1"
-
-
                                         android:text="Pradeep"
                                         android:textAllCaps="true"
                                         android:textAppearance="@style/TextViewStyle.Large"
@@ -1349,6 +1347,7 @@
                                 android:orientation="vertical">
 
                                 <LinearLayout
+                                    android:gravity="center"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginTop="5dp"

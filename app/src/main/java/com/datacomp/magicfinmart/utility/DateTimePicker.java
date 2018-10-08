@@ -381,7 +381,7 @@ public class DateTimePicker {
         calendar.add(Calendar.MONTH, -6);
         dialog.getDatePicker().setMinDate(calendar.getTimeInMillis());
 
-       // dialog.getDatePicker().setMaxDate(calendar.getTimeInMillis());
+        dialog.getDatePicker().setMaxDate(Calendar.getInstance().getTimeInMillis());
 
         dialog.show();
     }

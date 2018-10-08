@@ -119,10 +119,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
 
         initWidgets();
+        bindSource();
         setListener();
         initLayouts();
         setSpinnerListener();
-        bindSource();
+
         prefManager = new PrefManager(this);
 
         new RegisterController(this).getRegSource(this);
