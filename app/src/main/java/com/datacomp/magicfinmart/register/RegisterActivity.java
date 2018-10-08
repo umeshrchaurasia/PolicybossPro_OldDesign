@@ -117,12 +117,12 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         registerRequestEntity = new RegisterRequestEntity();
         sourceList = new ArrayList<>();
 
-        bindSource();
 
         initWidgets();
         setListener();
         initLayouts();
         setSpinnerListener();
+        bindSource();
         prefManager = new PrefManager(this);
 
         new RegisterController(this).getRegSource(this);
@@ -616,7 +616,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
     private void bindSource() {
 
-        if (sourceList.size() == 0) {
+        if (sourceList == null && sourceList.size() == 0) {
             sourceList.add(new SourceEntity("Fin-Mart", 1));
             sourceList.add(new SourceEntity("Campaign sm", 2));
         }

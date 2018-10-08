@@ -48,6 +48,8 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
     FloatingActionButton fabFilter;
     int EmploymentType = 1;
 
+    FilterEntity selectedFilterEntity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,7 +69,8 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
     }
 
     public void selectedIncome(FilterEntity entity) {
-        mAdapter.refreshCreditCards(filterCreditCardsbtIncome(entity));
+        selectedFilterEntity = entity;
+        //mAdapter.refreshCreditCards(filterCreditCardsbtIncome(entity));
     }
 
 
@@ -104,7 +107,15 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
                     EmploymentType = 2;
                 }
 
-                dialog.dismiss();
+                if (selectedFilterEntity != null) {
+                    mAdapter = new CreditCardsAdapter(CreditCardActivity.this, filterCreditCardsbtIncome(selectedFilterEntity));
+                    rvCreditCards.setAdapter(mAdapter);
+
+                    dialog.dismiss();
+                } else {
+                    Toast.makeText(CreditCardActivity.this, "Select Income", Toast.LENGTH_SHORT).show();
+                }
+                fabFilter.setVisibility(View.VISIBLE);
             }
         });
         AlertDialog dialog = alert.create();
@@ -209,9 +220,9 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
         //bindSpinner();
         spIncome.setVisibility(View.GONE);
 
-        mAdapter = new CreditCardsAdapter(this, listCreditCardEntity);
+       /* mAdapter = new CreditCardsAdapter(this, listCreditCardEntity);
         rvCreditCards.setAdapter(mAdapter);
-        fabFilter.setVisibility(View.VISIBLE);
+        fabFilter.setVisibility(View.VISIBLE);*/
         alertIncome();
     }
 
@@ -222,11 +233,17 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
             return listCreditCardEntity;
         }
 
-
         for (int i = 0; i < listCreditCardEntity.size(); i++) {
 
+            if ((listCreditCardEntity.get(i).getSalarytype().equalsIgnoreCase(String.valueOf(EmploymentType))
+                    && listCreditCardEntity.get(i).getiPriority() <= incomeType.getPriority())
+                    || listCreditCardEntity.get(i).getSalarytype().equalsIgnoreCase("3")) {
+                list.add(listCreditCardEntity.get(i));
+            }
+        }
 
 
+       /* for (int i = 0; i < listCreditCardEntity.size(); i++) {
 
             if ((listCreditCardEntity.get(i).getiPriority() <= incomeType.getPriority()
                     || listCreditCardEntity.get(i).getSalarytype().equalsIgnoreCase(String.valueOf("3"))
@@ -235,7 +252,7 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
                     || listCreditCardEntity.get(i).getSalarytype().equalsIgnoreCase(String.valueOf("4"))) {
                 list.add(listCreditCardEntity.get(i));
             }
-        }
+        }*/
 
         return list;
     }
