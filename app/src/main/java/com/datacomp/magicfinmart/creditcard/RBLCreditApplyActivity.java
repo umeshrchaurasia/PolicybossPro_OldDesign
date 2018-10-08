@@ -52,7 +52,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
     TextView txtEmploymentType;
     Spinner spTitle;
 
-    int EmploymentType = 0;
+    int EmploymentType = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,7 +119,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
     private void bindData() {
         etCCApplied.setText(mCreditCardEntity.getCreditCardType());
         etProcessingFees.setText(mCreditCardEntity.getProcessingFees());
-        if (EmploymentType == 0)
+        if (EmploymentType == 1)
             txtEmploymentType.setText("Salaried");
         else
             txtEmploymentType.setText("Self");
@@ -156,7 +156,7 @@ public class RBLCreditApplyActivity extends BaseActivity implements View.OnClick
             Constants.hideKeyBoard(view, RBLCreditApplyActivity.this);
 
             if (view.getId() == R.id.etDob) {
-                DateTimePicker.showExpressAgeDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                DateTimePicker.showIciciCreditCardDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
                         if (view1.isShown()) {

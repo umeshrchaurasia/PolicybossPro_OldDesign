@@ -74,6 +74,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
@@ -520,10 +521,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (getIntent().getExtras() != null) {
 
-            //NotifyEntity notifyEntity1 = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
-            //String MESSAGEID = notifyEntity1.getMessage_id();
+            // For getting User Click Action
+            if(getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
+                NotifyEntity notifyEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+                String MESSAGEID = notifyEntity.getMessage_id();
 
-            //new RegisterController(getApplicationContext()).getUserClickActionOnNotification(MESSAGEID, null);
+                new RegisterController(HomeActivity.this).getUserClickActionOnNotification(MESSAGEID, null);
+            }
             // step1: boolean verifyLogin = prefManager.getIsUserLogin();
             // region verifyUser : when user logout and when Apps in background
             if (loginResponseEntity == null) {
