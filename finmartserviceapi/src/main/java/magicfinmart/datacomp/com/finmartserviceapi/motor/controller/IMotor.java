@@ -16,4 +16,7 @@ public interface IMotor {
     void getMotorQuote(int product, IResponseSubcriber iResponseSubcriber);
 
     void saveAddOn(SaveAddOnRequestEntity saveAddOnRequestEntity, IResponseSubcriber iResponseSubcriber);
+
+    void getMotorQuoteOneTime(int product, IResponseSubcriber iResponseSubcriber);
+
 }

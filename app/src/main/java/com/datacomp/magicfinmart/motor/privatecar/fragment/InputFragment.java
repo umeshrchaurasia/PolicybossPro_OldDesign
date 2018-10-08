@@ -144,6 +144,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     List<InsuranceSubtypeEntity> insuranceSubtypeEntities;
     ArrayAdapter<InsuranceSubtypeEntity> subTypeAdapter;
 
+    boolean sendOldCrn = false;
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -2004,7 +2006,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("finmarttest@gmail.com");
-        motorRequestEntity.setCrn("");
+        if (sendOldCrn) {
+
+        } else {
+            motorRequestEntity.setCrn("");
+        }
+
 
         if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
@@ -2096,7 +2103,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("finmarttest@gmail.com");
-        motorRequestEntity.setCrn("");
+        if (sendOldCrn) {
+
+        } else {
+            motorRequestEntity.setCrn("");
+        }
 
         if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");

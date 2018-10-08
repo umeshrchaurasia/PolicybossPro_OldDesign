@@ -57,8 +57,8 @@ public class MotorController implements IMotor {
         dbPersistanceController = new DBPersistanceController(mContext);
         constantEntity = dbPersistanceController.getConstantsData();
         try {
-            //SLEEP_DELAY = Integer.parseInt(constantEntity.getPBHitTime());
-            //NO_OF_SERVER_HITS = Integer.parseInt(constantEntity.getPBNoOfHits());
+            SLEEP_DELAY = Integer.parseInt(constantEntity.getPBHitTime());
+            NO_OF_SERVER_HITS = Integer.parseInt(constantEntity.getPBNoOfHits());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -328,5 +328,70 @@ public class MotorController implements IMotor {
             if (constantEntity.getLogtracking().equals("0"))
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData(s), MOTOR_ADDON_RESPONSE), null);
         }
+    }
+
+    @Override
+    public void getMotorQuoteOneTime(final int productID, final IResponseSubcriber iResponseSubcriber) {
+        this.iResponseSubcriber = iResponseSubcriber;
+        BikePremiumRequestEntity entity = new BikePremiumRequestEntity();
+        entity.setSecret_key(Utility.SECRET_KEY);
+        entity.setClient_key(Utility.CLIENT_KEY);
+        if (constantEntity != null && constantEntity.getHorizonVersion() != null && !constantEntity.getHorizonVersion().equals(""))
+            entity.setResponse_version("" + constantEntity.getHorizonVersion());
+        else
+            entity.setResponse_version("2.0");
+        //entity.setExecution_async("no");
+        if (productID == 10) {
+            entity.setSearch_reference_number(Utility.getSharedPreference(mContext).getString(Utility.BIKEQUOTE_UNIQUEID, ""));
+        } else if (productID == 1) {
+            entity.setSearch_reference_number(Utility.getSharedPreference(mContext).getString(Utility.CARQUOTE_UNIQUEID, ""));
+        }
+
+        //TODO  remove this line
+        //entity.setSearch_reference_number("SRN-QNTUQYKE-N9MM-3QDH-VE3C-DGLYMOEWERPY");
+
+        motorQuotesNetworkService.getPremiumList(entity).enqueue(new Callback<BikePremiumResponse>() {
+            @Override
+            public void onResponse(Call<BikePremiumResponse> call, Response<BikePremiumResponse> response) {
+                if (response.body() != null && response.body().getResponse() != null) {
+
+
+                    if (constantEntity.getLogtracking().equals("0"))
+                        new PolicybossTrackingQuoteeResponse((BikePremiumResponse) response.body()).execute();
+
+                    BikePremiumResponse bikePremiumResponse = new BikePremiumResponse();
+                    if (response.body() != null) {
+                        List<ResponseEntity> list = new ArrayList<ResponseEntity>();
+                        for (int i = 0; i < response.body().getResponse().size(); i++) {
+                            ResponseEntity responseEntity = response.body().getResponse().get(i);
+                            if (responseEntity.getError_Code().equals("")) {
+                                list.add(responseEntity);
+                            }
+                        }
+                        bikePremiumResponse.setResponse(list);
+                        bikePremiumResponse.setSummary(response.body().getSummary());
+                    }
+
+                    iResponseSubcriber.OnSuccess(bikePremiumResponse, response.body().getMessage());
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("No Quote found"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BikePremiumResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
     }
 }

@@ -1609,7 +1609,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String expDate = displayFormat.format(calendar.getTime());
                             etExpDate.setText(expDate);
-                            if (getDaysDiff(expDate, currDate) < 90) {
+                            /*if (getDaysDiff(expDate, currDate) < 90) {
                                 cvNcb.setVisibility(View.VISIBLE);
                                 llNCB.setVisibility(View.VISIBLE);
                             } else {
@@ -1625,7 +1625,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                                     cvNcb.setVisibility(View.VISIBLE);
                                     llNCB.setVisibility(View.VISIBLE);
                                 }
-                            }
+                            }*/
                         }
                     }
                 });

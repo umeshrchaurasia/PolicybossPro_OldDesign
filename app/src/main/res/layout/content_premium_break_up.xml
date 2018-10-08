@@ -164,21 +164,21 @@
                                 style="@style/TextStyle.TextLarge"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:gravity="left|top"
+                                android:gravity="center_vertical"
                                 android:text="Premium"
                                 android:textAllCaps="true"
                                 android:textColor="#ff5c61" />
 
                             <TextView
+                                android:text=""
                                 android:id="@+id/txtFinalPremium"
                                 style="@style/TextStyle.TextLarge"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="5dp"
-                                android:background="#ff5c61"
-                                android:gravity="center"
+                                android:gravity="center_vertical"
                                 android:minHeight="30dp"
-                                android:textColor="@android:color/white" />
+                                android:textColor="@color/uvv_black" />
 
                         </LinearLayout>
 

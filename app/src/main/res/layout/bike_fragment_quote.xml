@@ -8,6 +8,7 @@
 
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/filter">
@@ -273,14 +274,16 @@
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabrefresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
+        android:layout_above="@+id/filter"
         android:layout_margin="@dimen/fab_margin"
-        android:visibility="gone"
-        app:srcCompat="@drawable/vector_edit" />
+        android:visibility="visible"
+        android:tint="@color/white"
+        app:srcCompat="@drawable/refresh_ic" />
 
     <TextView
         android:id="@+id/filter"
