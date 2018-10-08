@@ -20,15 +20,15 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.loan_fm.personalloan.loan_apply.PersonalLoanApplyActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.webviews.ShareQuoteActivity;
 
 import java.math.BigDecimal;
 
-import magicfinmart.datacomp.com.finmartserviceapi.Utility;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.APIResponse;
@@ -57,7 +57,7 @@ import static android.content.Context.DOWNLOAD_SERVICE;
 public class QuoteFragment_pl extends BaseFragment implements View.OnClickListener, IResponseSubcriber, IResponseSubcriberFM {
     private static String INPUT_FRAGMENT = "input";
 
-    TextView txtAppName, txtCostOfProp, txtLoanTenure, txtOccupation, txtMonthlyIncome, txtExistEmi, txtCount, txtInputSummary,txtCreditscore;
+    TextView txtAppName, txtCostOfProp, txtLoanTenure, txtOccupation, txtMonthlyIncome, txtExistEmi, txtCount, txtInputSummary, txtCreditscore;
     CardView cvInputSummary;
 
     RecyclerView rvPLQuotes;
@@ -70,11 +70,13 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     FmPersonalLoanRequest fmPersonalLoanRequest;
     PersonalLoanRequest personalLoanRequest;
     BuyLoanQuerystring buyLoanQuerystring;
-    LinearLayout ivllEdit,llcreditscore;
+    LinearLayout ivllEdit, llcreditscore;
     int QuoteID = 0;
-    String Leadid="";
-    ImageView ivShare,ivdownload;
-    String url_score="",score="";
+    String Leadid = "";
+    ImageView ivShare, ivdownload;
+    String url_score = "", score = "";
+    DBPersistanceController dbPersistanceController;
+    LoginResponseEntity loginResponseEntity;
 
     public QuoteFragment_pl() {
         // Required empty public constructor
@@ -85,6 +87,8 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.content_personal_loan_quote, container, false);
+        dbPersistanceController = new DBPersistanceController(getActivity());
+        loginResponseEntity = dbPersistanceController.getUserData();
         initialise_widget(view);
 
         if (getArguments() != null) {
@@ -120,7 +124,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         rvPLQuotes = (RecyclerView) view.findViewById(R.id.rvQuotes);
         rvPLQuotes.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        llcreditscore= (LinearLayout) view.findViewById(R.id.llcreditscore);
+        llcreditscore = (LinearLayout) view.findViewById(R.id.llcreditscore);
         txtCreditscore = (TextView) view.findViewById(R.id.txtCreditscore);
         ivdownload = (ImageView) view.findViewById(R.id.ivdownload);
         ivdownload.setOnClickListener(this);
@@ -148,17 +152,18 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
     public void redirectToApplyLoan() {
 
         new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Buy PL : Buy button for PL"), Constants.PERSONA_LOAN), null);
-        MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","Buy PL : Buy button for PL");
+        MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Buy PL : Buy button for PL");
 
 //              startActivity(new Intent(getContext(), PersonalLoanApplyActivity.class)
 //                .putExtra("BuyLoanQuery", buyLoanQuerystring));
 
         //bank_web_url
-        String urltobank = ""+buyLoanQuerystring.getBank_web_url()+"?quoteid="+buyLoanQuerystring.getQuote_id()+"&leadid="+buyLoanQuerystring.getLead_id()+"&fbaid="+fmPersonalLoanRequest.getFBA_id();
+        String urltobank = "" + buyLoanQuerystring.getBank_web_url() + "?quoteid=" + buyLoanQuerystring.getQuote_id() + "&leadid=" + buyLoanQuerystring.getLead_id() +
+                "&fbaid=" + loginResponseEntity.getFBAId() + "&loanid=" + loginResponseEntity.getLoanId() + "&type=finmart";
         startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
-                .putExtra("URL",urltobank)
+                .putExtra("URL", urltobank)
                 .putExtra("NAME", buyLoanQuerystring.getBank_name())
-                .putExtra("TITLE",  buyLoanQuerystring.getBank_name()));
+                .putExtra("TITLE", buyLoanQuerystring.getBank_name()));
     }
 
 
@@ -238,9 +243,9 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
     }
 
-    private void setFmPeronalLoanRequest(int tempQuoteID,String tempLeadid) {
+    private void setFmPeronalLoanRequest(int tempQuoteID, String tempLeadid) {
         QuoteID = tempQuoteID;
-        Leadid=tempLeadid;
+        Leadid = tempLeadid;
         showDialog();
 
 
@@ -264,7 +269,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
             buyLoanQuerystring.setProp_Loan_Eligible(BigDecimal.valueOf(entity.getLoan_eligible()).toPlainString());
             buyLoanQuerystring.setProp_Processing_Fee(BigDecimal.valueOf(entity.getProcessingfee()).toPlainString());
-           // buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
+            // buyLoanQuerystring.setProp_Processing_Fee(String.valueOf(entity.getProcessingfee()));
             buyLoanQuerystring.setQuote_id(QuoteID);
             buyLoanQuerystring.setLead_id(Leadid);
             buyLoanQuerystring.setProp_type(entity.getRoi_type());
@@ -309,11 +314,10 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
                 getPersonalLoanResponse = ((GetPersonalLoanResponse) response);
 
                 bindQuotes();
-                setFmPeronalLoanRequest(getPersonalLoanResponse.getQuote_id(),getPersonalLoanResponse.getLead_Id());
-                  if(personalLoanRequest.getPostal().length() > 1) {
+                setFmPeronalLoanRequest(getPersonalLoanResponse.getQuote_id(), getPersonalLoanResponse.getLead_Id());
+                if (personalLoanRequest.getPostal().length() > 1) {
                     getequifax();
-                }else
-                {
+                } else {
                     txtCreditscore.setVisibility(View.GONE);
                     ivdownload.setVisibility(View.GONE);
                     llcreditscore.setVisibility(View.GONE);
@@ -322,11 +326,10 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             } else {
                 Toast.makeText(getActivity(), response.getMsg(), Toast.LENGTH_SHORT).show();
             }
-        }else if(response instanceof equifax_personalloan_response)
-        {
+        } else if (response instanceof equifax_personalloan_response) {
             equifax_personalloan_response_res = ((equifax_personalloan_response) response);
-             score = equifax_personalloan_response_res.getResult().getScore();
-             url_score = equifax_personalloan_response_res.getResult().getName();
+            score = equifax_personalloan_response_res.getResult().getScore();
+            url_score = equifax_personalloan_response_res.getResult().getName();
 
             txtCreditscore.setVisibility(View.VISIBLE);
             ivdownload.setVisibility(View.VISIBLE);
@@ -371,6 +374,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         DownloadManager dm = (DownloadManager) getActivity().getSystemService(DOWNLOAD_SERVICE);
         dm.enqueue(r);
     }
+
     private void getequifax() {
 
         equifax_personalloan_request equifaxrequest = new equifax_personalloan_request();
@@ -380,21 +384,19 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         equifaxrequest.setLastName("");
         String[] name = personalLoanRequest.getApplicantNme().toUpperCase().split(" ");
 
-        if(name.length >2)
-        {
+        if (name.length > 2) {
             for (int i = 0; i < name.length; i++) {
                 if (i == 0) {
                     equifaxrequest.setFirstName(name[i]);
                 }
-                if (i == 1)
-                {
+                if (i == 1) {
                     equifaxrequest.setMiddleName(name[i]);
                 }
-                if (i == name.length-1) {
+                if (i == name.length - 1) {
                     equifaxrequest.setLastName(name[i]);
                 }
             }
-        }else {
+        } else {
             for (int i = 0; i < name.length; i++) {
                 if (i == 0) {
                     equifaxrequest.setFirstName(name[i]);
@@ -410,7 +412,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
         if (personalLoanRequest.getApplicantDOB() != null) {
 
-             equifaxrequest.setDOB(getYYYYMMDDPattern(personalLoanRequest.getApplicantDOB()));
+            equifaxrequest.setDOB(getYYYYMMDDPattern(personalLoanRequest.getApplicantDOB()));
         }
         equifaxrequest.setDOB(personalLoanRequest.getApplicantDOB());
         equifaxrequest.setPANId(personalLoanRequest.getpanno());
@@ -418,10 +420,9 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
         if (personalLoanRequest.getApplicantGender() != null) {
 
-            if(personalLoanRequest.getApplicantGender().toUpperCase().equals("F"))
-            {
+            if (personalLoanRequest.getApplicantGender().toUpperCase().equals("F")) {
                 equifaxrequest.setGender("2");
-            }else{
+            } else {
                 equifaxrequest.setGender("1");
             }
 
@@ -438,33 +439,33 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
         equifaxrequest.setPhoneType("M");
         equifaxrequest.setAccountNumber("");
 
-        new PersonalLoanController(this.getActivity()).getPLequifax(equifaxrequest,this);
+        new PersonalLoanController(this.getActivity()).getPLequifax(equifaxrequest, this);
     }
-/*
-    private void setRBCustomerData() {
+
+    /*
+        private void setRBCustomerData() {
 
 
 
 
-        if (rbCustomerEntity.getApplicantGender().equals("M")) {
-            setMale_gender();
-        } else if (rbCustomerEntity.getApplicantGender().equals("F")) {
-            setFeMale_gender();
-        }
-        if (rbCustomerEntity.getApplicantSource().equals("1")) {
-            setEmpSalaried("Salaried", false, txtEmpNatureSalaried, txtEmpNatureSelfEmp);
-        } else if (rbCustomerEntity.getApplicantSource().equals("2")) {
-            setEmpSalaried("Self-Emp", true, txtEmpNatureSelfEmp, txtEmpNatureSalaried);
-        }
+            if (rbCustomerEntity.getApplicantGender().equals("M")) {
+                setMale_gender();
+            } else if (rbCustomerEntity.getApplicantGender().equals("F")) {
+                setFeMale_gender();
+            }
+            if (rbCustomerEntity.getApplicantSource().equals("1")) {
+                setEmpSalaried("Salaried", false, txtEmpNatureSalaried, txtEmpNatureSelfEmp);
+            } else if (rbCustomerEntity.getApplicantSource().equals("2")) {
+                setEmpSalaried("Self-Emp", true, txtEmpNatureSelfEmp, txtEmpNatureSalaried);
+            }
 
-    }*/
+        }*/
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
         if (getActivity() != null) {
-            if(t.getMessage() ==null || t.getMessage().isEmpty())
-            {}
-            else {
+            if (t.getMessage() == null || t.getMessage().isEmpty()) {
+            } else {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         }
@@ -479,7 +480,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
             new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES  EDIT"), Constants.PERSONA_LOAN), null);
 
-            MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","PERSONAL LOAN QUOTES EDIT");
+            MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "PERSONAL LOAN QUOTES EDIT");
 
 
             ((PLMainActivity) getActivity()).redirectInput(fmPersonalLoanRequest);
@@ -488,7 +489,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
 
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("PERSONAL LOAN : PERSONAL LOAN QUOTES  SHARE"), Constants.PERSONA_LOAN), null);
 
-                MyApplication.getInstance().trackEvent( Constants.PERSONA_LOAN,"Clicked","PERSONAL LOAN QUOTES SHARE");
+                MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "PERSONAL LOAN QUOTES SHARE");
 
                 Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "PL_ALL_QUOTE");

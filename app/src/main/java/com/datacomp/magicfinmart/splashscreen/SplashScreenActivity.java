@@ -19,6 +19,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.creditcard.CreditCardController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.BikeMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CarMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CityMasterResponse;
@@ -34,6 +35,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
     PrefManager prefManager;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginResponseEntity;
+    UserConstantEntity userConstantEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +44,18 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         prefManager = new PrefManager(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
+        userConstantEntity = dbPersistanceController.getUserConstantsData();
 //        Utility.LOGIN_IP = Utility.getLocalIpAddress(this);
 
         // By default set to 1.
         prefManager.updateMotorVersion("1");
 
-       // for user constant
-        if(loginResponseEntity != null) {
-            new MasterController(this).geUserConstant(0,this);
-        }
+        // for user constant
+        if (loginResponseEntity != null)
+            new MasterController(this).geUserConstant(0, this);
+       /* if (userConstantEntity != null) {
+            new MasterController(this).geUserConstant(0, this);
+        }*/
 
         prefManager.setIsUpdateShown(true);
         if (prefManager.IsBikeMasterUpdate())
