@@ -510,10 +510,17 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         if (getIntent().getExtras() != null) {
 
-            NotifyEntity notifyEntity1 = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
-            String MESSAGEID = notifyEntity1.getMessage_id();
+            //region  for getting user Click Action
 
-            new RegisterController(getApplicationContext()).getUserClickActionOnNotification(MESSAGEID, null);
+            if(getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
+
+                NotifyEntity notifyEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
+                String MESSAGEID = notifyEntity.getMessage_id();
+
+                new RegisterController(HomeActivity.this).getUserClickActionOnNotification(MESSAGEID, null);
+            }
+            //endregion
+
             // step1: boolean verifyLogin = prefManager.getIsUserLogin();
             // region verifyUser : when user logout and when Apps in background
             if (loginResponseEntity == null) {
