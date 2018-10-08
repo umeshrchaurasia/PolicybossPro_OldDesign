@@ -111,7 +111,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
     CreditCardEntity creditCardEntity;
 
     ArrayList<String> companyList;
-    int EmploymentType = 0;
+    int EmploymentType = 1;
     TextView txtEmploymentType;
 
     @Override
@@ -150,7 +150,7 @@ public class ICICICreditApplyActivity extends BaseActivity implements View.OnCli
         stateBinding();
 
         etCompany.addTextChangedListener(companyTextWatcher);
-        if (EmploymentType == 0)
+        if (EmploymentType == 1)
             txtEmploymentType.setText("Salaried");
         else
             txtEmploymentType.setText("Self");
