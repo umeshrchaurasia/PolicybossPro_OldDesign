@@ -561,6 +561,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             updateMainQuoteAdapter(listDataHeader);
             //clear selected compare list to reset
             listCompare.clear();
+
+            //share all list json
+            listShareAll.clear();
+            listShareAll.addAll(listHeader);
+            listShareAll.addAll(listChild);
         }
     }
     //endregion
