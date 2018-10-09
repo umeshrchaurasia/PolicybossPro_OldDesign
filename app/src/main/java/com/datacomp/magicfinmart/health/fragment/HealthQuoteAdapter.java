@@ -225,7 +225,9 @@ public class HealthQuoteAdapter extends RecyclerView.Adapter<HealthQuoteAdapter.
 
             case R.id.txtBuy:
                 //  ((HealthQuoteFragment) mContext).redirectToBuy(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+                ((HealthQuoteFragment)mContext).getgoogleTrackingHealthBuy();
                 ((HealthQuoteFragment) mContext).popUpHealthMemberDetails(((HealthQuoteEntity) view.getTag(R.id.txtBuy)));
+
                 break;
 
             case R.id.llBenefits:

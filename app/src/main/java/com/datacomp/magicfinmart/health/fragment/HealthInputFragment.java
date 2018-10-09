@@ -24,6 +24,7 @@ import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
 import com.datacomp.magicfinmart.home.HomeActivity;
@@ -752,16 +753,20 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
 
         switch (view.getId()) {
             case R.id.btnSelf:
+
+                MyApplication.getInstance().trackEvent( Constants.HEALTH_INS,"Clicked","Health Insurance Cover For : Self");
                 coverFor = 0;
                 resetonClick();
                 enableInputsForSelf();
                 break;
             case R.id.btnFamily:
+                MyApplication.getInstance().trackEvent( Constants.HEALTH_INS,"Clicked","Health Insurance Cover For : Family");
                 coverFor = 1;
                 resetonClick();
                 enableInputForFamily();
                 break;
             case R.id.btnParent:
+                MyApplication.getInstance().trackEvent( Constants.HEALTH_INS,"Clicked","Health Insurance Cover For : Parent");
                 coverFor = 2;
                 resetonClick();
                 enableInputForParent();
@@ -798,6 +803,8 @@ public class HealthInputFragment extends BaseFragment implements View.OnClickLis
                 Constants.hideKeyBoard(btnGetHealthQuote, getActivity());
 
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Get quote health : get quote button for health"), Constants.HEALTH_INS), null);
+
+                MyApplication.getInstance().trackEvent( Constants.HEALTH_INS,"Clicked","Health Insurance Quote : Get Quote button");
                 //region validation
                 memberList.clear();
 
