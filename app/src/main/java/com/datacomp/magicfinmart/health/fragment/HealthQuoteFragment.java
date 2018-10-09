@@ -84,6 +84,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     TextView tvCount;// txtCompareCount;
 
     List<HealthQuoteEntity> listCompare;
+    List<HealthQuoteEntity> listShareAll;
     List<HealthQuoteEntity> listDataHeader;
     HashMap<Integer, List<HealthQuoteEntity>> listDataChild;
 
@@ -116,18 +117,14 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         //set actionmode call back
         actionModeCallback = new ActionModeCallback();
 
-      /*  if (actionMode == null) {
-            actionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(actionModeCallback);
-        }*/
-
-
         Constants.hideKeyBoard(ivEdit, getActivity());
 
         listCompare = new ArrayList<>();
         listDataHeader = new ArrayList<>();
+        listShareAll = new ArrayList<>();
         listDataChild = new HashMap<Integer, List<HealthQuoteEntity>>();
-       // txtCompareCount.setVisibility(View.INVISIBLE);
-       // ivHealthCompare.setVisibility(View.INVISIBLE);
+        // txtCompareCount.setVisibility(View.INVISIBLE);
+        // ivHealthCompare.setVisibility(View.INVISIBLE);
 
         if (getArguments() != null) {
             if (getArguments().getParcelable(HealthQuoteBottomTabsActivity.QUOTE_DATA) != null) {
@@ -143,8 +140,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
     private void setListener() {
         ivEdit.setOnClickListener(this);
-        //ivHealthCompare.setOnClickListener(this);
-        //txtCompareCount.setOnClickListener(this);
     }
 
     @Override
@@ -152,23 +147,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         if (view.getId() == R.id.ivEdit) {
             ((HealthQuoteBottomTabsActivity) getActivity()).redirectToInput();
         }
-
-        /*else if (view.getId() == R.id.ivHealthCompare) {
-
-            if (listCompare.size() == 1) {
-                showAlert("Please select at least 2 plans for comparison");
-            } else {
-                redirectToHealthCompare();
-            }
-        } else if (view.getId() == R.id.txtCompareCount) {
-
-            if (listCompare.size() == 1) {
-                showAlert("Please select at least 2 plans for comparison");
-            } else {
-                redirectToHealthCompare();
-            }
-
-        }*/
     }
 
     public void redirectToHealthCompare() {
@@ -229,14 +207,14 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         tvCount = (TextView) view.findViewById(R.id.tvCount);
         ivEdit = (ImageView) view.findViewById(R.id.ivEdit);
 
-       // txtCompareCount = (TextView) view.findViewById(R.id.txtCompareCount);
+        // txtCompareCount = (TextView) view.findViewById(R.id.txtCompareCount);
         rvHealthQuote = (RecyclerView) view.findViewById(R.id.rvHealthQuote);
         rvHealthQuote.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvHealthQuote.setLayoutManager(layoutManager);
 
-       // ivHealthCompare = (ImageView) view.findViewById(R.id.ivHealthCompare);
+        // ivHealthCompare = (ImageView) view.findViewById(R.id.ivHealthCompare);
     }
 
     public void redirectToDetail(HealthQuoteEntity entity) {
@@ -345,6 +323,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                         listChild.get(i).setDisplayPremium(listChild.get(i).getGrossPremium());
 
                 }
+
+
+                //share all list json
+                listShareAll.addAll(listHeader);
+                listShareAll.addAll(listChild);
 
                 prepareChild();
 
@@ -540,9 +523,6 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         @Override
         public boolean onCreateActionMode(ActionMode mode, Menu menu) {
             mode.getMenuInflater().inflate(R.menu.health_menu_actionmode, menu);
-
-            // disable Parent layout if action mode is enabled
-            //lvParent.setEnabled(false);
             return true;
         }
 
@@ -557,7 +537,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 case R.id.health_share:
                     // delete all the selected messages
                     //Toast.makeText(getActivity(), "Share", Toast.LENGTH_SHORT).show();
-                    new AsyncShareJson().execute();
+                    new AsyncShareJson(listCompare).execute();
                     // mode.finish();
                     return true;
                 case R.id.health_compare:
@@ -585,6 +565,17 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     }
     //endregion
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (actionMode != null) {
+            listCompare.clear();
+            listShareAll.clear();
+            actionMode.finish();
+        }
+
+    }
 
     public void addRemoveCompare(HealthQuoteEntity entity, boolean isAdd) {
         if (isAdd) {
@@ -615,29 +606,12 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
         }
 
-
-      /*  if (listCompare.size() == 0) {
-            txtCompareCount.setVisibility(View.INVISIBLE);
-            ivHealthCompare.setVisibility(View.INVISIBLE);
-        } else {
-            if (listCompare.size() == 1) {
-                txtCompareCount.setBackgroundResource(R.drawable.compare_roundshape_gray);
-            } else {
-                txtCompareCount.setBackgroundResource(R.drawable.compare_roundshape);
-            }
-            txtCompareCount.setVisibility(View.VISIBLE);
-            ivHealthCompare.setVisibility(View.VISIBLE);
-            txtCompareCount.setText("" + listCompare.size());
-        }*/
     }
 
     public void actionModeRefresh() {
         if (listCompare.size() == 0) {
 
             actionMode.finish();
-            //after share comes back action mode set to null
-            //to initialise again and assign existing selection references
-            //actionMode = null;
         } else {
             actionMode.setTitle("" + listCompare.size());
             actionMode.invalidate();
@@ -661,7 +635,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
     class AsyncShareJson extends AsyncTask<Void, Void, String> {
         List<HealthQuoteEntity> shareList = new ArrayList<>();
 
-        public AsyncShareJson() {
+        public AsyncShareJson(List<HealthQuoteEntity> list) {
+            shareList = list;
         }
 
         @Override
@@ -669,7 +644,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             //shareList.addAll(listHeader);
             //shareList.addAll(listChild);
 
-            shareList.addAll(listCompare);
+            //shareList.addAll(listCompare);
             Collections.sort(shareList, new SortbyInsurer());
 
             JSONArray jsonArrayNew = new JSONArray();
@@ -720,8 +695,8 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
                 getActivity().finish();
                 return true;
             case R.id.action_share:
-
-                shareAllPdf();
+                new AsyncShareJson(listShareAll).execute();
+                // shareAllPdf();
 
                 return true;
 
