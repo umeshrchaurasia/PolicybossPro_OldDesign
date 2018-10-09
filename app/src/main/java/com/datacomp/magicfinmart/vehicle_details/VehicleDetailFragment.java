@@ -40,7 +40,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
     RadioButton rbCarNumber, rbMobileNumber;
     EditText etVehicleDetail;
     Button btnVehicleDetails;
-    TextView txtClientName, txtDOB, txtMfg, txtClaimNo, txtClaimSattlementType, txtClaimStatus,
+    TextView txtClientName, txtDOB, txtMfg, txtClaimNo, txtClaimSattlementType, txtClaimStatus, txtExpiryDate,
             txtAddress, txtRegistrationNo, txtCarDetail, txtChasisNo, txtEngineNo, txtRTO, txtFuel;
 
     CardView cvVehicleDetail;
@@ -78,6 +78,8 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         rvMobile.setLayoutManager(layoutManager);
         mAdapter = new VehicleDetailsAdapter(getActivity(), listCustDetails);
         rvMobile.setAdapter(mAdapter);
+
+        txtExpiryDate = view.findViewById(R.id.txtExpiryDate);
 
         txtMobileData = view.findViewById(R.id.txtMobileData);
         rbCarNumber = view.findViewById(R.id.rbCarNumber);
@@ -183,6 +185,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                                 cancelDialog();
                                 if (response instanceof magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity) {
                                     //bind vehicle
+
                                     new PrefManager(getActivity()).setVehicleCarVehicleLog();
                                     bindVehicle(((magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity) response).getGetRegNoDataResult());
                                 }
@@ -191,6 +194,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                             @Override
                             public void OnFailure(Throwable t) {
                                 cancelDialog();
+                                cvVehicleDetail.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
@@ -214,6 +218,8 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                                 rvMobile.setVisibility(View.VISIBLE);
                                 cvVehicleDetail.setVisibility(View.GONE);
                                 mAdapter.refreshAdapter(((VehicleMobileResponse) response).getCustomerDetails());
+                            }else{
+                                rvMobile.setVisibility(View.GONE);
                             }
                         }
                     }
@@ -221,6 +227,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                     @Override
                     public void OnFailure(Throwable t) {
                         cancelDialog();
+                        rvMobile.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
@@ -255,7 +262,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
             txtRTO.setText(v.getRTOCity() + "," + v.getRTOState());
             txtFuel.setText(v.getFuelType());
             txtMfg.setText("" + v.getMfgyear());
-
+            txtExpiryDate.setText("" + v.getExpiryDate());
             txtClaimNo.setText("" + v.getClaimNo());
             txtClaimSattlementType.setText("" + v.getClaimSattlementType());
             txtClaimStatus.setText("" + v.getClaimStatus());
