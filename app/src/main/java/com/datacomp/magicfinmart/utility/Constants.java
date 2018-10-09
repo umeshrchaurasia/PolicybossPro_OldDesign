@@ -71,7 +71,7 @@ public class Constants {
     public static String TWO_WHEELER_FASTLANE_RESPONSE = "TWO WHEELER FASTLANE RESPONSE";
     public static String FASTLANE = "FASTLANE";
     public static String HEALTH_INS = "HEALTH INSURANCE";
-    public static String LIFE_INS = "LIFE INSURANCE";
+    public static String LIFE_INS = "TERM INSURANCE";
     public static String HOME_LOAN = "HOME LOAN";
     public static String PERSONA_LOAN = "PERSONAL LOAN";
     public static String LAP = "LAP";

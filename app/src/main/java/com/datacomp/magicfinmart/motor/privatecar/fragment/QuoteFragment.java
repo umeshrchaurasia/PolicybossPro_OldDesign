@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
@@ -312,8 +313,6 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         isSync = true;
         showDialog();
         new MotorController(getActivity()).getMotorQuoteOneTime(1, this);
-        Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
-        rebindAdapter(bikePremiumResponse);
     }
 
     public void rebindAdapter(BikePremiumResponse bikePremiumResponse) {
@@ -383,6 +382,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
             if (isSync == true) {
                 webViewLoader.setVisibility(View.GONE);
+                Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
+                rebindAdapter(bikePremiumResponse);
                 isSync = false;
             }
         } else if (response instanceof SaveAddOnResponse) {
@@ -980,6 +981,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     }
 
     public void redirectToBuy(ResponseEntity entity) {
+        MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "BUY QUOTE MOTOR", "BUY QUOTE MOTOR");
         if (Utility.checkShareStatus(getActivity()) == 1) {
             if (webViewLoader.getVisibility() == View.GONE) {
 

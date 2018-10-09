@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -875,6 +876,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
 
             case R.id.ivBuy:
+                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "HDFC BUY TERM INSURANCE", "HDFC BUY TERM INSURANCE");
                 new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(),
                         "28",
                         "" + dbPersistanceController.getUserData().getFBAId(),
@@ -887,7 +889,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
 
                 break;
             case R.id.ivPdf:
-
+                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "HDFC PDF  TERM INSURANCE", "HDFC PDF TERM INSURANCE");
                 shareTermHdfc();
                 /*if (termCompareResponseEntity != null && termCompareResponseEntity.getPdfUrl().equals("")) {
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
@@ -902,6 +904,7 @@ public class HdfcInputFragment extends BaseFragment implements View.OnClickListe
             case R.id.btnGetQuote:
 
                 if (isValidInput()) {
+                    MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "GET QUOTE TERM INSURANCE", "GET QUOTE TERM INSURANCE");
                     setTermRequest();
                     //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);
                     fetchQuotes();
