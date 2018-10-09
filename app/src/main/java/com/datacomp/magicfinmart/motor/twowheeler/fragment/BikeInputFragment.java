@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
@@ -905,13 +906,15 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //((TextView) parent.getChildAt(0)).setTextSize(13);
+                InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
                 if (switchNewRenew.isChecked()) {
-                    if (position == 0) {
+                    if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
                         cvNcb.setVisibility(View.GONE);
                         llNCB.setVisibility(View.INVISIBLE);
                     } else {
                         cvNcb.setVisibility(View.VISIBLE);
                         llNCB.setVisibility(View.VISIBLE);
+                        setNcb();
                     }
                 }
             }
@@ -921,6 +924,23 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             }
         });
         //endregion
+    }
+
+    private void setNcb() {
+        if (motorRequestEntity != null && motorRequestEntity.getIs_claim_exists() != null) {
+            if (motorRequestEntity.getIs_claim_exists().equals("no")) {
+                int ncbPercent = 0;
+                if (motorRequestEntity.getVehicle_ncb_current() != null && !motorRequestEntity.getVehicle_ncb_current().equals("")) {
+                    ncbPercent = Integer.parseInt(motorRequestEntity.getVehicle_ncb_current());
+                    setSeekbarProgress(ncbPercent);
+                } else {
+                    setSeekbarProgress(ncbPercent);
+                }
+                //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            } else if (motorRequestEntity.getIs_claim_exists().equals("yes")) {
+                tvClaimYes.performClick();
+            }
+        }
     }
 
     private void initialize_views() {
@@ -948,6 +968,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             setSubTypeAdapterView(insuranceSubtypeEntities);
         }
     }
+
     private void setSubTypeAdapterView(List<InsuranceSubtypeEntity> insuranceSubtypeEntities) {
         subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                 insuranceSubtypeEntities) {
@@ -1175,7 +1196,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     }
                     if (constantEntity.getLogtracking().equals("0"))
                         new PolicybossTrackingRequest(motorRequestEntity).execute();
-
+                    MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "GET QUOTE TWO WHEELER", "GET QUOTE TWO WHEELER");
 
                     showDialog(getResources().getString(R.string.fetching_msg));
                     new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
@@ -1609,7 +1630,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String expDate = displayFormat.format(calendar.getTime());
                             etExpDate.setText(expDate);
-                            if (getDaysDiff(expDate, currDate) < 90) {
+                            /*if (getDaysDiff(expDate, currDate) < 90) {
                                 cvNcb.setVisibility(View.VISIBLE);
                                 llNCB.setVisibility(View.VISIBLE);
                             } else {
@@ -1625,7 +1646,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                                     cvNcb.setVisibility(View.VISIBLE);
                                     llNCB.setVisibility(View.VISIBLE);
                                 }
-                            }
+                            }*/
                         }
                     }
                 });
@@ -2031,6 +2052,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (R.id.switchNewRenew == compoundButton.getId()) {
             if (b) {
+                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "RENEW_QUOTE_TWO_WHEELER", "RENEW_QUOTE_TWO_WHEELER");
                 insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(10, "renew");
                 /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                         insuranceSubtypeEntities);
@@ -2044,6 +2066,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                 llNCB.setVisibility(View.VISIBLE);
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("New : click here button with new "), Constants.TWO_WHEELER), null);
             } else {
+                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "NEW_QUOTE_TWO_WHEELER", "NEW_QUOTE_TWO_WHEELER");
                 insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(10, "new");
                 /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                         insuranceSubtypeEntities);
@@ -2061,10 +2084,13 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             }
         } else if (R.id.swIndividual == compoundButton.getId()) {
             if (!b) {
+                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "COMPANY_QUOTE_TWO_WHEELER", "COMPANY_QUOTE_TWO_WHEELER");
                 //openPop up
                 swIndividual.setChecked(true);
                 //showPopUp("CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "", "OK", true);
                 openPopUp(swIndividual, "MAGIC-FINMART", "CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "OK", true);
+            } else {
+                MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "INDIVIDUAL_TWO_WHEELER", "INDIVIDUAL_TWO_WHEELER");
             }
         }
     }

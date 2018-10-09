@@ -38,6 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.location.ILocationStateListener;
@@ -143,6 +144,8 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     //ArrayAdapter<String> subTypeAdapter;
     List<InsuranceSubtypeEntity> insuranceSubtypeEntities;
     ArrayAdapter<InsuranceSubtypeEntity> subTypeAdapter;
+
+    boolean sendOldCrn = false;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -1000,13 +1003,15 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //((TextView) parent.getChildAt(0)).setTextSize(10);
+                InsuranceSubtypeEntity insuranceSubtypeEntity = (InsuranceSubtypeEntity) spInsSubTYpe.getSelectedItem();
                 if (switchNewRenew.isChecked()) {
-                    if (position == 0) {
+                    if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
                         cvNcb.setVisibility(View.GONE);
                         llNoClaim.setVisibility(View.INVISIBLE);
                     } else {
                         cvNcb.setVisibility(View.VISIBLE);
                         llNoClaim.setVisibility(View.VISIBLE);
+                        setNcb();
                     }
                 }
             }
@@ -1018,7 +1023,25 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         //endregion
     }
 
+    private void setNcb() {
+        if (motorRequestEntity != null && motorRequestEntity.getIs_claim_exists() != null) {
+            if (motorRequestEntity.getIs_claim_exists().equals("no")) {
+                int ncbPercent = 0;
+                if (motorRequestEntity.getVehicle_ncb_current() != null && !motorRequestEntity.getVehicle_ncb_current().equals("")) {
+                    ncbPercent = Integer.parseInt(motorRequestEntity.getVehicle_ncb_current());
+                    setSeekbarProgress(ncbPercent);
+                } else {
+                    setSeekbarProgress(ncbPercent);
+                }
+                //setSeekbarProgress(getYearDiffForNCB(etRegDate.getText().toString(), etExpDate.getText().toString()));
+            } else if (motorRequestEntity.getIs_claim_exists().equals("yes")) {
+                tvClaimYes.performClick();
+            }
+        }
+    }
+
     private void initialize_views() {
+        setSubTypeAdapter();
         cvInput.setVisibility(View.GONE);
         switchNewRenew.setChecked(true);
         tvClaimNo.performClick();
@@ -1027,7 +1050,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         spPrevIns.setEnabled(false);
         tilExt.setVisibility(View.GONE);
 
-        setSubTypeAdapter();
+
     }
 
     private void setSubTypeAdapter() {
@@ -1286,6 +1309,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     if (constantEntity.getLogtracking().equals("0"))
                         new PolicybossTrackingRequest(motorRequestEntity).execute();
 
+                    MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "GET QUOTE MOTOR", "GET QUOTE MOTOR");
                     showDialog(getResources().getString(R.string.fetching_msg));
                     new MotorController(getActivity()).getMotorPremiumInitiate(motorRequestEntity, this);
                 }
@@ -1328,54 +1352,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             motorRequestEntity.setVehicle_insurance_subtype("" + insuranceSubtypeEntity.getCode());
     }
 
-    private String getSubTYpe() {
-        String subtype = "";
-        if (switchNewRenew.isChecked()) {
-            switch (spInsSubTYpe.getSelectedItemPosition()) {
-                case 0:
-                    subtype = "OCH_1TP ";
-                    break;
-                case 1:
-                    subtype = "1CH_0TP";
-                    break;
-            }
-        } else {
-            switch (spInsSubTYpe.getSelectedItemPosition()) {
-                case 0:
-                    subtype = "0CH_3TP ";
-                    break;
-                case 1:
-                    subtype = "1CH_2TP";
-                    break;
-                case 2:
-                    subtype = "3CH_0TP";
-                    break;
-            }
-        }
-        return subtype;
-    }
-
-    private int getSubtypeValue(String subTYpe) {
-        int id = 0;
-        switch (subTYpe) {
-            case "OCH_1TP":
-                id = 0;
-                break;
-            case "1CH_0TP":
-                id = 1;
-                break;
-            case "0CH_3TP":
-                id = 0;
-                break;
-            case "1CH_2TP":
-                id = 1;
-                break;
-            case "3CH_0TP":
-                id = 2;
-                break;
-        }
-        return id;
-    }
 
     private void insertFastlaneLog() {
         try {
@@ -2004,7 +1980,12 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("finmarttest@gmail.com");
-        motorRequestEntity.setCrn("");
+        if (sendOldCrn) {
+
+        } else {
+            motorRequestEntity.setCrn("");
+        }
+
 
         if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
@@ -2096,7 +2077,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         motorRequestEntity.setLast_name(" ");
         motorRequestEntity.setMobile("");
         motorRequestEntity.setEmail("finmarttest@gmail.com");
-        motorRequestEntity.setCrn("");
+        if (sendOldCrn) {
+
+        } else {
+            motorRequestEntity.setCrn("");
+        }
 
         if (spFuel.getSelectedItem().toString().equals(DBPersistanceController.EXTERNAL_LPG)) {
             motorRequestEntity.setExternal_bifuel_type("lpg");
@@ -2287,6 +2272,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
         if (R.id.switchNewRenew == compoundButton.getId()) {
             if (b) {
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "RENEW_QUOTE", "Renew motor quote");
                 insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "renew");
                 /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                         insuranceSubtypeEntities);
@@ -2301,6 +2287,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 llNoClaim.setVisibility(View.VISIBLE);
                 new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("ReNew : click here button with renew "), Constants.PRIVATE_CAR), null);
             } else {
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "NEW_QUOTE", "new motor quote");
                 insuranceSubtypeEntities = dbController.getInsuranceSubTypeList(1, "new");
                 /*subTypeAdapter = new ArrayAdapter<InsuranceSubtypeEntity>(getActivity(), android.R.layout.simple_list_item_1,
                         insuranceSubtypeEntities);
@@ -2320,10 +2307,13 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
         } else if (R.id.swIndividual == compoundButton.getId()) {
             if (!b) {
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "COMPANY", " motor quote");
                 //openPop up
                 swIndividual.setChecked(true);
                 openPopUp(swIndividual, "MAGIC-FINMART", "CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "OK", true);
                 //showPopUp("CURRENTLY THIS OPTION IS NOT AVAILABLE PLEASE USE RAISE A QUERY", "", "OK", true);
+            } else {
+                MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "INDIVDUAL", " motor quote");
             }
         }
 

@@ -232,7 +232,7 @@ public class CarQuoteAdapter extends RecyclerView.Adapter<CarQuoteAdapter.BikeQu
             } else {
                 entity.setSelected(false);
             }
-            ((QuoteFragment) mContext).addRemoveShare(entity, b);
+            ((QuoteFragment) mContext).addRemoveShare(entity, b,compoundButton.getId());
 
             /*if (checkCount <= 4) {
                 if (b) {

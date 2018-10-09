@@ -12,6 +12,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceControl
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.RegisterRequestBuilder;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ChildPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
@@ -525,11 +526,11 @@ public class RegisterController implements IRegister {
                 if (response.body() != null) {
 
                     //callback of data
-                  //  iResponseSubcriber.OnSuccess(response.body(), "");
+                    //  iResponseSubcriber.OnSuccess(response.body(), "");
 
                 } else {
                     //failure
-                   // iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                    // iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
                 }
             }
 
@@ -561,7 +562,7 @@ public class RegisterController implements IRegister {
                 if (response.body() != null) {
 
                     //callback of data
-                   // iResponseSubcriber.OnSuccess(response.body(), "");
+                    // iResponseSubcriber.OnSuccess(response.body(), "");
 
                 } else {
                     //failure
@@ -619,4 +620,41 @@ public class RegisterController implements IRegister {
             }
         });
     }
+
+    @Override
+    public void getChildPosp(final IResponseSubcriber iResponseSubcriber) {
+
+        HashMap<String, String> body = new HashMap<>();
+        body.put("FBAID", "" + dbPersistanceController.getUserData().getFBAId());
+        registerQuotesNetworkService.getChildPosp(body).enqueue(new Callback<ChildPospResponse>() {
+            @Override
+            public void onResponse(Call<ChildPospResponse> call, Response<ChildPospResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ChildPospResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
 }

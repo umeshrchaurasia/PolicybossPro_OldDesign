@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.compareterm.adapters.TermQuoteAdapter;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -362,6 +363,7 @@ public class TermInputFragment extends BaseFragment implements View.OnClickListe
                 changeInputQuote(true);
                 break;
             case R.id.btnGetQuote:
+                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "COMPARE GET QUOTE  TERM INSURANCE", "COMPARE GET QUOTE  TERM INSURANCE");
                 if (btnGetQuote.getText().toString().toLowerCase().contains("get")) {
                     if (isValidInput()) {
                         setTermRequest();

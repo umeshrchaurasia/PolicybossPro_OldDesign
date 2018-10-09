@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
@@ -144,10 +145,13 @@ public class TermQuoteApplicationActivity extends BaseActivity implements IRespo
 
     private void startRespectiveActivity() {
         if (compId == 39) {
+            MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "ICICI TERM INSURANCE", "ICICI TERM INSURANCE");
             startActivity(new Intent(this, IciciTermActivity.class));
         } else if (compId == 0) {
+            MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "COMPARE TERM INSURANCE", "COMPARE TERM INSURANCE");
             startActivity(new Intent(this, CompareTermActivity.class));
         } else if (compId == 28) {
+            MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "HDFC TERM INSURANCE", "HDFC TERM INSURANCE");
             startActivity(new Intent(this, HdfcTermActivity.class));
         }
     }

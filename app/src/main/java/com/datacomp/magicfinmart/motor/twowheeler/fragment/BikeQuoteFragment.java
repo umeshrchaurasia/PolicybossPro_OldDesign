@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.privatecar.activity.ModifyQuoteActivity;
@@ -91,6 +94,9 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     SaveQuoteResponse.SaveQuoteEntity saveQuoteEntity;
 
     CheckBox chkAddon;
+    NestedScrollView scrollView;
+    FloatingActionButton fabrefresh;
+    boolean isSync = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -130,6 +136,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
 
     private void setListener() {
+        fabrefresh.setOnClickListener(this);
         ivEdit.setOnClickListener(this);
         filter.setOnClickListener(this);
         chkAddon.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -147,20 +154,21 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 }
             }
         });
-       /* bikeQuoteRecycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                if (dy > 0 && filter.getVisibility() == View.VISIBLE) {
-                    filter.hide();
-                } else if (dy < 0 && filter.getVisibility() != View.VISIBLE) {
-                    filter.show();
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY > oldScrollY) {
+                    fabrefresh.hide();
+                } else {
+                    fabrefresh.show();
                 }
             }
-        });*/
+        });
     }
 
     private void initView(View view) {
+        scrollView = view.findViewById(R.id.scrollView);
+        fabrefresh = view.findViewById(R.id.fabrefresh);
         //mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeToRefresh);
         bikeQuoteRecycler = (RecyclerView) view.findViewById(R.id.bikeQuoteRecycler);
         webViewLoader = (ImageView) view.findViewById(R.id.webViewLoader);
@@ -270,6 +278,14 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         new MotorController(getActivity()).getMotorQuote(10, this);
     }
 
+    public void fetchQuotesOneTime() {
+
+        isSync = true;
+        showDialog();
+        new MotorController(getActivity()).getMotorQuoteOneTime(10, this);
+
+    }
+
     public void rebindAdapter(BikePremiumResponse bikePremiumResponse) {
         mAdapter.setQuoteResponse(bikePremiumResponse);
         mAdapter.notifyDataSetChanged();
@@ -316,12 +332,18 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                     updateCrn();
                     saveQuoteToServer(bikePremiumResponse);
                     new AsyncAddon().execute();
-
+                    clearActionMode();
 
                 } else {
                     webViewLoader.setVisibility(View.VISIBLE);
 
                 }
+            }
+            if (isSync == true) {
+                webViewLoader.setVisibility(View.GONE);
+                isSync = false;
+                Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
+                rebindAdapter(bikePremiumResponse);
             }
         } else if (response instanceof SaveAddOnResponse) {
 
@@ -934,6 +956,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
     }
 
     public void redirectToBuy(ResponseEntity entity) {
+        MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "BUY QUOTE TWO WHEELER", "BUY QUOTE TWO WHEELER");
         if (Utility.checkShareStatus(getActivity()) == 1) {
             if (webViewLoader.getVisibility() == View.GONE) {
 
@@ -975,9 +998,11 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
         switch (view.getId()) {
             case R.id.ivEdit:
                 //finish();
+                clearActionMode();
                 ((BikeAddQuoteActivity) getActivity()).redirectInput(motorRequestEntity);
                 break;
             case R.id.filter:
+                clearActionMode();
                 if (bikePremiumResponse.getResponse() != null && bikePremiumResponse.getResponse().size() != 0) {
                     if (webViewLoader.getVisibility() != View.VISIBLE) {
                         chkAddon.setChecked(false);
@@ -989,6 +1014,12 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                     }
                 } else {
                     Toast.makeText(getActivity(), "No quotes found..", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            case R.id.fabrefresh:
+                clearActionMode();
+                if (webViewLoader.getVisibility() != View.VISIBLE) {
+                    fetchQuotesOneTime();
                 }
                 break;
 
@@ -1801,6 +1832,19 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             } else {
                 openPopUp(ivEdit, "Message", "Your POSP status is INACTIVE", "OK", true);
             }
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        clearActionMode();
+    }
+
+    public void clearActionMode() {
+        if (actionMode != null) {
+            actionMode.finish();
+            shareResponseEntityList.clear();
         }
     }
 }

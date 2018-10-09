@@ -36,6 +36,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.term.hdfc.HdfcIProtectAdapter;
@@ -979,6 +980,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 break;
 
             case R.id.ivBuy:
+                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "ICICI BUY TERM INSURANCE", "ICICI BUY TERM INSURANCE");
                 new TermInsuranceController(getActivity()).convertQuoteToApp("" + termFinmartRequest.getTermRequestId(), "39", "" + dbPersistanceController.getUserData().getFBAId(), "" + termCompareResponseEntity.getNetPremium(), this);
                 startActivity(new Intent(getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", termCompareResponseEntity.getProposerPageUrl())
@@ -988,6 +990,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
 
                 break;
             case R.id.ivPdf:
+                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "ICICI PDF  TERM INSURANCE", "ICICI PDF TERM INSURANCE");
                 if (termCompareResponseEntity != null && termCompareResponseEntity.getPdfUrl().equals("")) {
                     Toast.makeText(getActivity(), "Pdf Not Available", Toast.LENGTH_SHORT).show();
                 } else {
@@ -999,6 +1002,7 @@ public class IciciTermInputFragment extends BaseFragment implements View.OnClick
                 }
 
             case R.id.btnGetQuote:
+                MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "ICICI GET QUOTE  TERM INSURANCE", "ICICI GET QUOTE TERM INSURANCE");
                 if (isValidInput()) {
                     setTermRequest();
                     //((IciciTermActivity) getActivity()).redirectToQuote(termFinmartRequest);

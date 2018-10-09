@@ -168,8 +168,8 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
                 return;
             }
 
-            if (!isValidePhoneNumber(etMobile)) {
-                etMobile.setError("Invalid Mobile Number");
+            if (!isEmpty(etMobile)) {
+                etMobile.setError("Enter Mobile Number");
                 etMobile.setFocusable(true);
                 return;
             } else {
