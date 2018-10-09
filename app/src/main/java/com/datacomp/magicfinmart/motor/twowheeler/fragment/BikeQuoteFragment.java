@@ -281,7 +281,9 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
 
         isSync = true;
         showDialog();
-        new MotorController(getActivity()).getMotorQuoteOneTime(1, this);
+        new MotorController(getActivity()).getMotorQuoteOneTime(10, this);
+        Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
+        rebindAdapter(bikePremiumResponse);
     }
 
     public void rebindAdapter(BikePremiumResponse bikePremiumResponse) {
@@ -330,12 +332,16 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                     updateCrn();
                     saveQuoteToServer(bikePremiumResponse);
                     new AsyncAddon().execute();
-
+                    clearActionMode();
 
                 } else {
                     webViewLoader.setVisibility(View.VISIBLE);
 
                 }
+            }
+            if (isSync == true) {
+                webViewLoader.setVisibility(View.GONE);
+                isSync = false;
             }
         } else if (response instanceof SaveAddOnResponse) {
 

@@ -312,6 +312,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         isSync = true;
         showDialog();
         new MotorController(getActivity()).getMotorQuoteOneTime(1, this);
+        Collections.sort(bikePremiumResponse.getResponse(), new SortbyInsurerMotor());
+        rebindAdapter(bikePremiumResponse);
     }
 
     public void rebindAdapter(BikePremiumResponse bikePremiumResponse) {
@@ -364,7 +366,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
                     updateCrn();
                     saveQuoteToServer(bikePremiumResponse);
                     new AsyncAddon().execute();
-
+                    clearActionMode();
 
 //                    if (((BikePremiumResponse) response).getResponse().size() != 0)
 //                        menuAddon.findItem(R.id.add_on).setVisible(true);
@@ -1726,7 +1728,7 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     }
 
 
-    public void addRemoveShare(ResponseEntity responseEntity, boolean isSelected) {
+    public void addRemoveShare(ResponseEntity responseEntity, boolean isSelected, int id) {
         if (isSelected) {
 
             shareResponseEntityList.add(responseEntity);
