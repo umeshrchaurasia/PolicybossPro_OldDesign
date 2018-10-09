@@ -187,20 +187,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         getNotificationAction();
 
+        init_headers();
 
-        if (userConstantEntity != null) {
-            init_headers();
-
-        } else {
-            new MasterController(this).geUserConstant(1, this);
-        }
-
-        new MasterController(this).getMenuMaster(this);
-
-        /*if (db.getAccountData() == null) {
-            new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
-        }*/
-//        List<String> rtoDesc = db.getRTOListNames();
 
 
         if (savedInstanceState == null) {
@@ -860,6 +848,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         // set first fragement selected.
         //selectHome();
 
+
+        if(loginResponseEntity!=null){
+            new MasterController(this).geUserConstant(1, this);
+            new MasterController(this).getMenuMaster(this);
+        }
 
         new MasterController(this).getConstants(this);
 

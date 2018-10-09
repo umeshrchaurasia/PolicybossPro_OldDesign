@@ -88,6 +88,7 @@ public class POSPListFragment extends BaseFragment implements IResponseSubcriber
 
     @Override
     public void OnFailure(Throwable t) {
+        cancelDialog();
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 }
