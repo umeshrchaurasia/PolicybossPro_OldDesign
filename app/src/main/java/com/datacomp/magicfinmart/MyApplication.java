@@ -10,6 +10,7 @@ import com.google.android.gms.analytics.Tracker;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 
 public class MyApplication extends MultiDexApplication {
@@ -26,7 +27,7 @@ public class MyApplication extends MultiDexApplication {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("magicfinmart.realm")                // user defined name
-                .schemaVersion(0)
+                .schemaVersion(Utility.getVersionCode(this))
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
