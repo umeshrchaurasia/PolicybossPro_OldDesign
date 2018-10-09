@@ -1181,7 +1181,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         } else if (type == 2) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
             Glide.with(MyAccountActivity.this)
-                    .load(bitmapPhoto)
+                    .load(bitmapToByte(bitmapPhoto))
                     .asBitmap()
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .placeholder(R.drawable.circle_placeholder)
