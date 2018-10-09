@@ -27,6 +27,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.datacomp.magicfinmart.BaseFragment;
+import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.health.compare.HealthCompareActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -285,6 +286,10 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
         startActivityForResult(intent, REQUEST_MEMBER);
     }
 
+    public void getgoogleTrackingHealthBuy()
+    {
+        MyApplication.getInstance().trackEvent( Constants.HEALTH_INS,"Clicked","Health Insurance BUY NOW :Buy Now button");
+    }
     public void fetchQuotes() {
         //visibleLoader();
         showDialog("Please wait.. fetching quotes");
@@ -561,6 +566,11 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
             updateMainQuoteAdapter(listDataHeader);
             //clear selected compare list to reset
             listCompare.clear();
+
+            //share all list json
+            listShareAll.clear();
+            listShareAll.addAll(listHeader);
+            listShareAll.addAll(listChild);
         }
     }
     //endregion
