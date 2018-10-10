@@ -1,6 +1,8 @@
 package com.datacomp.magicfinmart.posp;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
@@ -263,6 +265,9 @@ public class AddPOSPUserActivity extends BaseActivity implements IResponseSubcri
             cancelDialog();
             if (response.getStatusNo() == 0) {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                Intent resultIntent = new Intent();
+                //resultIntent.putExtra("MODIFY", motorRequestEntity);
+                setResult(Activity.RESULT_OK, resultIntent);
                 finish();
             } else {
                 Toast.makeText(this, "" + response.getMessage(), Toast.LENGTH_SHORT).show();

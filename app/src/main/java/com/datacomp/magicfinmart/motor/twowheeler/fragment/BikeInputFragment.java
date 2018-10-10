@@ -911,6 +911,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
                         cvNcb.setVisibility(View.GONE);
                         llNCB.setVisibility(View.INVISIBLE);
+                        tvClaimYes.performClick();
                     } else {
                         cvNcb.setVisibility(View.VISIBLE);
                         llNCB.setVisibility(View.VISIBLE);

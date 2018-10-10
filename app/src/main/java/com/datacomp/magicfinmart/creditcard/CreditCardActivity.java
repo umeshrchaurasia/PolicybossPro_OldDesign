@@ -66,6 +66,21 @@ public class CreditCardActivity extends BaseActivity implements IResponseSubcrib
 
         fetchCreditCards();
 
+        setListener();
+    }
+
+    private void setListener() {
+        rvCreditCards.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && fabFilter.getVisibility() == View.VISIBLE) {
+                    fabFilter.hide();
+                } else if (dy < 0 && fabFilter.getVisibility() != View.VISIBLE) {
+                    fabFilter.show();
+                }
+            }
+        });
     }
 
     public void selectedIncome(FilterEntity entity) {

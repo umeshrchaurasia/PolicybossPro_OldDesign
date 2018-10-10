@@ -1008,6 +1008,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     if (insuranceSubtypeEntity.getCode().equals("0CH_1TP")) {
                         cvNcb.setVisibility(View.GONE);
                         llNoClaim.setVisibility(View.INVISIBLE);
+                        tvClaimYes.performClick();
                     } else {
                         cvNcb.setVisibility(View.VISIBLE);
                         llNoClaim.setVisibility(View.VISIBLE);

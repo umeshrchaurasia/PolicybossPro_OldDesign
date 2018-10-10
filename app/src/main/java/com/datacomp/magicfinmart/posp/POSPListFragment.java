@@ -33,6 +33,8 @@ public class POSPListFragment extends BaseFragment implements IResponseSubcriber
     List<ChildPospEntity> childPospEntityList;
     ChildPospAdapter childPospAdapter;
 
+    public static final int REQUEST_CODE = 8765;
+
     public POSPListFragment() {
         // Required empty public constructor
     }
@@ -47,10 +49,10 @@ public class POSPListFragment extends BaseFragment implements IResponseSubcriber
         fbAddPosp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getActivity(), AddPOSPUserActivity.class));
+                startActivityForResult(new Intent(getActivity(), AddPOSPUserActivity.class), REQUEST_CODE);
             }
         });
-
+        getChildPospList();
         return view;
     }
 
@@ -64,12 +66,6 @@ public class POSPListFragment extends BaseFragment implements IResponseSubcriber
         rvPOSPList = view.findViewById(R.id.rvPOSPList);
         rvPOSPList.setLayoutManager(new LinearLayoutManager(getActivity()));
         fbAddPosp = view.findViewById(R.id.fbAddPosp);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        getChildPospList();
     }
 
     @Override
@@ -90,5 +86,13 @@ public class POSPListFragment extends BaseFragment implements IResponseSubcriber
     public void OnFailure(Throwable t) {
         cancelDialog();
         Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE) {
+            getChildPospList();
+        }
     }
 }
