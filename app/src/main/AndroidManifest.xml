@@ -878,9 +878,18 @@
         <activity
             android:name=".notification.NotificationSmsActivity"
             android:label="@string/title_activity_notification_sms"
-            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".generatelead.GenerateLeadActivity"
+            android:label="@string/title_activity_generate_lead"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>

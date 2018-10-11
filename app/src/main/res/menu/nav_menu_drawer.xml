@@ -49,15 +49,22 @@
             android:visible="false" />
 
         <item
+            android:id="@+id/nav_generateLead"
+            android:icon="@drawable/vehicledetail"
+            android:orderInCategory="650"
+            android:title="GENERATE LEAD" />
+        <item
             android:id="@+id/nav_vehicleinfo"
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="600"
-            android:title="VEHICLE DETAIL" />
+            android:title="VEHICLE DETAIL"
+            android:visible="false" />
         <item
             android:id="@+id/nav_expressLoan"
             android:icon="@drawable/express_loan"
             android:orderInCategory="650"
-            android:title="EXPRESS LOAN" />
+            android:title="EXPRESS LOAN"
+            android:visible="false" />
         <item
             android:id="@+id/nav_yesbankbot"
             android:icon="@drawable/yesbank"
@@ -67,7 +74,8 @@
             android:id="@+id/nav_sharedata"
             android:icon="@drawable/share_data"
             android:orderInCategory="700"
-            android:title="SHARE DATA" />
+            android:title="SHARE DATA"
+            android:visible="false" />
 
         <item
             android:id="@+id/nav_changepassword"
