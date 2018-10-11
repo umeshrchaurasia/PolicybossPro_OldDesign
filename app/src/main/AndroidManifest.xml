@@ -768,7 +768,7 @@
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
         <activity
-            android:name=".term.icici.TermICICIActivity"
+            android:name=".term.icici.HTermICICIActivity"
             android:label="@string/title_activity_term_icici"
             android:parentActivityName=".term.termselection.TermSelectionActivity"
             android:screenOrientation="portrait"
