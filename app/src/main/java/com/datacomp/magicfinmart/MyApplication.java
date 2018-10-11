@@ -3,6 +3,7 @@ package com.datacomp.magicfinmart;
 import android.support.multidex.MultiDexApplication;
 
 import com.datacomp.magicfinmart.analytics.AnalyticsTrackers;
+import com.datacomp.magicfinmart.utility.RealmMigrationClass;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.StandardExceptionParser;
@@ -28,7 +29,8 @@ public class MyApplication extends MultiDexApplication {
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("magicfinmart.realm")                // user defined name
                 .schemaVersion(Utility.getVersionCode(this))
-                .deleteRealmIfMigrationNeeded()
+              //  .deleteRealmIfMigrationNeeded()
+                .migration(new RealmMigrationClass(this))
                 .build();
         Realm.setDefaultConfiguration(config);
         //endregion
