@@ -270,7 +270,7 @@ public class HealthController implements IHealth {
 
     @Override
     public void compareQuote(HealthCompareRequestEntity compareRequestEntity, final IResponseSubcriber iResponseSubcriber) {
-
+/*
         healthNetworkService.comparePHPQuotes("http://bo.mgfm.in/api/compare-premium",
                 compareRequestEntity)
                 .enqueue(new Callback<HealthQuoteCompareResponse>() {
@@ -301,8 +301,8 @@ public class HealthController implements IHealth {
                             iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                         }
                     }
-                });
-        /*healthNetworkService.compareQuotes(compareRequestEntity).enqueue(new Callback<HealthQuoteCompareResponse>() {
+                });*/
+        healthNetworkService.compareQuotes(compareRequestEntity).enqueue(new Callback<HealthQuoteCompareResponse>() {
             @Override
             public void onResponse(Call<HealthQuoteCompareResponse> call, Response<HealthQuoteCompareResponse> response) {
 
@@ -332,7 +332,7 @@ public class HealthController implements IHealth {
                     iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
                 }
             }
-        });*/
+        });
     }
 
     @Override
