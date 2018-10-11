@@ -195,11 +195,12 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             selectHome();
         }
 
+
+        // will be called once when ever app is opened
+
         if (loginResponseEntity != null) {
 
             new MasterController(this).getMenuMaster(this);
-            new MasterController(this).geUserConstant(1, this);
-            new MasterController(this).getConstants(this);
             new MasterController(this).getInsuranceSubType(this);
         }
 
@@ -362,7 +363,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 return false;
             }
         });
-        //regionend
+        //endregion
 
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this,
                 drawerLayout,
@@ -860,7 +861,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         // set first fragement selected.
         //selectHome();
 
-
+        // will be upadte everytyime user comes on dashboard
+        if (loginResponseEntity != null) {
+            new MasterController(this).geUserConstant(1, this);
+            new MasterController(this).getConstants(this);
+        }
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
         LocalBroadcastManager.getInstance(HomeActivity.this)

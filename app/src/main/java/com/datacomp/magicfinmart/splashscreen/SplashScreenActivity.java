@@ -35,7 +35,6 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
     PrefManager prefManager;
     DBPersistanceController dbPersistanceController;
     LoginResponseEntity loginResponseEntity;
-    UserConstantEntity userConstantEntity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,15 +43,16 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
         prefManager = new PrefManager(this);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
-        userConstantEntity = dbPersistanceController.getUserConstantsData();
 //        Utility.LOGIN_IP = Utility.getLocalIpAddress(this);
 
         // By default set to 1.
-        prefManager.updateMotorVersion("1");
+        //prefManager.updateMotorVersion("1");
 
         // for user constant
-        if (loginResponseEntity != null)
+        if (loginResponseEntity != null) {
             new MasterController(this).geUserConstant(0, this);
+            new MasterController(this).getConstants(this);
+        }
        /* if (userConstantEntity != null) {
             new MasterController(this).geUserConstant(0, this);
         }*/
