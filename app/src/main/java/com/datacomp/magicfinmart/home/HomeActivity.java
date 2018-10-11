@@ -46,6 +46,7 @@ import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
+import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
 import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
@@ -187,24 +188,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
         getNotificationAction();
 
-
-        if (userConstantEntity != null) {
-            init_headers();
-
-        } else {
-            new MasterController(this).geUserConstant(1, this);
-        }
-
-        new MasterController(this).getMenuMaster(this);
-
-        /*if (db.getAccountData() == null) {
-            new RegisterController(HomeActivity.this).getMyAcctDtl(String.valueOf(loginResponseEntity.getFBAId()), HomeActivity.this);
-        }*/
-//        List<String> rtoDesc = db.getRTOListNames();
+        init_headers();
 
 
         if (savedInstanceState == null) {
             selectHome();
+        }
+
+        if (loginResponseEntity != null) {
+
+            new MasterController(this).getMenuMaster(this);
+            new MasterController(this).geUserConstant(1, this);
+            new MasterController(this).getConstants(this);
+            new MasterController(this).getInsuranceSubType(this);
         }
 
 
@@ -241,6 +237,10 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                 switch (menuItem.getItemId()) {
+
+                    case R.id.nav_generateLead:
+                        startActivity(new Intent(HomeActivity.this, GenerateLeadActivity.class));
+                        break;
 
                     //added by Nilesh
                     case R.id.nav_vehicleinfo:
@@ -522,7 +522,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         if (getIntent().getExtras() != null) {
 
             // For getting User Click Action
-            if(getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
+            if (getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY) != null) {
                 NotifyEntity notifyEntity = getIntent().getExtras().getParcelable(Utility.PUSH_NOTIFY);
                 String MESSAGEID = notifyEntity.getMessage_id();
 
@@ -861,10 +861,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         //selectHome();
 
 
-        new MasterController(this).getConstants(this);
-
-        new MasterController(this).getInsuranceSubType(this);
-
         LocalBroadcastManager.getInstance(HomeActivity.this).registerReceiver(mHandleMessageReceiver, new IntentFilter(Utility.PUSH_BROADCAST_ACTION));
 
         LocalBroadcastManager.getInstance(HomeActivity.this)
@@ -886,7 +882,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        Log.d("RESULT", "Activity");
         if (requestCode == Constants.REQUEST_CODE) {
             if (data != null) {
                 int Counter = prefManager.getNotificationCounter();

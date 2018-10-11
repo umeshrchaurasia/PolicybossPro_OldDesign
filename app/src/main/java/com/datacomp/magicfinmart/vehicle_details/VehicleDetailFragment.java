@@ -218,7 +218,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                                 rvMobile.setVisibility(View.VISIBLE);
                                 cvVehicleDetail.setVisibility(View.GONE);
                                 mAdapter.refreshAdapter(((VehicleMobileResponse) response).getCustomerDetails());
-                            }else{
+                            } else {
                                 rvMobile.setVisibility(View.GONE);
                             }
                         }
