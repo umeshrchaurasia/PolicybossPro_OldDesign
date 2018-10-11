@@ -270,8 +270,8 @@ public class HealthController implements IHealth {
 
     @Override
     public void compareQuote(HealthCompareRequestEntity compareRequestEntity, final IResponseSubcriber iResponseSubcriber) {
-/*
-        healthNetworkService.comparePHPQuotes("http://bo.mgfm.in/api/compare-premium",
+
+       /* healthNetworkService.comparePHPQuotes("http://bo.mgfm.in/api/compare-premium",
                 compareRequestEntity)
                 .enqueue(new Callback<HealthQuoteCompareResponse>() {
                     @Override
