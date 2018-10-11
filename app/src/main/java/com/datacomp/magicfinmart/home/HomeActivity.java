@@ -939,7 +939,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             nav_Menu.findItem(R.id.nav_posptraining).setVisible(false);
 
         //todo : check key from userconstant to hide add posp
-        if (userConstantEntity.getAddPospVisible() != null && !userConstantEntity.getAddPospVisible().equals("")) {
+        if (userConstantEntity != null && userConstantEntity.getAddPospVisible() != null && !userConstantEntity.getAddPospVisible().equals("")) {
             int visibility = Integer.parseInt(userConstantEntity.getAddPospVisible());
             if (visibility == 1)
                 nav_Menu.findItem(R.id.nav_addposp).setVisible(true);
