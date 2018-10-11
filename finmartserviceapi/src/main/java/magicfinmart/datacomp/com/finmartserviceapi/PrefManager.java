@@ -21,6 +21,8 @@ public class PrefManager {
     // Shared preferences file name
     private static final String PREF_NAME = "magic-finmart";
     private static final String MOTOR_VERSION = "motor_master_version";
+    private static final String POPUP_COUNTER = "popup_counter_value";
+    private static final String POPUP_ID = "popup_id";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String IS_BIKE_MASTER_UPDATE = "isBikeMasterUpdate";
     private static final String IS_CAR_MASTER_UPDATE = "isCarMasterUpdate";
@@ -248,7 +250,6 @@ public class PrefManager {
     }
 
 
-
     public String getSharePushTitle() {
         return pref.getString(SHARED_KEY_PUSH__TITLE, "");
     }
@@ -374,5 +375,36 @@ public class PrefManager {
     public void clearMenuDashBoard() {
         pref.edit().remove(MENU_DASHBOARD).commit();
     }
+
+
+    //region clear Motor Master data
+    public boolean updatePopUpCounter(String MotorVersion) {
+        pref.edit().remove(POPUP_COUNTER).commit();
+        return pref.edit().putString(POPUP_COUNTER, MotorVersion).commit();
+    }
+
+    public String getPopUpCounter() {
+        return pref.getString(POPUP_COUNTER, "0");
+    }
+
+    public void removePopUpCounter() {
+        editor.remove(POPUP_COUNTER);
+    }
+
+
+    public boolean updatePopUpId(String MotorVersion) {
+        pref.edit().remove(POPUP_ID).commit();
+        return pref.edit().putString(POPUP_ID, MotorVersion).commit();
+    }
+
+    public String getPopUpId() {
+        return pref.getString(POPUP_ID, "0");
+    }
+
+    public void removePopUpId() {
+        editor.remove(POPUP_ID);
+    }
+
+    //endregion
     //endregion
 }

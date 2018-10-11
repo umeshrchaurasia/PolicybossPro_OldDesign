@@ -45,20 +45,34 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
+import com.datacomp.magicfinmart.creditcard.CreditCardActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
+import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
+import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpPlansActivity;
 import com.datacomp.magicfinmart.helpfeedback.HelpFeedBackActivity;
+import com.datacomp.magicfinmart.helpfeedback.raiseticket.RaiseTicketActivity;
+import com.datacomp.magicfinmart.knowledgeguru.KnowledgeGuruActivity;
+import com.datacomp.magicfinmart.loan_fm.balancetransfer.addquote.BLMainActivity;
+import com.datacomp.magicfinmart.loan_fm.homeloan.addquote.HLMainActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.loan_apply.HomeLoanApplyActivity;
+import com.datacomp.magicfinmart.loan_fm.laploan.addquote.LAPMainActivity;
+import com.datacomp.magicfinmart.loan_fm.personalloan.addquote.PLMainActivity;
+import com.datacomp.magicfinmart.motor.privatecar.activity.InputQuoteBottmActivity;
+import com.datacomp.magicfinmart.motor.twowheeler.activity.BikeAddQuoteActivity;
 import com.datacomp.magicfinmart.mps.KnowMoreMPSFragment;
 import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
+import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
+import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
+import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -203,6 +217,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             new MasterController(this).getMenuMaster(this);
             new MasterController(this).getInsuranceSubType(this);
         }
+
+
+        showMArketingPopup();
 
 
         //region navigation click
@@ -388,6 +405,55 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         drawerLayout.setDrawerListener(actionBarDrawerToggle);
         //calling sync state is necessay or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
+    }
+
+    private void showMArketingPopup() {
+
+        //region popup dashboard
+
+        if (userConstantEntity != null) {
+            if (userConstantEntity.getMarketinghomeenabled() != null &&
+                    userConstantEntity.getMarketinghomeenabled().equals("1")) {
+
+                int serverPopUpCount = Integer.parseInt(userConstantEntity.getMarketinghomemaxcount());
+                int localPopupCount = Integer.parseInt(prefManager.getPopUpCounter());
+
+                int serverId = Integer.parseInt(userConstantEntity.getMarketinghomepopupid());
+                int localId = Integer.parseInt(prefManager.getPopUpId());
+                if (localId == 0) {
+                    prefManager.updatePopUpId("" + serverId);
+                }
+
+                Log.d("COUNTER", "localId -" + localId + "counter - " + localPopupCount);
+
+                if (localId == serverId) {
+                    prefManager.updatePopUpId("" + serverId);
+                    Log.d("COUNTER", "localId -" + localId + "counter - " + localPopupCount);
+                    if (localPopupCount < serverPopUpCount) {
+                        localPopupCount = localPopupCount + 1;
+                        prefManager.updatePopUpCounter("" + localPopupCount);
+                        openPopUp(ivProfile, userConstantEntity.getMarketinghometitle(), userConstantEntity.getMarketinghomedesciption(), "OK", true);
+
+                    }
+
+                } else {
+                    prefManager.updatePopUpId("" + serverId);
+                    prefManager.updatePopUpCounter("0");
+                    localPopupCount = Integer.parseInt(prefManager.getPopUpCounter());
+                    Log.d("COUNTER-", "localId -" + localId + "counter - " + localPopupCount);
+                    if (localPopupCount < serverPopUpCount) {
+                        localPopupCount = localPopupCount + 1;
+                        prefManager.updatePopUpCounter("" + localPopupCount);
+                        openPopUp(ivProfile, userConstantEntity.getMarketinghometitle(), userConstantEntity.getMarketinghomedesciption(), "OK", true);
+
+                    }
+                }
+
+            }
+
+        }
+
+        //endregion
     }
 
     private void addDynamicMenu(List<MenuItemEntity> list) {
@@ -735,6 +801,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //db.updateUserConstatntData(((UserConstatntResponse) response).getMasterData());
                     userConstantEntity = ((UserConstatntResponse) response).getMasterData();
                     init_headers();
+                    if (prefManager.getPopUpCounter().equals("0")) {
+                        showMArketingPopup();
+                    }
+
+
                 }
             }
         } else if (response instanceof ConstantsResponse) {
@@ -827,17 +898,86 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     @Override
     public void onPositiveButtonClick(Dialog dialog, View view) {
         //dialog.cancel();
-        openAppMarketPlace();
+        if (view.getId() == navigationView.getId()) {
+            openAppMarketPlace();
+        } else if (view.getId() == ivProfile.getId()) {
+            redirectToActivity();
+            dialog.cancel();
+        }
+    }
+
+    private void redirectToActivity() {
+
+        if (userConstantEntity != null && userConstantEntity.getMarketinghometransfertype() != null) {
+            int id = Integer.parseInt(userConstantEntity.getMarketinghometransfertype());
+            switch (id) {
+                case 1:
+                    startActivity(new Intent(this, InputQuoteBottmActivity.class));
+                    break;
+                case 2:
+                    startActivity(new Intent(this, BikeAddQuoteActivity.class));
+                    break;
+                case 3:
+                    startActivity(new Intent(this, HealthQuoteBottomTabsActivity.class));
+                    break;
+                case 4:
+                    startActivity(new Intent(this, CompareTermActivity.class));
+                    break;
+                case 5:
+                    startActivity(new Intent(this, HLMainActivity.class));
+                    break;
+                case 6:
+                    startActivity(new Intent(this, PLMainActivity.class));
+                    break;
+                case 7:
+                    startActivity(new Intent(this, LAPMainActivity.class));
+                    break;
+                case 8:
+                    startActivity(new Intent(this, BLMainActivity.class));
+                    break;
+                case 9:
+                    startActivity(new Intent(this, KnowledgeGuruActivity.class));
+                    break;
+                case 10:
+                    startActivity(new Intent(this, SalesMaterialActivity.class));
+                    break;
+                case 11:
+                    startActivity(new Intent(this, PendingCasesActivity.class));
+                    break;
+                case 12:
+                    startActivity(new Intent(this, RaiseTicketActivity.class));
+                    break;
+                case 13:
+                    startActivity(new Intent(this, PospEnrollment.class));
+                    break;
+                case 14:
+                    startActivity(new Intent(this, HealthCheckUpPlansActivity.class));
+                    break;
+                case 1111:
+                    if (userConstantEntity != null && userConstantEntity.getMarketinghomeurl() != null) {
+                        startActivity(new Intent(this, CommonWebViewActivity.class)
+                                .putExtra("URL", userConstantEntity.getMarketinghomeurl())
+                                .putExtra("NAME", userConstantEntity.getMarketinghometitle())
+                                .putExtra("TITLE", userConstantEntity.getMarketinghometitle()));
+                    }
+                    break;
+
+            }
+        }
     }
 
     @Override
     public void onCancelButtonClick(Dialog dialog, View view) {
+        if (view.getId() == navigationView.getId()) {
+            if (forceUpdate == 1) {
 
-        if (forceUpdate == 1) {
-
-        } else {
+            } else {
+                dialog.cancel();
+            }
+        } else if (view.getId() == ivProfile.getId()) {
             dialog.cancel();
         }
+
     }
 
     private void openAppMarketPlace() {

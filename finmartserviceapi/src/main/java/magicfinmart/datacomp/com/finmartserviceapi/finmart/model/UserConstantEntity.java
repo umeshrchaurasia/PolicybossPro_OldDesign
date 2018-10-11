@@ -113,6 +113,28 @@ public class UserConstantEntity extends RealmObject {
     private String healthurl;
 
     private String AddPospVisible;
+    /**
+     * userid :
+     * marketinghomepopupid : 1
+     * marketinghometitle : Test Title 1
+     * marketinghomedesciption : Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. ... The first word, “Lorem,” isn't even a word; instead it's a piece of the word “dolorem,” meaning pain, suffering, or sorrow
+     * marketinghomemaxcount : 3
+     * marketinghomeenabled : 1
+     * marketinghometransfertype : 1
+     */
+
+    private String userid;
+    private String marketinghomepopupid;
+    private String marketinghometitle;
+    private String marketinghomedesciption;
+    private String marketinghomemaxcount;
+    private String marketinghomeenabled;
+    private String marketinghometransfertype;
+    /**
+     * marketinghomeurl : http://magicfinmart.com
+     */
+
+    private String marketinghomeurl;
 
     public String getAddPospVisible() {
         return AddPospVisible;
@@ -529,5 +551,69 @@ public class UserConstantEntity extends RealmObject {
 
     public void setServiceurl(String serviceurl) {
         this.serviceurl = serviceurl;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getMarketinghomepopupid() {
+        return marketinghomepopupid;
+    }
+
+    public void setMarketinghomepopupid(String marketinghomepopupid) {
+        this.marketinghomepopupid = marketinghomepopupid;
+    }
+
+    public String getMarketinghometitle() {
+        return marketinghometitle;
+    }
+
+    public void setMarketinghometitle(String marketinghometitle) {
+        this.marketinghometitle = marketinghometitle;
+    }
+
+    public String getMarketinghomedesciption() {
+        return marketinghomedesciption;
+    }
+
+    public void setMarketinghomedesciption(String marketinghomedesciption) {
+        this.marketinghomedesciption = marketinghomedesciption;
+    }
+
+    public String getMarketinghomemaxcount() {
+        return marketinghomemaxcount;
+    }
+
+    public void setMarketinghomemaxcount(String marketinghomemaxcount) {
+        this.marketinghomemaxcount = marketinghomemaxcount;
+    }
+
+    public String getMarketinghomeenabled() {
+        return marketinghomeenabled;
+    }
+
+    public void setMarketinghomeenabled(String marketinghomeenabled) {
+        this.marketinghomeenabled = marketinghomeenabled;
+    }
+
+    public String getMarketinghometransfertype() {
+        return marketinghometransfertype;
+    }
+
+    public void setMarketinghometransfertype(String marketinghometransfertype) {
+        this.marketinghometransfertype = marketinghometransfertype;
+    }
+
+    public String getMarketinghomeurl() {
+        return marketinghomeurl;
+    }
+
+    public void setMarketinghomeurl(String marketinghomeurl) {
+        this.marketinghomeurl = marketinghomeurl;
     }
 }
