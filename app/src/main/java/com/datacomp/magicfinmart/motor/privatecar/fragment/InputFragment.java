@@ -664,14 +664,26 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
         try {
 
-            Date ManfDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_manf_date());
+
+            //commented by Nilesh 12.10.2018
+
+            /*Date ManfDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_manf_date());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(ManfDate);
-            setYearMonthAdapter(calendar);
+            setYearMonthAdapter(calendar);*/
+
 
             etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
 
             etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
+
+
+            //By Nilesh 12.10.2018
+            Date regDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(regDate);
+            setYearMonthAdapter(calendar);
+
 
             if (!motorRequestEntity.getPolicy_expiry_date().equals("")) {
                 etExpDate.setEnabled(true);
@@ -795,11 +807,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 if (masterData.getRegistration_Date() != null) {
                     calendarReg.setTime(fastLaneDateFormat.parse(masterData.getRegistration_Date()));
                     etRegDate.setText(getDisplayDateFormatFastLane(masterData.getRegistration_Date()));
+
+
                     //String reg = changeDateFormat(masterData.getRegistration_Date());
                     //String regDate = displayFormat.format(simpleDateFormat.parse(reg));
                     //calendarReg.setTime(displayFormat.parse(regDate));
                     //etRegDate.setText(changeDateFormat(masterData.getRegistration_Date()));
                 }
+
                 if (masterData.getManufacture_Year() != null) {
                     String mfDate = "";
                     int month = calendarReg.get(Calendar.MONTH) + 1;
@@ -808,10 +823,14 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     else
                         mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
                     calendarReg.setTime(policyBossDateFormat.parse(mfDate));
-                    setYearMonthAdapterFastlane(calendarReg);
+
+                    setYearMonthAdapter(calendarReg, calendarReg.get(Calendar.YEAR));
+
+                    // setYearMonthAdapterFastlane(calendarReg);
                 } else {
                     setYearMonthAdapterFastlane(Calendar.getInstance());
                 }
+
                 /*if (masterData.getPurchase_Date() != null) {
                     String mf = changeDateFormat(masterData.getPurchase_Date());
                     String mfDate = displayFormat.format(simpleDateFormat.parse(mf));
@@ -1143,7 +1162,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         etMfgDate.setOnClickListener(datePickerDialog);
         etExpDate.setOnClickListener(datePickerDialog);
 
-        acRto.setValidator(new Validator());
         acRto.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1164,7 +1182,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 for (int i = 0; i < listAdapter.getCount(); i++) {
                     String temp = listAdapter.getItem(i).toString();
                     if (str.compareTo(temp) == 0) {
-                        acRto.setError("");
+                        acRto.setError(null);
                         return;
                     }
                 }
@@ -2538,6 +2556,10 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
         spYear.setSelection(yearIndex);
 
+        String selectedYear = spYear.getSelectedItem().toString();
+        List<String> list = getYearList(calendar.get(Calendar.YEAR));
+
+
         monthList.clear();
         monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));
         MonthAdapter.notifyDataSetChanged();
@@ -2649,43 +2671,4 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     }
 
 
-    class Validator implements AutoCompleteTextView.Validator {
-
-        @Override
-        public boolean isValid(CharSequence text) {
-
-
-            String str = acRto.getText().toString();
-
-            ListAdapter listAdapter = acRto.getAdapter();
-            for (int i = 0; i < listAdapter.getCount(); i++) {
-                String temp = listAdapter.getItem(i).toString();
-                if (str.compareTo(temp) == 0) {
-                    return true;
-                }
-            }
-
-            acRto.setText("");
-            acRto.setError("Invalid RTO");
-            acRto.setFocusable(true);
-
-           /* Arrays.sort(cityList);
-            if (Arrays.binarySearch(validWords, text.toString()) > 0) {
-                return true;
-            }*/
-
-            return false;
-        }
-
-        @Override
-        public CharSequence fixText(CharSequence invalidText) {
-
-            /* I'm just returning an empty string here, so the field will be blanked,
-             * but you could put any kind of action here, like popping up a dialog?
-             *
-             * Whatever value you return here must be in the list of valid words.
-             */
-            return "";
-        }
-    }
 }
