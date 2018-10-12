@@ -45,7 +45,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
-import com.datacomp.magicfinmart.creditcard.CreditCardActivity;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
 import com.datacomp.magicfinmart.generatelead.GenerateLeadActivity;
 import com.datacomp.magicfinmart.health.healthquotetabs.HealthQuoteBottomTabsActivity;
@@ -217,9 +216,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             new MasterController(this).getMenuMaster(this);
             new MasterController(this).getInsuranceSubType(this);
         }
+        String type="";
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
 
+            type = bundle.getString("MarkTYPE");
+            if (!type.equals("FROM_HOME")) {
+                showMArketingPopup();
+            }
+        }else
+        {
+           // showMArketingPopup();
+        }
 
-        showMArketingPopup();
 
 
         //region navigation click
@@ -1224,4 +1233,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
     }
     //endregion
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Log.d("COUNTER", "new intent");
+    }
 }

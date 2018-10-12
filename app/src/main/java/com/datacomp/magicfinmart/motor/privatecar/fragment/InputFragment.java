@@ -1590,9 +1590,28 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         int currYear = calendar.get(Calendar.YEAR);
         ArrayList yearList = new ArrayList();
         yearList.add("Year");
-        for (int i = 0; i <= 15 - (currYear - minYear); i++) {
+        //todo: uncomment to revert
+        /*for (int i = 0; i <= 15 - (currYear - minYear); i++) {
+            yearList.add("" + (minYear - i));
+        }*/
+
+        //todo : uncomment this for new changes by modi
+        for (int i = 0; i <= 1; i++) {
             yearList.add("" + (minYear - i));
         }
+        return yearList;
+    }
+
+    public ArrayList<String> getYearList(int minYear,int maxYear) {
+        Calendar calendar = Calendar.getInstance();
+        int currYear = calendar.get(Calendar.YEAR);
+        ArrayList yearList = new ArrayList();
+        yearList.add("Year");
+        yearList.add("" + (minYear - 0));
+        yearList.add("" + (minYear - 1));
+        /*for (int i = 0; i <= 15 - (currYear - minYear); i++) {
+            yearList.add("" + (minYear - i));
+        }*/
         return yearList;
     }
 

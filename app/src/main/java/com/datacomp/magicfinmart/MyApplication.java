@@ -29,8 +29,9 @@ public class MyApplication extends MultiDexApplication {
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name("magicfinmart.realm")                // user defined name
                 .schemaVersion(Utility.getVersionCode(this))
-              //  .deleteRealmIfMigrationNeeded()
+
                 .migration(new RealmMigrationClass(this))
+                //.deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(config);
         //endregion
