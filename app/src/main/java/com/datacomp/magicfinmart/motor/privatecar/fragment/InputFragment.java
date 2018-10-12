@@ -824,6 +824,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                         mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
                     calendarReg.setTime(policyBossDateFormat.parse(mfDate));
 
+                    //By Nilesh 12.10.2018
                     setYearMonthAdapter(calendarReg, calendarReg.get(Calendar.YEAR));
 
                     // setYearMonthAdapterFastlane(calendarReg);
@@ -1192,7 +1193,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 regplace = "";
             }
         });
-        acRto.setOnFocusChangeListener(acRTOFocusChange);
+        // acRto.setOnFocusChangeListener(acRTOFocusChange);
 
         sbNoClaimBonus.setNumericTransformer(new DiscreteSeekBar.NumericTransformer() {
             @Override
@@ -1227,32 +1228,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
     }
 
-
-    //RTO validation by Nilesh : 12.10.2018
-
-    View.OnFocusChangeListener acRTOFocusChange = new View.OnFocusChangeListener() {
-        @Override
-        public void onFocusChange(View view, boolean b) {
-            if (!b) {
-
-                String str = acRto.getText().toString();
-
-                ListAdapter listAdapter = acRto.getAdapter();
-                for (int i = 0; i < listAdapter.getCount(); i++) {
-                    String temp = listAdapter.getItem(i).toString();
-                    if (str.compareTo(temp) == 0) {
-                        return;
-                    }
-                }
-
-                acRto.setText("");
-                acRto.setError("Invalid RTO");
-                acRto.setFocusable(true);
-            } else {
-                acRto.setError(null);
-            }
-        }
-    };
 
     private void init_view(View view) {
         spInsSubTYpe = view.findViewById(R.id.spInsSubTYpe);
@@ -2555,10 +2530,6 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
         }
         spYear.setSelection(yearIndex);
-
-        String selectedYear = spYear.getSelectedItem().toString();
-        List<String> list = getYearList(calendar.get(Calendar.YEAR));
-
 
         monthList.clear();
         monthList.addAll(getMonthList(calendar.get(Calendar.MONTH)));

@@ -1020,6 +1020,7 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
                 clearActionMode();
                 if (webViewLoader.getVisibility() != View.VISIBLE) {
                     chkAddon.setChecked(false);
+                    removeAllAddon();
                     fetchQuotesOneTime();
                 }
                 break;
