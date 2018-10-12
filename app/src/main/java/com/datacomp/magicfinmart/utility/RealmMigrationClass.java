@@ -27,12 +27,12 @@ public class RealmMigrationClass implements RealmMigration {
     public void migrate(DynamicRealm realm, long oldVersion, long newVersion) {
         RealmSchema schema = realm.getSchema();
 
-
+        Log.d("TAG_REAL", "old :" + oldVersion + " latest :" + newVersion);
         if (oldVersion != 0) {
             if (oldVersion < applatestVersion) {
                 //  RealmObjectSchema loginSchema = schema.get("LoginResponseEntity");
                 // loginSchema.addField("test", String.class);
-                Log.d("TAG_REAL", "old :" + oldVersion + " latest :" + newVersion);
+
                 // Delete all other data than `ProfileUser`
                 for (RealmObjectSchema classSchema : schema.getAll()) {
                     if (classSchema.getClassName().equals("LoginResponseEntity")) {
@@ -42,26 +42,10 @@ public class RealmMigrationClass implements RealmMigration {
                 }
                 oldVersion++;
             }
-        } else if(oldVersion == 0)
-        {
-            RealmObjectSchema userConstant = schema.get("UserConstantEntity")
-                        .addField("AddPospVisible", String.class)
-                        .addField("userid", String.class)
-                        .addField("marketinghomepopupid", String.class)
-                        .addField("marketinghometitle", String.class)
-                        .addField("marketinghomedesciption", String.class)
-                        .addField("marketinghomemaxcount", String.class)
-                        .addField("marketinghomeenabled", String.class)
-                        .addField("marketinghometransfertype", String.class)
-                        .addField("marketinghomeurl", String.class);
         }
-//        else {
-//            if (!schema.contains("LoginResponseEntity")) {
-//                schema.create("LoginResponseEntity");
-//                oldVersion++;
-//            }
-//            else {
-//                RealmObjectSchema userConstant = schema.get("UserConstantEntity")
+//        else if(oldVersion == 0)
+//        {
+//            RealmObjectSchema userConstant = schema.get("UserConstantEntity")
 //                        .addField("AddPospVisible", String.class)
 //                        .addField("userid", String.class)
 //                        .addField("marketinghomepopupid", String.class)
@@ -71,11 +55,33 @@ public class RealmMigrationClass implements RealmMigration {
 //                        .addField("marketinghomeenabled", String.class)
 //                        .addField("marketinghometransfertype", String.class)
 //                        .addField("marketinghomeurl", String.class);
-//
-//
-//
-//
-//            }
 //        }
+
+        else if (oldVersion == 0) {
+
+            if (schema != null) {
+                for (RealmObjectSchema classSchema : schema.getAll()) {
+                    if (classSchema.getClassName().equals("LoginResponseEntity")) {
+                        continue;
+                    }
+                    realm.delete(classSchema.getClassName());
+                }
+
+                if (schema.contains("UserConstantEntity")) {
+                    RealmObjectSchema userConstant = schema.get("UserConstantEntity")
+                            .addField("AddPospVisible", String.class)
+                            .addField("userid", String.class)
+                            .addField("marketinghomepopupid", String.class)
+                            .addField("marketinghometitle", String.class)
+                            .addField("marketinghomedesciption", String.class)
+                            .addField("marketinghomemaxcount", String.class)
+                            .addField("marketinghomeenabled", String.class)
+                            .addField("marketinghometransfertype", String.class)
+                            .addField("marketinghomeurl", String.class);
+                }
+                oldVersion++;
+
+            }
+        }
     }
 }

@@ -971,7 +971,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (response.getStatusNo() == 0) {
 
                 // Toast.makeText(this,message,Toast.LENGTH_SHORT).show();
-                setDocumentUpload();
+                setDocumentUpload(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
                 if (type == 1 || type == 2) {
                     try {
                         updateLoginResponse(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
@@ -1167,11 +1167,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    private void setDocumentUpload() {
+    private void setDocumentUpload( String URL) {
         if (type == 1) {
             Glide.with(MyAccountActivity.this)
-                    .load(bitmapToByte(bitmapPhoto))
-                    .asBitmap()
+                    .load(URL)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .placeholder(R.drawable.circle_placeholder)
                     .skipMemoryCache(true)
@@ -1181,8 +1180,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         } else if (type == 2) {
             ivPhoto.setImageResource(R.drawable.doc_uploaded);
             Glide.with(MyAccountActivity.this)
-                    .load(bitmapToByte(bitmapPhoto))
-                    .asBitmap()
+                    .load(URL)
                     .diskCacheStrategy(DiskCacheStrategy.NONE)
                     .placeholder(R.drawable.circle_placeholder)
                     .skipMemoryCache(true)
