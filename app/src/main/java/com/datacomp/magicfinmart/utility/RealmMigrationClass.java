@@ -28,11 +28,25 @@ public class RealmMigrationClass implements RealmMigration {
         RealmSchema schema = realm.getSchema();
 
         Log.d("TAG_REAL", "old :" + oldVersion + " latest :" + newVersion);
-        if (oldVersion != 0) {
-            if (oldVersion < applatestVersion) {
-                //  RealmObjectSchema loginSchema = schema.get("LoginResponseEntity");
-                // loginSchema.addField("test", String.class);
 
+        if (oldVersion < applatestVersion) {
+
+            if (oldVersion == 27) {
+                if (schema.get("UserConstantEntity") != null) {
+
+                    RealmObjectSchema userConstantSchema = schema.get("UserConstantEntity");
+                    // userConstantSchema.addField("test", String.class);
+                    //  RealmObjectSchema userConstantSchema = schema.get("UserConstantEntity");
+//                    userConstantSchema.addField("AddPospVisible", String.class);
+                    userConstantSchema.addField("userid", String.class);
+                    userConstantSchema.addField("marketinghomepopupid", String.class);
+                    userConstantSchema.addField("marketinghometitle", String.class);
+                    userConstantSchema.addField("marketinghomedesciption", String.class);
+                    userConstantSchema.addField("marketinghomemaxcount", String.class);
+                    userConstantSchema.addField("marketinghomeenabled", String.class);
+                    userConstantSchema.addField("marketinghometransfertype", String.class);
+                    userConstantSchema.addField("marketinghomeurl", String.class);
+                }
                 // Delete all other data than `ProfileUser`
                 for (RealmObjectSchema classSchema : schema.getAll()) {
                     if (classSchema.getClassName().equals("LoginResponseEntity")) {
@@ -40,48 +54,18 @@ public class RealmMigrationClass implements RealmMigration {
                     }
                     realm.delete(classSchema.getClassName());
                 }
+
                 oldVersion++;
-            }
-        }
-//        else if(oldVersion == 0)
-//        {
-//            RealmObjectSchema userConstant = schema.get("UserConstantEntity")
-//                        .addField("AddPospVisible", String.class)
-//                        .addField("userid", String.class)
-//                        .addField("marketinghomepopupid", String.class)
-//                        .addField("marketinghometitle", String.class)
-//                        .addField("marketinghomedesciption", String.class)
-//                        .addField("marketinghomemaxcount", String.class)
-//                        .addField("marketinghomeenabled", String.class)
-//                        .addField("marketinghometransfertype", String.class)
-//                        .addField("marketinghomeurl", String.class);
-//        }
+            } else {
 
-        else if (oldVersion == 0) {
-
-            if (schema != null) {
                 for (RealmObjectSchema classSchema : schema.getAll()) {
-                    if (classSchema.getClassName().equals("LoginResponseEntity")) {
-                        continue;
-                    }
+
                     realm.delete(classSchema.getClassName());
                 }
 
-                if (schema.contains("UserConstantEntity")) {
-                    RealmObjectSchema userConstant = schema.get("UserConstantEntity")
-                            .addField("AddPospVisible", String.class)
-                            .addField("userid", String.class)
-                            .addField("marketinghomepopupid", String.class)
-                            .addField("marketinghometitle", String.class)
-                            .addField("marketinghomedesciption", String.class)
-                            .addField("marketinghomemaxcount", String.class)
-                            .addField("marketinghomeenabled", String.class)
-                            .addField("marketinghometransfertype", String.class)
-                            .addField("marketinghomeurl", String.class);
-                }
                 oldVersion++;
-
             }
         }
+
     }
 }
