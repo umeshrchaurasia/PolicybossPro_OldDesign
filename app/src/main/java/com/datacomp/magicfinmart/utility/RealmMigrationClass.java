@@ -42,9 +42,14 @@ public class RealmMigrationClass implements RealmMigration {
                 }
                 oldVersion++;
             }
-        } else if(oldVersion == 0)
-        {
-            RealmObjectSchema userConstant = schema.get("UserConstantEntity")
+        }
+        else {
+            if (!schema.contains("LoginResponseEntity")) {
+                schema.create("LoginResponseEntity");
+                oldVersion++;
+            }
+            else {
+                RealmObjectSchema userConstant = schema.get("UserConstantEntity")
                         .addField("AddPospVisible", String.class)
                         .addField("userid", String.class)
                         .addField("marketinghomepopupid", String.class)
@@ -54,28 +59,11 @@ public class RealmMigrationClass implements RealmMigration {
                         .addField("marketinghomeenabled", String.class)
                         .addField("marketinghometransfertype", String.class)
                         .addField("marketinghomeurl", String.class);
+
+
+
+
+            }
         }
-//        else {
-//            if (!schema.contains("LoginResponseEntity")) {
-//                schema.create("LoginResponseEntity");
-//                oldVersion++;
-//            }
-//            else {
-//                RealmObjectSchema userConstant = schema.get("UserConstantEntity")
-//                        .addField("AddPospVisible", String.class)
-//                        .addField("userid", String.class)
-//                        .addField("marketinghomepopupid", String.class)
-//                        .addField("marketinghometitle", String.class)
-//                        .addField("marketinghomedesciption", String.class)
-//                        .addField("marketinghomemaxcount", String.class)
-//                        .addField("marketinghomeenabled", String.class)
-//                        .addField("marketinghometransfertype", String.class)
-//                        .addField("marketinghomeurl", String.class);
-//
-//
-//
-//
-//            }
-//        }
     }
 }

@@ -226,7 +226,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             }
         }else
         {
-           // showMArketingPopup();
+            showMArketingPopup();
         }
 
 
