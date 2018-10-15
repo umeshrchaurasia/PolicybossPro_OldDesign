@@ -12,8 +12,10 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
+import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
+import android.text.TextWatcher;
 import android.text.style.StyleSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,6 +31,7 @@ import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -588,15 +591,23 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         }
         try {
 
-            Date ManfDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_manf_date());
+            //commented by Nilesh 12.10.2018
+
+            /*Date ManfDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_manf_date());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(ManfDate);
-            setYearMonthAdapter(calendar);
+            setYearMonthAdapter(calendar);*/
 
 
             etRegDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_registration_date()));
 
             etMfgDate.setText(getDisplayDateFormat(motorRequestEntity.getVehicle_manf_date()));
+
+            //By Nilesh 12.10.2018
+            Date regDate = policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(regDate);
+            setYearMonthAdapter(calendar);
 
 
             if (motorRequestEntity.getIs_claim_exists().equals("no")) {
@@ -724,7 +735,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                     else
                         mfDate = masterData.getManufacture_Year() + "-" + month + "-01";
                     calendarReg.setTime(policyBossDateFormat.parse(mfDate));
-                    setYearMonthAdapterFastlane(calendarReg);
+
+                    //By Nilesh 12.10.2018
+                    setYearMonthAdapter(calendarReg, calendarReg.get(Calendar.YEAR));
+
+                    // setYearMonthAdapterFastlane(calendarReg);
                 } else {
                     setYearMonthAdapterFastlane(Calendar.getInstance());
                 }
@@ -1031,8 +1046,39 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         etreg2.addTextChangedListener(new GenericTextWatcher(etreg2, this));
         etreg3.addTextChangedListener(new GenericTextWatcher(etreg1, etreg3, this));
         etreg4.addTextChangedListener(new GenericTextWatcher(etreg4, this));
-//        acMakeModel.addTextChangedListener(new GenericTextWatcher(acMakeModel, this));
-//        acRto.addTextChangedListener(new GenericTextWatcher(acRto, this));
+
+        acRto.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                String str = acRto.getText().toString();
+
+                ListAdapter listAdapter = acRto.getAdapter();
+                for (int i = 0; i < listAdapter.getCount(); i++) {
+                    String temp = listAdapter.getItem(i).toString();
+                    if (str.compareTo(temp) == 0) {
+                        acRto.setError(null);
+                        return;
+                    }
+                }
+
+                acRto.setError("Invalid RTO");
+                acRto.setFocusable(true);
+                regplace = "";
+            }
+        });
+
+
         etRegDate.setOnClickListener(datePickerDialog);
         etMfgDate.setOnClickListener(datePickerDialog);
         etExpDate.setOnClickListener(datePickerDialog);
@@ -2265,9 +2311,16 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
         int currYear = calendar.get(Calendar.YEAR);
         ArrayList yearList = new ArrayList();
         yearList.add("Year");
-        for (int i = 0; i <= 15 - (currYear - minYear); i++) {
+        //todo: uncomment to revert
+        /*for (int i = 0; i <= 15 - (currYear - minYear); i++) {
+            yearList.add("" + (minYear - i));
+        }*/
+
+        //todo : uncomment this for new changes by modi
+        for (int i = 0; i <= 1; i++) {
             yearList.add("" + (minYear - i));
         }
+
         return yearList;
     }
 
