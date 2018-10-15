@@ -1038,6 +1038,12 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             case R.id.fabrefresh:
                 clearActionMode();
                 if (webViewLoader.getVisibility() != View.VISIBLE) {
+
+                    //added by nilesh
+                    chkAddon.setChecked(false);
+                    removeAllAddon();
+
+
                     fetchQuotesOneTime();
                 }
                 break;

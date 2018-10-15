@@ -1019,6 +1019,8 @@ public class BikeQuoteFragment extends BaseFragment implements IResponseSubcribe
             case R.id.fabrefresh:
                 clearActionMode();
                 if (webViewLoader.getVisibility() != View.VISIBLE) {
+                    chkAddon.setChecked(false);
+                    removeAllAddon();
                     fetchQuotesOneTime();
                 }
                 break;
