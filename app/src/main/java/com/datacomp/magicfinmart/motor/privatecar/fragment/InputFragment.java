@@ -1873,7 +1873,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                                 calendar.set(year, monthOfYear, dayOfMonth);
                                 String currentDay = displayFormat.format(calendar.getTime());
                                 etRegDate.setText(currentDay);
-
+                                etRegDate.setError(null);
                                 calendar.set(year, monthOfYear, 01);
                                 String currentDay1 = displayFormat.format(calendar.getTime());
                                 etMfgDate.setText(currentDay1);
@@ -2008,6 +2008,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                                     calendar.set(year, monthOfYear, 01);
                                     String currentDay = displayFormat.format(calendar.getTime());
                                     etMfgDate.setText(currentDay);
+                                    etMfgDate.setError(null);
                                 }
                             }
                         });
