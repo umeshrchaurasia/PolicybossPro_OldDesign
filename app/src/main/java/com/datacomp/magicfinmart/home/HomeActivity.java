@@ -4,12 +4,15 @@ import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.LabeledIntent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -80,6 +83,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -752,7 +756,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         switch (item.getItemId()) {
 
             case R.id.action_call:
-                if (userConstantEntity.getMangMobile() != null ) {
+                if (userConstantEntity.getMangMobile() != null) {
 
                     if (ActivityCompat.checkSelfPermission(HomeActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
 
@@ -770,7 +774,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         }
                     } else {
                         if (userConstantEntity.getManagName() != null) {
-                            ConfirmAlert("Manger Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                            ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
                         }
 
                     }
@@ -1104,7 +1108,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             builder.setMessage(strBody);
             String positiveText = "Call";
-            String NegativeText = "Sms";
+            String NegativeText = "Share";
             String NeutralText = "Cancel";
             builder.setPositiveButton(positiveText,
                     new DialogInterface.OnClickListener() {
@@ -1134,7 +1138,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             if (userConstantEntity.getMangEmail() != null) {
-                                composeEmail(userConstantEntity.getMangEmail(), "");
+                                // composeEmail(userConstantEntity.getMangEmail(), "");
+                                shareMailSmsList(HomeActivity.this, "","Dear Sir/Madam,",userConstantEntity.getMangEmail().toString(),userConstantEntity.getMangMobile().toString() );
 
                             }
                         }
@@ -1147,9 +1152,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 }
             });
             final android.support.v7.app.AlertDialog dialog = builder.create();
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
+            //  dialog.setCancelable(false);
+            //  dialog.setCanceledOnTouchOutside(false);
+
             dialog.show();
+
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.uvv_green));
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.holo_red_dark));
+            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.button_color));
+
         } catch (Exception ex) {
             Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
         }
@@ -1249,5 +1260,107 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.d("COUNTER", "new intent");
+    }
+
+    public void shareMailSmsList(Context context, String prdSubject, String prdDetail ,String mailTo, String mobileNo) {
+
+        //  String Deeplink = "https://nykaa.ly/P_" + Sharedata_product_id;
+
+        //  String prdSubject = "Look what I found on Nykaa!";
+        //  String prdDetail = "Check out " + Sharedata_product_name + " on Nykaa" + "\n" + Deeplink;
+        try {
+
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+            shareIntent.setType("text/plain");
+
+            PackageManager pm = context.getPackageManager();
+
+
+            List<ResolveInfo> resInfo = pm.queryIntentActivities(shareIntent, 0);
+            List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
+
+            for (int i = 0; i < resInfo.size(); i++) {
+                // Extract the label, append it, and repackage it in a LabeledIntent
+                ResolveInfo ri = resInfo.get(i);
+                String packageName = ri.activityInfo.packageName;
+                String processName = ri.activityInfo.processName;
+                String AppName = ri.activityInfo.name;
+
+                if ((packageName.contains("android.email") || packageName.contains("mms")   || packageName.contains("messaging") || packageName.contains("android.gm") || packageName.contains("com.google.android.apps.plus"))) {
+
+                    shareIntent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+
+                    if (packageName.contains("android.email")) {
+                        shareIntent.setType("image/*");
+                        shareIntent.setData(Uri.parse("mailto:"));
+                        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailTo});
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("mms")) {
+                        shareIntent.setType("vnd.android-dir/mms-sms");
+                        shareIntent.setData(Uri.parse("sms:" + mobileNo));
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("whatsapp")) {
+                       String  toNumber = mobileNo.replace("+", "").replace(" ", "");
+                        shareIntent.setType("text/plain");
+                         shareIntent.putExtra("jid", toNumber + "@s.whatsapp.net");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.setPackage(packageName);
+
+
+                    } else if (packageName.contains("messaging")) {
+                        shareIntent.setType("vnd.android-dir/mms-sms");
+                        shareIntent.setData(Uri.parse("sms:" + mobileNo));
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("com.google.android.apps.plus")) {
+                        shareIntent.setType("image/*");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("android.gm")) {
+                        shareIntent.setType("image/*");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+                        shareIntent.setPackage(packageName);
+
+                    } else {
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+                    }
+
+                    intentList.add(new LabeledIntent(shareIntent, packageName, ri.loadLabel(pm), ri.icon));
+
+                }
+            }
+
+
+            if (intentList.size() > 1) {
+                intentList.remove(intentList.size() - 1);
+            }
+
+            Intent openInChooser = Intent.createChooser(shareIntent, "Share Via");
+            // convert intentList to array
+            LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
+            openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+
+            startActivity(openInChooser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
