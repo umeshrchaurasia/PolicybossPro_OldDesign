@@ -469,7 +469,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         }
                     } else {
 
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + dbPersistanceController.getUserConstantsData().getManagName(), dbPersistanceController.getConstantsData().getHelpNumber());
+                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + dbPersistanceController.getUserConstantsData().getManagName(), dbPersistanceController.getUserConstantsData().getMangMobile());
                     }
 
                 }
@@ -1321,6 +1321,28 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private void openGallery() {
 
+        String FileName = "";
+
+        switch (type) {
+            case 1:
+                FileName = PHOTO_File;
+                break;
+            case 2:
+                FileName = PHOTO_File;
+                break;
+            case 3:
+                FileName = PAN_File;
+                break;
+            case 4:
+                FileName = CANCEL_CHQ_File;
+                break;
+            case 5:
+                FileName = AADHAR_File;
+                break;
+
+        }
+        Docfile = createFile(FileName);
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -1451,6 +1473,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             try {
                 mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
                 mphoto = getResizedBitmap(mphoto, 800);
+                mphoto = rotateImageIfRequired(this, mphoto, Docfile);
+
                 switch (type) {
                     case 1:
                         showDialog();

@@ -77,16 +77,23 @@ public class KnowledgeGuruActivity extends BaseActivity implements View.OnClickL
         switch (item.getItemId()) {
 
             case R.id.action_home:
-
-                Intent intent = new Intent(this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("MarkTYPE", "FROM_HOME");
-                startActivity(intent);
-
-                finish();
+                onBackPressed();
+//                Intent intent = new Intent(this, HomeActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                intent.putExtra("MarkTYPE", "FROM_HOME");
+//                startActivity(intent);
+//
+//                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
+//    @Override
+//    public void onBackPressed() {
+//
+//        supportFinishAfterTransition();
+//        super.onBackPressed();
+//    }
+
 
 }

@@ -300,7 +300,12 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
 
+        supportFinishAfterTransition();
+        super.onBackPressed();
+    }
 
     private void settingWebview() {
         WebSettings settings = webView.getSettings();

@@ -135,7 +135,6 @@ public class UserConstantEntity extends RealmObject {
      */
 
     private String marketinghomeurl;
-    private String test;
 
     public String getAddPospVisible() {
         return AddPospVisible;

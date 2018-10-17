@@ -116,12 +116,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     String versionNAme;
     PackageInfo pinfo;
     PrefManager prefManager;
-    int forceUpdate;
+    int forceUpdate, checkfirstmsg_call;
     ConstantEntity constantEntity;
     AlertDialog mpsDialog;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
     UserConstantEntity userConstantEntity;
     MenuMasterResponse menuMasterResponse;
+
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -216,21 +217,26 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             new MasterController(this).getMenuMaster(this);
             new MasterController(this).getInsuranceSubType(this);
         }
-        String type="";
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
 
-            type = bundle.getString("MarkTYPE");
-            if (!type.equals("FROM_HOME")) {
+        checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
+        if (checkfirstmsg_call == 0) {
+
+
+            String type = "";
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+
+                type = bundle.getString("MarkTYPE");
+                if (!type.equals("FROM_HOME")) {
+                    showMArketingPopup();
+                }
+            } else {
+                prefManager.updateCheckMsgFirst("" + 1);
                 showMArketingPopup();
             }
-        }else
-        {
-            showMArketingPopup();
+
+
         }
-
-
-
         //region navigation click
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
@@ -746,7 +752,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         switch (item.getItemId()) {
 
             case R.id.action_call:
-                if (constantEntity.getHelpNumber() != null) {
+                if (userConstantEntity.getMangMobile() != null ) {
 
                     if (ActivityCompat.checkSelfPermission(HomeActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
 
@@ -763,8 +769,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         }
                     } else {
-
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        if (userConstantEntity.getManagName() != null) {
+                            ConfirmAlert("Manger Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        }
 
                     }
                 }
@@ -1060,18 +1067,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     if (call_phone) {
 
-
-//                        Intent intentCalling = new Intent(Intent.ACTION_CALL);
-//                        intentCalling.setData(Uri.parse("tel:" + db.getConstantsData().getHelpNumber()));
-//                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//                            // TODO: Consider calling
-//
-//                            return;
-//                        }
-//                        startActivity(intentCalling);
-
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
-
+                        if (userConstantEntity.getMangMobile() != null && userConstantEntity.getManagName() != null) {
+                            ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        }
 
                     }
 
@@ -1106,7 +1104,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             builder.setMessage(strBody);
             String positiveText = "Call";
-            String NegativeText = "Cancel";
+            String NegativeText = "Sms";
+            String NeutralText = "Cancel";
             builder.setPositiveButton(positiveText,
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -1124,7 +1123,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 return;
                             }
                             Intent intentCalling = new Intent(Intent.ACTION_CALL);
-                            intentCalling.setData(Uri.parse("tel:" + constantEntity.getHelpNumber()));
+                            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
                             startActivity(intentCalling);
                         }
                     });
@@ -1134,8 +1133,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            if (userConstantEntity.getMangEmail() != null) {
+                                composeEmail(userConstantEntity.getMangEmail(), "");
+
+                            }
                         }
                     });
+
+            builder.setNeutralButton(NeutralText, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
             final android.support.v7.app.AlertDialog dialog = builder.create();
             dialog.setCancelable(false);
             dialog.setCanceledOnTouchOutside(false);

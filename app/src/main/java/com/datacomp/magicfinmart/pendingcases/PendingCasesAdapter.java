@@ -62,6 +62,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
                 item.txtquickType.setVisibility(View.GONE);
             }
 
+
             Glide.with(mContex).load(entity.getBankImage())
                     .into(item.imgInsurerLogo);
 
@@ -91,6 +92,14 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
             }
 
             try {
+
+                if(entity.getQatype().equals("Q"))
+                {
+                    holder.llHistory.setVisibility(View.INVISIBLE);
+                }else
+                {
+                    holder.llHistory.setVisibility(View.VISIBLE);
+                }
                 /*if (Integer.parseInt(entity.getApplnStatus()) == 0) {
                     item.imgStatus.setImageResource(R.mipmap.status_0);
                 } else if (Integer.parseInt(entity.getApplnStatus()) == 25) {
@@ -206,7 +215,7 @@ public class PendingCasesAdapter extends RecyclerView.Adapter<PendingCasesAdapte
                 break;
             case R.id.llHistory:
                 entity = (PendingCasesEntity) view.getTag(R.id.llHistory);
-                ((PendingCaseFragment) mContex).openLeadDetailPopUp("" + entity.getId());
+                ((PendingCaseFragment) mContex).openLeadDetailPopUp("" + entity.getApplicationNo());
                 break;
 
             case R.id.llInfo:

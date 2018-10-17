@@ -25,6 +25,7 @@ import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -2487,5 +2488,24 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         startActivityForResult(intent, Constants.REQUEST_PERMISSION_SETTING);
     }
 
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                onBackPressed();
+
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        supportFinishAfterTransition();
+        super.onBackPressed();
+    }
 
 }

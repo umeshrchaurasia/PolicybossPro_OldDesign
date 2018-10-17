@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
-import com.datacomp.magicfinmart.home.HomeActivity;
 import com.datacomp.magicfinmart.motor.twowheeler.adapter.BikeActivityTabsPagerAdapter;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -136,15 +135,22 @@ public class TwoWheelerQuoteAppActivity extends BaseActivity implements IRespons
 
             case R.id.action_home:
 
-                Intent intent = new Intent(this, HomeActivity.class);
+                onBackPressed();
+
+               /* Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);
 
-                finish();
+                finish();*/
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return false;
+        // return super.onSupportNavigateUp();
+    }
 }
