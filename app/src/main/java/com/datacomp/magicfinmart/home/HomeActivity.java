@@ -46,6 +46,8 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
+import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
@@ -378,6 +380,14 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 .putExtra("NAME", "FRANCHISE_AGREEMENT")
                                 .putExtra("TITLE", "FRANCHISE AGREEMENT"));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
+
+                        break;
+                    case R.id.nav_IncomeCalculator:
+                        startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
+
+                        break;
+                    case R.id.nav_IncomePotential:
+                        startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
 
                         break;
                     case R.id.nav_logout:
