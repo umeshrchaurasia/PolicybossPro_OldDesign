@@ -56,7 +56,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
        /* if (userConstantEntity != null) {
             new MasterController(this).geUserConstant(0, this);
         }*/
-
+        prefManager.updateCheckMsgFirst("" + 0);
         prefManager.setIsUpdateShown(true);
         if (prefManager.IsBikeMasterUpdate())
             new MasterController(this).getBikeMaster(this);

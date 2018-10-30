@@ -714,6 +714,7 @@ public class HealthQuoteFragment extends BaseFragment implements IResponseSubcri
 
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);
                 getActivity().finish();
                 return true;

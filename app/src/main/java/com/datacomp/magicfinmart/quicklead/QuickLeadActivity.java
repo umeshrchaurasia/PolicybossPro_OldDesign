@@ -292,6 +292,7 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
 
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);
 
                 finish();
@@ -299,7 +300,12 @@ public class QuickLeadActivity extends BaseActivity implements View.OnClickListe
         }
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    public void onBackPressed() {
 
+        supportFinishAfterTransition();
+        super.onBackPressed();
+    }
 
     private void settingWebview() {
         WebSettings settings = webView.getSettings();

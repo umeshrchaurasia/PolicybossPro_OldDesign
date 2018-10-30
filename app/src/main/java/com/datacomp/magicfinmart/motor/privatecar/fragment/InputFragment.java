@@ -1880,7 +1880,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                                 setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
 
                                 etRegDate.setTag(R.id.etRegDate, calendar);
-
+                                etRegDate.setError(null);
                                 /*Calendar calendar1 = Calendar.getInstance();
                                 calendar1.set(calendar1.get(Calendar.YEAR), monthOfYear, dayOfMonth);
                                 String expDate = simpleDateFormat.format(calendar1.getTime());
@@ -2272,6 +2272,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
 
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);
                 getActivity().finish();
                 return true;

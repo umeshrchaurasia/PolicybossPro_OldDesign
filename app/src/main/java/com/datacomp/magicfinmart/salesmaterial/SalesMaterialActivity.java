@@ -211,17 +211,31 @@ public class SalesMaterialActivity extends BaseActivity implements IResponseSubc
         switch (item.getItemId()) {
 
             case R.id.action_home:
-
-                Intent intent = new Intent(this, HomeActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(intent);
-
-                finish();
+                onBackPressed();
+//                Intent intent = new Intent(this, HomeActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                intent.putExtra("MarkTYPE", "FROM_HOME");
+//                startActivity(intent);
+//
+//                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+//    @Override
+//    public void onBackPressed() {
+//
+//        supportFinishAfterTransition();
+//        super.onBackPressed();
+//    }
+//
+@Override
+public boolean onSupportNavigateUp() {
+    onBackPressed();
+    return false;
+    // return super.onSupportNavigateUp();
+}
 
     public List<SalesProductEntity> getProducttList() {
         List<SalesProductEntity> EmploymentEntityList = new ArrayList<SalesProductEntity>();

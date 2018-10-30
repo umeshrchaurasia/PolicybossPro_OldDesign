@@ -23,6 +23,7 @@ public class PrefManager {
     private static final String MOTOR_VERSION = "motor_master_version";
     private static final String POPUP_COUNTER = "popup_counter_value";
     private static final String POPUP_ID = "popup_id";
+    private static final String MsgFirst_Check = "msgfirst_check";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String IS_BIKE_MASTER_UPDATE = "isBikeMasterUpdate";
     private static final String IS_CAR_MASTER_UPDATE = "isCarMasterUpdate";
@@ -406,5 +407,16 @@ public class PrefManager {
     }
 
     //endregion
+
+    public boolean updateCheckMsgFirst(String MotorVersion) {
+        pref.edit().remove(MsgFirst_Check).commit();
+        return pref.edit().putString(MsgFirst_Check, MotorVersion).commit();
+    }
+    public String getCheckMsgFirst() {
+        return pref.getString(MsgFirst_Check, "0");
+    }
+    public void removeCheckMsgFirst() {
+        editor.remove(MsgFirst_Check);
+    }
     //endregion
 }

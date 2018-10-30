@@ -8,7 +8,7 @@
 
     <string name="Emp_detail">Employment &amp; Income Details</string>
 
-    <string name="RM_Calling">Do you want to call your\nManager: </string>
+    <string name="RM_Calling">Do you want to call/mail to your\nManager: </string>
 
     <string name="Support_Calling">Do you want to call Support Team. </string>
 
@@ -550,4 +550,5 @@
 
     <string name="title_activity_notification_sms">Notification Sms</string>
     <string name="title_activity_generate_lead">Generate Lead</string>
+    <string name="title_activity_income_potential">Income Potential</string>
 </resources>

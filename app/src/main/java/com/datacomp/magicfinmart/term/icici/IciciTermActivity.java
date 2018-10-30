@@ -177,6 +177,7 @@ public class IciciTermActivity extends BaseActivity {
             case R.id.action_home:
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);
                 finish();
                 break;

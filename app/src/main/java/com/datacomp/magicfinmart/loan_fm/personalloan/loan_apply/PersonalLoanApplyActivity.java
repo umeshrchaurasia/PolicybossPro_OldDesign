@@ -2662,6 +2662,7 @@ public class PersonalLoanApplyActivity extends BaseActivity implements View.OnCl
 
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);
                 finish();
                 return true;

@@ -219,6 +219,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
 
                 Intent intent = new Intent(this, HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);
                 finish();
                 return true;
