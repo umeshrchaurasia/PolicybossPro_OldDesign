@@ -1,6 +1,7 @@
 package com.datacomp.magicfinmart.vehicle_details;
 
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -21,12 +23,18 @@ import android.widget.Toast;
 import com.datacomp.magicfinmart.BaseFragment;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.GenerateLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleMobileResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -37,19 +45,26 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
  */
 public class VehicleDetailFragment extends BaseFragment implements View.OnClickListener {
 
+    SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
+
     RadioButton rbCarNumber, rbMobileNumber;
     EditText etVehicleDetail;
-    Button btnVehicleDetails;
-    TextView txtClientName, txtDOB, txtMfg, txtClaimNo, txtClaimSattlementType, txtClaimStatus, txtExpiryDate,
+    Button btnVehicleDetails, btnGenerateLead;
+    TextView txtClientName, txtDOB, txtMfg, txtClaimNo, txtClaimSattlementType, txtClaimStatus,
             txtAddress, txtRegistrationNo, txtCarDetail, txtChasisNo, txtEngineNo, txtRTO, txtFuel;
 
+    EditText etVehicleExpiryDate;
+
     CardView cvVehicleDetail;
+
 
     TextView txtMobileData;
 
     RecyclerView rvMobile;
     VehicleDetailsAdapter mAdapter;
     List<VehicleMobileResponse.CustomerDetailsEntity> listCustDetails;
+
+    VehicleInfoEntity.VehicleInfo mVehicleInfo;
 
     public VehicleDetailFragment() {
         // Required empty public constructor
@@ -65,21 +80,59 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         listCustDetails = new ArrayList<>();
         init(view);
 
+        etVehicleExpiryDate.setOnClickListener(datePickerDialog);
+        btnGenerateLead.setVisibility(View.GONE);
         cvVehicleDetail.setVisibility(View.GONE);
         txtMobileData.setVisibility(View.GONE);
+
+        btnGenerateLead.setOnClickListener(this);
         return view;
     }
 
+    //region date picker
+
+    protected View.OnClickListener datePickerDialog = new View.OnClickListener() {
+        @Override
+        public void onClick(final View view) {
+            Constants.hideKeyBoard(view, getActivity());
+
+
+            if (view.getId() == R.id.etVehicleExpiryDate) {
+
+                //region  regdate renew
+                DateTimePicker.policyExpDatePicker(view.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = displayFormat.format(calendar.getTime());
+                            etVehicleExpiryDate.setText(currentDay);
+                            btnGenerateLead.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
+
+            }
+            //endregion
+
+
+        }
+    };
+    //endregion
+
     private void init(View view) {
+
 
         rvMobile = view.findViewById(R.id.rvMobile);
         rvMobile.setHasFixedSize(true);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         rvMobile.setLayoutManager(layoutManager);
-        mAdapter = new VehicleDetailsAdapter(getActivity(), listCustDetails);
+        mAdapter = new VehicleDetailsAdapter(VehicleDetailFragment.this, listCustDetails);
         rvMobile.setAdapter(mAdapter);
 
-        txtExpiryDate = view.findViewById(R.id.txtExpiryDate);
+        etVehicleExpiryDate = view.findViewById(R.id.etVehicleExpiryDate);
 
         txtMobileData = view.findViewById(R.id.txtMobileData);
         rbCarNumber = view.findViewById(R.id.rbCarNumber);
@@ -99,6 +152,8 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
         txtRTO = view.findViewById(R.id.txtRTO);
         txtFuel = view.findViewById(R.id.txtFuel);
         txtMfg = view.findViewById(R.id.txtMfg);
+
+        btnGenerateLead = view.findViewById(R.id.btnGenerateLead);
 
         txtClaimNo = view.findViewById(R.id.txtClaimNo);
         txtClaimSattlementType = view.findViewById(R.id.txtClaimSattlementType);
@@ -126,6 +181,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                     etVehicleDetail.setText("");
                     rvMobile.setVisibility(View.GONE);
                     cvVehicleDetail.setVisibility(View.GONE);
+                    btnGenerateLead.setVisibility(View.GONE);
                 }
             } else if (buttonView.getId() == R.id.rbMobileNumber) {
                 if (isChecked) {
@@ -172,10 +228,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
             if (rbCarNumber.isChecked()) {
 
                 //1.vehicle
-//                if (new PrefManager(getActivity()).getVehicleCarVehicleLog() <= 20) {
-//                    Toast.makeText(getActivity(), "CAR NO : "
-//                                    + new PrefManager(getActivity()).getVehicleCarVehicleLog(),
-//                            Toast.LENGTH_SHORT).show();
+
                 showDialog();
                 new DynamicController(getActivity()).getVehicleByVehicleNo(etVehicleDetail.getText().toString(),
                         new IResponseSubcriber() {
@@ -187,7 +240,17 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                                     //bind vehicle
 
                                     new PrefManager(getActivity()).setVehicleCarVehicleLog();
-                                    bindVehicle(((magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity) response).getGetRegNoDataResult());
+
+                                    if (((VehicleInfoEntity) response).getGetRegNoDataResult() == null) {
+                                        Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    } else if (((VehicleInfoEntity) response).getGetRegNoDataResult().size() == 0) {
+                                        Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+
+                                    mVehicleInfo = ((VehicleInfoEntity) response).getGetRegNoDataResult().get(0);
+                                    bindVehicle(mVehicleInfo);
                                 }
                             }
 
@@ -199,14 +262,8 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                             }
                         });
 
-//                }
-//                else {
-//                    Toast.makeText(getActivity(), "Your monthly data limit is over, please try next month", Toast.LENGTH_SHORT).show();
-//                }
-
             } else {
                 //2.mobile
-                //if (new PrefManager(getActivity()).getVehicleCarMobileLog() <= 20) {
                 new DynamicController(getActivity()).getVehicleByMobileNo(etVehicleDetail.getText().toString(), new IResponseSubcriber() {
                     @Override
                     public void OnSuccess(APIResponse response, String message) {
@@ -232,25 +289,75 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
                     }
 
                 });
-                // } else {
-                //     Toast.makeText(getActivity(), "Your monthly data limit is over, please try next month", Toast.LENGTH_SHORT).show();
-                // }
+
             }
+        } else if (v.getId() == R.id.btnGenerateLead) {
+
+            GenerateLead(mVehicleInfo);
         }
     }
 
-    private void bindVehicle(List<magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleInfoEntity.VehicleInfo> entity) {
-        if (entity == null) {
-            Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (entity.size() == 0) {
-            Toast.makeText(getActivity(), "No data found", Toast.LENGTH_SHORT).show();
-            return;
-        }
+    private void GenerateLead(VehicleInfoEntity.VehicleInfo vehicleInfo) {
+
+        GenerateLeadRequestEntity entity = new GenerateLeadRequestEntity();
+
+        entity.setFBAID(String.valueOf(new DBPersistanceController(getContext()).getUserData().getFBAId()));
+
+        entity.setChasisNo(vehicleInfo.getChasisNo());
+        entity.setCity(vehicleInfo.getCity());
+        entity.setClaimNo(vehicleInfo.getClaimNo());
+        entity.setClaimSattlementType(vehicleInfo.getClaimSattlementType());
+        entity.setClaimStatus(vehicleInfo.getClaimStatus());
+        entity.setClientName(vehicleInfo.getClientName());
+        entity.setDOB(vehicleInfo.getDOB());
+        entity.setEngineNo(vehicleInfo.getEngineNo());
+        entity.setExpiryDate(etVehicleExpiryDate.getText().toString());
+        entity.setFuelType(vehicleInfo.getFuelType());
+        entity.setGender(vehicleInfo.getGender());
+        entity.setHolderPincode(vehicleInfo.getHolderPincode());
+        entity.setInceptionDate(vehicleInfo.getInceptionDate());
+        entity.setIsCustomer(vehicleInfo.getIsCustomer());
+        entity.setMake(vehicleInfo.getMake());
+        entity.setMfgyear(String.valueOf(vehicleInfo.getMfgyear()));
+        entity.setNoClaimBonus(vehicleInfo.getNoClaimBonus());
+        entity.setPOSPCode(vehicleInfo.getPOSPCode());
+        entity.setPOSPName(vehicleInfo.getPOSPName());
+        entity.setRTOCity(vehicleInfo.getRTOCity());
+        entity.setRTOState(vehicleInfo.getRTOState());
+        entity.setRegistrationDate(vehicleInfo.getRegistrationDate());
+        entity.setRegistrationNo(vehicleInfo.getRegistrationNo());
+        entity.setSubModel(vehicleInfo.getSubModel());
+        entity.setHolderaddress(vehicleInfo.getHolderaddress());
+        entity.setModel(vehicleInfo.getModel());
+
+        entity.setQT_Entry_Number("");
+
+
+        new DynamicController(getActivity()).saveGenerateLead(entity, new IResponseSubcriber() {
+            @Override
+            public void OnSuccess(APIResponse response, String message) {
+                cancelDialog();
+                if (response instanceof GenerateLeadResponse) {
+                    if (response.getStatusNo() == 0) {
+                        Toast.makeText(getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void OnFailure(Throwable t) {
+                cancelDialog();
+                Toast.makeText(getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void bindVehicle(VehicleInfoEntity.VehicleInfo entity) {
+
 
         cvVehicleDetail.setVisibility(View.VISIBLE);
 
-        VehicleInfoEntity.VehicleInfo v = entity.get(0);
+        VehicleInfoEntity.VehicleInfo v = entity;
         try {
             txtClientName.setText(v.getClientName());
             txtDOB.setText(v.getDOB());
@@ -262,7 +369,7 @@ public class VehicleDetailFragment extends BaseFragment implements View.OnClickL
             txtRTO.setText(v.getRTOCity() + "," + v.getRTOState());
             txtFuel.setText(v.getFuelType());
             txtMfg.setText("" + v.getMfgyear());
-            txtExpiryDate.setText("" + v.getExpiryDate());
+            etVehicleExpiryDate.setText("" + v.getExpiryDate());
             txtClaimNo.setText("" + v.getClaimNo());
             txtClaimSattlementType.setText("" + v.getClaimSattlementType());
             txtClaimStatus.setText("" + v.getClaimStatus());

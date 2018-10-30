@@ -1,24 +1,41 @@
 package com.datacomp.magicfinmart.vehicle_details;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.datacomp.magicfinmart.R;
+import com.datacomp.magicfinmart.utility.Constants;
+import com.datacomp.magicfinmart.utility.DateTimePicker;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.DynamicController;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.GenerateLeadRequestEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.GenerateLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.dynamic_urls.VehicleMobileResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 
 public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAdapter.customerInfoItem> {
 
-    Context mContex;
+    Fragment mContex;
     List<VehicleMobileResponse.CustomerDetailsEntity> listCustDetails;
+    SimpleDateFormat displayFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-    public VehicleDetailsAdapter(Context context, List<VehicleMobileResponse.CustomerDetailsEntity> list) {
+    public VehicleDetailsAdapter(Fragment context, List<VehicleMobileResponse.CustomerDetailsEntity> list) {
         this.mContex = context;
         listCustDetails = list;
     }
@@ -31,14 +48,14 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
     }
 
     @Override
-    public void onBindViewHolder(customerInfoItem holder, int position) {
+    public void onBindViewHolder(final customerInfoItem holder, int position) {
 
-        VehicleMobileResponse.CustomerDetailsEntity entity = listCustDetails.get(position);
+        final VehicleMobileResponse.CustomerDetailsEntity entity = listCustDetails.get(position);
         holder.txtCategory.setText(entity.getCategory());
         holder.txtDOB.setText("" + entity.getDOB());
         holder.txtClaimStatus.setText("" + entity.getClaimStatus());
         holder.txtEmail.setText(entity.getEmail());
-        holder.txtExpiryDate.setText("" + entity.getExpiryDate());
+        holder.etExpiryDate.setText("" + entity.getExpiryDate());
         holder.txtInsuranceName.setText(entity.getInsuranceName());
         holder.txtMobileNo.setText("" + entity.getMobileNo());
         holder.txtName.setText("" + entity.getName());
@@ -46,6 +63,97 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
         holder.txtPolicyNumber.setText("" + entity.getPolicyNumber());
         holder.txtPremium.setText("" + entity.getPremium());
         holder.txtVehicleRegNumber.setText("" + entity.getVehicleRegNumber());
+
+        holder.btnGenerateLead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                GenerateLead(holder.etExpiryDate.getText().toString(), entity);
+            }
+        });
+
+        holder.etExpiryDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Constants.hideKeyBoard(v, mContex.getActivity());
+                DateTimePicker.policyExpDatePicker(v.getContext(), new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view1, int year, int monthOfYear, int dayOfMonth) {
+                        if (view1.isShown()) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            String currentDay = displayFormat.format(calendar.getTime());
+                            holder.etExpiryDate.setText(currentDay);
+                            holder.btnGenerateLead.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+
+    private void GenerateLead(String expDate, VehicleMobileResponse.CustomerDetailsEntity vehicleInfo) {
+
+        GenerateLeadRequestEntity entity = new GenerateLeadRequestEntity();
+
+        entity.setFBAID(String.valueOf(new DBPersistanceController(mContex.getActivity()).getUserData().getFBAId()));
+        entity.setCategory(vehicleInfo.getCategory());
+        entity.setDOB(vehicleInfo.getDOB());
+        entity.setClaimStatus(vehicleInfo.getClaimStatus());
+        entity.setExpiryDate(expDate);
+        entity.setInsuranceID(vehicleInfo.getInsuranceID());
+        entity.setInsuranceName(vehicleInfo.getInsuranceName());
+        entity.setMobileNo(vehicleInfo.getMobileNo());
+        entity.setName(vehicleInfo.getName());
+        entity.setPincode(vehicleInfo.getPincode());
+        entity.setPolicyNumber(vehicleInfo.getPolicyNumber());
+        entity.setPremium(vehicleInfo.getPremium());
+        entity.setQT_Entry_Number(vehicleInfo.getQT_Entry_Number());
+        entity.setVehicleRegNumber(vehicleInfo.getVehicleRegNumber());
+        entity.setRegistrationNo(vehicleInfo.getVehicleRegNumber());
+
+        entity.setChasisNo("");
+        entity.setCity("");
+        entity.setClaimNo("");
+        entity.setClaimSattlementType("");
+        entity.setClientName("");
+        entity.setEngineNo("");
+        entity.setFuelType("");
+        entity.setGender("");
+        entity.setHolderPincode("");
+        entity.setInceptionDate("");
+        entity.setIsCustomer("");
+        entity.setMake("");
+        entity.setMfgyear("");
+        entity.setNoClaimBonus("");
+        entity.setPOSPCode("");
+        entity.setPOSPName("");
+        entity.setRTOCity("");
+        entity.setRTOState("");
+        entity.setRegistrationDate("");
+
+        entity.setSubModel("");
+        entity.setHolderaddress("");
+        entity.setModel("");
+
+
+        new DynamicController(mContex.getActivity()).saveGenerateLead(entity, new IResponseSubcriber() {
+            @Override
+            public void OnSuccess(APIResponse response, String message) {
+                ((VehicleDetailFragment) mContex).cancelDialog();
+                if (response instanceof GenerateLeadResponse) {
+                    if (response.getStatusNo() == 0) {
+                        Toast.makeText(mContex.getActivity(), "" + response.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            @Override
+            public void OnFailure(Throwable t) {
+                //cancelDialog();
+                Toast.makeText(mContex.getActivity(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
@@ -60,16 +168,21 @@ public class VehicleDetailsAdapter extends RecyclerView.Adapter<VehicleDetailsAd
     public class customerInfoItem extends RecyclerView.ViewHolder {
 
 
-        TextView txtCategory, txtDOB, txtClaimStatus, txtEmail, txtExpiryDate, txtInsuranceName,
+        TextView txtCategory, txtDOB, txtClaimStatus, txtEmail, txtInsuranceName,
                 txtMobileNo, txtName, txtPincode, txtPolicyNumber, txtPremium, txtVehicleRegNumber;
+
+        EditText etExpiryDate;
+
+        Button btnGenerateLead;
 
         public customerInfoItem(View itemView) {
             super(itemView);
+            btnGenerateLead = itemView.findViewById(R.id.btnGenerateLead);
             txtCategory = itemView.findViewById(R.id.txtCategory);
             txtDOB = itemView.findViewById(R.id.txtDOB);
             txtClaimStatus = itemView.findViewById(R.id.txtClaimStatus);
             txtEmail = itemView.findViewById(R.id.txtEmail);
-            txtExpiryDate = itemView.findViewById(R.id.txtExpiryDate);
+            etExpiryDate = itemView.findViewById(R.id.etExpiryDate);
             txtInsuranceName = itemView.findViewById(R.id.txtInsuranceName);
             txtMobileNo = itemView.findViewById(R.id.txtMobileNo);
             txtName = itemView.findViewById(R.id.txtName);
