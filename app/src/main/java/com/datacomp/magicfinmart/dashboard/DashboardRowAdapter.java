@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
-import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
@@ -35,7 +34,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardEntity;
-import okhttp3.internal.Util;
 
 
 public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -226,27 +224,31 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 3:
                 //health
-                if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
+                /*if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
                     mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
-                } else {
+                } else*/
+//                    {
 
-                    String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
+                //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
+                String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
 
-                    String ipaddress = "0.0.0.0";
-                    try {
-                        ipaddress = Utility.getMacAddress(mContext);
-                    } catch (Exception io) {
-                        ipaddress = "0.0.0.0";
-                    }
-
-                    String append = "&ip_address=" + ipaddress + "&app_version=" + Utility.getVersionName(mContext);
-                    healthUrl = healthUrl + append;
-
-                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                            .putExtra("URL", healthUrl)
-                            .putExtra("NAME", "Health Insurance")
-                            .putExtra("TITLE", "Health Insurance"));
+                String ipaddress = "0.0.0.0";
+                try {
+                    ipaddress = Utility.getMacAddress(mContext);
+                } catch (Exception io) {
+                    ipaddress = "0.0.0.0";
                 }
+
+                String append = "&ip_address=" + ipaddress
+                        + "&app_version=" + Utility.getVersionName(mContext)
+                        + "&device_id=" + Utility.getDeviceId(mContext);
+                healthUrl = healthUrl + append;
+
+                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                        .putExtra("URL", healthUrl)
+                        .putExtra("NAME", "Health Insurance")
+                        .putExtra("TITLE", "Health Insurance"));
+//                }
 
 
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);
@@ -324,10 +326,12 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
                 break;
             case 14:
-                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                Utility.loadWebViewUrlInBrowser(mContext,
+                        "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c");
+               /* mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
                         .putExtra("URL", "https://yesbankbot.buildquickbots.com/chat/rupeeboss/staff/?userid=" + String.valueOf(mReal.getUserData().getFBAId()) + "&usertype=FBA&vkey=b34f02e9-8f1c")
                         .putExtra("NAME", "" + "Loan On Messenger")
-                        .putExtra("TITLE", "" + "Loan On Messenger"));
+                        .putExtra("TITLE", "" + "Loan On Messenger"));*/
                 break;
 
         }
