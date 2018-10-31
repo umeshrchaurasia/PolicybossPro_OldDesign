@@ -58,7 +58,6 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -149,7 +148,7 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
     List<InsuranceSubtypeEntity> insuranceSubtypeEntities;
     ArrayAdapter<InsuranceSubtypeEntity> subTypeAdapter;
 
-    boolean sendOldCrn = false;
+    boolean sendOldCrn = true;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -924,8 +923,18 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                     //etCC.setText("" + dbController.getVarientCC(getMake(acMakeModel.getText().toString()), getModel(acMakeModel.getText().toString()), spVarient.getSelectedItem().toString()));
                     String strVarient = getVarient(spVarient.getSelectedItem().toString());
                     varientId = dbController.getVariantID(strVarient, getModel(acMakeModel.getText().toString()), getMake(acMakeModel.getText().toString()));
-                    if (varientId != null && !varientId.equals(""))
+
+                    if (varientId != null && !varientId.equals("")) {
+                        if (motorRequestEntity != null && motorRequestEntity.getVehicle_id() != 0 &&
+                                motorRequestEntity.getVehicle_id() != Integer.parseInt(varientId)) {
+                            sendOldCrn = false;
+                        }
                         motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));
+                    }
+
+                    /*if (varientId != null && !varientId.equals(""))
+                        motorRequestEntity.setVehicle_id(Integer.parseInt(varientId));*/
+
                 }
 
             }
@@ -944,6 +953,11 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
                 regplace = cityAdapter.getItem(position).toString();
                 Constants.hideKeyBoard(acRto, getActivity());
                 acRto.setSelection(0);
+                if (regplace != null && !regplace.equals("") && motorRequestEntity != null) {
+                    if (motorRequestEntity.getRto_id() != getCityId(acRto.getText().toString())) {
+                        sendOldCrn = false;
+                    }
+                }
             }
 
         });
@@ -988,6 +1002,19 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         spYear.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if (motorRequestEntity != null) {
+                    try {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date()));
+                        if (calendar.get(Calendar.YEAR) != Integer.parseInt(spYear.getSelectedItem().toString())) {
+                            sendOldCrn = false;
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 if (position == 1) {
                     int selectedMonth = spMonth.getSelectedItemPosition();
                     try {
@@ -1020,6 +1047,30 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
         });
 
+        //endregion
+
+        //region month adapter
+        spMonth.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (motorRequestEntity != null) {
+                    try {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.setTime(policyBossDateFormat.parse(motorRequestEntity.getVehicle_registration_date()));
+                        if (calendar.get(Calendar.MONTH) != getMonthInt(spMonth.getSelectedItem().toString())) {
+                            sendOldCrn = false;
+                        }
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
         //endregion
 
         //region subtype adapter listener
@@ -1724,6 +1775,50 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
             }
         }
         return monthList;
+    }
+
+    public int getMonthInt(String currMonth) {
+
+
+        switch (currMonth) {
+            case "JAN":
+                return 0;
+            case "FEB":
+                return 1;
+
+            case "MAR":
+                return 2;
+
+            case "APR":
+                return 3;
+
+            case "MAY":
+                return 4;
+
+            case "JUN":
+                return 5;
+
+            case "JUL":
+                return 6;
+
+            case "AUG":
+                return 7;
+
+            case "SEP":
+                return 8;
+
+            case "OCT":
+                return 9;
+
+            case "NOV":
+                return 10;
+
+            case "DEC":
+                return 11;
+
+        }
+
+        return 0;
     }
 
     public String getModel(String makeModel) {
@@ -2644,5 +2739,9 @@ public class InputFragment extends BaseFragment implements BaseFragment.PopUpLis
         }
     }
 
-
+    @Override
+    public void onPause() {
+        super.onPause();
+        sendOldCrn = true;
+    }
 }

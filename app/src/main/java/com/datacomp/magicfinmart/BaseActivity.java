@@ -1,6 +1,5 @@
 package com.datacomp.magicfinmart;
 
-import android.*;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
@@ -15,6 +14,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,9 +24,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -662,9 +666,16 @@ public class BaseActivity extends AppCompatActivity {
         void onCancelButtonClick(Dialog dialog, View view);
     }
 
+    public interface WebViewPopUpListener {
+
+        void onOkClick(Dialog dialog, View view);
+
+        void onCancelClick(Dialog dialog, View view);
+    }
+
     public interface PermissionListener {
 
-        void onGrantButtonClick( View view);
+        void onGrantButtonClick(View view);
 
     }
 
@@ -672,6 +683,7 @@ public class BaseActivity extends AppCompatActivity {
         if (permissionListener != null)
             this.permissionListener = permissionListener;
     }
+
     public void openPopUp(final View view, String title, String desc, String positiveButtonName, boolean isCancelable) {
         try {
             final Dialog dialog;
@@ -759,7 +771,7 @@ public class BaseActivity extends AppCompatActivity {
 
                             if (permissionListener != null)
                                 dialog.dismiss();
-                            if(view != null) {
+                            if (view != null) {
                                 permissionListener.onGrantButtonClick(view);
                             }
 
@@ -782,6 +794,97 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+
+    public void openWebViewPopUp(final View view, String url, boolean isCancelable, final WebViewPopUpListener webViewPopUpListener) {
+        try {
+            final Dialog dialog;
+            dialog = new Dialog(BaseActivity.this);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setContentView(R.layout.layout_common_webview_popup);
+            dialog.getWindow().setBackgroundDrawable(
+                    new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            WebView webView = dialog.findViewById(R.id.webView);
+            settingWebview(webView, url);
+            ImageView ivCross = (ImageView) dialog.findViewById(R.id.ivCross);
+
+            dialog.setCancelable(isCancelable);
+            dialog.setCanceledOnTouchOutside(isCancelable);
+
+            Window dialogWindow = dialog.getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            lp.width = lp.MATCH_PARENT;  // Width
+            lp.height = lp.WRAP_CONTENT; // Height
+            dialogWindow.setAttributes(lp);
+
+            dialog.show();
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Close dialog
+                    if (webViewPopUpListener != null)
+                        webViewPopUpListener.onCancelClick(dialog, view);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void settingWebview(WebView webView, String url) {
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+        settings.setBuiltInZoomControls(true);
+        settings.setUseWideViewPort(false);
+        settings.setJavaScriptEnabled(true);
+        settings.setSupportMultipleWindows(false);
+        settings.setLoadsImagesAutomatically(true);
+        settings.setLightTouchEnabled(true);
+        settings.setDomStorageEnabled(true);
+        settings.setLoadWithOverviewMode(true);
+        settings.setJavaScriptEnabled(true);
+        webView.setWebViewClient(new WebViewClient() {
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                // TODO show you progress image
+
+                super.onPageStarted(view, url, favicon);
+            }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                // TODO hide your progress image
+                super.onPageFinished(view, url);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                /*if (url.endsWith(".pdf")) {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setDataAndType(Uri.parse(url), "application/pdf");
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        //user does not have a pdf viewer installed
+                        String googleDocs = "https://docs.google.com/viewer?url=";
+                        webView.loadUrl(googleDocs + url);
+                    }
+                }*/
+                return false;
+            }
+        });
+        webView.getSettings().setBuiltInZoomControls(true);
+
+        Log.d("URL", url);
+        if (url.endsWith(".pdf")) {
+
+            webView.loadUrl("https://docs.google.com/viewer?url=" + url);
+            //webView.loadUrl("http://drive.google.com/viewerng/viewer?embedded=true&url=" + url);
+        } else {
+            webView.loadUrl(url);
+        }
+    }
     //endregion
 }
 

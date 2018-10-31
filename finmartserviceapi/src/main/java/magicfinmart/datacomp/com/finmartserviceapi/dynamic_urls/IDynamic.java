@@ -11,4 +11,8 @@ public interface IDynamic {
     void getVehicleByVehicleNo(String vehicleNo, IResponseSubcriber iResponseSubcriber);
 
     void getVehicleByMobileNo(String mobileNo, IResponseSubcriber iResponseSubcriber);
+
+    void saveGenerateLead(GenerateLeadRequestEntity entity, IResponseSubcriber iResponseSubcriber);
+
+    // qa.mgfm.in/api/save-moter-lead-details
 }
