@@ -59,6 +59,11 @@ public class HomeLoanApplyRequestEntity implements Parcelable  {
     private int isApplnComplete;
     private int isApplnConfirm;
     private String FBA_Reg_Id;
+    private String Quote_id;
+    private String RBASource;
+
+    private String city;
+
 
     protected HomeLoanApplyRequestEntity(Parcel in) {
         name = in.readString();
@@ -85,6 +90,7 @@ public class HomeLoanApplyRequestEntity implements Parcelable  {
         FBA_Reg_Id = in.readString();
         Quote_id = in.readString();
         RBASource = in.readString();
+        city=in.readString();
     }
 
     public static final Creator<HomeLoanApplyRequestEntity> CREATOR = new Creator<HomeLoanApplyRequestEntity>() {
@@ -291,9 +297,14 @@ public class HomeLoanApplyRequestEntity implements Parcelable  {
         this.RBASource = RBASource;
     }
 
-    private String Quote_id;
-    private String RBASource;
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
 
 
     public HomeLoanApplyRequestEntity() {
@@ -331,5 +342,6 @@ public class HomeLoanApplyRequestEntity implements Parcelable  {
         dest.writeString(FBA_Reg_Id);
         dest.writeString(Quote_id);
         dest.writeString(RBASource);
+        dest.writeString(city);
     }
 }

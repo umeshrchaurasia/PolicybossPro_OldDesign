@@ -77,6 +77,7 @@ import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -390,6 +391,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
 
                         break;
+                    case R.id.nav_transactionhistory:
+                        startActivity(new Intent(HomeActivity.this, nav_transactionhistoryActivity.class));
+
+                        break;
+
                     case R.id.nav_logout:
                         dialogLogout(HomeActivity.this);
                         break;

@@ -372,6 +372,7 @@ public class QuoteFragment_LAP extends BaseFragment implements View.OnClickListe
         homeLoanApplyRequestEntity.setIsApplnConfirm(0);
         homeLoanApplyRequestEntity.setFBA_Reg_Id(""+ new DBPersistanceController(getContext()).getUserData().getFBAId());
         homeLoanApplyRequestEntity.setQuote_id(""+ buyLoanQuerystring.getQuote_id());
+        homeLoanApplyRequestEntity.setCity(""+buyLoanQuerystring.getCity());
 
         //homeLoanApplyRequestEntity.setApplnId();
     }

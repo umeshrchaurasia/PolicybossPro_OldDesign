@@ -68,6 +68,11 @@
             android:orderInCategory="650"
             android:title="INCOME POTENTIAL" />
         <item
+            android:id="@+id/nav_transactionhistory"
+            android:icon="@drawable/vehicledetail"
+            android:orderInCategory="650"
+            android:title="TRANSACTION HISTORY" />
+        <item
             android:id="@+id/nav_vehicleinfo"
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="600"
