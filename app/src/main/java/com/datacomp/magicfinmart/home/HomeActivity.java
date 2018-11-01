@@ -838,20 +838,20 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
                     //region birthday and seasonal
-                    if (!userConstantEntity.getMarketinghomeseasonalimageurl().equals("")) {
+                    if (!userConstantEntity.getNotificationpopupurl().equals("")) {
                         if (prefManager.getIsSeasonal()) {
-                            openWebViewPopUp(txtFbaID, userConstantEntity.getMarketinghomeseasonalimageurl(), true, this);
+                            openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
                             prefManager.setIsSeasonal(false);
                         }
                     }
 
-                    if (!userConstantEntity.getMarketinghomebirthdayimageurl().equals("")) {
+                  /*  if (!userConstantEntity.getMarketinghomebirthdayimageurl().equals("")) {
 
                         if (prefManager.getIsBirthday()) {
                             openWebViewPopUp(txtDetails, userConstantEntity.getMarketinghomebirthdayimageurl(), true, this);
                             prefManager.setIsBirthday(false);
                         }
-                    }
+                    }*/
 
                     //endregion
 

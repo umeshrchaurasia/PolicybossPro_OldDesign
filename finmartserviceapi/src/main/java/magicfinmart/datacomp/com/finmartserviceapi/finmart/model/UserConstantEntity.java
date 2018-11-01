@@ -146,16 +146,26 @@ public class UserConstantEntity extends RealmObject {
      * In-case any of any query you may contact to your RM or you can also call to 9137850207 (Tech-Support)
      */
 
-    private String marketinghomeseasonalimageurl;
-    private String marketinghomeimageurl;
-    private String marketinghomebirthdayimageurl;
 
-    public String getMarketinghomeseasonalimageurl() {
-        return marketinghomeseasonalimageurl;
+    private String marketinghomeimageurl;
+
+    private String notificationpopupurltype;
+    private String notificationpopupurl;
+
+    public String getNotificationpopupurltype() {
+        return notificationpopupurltype;
     }
 
-    public void setMarketinghomeseasonalimageurl(String marketinghomeseasonalimageurl) {
-        this.marketinghomeseasonalimageurl = marketinghomeseasonalimageurl;
+    public void setNotificationpopupurltype(String notificationpopupurltype) {
+        this.notificationpopupurltype = notificationpopupurltype;
+    }
+
+    public String getNotificationpopupurl() {
+        return notificationpopupurl;
+    }
+
+    public void setNotificationpopupurl(String notificationpopupurl) {
+        this.notificationpopupurl = notificationpopupurl;
     }
 
     public String getHealthurltemp() {
@@ -659,13 +669,5 @@ public class UserConstantEntity extends RealmObject {
 
     public void setMarketinghomeimageurl(String marketinghomeimageurl) {
         this.marketinghomeimageurl = marketinghomeimageurl;
-    }
-
-    public String getMarketinghomebirthdayimageurl() {
-        return marketinghomebirthdayimageurl;
-    }
-
-    public void setMarketinghomebirthdayimageurl(String marketinghomebirthdayimageurl) {
-        this.marketinghomebirthdayimageurl = marketinghomebirthdayimageurl;
     }
 }
