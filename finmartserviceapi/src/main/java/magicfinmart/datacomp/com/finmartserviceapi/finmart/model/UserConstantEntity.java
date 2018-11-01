@@ -130,12 +130,57 @@ public class UserConstantEntity extends RealmObject {
     private String marketinghomemaxcount;
     private String marketinghomeenabled;
     private String marketinghometransfertype;
+
+    private String healthurltemp;
+    /**
+     * marketinghomeimageurl :
+     * marketinghomebirthdayimageurl :
+     * Status : 0
+     * textmessage : Important UPDATE
+     * <p>
+     * Hello Magicfinmart Partner,
+     * New version 2.1.1 of Magicfinmart is live on google play store with some new and exciting features and ease of use.
+     * http://bit.ly/2NT1gTH
+     * Pease Update your APPLICATION & Rate 5 Star.
+     * <p>
+     * In-case any of any query you may contact to your RM or you can also call to 9137850207 (Tech-Support)
+     */
+
+
+    private String marketinghomeimageurl;
+
+    private String notificationpopupurltype;
+    private String notificationpopupurl;
+
+    public String getNotificationpopupurltype() {
+        return notificationpopupurltype;
+    }
+
+    public void setNotificationpopupurltype(String notificationpopupurltype) {
+        this.notificationpopupurltype = notificationpopupurltype;
+    }
+
+    public String getNotificationpopupurl() {
+        return notificationpopupurl;
+    }
+
+    public void setNotificationpopupurl(String notificationpopupurl) {
+        this.notificationpopupurl = notificationpopupurl;
+    }
+
+    public String getHealthurltemp() {
+        return healthurltemp;
+    }
+
+    public void setHealthurltemp(String healthurltemp) {
+        this.healthurltemp = healthurltemp;
+    }
+
     /**
      * marketinghomeurl : http://magicfinmart.com
      */
 
     private String marketinghomeurl;
-    private String test;
 
     public String getAddPospVisible() {
         return AddPospVisible;
@@ -616,5 +661,13 @@ public class UserConstantEntity extends RealmObject {
 
     public void setMarketinghomeurl(String marketinghomeurl) {
         this.marketinghomeurl = marketinghomeurl;
+    }
+
+    public String getMarketinghomeimageurl() {
+        return marketinghomeimageurl;
+    }
+
+    public void setMarketinghomeimageurl(String marketinghomeimageurl) {
+        this.marketinghomeimageurl = marketinghomeimageurl;
     }
 }

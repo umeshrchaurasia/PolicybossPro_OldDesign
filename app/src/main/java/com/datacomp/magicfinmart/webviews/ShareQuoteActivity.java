@@ -98,7 +98,7 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
         webView = (WebView) findViewById(R.id.webView);
 
         dbPersistanceController = new DBPersistanceController(this);
-       /// loginResponseEntity = dbPersistanceController.getUserData();
+        /// loginResponseEntity = dbPersistanceController.getUserData();
         //accountDtlEntity = dbPersistanceController.getAccountData();
         userConstantEntity = dbPersistanceController.getUserConstantsData();
 
@@ -710,8 +710,9 @@ public class ShareQuoteActivity extends BaseActivity implements IResponseSubcrib
 
 
         PdfDocument document = new PdfDocument();
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(bitmap.getWidth(),
-                bitmap.getHeight(), 1).create();
+        PdfDocument.PageInfo pageInfo =
+                new PdfDocument.PageInfo.Builder(bitmap.getWidth(),
+                        bitmap.getHeight(), 1).create();
         PdfDocument.Page page = document.startPage(pageInfo);
 
         Canvas canvas = page.getCanvas();

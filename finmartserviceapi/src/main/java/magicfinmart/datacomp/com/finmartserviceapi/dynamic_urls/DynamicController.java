@@ -8,6 +8,7 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
+import magicfinmart.datacomp.com.finmartserviceapi.BuildConfig;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
 import retrofit2.Call;
@@ -86,6 +87,37 @@ public class DynamicController implements IDynamic {
             @Override
             public void onFailure(Call<VehicleMobileResponse> call, Throwable t) {
 
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void saveGenerateLead(GenerateLeadRequestEntity entity, final IResponseSubcriber iResponseSubcriber) {
+
+        String url = BuildConfig.FINMART_URL + "/api/save-moter-lead-details";
+        genericUrlNetworkService.saveGenerateLead(url, entity).enqueue(new Callback<GenerateLeadResponse>() {
+            @Override
+            public void onResponse(Call<GenerateLeadResponse> call, Response<GenerateLeadResponse> response) {
+                if (response.body() != null) {
+                    iResponseSubcriber.OnSuccess(response.body(), "Success");
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Detail not found"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GenerateLeadResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

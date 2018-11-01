@@ -885,6 +885,41 @@
         <activity
             android:name=".generatelead.GenerateLeadActivity"
             android:label="@string/title_activity_generate_lead"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".IncomeCalculator.IncomeCalculatorActivity"
+            android:label="Income Calculator"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".IncomeCalculator.IncomePotentialActivity"
+            android:label="@string/title_activity_income_potential"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity android:name=".IncomeCalculator.IncomePotentialdetailActivity" />
+        <activity android:name=".IncomeCalculator.IncomePotentialDialogActivity" />
+        <activity android:name=".IncomeCalculator.SimpleScannerActivity" />
+
+        <activity
+            android:name=".transactionhistory.nav_transactionhistoryActivity"
+            android:label="Transaction History"
+            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data

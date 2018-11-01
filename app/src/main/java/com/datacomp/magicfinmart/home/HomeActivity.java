@@ -4,12 +4,15 @@ import android.Manifest;
 import android.app.ActivityOptions;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.LabeledIntent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
@@ -43,6 +46,8 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.datacomp.magicfinmart.BaseActivity;
+import com.datacomp.magicfinmart.IncomeCalculator.IncomeCalculatorActivity;
+import com.datacomp.magicfinmart.IncomeCalculator.IncomePotentialActivity;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.change_password.ChangePasswordFragment;
 import com.datacomp.magicfinmart.dashboard.DashboardFragment;
@@ -72,6 +77,7 @@ import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -80,6 +86,7 @@ import com.datacomp.magicfinmart.webviews.CommonWebViewActivity;
 import com.datacomp.magicfinmart.whatsnew.WhatsNewActivity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
@@ -103,7 +110,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 
-public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener, BaseActivity.PermissionListener {
+public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener,
+        BaseActivity.WebViewPopUpListener, BaseActivity.PermissionListener {
 
     final String TAG = "HOME";
     private Toolbar toolbar;
@@ -116,12 +124,13 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     String versionNAme;
     PackageInfo pinfo;
     PrefManager prefManager;
-    int forceUpdate;
+    int forceUpdate, checkfirstmsg_call;
     ConstantEntity constantEntity;
     AlertDialog mpsDialog;
     String[] permissionsRequired = new String[]{Manifest.permission.CALL_PHONE};
     UserConstantEntity userConstantEntity;
     MenuMasterResponse menuMasterResponse;
+
 
     //region broadcast receiver
     public BroadcastReceiver mHandleMessageReceiver = new BroadcastReceiver() {
@@ -216,21 +225,26 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             new MasterController(this).getMenuMaster(this);
             new MasterController(this).getInsuranceSubType(this);
         }
-        String type="";
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
 
-            type = bundle.getString("MarkTYPE");
-            if (!type.equals("FROM_HOME")) {
+        checkfirstmsg_call = Integer.parseInt(prefManager.getCheckMsgFirst());
+        if (checkfirstmsg_call == 0) {
+
+
+            String type = "";
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+
+                type = bundle.getString("MarkTYPE");
+                if (!type.equals("FROM_HOME")) {
+                    showMArketingPopup();
+                }
+            } else {
+                prefManager.updateCheckMsgFirst("" + 1);
                 showMArketingPopup();
             }
-        }else
-        {
-           // showMArketingPopup();
+
+
         }
-
-
-
         //region navigation click
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             // This method will trigger on item Click of navigation menu
@@ -370,6 +384,19 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Whats New : Whats New button in menu "), Constants.WHATSNEW), null);
 
                         break;
+                    case R.id.nav_IncomeCalculator:
+                        startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
+
+                        break;
+                    case R.id.nav_IncomePotential:
+                        startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
+
+                        break;
+                    case R.id.nav_transactionhistory:
+                        startActivity(new Intent(HomeActivity.this, nav_transactionhistoryActivity.class));
+
+                        break;
+
                     case R.id.nav_logout:
                         dialogLogout(HomeActivity.this);
                         break;
@@ -746,7 +773,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         switch (item.getItemId()) {
 
             case R.id.action_call:
-                if (constantEntity.getHelpNumber() != null) {
+                if (userConstantEntity.getMangMobile() != null) {
 
                     if (ActivityCompat.checkSelfPermission(HomeActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
 
@@ -763,8 +790,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                         }
                     } else {
-
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        if (userConstantEntity.getManagName() != null) {
+                            ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        }
 
                     }
                 }
@@ -814,6 +842,24 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         showMArketingPopup();
                     }
 
+
+                    //region birthday and seasonal
+                    if (!userConstantEntity.getNotificationpopupurl().equals("")) {
+                        if (prefManager.getIsSeasonal()) {
+                            openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
+                            prefManager.setIsSeasonal(false);
+                        }
+                    }
+
+                  /*  if (!userConstantEntity.getMarketinghomebirthdayimageurl().equals("")) {
+
+                        if (prefManager.getIsBirthday()) {
+                            openWebViewPopUp(txtDetails, userConstantEntity.getMarketinghomebirthdayimageurl(), true, this);
+                            prefManager.setIsBirthday(false);
+                        }
+                    }*/
+
+                    //endregion
 
                 }
             }
@@ -889,6 +935,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
     }
+
+
 
     private void refreshDashboard() {
         /*Intent profileIntent = new Intent(Utility.USER_DASHBOARD);
@@ -1060,18 +1108,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
                     if (call_phone) {
 
-
-//                        Intent intentCalling = new Intent(Intent.ACTION_CALL);
-//                        intentCalling.setData(Uri.parse("tel:" + db.getConstantsData().getHelpNumber()));
-//                        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-//                            // TODO: Consider calling
-//
-//                            return;
-//                        }
-//                        startActivity(intentCalling);
-
-                        ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
-
+                        if (userConstantEntity.getMangMobile() != null && userConstantEntity.getManagName() != null) {
+                            ConfirmAlert("Calling", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        }
 
                     }
 
@@ -1106,7 +1145,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
             builder.setMessage(strBody);
             String positiveText = "Call";
-            String NegativeText = "Cancel";
+            String NegativeText = "Share";
+            String NeutralText = "Cancel";
             builder.setPositiveButton(positiveText,
                     new DialogInterface.OnClickListener() {
                         @Override
@@ -1124,7 +1164,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                                 return;
                             }
                             Intent intentCalling = new Intent(Intent.ACTION_CALL);
-                            intentCalling.setData(Uri.parse("tel:" + constantEntity.getHelpNumber()));
+                            intentCalling.setData(Uri.parse("tel:" + userConstantEntity.getMangMobile()));
                             startActivity(intentCalling);
                         }
                     });
@@ -1134,12 +1174,30 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
+                            if (userConstantEntity.getMangEmail() != null) {
+                                // composeEmail(userConstantEntity.getMangEmail(), "");
+                                shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userConstantEntity.getMangEmail().toString(), userConstantEntity.getMangMobile().toString());
+
+                            }
                         }
                     });
+
+            builder.setNeutralButton(NeutralText, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
             final android.support.v7.app.AlertDialog dialog = builder.create();
-            dialog.setCancelable(false);
-            dialog.setCanceledOnTouchOutside(false);
+            //  dialog.setCancelable(false);
+            //  dialog.setCanceledOnTouchOutside(false);
+
             dialog.show();
+
+            dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.uvv_green));
+            dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(getResources().getColor(R.color.holo_red_dark));
+            dialog.getButton(DialogInterface.BUTTON_NEUTRAL).setTextColor(getResources().getColor(R.color.button_color));
+
         } catch (Exception ex) {
             Toast.makeText(this, "Please try again..", Toast.LENGTH_SHORT).show();
         }
@@ -1239,5 +1297,117 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         Log.d("COUNTER", "new intent");
+    }
+
+    public void shareMailSmsList(Context context, String prdSubject, String prdDetail, String mailTo, String mobileNo) {
+
+        //  String Deeplink = "https://nykaa.ly/P_" + Sharedata_product_id;
+
+        //  String prdSubject = "Look what I found on Nykaa!";
+        //  String prdDetail = "Check out " + Sharedata_product_name + " on Nykaa" + "\n" + Deeplink;
+        try {
+
+
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+            shareIntent.setType("text/plain");
+
+            PackageManager pm = context.getPackageManager();
+
+
+            List<ResolveInfo> resInfo = pm.queryIntentActivities(shareIntent, 0);
+            List<LabeledIntent> intentList = new ArrayList<LabeledIntent>();
+
+            for (int i = 0; i < resInfo.size(); i++) {
+                // Extract the label, append it, and repackage it in a LabeledIntent
+                ResolveInfo ri = resInfo.get(i);
+                String packageName = ri.activityInfo.packageName;
+                String processName = ri.activityInfo.processName;
+                String AppName = ri.activityInfo.name;
+
+                if ((packageName.contains("android.email") || packageName.contains("mms") || packageName.contains("messaging") || packageName.contains("android.gm") || packageName.contains("com.google.android.apps.plus"))) {
+
+                    shareIntent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
+
+                    if (packageName.contains("android.email")) {
+                        shareIntent.setType("image/*");
+                        shareIntent.setData(Uri.parse("mailto:"));
+                        shareIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{mailTo});
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("mms")) {
+                        shareIntent.setType("vnd.android-dir/mms-sms");
+                        shareIntent.setData(Uri.parse("sms:" + mobileNo));
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("whatsapp")) {
+                        String toNumber = mobileNo.replace("+", "").replace(" ", "");
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra("jid", toNumber + "@s.whatsapp.net");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setAction(Intent.ACTION_SEND);
+                        shareIntent.setPackage(packageName);
+
+
+                    } else if (packageName.contains("messaging")) {
+                        shareIntent.setType("vnd.android-dir/mms-sms");
+                        shareIntent.setData(Uri.parse("sms:" + mobileNo));
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("com.google.android.apps.plus")) {
+                        shareIntent.setType("image/*");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+                        shareIntent.setPackage(packageName);
+
+                    } else if (packageName.contains("android.gm")) {
+                        shareIntent.setType("image/*");
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, prdSubject);
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+                        shareIntent.setPackage(packageName);
+
+                    } else {
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
+
+                    }
+
+                    intentList.add(new LabeledIntent(shareIntent, packageName, ri.loadLabel(pm), ri.icon));
+
+                }
+            }
+
+
+            if (intentList.size() > 1) {
+                intentList.remove(intentList.size() - 1);
+            }
+
+            Intent openInChooser = Intent.createChooser(shareIntent, "Share Via");
+            // convert intentList to array
+            LabeledIntent[] extraIntents = intentList.toArray(new LabeledIntent[intentList.size()]);
+            openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents);
+
+            startActivity(openInChooser);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @Override
+    public void onOkClick(Dialog dialog, View view) {
+
+    }
+
+    @Override
+    public void onCancelClick(Dialog dialog, View view) {
+        dialog.cancel();
     }
 }

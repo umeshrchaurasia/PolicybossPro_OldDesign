@@ -1616,9 +1616,11 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                                 calendar.set(year, monthOfYear, dayOfMonth);
                                 String currentDay = displayFormat.format(calendar.getTime());
                                 etRegDate.setText(currentDay);
+                                etRegDate.setError(null);
                                 calendar.set(year, monthOfYear, 01);
                                 String currentDay1 = displayFormat.format(calendar.getTime());
                                 etMfgDate.setText(currentDay1);
+                                etMfgDate.setError(null);
                                 etExpDate.setEnabled(true);
                                 setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
                                 /*Calendar calendar1 = Calendar.getInstance();
@@ -1641,7 +1643,9 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                                 calendar.set(year, monthOfYear, dayOfMonth);
                                 String currentDay = displayFormat.format(calendar.getTime());
                                 etRegDate.setText(currentDay);
+                                etRegDate.setError(null);
                                 etMfgDate.setText(currentDay);
+                                etMfgDate.setError(null);
                                 setYearMonthAdapter(calendar, calendar.get(Calendar.YEAR));
                             }
                         }
@@ -1677,6 +1681,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                             calendar.set(year, monthOfYear, dayOfMonth);
                             String expDate = displayFormat.format(calendar.getTime());
                             etExpDate.setText(expDate);
+                            etExpDate.setError(null);
                             /*if (getDaysDiff(expDate, currDate) < 90) {
                                 cvNcb.setVisibility(View.VISIBLE);
                                 llNCB.setVisibility(View.VISIBLE);
@@ -1725,6 +1730,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
                                     calendar.set(year, monthOfYear, 01);
                                     String currentDay = displayFormat.format(calendar.getTime());
                                     etMfgDate.setText(currentDay);
+                                    etMfgDate.setError(null);
                                 }
                             }
                         });
@@ -2046,6 +2052,7 @@ public class BikeInputFragment extends BaseFragment implements BaseFragment.PopU
             case R.id.action_home:
                 Intent intent = new Intent(getActivity(), HomeActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);
                 getActivity().finish();
                 return true;

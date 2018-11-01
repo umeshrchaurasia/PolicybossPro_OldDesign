@@ -8,7 +8,7 @@
         android:orderInCategory="10"
         android:title="Calll"
         android:visible="true"
-        android:icon="@drawable/vector_call"
+        android:icon="@drawable/support_ic"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_push_notification"

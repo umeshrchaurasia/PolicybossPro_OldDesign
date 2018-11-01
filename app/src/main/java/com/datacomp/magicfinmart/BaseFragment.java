@@ -103,7 +103,7 @@ public class BaseFragment extends Fragment {
         this.popUpListener = popUpListener;
     }
 
-    protected void cancelDialog() {
+    public void cancelDialog() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
@@ -120,11 +120,11 @@ public class BaseFragment extends Fragment {
 
     }
 
-    protected void showDialog() {
+    public void showDialog() {
         showDialog("Loading...");
     }
 
-    protected void showDialog(String msg) {
+    public void showDialog(String msg) {
         if (dialog == null)
             dialog = ProgressDialog.show(getActivity(), "", msg, true);
         else {

@@ -250,11 +250,29 @@
                             android:textAllCaps="true"
                             android:textStyle="bold" />
 
-                        <TextView
-                            android:id="@+id/txtExpiryDate"
+                        <EditText
+                            android:id="@+id/etVehicleExpiryDate"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.6"
+                            android:focusable="false"
+                            android:textAllCaps="true"
+                            android:textStyle="bold" />
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:padding="8dp"
+                        android:visibility="visible">
+
+                        <Button
+                            android:id="@+id/btnGenerateLead"
+                            style="@style/ButtonStyle.Colored"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.6"
+                            android:text="Generate Lead"
                             android:textAllCaps="true"
                             android:textStyle="bold" />
                     </TableRow>

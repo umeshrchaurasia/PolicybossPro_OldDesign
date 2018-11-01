@@ -5,6 +5,9 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MpsDataEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
@@ -23,6 +26,7 @@ public class PrefManager {
     private static final String MOTOR_VERSION = "motor_master_version";
     private static final String POPUP_COUNTER = "popup_counter_value";
     private static final String POPUP_ID = "popup_id";
+    private static final String MsgFirst_Check = "msgfirst_check";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String IS_BIKE_MASTER_UPDATE = "isBikeMasterUpdate";
     private static final String IS_CAR_MASTER_UPDATE = "isCarMasterUpdate";
@@ -334,11 +338,12 @@ public class PrefManager {
     // region delete Share Data
 
     public void clearAll() {
-        pref.edit().remove(POSP_INFO)
+        editor.clear().commit();
+       /* pref.edit().remove(POSP_INFO)
                 .remove(SHARED_KEY_PUSH_NOTIFY)
                 .remove(SHARED_KEY_PUSH_WEB_URL)
                 .remove(MENU_DASHBOARD)
-                .remove(SHARED_KEY_PUSH_WEB_TITLE).commit();
+                .remove(SHARED_KEY_PUSH_WEB_TITLE).commit();*/
 
     }
 
@@ -423,5 +428,70 @@ public class PrefManager {
     }
 
     //endregion
+
+    public boolean updateCheckMsgFirst(String MotorVersion) {
+        pref.edit().remove(MsgFirst_Check).commit();
+        return pref.edit().putString(MsgFirst_Check, MotorVersion).commit();
+    }
+
+    public String getCheckMsgFirst() {
+        return pref.getString(MsgFirst_Check, "0");
+    }
+
+    public void removeCheckMsgFirst() {
+        editor.remove(MsgFirst_Check);
+    }
+    //endregion
+
+    //region marketing season birthday
+
+    private static final String IS_BIRTHDAY = "isbirthday";
+    private static final String BIRTHDAY_DATE = "todaydate";
+
+    private static final String IS_SEASONAL = "isseasonal";
+    private static final String SEASONAL_DATE = "seasonaldate";
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+    public void setIsBirthday(boolean isFirstTime) {
+        Calendar calendar = Calendar.getInstance();
+        String currentDay = simpleDateFormat.format(calendar.getTime());
+        editor.putString(BIRTHDAY_DATE, currentDay);
+        editor.putBoolean(IS_BIRTHDAY, isFirstTime);
+        editor.commit();
+    }
+
+    public boolean getIsBirthday() {
+
+        Calendar calendar = Calendar.getInstance();
+        String currentDay = simpleDateFormat.format(calendar.getTime());
+        String birthDay = pref.getString(BIRTHDAY_DATE, "");
+
+        if (birthDay.equals(currentDay)) {
+            return false;
+        }
+        return pref.getBoolean(IS_BIRTHDAY, true);
+    }
+
+    public void setIsSeasonal(boolean isFirstTime) {
+        Calendar calendar = Calendar.getInstance();
+        String currentDay = simpleDateFormat.format(calendar.getTime());
+        editor.putString(SEASONAL_DATE, currentDay);
+        editor.putBoolean(IS_SEASONAL, isFirstTime);
+        editor.commit();
+    }
+
+    public boolean getIsSeasonal() {
+
+        Calendar calendar = Calendar.getInstance();
+        String currentDay = simpleDateFormat.format(calendar.getTime());
+        String birthDay = pref.getString(SEASONAL_DATE, "");
+
+        if (birthDay.equals(currentDay)) {
+            return false;
+        }
+        return pref.getBoolean(IS_SEASONAL, true);
+    }
+
     //endregion
 }
