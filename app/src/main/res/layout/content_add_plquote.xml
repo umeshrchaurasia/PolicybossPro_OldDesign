@@ -31,6 +31,7 @@
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/plbannerimg"
+                    android:visibility="gone"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:background="@drawable/bordertbl"
@@ -38,6 +39,26 @@
                     android:layout_marginTop="5dp"
                     android:paddingTop="2dp"
                     android:paddingBottom="2dp"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="140dp"
+                        android:layout_alignParentTop="true" />
+
+
+                    <com.viewpagerindicator.CirclePageIndicator
+                        android:id="@+id/titles"
+                        android:layout_width="fill_parent"
+                        android:layout_height="18dp"
+                        android:layout_gravity="bottom"
+                        android:layout_weight="8"
+                        android:padding="8dip" />
+                </FrameLayout>
 
                 <include
                     android:id="@+id/llApplicantDetail"

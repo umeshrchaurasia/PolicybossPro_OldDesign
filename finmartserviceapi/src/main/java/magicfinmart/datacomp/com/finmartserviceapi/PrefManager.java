@@ -59,6 +59,8 @@ public class PrefManager {
 
     private static final String MENU_DASHBOARD = "menu_dashboard";
 
+    private static final String CONTACT_COUNT = "contact_count";
+
 
     public PrefManager(Context context) {
         this._context = context;
@@ -223,6 +225,8 @@ public class PrefManager {
         return pref.getBoolean(PUSH_VERIFY_LOGIN, false);
     }
 
+    //region Notification
+
     public void setSharePushType(String type) {
 
         editor.putString(SHARED_KEY_PUSH_NOTIFY, type);
@@ -286,6 +290,7 @@ public class PrefManager {
             return null;
     }
 
+    //endregion
 
     public boolean setPospInformation(RegisterRequestEntity registerRequestEntity) {
         try {
@@ -318,6 +323,18 @@ public class PrefManager {
                 .remove(PUSH_NOTIFICATION).commit();
 
     }
+
+    //region contactCheck
+    public void setContactListCount(boolean bln) {
+
+        editor.putBoolean(CONTACT_COUNT, bln);
+        editor.commit();
+    }
+
+    public boolean getContactListCount() {
+        return pref.getBoolean(CONTACT_COUNT,false );
+    }
+    //endregion
 
     // region delete Share Data
 

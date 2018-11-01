@@ -3,8 +3,10 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder;
 import java.util.HashMap;
 import java.util.Map;
 
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.ContactLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ChildPospResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ContactLeadResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.EnrollPospResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.GenerateOtpResponse;
@@ -116,5 +118,11 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/update-notification")
         Call<NotificationUpdateResponse> userClickActionOnNotification(@Body HashMap<String, String> body);
+
+        ////////////////////// Contact Lead ////////////////////////////////
+
+        @Headers("token:" + token)
+        @POST("/api/addcontacts")
+        Call<ContactLeadResponse> saveContactLead(@Body ContactLeadRequestEntity body);
     }
 }

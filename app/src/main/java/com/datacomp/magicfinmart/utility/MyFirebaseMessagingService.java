@@ -142,8 +142,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         NotificationCompat.BigTextStyle BigTextstyle = new NotificationCompat.BigTextStyle()
                 .bigText(NotifyData.get("body"))
-                .setBigContentTitle(NotifyData.get("title"))
-                .setSummaryText(NotifyData.get("body"));
+                .setBigContentTitle(NotifyData.get("title"));
+               // .setSummaryText(NotifyData.get("body"));
 
         NotificationCompat.Builder notificationBuilder = null;
 
