@@ -550,4 +550,5 @@
 
     <string name="title_activity_notification_sms">Notification Sms</string>
     <string name="title_activity_generate_lead">Generate Lead</string>
+    <string name="title_activity_contact_lead">Contact Lead</string>
 </resources>
