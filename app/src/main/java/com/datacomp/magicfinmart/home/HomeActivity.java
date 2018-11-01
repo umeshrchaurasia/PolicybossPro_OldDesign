@@ -842,7 +842,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         showMArketingPopup();
                     }
 
-
+                    //Notification Url :-1 November
                     int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
 
                     if( userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM"))

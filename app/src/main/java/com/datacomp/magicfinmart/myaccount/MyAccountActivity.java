@@ -60,6 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -89,6 +90,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
+    PrefManager prefManager;
     int type;
     LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile, ivAbout,
@@ -153,7 +155,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         registerPopUp(this);
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginEntity.getFBAId());
-
+        prefManager = new PrefManager(this);
         initWidgets();
         setListener();
         initLayouts();
@@ -236,9 +238,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
                 if (isChecked) {
-                    Toast.makeText(getApplicationContext(), "Switch is on", Toast.LENGTH_LONG).show();
+                    prefManager.updateNotificationsetting("0");
+                  //  Toast.makeText(getApplicationContext(), "Switch is on", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Switch is off", Toast.LENGTH_LONG).show();
+                   // Toast.makeText(getApplicationContext(), "Switch is off", Toast.LENGTH_LONG).show();
+                    prefManager.updateNotificationsetting("1");
                 }
             }
         });
