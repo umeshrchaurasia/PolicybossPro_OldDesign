@@ -5,6 +5,7 @@ import java.util.HashMap;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseInsLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCasesResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TransctionHistoryResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -35,5 +36,10 @@ public class PendingCasesRequestBuilder extends FinmartRetroRequestBuilder {
         @Headers("token:" + token)
         @POST("/api/pending-cases-insurence-and-loan")
         Call<PendingCaseInsLoanResponse> getPendingCasesWithType(@Body HashMap<String, String> body);
+
+        //transction history
+        @Headers("token:" + token)
+        @POST("/api/get-transaction-history")
+        Call<TransctionHistoryResponse> gettransctionHistory(@Body HashMap<String, String> body);
     }
 }

@@ -54,5 +54,6 @@ public class ERPRequestBuilder extends ERPRetroRequestBuilder {
         @POST("/LoginDtls.svc/XMLService/genrateLeadFrmHLAppln")
         Call<GenerateHLLeadResponse> generateLead(@Body HomeLoanApplyRequestEntity body);
 
+
     }
 }

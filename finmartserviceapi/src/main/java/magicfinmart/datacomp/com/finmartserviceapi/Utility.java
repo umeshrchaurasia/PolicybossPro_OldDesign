@@ -1,11 +1,13 @@
 package magicfinmart.datacomp.com.finmartserviceapi;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
@@ -29,7 +31,6 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.T
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.ConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -378,5 +379,14 @@ public class Utility {
         if (insId != null && !insId.equals(""))
             ID = Integer.parseInt(insId);
         return "http://api.magicfinmart.com/InsurerImages/car_" + ID + ".png";
+    }
+
+    public static void loadWebViewUrlInBrowser(Context context, String url) {
+        Log.d("URL", url);
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+        if (Uri.parse(url) != null) {
+            browserIntent.setData(Uri.parse(url));
+        }
+        context.startActivity(browserIntent);
     }
 }

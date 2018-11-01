@@ -4,6 +4,8 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.CardView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,9 +29,14 @@ import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.utility.Constants;
 import com.datacomp.magicfinmart.utility.DateTimePicker;
+import com.viewpagerindicator.CirclePageIndicator;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -84,6 +91,11 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
     String plbannnerActive="1";
     ImageView plbannerimg;
 
+    ViewPager viewPager;
+    List<Integer> banners;
+    CustomPagerAdapter mBannerAdapter;
+    CirclePageIndicator circlePageIndicator;
+
     public InputFragment_pl() {
         // Required empty public constructor
     }
@@ -99,21 +111,25 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
         plbannerurl=databaseController.getUserConstantsData().getPlbanner();
         plbannnerActive=databaseController.getUserConstantsData().getPlactive();
 
-        plbannerimg.setVisibility(View.GONE);
-        if(plbannerurl !=null)
-        {
-            if(plbannnerActive.equals("1"))
-            {
-                plbannerimg.setVisibility(View.VISIBLE);
-                Glide.with(mContext)
-                        .load(plbannerurl)
-                        .into(plbannerimg);
+        viewPager = (ViewPager) view.findViewById(R.id.pager);
+        circlePageIndicator = (CirclePageIndicator) view.findViewById(R.id.titles);
 
-            }else
-            {
-                plbannerimg.setVisibility(View.GONE);
-            }
-        }
+ //       plbannerimg.setVisibility(View.GONE);
+//        if(plbannerurl !=null)
+//        {
+//            if(plbannnerActive.equals("1"))
+//            {
+//                plbannerimg.setVisibility(View.VISIBLE);
+//                Glide.with(mContext)
+//                        .load(plbannerurl)
+//                        .into(plbannerimg);
+//
+//            }else
+//            {
+//                plbannerimg.setVisibility(View.GONE);
+//            }
+//        }
+        setBanner();
         setListener();
         setApp_Male_gender();
         setApp_single_Status();
@@ -192,6 +208,54 @@ public class InputFragment_pl extends BaseFragment implements View.OnClickListen
 
         plbannerimg = (ImageView) view.findViewById(R.id.plbannerimg);
     }
+
+    private void setBanner() {
+        banners = new ArrayList<>();
+
+        banners.add(R.drawable.pl_banner_1);
+        banners.add(R.drawable.pl_banner_2);
+        banners.add(R.drawable.pl_banner_3);
+        mBannerAdapter = new  CustomPagerAdapter(getContext(), banners);
+
+
+        if (viewPager != null && circlePageIndicator != null) {
+            viewPager.setAdapter(mBannerAdapter);
+            circlePageIndicator.setViewPager(viewPager);
+
+            Timer timer = new Timer();
+            timer.schedule(new RemindTask(banners.size(), viewPager), 0, 1500);
+
+        }
+    }
+
+    class RemindTask extends TimerTask {
+        private int numberOfPages;
+        private ViewPager mViewPager;
+        private int page = 0;
+
+        public RemindTask(int numberOfPages, ViewPager mViewPager) {
+            this.numberOfPages = numberOfPages;
+            this.mViewPager = mViewPager;
+        }
+
+        @Override
+        public void run() {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(new Runnable() {
+                    public void run() {
+                        if (page > numberOfPages) { // In my case the number of pages are 5
+                            mViewPager.setCurrentItem(0);
+                            page = 0;
+                        } else {
+                            mViewPager.setCurrentItem(page++);
+                        }
+                    }
+                });
+            }
+
+        }
+    }
+
 
     //region textwatcher
     TextWatcher pincodeTextWatcher = new TextWatcher() {

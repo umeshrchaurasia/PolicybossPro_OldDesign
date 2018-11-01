@@ -984,7 +984,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     public void redirectToBuy(ResponseEntity entity) {
         MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "BUY QUOTE MOTOR", "BUY QUOTE MOTOR");
         if (Utility.checkShareStatus(getActivity()) == 1) {
-            if (webViewLoader.getVisibility() == View.GONE) {
+            //if (webViewLoader.getVisibility() == View.GONE) {
+            if (true) {
 
 
                 String title = "";
@@ -1023,7 +1024,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             case R.id.filter:
                 clearActionMode();
                 if (bikePremiumResponse.getResponse() != null && bikePremiumResponse.getResponse().size() != 0) {
-                    if (webViewLoader.getVisibility() != View.VISIBLE) {
+                    //if (webViewLoader.getVisibility() != View.VISIBLE) {
+                    if (true) {
                         chkAddon.setChecked(false);
                         startActivityForResult(new Intent(getActivity(), ModifyQuoteActivity.class)
                                 .putExtra("SUMMARY", bikePremiumResponse.getSummary())
@@ -1057,7 +1059,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
 
     private void sharePDF() {
         if (Utility.checkShareStatus(getActivity()) == 1) {
-            if (webViewLoader.getVisibility() != View.VISIBLE) {
+            //if (webViewLoader.getVisibility() != View.VISIBLE) {
+            if (true) {
                 Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                 intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_ALL_QUOTE");
                 intent.putExtra("RESPONSE", applyAddonsForShare(bikePremiumResponse));
@@ -1074,7 +1077,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
     public static boolean isShowing = false;
 
     public void redirectToPopUpPremium(ResponseEntity entity, SummaryEntity summaryEntity, String IDV) {
-        if (webViewLoader.getVisibility() != View.VISIBLE) {
+        //if (webViewLoader.getVisibility() != View.VISIBLE) {
+            if (true) {
             //if (!isShowing) {
             Intent intent = new Intent(getActivity(), PremiumBreakUpActivity.class);
             intent.putExtra("VEHICLE_REQUEST_ID", "" + saveQuoteEntity.getVehicleRequestID());
@@ -1797,7 +1801,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
             switch (item.getItemId()) {
                 case R.id.health_share:
 
-                    if (webViewLoader.getVisibility() != View.VISIBLE) {
+                   // if (webViewLoader.getVisibility() != View.VISIBLE) {
+                        if (true) {
                         new AsyncCustomShare().execute();
                     } else {
                         Toast.makeText(getActivity(), "Please wait.., Fetching all quotes", Toast.LENGTH_SHORT).show();
@@ -1855,7 +1860,8 @@ public class QuoteFragment extends BaseFragment implements IResponseSubcriber, B
         @Override
         protected void onPostExecute(BikePremiumResponse premiumResponse) {
             if (Utility.checkShareStatus(getActivity()) == 1) {
-                if (webViewLoader.getVisibility() != View.VISIBLE && premiumResponse != null) {
+                //if (webViewLoader.getVisibility() != View.VISIBLE && premiumResponse != null) {
+                    if (premiumResponse != null) {
                     Intent intent = new Intent(getActivity(), ShareQuoteActivity.class);
                     intent.putExtra(Constants.SHARE_ACTIVITY_NAME, "CAR_ALL_QUOTE");
                     intent.putExtra("RESPONSE", premiumResponse);

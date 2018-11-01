@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import io.realm.DynamicRealm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmMigration;
 import io.realm.RealmObjectSchema;
 import io.realm.RealmSchema;
@@ -52,14 +53,6 @@ public class RealmMigrationClass implements RealmMigration {
                     if (classSchema.getClassName().equals("LoginResponseEntity")) {
                         continue;
                     }
-                    realm.delete(classSchema.getClassName());
-                }
-
-                oldVersion++;
-            } else {
-
-                for (RealmObjectSchema classSchema : schema.getAll()) {
-
                     realm.delete(classSchema.getClassName());
                 }
 

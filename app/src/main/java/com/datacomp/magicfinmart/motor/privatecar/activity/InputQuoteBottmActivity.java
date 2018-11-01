@@ -155,7 +155,8 @@ public class InputQuoteBottmActivity extends BaseActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_input:
-                    if (isQuoteVisible) {
+                    //if (isQuoteVisible) {
+                    if (true) {
                         tabFragment = getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                         if (motorRequestEntity != null) {
                             quoteBundle = new Bundle();
@@ -195,7 +196,7 @@ public class InputQuoteBottmActivity extends BaseActivity {
                             InputFragment fragment = (InputFragment) getSupportFragmentManager().findFragmentByTag(INPUT_FRAGMENT);
                             if (fragment != null)
                                 fragment.getQuote();
-                           // Toast.makeText(InputQuoteBottmActivity.this, "Tap get Quotes ", Toast.LENGTH_SHORT).show();
+                            // Toast.makeText(InputQuoteBottmActivity.this, "Tap get Quotes ", Toast.LENGTH_SHORT).show();
                             return false;
                         }
                     }
@@ -256,7 +257,8 @@ public class InputQuoteBottmActivity extends BaseActivity {
 
     public void redirectInput(MotorRequestEntity entity) {
 
-        if (isQuoteVisible) {
+        //if (isQuoteVisible) {
+        if (true) {
             motorRequestEntity = entity;
             quoteBundle = new Bundle();
             quoteBundle.putParcelable(InputQuoteBottmActivity.MOTOR_INPUT_REQUEST, motorRequestEntity);

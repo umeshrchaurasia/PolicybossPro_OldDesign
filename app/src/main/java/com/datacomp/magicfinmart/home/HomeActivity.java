@@ -78,6 +78,7 @@ import com.datacomp.magicfinmart.scan_vehicle.ScanVehicleActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
+import com.datacomp.magicfinmart.transactionhistory.nav_transactionhistoryActivity;
 import com.datacomp.magicfinmart.underconstruction.UnderConstructionActivity;
 import com.datacomp.magicfinmart.utility.CircleTransform;
 import com.datacomp.magicfinmart.utility.Constants;
@@ -110,7 +111,8 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MpsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.MyAcctDtlResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse;
 
-public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener, BaseActivity.PermissionListener {
+public class HomeActivity extends BaseActivity implements IResponseSubcriber, BaseActivity.PopUpListener,
+        BaseActivity.WebViewPopUpListener, BaseActivity.PermissionListener {
 
     final String TAG = "HOME";
     private Toolbar toolbar;
@@ -391,6 +393,11 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, IncomePotentialActivity.class));
 
                         break;
+                    case R.id.nav_transactionhistory:
+                        startActivity(new Intent(HomeActivity.this, nav_transactionhistoryActivity.class));
+
+                        break;
+
                     case R.id.nav_logout:
                         dialogLogout(HomeActivity.this);
                         break;
@@ -839,6 +846,41 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         showMArketingPopup();
                     }
 
+                    //Notification Url :-1 November
+                    int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
+
+                    if( userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM"))
+                    {
+                        if (!userConstantEntity.getNotificationpopupurl().equals("")) {
+                            if (prefManager.getIsSeasonal()) {
+                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
+                                prefManager.setIsSeasonal(false);
+                            }
+                        }
+                    }
+                    else  if (localNotificationenable == 0) {
+                       // prefManager.updatePopUpId("" + serverId);
+                        if (!userConstantEntity.getNotificationpopupurl().equals("")) {
+                            if (prefManager.getIsSeasonal()) {
+                                openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
+                                prefManager.setIsSeasonal(false);
+                            }
+                        }
+
+                    }
+
+                    //region birthday and seasonal
+
+
+                  /*  if (!userConstantEntity.getMarketinghomebirthdayimageurl().equals("")) {
+
+                        if (prefManager.getIsBirthday()) {
+                            openWebViewPopUp(txtDetails, userConstantEntity.getMarketinghomebirthdayimageurl(), true, this);
+                            prefManager.setIsBirthday(false);
+                        }
+                    }*/
+
+                    //endregion
 
                 }
             }
@@ -914,6 +956,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
     }
+
+
 
     private void refreshDashboard() {
         /*Intent profileIntent = new Intent(Utility.USER_DASHBOARD);
@@ -1376,5 +1420,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public void onOkClick(Dialog dialog, View view) {
+
+    }
+
+    @Override
+    public void onCancelClick(Dialog dialog, View view) {
+        dialog.cancel();
     }
 }

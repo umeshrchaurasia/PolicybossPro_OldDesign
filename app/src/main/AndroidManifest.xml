@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <!--
@@ -869,6 +870,7 @@
         <activity
             android:name=".posp.AddPOSPUserActivity"
             android:label="@string/title_activity_add_pospuser"
+            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -884,6 +886,7 @@
         <activity
             android:name=".generatelead.GenerateLeadActivity"
             android:label="@string/title_activity_generate_lead"
+            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -893,6 +896,7 @@
         <activity
             android:name=".IncomeCalculator.IncomeCalculatorActivity"
             android:label="Income Calculator"
+            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -902,6 +906,7 @@
         <activity
             android:name=".IncomeCalculator.IncomePotentialActivity"
             android:label="@string/title_activity_income_potential"
+            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data
@@ -921,6 +926,26 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+
+        <activity
+            android:name=".transactionhistory.nav_transactionhistoryActivity"
+            android:label="Transaction History"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
+        <activity
+            android:name=".contact_lead.ContactLeadActivity"
+            android:label="@string/title_activity_contact_lead"
+            android:parentActivityName=".home.HomeActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
     </application>
 

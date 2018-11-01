@@ -78,6 +78,11 @@
             android:orderInCategory="650"
             android:title="INCOME POTENTIAL" />
         <item
+            android:id="@+id/nav_transactionhistory"
+            android:icon="@drawable/vehicledetail"
+            android:orderInCategory="650"
+            android:title="TRANSACTION HISTORY" />
+        <item
             android:id="@+id/nav_vehicleinfo"
             android:icon="@drawable/vehicledetail"
             android:orderInCategory="600"
@@ -131,6 +136,13 @@
             android:orderInCategory="1100"
             android:title="FRANCHISE AGREEMENT"
             android:visible="true" />
+
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/agreemnet"
+            android:orderInCategory="1200"
+            android:title="CONTACT LEAD"
+            android:visible="false" />
         <item
             android:id="@+id/nav_logout"
             android:icon="@drawable/logout"

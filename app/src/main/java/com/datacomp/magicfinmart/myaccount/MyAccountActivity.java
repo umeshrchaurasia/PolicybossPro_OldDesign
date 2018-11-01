@@ -32,11 +32,13 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,6 +60,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import io.realm.Realm;
+import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
@@ -87,12 +90,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
+    PrefManager prefManager;
     int type;
-    LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout;
+    LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile, ivAbout,
             ivPhotoCam, ivPhotoGallery, ivPanCam, ivPanGallery, ivCancelCam, ivCancelGallery, ivAadharCam, ivAadharGallery,
-            ivAadhar, ivCancel, ivPan, ivPhoto, ivUser;
-    RelativeLayout rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload, rlPOSP, rlAbout;
+            ivAadhar, ivCancel, ivPan, ivPhoto, ivUser, ivNotify;
+    RelativeLayout rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload, rlPOSP, rlAbout, rlNotify;
 
     EditText etSubHeading, etMobileNo, etEmailId, etAddress1, etAddress2, etAddress3, etPincode,
             etCity, etState, etAccountHolderName, etAadhaar, etPAN, etBankAcNo, etIfscCode,
@@ -101,6 +105,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     AppCompatImageView ivManagerMobile, ivManagerEmail, ivSupportMobile, ivSupportEmail;
     ScrollView mainScrollView;
+    Switch swNotify;
 
     Button btnSave;
     RegisterRequestEntity registerRequestEntity;
@@ -150,7 +155,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         registerPopUp(this);
         registerRequestEntity = new RegisterRequestEntity();
         registerRequestEntity.setFBAID(loginEntity.getFBAId());
-
+        prefManager = new PrefManager(this);
         initWidgets();
         setListener();
         initLayouts();
@@ -161,7 +166,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         } else {
 
-            new MasterController(this).geUserConstant(1,this);
+            new MasterController(this).geUserConstant(1, this);
         }
 
 
@@ -198,6 +203,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         rlAbout.setOnClickListener(this);
         ivAbout.setOnClickListener(this);
 
+        rlNotify.setOnClickListener(this);
+        ivNotify.setOnClickListener(this);
+
         ivProfile.setOnClickListener(this);
         ivPhotoCam.setOnClickListener(this);
         ivPhotoGallery.setOnClickListener(this);
@@ -225,10 +233,24 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         etAadhaar.setOnFocusChangeListener(acAdhaarFocusChange);
 
+        swNotify.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+                    prefManager.updateNotificationsetting("0");
+                  //  Toast.makeText(getApplicationContext(), "Switch is on", Toast.LENGTH_LONG).show();
+                } else {
+                   // Toast.makeText(getApplicationContext(), "Switch is off", Toast.LENGTH_LONG).show();
+                    prefManager.updateNotificationsetting("1");
+                }
+            }
+        });
+
     }
 
     private void initWidgets() {
-        mainScrollView =  (ScrollView) findViewById(R.id.mainScrollView);
+        mainScrollView = (ScrollView) findViewById(R.id.mainScrollView);
         ivAddress = (ImageView) findViewById(R.id.ivAddress);
         ivMyProfile = (ImageView) findViewById(R.id.ivMyProfile);
         ivProfile = (ImageView) findViewById(R.id.ivProfile);
@@ -238,6 +260,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         llBankDetail = (LinearLayout) findViewById(R.id.llBankDetail);
         llPosp = (LinearLayout) findViewById(R.id.llPosp);
         llAbout = (LinearLayout) findViewById(R.id.llAbout);
+        llNotify = (LinearLayout) findViewById(R.id.llNotify);
 
         rlMyProfile = (RelativeLayout) findViewById(R.id.rlMyProfile);
         rlAddress = (RelativeLayout) findViewById(R.id.rlAddress);
@@ -246,11 +269,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         rlDocumentUpload = (RelativeLayout) findViewById(R.id.rlDocumentUpload);
         rlPOSP = (RelativeLayout) findViewById(R.id.rlPOSP);
         rlAbout = (RelativeLayout) findViewById(R.id.rlAbout);
-
+        rlNotify = (RelativeLayout) findViewById(R.id.rlNotify);
 
         ivDocumentUpload = (ImageView) findViewById(R.id.ivDocumentUpload);
         ivPOSP = (ImageView) findViewById(R.id.ivPOSP);
         ivAbout = (ImageView) findViewById(R.id.ivAbout);
+
 
         etSubHeading = (EditText) findViewById(R.id.etSubHeading);
         etMobileNo = (EditText) findViewById(R.id.etMobileNo);
@@ -318,6 +342,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         txtSupportEmail = (TextView) findViewById(R.id.txtSupportEmail);
         //endregion
 
+        // regionNotify Setting
+        ivNotify = (ImageView) findViewById(R.id.ivNotify);
+        swNotify = (Switch) findViewById(R.id.swNotify);
+        // region About Me
 
         btnSave = (Button) findViewById(R.id.btnSave);
 
@@ -357,41 +385,46 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.ivMyProfile:
             case R.id.rlMyProfile:
-                manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout);
-                manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout);
+                manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout,llNotify);
+                manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout,ivNotify);
                 break;
             case R.id.ivAddress:
             case R.id.rlAddress:
-                manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload, llPosp, llAbout);
-                manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout);
+                manageMainLayouts(llAddress, llMyProfile, llBankDetail, llDocumentUpload, llPosp, llAbout,llNotify);
+                manageImages(llAddress, ivAddress, ivMyProfile, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout,ivNotify);
                 saveProfile();
                 break;
             case R.id.ivBankDetail:
             case R.id.rlBankDetail:
-                manageMainLayouts(llBankDetail, llMyProfile, llAddress, llDocumentUpload, llPosp, llAbout);
-                manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP, ivAbout);
+                manageMainLayouts(llBankDetail, llMyProfile, llAddress, llDocumentUpload, llPosp, llAbout,llNotify);
+                manageImages(llBankDetail, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP, ivAbout,ivNotify);
                 saveAddress();
                 break;
             case R.id.ivDocumentUpload:
             case R.id.rlDocumentUpload:
-                manageMainLayouts(llDocumentUpload, llBankDetail, llMyProfile, llAddress, llPosp, llAbout);
-                manageImages(llDocumentUpload, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivPOSP, ivAbout);
+                manageMainLayouts(llDocumentUpload, llBankDetail, llMyProfile, llAddress, llPosp, llAbout,llNotify);
+                manageImages(llDocumentUpload, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivPOSP, ivAbout,ivNotify);
                 saveBankDtl();
                 break;
 
             case R.id.ivPOSP:
             case R.id.rlPOSP:
-                manageMainLayouts(llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress, llAbout);
-                manageImages(llPosp, ivPOSP, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivAbout);
+                manageMainLayouts(llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress, llAbout,llNotify);
+                manageImages(llPosp, ivPOSP, ivDocumentUpload, ivBankDetail, ivAddress, ivMyProfile, ivAbout,ivNotify);
                 savePOSP();
                 break;
 
             case R.id.ivAbout:
             case R.id.rlAbout:
-                manageMainLayouts(llAbout, llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress);
-                manageImages(llAbout, ivAbout, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP);
-
+                manageMainLayouts(llAbout, llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress,llNotify);
+                manageImages(llAbout, ivAbout, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP,ivNotify);
                 break;
+
+            case R.id.ivNotify :
+            case R.id.rlNotify:
+                manageMainLayouts(llNotify,llAbout, llPosp, llDocumentUpload, llBankDetail, llMyProfile, llAddress);
+                manageImages(llNotify,ivNotify , ivAbout, ivBankDetail, ivAddress, ivMyProfile, ivDocumentUpload, ivPOSP);
+
 
             case R.id.txtSaving:
                 setSavingAcc();
@@ -453,7 +486,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             case R.id.ivManagerMobile:
 
-                if(dbPersistanceController.getUserConstantsData().getManagName() != null) {
+                if (dbPersistanceController.getUserConstantsData().getManagName() != null) {
 
                     if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
 
@@ -477,13 +510,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.ivManagerEmail:
-                if(dbPersistanceController.getUserConstantsData().getMangEmail() != null) {
+                if (dbPersistanceController.getUserConstantsData().getMangEmail() != null) {
                     composeEmail(dbPersistanceController.getUserConstantsData().getMangEmail(), "");
                 }
                 break;
 
             case R.id.ivSupportMobile:
-                if(dbPersistanceController.getUserConstantsData().getManagName() != null) {
+                if (dbPersistanceController.getUserConstantsData().getManagName() != null) {
 
                     if (ActivityCompat.checkSelfPermission(MyAccountActivity.this, permissionsRequired[0]) != PackageManager.PERMISSION_GRANTED) {
 
@@ -506,7 +539,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 break;
 
             case R.id.ivSupportEmail:
-                if(dbPersistanceController.getUserConstantsData().getSuppEmail() != null) {
+                if (dbPersistanceController.getUserConstantsData().getSuppEmail() != null) {
                     composeEmail(dbPersistanceController.getUserConstantsData().getSuppEmail(), "");
                 }
 
@@ -517,8 +550,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                 if (validateProfile() == false) {
                     // llMyProfile.setVisibility(View.GONE);
                     if (llMyProfile.getVisibility() == View.GONE) {
-                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout);
-                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout);
+                        manageMainLayouts(llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout,llNotify);
+                        manageImages(llMyProfile, ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivAbout,ivNotify );
                     }
 
                 } else {
@@ -704,7 +737,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     }
 
-    private void manageMainLayouts(LinearLayout visibleLayout, LinearLayout hideLayout1, LinearLayout hideLayout2, LinearLayout hideLayout3, LinearLayout hideLayout4, LinearLayout hideLayout5) {
+    private void manageMainLayouts(LinearLayout visibleLayout, LinearLayout hideLayout1, LinearLayout hideLayout2, LinearLayout hideLayout3, LinearLayout hideLayout4, LinearLayout hideLayout5 ,LinearLayout hideLayout6) {
 
         if (visibleLayout.getVisibility() == View.GONE) {
             visibleLayout.setVisibility(View.VISIBLE);
@@ -713,12 +746,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             hideLayout3.setVisibility(View.GONE);
             hideLayout4.setVisibility(View.GONE);
             hideLayout5.setVisibility(View.GONE);
+            hideLayout6.setVisibility(View.GONE);
         } else {
             visibleLayout.setVisibility(View.GONE);
         }
     }
 
-    private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3, ImageView upImage4, ImageView upImage5) {
+    private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3, ImageView upImage4, ImageView upImage5,ImageView upImage6) {
 
         if (clickedLayout.getVisibility() == View.GONE) {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
@@ -727,12 +761,14 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage4.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage5.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage6.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
         } else {
             downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
             upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage4.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage5.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
             upImage5.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
         }
 
@@ -976,7 +1012,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                     try {
                         updateLoginResponse(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
 
-                       dbPersistanceController.updateUserConstatntProfile(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
+                        dbPersistanceController.updateUserConstatntProfile(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
 
                         // Todo : Firing Local BroadCase
                         Intent profileIntent = new Intent(Utility.USER_PROFILE_ACTION);
@@ -995,7 +1031,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (response.getStatusNo() == 0) {
 
 
-                accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);  // 05
+                accountDtlEntity = ((MyAcctDtlResponse) response).getMasterData().get(0);
 
                 if (accountDtlEntity != null) {
                     isDataUploaded = false;
@@ -1110,12 +1146,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     };
 
 
-    private byte[] bitmapToByte(Bitmap bitmap){
+    private byte[] bitmapToByte(Bitmap bitmap) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
         return byteArray;
     }
+
     private void setDocumentUpload(int fileType, String FileName) {
         if (fileType == 1 || fileType == 2) {
             //ProfiePics
@@ -1143,8 +1180,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         .into(ivUser);
 
 
-
-            }else{
+            } else {
                 Glide.with(MyAccountActivity.this)
                         .load(R.drawable.finmart_user_icon)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
@@ -1167,7 +1203,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
     }
 
-    private void setDocumentUpload( String URL) {
+    private void setDocumentUpload(String URL) {
         if (type == 1) {
             Glide.with(MyAccountActivity.this)
                     .load(URL)
@@ -1304,7 +1340,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         }
         Docfile = createFile(FileName);
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT){
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             imageUri = Uri.fromFile(Docfile);
         } else {
             imageUri = FileProvider.getUriForFile(MyAccountActivity.this,
@@ -1669,7 +1705,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                                 return;
                             }
                             Intent intentCalling = new Intent(Intent.ACTION_CALL);
-                            intentCalling.setData(Uri.parse("tel:" + strMobile ));
+                            intentCalling.setData(Uri.parse("tel:" + strMobile));
                             startActivity(intentCalling);
                         }
                     });

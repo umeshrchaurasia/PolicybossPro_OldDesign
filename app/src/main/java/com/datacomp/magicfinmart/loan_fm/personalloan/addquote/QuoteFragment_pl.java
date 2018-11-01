@@ -275,7 +275,7 @@ public class QuoteFragment_pl extends BaseFragment implements View.OnClickListen
             buyLoanQuerystring.setProp_type(entity.getRoi_type());
             buyLoanQuerystring.setMobileNo(fmPersonalLoanRequest.getPersonalLoanRequest().getContact());
             buyLoanQuerystring.setPan(fmPersonalLoanRequest.getPersonalLoanRequest().getpanno());
-            buyLoanQuerystring.setCity("");
+            buyLoanQuerystring.setCity(fmPersonalLoanRequest.getPersonalLoanRequest().getCity());
             buyLoanQuerystring.setBank_web_url(entity.getBank_web_url());
             buyLoanQuerystring.setBank_name(entity.getBank_Name());
 

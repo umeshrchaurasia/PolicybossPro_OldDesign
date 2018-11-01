@@ -12,6 +12,9 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestbuilder.Pendin
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseDeleteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCaseInsLoanResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.PendingCasesResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TransctionHistory;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.TransctionHistoryResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.loan_fm.IResponseSubcriberERP;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -110,6 +113,7 @@ public class PendingController implements IPendingCases {
         });
     }
 
+
     @Override
     public void getPendingCasesWithType(int count,int Type,String fbaID, final IResponseSubcriber iResponseSubcriber) {
         HashMap<String, String> body = new HashMap<String, String>();
@@ -148,4 +152,49 @@ public class PendingController implements IPendingCases {
             }
         });
     }
+
+    //Transaction History
+
+    @Override
+    public void gettransactionhistory(String empCode, String pgNo,final IResponseSubcriber iResponseSubcriber) {
+
+
+        HashMap<String, String> body = new HashMap<String, String>();
+        body.put("fbaid", empCode);
+        body.put("pageno", pgNo);
+
+
+        pendingNetworkService.gettransctionHistory(body).enqueue(new Callback<TransctionHistoryResponse>() {
+            @Override
+            public void onResponse(Call<TransctionHistoryResponse> call, Response<TransctionHistoryResponse> response) {
+                if (response.body() != null) {
+                    if (response.body().getStatusNo() == 0) {
+
+                        iResponseSubcriber.OnSuccess(response.body(), response.body().getMessage());
+                    } else {
+                        iResponseSubcriber.OnFailure(new RuntimeException(response.body().getMessage()));
+                    }
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Failed to fetch information."));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TransctionHistoryResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+
+    }
+
 }

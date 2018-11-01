@@ -4,6 +4,7 @@ package magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register;
 import java.util.HashMap;
 
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.ContactLeadRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import okhttp3.MultipartBody;
 
@@ -46,6 +47,8 @@ public interface IRegister {
     void addChildPosp(RegisterRequestEntity registerRequestEntity, IResponseSubcriber iResponseSubcriber);
 
     void getChildPosp(IResponseSubcriber iResponseSubcriber);
+
+    void saveContactLead(ContactLeadRequestEntity contactLeadRequestEntity ,IResponseSubcriber iResponseSubcriber);
 
 
 }
