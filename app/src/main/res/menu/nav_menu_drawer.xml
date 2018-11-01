@@ -32,6 +32,14 @@
             android:icon="@drawable/my_account"
             android:orderInCategory="200"
             android:title="MY ACCOUNT" />
+
+        <item
+            android:id="@+id/nav_scan_vehicle"
+            android:icon="@drawable/mps"
+            android:orderInCategory="300"
+            android:title="Scan Vehicle" />
+
+
         <item
             android:id="@+id/nav_mps"
             android:icon="@drawable/mps"

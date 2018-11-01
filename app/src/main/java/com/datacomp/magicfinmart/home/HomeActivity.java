@@ -74,6 +74,7 @@ import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
+import com.datacomp.magicfinmart.scan_vehicle.ScanVehicleActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
@@ -394,6 +395,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         dialogLogout(HomeActivity.this);
                         break;
 
+                    case R.id.nav_scan_vehicle:
+                        startActivity(new Intent(HomeActivity.this, ScanVehicleActivity.class));
+                        break;
 
                     default:
                         break;
@@ -1149,7 +1153,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                             dialog.dismiss();
                             if (userConstantEntity.getMangEmail() != null) {
                                 // composeEmail(userConstantEntity.getMangEmail(), "");
-                                shareMailSmsList(HomeActivity.this, "","Dear Sir/Madam,",userConstantEntity.getMangEmail().toString(),userConstantEntity.getMangMobile().toString() );
+                                shareMailSmsList(HomeActivity.this, "", "Dear Sir/Madam,", userConstantEntity.getMangEmail().toString(), userConstantEntity.getMangMobile().toString());
 
                             }
                         }
@@ -1272,7 +1276,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         Log.d("COUNTER", "new intent");
     }
 
-    public void shareMailSmsList(Context context, String prdSubject, String prdDetail ,String mailTo, String mobileNo) {
+    public void shareMailSmsList(Context context, String prdSubject, String prdDetail, String mailTo, String mobileNo) {
 
         //  String Deeplink = "https://nykaa.ly/P_" + Sharedata_product_id;
 
@@ -1300,7 +1304,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 String processName = ri.activityInfo.processName;
                 String AppName = ri.activityInfo.name;
 
-                if ((packageName.contains("android.email") || packageName.contains("mms")   || packageName.contains("messaging") || packageName.contains("android.gm") || packageName.contains("com.google.android.apps.plus"))) {
+                if ((packageName.contains("android.email") || packageName.contains("mms") || packageName.contains("messaging") || packageName.contains("android.gm") || packageName.contains("com.google.android.apps.plus"))) {
 
                     shareIntent.setComponent(new ComponentName(packageName, ri.activityInfo.name));
 
@@ -1319,9 +1323,9 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         shareIntent.setPackage(packageName);
 
                     } else if (packageName.contains("whatsapp")) {
-                       String  toNumber = mobileNo.replace("+", "").replace(" ", "");
+                        String toNumber = mobileNo.replace("+", "").replace(" ", "");
                         shareIntent.setType("text/plain");
-                         shareIntent.putExtra("jid", toNumber + "@s.whatsapp.net");
+                        shareIntent.putExtra("jid", toNumber + "@s.whatsapp.net");
                         shareIntent.putExtra(Intent.EXTRA_TEXT, prdDetail);
                         shareIntent.setAction(Intent.ACTION_SEND);
                         shareIntent.setPackage(packageName);

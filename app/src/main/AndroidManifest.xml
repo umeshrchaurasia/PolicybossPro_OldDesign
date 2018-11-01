@@ -890,29 +890,38 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-        <activity android:name=".IncomeCalculator.IncomeCalculatorActivity"
+        <activity
+            android:name=".IncomeCalculator.IncomeCalculatorActivity"
             android:label="Income Calculator"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
-
         <activity
             android:name=".IncomeCalculator.IncomePotentialActivity"
-
             android:label="@string/title_activity_income_potential"
             android:parentActivityName=".home.HomeActivity"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
-           </activity>
-
+        </activity>
         <activity android:name=".IncomeCalculator.IncomePotentialdetailActivity" />
         <activity android:name=".IncomeCalculator.IncomePotentialDialogActivity" />
-        <activity android:name=".IncomeCalculator.SimpleScannerActivity"></activity>
+        <activity android:name=".IncomeCalculator.SimpleScannerActivity" />
+        <activity
+            android:name=".scan_vehicle.ScanVehicleActivity"
+            android:label="@string/title_activity_scan_vehicle"
+            android:parentActivityName=".home.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.home.HomeActivity" />
+        </activity>
     </application>
 
 </manifest>
