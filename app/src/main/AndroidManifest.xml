@@ -870,6 +870,7 @@
         <activity
             android:name=".posp.AddPOSPUserActivity"
             android:label="@string/title_activity_add_pospuser"
+            android:screenOrientation="portrait"
             android:parentActivityName=".home.HomeActivity"
             android:theme="@style/AppTheme">
             <meta-data

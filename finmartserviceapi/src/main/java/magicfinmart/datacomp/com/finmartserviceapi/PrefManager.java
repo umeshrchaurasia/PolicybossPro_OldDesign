@@ -26,6 +26,7 @@ public class PrefManager {
     private static final String MOTOR_VERSION = "motor_master_version";
     private static final String POPUP_COUNTER = "popup_counter_value";
     private static final String POPUP_ID = "popup_id";
+    private static final String NotificationTypeEnable = "NotificationType_Enable";
     private static final String MsgFirst_Check = "msgfirst_check";
     private static final String IS_FIRST_TIME_LAUNCH = "IsFirstTimeLaunch";
     private static final String IS_BIKE_MASTER_UPDATE = "isBikeMasterUpdate";
@@ -425,6 +426,20 @@ public class PrefManager {
 
     public void removePopUpId() {
         editor.remove(POPUP_ID);
+    }
+
+//Notification Enable
+    public boolean updateNotificationsetting(String notification) {
+        pref.edit().remove(NotificationTypeEnable).commit();
+        return pref.edit().putString(NotificationTypeEnable, notification).commit();
+    }
+
+    public String getNotificationsetting() {
+        return pref.getString(NotificationTypeEnable, "0");
+    }
+
+    public void removeNotificationsetting() {
+        editor.remove(NotificationTypeEnable);
     }
 
     //endregion
