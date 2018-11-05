@@ -944,6 +944,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.datacomp.magicfinmart.home.HomeActivity" />
         </activity>
+        <activity
+            android:name=".offline_quotes.AddOfflineQuotesActivity"
+            android:label="@string/title_activity_add_offline_quotes"
+            android:parentActivityName=".offline_quotes.OfflineQuotesListActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity" />
+        </activity>
     </application>
 
 </manifest>

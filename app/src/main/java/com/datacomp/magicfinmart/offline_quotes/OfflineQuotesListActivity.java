@@ -1,15 +1,15 @@
 package com.datacomp.magicfinmart.offline_quotes;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.datacomp.magicfinmart.BaseActivity;
 import com.datacomp.magicfinmart.R;
 
-public class OfflineQuotesListActivity extends AppCompatActivity {
+public class OfflineQuotesListActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +22,7 @@ public class OfflineQuotesListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(OfflineQuotesListActivity.this, AddOfflineQuotesActivity.class));
             }
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
