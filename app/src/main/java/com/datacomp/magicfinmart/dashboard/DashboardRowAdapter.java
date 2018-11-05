@@ -8,11 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.datacomp.magicfinmart.MyApplication;
 import com.datacomp.magicfinmart.R;
 import com.datacomp.magicfinmart.creditcard.AppliedCreditListActivity;
+import com.datacomp.magicfinmart.health.HealthQuoteAppActivity;
 import com.datacomp.magicfinmart.healthcheckupplans.HealthCheckUpListActivity;
 import com.datacomp.magicfinmart.loan_fm.balancetransfer.BalanceTransferDetailActivity;
 import com.datacomp.magicfinmart.loan_fm.homeloan.HomeLoanDetailActivity;
@@ -61,34 +63,44 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     public class InsuranceHolder extends RecyclerView.ViewHolder {
         RecyclerView rvDashboard;
-        TextView txtTypeName;
+        TextView txtTypeName, tvPoweredBy;
+        ImageView ivLogo;
 
         public InsuranceHolder(View view) {
             super(view);
             rvDashboard = (RecyclerView) view.findViewById(R.id.rvDashboard);
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
+            ivLogo = view.findViewById(R.id.ivLogo);
+            tvPoweredBy = view.findViewById(R.id.tvPoweredBy);
         }
     }
 
     public class LoanHolder extends RecyclerView.ViewHolder {
         RecyclerView rvDashboard;
-        TextView txtTypeName;
+        TextView txtTypeName, tvPoweredBy;
+        ImageView ivLogo;
 
         public LoanHolder(View view) {
             super(view);
             rvDashboard = (RecyclerView) view.findViewById(R.id.rvDashboard);
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
+            ivLogo = view.findViewById(R.id.ivLogo);
+            tvPoweredBy = view.findViewById(R.id.tvPoweredBy);
         }
     }
 
     public class MoreServiceHolder extends RecyclerView.ViewHolder {
         RecyclerView rvDashboard;
-        TextView txtTypeName;
+        TextView txtTypeName, tvPoweredBy;
+        ImageView ivLogo;
 
         public MoreServiceHolder(View view) {
             super(view);
             rvDashboard = (RecyclerView) view.findViewById(R.id.rvDashboard);
             txtTypeName = (TextView) view.findViewById(R.id.txtTypeName);
+            ivLogo = view.findViewById(R.id.ivLogo);
+            tvPoweredBy = view.findViewById(R.id.tvPoweredBy);
+
         }
     }
 
@@ -132,6 +144,7 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
             final List<DashboardEntity> listIns = mReal.getInsurProductList();
             ((InsuranceHolder) holder).txtTypeName.setText("INSURANCE");
+            ((InsuranceHolder) holder).ivLogo.setImageDrawable(mContext.getResources().getDrawable(R.drawable.logo_policyboss1));
             ((InsuranceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((InsuranceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listIns));
 
@@ -157,6 +170,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (holder instanceof LoanHolder) {
             final List<DashboardEntity> listLoan = mReal.getLoanProductList();
             ((LoanHolder) holder).txtTypeName.setText("LOANS");
+            ((LoanHolder) holder).ivLogo.setImageDrawable(mContext.getResources().getDrawable(R.drawable.logo_rupeeboss1));
+
             ((LoanHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((LoanHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listLoan));
 
@@ -181,6 +196,8 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         } else if (holder instanceof MoreServiceHolder) {
             final List<DashboardEntity> listMore = mReal.getMoreProductList();
             ((MoreServiceHolder) holder).txtTypeName.setText("MORE SERVICES");
+            ((MoreServiceHolder) holder).tvPoweredBy.setVisibility(View.GONE);
+            ((MoreServiceHolder) holder).ivLogo.setVisibility(View.GONE);
             ((MoreServiceHolder) holder).rvDashboard.setLayoutManager(new LinearLayoutManager(mFragment.getActivity()));
             ((MoreServiceHolder) holder).rvDashboard.setAdapter(new DashboardItemAdapter(mFragment, listMore));
 
@@ -224,31 +241,30 @@ public class DashboardRowAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
                 break;
             case 3:
                 //health
-                /*if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
+                if (new DBPersistanceController(mContext).getConstantsData().getHealthappenable().equalsIgnoreCase("1")) {
                     mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
-                } else*/
-//                    {
+                } else {
 
-                //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
-                String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
+                    //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurl();
+                    String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
 
-                String ipaddress = "0.0.0.0";
-                try {
-                    ipaddress = Utility.getMacAddress(mContext);
-                } catch (Exception io) {
-                    ipaddress = "0.0.0.0";
+                    String ipaddress = "0.0.0.0";
+                    try {
+                        ipaddress = Utility.getMacAddress(mContext);
+                    } catch (Exception io) {
+                        ipaddress = "0.0.0.0";
+                    }
+
+                    String append = "&ip_address=" + ipaddress
+                            + "&app_version=" + Utility.getVersionName(mContext)
+                            + "&device_id=" + Utility.getDeviceId(mContext);
+                    healthUrl = healthUrl + append;
+
+                    mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
+                            .putExtra("URL", healthUrl)
+                            .putExtra("NAME", "Health Insurance")
+                            .putExtra("TITLE", "Health Insurance"));
                 }
-
-                String append = "&ip_address=" + ipaddress
-                        + "&app_version=" + Utility.getVersionName(mContext)
-                        + "&device_id=" + Utility.getDeviceId(mContext);
-                healthUrl = healthUrl + append;
-
-                mContext.startActivity(new Intent(mContext, CommonWebViewActivity.class)
-                        .putExtra("URL", healthUrl)
-                        .putExtra("NAME", "Health Insurance")
-                        .putExtra("TITLE", "Health Insurance"));
-//                }
 
 
                 new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);

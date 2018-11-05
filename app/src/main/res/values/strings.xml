@@ -553,4 +553,5 @@
     <string name="title_activity_income_potential">Income Potential</string>
     <string name="title_activity_nav_transactionhistory">nav_transactionhistoryActivity</string>
     <string name="title_activity_contact_lead">Contact Lead</string>
+    <string name="title_activity_offline_quotes_list">Offline Quotes</string>
 </resources>
