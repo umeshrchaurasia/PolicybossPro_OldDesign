@@ -554,4 +554,5 @@
     <string name="title_activity_nav_transactionhistory">nav_transactionhistoryActivity</string>
     <string name="title_activity_contact_lead">Contact Lead</string>
     <string name="title_activity_offline_quotes_list">Offline Quotes</string>
+    <string name="title_activity_add_offline_quotes">Add Offline Quotes</string>
 </resources>

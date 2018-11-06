@@ -69,6 +69,7 @@ import com.datacomp.magicfinmart.mps.MPSFragment;
 import com.datacomp.magicfinmart.myaccount.MyAccountActivity;
 import com.datacomp.magicfinmart.notification.NotificationActivity;
 import com.datacomp.magicfinmart.notification.NotificationSmsActivity;
+import com.datacomp.magicfinmart.offline_quotes.OfflineQuotesListActivity;
 import com.datacomp.magicfinmart.onlineexpressloan.QuoteList.AppliedOnlineLoanListActivity;
 import com.datacomp.magicfinmart.pendingcases.PendingCasesActivity;
 import com.datacomp.magicfinmart.posp.POSPListFragment;
@@ -305,6 +306,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         getSupportActionBar().setTitle("MAGIC FIN-MART");
                         //Toast.makeText(HomeActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
                         break;
+
                     case R.id.nav_sharedata:
                         fragment = new ShareDataFragment();
                         getSupportActionBar().setTitle("SHARE DATA");
@@ -339,7 +341,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         startActivity(new Intent(HomeActivity.this, HomeLoanApplyActivity.class));
                         break;
                     case R.id.nav_offlineQuotes:
-                        startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                        startActivity(new Intent(HomeActivity.this, OfflineQuotesListActivity.class));
                         new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("Offline Quotes : Offline Quotes button in menu "), Constants.OFFLINE_QUOTES), null);
                         break;
                     case R.id.nav_myBusiness:
@@ -845,17 +847,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //Notification Url :-1 November
                     int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
 
-                    if( userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM"))
-                    {
+                    if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
                         if (!userConstantEntity.getNotificationpopupurl().equals("")) {
                             if (prefManager.getIsSeasonal()) {
                                 openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
                                 prefManager.setIsSeasonal(false);
                             }
                         }
-                    }
-                    else  if (localNotificationenable == 0) {
-                       // prefManager.updatePopUpId("" + serverId);
+                    } else if (localNotificationenable == 0) {
+                        // prefManager.updatePopUpId("" + serverId);
                         if (!userConstantEntity.getNotificationpopupurl().equals("")) {
                             if (prefManager.getIsSeasonal()) {
                                 openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
@@ -952,7 +952,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
     }
-
 
 
     private void refreshDashboard() {
