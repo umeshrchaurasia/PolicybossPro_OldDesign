@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="145dp"
+    android:layout_height="150dp"
     android:layout_marginTop="16dp"
     android:background="@color/colorAccent"
 
@@ -28,8 +28,8 @@
 
             <ImageView
                 android:id="@+id/ivProfile"
-                android:layout_width="62dp"
-                android:layout_height="62dp"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:transitionName="profileTransition"
@@ -104,7 +104,19 @@
                     android:textColor="@android:color/white"
                     android:visibility="visible" />
 
-
+                <TextView
+                    android:id="@+id/txtErpID"
+                    style="@style/TextViewStyle.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:ellipsize="end"
+                    android:layout_alignBottom="@+id/ivProfile"
+                    android:layout_alignStart="@+id/linearLayout"
+                    android:text="Erp ID"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible" />
 
             </LinearLayout>
 

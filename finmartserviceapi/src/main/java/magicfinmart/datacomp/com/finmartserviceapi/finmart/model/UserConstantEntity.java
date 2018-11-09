@@ -113,6 +113,9 @@ public class UserConstantEntity extends RealmObject {
     private String healthurl;
 
     private String AddPospVisible;
+
+
+    private String ERPID;
     /**
      * userid :
      * marketinghomepopupid : 1
@@ -669,5 +672,13 @@ public class UserConstantEntity extends RealmObject {
 
     public void setMarketinghomeimageurl(String marketinghomeimageurl) {
         this.marketinghomeimageurl = marketinghomeimageurl;
+    }
+
+    public String getERPID() {
+        return ERPID;
+    }
+
+    public void setERPID(String ERPID) {
+        this.ERPID = ERPID;
     }
 }

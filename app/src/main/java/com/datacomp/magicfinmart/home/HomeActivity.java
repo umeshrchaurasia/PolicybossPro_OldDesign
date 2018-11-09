@@ -118,7 +118,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
     private Toolbar toolbar;
     private NavigationView navigationView;
     private DrawerLayout drawerLayout;
-    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo;
+    TextView textNotifyItemCount, txtEntityName, txtDetails, txtReferalCode, txtFbaID, txtPospNo,txtErpID;
     ImageView ivProfile;
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -541,6 +541,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         txtReferalCode = (TextView) headerView.findViewById(R.id.txtReferalCode);
         txtFbaID = (TextView) headerView.findViewById(R.id.txtFbaID);
         txtPospNo = (TextView) headerView.findViewById(R.id.txtPospNo);
+        txtErpID = (TextView) headerView.findViewById(R.id.txtErpID);
         ivProfile = (ImageView) headerView.findViewById(R.id.ivProfile);
 
         ivProfile.setOnClickListener(new View.OnClickListener() {
@@ -576,7 +577,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
         }
         if (userConstantEntity != null) {
             txtPospNo.setText("Posp No - " + userConstantEntity.getPospselfid());
-
+            txtErpID.setText("Erp Id - " + userConstantEntity.getERPID());
             Glide.with(HomeActivity.this)
                     .load(Uri.parse(userConstantEntity.getLoansendphoto()))
                     .placeholder(R.drawable.circle_placeholder)
@@ -587,6 +588,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     .into(ivProfile);
         } else {
             txtPospNo.setText("");
+            txtErpID.setText("");
             Glide.with(HomeActivity.this)
                     .load(R.drawable.finmart_user_icon)
                     .placeholder(R.drawable.circle_placeholder)
