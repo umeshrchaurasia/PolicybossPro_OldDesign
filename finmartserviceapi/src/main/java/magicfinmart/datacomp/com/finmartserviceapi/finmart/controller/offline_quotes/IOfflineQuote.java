@@ -16,5 +16,7 @@ public interface IOfflineQuote {
     void createQuote(String ProductName, String ProductDiscription, IResponseSubcriber iResponseSubcriber);
 
     void uploadDocuments(MultipartBody.Part document, HashMap<String, String> body,  IResponseSubcriber iResponseSubcriber);
+
+    void getOfflineQuote( IResponseSubcriber iResponseSubcriber);
 }
 

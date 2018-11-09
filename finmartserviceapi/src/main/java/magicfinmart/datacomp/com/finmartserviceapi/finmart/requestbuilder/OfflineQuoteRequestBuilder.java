@@ -8,6 +8,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CCRblRespons
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.CreateQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineInputResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.OfflineQuoteResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.retrobuilder.FinmartRetroRequestBuilder;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
@@ -47,6 +48,11 @@ public class OfflineQuoteRequestBuilder extends FinmartRetroRequestBuilder {
         @Multipart
         @POST("/api/upload-doc-offline-quotes ")
         Call<DocumentResponse> uploadDocumentOfflineQuotes(@Part() MultipartBody.Part doc, @PartMap() Map<String, String> partMap);
+
+        @Headers("token:" + token)
+        @POST("/api/get-offline-quotes")
+        Call<OfflineQuoteResponse> getOfflineQuote(@Body HashMap<String, String> body);
+
 
 
     }
