@@ -75,6 +75,7 @@ import com.datacomp.magicfinmart.posp.POSPListFragment;
 import com.datacomp.magicfinmart.posp.PospEnrollment;
 import com.datacomp.magicfinmart.salesmaterial.SalesMaterialActivity;
 import com.datacomp.magicfinmart.scan_vehicle.ScanVehicleActivity;
+import com.datacomp.magicfinmart.scan_vehicle.VehicleScanActivity;
 import com.datacomp.magicfinmart.share_data.ShareDataFragment;
 import com.datacomp.magicfinmart.splashscreen.SplashScreenActivity;
 import com.datacomp.magicfinmart.term.compareterm.CompareTermActivity;
@@ -403,7 +404,8 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                         break;
 
                     case R.id.nav_scan_vehicle:
-                        startActivity(new Intent(HomeActivity.this, ScanVehicleActivity.class));
+                        // startActivity(new Intent(HomeActivity.this, ScanVehicleActivity.class));
+                        startActivity(new Intent(HomeActivity.this, VehicleScanActivity.class));
                         break;
 
                     default:
@@ -849,17 +851,15 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                     //Notification Url :-1 November
                     int localNotificationenable = Integer.parseInt(prefManager.getNotificationsetting());
 
-                    if( userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM"))
-                    {
+                    if (userConstantEntity.getNotificationpopupurltype().toUpperCase().equals("SM")) {
                         if (!userConstantEntity.getNotificationpopupurl().equals("")) {
                             if (prefManager.getIsSeasonal()) {
                                 openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
                                 prefManager.setIsSeasonal(false);
                             }
                         }
-                    }
-                    else  if (localNotificationenable == 0) {
-                       // prefManager.updatePopUpId("" + serverId);
+                    } else if (localNotificationenable == 0) {
+                        // prefManager.updatePopUpId("" + serverId);
                         if (!userConstantEntity.getNotificationpopupurl().equals("")) {
                             if (prefManager.getIsSeasonal()) {
                                 openWebViewPopUp(txtFbaID, userConstantEntity.getNotificationpopupurl(), true, this);
@@ -956,7 +956,6 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
 
 
     }
-
 
 
     private void refreshDashboard() {

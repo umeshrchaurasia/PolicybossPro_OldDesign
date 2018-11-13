@@ -554,4 +554,5 @@
     <string name="title_activity_nav_transactionhistory">nav_transactionhistoryActivity</string>
     <string name="title_activity_contact_lead">Contact Lead</string>
     <string name="title_activity_scan_vehicle">ScanVehicleActivity</string>
+    <string name="title_activity_vehicle_scan">Scan Vehicle</string>
 </resources>
